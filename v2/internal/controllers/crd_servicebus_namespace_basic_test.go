@@ -59,9 +59,10 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebus.Namespaces_Queues_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbNamespace),
+		Spec: servicebus.Namespaces_Queue_Spec{
+			//!! Location is missing (donotmerge)
+			//Location: tc.AzureRegion,
+			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
 

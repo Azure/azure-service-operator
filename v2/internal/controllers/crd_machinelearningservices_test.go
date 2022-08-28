@@ -107,23 +107,24 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 
 func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *machinelearningservices.Workspace) {
 
-	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
-	valueFormat := machinelearningservices.WorkspaceConnectionProps_ValueFormat_JSON
+	//!! Currently disabled (evildiscriminator)
+	//jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
+	//valueFormat := machinelearningservices.WorkspaceConnectionProps_ValueFormat_JSON
 
-	connection := &machinelearningservices.WorkspacesConnection{
-		ObjectMeta: tc.MakeObjectMeta("conn"),
-		Spec: machinelearningservices.Workspaces_Connections_Spec{
-			Owner:       testcommon.AsOwner(workspaces),
-			AuthType:    to.StringPtr("PAT"),
-			Category:    to.StringPtr("ACR"),
-			Location:    to.StringPtr("eastus"),
-			Target:      to.StringPtr("www.microsoft.com"),
-			Value:       to.StringPtr(jsonValue),
-			ValueFormat: &valueFormat,
-		},
-	}
-	tc.CreateResourceAndWait(connection)
-	tc.DeleteResourceAndWait(connection)
+	//connection := &machinelearningservices.WorkspacesConnection{
+	//	ObjectMeta: tc.MakeObjectMeta("conn"),
+	//	Spec: machinelearningservices.Workspaces_Connection_Spec{
+	//		Owner:       testcommon.AsOwner(workspaces),
+	//		AuthType:    to.StringPtr("PAT"),
+	//		Category:    to.StringPtr("ACR"),
+	//		Location:    to.StringPtr("eastus"),
+	//		Target:      to.StringPtr("www.microsoft.com"),
+	//		Value:       to.StringPtr(jsonValue),
+	//		ValueFormat: &valueFormat,
+	//	},
+	//}
+	//tc.CreateResourceAndWait(connection)
+	//tc.DeleteResourceAndWait(connection)
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
@@ -160,11 +161,11 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
-	computeType := machinelearningservices.Compute_VirtualMachine_ComputeType_VirtualMachine
+	//computeType := machinelearningservices.Compute_VirtualMachine_ComputeType_VirtualMachine
 
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
-		Spec: machinelearningservices.Workspaces_Computes_Spec{
+		Spec: machinelearningservices.Workspaces_Compute_Spec{
 			Identity: &machinelearningservices.Identity{
 				Type: &identityType,
 			},
@@ -197,23 +198,23 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 
 func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet, publicIP *network.PublicIPAddress, nsg *network.NetworkSecurityGroup) *network.NetworkInterface {
 
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
+	dynamic := network.IPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{{
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
+				Subnet: &network.Subnet{
 					Reference: tc.MakeReferenceFromResource(subnet),
 				},
 				PublicIPAddress: &network.PublicIPAddressSpec{
 					Reference: tc.MakeReferenceFromResource(publicIP),
 				},
 			}},
-			NetworkSecurityGroup: &network.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded{
+			NetworkSecurityGroup: &network.NetworkSecurityGroupSpec{
 				Reference: tc.MakeReferenceFromResource(nsg),
 			},
 		},
@@ -234,13 +235,13 @@ func newNetworkSecurityGroup(tc *testcommon.KubePerTestContext, owner *genruntim
 
 func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.NetworkSecurityGroupsSecurityRule {
 	protocol := network.SecurityRulePropertiesFormat_Protocol_Tcp
-	allow := network.SecurityRulePropertiesFormat_Access_Allow
-	direction := network.SecurityRulePropertiesFormat_Direction_Inbound
+	allow := network.SecurityRuleAccess_Allow
+	direction := network.SecurityRuleDirection_Inbound
 
 	// Network Security Group rule
 	return &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
 			Owner:                    owner,
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("*"),

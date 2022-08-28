@@ -71,8 +71,8 @@ func newVirtualMachine20201201(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2020.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{
+			NetworkProfile: &compute2020.NetworkProfile{
+				NetworkInterfaces: []compute2020.NetworkInterfaceReference{
 					{
 						Reference: tc.MakeReferenceFromResource(networkInterface),
 					},
@@ -83,16 +83,16 @@ func newVirtualMachine20201201(
 }
 
 func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
+	dynamic := network.IPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{{
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
+				Subnet: &network.Subnet{
 					Reference: tc.MakeReferenceFromResource(subnet),
 				},
 			}},

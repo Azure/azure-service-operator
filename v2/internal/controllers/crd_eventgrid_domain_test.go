@@ -36,8 +36,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// Create a storage account to use as destination
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccounts_Spec_Kind_StorageV2
-	sku := storage.Sku_Name_Standard_LRS
+	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	sku := storage.SkuName_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
@@ -55,7 +55,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queueServices := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("dest-queues"),
-		Spec: storage.StorageAccounts_QueueServices_Spec{
+		Spec: storage.StorageAccounts_QueueService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
@@ -64,7 +64,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("dest-queue"),
-		Spec: storage.StorageAccounts_QueueServices_Queues_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Queue_Spec{
 			Owner: testcommon.AsOwner(queueServices),
 		},
 	}

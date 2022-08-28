@@ -25,8 +25,8 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// requirements - no hyphens allowed.
 
 	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard
-	kind := documentdb.DatabaseAccounts_Spec_Kind_GlobalDocumentDB
+	offerType := documentdb.DatabaseAccountOfferType_Standard
+	kind := documentdb.DatabaseAccount_Spec_Kind_GlobalDocumentDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccount_Spec{
@@ -45,7 +45,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	dbName := tc.Namer.GenerateName("sqldb")
 	db := documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabase_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(&acct),
 			Options: &documentdb.CreateUpdateOptions{
@@ -87,7 +87,7 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 	hash := documentdb.ContainerPartitionKey_Kind_Hash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Container_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
@@ -163,7 +163,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	create := documentdb.SqlTriggerResource_TriggerOperation_Create
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlTriggerResource{
@@ -206,7 +206,7 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, contai
 	name := tc.Namer.GenerateName("storedproc")
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
@@ -241,7 +241,7 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, co
 	name := tc.Namer.GenerateName("udf")
 	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{
 			AzureName: name,
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(container),
@@ -281,7 +281,7 @@ function tax(income) {
 func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -315,7 +315,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),

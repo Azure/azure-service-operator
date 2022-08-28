@@ -44,7 +44,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	snapshotARMId := *snapshot.Status.Id
 
 	tc.LogSection("Create Image")
-	v2 := compute2022.ImageProperties_HyperVGeneration_V2
+	v2 := compute2022.HyperVGenerationType_V2
 	linuxOS := compute2022.ImageOSDisk_OsType_Linux
 	linuxOSState := compute2022.ImageOSDisk_OsState_Generalized
 	image := &compute2022.Image{

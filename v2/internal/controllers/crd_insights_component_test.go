@@ -86,7 +86,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
-	kind := insightswebtest.WebTestProperties_Kind_Standard
+	kind := insightswebtest.Webtest_Spec_Kind_Multistep //!! verify this is the correct value
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
 		Spec: insightswebtest.Webtest_Spec{
@@ -117,7 +117,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-	expectedKind := insightswebtest.WebTestProperties_STATUS_Kind_Standard
+	expectedKind := insightswebtest.WebTestProperties_Kind_Standard_STATUS
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())

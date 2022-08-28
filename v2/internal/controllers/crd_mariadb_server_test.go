@@ -23,14 +23,14 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	// Create a MariaDB Server
 	serverName := tc.NoSpaceNamer.GenerateName("msvr")
-	createMode := mariadb.ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode_Default
-	networkAccess := mariadb.ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_PublicNetworkAccess_Enabled
+	createMode := mariadb.ServerPropertiesForCreate_CreateMode_Default
+	networkAccess := mariadb.PublicNetworkAccess_Enabled
 	autogrow := mariadb.StorageProfile_StorageAutogrow_Enabled
 	tier := mariadb.Sku_Tier_GeneralPurpose
 	location := "eastus" // Can't create MariaDB servers in WestUS2
 	fqdnSecret := "fqdnsecret"
-	adminUser := "testadmin"
-	adminPasswordRef := createPasswordSecret("admin", "password", tc)
+	//adminUser := "testadmin"
+	//adminPasswordRef := createPasswordSecret("admin", "password", tc)
 
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
@@ -73,11 +73,12 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	configuration := mariadb.Configuration{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Configurations_Spec{
+		Spec: mariadb.Servers_Configuration_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
-			Location:  &location,
-			Value:     to.StringPtr("102400"),
+			//!! Missing field (donotmerge)
+			//Location:  &location,
+			Value: to.StringPtr("102400"),
 		},
 	}
 
@@ -87,7 +88,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	database := mariadb.Database{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Databases_Spec{
+		Spec: mariadb.Servers_Database_Spec{
 			AzureName: *to.StringPtr("adventureworks"),
 			Owner:     testcommon.AsOwner(&server),
 		},

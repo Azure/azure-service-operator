@@ -38,7 +38,7 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnets_Spec{
+		Spec: network.VirtualNetworks_Subnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
@@ -47,7 +47,7 @@ func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 
 func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
 	publicIPAddressSku := network.PublicIPAddressSku_Name_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
+	allocationMethod := network.IPAllocationMethod_Static
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddress_Spec{
@@ -65,7 +65,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 	loadBalancerSku := network.LoadBalancerSku_Name_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormat_Protocol_Tcp
+	protocol := network.TransportProtocol_Tcp
 
 	// TODO: Getting this is SUPER awkward
 	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -88,7 +88,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration{
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.PublicIPAddressSpec{

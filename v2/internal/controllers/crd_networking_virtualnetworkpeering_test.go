@@ -29,7 +29,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
-		Spec: network.VirtualNetworks_VirtualNetworkPeerings_Spec{
+		Spec: network.VirtualNetworks_VirtualNetworkPeering_Spec{
 			Owner: testcommon.AsOwner(vnet1),
 			RemoteVirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet2),
@@ -73,7 +73,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
-		Spec: network.VirtualNetworks_VirtualNetworkPeerings_Spec{
+		Spec: network.VirtualNetworks_VirtualNetworkPeering_Spec{
 			Owner: testcommon.AsOwner(vnet1),
 			RemoteVirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet2),

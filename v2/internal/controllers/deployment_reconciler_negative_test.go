@@ -26,8 +26,8 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 
 	// Create a storage account with an invalid key expiration period
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccounts_Spec_Kind_BlobStorage
-	sku := storage.Sku_Name_Standard_LRS
+	kind := storage.StorageAccount_Spec_Kind_BlobStorage
+	sku := storage.SkuName_Standard_LRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
