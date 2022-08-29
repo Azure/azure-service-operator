@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20220501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ConfigurationStores_SpecARM struct {
 	// Identity: An identity that can be associated with a resource.
@@ -76,11 +73,6 @@ type ResourceIdentityARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
-	// dictionary keys will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/Sku

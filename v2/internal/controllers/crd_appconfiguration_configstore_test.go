@@ -20,7 +20,7 @@ import (
 func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 	t.Parallel()
 
-	createmodeDefault := v1beta20220501.ConfigurationStoreProperties_CreateMode_Default
+	createModeDefault := v1beta20220501.ConfigurationStoreProperties_CreateMode_Default
 	publicNetworkAccessDisabled := v1beta20220501.ConfigurationStoreProperties_PublicNetworkAccess_Disabled
 	publicNetworkAccessEnabled := v1beta20220501.ConfigurationStoreProperties_PublicNetworkAccess_Enabled
 
@@ -32,7 +32,7 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 		TypeMeta:   metav1.TypeMeta{},
 		ObjectMeta: tc.MakeObjectMeta("confstore"),
 		Spec: v1beta20220501.ConfigurationStores_Spec{
-			CreateMode: &createmodeDefault,
+			CreateMode: &createModeDefault,
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 			Sku: &v1beta20220501.Sku{
@@ -44,8 +44,6 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(cs)
-
-	tc.ExportAsSample(cs)
 
 	armId := *cs.Status.Id
 	old := cs.DeepCopy()
