@@ -96,7 +96,7 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
 
           set +e # don't exit instantly on failure, we need to produce Markdown summary
-          docker exec "$container_id" task ci
+          docker exec "$container_id" task ci --concurrency 1 # limit concurrency because build machines are small
           EXIT_CODE=$?
           set -e
 
@@ -114,8 +114,8 @@ jobs:
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build-and-save
-          docker exec "$container_id" task controller:run-kustomize-for-envtest
+          docker exec "$container_id" task controller:docker-build-and-save --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 1 # limit concurrency because build machines are small
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2
