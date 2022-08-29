@@ -68,7 +68,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 
 	result, err := actionFunc(ctx)
 	if err != nil {
-		r.Log.Error(err, "Error during CreateOrUpdate", "action", action)
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "CreateOrUpdateActionError", err.Error())
 
 		return ctrl.Result{}, err
@@ -80,7 +79,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Result, error) {
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
-		r.Log.Error(err, "error determining delete action")
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DetermineDeleteActionError", err.Error())
 
 		return ctrl.Result{}, err

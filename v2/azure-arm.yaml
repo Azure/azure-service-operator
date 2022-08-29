@@ -60,6 +60,10 @@ typeFilters:
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
+  - action: include
+    group: managedidentity
+    version: v*20220131preview
+    because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
@@ -402,6 +406,16 @@ typeTransformers:
     property: Tags
     remove: true
     because: Tags for subscription are in a different place
+  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+    group: managedidentity
+    property: Location
+    remove: true
+    because: Child resource shouldn't have location
+  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+    group: managedidentity
+    property: Tags
+    remove: true
+    because: Child resource shouldn't have tags
 
 
   # Deal with service Swaggers that are just wrong
@@ -1129,6 +1143,12 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+    2022-01-31-preview:
+      # Not adding UserAssignedIdentity here because it's identical to the one in 2018
+      UserAssignedIdentities_FederatedIdentityCredential:
+        $export: true
+        $exportAs: FederatedIdentityCredential
+        $supportedFrom: v2.0.0-beta.3
   machinelearningservices:
     2021-07-01:
       Workspace:
