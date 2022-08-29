@@ -1,5 +1,5 @@
 apiVersion: web.azure.com/v1beta20220301
-kind: Serverfarm
+kind: ServerFarm
 metadata:
   name: aso-sample-appservice
   namespace: default

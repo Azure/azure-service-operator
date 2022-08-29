@@ -10,5 +10,5 @@ spec:
     name: aso-sample-rg
   serverFarmReference:
     group: web.azure.com
-    kind: Serverfarm
+    kind: ServerFarm
     name: aso-sample-appservice

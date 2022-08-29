@@ -25,122 +25,122 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
-type Serverfarm struct {
+type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Serverfarms_Spec      `json:"spec,omitempty"`
 	Status            AppServicePlan_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Serverfarm{}
+var _ conditions.Conditioner = &ServerFarm{}
 
 // GetConditions returns the conditions of the resource
-func (serverfarm *Serverfarm) GetConditions() conditions.Conditions {
-	return serverfarm.Status.Conditions
+func (farm *ServerFarm) GetConditions() conditions.Conditions {
+	return farm.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (serverfarm *Serverfarm) SetConditions(conditions conditions.Conditions) {
-	serverfarm.Status.Conditions = conditions
+func (farm *ServerFarm) SetConditions(conditions conditions.Conditions) {
+	farm.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &Serverfarm{}
+var _ conversion.Convertible = &ServerFarm{}
 
-// ConvertFrom populates our Serverfarm from the provided hub Serverfarm
-func (serverfarm *Serverfarm) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.Serverfarm)
+// ConvertFrom populates our ServerFarm from the provided hub ServerFarm
+func (farm *ServerFarm) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20220301s.ServerFarm)
 	if !ok {
-		return fmt.Errorf("expected web/v1beta20220301storage/Serverfarm but received %T instead", hub)
+		return fmt.Errorf("expected web/v1beta20220301storage/ServerFarm but received %T instead", hub)
 	}
 
-	return serverfarm.AssignProperties_From_Serverfarm(source)
+	return farm.AssignProperties_From_ServerFarm(source)
 }
 
-// ConvertTo populates the provided hub Serverfarm from our Serverfarm
-func (serverfarm *Serverfarm) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.Serverfarm)
+// ConvertTo populates the provided hub ServerFarm from our ServerFarm
+func (farm *ServerFarm) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20220301s.ServerFarm)
 	if !ok {
-		return fmt.Errorf("expected web/v1beta20220301storage/Serverfarm but received %T instead", hub)
+		return fmt.Errorf("expected web/v1beta20220301storage/ServerFarm but received %T instead", hub)
 	}
 
-	return serverfarm.AssignProperties_To_Serverfarm(destination)
+	return farm.AssignProperties_To_ServerFarm(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-web-azure-com-v1beta20220301-serverfarm,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=serverfarms,verbs=create;update,versions=v1beta20220301,name=default.v1beta20220301.serverfarms.web.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &Serverfarm{}
+var _ admission.Defaulter = &ServerFarm{}
 
-// Default applies defaults to the Serverfarm resource
-func (serverfarm *Serverfarm) Default() {
-	serverfarm.defaultImpl()
-	var temp interface{} = serverfarm
+// Default applies defaults to the ServerFarm resource
+func (farm *ServerFarm) Default() {
+	farm.defaultImpl()
+	var temp interface{} = farm
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (serverfarm *Serverfarm) defaultAzureName() {
-	if serverfarm.Spec.AzureName == "" {
-		serverfarm.Spec.AzureName = serverfarm.Name
+func (farm *ServerFarm) defaultAzureName() {
+	if farm.Spec.AzureName == "" {
+		farm.Spec.AzureName = farm.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the Serverfarm resource
-func (serverfarm *Serverfarm) defaultImpl() { serverfarm.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the ServerFarm resource
+func (farm *ServerFarm) defaultImpl() { farm.defaultAzureName() }
 
-var _ genruntime.KubernetesResource = &Serverfarm{}
+var _ genruntime.KubernetesResource = &ServerFarm{}
 
 // AzureName returns the Azure name of the resource
-func (serverfarm *Serverfarm) AzureName() string {
-	return serverfarm.Spec.AzureName
+func (farm *ServerFarm) AzureName() string {
+	return farm.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
-func (serverfarm Serverfarm) GetAPIVersion() string {
+func (farm ServerFarm) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (serverfarm *Serverfarm) GetResourceScope() genruntime.ResourceScope {
+func (farm *ServerFarm) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (serverfarm *Serverfarm) GetSpec() genruntime.ConvertibleSpec {
-	return &serverfarm.Spec
+func (farm *ServerFarm) GetSpec() genruntime.ConvertibleSpec {
+	return &farm.Spec
 }
 
 // GetStatus returns the status of this resource
-func (serverfarm *Serverfarm) GetStatus() genruntime.ConvertibleStatus {
-	return &serverfarm.Status
+func (farm *ServerFarm) GetStatus() genruntime.ConvertibleStatus {
+	return &farm.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Web/serverfarms"
-func (serverfarm *Serverfarm) GetType() string {
+func (farm *ServerFarm) GetType() string {
 	return "Microsoft.Web/serverfarms"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (serverfarm *Serverfarm) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &AppServicePlan_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (serverfarm *Serverfarm) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(serverfarm.Spec)
+func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  serverfarm.Spec.Owner.Name,
+		Name:  farm.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (serverfarm *Serverfarm) SetStatus(status genruntime.ConvertibleStatus) error {
+func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*AppServicePlan_STATUS); ok {
-		serverfarm.Status = *st
+		farm.Status = *st
 		return nil
 	}
 
@@ -151,18 +151,18 @@ func (serverfarm *Serverfarm) SetStatus(status genruntime.ConvertibleStatus) err
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	serverfarm.Status = st
+	farm.Status = st
 	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-web-azure-com-v1beta20220301-serverfarm,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=serverfarms,verbs=create;update,versions=v1beta20220301,name=validate.v1beta20220301.serverfarms.web.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &Serverfarm{}
+var _ admission.Validator = &ServerFarm{}
 
 // ValidateCreate validates the creation of the resource
-func (serverfarm *Serverfarm) ValidateCreate() error {
-	validations := serverfarm.createValidations()
-	var temp interface{} = serverfarm
+func (farm *ServerFarm) ValidateCreate() error {
+	validations := farm.createValidations()
+	var temp interface{} = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -177,9 +177,9 @@ func (serverfarm *Serverfarm) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (serverfarm *Serverfarm) ValidateDelete() error {
-	validations := serverfarm.deleteValidations()
-	var temp interface{} = serverfarm
+func (farm *ServerFarm) ValidateDelete() error {
+	validations := farm.deleteValidations()
+	var temp interface{} = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -194,9 +194,9 @@ func (serverfarm *Serverfarm) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (serverfarm *Serverfarm) ValidateUpdate(old runtime.Object) error {
-	validations := serverfarm.updateValidations()
-	var temp interface{} = serverfarm
+func (farm *ServerFarm) ValidateUpdate(old runtime.Object) error {
+	validations := farm.updateValidations()
+	var temp interface{} = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -211,27 +211,27 @@ func (serverfarm *Serverfarm) ValidateUpdate(old runtime.Object) error {
 }
 
 // createValidations validates the creation of the resource
-func (serverfarm *Serverfarm) createValidations() []func() error {
-	return []func() error{serverfarm.validateResourceReferences}
+func (farm *ServerFarm) createValidations() []func() error {
+	return []func() error{farm.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (serverfarm *Serverfarm) deleteValidations() []func() error {
+func (farm *ServerFarm) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (serverfarm *Serverfarm) updateValidations() []func(old runtime.Object) error {
+func (farm *ServerFarm) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return serverfarm.validateResourceReferences()
+			return farm.validateResourceReferences()
 		},
-		serverfarm.validateWriteOnceProperties}
+		farm.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (serverfarm *Serverfarm) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&serverfarm.Spec)
+func (farm *ServerFarm) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&farm.Spec)
 	if err != nil {
 		return err
 	}
@@ -239,20 +239,20 @@ func (serverfarm *Serverfarm) validateResourceReferences() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (serverfarm *Serverfarm) validateWriteOnceProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Serverfarm)
+func (farm *ServerFarm) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*ServerFarm)
 	if !ok {
 		return nil
 	}
 
-	return genruntime.ValidateWriteOnceProperties(oldObj, serverfarm)
+	return genruntime.ValidateWriteOnceProperties(oldObj, farm)
 }
 
-// AssignProperties_From_Serverfarm populates our Serverfarm from the provided source Serverfarm
-func (serverfarm *Serverfarm) AssignProperties_From_Serverfarm(source *v20220301s.Serverfarm) error {
+// AssignProperties_From_ServerFarm populates our ServerFarm from the provided source ServerFarm
+func (farm *ServerFarm) AssignProperties_From_ServerFarm(source *v20220301s.ServerFarm) error {
 
 	// ObjectMeta
-	serverfarm.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	farm.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Serverfarms_Spec
@@ -260,7 +260,7 @@ func (serverfarm *Serverfarm) AssignProperties_From_Serverfarm(source *v20220301
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_Serverfarms_Spec() to populate field Spec")
 	}
-	serverfarm.Spec = spec
+	farm.Spec = spec
 
 	// Status
 	var status AppServicePlan_STATUS
@@ -268,21 +268,21 @@ func (serverfarm *Serverfarm) AssignProperties_From_Serverfarm(source *v20220301
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_AppServicePlan_STATUS() to populate field Status")
 	}
-	serverfarm.Status = status
+	farm.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Serverfarm populates the provided destination Serverfarm from our Serverfarm
-func (serverfarm *Serverfarm) AssignProperties_To_Serverfarm(destination *v20220301s.Serverfarm) error {
+// AssignProperties_To_ServerFarm populates the provided destination ServerFarm from our ServerFarm
+func (farm *ServerFarm) AssignProperties_To_ServerFarm(destination *v20220301s.ServerFarm) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *serverfarm.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *farm.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20220301s.Serverfarms_Spec
-	err := serverfarm.Spec.AssignProperties_To_Serverfarms_Spec(&spec)
+	err := farm.Spec.AssignProperties_To_Serverfarms_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Serverfarms_Spec() to populate field Spec")
 	}
@@ -290,7 +290,7 @@ func (serverfarm *Serverfarm) AssignProperties_To_Serverfarm(destination *v20220
 
 	// Status
 	var status v20220301s.AppServicePlan_STATUS
-	err = serverfarm.Status.AssignProperties_To_AppServicePlan_STATUS(&status)
+	err = farm.Status.AssignProperties_To_AppServicePlan_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_AppServicePlan_STATUS() to populate field Status")
 	}
@@ -301,20 +301,20 @@ func (serverfarm *Serverfarm) AssignProperties_To_Serverfarm(destination *v20220
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (serverfarm *Serverfarm) OriginalGVK() *schema.GroupVersionKind {
+func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: serverfarm.Spec.OriginalVersion(),
-		Kind:    "Serverfarm",
+		Version: farm.Spec.OriginalVersion(),
+		Kind:    "ServerFarm",
 	}
 }
 
 // +kubebuilder:object:root=true
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
-type ServerfarmList struct {
+type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Serverfarm `json:"items"`
+	Items           []ServerFarm `json:"items"`
 }
 
 // +kubebuilder:validation:Enum={"2022-03-01"}
@@ -3434,5 +3434,5 @@ func (capacity *SkuCapacity_STATUS) AssignProperties_To_SkuCapacity_STATUS(desti
 }
 
 func init() {
-	SchemeBuilder.Register(&Serverfarm{}, &ServerfarmList{})
+	SchemeBuilder.Register(&ServerFarm{}, &ServerFarmList{})
 }

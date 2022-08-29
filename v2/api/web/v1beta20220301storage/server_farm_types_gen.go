@@ -21,79 +21,79 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1beta20220301.Serverfarm
+// Storage version of v1beta20220301.ServerFarm
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
-type Serverfarm struct {
+type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Serverfarms_Spec      `json:"spec,omitempty"`
 	Status            AppServicePlan_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Serverfarm{}
+var _ conditions.Conditioner = &ServerFarm{}
 
 // GetConditions returns the conditions of the resource
-func (serverfarm *Serverfarm) GetConditions() conditions.Conditions {
-	return serverfarm.Status.Conditions
+func (farm *ServerFarm) GetConditions() conditions.Conditions {
+	return farm.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (serverfarm *Serverfarm) SetConditions(conditions conditions.Conditions) {
-	serverfarm.Status.Conditions = conditions
+func (farm *ServerFarm) SetConditions(conditions conditions.Conditions) {
+	farm.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &Serverfarm{}
+var _ genruntime.KubernetesResource = &ServerFarm{}
 
 // AzureName returns the Azure name of the resource
-func (serverfarm *Serverfarm) AzureName() string {
-	return serverfarm.Spec.AzureName
+func (farm *ServerFarm) AzureName() string {
+	return farm.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
-func (serverfarm Serverfarm) GetAPIVersion() string {
+func (farm ServerFarm) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (serverfarm *Serverfarm) GetResourceScope() genruntime.ResourceScope {
+func (farm *ServerFarm) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (serverfarm *Serverfarm) GetSpec() genruntime.ConvertibleSpec {
-	return &serverfarm.Spec
+func (farm *ServerFarm) GetSpec() genruntime.ConvertibleSpec {
+	return &farm.Spec
 }
 
 // GetStatus returns the status of this resource
-func (serverfarm *Serverfarm) GetStatus() genruntime.ConvertibleStatus {
-	return &serverfarm.Status
+func (farm *ServerFarm) GetStatus() genruntime.ConvertibleStatus {
+	return &farm.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Web/serverfarms"
-func (serverfarm *Serverfarm) GetType() string {
+func (farm *ServerFarm) GetType() string {
 	return "Microsoft.Web/serverfarms"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (serverfarm *Serverfarm) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &AppServicePlan_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (serverfarm *Serverfarm) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(serverfarm.Spec)
+func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  serverfarm.Spec.Owner.Name,
+		Name:  farm.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (serverfarm *Serverfarm) SetStatus(status genruntime.ConvertibleStatus) error {
+func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*AppServicePlan_STATUS); ok {
-		serverfarm.Status = *st
+		farm.Status = *st
 		return nil
 	}
 
@@ -104,29 +104,29 @@ func (serverfarm *Serverfarm) SetStatus(status genruntime.ConvertibleStatus) err
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	serverfarm.Status = st
+	farm.Status = st
 	return nil
 }
 
-// Hub marks that this Serverfarm is the hub type for conversion
-func (serverfarm *Serverfarm) Hub() {}
+// Hub marks that this ServerFarm is the hub type for conversion
+func (farm *ServerFarm) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (serverfarm *Serverfarm) OriginalGVK() *schema.GroupVersionKind {
+func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: serverfarm.Spec.OriginalVersion,
-		Kind:    "Serverfarm",
+		Version: farm.Spec.OriginalVersion,
+		Kind:    "ServerFarm",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1beta20220301.Serverfarm
+// Storage version of v1beta20220301.ServerFarm
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
-type ServerfarmList struct {
+type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Serverfarm `json:"items"`
+	Items           []ServerFarm `json:"items"`
 }
 
 // Storage version of v1beta20220301.APIVersion
@@ -361,5 +361,5 @@ type SkuCapacity_STATUS struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&Serverfarm{}, &ServerfarmList{})
+	SchemeBuilder.Register(&ServerFarm{}, &ServerFarmList{})
 }

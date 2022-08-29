@@ -66,7 +66,7 @@
 | RampUpRule_STATUS                                          | v1beta20220301 |
 | RequestsBasedTrigger                                       | v1beta20220301 |
 | RequestsBasedTrigger_STATUS                                | v1beta20220301 |
-| Serverfarm                                                 | v1beta20220301 |
+| ServerFarm                                                 | v1beta20220301 |
 | Serverfarms_Spec                                           | v1beta20220301 |
 | Site                                                       | v1beta20220301 |
 | SiteConfig_STATUS                                          | v1beta20220301 |

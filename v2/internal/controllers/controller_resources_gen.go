@@ -487,7 +487,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(subscription_v20211001s.Alias),
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(web_v20220301s.Serverfarm),
+		Obj: new(web_v20220301s.ServerFarm),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(web_v20220301s.Site),
@@ -878,8 +878,8 @@ func getKnownTypes() []client.Object {
 		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
-	result = append(result, new(web_v20220301.Serverfarm), new(web_v20220301.Site))
-	result = append(result, new(web_v20220301s.Serverfarm), new(web_v20220301s.Site))
+	result = append(result, new(web_v20220301.ServerFarm), new(web_v20220301.Site))
+	result = append(result, new(web_v20220301s.ServerFarm), new(web_v20220301s.Site))
 	return result
 }
 
@@ -1080,7 +1080,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
-	result = append(result, &web_customizations.ServerfarmExtension{})
+	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
 }

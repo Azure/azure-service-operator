@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type ServerfarmExtension struct {
+type ServerFarmExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *ServerfarmExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *ServerFarmExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20220301.Serverfarm{},
-		&v20220301s.Serverfarm{}}
+		&v20220301.ServerFarm{},
+		&v20220301s.ServerFarm{}}
 }
