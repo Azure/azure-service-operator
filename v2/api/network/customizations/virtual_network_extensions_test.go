@@ -30,15 +30,8 @@ func Test_FuzzySetSubnets(t *testing.T) {
 		},
 	}
 
-<<<<<<< HEAD
-	subnet := &network.VirtualNetworksSubnet_SpecARM{
-		Name: "mysubnet",
+	subnet := &network.VirtualNetworks_Subnet_SpecARM{
 		Properties: &network.SubnetPropertiesFormatARM{
-=======
-	subnet := &network.VirtualNetworks_Subnets_SpecARM{
-		Name: "mysubnet",
-		Properties: &network.VirtualNetworks_Subnets_Spec_PropertiesARM{
->>>>>>> main
 			AddressPrefix: to.StringPtr("1.2.3.4"),
 			NatGateway: &network.SubResourceARM{
 				Id: to.StringPtr("/this/is/a/test"),
@@ -72,11 +65,7 @@ func Test_FuzzySetSubnet(t *testing.T) {
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-<<<<<<< HEAD
-			func(subnet *network.SubnetPropertiesFormatARM) bool {
-=======
-			func(subnet *network.VirtualNetworks_Subnets_SpecARM) bool {
->>>>>>> main
+			func(subnet *network.VirtualNetworks_Subnet_SpecARM) bool {
 				val := reflect.New(embeddedType)
 				err := fuzzySetSubnet(subnet, val)
 
