@@ -172,7 +172,11 @@ func AddIndependentPropertyGeneratorsForServerPropertiesARM(gens map[string]gopt
 		ServerProperties_CreateMode_Update))
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerProperties_Version_11, ServerProperties_Version_12, ServerProperties_Version_13))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(
+		ServerProperties_Version_11,
+		ServerProperties_Version_12,
+		ServerProperties_Version_13,
+		ServerProperties_Version_14))
 }
 
 // AddRelatedPropertyGeneratorsForServerPropertiesARM is a factory method for creating gopter generators

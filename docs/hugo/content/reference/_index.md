@@ -212,10 +212,11 @@ grouped by the originating ARM service.
 
 ## Managedidentity
 
-| Resource             | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                        |
-|----------------------|-------------|---------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| UserAssignedIdentity | 2018-11-30  | v1beta20181130      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)           |
-| UserAssignedIdentity | 2018-11-30  | v1alpha1api20181130 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml) |
+| Resource                    | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                                                            |
+|-----------------------------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FederatedIdentityCredential | 2022-01-31-preview | v1beta20220131preview | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20220131preview_federatedidentitycredential.yaml) |
+| UserAssignedIdentity        | 2018-11-30         | v1beta20181130        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)               |
+| UserAssignedIdentity        | 2018-11-30         | v1alpha1api20181130   | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml)     |
 
 ## Network
 

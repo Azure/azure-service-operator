@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"bd5e063c-2e94-4ebe-b374-5dc6c0ac093d","clientId":"bfca0839-2dae-4318-9664-c2bb78e8ee38"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0de45ab5-2693-457f-8801-26bca78ac5cc","clientId":"fb3941a3-a8c7-464b-a1b7-b420aedade1b"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"bd5e063c-2e94-4ebe-b374-5dc6c0ac093d","clientId":"bfca0839-2dae-4318-9664-c2bb78e8ee38"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0de45ab5-2693-457f-8801-26bca78ac5cc","clientId":"fb3941a3-a8c7-464b-a1b7-b420aedade1b"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,107 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"bd5e063c-2e94-4ebe-b374-5dc6c0ac093d","clientId":"bfca0839-2dae-4318-9664-c2bb78e8ee38"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee","name":"asotestqckbee","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0de45ab5-2693-457f-8801-26bca78ac5cc","clientId":"fb3941a3-a8c7-464b-a1b7-b420aedade1b"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotestqgmdzi","properties":{"audiences":["api://AzureADTokenExchange"],"issuer":"https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/","subject":"system:serviceaccount:default:default"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "212"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi?api-version=2022-01-31-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi","name":"asotestqgmdzi","type":"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials","properties":{"issuer":"https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/","subject":"system:serviceaccount:default:default","audiences":["api://AzureADTokenExchange"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "507"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"asotestqgmdzi","properties":{"audiences":["api://AzureADTokenExchange"],"issuer":"https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/","subject":"system:serviceaccount:default:default"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "212"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi?api-version=2022-01-31-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi","name":"asotestqgmdzi","type":"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials","properties":{"issuer":"https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/","subject":"system:serviceaccount:default:default","audiences":["api://AzureADTokenExchange"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi?api-version=2022-01-31-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-xezdqa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotestqckbee/federatedIdentityCredentials/asotestqgmdzi","name":"asotestqgmdzi","type":"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials","properties":{"issuer":"https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/","subject":"system:serviceaccount:default:default","audiences":["api://AzureADTokenExchange"]}}'
     headers:
       Cache-Control:
       - no-cache
