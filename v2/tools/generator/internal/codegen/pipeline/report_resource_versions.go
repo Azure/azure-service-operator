@@ -53,6 +53,7 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
+	apiDocsUrlTemplate       string                                // Template for generating API URLs
 	groups                   set.Set[string]                       // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	frontMatter              string                                // Front matter to be inserted at the top of the report
@@ -68,6 +69,7 @@ func NewResourceVersionsReport(
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
 		rootUrl:                  cfg.RootURL,
+		apiDocsUrlTemplate:       cfg.ApiDocsUrlTemplate,
 		samplesPath:              cfg.SamplesPath,
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
@@ -220,12 +222,13 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
+		api := report.generateApiLink(rsrc)
 		sample := report.generateSampleLink(rsrc, sampleLinks)
 		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
 		result.AddRow(
-			rsrc.Name().Name(),
+			api,
 			armVersion,
 			crdVersion,
 			supportedFrom,
@@ -238,6 +241,24 @@ func (report *ResourceVersionsReport) createTable(
 	}
 
 	return result, nil
+}
+
+// generateApiLink returns a link to the API definition for the given resource
+func (report *ResourceVersionsReport) generateApiLink(rsrc astmodel.TypeDefinition) string {
+
+	crdKind := rsrc.Name().Name()
+	if report.apiDocsUrlTemplate == "" {
+		return crdKind
+	}
+
+	crdGroup, crdVersion := rsrc.Name().PackageReference.GroupVersion()
+
+	link := report.apiDocsUrlTemplate
+	link = strings.Replace(link, "{group}", crdGroup, -1)
+	link = strings.Replace(link, "{version}", crdVersion, -1)
+	link = strings.Replace(link, "{kind}", crdKind, -1)
+
+	return fmt.Sprintf("[%s](%s)", crdKind, link)
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {
