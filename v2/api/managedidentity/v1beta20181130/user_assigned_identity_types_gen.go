@@ -563,7 +563,7 @@ type UserAssignedIdentities_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Location: The Azure region where the identity lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
