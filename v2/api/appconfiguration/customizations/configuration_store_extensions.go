@@ -66,8 +66,9 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 		}
 
 		var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
+		var resp armappconfiguration.ConfigurationStoresClientListKeysResponse
 		pager = confClient.NewListKeysPager(id.ResourceGroupName, obj.AzureName(), nil)
-		resp, err := pager.NextPage(ctx)
+		resp, err = pager.NextPage(ctx)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to retreive response")
 		}
