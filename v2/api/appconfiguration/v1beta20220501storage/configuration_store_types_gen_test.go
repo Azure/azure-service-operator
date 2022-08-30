@@ -251,8 +251,70 @@ func AddIndependentPropertyGeneratorsForConfigurationStores_Spec(gens map[string
 func AddRelatedPropertyGeneratorsForConfigurationStores_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
 	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
+}
+
+func Test_ConfigurationStoreOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ConfigurationStoreOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSpec, ConfigurationStoreOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForConfigurationStoreOperatorSpec runs a test to see if a specific instance of ConfigurationStoreOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStoreOperatorSpec(subject ConfigurationStoreOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ConfigurationStoreOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ConfigurationStoreOperatorSpec instances for property testing - lazily instantiated by
+// ConfigurationStoreOperatorSpecGenerator()
+var configurationStoreOperatorSpecGenerator gopter.Gen
+
+// ConfigurationStoreOperatorSpecGenerator returns a generator of ConfigurationStoreOperatorSpec instances for property testing.
+func ConfigurationStoreOperatorSpecGenerator() gopter.Gen {
+	if configurationStoreOperatorSpecGenerator != nil {
+		return configurationStoreOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(generators)
+	configurationStoreOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSpec{}), generators)
+
+	return configurationStoreOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfigurationStoreOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(ConfigurationStoreOperatorSecretsGenerator())
 }
 
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -823,6 +885,61 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ConfigurationStoreOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ConfigurationStoreOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStoreOperatorSecrets, ConfigurationStoreOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForConfigurationStoreOperatorSecrets runs a test to see if a specific instance of ConfigurationStoreOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStoreOperatorSecrets(subject ConfigurationStoreOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ConfigurationStoreOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ConfigurationStoreOperatorSecrets instances for property testing - lazily instantiated by
+// ConfigurationStoreOperatorSecretsGenerator()
+var configurationStoreOperatorSecretsGenerator gopter.Gen
+
+// ConfigurationStoreOperatorSecretsGenerator returns a generator of ConfigurationStoreOperatorSecrets instances for property testing.
+func ConfigurationStoreOperatorSecretsGenerator() gopter.Gen {
+	if configurationStoreOperatorSecretsGenerator != nil {
+		return configurationStoreOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	configurationStoreOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(ConfigurationStoreOperatorSecrets{}), generators)
+
+	return configurationStoreOperatorSecretsGenerator
 }
 
 func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

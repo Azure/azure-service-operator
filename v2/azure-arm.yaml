@@ -661,6 +661,19 @@ objectModelConfiguration:
       ConfigurationStore:
         $export: true
         $supportedFrom: v2.0.0-beta.3
+        $azureGeneratedSecrets:
+          - PrimaryKeyID
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKeyID
+          - SecondaryKey
+          - SecondaryConnectionString
+          - PrimaryReadOnlyKeyID
+          - PrimaryReadOnlyKey
+          - PrimaryReadOnlyConnectionString
+          - SecondaryReadOnlyKeyID
+          - SecondaryReadOnlyKey
+          - SecondaryReadOnlyConnectionString
   authorization:
     2020-08-01-preview:
       RoleAssignment:

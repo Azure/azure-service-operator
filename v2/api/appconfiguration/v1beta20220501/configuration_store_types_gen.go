@@ -212,7 +212,7 @@ func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (store *ConfigurationStore) createValidations() []func() error {
-	return []func() error{store.validateResourceReferences}
+	return []func() error{store.validateResourceReferences, store.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +226,11 @@ func (store *ConfigurationStore) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) error {
 			return store.validateResourceReferences()
 		},
-		store.validateWriteOnceProperties}
+		store.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return store.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +240,31 @@ func (store *ConfigurationStore) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (store *ConfigurationStore) validateSecretDestinations() error {
+	if store.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if store.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		store.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+		store.Spec.OperatorSpec.Secrets.PrimaryKey,
+		store.Spec.OperatorSpec.Secrets.PrimaryKeyID,
+		store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyConnectionString,
+		store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyKey,
+		store.Spec.OperatorSpec.Secrets.PrimaryReadOnlyKeyID,
+		store.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+		store.Spec.OperatorSpec.Secrets.SecondaryKey,
+		store.Spec.OperatorSpec.Secrets.SecondaryKeyID,
+		store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyConnectionString,
+		store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKey,
+		store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKeyID,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -933,6 +962,10 @@ type ConfigurationStores_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -1127,6 +1160,8 @@ func (stores *ConfigurationStores_Spec) PopulateFromARM(owner genruntime.Arbitra
 		stores.Location = &location
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	stores.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -1291,6 +1326,18 @@ func (stores *ConfigurationStores_Spec) AssignProperties_From_ConfigurationStore
 	// Location
 	stores.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ConfigurationStoreOperatorSpec
+		err := operatorSpec.AssignProperties_From_ConfigurationStoreOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
+		}
+		stores.OperatorSpec = &operatorSpec
+	} else {
+		stores.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1400,6 +1447,18 @@ func (stores *ConfigurationStores_Spec) AssignProperties_To_ConfigurationStores_
 	// Location
 	destination.Location = genruntime.ClonePointerToString(stores.Location)
 
+	// OperatorSpec
+	if stores.OperatorSpec != nil {
+		var operatorSpec v20220501s.ConfigurationStoreOperatorSpec
+		err := stores.OperatorSpec.AssignProperties_To_ConfigurationStoreOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = stores.OriginalVersion()
 
@@ -1467,6 +1526,59 @@ func (stores *ConfigurationStores_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (stores *ConfigurationStores_Spec) SetAzureName(azureName string) { stores.AzureName = azureName }
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ConfigurationStoreOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *ConfigurationStoreOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_ConfigurationStoreOperatorSpec populates our ConfigurationStoreOperatorSpec from the provided source ConfigurationStoreOperatorSpec
+func (operator *ConfigurationStoreOperatorSpec) AssignProperties_From_ConfigurationStoreOperatorSpec(source *v20220501s.ConfigurationStoreOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret ConfigurationStoreOperatorSecrets
+		err := secret.AssignProperties_From_ConfigurationStoreOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStoreOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ConfigurationStoreOperatorSpec populates the provided destination ConfigurationStoreOperatorSpec from our ConfigurationStoreOperatorSpec
+func (operator *ConfigurationStoreOperatorSpec) AssignProperties_To_ConfigurationStoreOperatorSpec(destination *v20220501s.ConfigurationStoreOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20220501s.ConfigurationStoreOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_ConfigurationStoreOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStoreOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // +kubebuilder:validation:Enum={"Default","Recover"}
 type ConfigurationStoreProperties_CreateMode string
@@ -2480,6 +2592,271 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.LastModifiedByType = &lastModifiedByType
 	} else {
 		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ConfigurationStoreOperatorSecrets struct {
+	// PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryConnectionString *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// PrimaryKeyID: indicates where the PrimaryKeyID secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	PrimaryKeyID *genruntime.SecretDestination `json:"primaryKeyID,omitempty"`
+
+	// PrimaryReadOnlyConnectionString: indicates where the PrimaryReadOnlyConnectionString secret should be placed. If
+	// omitted, the secret will not be retrieved from Azure.
+	PrimaryReadOnlyConnectionString *genruntime.SecretDestination `json:"primaryReadOnlyConnectionString,omitempty"`
+
+	// PrimaryReadOnlyKey: indicates where the PrimaryReadOnlyKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	PrimaryReadOnlyKey *genruntime.SecretDestination `json:"primaryReadOnlyKey,omitempty"`
+
+	// PrimaryReadOnlyKeyID: indicates where the PrimaryReadOnlyKeyID secret should be placed. If omitted, the secret will not
+	// be retrieved from Azure.
+	PrimaryReadOnlyKeyID *genruntime.SecretDestination `json:"primaryReadOnlyKeyID,omitempty"`
+
+	// SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+
+	// SecondaryKeyID: indicates where the SecondaryKeyID secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKeyID *genruntime.SecretDestination `json:"secondaryKeyID,omitempty"`
+
+	// SecondaryReadOnlyConnectionString: indicates where the SecondaryReadOnlyConnectionString secret should be placed. If
+	// omitted, the secret will not be retrieved from Azure.
+	SecondaryReadOnlyConnectionString *genruntime.SecretDestination `json:"secondaryReadOnlyConnectionString,omitempty"`
+
+	// SecondaryReadOnlyKey: indicates where the SecondaryReadOnlyKey secret should be placed. If omitted, the secret will not
+	// be retrieved from Azure.
+	SecondaryReadOnlyKey *genruntime.SecretDestination `json:"secondaryReadOnlyKey,omitempty"`
+
+	// SecondaryReadOnlyKeyID: indicates where the SecondaryReadOnlyKeyID secret should be placed. If omitted, the secret will
+	// not be retrieved from Azure.
+	SecondaryReadOnlyKeyID *genruntime.SecretDestination `json:"secondaryReadOnlyKeyID,omitempty"`
+}
+
+// AssignProperties_From_ConfigurationStoreOperatorSecrets populates our ConfigurationStoreOperatorSecrets from the provided source ConfigurationStoreOperatorSecrets
+func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_ConfigurationStoreOperatorSecrets(source *v20220501s.ConfigurationStoreOperatorSecrets) error {
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// PrimaryKeyID
+	if source.PrimaryKeyID != nil {
+		primaryKeyID := source.PrimaryKeyID.Copy()
+		secrets.PrimaryKeyID = &primaryKeyID
+	} else {
+		secrets.PrimaryKeyID = nil
+	}
+
+	// PrimaryReadOnlyConnectionString
+	if source.PrimaryReadOnlyConnectionString != nil {
+		primaryReadOnlyConnectionString := source.PrimaryReadOnlyConnectionString.Copy()
+		secrets.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
+	} else {
+		secrets.PrimaryReadOnlyConnectionString = nil
+	}
+
+	// PrimaryReadOnlyKey
+	if source.PrimaryReadOnlyKey != nil {
+		primaryReadOnlyKey := source.PrimaryReadOnlyKey.Copy()
+		secrets.PrimaryReadOnlyKey = &primaryReadOnlyKey
+	} else {
+		secrets.PrimaryReadOnlyKey = nil
+	}
+
+	// PrimaryReadOnlyKeyID
+	if source.PrimaryReadOnlyKeyID != nil {
+		primaryReadOnlyKeyID := source.PrimaryReadOnlyKeyID.Copy()
+		secrets.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
+	} else {
+		secrets.PrimaryReadOnlyKeyID = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// SecondaryKeyID
+	if source.SecondaryKeyID != nil {
+		secondaryKeyID := source.SecondaryKeyID.Copy()
+		secrets.SecondaryKeyID = &secondaryKeyID
+	} else {
+		secrets.SecondaryKeyID = nil
+	}
+
+	// SecondaryReadOnlyConnectionString
+	if source.SecondaryReadOnlyConnectionString != nil {
+		secondaryReadOnlyConnectionString := source.SecondaryReadOnlyConnectionString.Copy()
+		secrets.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
+	} else {
+		secrets.SecondaryReadOnlyConnectionString = nil
+	}
+
+	// SecondaryReadOnlyKey
+	if source.SecondaryReadOnlyKey != nil {
+		secondaryReadOnlyKey := source.SecondaryReadOnlyKey.Copy()
+		secrets.SecondaryReadOnlyKey = &secondaryReadOnlyKey
+	} else {
+		secrets.SecondaryReadOnlyKey = nil
+	}
+
+	// SecondaryReadOnlyKeyID
+	if source.SecondaryReadOnlyKeyID != nil {
+		secondaryReadOnlyKeyID := source.SecondaryReadOnlyKeyID.Copy()
+		secrets.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
+	} else {
+		secrets.SecondaryReadOnlyKeyID = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ConfigurationStoreOperatorSecrets populates the provided destination ConfigurationStoreOperatorSecrets from our ConfigurationStoreOperatorSecrets
+func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_ConfigurationStoreOperatorSecrets(destination *v20220501s.ConfigurationStoreOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// PrimaryKeyID
+	if secrets.PrimaryKeyID != nil {
+		primaryKeyID := secrets.PrimaryKeyID.Copy()
+		destination.PrimaryKeyID = &primaryKeyID
+	} else {
+		destination.PrimaryKeyID = nil
+	}
+
+	// PrimaryReadOnlyConnectionString
+	if secrets.PrimaryReadOnlyConnectionString != nil {
+		primaryReadOnlyConnectionString := secrets.PrimaryReadOnlyConnectionString.Copy()
+		destination.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
+	} else {
+		destination.PrimaryReadOnlyConnectionString = nil
+	}
+
+	// PrimaryReadOnlyKey
+	if secrets.PrimaryReadOnlyKey != nil {
+		primaryReadOnlyKey := secrets.PrimaryReadOnlyKey.Copy()
+		destination.PrimaryReadOnlyKey = &primaryReadOnlyKey
+	} else {
+		destination.PrimaryReadOnlyKey = nil
+	}
+
+	// PrimaryReadOnlyKeyID
+	if secrets.PrimaryReadOnlyKeyID != nil {
+		primaryReadOnlyKeyID := secrets.PrimaryReadOnlyKeyID.Copy()
+		destination.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
+	} else {
+		destination.PrimaryReadOnlyKeyID = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// SecondaryKeyID
+	if secrets.SecondaryKeyID != nil {
+		secondaryKeyID := secrets.SecondaryKeyID.Copy()
+		destination.SecondaryKeyID = &secondaryKeyID
+	} else {
+		destination.SecondaryKeyID = nil
+	}
+
+	// SecondaryReadOnlyConnectionString
+	if secrets.SecondaryReadOnlyConnectionString != nil {
+		secondaryReadOnlyConnectionString := secrets.SecondaryReadOnlyConnectionString.Copy()
+		destination.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
+	} else {
+		destination.SecondaryReadOnlyConnectionString = nil
+	}
+
+	// SecondaryReadOnlyKey
+	if secrets.SecondaryReadOnlyKey != nil {
+		secondaryReadOnlyKey := secrets.SecondaryReadOnlyKey.Copy()
+		destination.SecondaryReadOnlyKey = &secondaryReadOnlyKey
+	} else {
+		destination.SecondaryReadOnlyKey = nil
+	}
+
+	// SecondaryReadOnlyKeyID
+	if secrets.SecondaryReadOnlyKeyID != nil {
+		secondaryReadOnlyKeyID := secrets.SecondaryReadOnlyKeyID.Copy()
+		destination.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
+	} else {
+		destination.SecondaryReadOnlyKeyID = nil
 	}
 
 	// Update the property bag

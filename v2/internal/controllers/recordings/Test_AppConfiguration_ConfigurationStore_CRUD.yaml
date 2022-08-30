@@ -16,43 +16,6 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"error":{"code":"ResourceGroupBeingDeleted","message":"The resource group
-      ''asotest-rg-essitz'' is in deprovisioning state and cannot perform this operation."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "159"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 409 Conflict
-    code: 409
-    duration: ""
-- request:
-    body: '{"name":"asotest-rg-essitz","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "93"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz?api-version=2020-06-01
-    method: PUT
-  response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz","name":"asotest-rg-essitz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
@@ -117,14 +80,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: PUT
   response:
-    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Creating","creationDate":"2022-08-26T03:28:36.79922+00:00","endpoint":null,"encryption":null,"privateEndpointConnections":null,"disableLocalAuth":null,"softDeleteRetentionInDays":null,"enablePurgeProtection":null},"sku":{"name":"standard"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Creating","creationDate":"2022-08-30T01:19:43.0416103+00:00","endpoint":null,"encryption":null,"privateEndpointConnections":null,"disableLocalAuth":null,"softDeleteRetentionInDays":null,"enablePurgeProtection":null},"sku":{"name":"standard"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/a48OlryYNj-G0ucIVc8gBI6bo8vX_EcLvf3vxiOovWs?api-version=2022-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/9S14CeQo97eb4duUTCOOmBrm1xARH6yT5LvueRB9koI?api-version=2022-05-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "589"
+      - "591"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -148,13 +111,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/a48OlryYNj-G0ucIVc8gBI6bo8vX_EcLvf3vxiOovWs?api-version=2022-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/9S14CeQo97eb4duUTCOOmBrm1xARH6yT5LvueRB9koI?api-version=2022-05-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/a48OlryYNj-G0ucIVc8gBI6bo8vX_EcLvf3vxiOovWs","name":"a48OlryYNj-G0ucIVc8gBI6bo8vX_EcLvf3vxiOovWs","status":"Succeeded","error":null}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/9S14CeQo97eb4duUTCOOmBrm1xARH6yT5LvueRB9koI","name":"9S14CeQo97eb4duUTCOOmBrm1xARH6yT5LvueRB9koI","status":"Succeeded","error":null}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/a48OlryYNj-G0ucIVc8gBI6bo8vX_EcLvf3vxiOovWs?api-version=2022-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppConfiguration/locations/westus2/operationsStatus/9S14CeQo97eb4duUTCOOmBrm1xARH6yT5LvueRB9koI?api-version=2022-05-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -183,14 +146,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: GET
   response:
-    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-26T03:28:37+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Disabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-26T03:28:37+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-26T03:28:38+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Disabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:19:44+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3801a92b-0000-0800-0000-63083de60000"
+      - W/"5100bab4-0000-0800-0000-630d65b00000"
       Expires:
       - "-1"
       Pragma:
@@ -217,14 +180,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: GET
   response:
-    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-26T03:28:37+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Disabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-26T03:28:37+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-26T03:28:38+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Disabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:19:44+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3801a92b-0000-0800-0000-63083de60000"
+      - W/"5100bab4-0000-0800-0000-630d65b00000"
       Expires:
       - "-1"
       Pragma:
@@ -255,14 +218,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: PUT
   response:
-    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-26T03:28:37+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-26T03:28:37+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-26T03:28:47+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:19:57+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3801b92c-0000-0800-0000-63083def0000"
+      - W/"5100beb4-0000-0800-0000-630d65bd0000"
       Expires:
       - "-1"
       Pragma:
@@ -289,14 +252,120 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: GET
   response:
-    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-26T03:28:37+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-26T03:28:37+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-26T03:28:47+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:19:57+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3801b92c-0000-0800-0000-63083def0000"
+      - W/"5100beb4-0000-0800-0000-630d65bd0000"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx/1.17.10
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-confstore-fsrajl","properties":{"createMode":"Default","publicNetworkAccess":"Enabled"},"sku":{"name":"standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "152"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
+    method: PUT
+  response:
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:20:02+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5100bfb4-0000-0800-0000-630d65c20000"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx/1.17.10
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
+    method: GET
+  response:
+    body: '{"type":"Microsoft.AppConfiguration/configurationStores","location":"westus2","properties":{"provisioningState":"Succeeded","creationDate":"2022-08-30T01:19:43+00:00","endpoint":"https://asotest-confstore-fsrajl.azconfig.io","encryption":{"keyVaultProperties":null},"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","disableLocalAuth":false,"softDeleteRetentionInDays":7,"enablePurgeProtection":false},"sku":{"name":"standard"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2022-08-30T01:19:43+00:00","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2022-08-30T01:20:02+00:00"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl","name":"asotest-confstore-fsrajl","tags":{}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5100bfb4-0000-0800-0000-630d65c20000"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx/1.17.10
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl/listKeys?api-version=2022-05-01
+    method: POST
+  response:
+    body: '{"value":[{"id":"qlDQ-l2-s0:p8NZhze9q/hrc+/dN6Ph","name":"Primary","value":"{KEY}","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=qlDQ-l2-s0:p8NZhze9q/hrc+/dN6Ph;Secret={KEY}","lastModified":"2022-08-30T01:19:43+00:00","readOnly":false},{"id":"vQyB-l2-s0:Ijelj3v8Q2GvT6gDFo2N","name":"Secondary","value":"{KEY}","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=vQyB-l2-s0:Ijelj3v8Q2GvT6gDFo2N;Secret={KEY}","lastModified":"2022-08-30T01:19:43+00:00","readOnly":false},{"id":"ENpZ-l2-s0:kmCk2VBPoY5kMrALXP0i","name":"Primary
+      Read Only","value":"{KEY}","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=ENpZ-l2-s0:kmCk2VBPoY5kMrALXP0i;Secret={KEY}","lastModified":"2022-08-30T01:19:43+00:00","readOnly":true},{"id":"nnoW-l2-s0:M106jCiimE5vwDUVzd6R","name":"Secondary
+      Read Only","value":"{KEY}","connectionString":"Endpoint=https://asotest-confstore-fsrajl.azconfig.io;Id=nnoW-l2-s0:M106jCiimE5vwDUVzd6R;Secret={KEY}","lastModified":"2022-08-30T01:19:43+00:00","readOnly":true}],"nextLink":null}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
@@ -349,7 +418,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "3"
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-essitz/providers/Microsoft.AppConfiguration/configurationStores/asotest-confstore-fsrajl?api-version=2022-05-01
     method: GET
   response:

@@ -186,14 +186,15 @@ type ConfigurationStores_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string                `json:"azureName,omitempty"`
-	CreateMode            *string               `json:"createMode,omitempty"`
-	DisableLocalAuth      *bool                 `json:"disableLocalAuth,omitempty"`
-	EnablePurgeProtection *bool                 `json:"enablePurgeProtection,omitempty"`
-	Encryption            *EncryptionProperties `json:"encryption,omitempty"`
-	Identity              *ResourceIdentity     `json:"identity,omitempty"`
-	Location              *string               `json:"location,omitempty"`
-	OriginalVersion       string                `json:"originalVersion,omitempty"`
+	AzureName             string                          `json:"azureName,omitempty"`
+	CreateMode            *string                         `json:"createMode,omitempty"`
+	DisableLocalAuth      *bool                           `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection *bool                           `json:"enablePurgeProtection,omitempty"`
+	Encryption            *EncryptionProperties           `json:"encryption,omitempty"`
+	Identity              *ResourceIdentity               `json:"identity,omitempty"`
+	Location              *string                         `json:"location,omitempty"`
+	OperatorSpec          *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion       string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -226,6 +227,13 @@ func (stores *ConfigurationStores_Spec) ConvertSpecTo(destination genruntime.Con
 	}
 
 	return destination.ConvertSpecFrom(stores)
+}
+
+// Storage version of v1beta20220501.ConfigurationStoreOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ConfigurationStoreOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Secrets     *ConfigurationStoreOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // Storage version of v1beta20220501.EncryptionProperties
@@ -297,6 +305,23 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20220501.ConfigurationStoreOperatorSecrets
+type ConfigurationStoreOperatorSecrets struct {
+	PrimaryConnectionString           *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                        *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PrimaryKeyID                      *genruntime.SecretDestination `json:"primaryKeyID,omitempty"`
+	PrimaryReadOnlyConnectionString   *genruntime.SecretDestination `json:"primaryReadOnlyConnectionString,omitempty"`
+	PrimaryReadOnlyKey                *genruntime.SecretDestination `json:"primaryReadOnlyKey,omitempty"`
+	PrimaryReadOnlyKeyID              *genruntime.SecretDestination `json:"primaryReadOnlyKeyID,omitempty"`
+	PropertyBag                       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString         *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey                      *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+	SecondaryKeyID                    *genruntime.SecretDestination `json:"secondaryKeyID,omitempty"`
+	SecondaryReadOnlyConnectionString *genruntime.SecretDestination `json:"secondaryReadOnlyConnectionString,omitempty"`
+	SecondaryReadOnlyKey              *genruntime.SecretDestination `json:"secondaryReadOnlyKey,omitempty"`
+	SecondaryReadOnlyKeyID            *genruntime.SecretDestination `json:"secondaryReadOnlyKeyID,omitempty"`
 }
 
 // Storage version of v1beta20220501.KeyVaultProperties
