@@ -68,7 +68,11 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 		var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
 		var resp armappconfiguration.ConfigurationStoresClientListKeysResponse
 		pager = confClient.NewListKeysPager(id.ResourceGroupName, obj.AzureName(), nil)
-		resp, err = pager.NextPage(ctx)
+		for pager.More() {
+			resp, err = pager.NextPage(ctx)
+			secretsByName(resp.Value, keys)
+
+		}
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to retreive response")
 		}
@@ -76,7 +80,6 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 			return nil, errors.Wrapf(err, "failed listing keys")
 		}
 
-		keys = secretsByName(resp.Value)
 	}
 
 	secretSlice, err := secretsToWrite(typedObj, keys)
@@ -94,35 +97,31 @@ func secretsSpecified(obj *storage.ConfigurationStore) bool {
 
 	secrets := obj.Spec.OperatorSpec.Secrets
 
-	if secrets.PrimaryConnectionString != nil ||
-		secrets.PrimaryKeyID != nil ||
-		secrets.PrimaryKey != nil ||
-		secrets.SecondaryConnectionString != nil ||
-		secrets.SecondaryKey != nil ||
+	if secrets.PrimaryKeyID != nil ||
 		secrets.SecondaryKeyID != nil ||
-		secrets.PrimaryReadOnlyConnectionString != nil ||
 		secrets.PrimaryReadOnlyKeyID != nil ||
+		secrets.SecondaryReadOnlyKeyID != nil ||
+		secrets.PrimaryKey != nil ||
+		secrets.SecondaryKey != nil ||
 		secrets.PrimaryReadOnlyKey != nil ||
-		secrets.SecondaryReadOnlyConnectionString != nil ||
 		secrets.SecondaryReadOnlyKey != nil ||
-		secrets.SecondaryReadOnlyKeyID != nil {
+		secrets.PrimaryConnectionString != nil ||
+		secrets.SecondaryConnectionString != nil ||
+		secrets.PrimaryReadOnlyConnectionString != nil ||
+		secrets.SecondaryReadOnlyConnectionString != nil {
 		return true
 	}
 
 	return false
 }
 
-func secretsByName(keys []*armappconfiguration.APIKey) map[string]armappconfiguration.APIKey {
-	result := make(map[string]armappconfiguration.APIKey)
-
+func secretsByName(keys []*armappconfiguration.APIKey, result map[string]armappconfiguration.APIKey) {
 	for _, key := range keys {
 		if key == nil || key.Name == nil {
 			continue
 		}
 		result[*key.Name] = *key
 	}
-
-	return result
 }
 
 func secretsToWrite(obj *storage.ConfigurationStore, keys map[string]armappconfiguration.APIKey) ([]*v1.Secret, error) {
