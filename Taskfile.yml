@@ -95,7 +95,7 @@ tasks:
     cmds:
       - npm install -g markdown-link-check # TODO: Add to devcontainer?
       # Excluding './content/reference/*' path as it contains all auto-generated API docs.
-      - find . -type f -name "*.md" -not -path "./content/reference/*" -print0 | xargs -0 -n1 markdown-link-check -c link-checker.json
+      - find . -type f -name "*.md" -not -path "./content/reference/*/*.md" -print0 | xargs -0 -n1 markdown-link-check -c link-checker.json
     env:
       NODE_PATH:
         sh: npm root -g
