@@ -143,13 +143,13 @@ tasks:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - golangci-lint run -v
+    - golangci-lint run --verbose
 
   generator:lint-full:
     desc: Run {{.GENERATOR_APP}} all lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - golangci-lint run -v --fast=false
+    - golangci-lint run --verbose --fast=false
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -202,14 +202,15 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v ./...
+    - golangci-lint run --verbose ./...
 
   controller:lint-full:
     desc: Run all lint checks.
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds: 
-    - golangci-lint run -v --fast=false --timeout 5m ./...
+    # Setting GOGC to increase how much debris is tolerated before running GC
+    - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
@@ -674,7 +675,7 @@ tasks:
   #   desc: Run {{.CROSSPLANE_APP}} fast lint checks.
   #   dir: "{{.CROSSPLANE_ROOT}}"
   #   cmds:
-  #     - golangci-lint run -v
+  #     - golangci-lint run --verbose
 
   crossplane:generate-crds:
     desc: Run controller-gen to generate {{.CROSSPLANE_APP}} CRD files.
