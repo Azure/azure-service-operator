@@ -22,9 +22,6 @@ samplesPath: config/samples
 # emitDocFiles bool is used as a signal to create doc.go files for packages
 emitDocFiles: true
 
-# apiDocsUrlTemplate is the template for generating URLs to the API docs for our resources
-apiDocsUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
-
 pipeline: azure
 
 supportedResourcesReport:
@@ -34,6 +31,12 @@ supportedResourcesReport:
     These are the resources with Azure Service Operator support committed to our **main** branch
     grouped by the originating ARM service.
     (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
+  # the placeholders {group} {version} and {kind} are supported.
+  resourceUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
+  # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
+  # specified relative to the directory of outputPath, and supports the same placeholders
+  resourcePathTemplate: "{group}/{version}.md"
 
 #
 # These filters are used early in the processing pipeline. 

@@ -53,7 +53,6 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	apiDocsUrlTemplate       string                                // Template for generating API URLs
 	groups                   set.Set[string]                       // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	frontMatter              string                                // Front matter to be inserted at the top of the report
@@ -69,7 +68,6 @@ func NewResourceVersionsReport(
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
 		rootUrl:                  cfg.RootURL,
-		apiDocsUrlTemplate:       cfg.ApiDocsUrlTemplate,
 		samplesPath:              cfg.SamplesPath,
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
@@ -246,19 +244,40 @@ func (report *ResourceVersionsReport) createTable(
 // generateApiLink returns a link to the API definition for the given resource
 func (report *ResourceVersionsReport) generateApiLink(rsrc astmodel.TypeDefinition) string {
 
-	crdKind := rsrc.Name().Name()
-	if report.apiDocsUrlTemplate == "" {
+	name := rsrc.Name()
+	crdKind := name.Name()
+	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
+	pathTemplate := report.reportConfiguration.ResourcePathTemplate
+	if linkTemplate == "" || pathTemplate == "" {
+		// One or both of LinkTemplate and PathTemplate are not set, so we can't generate a link
 		return crdKind
 	}
 
-	crdGroup, crdVersion := rsrc.Name().PackageReference.GroupVersion()
+	docFile := report.resourceDocFile(name)
+	if _, err := os.Stat(docFile); errors.Is(err, fs.ErrNotExist) {
+		// docFile does not exist, don't build a link
+		return crdKind
+	}
 
-	link := report.apiDocsUrlTemplate
-	link = strings.Replace(link, "{group}", crdGroup, -1)
-	link = strings.Replace(link, "{version}", crdVersion, -1)
-	link = strings.Replace(link, "{kind}", crdKind, -1)
-
+	link := report.expandPlaceholders(linkTemplate, name)
 	return fmt.Sprintf("[%s](%s)", crdKind, link)
+}
+
+func (report *ResourceVersionsReport) resourceDocFile(name astmodel.TypeName) string {
+	relativePath := report.expandPlaceholders(report.reportConfiguration.ResourcePathTemplate, name)
+	baseDir := filepath.Dir(report.reportConfiguration.FullOutputPath())
+	return filepath.Join(baseDir, relativePath)
+}
+
+func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc astmodel.TypeName) string {
+	crdKind := rsrc.Name()
+	crdGroup, crdVersion := rsrc.PackageReference.GroupVersion()
+
+	result := template
+	result = strings.Replace(result, "{group}", crdGroup, -1)
+	result = strings.Replace(result, "{version}", crdVersion, -1)
+	result = strings.Replace(result, "{kind}", crdKind, -1)
+	return result
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {
