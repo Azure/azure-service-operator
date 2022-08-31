@@ -54,6 +54,9 @@ type Configuration struct {
 	RootURL string `yaml:"rootUrl"`
 	// SamplesPath is the Path the samples are accessible at. This is used to walk through the samples directory and generate sample links.
 	SamplesPath string `yaml:"samplesPath"`
+	// ApiDocsUrlTemplate is a template for URL to the API docs for a resource
+	// It may use the placeholders {group} {version} and {kind}
+	ApiDocsUrlTemplate string `yaml:"apiDocsUrlTemplate"`
 	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.
 	EmitDocFiles bool `yaml:"emitDocFiles"`
 	// Destination file and additional information for our supported resources report
