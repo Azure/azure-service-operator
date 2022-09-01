@@ -27,7 +27,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 
 	mi := &managedidentity2018.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity2018.UserAssignedIdentities_Spec{
+		Spec: managedidentity2018.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -70,7 +70,7 @@ func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *m
 
 	fic := &managedidentity2022.FederatedIdentityCredential{
 		ObjectMeta: tc.MakeObjectMeta("fic"),
-		Spec: managedidentity2022.UserAssignedIdentities_FederatedIdentityCredentials_Spec{
+		Spec: managedidentity2022.UserAssignedIdentities_FederatedIdentityCredential_Spec{
 			Owner: testcommon.AsOwner(umi),
 			// For Workload Identity, Audiences should always be "api://AzureADTokenExchange"
 			Audiences: []string{
