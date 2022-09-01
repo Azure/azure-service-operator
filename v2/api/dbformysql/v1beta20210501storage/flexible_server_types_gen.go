@@ -262,12 +262,12 @@ type Backup_STATUS struct {
 
 // Storage version of v1beta20210501.DataEncryption
 type DataEncryption struct {
-	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
 
 	// GeoBackupUserAssignedIdentityReference: Geo backup user identity resource id as identity can't cross region, need
 	// identity in same region as geo backup
 	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
-	PrimaryKeyUri                          *string                       `json:"primaryKeyUri,omitempty"`
+	PrimaryKeyURI                          *string                       `json:"primaryKeyURI,omitempty"`
 
 	// PrimaryUserAssignedIdentityReference: Primary user identity resource id
 	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`

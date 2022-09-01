@@ -2606,14 +2606,15 @@ const (
 	ServerProperties_State_Updating_STATUS = ServerProperties_State_STATUS("Updating")
 )
 
-// Deprecated version of ServerVersion. Use v1beta20210601.ServerVersion instead
-// +kubebuilder:validation:Enum={"11","12","13"}
-type ServerVersion string
+// Deprecated version of ServerProperties_Version. Use v1beta20210601.ServerProperties_Version instead
+// +kubebuilder:validation:Enum={"11","12","13","14"}
+type ServerProperties_Version string
 
 const (
-	ServerVersion_11 = ServerVersion("11")
-	ServerVersion_12 = ServerVersion("12")
-	ServerVersion_13 = ServerVersion("13")
+	ServerProperties_Version_11 = ServerProperties_Version("11")
+	ServerProperties_Version_12 = ServerProperties_Version("12")
+	ServerProperties_Version_13 = ServerProperties_Version("13")
+	ServerProperties_Version_14 = ServerProperties_Version("14")
 )
 
 // Deprecated version of ServerVersion_STATUS. Use v1beta20210601.ServerVersion_STATUS instead

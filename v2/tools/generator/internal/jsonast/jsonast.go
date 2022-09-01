@@ -329,7 +329,7 @@ func formatToPattern(format string) *regexp.Regexp {
 	switch format {
 	case "uuid":
 		return uuidRegex
-	case "date-time", "date", "duration", "date-time-rfc1123":
+	case "date-time", "date", "duration", "date-time-rfc1123", "arm-id":
 		// TODO: don’t bother validating for now
 		return nil
 	case "password":

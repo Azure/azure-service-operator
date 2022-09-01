@@ -2383,7 +2383,7 @@ type ImageOSDisk struct {
 	ManagedDisk *SubResource `json:"managedDisk,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OsState: The OS State.
+	// OsState: The OS State. For managed images, use Generalized.
 	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required

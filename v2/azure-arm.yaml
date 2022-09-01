@@ -11,6 +11,7 @@ typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 
 # rootUrl is the root URL for ASOv2 repo
 rootUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/
+
 # samplesPath is the relative path to 'v2/azure-arm.yaml' file, used for walking through to samples when we generate a list of supported resources
 samplesPath: config/samples
 
@@ -26,6 +27,12 @@ supportedResourcesReport:
     These are the resources with Azure Service Operator support committed to our **main** branch
     grouped by the originating ARM service.
     (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
+  # the placeholders {group} {version} and {kind} are supported.
+  resourceUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
+  # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
+  # specified relative to the directory of outputPath, and supports the same placeholders
+  resourcePathTemplate: "{group}/{version}.md"
 
 #
 # These filters are used early in the processing pipeline. 
@@ -60,7 +67,10 @@ typeFilters:
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
-
+  - action: include
+    group: managedidentity
+    version: v*20220131preview
+    because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
@@ -451,6 +461,51 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
+  - group: containerservice
+    name: ManagedClusters_AgentPools_Spec
+    property: Tags
+    remove: true
+    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
+  - group: network
+    name: VirtualNetworks_Subnets_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: VirtualNetworks_Subnets_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
+  - group: network
+    name: RouteTables_Routes_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: RouteTables_Routes_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
+  - name: Aliases_Spec
+    group: subscription
+    property: Location
+    remove: true
+    because: This shouldn't be on subscription.
+  - name: Aliases_Spec
+    group: subscription
+    property: Tags
+    remove: true
+    because: Tags for subscription are in a different place
+  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+    group: managedidentity
+    property: Location
+    remove: true
+    because: Child resource shouldn't have location
+  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+    group: managedidentity
+    property: Tags
+    remove: true
+    because: Child resource shouldn't have tags
 
   # TODO(donotmerge)
   # - group: network
@@ -1154,6 +1209,12 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+    2022-01-31-preview:
+      # Not adding UserAssignedIdentity here because it's identical to the one in 2018
+      UserAssignedIdentities_FederatedIdentityCredential:
+        $export: true
+        $exportAs: FederatedIdentityCredential
+        $supportedFrom: v2.0.0-beta.3
   machinelearningservices:
     2021-07-01:
 # TODO(evildiscriminator): disabled for now
