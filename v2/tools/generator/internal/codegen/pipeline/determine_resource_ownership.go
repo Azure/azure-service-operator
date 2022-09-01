@@ -17,12 +17,14 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
+const DetermineResourceOwnershipStageId = "determineResourceOwnership"
+
 func DetermineResourceOwnership(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
 ) *Stage {
 	return NewLegacyStage(
-		"determineResourceOwnership",
+		DetermineResourceOwnershipStageId,
 		"Determine ARM resource relationships",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			return determineOwnership(definitions, configuration, idFactory)
@@ -123,6 +125,7 @@ func resolveResourcesTypeNames(
 	results := make([]astmodel.TypeName, 0, len(props))
 
 	// Each property type is a subresource type
+	//!!
 	for _, prop := range props {
 		optionalType, ok := prop.PropertyType().(*astmodel.OptionalType)
 		if !ok {
