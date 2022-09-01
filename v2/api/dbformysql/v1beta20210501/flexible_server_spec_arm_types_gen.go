@@ -109,12 +109,12 @@ type BackupARM struct {
 }
 
 type DataEncryptionARM struct {
-	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
-	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty"`
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri                 *string `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
-	// PrimaryKeyURI: Primary key uri
-	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty"`
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri                 *string `json:"primaryKeyUri,omitempty"`
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.

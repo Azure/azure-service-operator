@@ -142,7 +142,7 @@ type ImageOSDiskARM struct {
 	// ManagedDisk: The managedDisk.
 	ManagedDisk *SubResourceARM `json:"managedDisk,omitempty"`
 
-	// OsState: The OS State. For managed images, use Generalized.
+	// OsState: The OS State.
 	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a

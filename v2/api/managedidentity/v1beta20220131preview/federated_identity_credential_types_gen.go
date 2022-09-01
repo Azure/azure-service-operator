@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2022-01-31-preview/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities_federatedIdentityCredentials
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_FederatedIdentityCredentials_Spec `json:"spec,omitempty"`
-	Status            FederatedIdentityCredential_STATUS                       `json:"status,omitempty"`
+	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec   `json:"spec,omitempty"`
+	Status            UserAssignedIdentities_FederatedIdentityCredential_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FederatedIdentityCredential{}
@@ -123,7 +125,7 @@ func (credential *FederatedIdentityCredential) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FederatedIdentityCredential_STATUS{}
+	return &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (credential *FederatedIdentityCredential) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FederatedIdentityCredential_STATUS); ok {
+	if st, ok := status.(*UserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
 		credential.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FederatedIdentityCredential_STATUS
+	var st UserAssignedIdentities_FederatedIdentityCredential_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,18 +257,18 @@ func (credential *FederatedIdentityCredential) AssignProperties_From_FederatedId
 	credential.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec UserAssignedIdentities_FederatedIdentityCredentials_Spec
-	err := spec.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec(&source.Spec)
+	var spec UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err := spec.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec() to populate field Spec")
 	}
 	credential.Spec = spec
 
 	// Status
-	var status FederatedIdentityCredential_STATUS
-	err = status.AssignProperties_From_FederatedIdentityCredential_STATUS(&source.Status)
+	var status UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err = status.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FederatedIdentityCredential_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS() to populate field Status")
 	}
 	credential.Status = status
 
@@ -281,18 +283,18 @@ func (credential *FederatedIdentityCredential) AssignProperties_To_FederatedIden
 	destination.ObjectMeta = *credential.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec
-	err := credential.Spec.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec(&spec)
+	var spec v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err := credential.Spec.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20220131ps.FederatedIdentityCredential_STATUS
-	err = credential.Status.AssignProperties_To_FederatedIdentityCredential_STATUS(&status)
+	var status v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err = credential.Status.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FederatedIdentityCredential_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2022-01-31-preview/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities_federatedIdentityCredentials
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredentialList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,7 +326,252 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-31-preview")
 
-type FederatedIdentityCredential_STATUS struct {
+type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
+	// +kubebuilder:validation:Required
+	// Audiences: The list of audiences that can appear in the issued token.
+	Audiences []string `json:"audiences,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Issuer: The URL of the issuer to be trusted.
+	Issuer *string `json:"issuer,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a managedidentity.azure.com/UserAssignedIdentity resource
+	Owner *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
+
+	// +kubebuilder:validation:Required
+	// Subject: The identifier of the external identity.
+	Subject *string `json:"subject,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if credential == nil {
+		return nil, nil
+	}
+	result := &UserAssignedIdentities_FederatedIdentityCredential_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = credential.AzureName
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if credential.Audiences != nil ||
+		credential.Issuer != nil ||
+		credential.Subject != nil {
+		result.Properties = &FederatedIdentityCredentialPropertiesARM{}
+	}
+	for _, item := range credential.Audiences {
+		result.Properties.Audiences = append(result.Properties.Audiences, item)
+	}
+	if credential.Issuer != nil {
+		issuer := *credential.Issuer
+		result.Properties.Issuer = &issuer
+	}
+	if credential.Subject != nil {
+		subject := *credential.Subject
+		result.Properties.Subject = &subject
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentities_FederatedIdentityCredential_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘Audiences’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Audiences {
+			credential.Audiences = append(credential.Audiences, item)
+		}
+	}
+
+	// Set property ‘AzureName’:
+	credential.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Issuer’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Issuer != nil {
+			issuer := *typedInput.Properties.Issuer
+			credential.Issuer = &issuer
+		}
+	}
+
+	// Set property ‘Owner’:
+	credential.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Subject’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subject != nil {
+			subject := *typedInput.Properties.Subject
+			credential.Subject = &subject
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+
+// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	if ok {
+		// Populate our instance from source
+		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	if ok {
+		// Populate destination from our instance
+		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(source *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+
+	// Audiences
+	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// AzureName
+	credential.AzureName = source.AzureName
+
+	// Issuer
+	if source.Issuer != nil {
+		issuer := *source.Issuer
+		credential.Issuer = &issuer
+	} else {
+		credential.Issuer = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		credential.Owner = &owner
+	} else {
+		credential.Owner = nil
+	}
+
+	// Subject
+	credential.Subject = genruntime.ClonePointerToString(source.Subject)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_Spec from our UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(destination *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Audiences
+	destination.Audiences = genruntime.CloneSliceOfString(credential.Audiences)
+
+	// AzureName
+	destination.AzureName = credential.AzureName
+
+	// Issuer
+	if credential.Issuer != nil {
+		issuer := *credential.Issuer
+		destination.Issuer = &issuer
+	} else {
+		destination.Issuer = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = credential.OriginalVersion()
+
+	// Owner
+	if credential.Owner != nil {
+		owner := credential.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Subject
+	destination.Subject = genruntime.ClonePointerToString(credential.Subject)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) SetAzureName(azureName string) {
+	credential.AzureName = azureName
+}
+
+type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
 
@@ -346,25 +595,25 @@ type FederatedIdentityCredential_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FederatedIdentityCredential_STATUS{}
+var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 
-// ConvertStatusFrom populates our FederatedIdentityCredential_STATUS from the provided source
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220131ps.FederatedIdentityCredential_STATUS)
+// ConvertStatusFrom populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
 	if ok {
 		// Populate our instance from source
-		return credential.AssignProperties_From_FederatedIdentityCredential_STATUS(src)
+		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220131ps.FederatedIdentityCredential_STATUS{}
+	src = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = credential.AssignProperties_From_FederatedIdentityCredential_STATUS(src)
+	err = credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -372,17 +621,17 @@ func (credential *FederatedIdentityCredential_STATUS) ConvertStatusFrom(source g
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our FederatedIdentityCredential_STATUS
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220131ps.FederatedIdentityCredential_STATUS)
+// ConvertStatusTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return credential.AssignProperties_To_FederatedIdentityCredential_STATUS(dst)
+		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220131ps.FederatedIdentityCredential_STATUS{}
-	err := credential.AssignProperties_To_FederatedIdentityCredential_STATUS(dst)
+	dst = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -396,18 +645,18 @@ func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destinatio
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &FederatedIdentityCredential_STATUS{}
+var _ genruntime.FromARMConverter = &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (credential *FederatedIdentityCredential_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FederatedIdentityCredential_STATUSARM{}
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentities_FederatedIdentityCredential_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (credential *FederatedIdentityCredential_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FederatedIdentityCredential_STATUSARM)
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FederatedIdentityCredential_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Audiences’:
@@ -460,8 +709,8 @@ func (credential *FederatedIdentityCredential_STATUS) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignProperties_From_FederatedIdentityCredential_STATUS populates our FederatedIdentityCredential_STATUS from the provided source FederatedIdentityCredential_STATUS
-func (credential *FederatedIdentityCredential_STATUS) AssignProperties_From_FederatedIdentityCredential_STATUS(source *v20220131ps.FederatedIdentityCredential_STATUS) error {
+// AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
 
 	// Audiences
 	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
@@ -488,8 +737,8 @@ func (credential *FederatedIdentityCredential_STATUS) AssignProperties_From_Fede
 	return nil
 }
 
-// AssignProperties_To_FederatedIdentityCredential_STATUS populates the provided destination FederatedIdentityCredential_STATUS from our FederatedIdentityCredential_STATUS
-func (credential *FederatedIdentityCredential_STATUS) AssignProperties_To_FederatedIdentityCredential_STATUS(destination *v20220131ps.FederatedIdentityCredential_STATUS) error {
+// AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_STATUS from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(destination *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -523,248 +772,6 @@ func (credential *FederatedIdentityCredential_STATUS) AssignProperties_To_Federa
 
 	// No error
 	return nil
-}
-
-type UserAssignedIdentities_FederatedIdentityCredentials_Spec struct {
-	// +kubebuilder:validation:Required
-	// Audiences: The list of audiences that can appear in the issued token.
-	Audiences []string `json:"audiences,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a managedidentity.azure.com/UserAssignedIdentity resource
-	Owner *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
-
-	// +kubebuilder:validation:Required
-	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if credentials == nil {
-		return nil, nil
-	}
-	result := &UserAssignedIdentities_FederatedIdentityCredentials_SpecARM{}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if credentials.Audiences != nil ||
-		credentials.Issuer != nil ||
-		credentials.Subject != nil {
-		result.Properties = &FederatedIdentityCredentialPropertiesARM{}
-	}
-	for _, item := range credentials.Audiences {
-		result.Properties.Audiences = append(result.Properties.Audiences, item)
-	}
-	if credentials.Issuer != nil {
-		issuer := *credentials.Issuer
-		result.Properties.Issuer = &issuer
-	}
-	if credentials.Subject != nil {
-		subject := *credentials.Subject
-		result.Properties.Subject = &subject
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentities_FederatedIdentityCredentials_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredentials_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredentials_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘Audiences’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Audiences {
-			credentials.Audiences = append(credentials.Audiences, item)
-		}
-	}
-
-	// Set property ‘AzureName’:
-	credentials.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Issuer’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Issuer != nil {
-			issuer := *typedInput.Properties.Issuer
-			credentials.Issuer = &issuer
-		}
-	}
-
-	// Set property ‘Owner’:
-	credentials.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Subject’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Subject != nil {
-			subject := *typedInput.Properties.Subject
-			credentials.Subject = &subject
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
-
-// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredentials_Spec from the provided source
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec)
-	if ok {
-		// Populate our instance from source
-		return credentials.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = credentials.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredentials_Spec
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec)
-	if ok {
-		// Populate destination from our instance
-		return credentials.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
-	err := credentials.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec populates our UserAssignedIdentities_FederatedIdentityCredentials_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredentials_Spec
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredentials_Spec(source *v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec) error {
-
-	// Audiences
-	credentials.Audiences = genruntime.CloneSliceOfString(source.Audiences)
-
-	// AzureName
-	credentials.AzureName = source.AzureName
-
-	// Issuer
-	if source.Issuer != nil {
-		issuer := *source.Issuer
-		credentials.Issuer = &issuer
-	} else {
-		credentials.Issuer = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		credentials.Owner = &owner
-	} else {
-		credentials.Owner = nil
-	}
-
-	// Subject
-	credentials.Subject = genruntime.ClonePointerToString(source.Subject)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec populates the provided destination UserAssignedIdentities_FederatedIdentityCredentials_Spec from our UserAssignedIdentities_FederatedIdentityCredentials_Spec
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredentials_Spec(destination *v20220131ps.UserAssignedIdentities_FederatedIdentityCredentials_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Audiences
-	destination.Audiences = genruntime.CloneSliceOfString(credentials.Audiences)
-
-	// AzureName
-	destination.AzureName = credentials.AzureName
-
-	// Issuer
-	if credentials.Issuer != nil {
-		issuer := *credentials.Issuer
-		destination.Issuer = &issuer
-	} else {
-		destination.Issuer = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = credentials.OriginalVersion()
-
-	// Owner
-	if credentials.Owner != nil {
-		owner := credentials.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Subject
-	destination.Subject = genruntime.ClonePointerToString(credentials.Subject)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) SetAzureName(azureName string) {
-	credentials.AzureName = azureName
 }
 
 func init() {

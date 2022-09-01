@@ -427,9 +427,9 @@ func DataEncryptionARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataEncryptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataEncryptionARM(gens map[string]gopter.Gen) {
-	gens["GeoBackupKeyURI"] = gen.PtrOf(gen.AlphaString())
+	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryKeyURI"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault, DataEncryption_Type_SystemManaged))
 }

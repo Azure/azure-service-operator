@@ -976,7 +976,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
-	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})

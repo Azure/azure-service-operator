@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20220131preview.FederatedIdentityCredential
-// Generated from: https://schema.management.azure.com/schemas/2022-01-31-preview/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities_federatedIdentityCredentials
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_FederatedIdentityCredentials_Spec `json:"spec,omitempty"`
-	Status            FederatedIdentityCredential_STATUS                       `json:"status,omitempty"`
+	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec   `json:"spec,omitempty"`
+	Status            UserAssignedIdentities_FederatedIdentityCredential_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FederatedIdentityCredential{}
@@ -76,7 +78,7 @@ func (credential *FederatedIdentityCredential) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FederatedIdentityCredential_STATUS{}
+	return &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (credential *FederatedIdentityCredential) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FederatedIdentityCredential_STATUS); ok {
+	if st, ok := status.(*UserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
 		credential.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FederatedIdentityCredential_STATUS
+	var st UserAssignedIdentities_FederatedIdentityCredential_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20220131preview.FederatedIdentityCredential
-// Generated from: https://schema.management.azure.com/schemas/2022-01-31-preview/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities_federatedIdentityCredentials
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
 type FederatedIdentityCredentialList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -135,40 +139,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-31-preview")
 
-// Storage version of v1beta20220131preview.FederatedIdentityCredential_STATUS
-type FederatedIdentityCredential_STATUS struct {
-	Audiences   []string               `json:"audiences,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Issuer      *string                `json:"issuer,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *string                `json:"subject,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &FederatedIdentityCredential_STATUS{}
-
-// ConvertStatusFrom populates our FederatedIdentityCredential_STATUS from the provided source
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(credential)
-}
-
-// ConvertStatusTo populates the provided destination from our FederatedIdentityCredential_STATUS
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(credential)
-}
-
-// Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredentials_Spec
-type UserAssignedIdentities_FederatedIdentityCredentials_Spec struct {
+// Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec
+type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	Audiences []string `json:"audiences,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -186,24 +158,56 @@ type UserAssignedIdentities_FederatedIdentityCredentials_Spec struct {
 	Subject     *string                            `json:"subject,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
 
-// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredentials_Spec from the provided source
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == credentials {
+// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(credentials)
+	return source.ConvertSpecTo(credential)
 }
 
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredentials_Spec
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == credentials {
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(credentials)
+	return destination.ConvertSpecFrom(credential)
+}
+
+// Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
+	Audiences   []string               `json:"audiences,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Issuer      *string                `json:"issuer,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subject     *string                `json:"subject,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+
+// ConvertStatusFrom populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == credential {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(credential)
+}
+
+// ConvertStatusTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == credential {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(credential)
 }
 
 func init() {

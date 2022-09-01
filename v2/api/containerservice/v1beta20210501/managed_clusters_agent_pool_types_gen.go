@@ -2269,12 +2269,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		pools.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		pools.ProximityPlacementGroupID = nil
-	}
+	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -2514,12 +2509,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if pools.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *pools.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if pool.ScaleSetEvictionPolicy != nil {

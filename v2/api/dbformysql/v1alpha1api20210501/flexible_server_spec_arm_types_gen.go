@@ -70,9 +70,9 @@ type BackupARM struct {
 
 // Deprecated version of DataEncryption. Use v1beta20210501.DataEncryption instead
 type DataEncryptionARM struct {
-	GeoBackupKeyURI                 *string              `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyUri                 *string              `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string              `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyURI                   *string              `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyUri                   *string              `json:"primaryKeyUri,omitempty"`
 	PrimaryUserAssignedIdentityId   *string              `json:"primaryUserAssignedIdentityId,omitempty"`
 	Type                            *DataEncryption_Type `json:"type,omitempty"`
 }

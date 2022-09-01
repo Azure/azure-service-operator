@@ -285,11 +285,7 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_Version_11,
-		ServerProperties_Version_12,
-		ServerProperties_Version_13,
-		ServerProperties_Version_14))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_11, ServerVersion_12, ServerVersion_13))
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServer_Spec is a factory method for creating gopter generators

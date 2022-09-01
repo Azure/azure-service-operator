@@ -461,51 +461,6 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
-  - group: containerservice
-    name: ManagedClusters_AgentPools_Spec
-    property: Tags
-    remove: true
-    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
-  - group: network
-    name: VirtualNetworks_Subnets_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: VirtualNetworks_Subnets_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - group: network
-    name: RouteTables_Routes_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: RouteTables_Routes_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - name: Aliases_Spec
-    group: subscription
-    property: Location
-    remove: true
-    because: This shouldn't be on subscription.
-  - name: Aliases_Spec
-    group: subscription
-    property: Tags
-    remove: true
-    because: Tags for subscription are in a different place
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
-    group: managedidentity
-    property: Location
-    remove: true
-    because: Child resource shouldn't have location
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
-    group: managedidentity
-    property: Tags
-    remove: true
-    because: Child resource shouldn't have tags
 
   # TODO(donotmerge)
   # - group: network
