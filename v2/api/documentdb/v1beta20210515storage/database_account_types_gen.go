@@ -26,7 +26,7 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_Spec            `json:"spec,omitempty"`
+	Spec              DatabaseAccount_Spec             `json:"spec,omitempty"`
 	Status            DatabaseAccountGetResults_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,73 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-15")
 
+// Storage version of v1beta20210515.DatabaseAccount_Spec
+type DatabaseAccount_Spec struct {
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                          string                       `json:"azureName,omitempty"`
+	BackupPolicy                       *BackupPolicy                `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability                 `json:"capabilities,omitempty"`
+	ConnectorOffer                     *string                      `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy           `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy                 `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                      `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                      `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                        `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                        `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                        `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                      `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                      `json:"kind,omitempty"`
+	Location                           *string                      `json:"location,omitempty"`
+	Locations                          []Location                   `json:"locations,omitempty"`
+	NetworkAclBypass                   *string                      `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                     `json:"networkAclBypassResourceIds,omitempty"`
+	OperatorSpec                       *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                    string                       `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &DatabaseAccount_Spec{}
+
+// ConvertSpecFrom populates our DatabaseAccount_Spec from the provided source
+func (account *DatabaseAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our DatabaseAccount_Spec
+func (account *DatabaseAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 // Storage version of v1beta20210515.DatabaseAccountGetResults_STATUS
 type DatabaseAccountGetResults_STATUS struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS                 `json:"analyticalStorageConfiguration,omitempty"`
@@ -195,73 +262,6 @@ func (results *DatabaseAccountGetResults_STATUS) ConvertStatusTo(destination gen
 	}
 
 	return destination.ConvertStatusFrom(results)
-}
-
-// Storage version of v1beta20210515.DatabaseAccounts_Spec
-type DatabaseAccounts_Spec struct {
-	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                          string                       `json:"azureName,omitempty"`
-	BackupPolicy                       *BackupPolicy                `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability                 `json:"capabilities,omitempty"`
-	ConnectorOffer                     *string                      `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy           `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy                 `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *string                      `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                      `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                        `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	EnableAnalyticalStorage            *bool                        `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                        `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
-	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
-	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                      `json:"keyVaultKeyUri,omitempty"`
-	Kind                               *string                      `json:"kind,omitempty"`
-	Location                           *string                      `json:"location,omitempty"`
-	Locations                          []Location                   `json:"locations,omitempty"`
-	NetworkAclBypass                   *string                      `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                     `json:"networkAclBypassResourceIds,omitempty"`
-	OperatorSpec                       *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion                    string                       `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
-
-// ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
-func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(accounts)
-}
-
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
-func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(accounts)
 }
 
 // Storage version of v1beta20210515.AnalyticalStorageConfiguration

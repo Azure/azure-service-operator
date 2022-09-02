@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec `json:"spec,omitempty"`
-	Status            SqlTriggerGetResults_STATUS                            `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec `json:"spec,omitempty"`
+	Status            SqlTriggerGetResults_STATUS                           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -269,10 +269,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	trigger.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(&source.Spec)
+	var spec DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec() to populate field Spec")
 	}
 	trigger.Spec = spec
 
@@ -295,10 +295,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	destination.ObjectMeta = *trigger.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
-	err := trigger.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(&spec)
+	var spec alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
+	err := trigger.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -331,7 +331,7 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
-type DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec struct {
+type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
@@ -349,18 +349,18 @@ type DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec struct {
 	Tags     map[string]string   `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if triggers == nil {
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if trigger == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM{}
+	result := &DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM{}
 
 	// Set property ‘Location’:
-	if triggers.Location != nil {
-		location := *triggers.Location
+	if trigger.Location != nil {
+		location := *trigger.Location
 		result.Location = &location
 	}
 
@@ -368,19 +368,19 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertT
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if triggers.Options != nil || triggers.Resource != nil {
+	if trigger.Options != nil || trigger.Resource != nil {
 		result.Properties = &SqlTriggerCreateUpdatePropertiesARM{}
 	}
-	if triggers.Options != nil {
-		optionsARM, err := (*triggers.Options).ConvertToARM(resolved)
+	if trigger.Options != nil {
+		optionsARM, err := (*trigger.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	if triggers.Resource != nil {
-		resourceARM, err := (*triggers.Resource).ConvertToARM(resolved)
+	if trigger.Resource != nil {
+		resourceARM, err := (*trigger.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -389,9 +389,9 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertT
 	}
 
 	// Set property ‘Tags’:
-	if triggers.Tags != nil {
-		result.Tags = make(map[string]string, len(triggers.Tags))
-		for key, value := range triggers.Tags {
+	if trigger.Tags != nil {
+		result.Tags = make(map[string]string, len(trigger.Tags))
+		for key, value := range trigger.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -399,24 +399,24 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertT
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM{}
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM)
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	triggers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	trigger.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		triggers.Location = &location
+		trigger.Location = &location
 	}
 
 	// Set property ‘Options’:
@@ -429,12 +429,12 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) Populate
 				return err
 			}
 			options := options1
-			triggers.Options = &options
+			trigger.Options = &options
 		}
 	}
 
 	// Set property ‘Owner’:
-	triggers.Owner = &genruntime.KnownResourceReference{
+	trigger.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -448,15 +448,15 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) Populate
 				return err
 			}
 			resource := resource1
-			triggers.Resource = &resource
+			trigger.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		triggers.Tags = make(map[string]string, len(typedInput.Tags))
+		trigger.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			triggers.Tags[key] = value
+			trigger.Tags[key] = value
 		}
 	}
 
@@ -464,25 +464,25 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) Populate
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec from the provided source
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec)
 	if ok {
 		// Populate our instance from source
-		return triggers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(src)
+		return trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{}
+	src = &alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = triggers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(src)
+	err = trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -490,17 +490,17 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertS
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec)
 	if ok {
 		// Populate destination from our instance
-		return triggers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(dst)
+		return trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{}
-	err := triggers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(dst)
+	dst = &alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
+	err := trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -514,14 +514,14 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertS
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec populates our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(source *alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(source *alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error {
 
 	// AzureName
-	triggers.AzureName = source.AzureName
+	trigger.AzureName = source.AzureName
 
 	// Location
-	triggers.Location = genruntime.ClonePointerToString(source.Location)
+	trigger.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -530,17 +530,17 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignPr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
-		triggers.Options = &option
+		trigger.Options = &option
 	} else {
-		triggers.Options = nil
+		trigger.Options = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		triggers.Owner = &owner
+		trigger.Owner = &owner
 	} else {
-		triggers.Owner = nil
+		trigger.Owner = nil
 	}
 
 	// Resource
@@ -550,33 +550,33 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignPr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlTriggerResource() to populate field Resource")
 		}
-		triggers.Resource = &resource
+		trigger.Resource = &resource
 	} else {
-		triggers.Resource = nil
+		trigger.Resource = nil
 	}
 
 	// Tags
-	triggers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	trigger.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec from our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec(destination *alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(destination *alpha20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = triggers.AzureName
+	destination.AzureName = trigger.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(triggers.Location)
+	destination.Location = genruntime.ClonePointerToString(trigger.Location)
 
 	// Options
-	if triggers.Options != nil {
+	if trigger.Options != nil {
 		var option alpha20210515s.CreateUpdateOptions
-		err := triggers.Options.AssignProperties_To_CreateUpdateOptions(&option)
+		err := trigger.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
@@ -586,20 +586,20 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignPr
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = triggers.OriginalVersion()
+	destination.OriginalVersion = trigger.OriginalVersion()
 
 	// Owner
-	if triggers.Owner != nil {
-		owner := triggers.Owner.Copy()
+	if trigger.Owner != nil {
+		owner := trigger.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Resource
-	if triggers.Resource != nil {
+	if trigger.Resource != nil {
 		var resource alpha20210515s.SqlTriggerResource
-		err := triggers.Resource.AssignProperties_To_SqlTriggerResource(&resource)
+		err := trigger.Resource.AssignProperties_To_SqlTriggerResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlTriggerResource() to populate field Resource")
 		}
@@ -609,7 +609,7 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignPr
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(triggers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(trigger.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -623,13 +623,13 @@ func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) AssignPr
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) OriginalVersion() string {
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) SetAzureName(azureName string) {
-	triggers.AzureName = azureName
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) SetAzureName(azureName string) {
+	trigger.AzureName = azureName
 }
 
 // Deprecated version of SqlTriggerGetResults_STATUS. Use v1beta20210515.SqlTriggerGetResults_STATUS instead

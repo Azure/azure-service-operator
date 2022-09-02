@@ -26,7 +26,7 @@ import (
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTables_Spec  `json:"spec,omitempty"`
+	Spec              RouteTable_Spec   `json:"spec,omitempty"`
 	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
@@ -129,6 +129,44 @@ type RouteTableList struct {
 	Items           []RouteTable `json:"items"`
 }
 
+// Storage version of v1beta20201101.RouteTable_Spec
+type RouteTable_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                  string  `json:"azureName,omitempty"`
+	DisableBgpRoutePropagation *bool   `json:"disableBgpRoutePropagation,omitempty"`
+	Location                   *string `json:"location,omitempty"`
+	OriginalVersion            string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
+
+// ConvertSpecFrom populates our RouteTable_Spec from the provided source
+func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == table {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(table)
+}
+
+// ConvertSpecTo populates the provided destination from our RouteTable_Spec
+func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == table {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(table)
+}
+
 // Storage version of v1beta20201101.RouteTable_STATUS
 type RouteTable_STATUS struct {
 	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
@@ -162,44 +200,6 @@ func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	}
 
 	return destination.ConvertStatusFrom(table)
-}
-
-// Storage version of v1beta20201101.RouteTables_Spec
-type RouteTables_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                  string  `json:"azureName,omitempty"`
-	DisableBgpRoutePropagation *bool   `json:"disableBgpRoutePropagation,omitempty"`
-	Location                   *string `json:"location,omitempty"`
-	OriginalVersion            string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &RouteTables_Spec{}
-
-// ConvertSpecFrom populates our RouteTables_Spec from the provided source
-func (tables *RouteTables_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == tables {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(tables)
-}
-
-// ConvertSpecTo populates the provided destination from our RouteTables_Spec
-func (tables *RouteTables_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == tables {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(tables)
 }
 
 func init() {

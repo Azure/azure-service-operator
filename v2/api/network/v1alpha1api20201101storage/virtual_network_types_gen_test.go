@@ -160,8 +160,135 @@ func VirtualNetworkGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualNetworks_SpecGenerator()
+	gens["Spec"] = VirtualNetwork_SpecGenerator()
 	gens["Status"] = VirtualNetwork_STATUSGenerator()
+}
+
+func Test_VirtualNetwork_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetwork_Spec to VirtualNetwork_Spec via AssignProperties_To_VirtualNetwork_Spec & AssignProperties_From_VirtualNetwork_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetwork_Spec, VirtualNetwork_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetwork_Spec tests if a specific instance of VirtualNetwork_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetwork_Spec(subject VirtualNetwork_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201101s.VirtualNetwork_Spec
+	err := copied.AssignProperties_To_VirtualNetwork_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetwork_Spec
+	err = actual.AssignProperties_From_VirtualNetwork_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetwork_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetwork_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetwork_Spec, VirtualNetwork_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetwork_Spec runs a test to see if a specific instance of VirtualNetwork_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetwork_Spec(subject VirtualNetwork_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetwork_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetwork_Spec instances for property testing - lazily instantiated by
+// VirtualNetwork_SpecGenerator()
+var virtualNetwork_SpecGenerator gopter.Gen
+
+// VirtualNetwork_SpecGenerator returns a generator of VirtualNetwork_Spec instances for property testing.
+// We first initialize virtualNetwork_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetwork_SpecGenerator() gopter.Gen {
+	if virtualNetwork_SpecGenerator != nil {
+		return virtualNetwork_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetwork_Spec(generators)
+	virtualNetwork_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetwork_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(generators)
+	virtualNetwork_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_Spec{}), generators)
+
+	return virtualNetwork_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetwork_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
+	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetwork_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.Gen) {
+	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
+	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
+	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
+	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_VirtualNetwork_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -293,133 +420,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
-}
-
-func Test_VirtualNetworks_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualNetworks_Spec to VirtualNetworks_Spec via AssignProperties_To_VirtualNetworks_Spec & AssignProperties_From_VirtualNetworks_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualNetworks_Spec tests if a specific instance of VirtualNetworks_Spec can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetworks_Spec
-	err := copied.AssignProperties_To_VirtualNetworks_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworks_Spec
-	err = actual.AssignProperties_From_VirtualNetworks_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworks_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworks_Spec runs a test to see if a specific instance of VirtualNetworks_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworks_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
-// VirtualNetworks_SpecGenerator()
-var virtualNetworks_SpecGenerator gopter.Gen
-
-// VirtualNetworks_SpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
-// We first initialize virtualNetworks_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworks_SpecGenerator() gopter.Gen {
-	if virtualNetworks_SpecGenerator != nil {
-		return virtualNetworks_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	return virtualNetworks_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
-	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
-	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
-	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_AddressSpace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

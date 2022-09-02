@@ -26,7 +26,7 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroups_Spec                                           `json:"spec,omitempty"`
+	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -129,6 +129,43 @@ type NetworkSecurityGroupList struct {
 	Items           []NetworkSecurityGroup `json:"items"`
 }
 
+// Storage version of v1beta20201101.NetworkSecurityGroup_Spec
+type NetworkSecurityGroup_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
+
+// ConvertSpecFrom populates our NetworkSecurityGroup_Spec from the provided source
+func (group *NetworkSecurityGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(group)
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(group)
+}
+
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
@@ -166,43 +203,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	}
 
 	return destination.ConvertStatusFrom(embedded)
-}
-
-// Storage version of v1beta20201101.NetworkSecurityGroups_Spec
-type NetworkSecurityGroups_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_Spec{}
-
-// ConvertSpecFrom populates our NetworkSecurityGroups_Spec from the provided source
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == groups {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(groups)
-}
-
-// ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == groups {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(groups)
 }
 
 // Storage version of v1beta20201101.FlowLog_STATUS_SubResourceEmbedded

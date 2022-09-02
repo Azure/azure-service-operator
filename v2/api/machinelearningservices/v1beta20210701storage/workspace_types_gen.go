@@ -27,7 +27,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
+	Spec              Workspace_Spec   `json:"spec,omitempty"`
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -136,6 +136,77 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
 
+// Storage version of v1beta20210701.Workspace_Spec
+type Workspace_Spec struct {
+	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+
+	// ApplicationInsightsReference: ARM id of the application insights associated with this workspace. This cannot be changed
+	// once the workspace has been created
+	ApplicationInsightsReference *genruntime.ResourceReference `armReference:"ApplicationInsights" json:"applicationInsightsReference,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// ContainerRegistryReference: ARM id of the container registry associated with this workspace. This cannot be changed once
+	// the workspace has been created
+	ContainerRegistryReference *genruntime.ResourceReference `armReference:"ContainerRegistry" json:"containerRegistryReference,omitempty"`
+	Description                *string                       `json:"description,omitempty"`
+	DiscoveryUrl               *string                       `json:"discoveryUrl,omitempty"`
+	Encryption                 *EncryptionProperty           `json:"encryption,omitempty"`
+	FriendlyName               *string                       `json:"friendlyName,omitempty"`
+	HbiWorkspace               *bool                         `json:"hbiWorkspace,omitempty"`
+	Identity                   *Identity                     `json:"identity,omitempty"`
+	ImageBuildCompute          *string                       `json:"imageBuildCompute,omitempty"`
+
+	// KeyVaultReference: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has
+	// been created
+	KeyVaultReference *genruntime.ResourceReference `armReference:"KeyVault" json:"keyVaultReference,omitempty"`
+	Location          *string                       `json:"location,omitempty"`
+	OperatorSpec      *WorkspaceOperatorSpec        `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                        `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// PrimaryUserAssignedIdentityReference: The user assigned identity resource id that represents the workspace identity.
+	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference                          `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
+	PropertyBag                          genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess                  *string                                                `json:"publicNetworkAccess,omitempty"`
+	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings                       `json:"serviceManagedResourcesSettings,omitempty"`
+	SharedPrivateLinkResources           []Workspace_Spec_Properties_SharedPrivateLinkResources `json:"sharedPrivateLinkResources,omitempty"`
+	Sku                                  *Sku                                                   `json:"sku,omitempty"`
+
+	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
+	// workspace has been created
+	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccount" json:"storageAccountReference,omitempty"`
+	SystemData              *SystemData                   `json:"systemData,omitempty"`
+	Tags                    map[string]string             `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
+
+// ConvertSpecFrom populates our Workspace_Spec from the provided source
+func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(workspace)
+}
+
+// ConvertSpecTo populates the provided destination from our Workspace_Spec
+func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(workspace)
+}
+
 // Storage version of v1beta20210701.Workspace_STATUS
 type Workspace_STATUS struct {
 	AllowPublicAccessWhenBehindVnet *bool                                                  `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -192,77 +263,6 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	}
 
 	return destination.ConvertStatusFrom(workspace)
-}
-
-// Storage version of v1beta20210701.Workspaces_Spec
-type Workspaces_Spec struct {
-	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-
-	// ApplicationInsightsReference: ARM id of the application insights associated with this workspace. This cannot be changed
-	// once the workspace has been created
-	ApplicationInsightsReference *genruntime.ResourceReference `armReference:"ApplicationInsights" json:"applicationInsightsReference,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ContainerRegistryReference: ARM id of the container registry associated with this workspace. This cannot be changed once
-	// the workspace has been created
-	ContainerRegistryReference *genruntime.ResourceReference `armReference:"ContainerRegistry" json:"containerRegistryReference,omitempty"`
-	Description                *string                       `json:"description,omitempty"`
-	DiscoveryUrl               *string                       `json:"discoveryUrl,omitempty"`
-	Encryption                 *EncryptionProperty           `json:"encryption,omitempty"`
-	FriendlyName               *string                       `json:"friendlyName,omitempty"`
-	HbiWorkspace               *bool                         `json:"hbiWorkspace,omitempty"`
-	Identity                   *Identity                     `json:"identity,omitempty"`
-	ImageBuildCompute          *string                       `json:"imageBuildCompute,omitempty"`
-
-	// KeyVaultReference: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has
-	// been created
-	KeyVaultReference *genruntime.ResourceReference `armReference:"KeyVault" json:"keyVaultReference,omitempty"`
-	Location          *string                       `json:"location,omitempty"`
-	OperatorSpec      *WorkspaceOperatorSpec        `json:"operatorSpec,omitempty"`
-	OriginalVersion   string                        `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PrimaryUserAssignedIdentityReference: The user assigned identity resource id that represents the workspace identity.
-	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference                           `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
-	PropertyBag                          genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess                  *string                                                 `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings                        `json:"serviceManagedResourcesSettings,omitempty"`
-	SharedPrivateLinkResources           []Workspaces_Spec_Properties_SharedPrivateLinkResources `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                                  *Sku                                                    `json:"sku,omitempty"`
-
-	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccount" json:"storageAccountReference,omitempty"`
-	SystemData              *SystemData                   `json:"systemData,omitempty"`
-	Tags                    map[string]string             `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
-
-// ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == workspaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(workspaces)
-}
-
-// ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == workspaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(workspaces)
 }
 
 // Storage version of v1beta20210701.EncryptionProperty
@@ -377,15 +377,8 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210701.WorkspaceOperatorSpec
-// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type WorkspaceOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Secrets     *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
-}
-
-// Storage version of v1beta20210701.Workspaces_Spec_Properties_SharedPrivateLinkResources
-type Workspaces_Spec_Properties_SharedPrivateLinkResources struct {
+// Storage version of v1beta20210701.Workspace_Spec_Properties_SharedPrivateLinkResources
+type Workspace_Spec_Properties_SharedPrivateLinkResources struct {
 	GroupId *string `json:"groupId,omitempty"`
 	Name    *string `json:"name,omitempty"`
 
@@ -394,6 +387,13 @@ type Workspaces_Spec_Properties_SharedPrivateLinkResources struct {
 	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	RequestMessage               *string                       `json:"requestMessage,omitempty"`
 	Status                       *string                       `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20210701.WorkspaceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspaceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Secrets     *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // Storage version of v1beta20210701.CosmosDbSettings

@@ -21,6 +21,7 @@
 | ContainerServiceNetworkProfile_STATUS_NetworkPlugin                                          | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceNetworkProfile_STATUS_NetworkPolicy                                          | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceNetworkProfile_STATUS_OutboundType                                           | v1alpha1api20210501 | v1beta20210501 |
+| ContainerServiceOSDisk_STATUS                                                                | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshConfiguration                                                             | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshConfiguration_STATUS                                                      | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshPublicKey                                                                 | v1alpha1api20210501 | v1beta20210501 |
@@ -112,9 +113,9 @@
 | ManagedClusterWindowsProfile_STATUS                                                          | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterWindowsProfile_STATUS_LicenseType                                              | v1alpha1api20210501 | v1beta20210501 |
 | ManagedCluster_STATUS                                                                        | v1alpha1api20210501 | v1beta20210501 |
+| ManagedCluster_Spec                                                                          | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClustersAgentPool                                                                     | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusters_AgentPools_Spec                                                              | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusters_Spec                                                                         | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusters_AgentPool_Spec                                                               | v1alpha1api20210501 | v1beta20210501 |
 | OSDiskType_STATUS                                                                            | v1alpha1api20210501 | v1beta20210501 |
 | OSSKU_STATUS                                                                                 | v1alpha1api20210501 | v1beta20210501 |
 | OSType_STATUS                                                                                | v1alpha1api20210501 | v1beta20210501 |

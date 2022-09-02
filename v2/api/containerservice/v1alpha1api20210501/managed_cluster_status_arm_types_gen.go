@@ -129,7 +129,7 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	NodePublicIPPrefixID      *string                             `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                            `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                             `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *int                                `json:"osDiskSizeGB,omitempty"`
+	OsDiskSizeGB              *ContainerServiceOSDisk_STATUS      `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS                  `json:"osDiskType,omitempty"`
 	OsSKU                     *OSSKU_STATUS                       `json:"osSKU,omitempty"`
 	OsType                    *OSType_STATUS                      `json:"osType,omitempty"`

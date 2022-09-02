@@ -45,9 +45,9 @@
 | DomainTopicProperties_STATUS_ProvisioningState              | v1alpha1api20200601 | v1beta20200601 |
 | DomainTopic_STATUS                                          | v1alpha1api20200601 | v1beta20200601 |
 | Domain_STATUS                                               | v1alpha1api20200601 | v1beta20200601 |
+| Domain_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
 | DomainsTopic                                                | v1alpha1api20200601 | v1beta20200601 |
-| Domains_Spec                                                | v1alpha1api20200601 | v1beta20200601 |
-| Domains_Topics_Spec                                         | v1alpha1api20200601 | v1beta20200601 |
+| Domains_Topic_Spec                                          | v1alpha1api20200601 | v1beta20200601 |
 | EventHubEventSubscriptionDestination                        | v1alpha1api20200601 | v1beta20200601 |
 | EventHubEventSubscriptionDestinationProperties              | v1alpha1api20200601 | v1beta20200601 |
 | EventHubEventSubscriptionDestination_EndpointType           | v1alpha1api20200601 | v1beta20200601 |
@@ -63,7 +63,7 @@
 | EventSubscriptionProperties_STATUS_EventDeliverySchema      | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionProperties_STATUS_ProvisioningState        | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription_STATUS                                    | v1alpha1api20200601 | v1beta20200601 |
-| EventSubscriptions_Spec                                     | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscription_Spec                                      | v1alpha1api20200601 | v1beta20200601 |
 | HybridConnectionEventSubscriptionDestination                | v1alpha1api20200601 | v1beta20200601 |
 | HybridConnectionEventSubscriptionDestinationProperties      | v1alpha1api20200601 | v1beta20200601 |
 | HybridConnectionEventSubscriptionDestination_EndpointType   | v1alpha1api20200601 | v1beta20200601 |
@@ -103,7 +103,7 @@
 | TopicProperties_STATUS_ProvisioningState                    | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_STATUS_PublicNetworkAccess                  | v1alpha1api20200601 | v1beta20200601 |
 | Topic_STATUS                                                | v1alpha1api20200601 | v1beta20200601 |
-| Topics_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
+| Topic_Spec                                                  | v1alpha1api20200601 | v1beta20200601 |
 | WebHookEventSubscriptionDestination                         | v1alpha1api20200601 | v1beta20200601 |
 | WebHookEventSubscriptionDestinationProperties               | v1alpha1api20200601 | v1beta20200601 |
 | WebHookEventSubscriptionDestination_EndpointType            | v1alpha1api20200601 | v1beta20200601 |

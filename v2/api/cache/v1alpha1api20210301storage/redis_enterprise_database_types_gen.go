@@ -25,8 +25,8 @@ import (
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisEnterprise_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS                `json:"status,omitempty"`
+	Spec              RedisEnterprise_Database_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -136,10 +136,10 @@ func (database *RedisEnterpriseDatabase) AssignProperties_From_RedisEnterpriseDa
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec RedisEnterprise_Databases_Spec
-	err := spec.AssignProperties_From_RedisEnterprise_Databases_Spec(&source.Spec)
+	var spec RedisEnterprise_Database_Spec
+	err := spec.AssignProperties_From_RedisEnterprise_Database_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Databases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Database_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -162,10 +162,10 @@ func (database *RedisEnterpriseDatabase) AssignProperties_To_RedisEnterpriseData
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210301s.RedisEnterprise_Databases_Spec
-	err := database.Spec.AssignProperties_To_RedisEnterprise_Databases_Spec(&spec)
+	var spec v20210301s.RedisEnterprise_Database_Spec
+	err := database.Spec.AssignProperties_To_RedisEnterprise_Database_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Databases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Database_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -419,8 +419,8 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20210301.RedisEnterprise_Databases_Spec
-type RedisEnterprise_Databases_Spec struct {
+// Storage version of v1alpha1api20210301.RedisEnterprise_Database_Spec
+type RedisEnterprise_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string   `json:"azureName,omitempty"`
@@ -442,25 +442,25 @@ type RedisEnterprise_Databases_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RedisEnterprise_Databases_Spec{}
+var _ genruntime.ConvertibleSpec = &RedisEnterprise_Database_Spec{}
 
-// ConvertSpecFrom populates our RedisEnterprise_Databases_Spec from the provided source
-func (databases *RedisEnterprise_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210301s.RedisEnterprise_Databases_Spec)
+// ConvertSpecFrom populates our RedisEnterprise_Database_Spec from the provided source
+func (database *RedisEnterprise_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210301s.RedisEnterprise_Database_Spec)
 	if ok {
 		// Populate our instance from source
-		return databases.AssignProperties_From_RedisEnterprise_Databases_Spec(src)
+		return database.AssignProperties_From_RedisEnterprise_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210301s.RedisEnterprise_Databases_Spec{}
+	src = &v20210301s.RedisEnterprise_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = databases.AssignProperties_From_RedisEnterprise_Databases_Spec(src)
+	err = database.AssignProperties_From_RedisEnterprise_Database_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -468,17 +468,17 @@ func (databases *RedisEnterprise_Databases_Spec) ConvertSpecFrom(source genrunti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210301s.RedisEnterprise_Databases_Spec)
+// ConvertSpecTo populates the provided destination from our RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210301s.RedisEnterprise_Database_Spec)
 	if ok {
 		// Populate destination from our instance
-		return databases.AssignProperties_To_RedisEnterprise_Databases_Spec(dst)
+		return database.AssignProperties_To_RedisEnterprise_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210301s.RedisEnterprise_Databases_Spec{}
-	err := databases.AssignProperties_To_RedisEnterprise_Databases_Spec(dst)
+	dst = &v20210301s.RedisEnterprise_Database_Spec{}
+	err := database.AssignProperties_To_RedisEnterprise_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -492,25 +492,25 @@ func (databases *RedisEnterprise_Databases_Spec) ConvertSpecTo(destination genru
 	return nil
 }
 
-// AssignProperties_From_RedisEnterprise_Databases_Spec populates our RedisEnterprise_Databases_Spec from the provided source RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) AssignProperties_From_RedisEnterprise_Databases_Spec(source *v20210301s.RedisEnterprise_Databases_Spec) error {
+// AssignProperties_From_RedisEnterprise_Database_Spec populates our RedisEnterprise_Database_Spec from the provided source RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) AssignProperties_From_RedisEnterprise_Database_Spec(source *v20210301s.RedisEnterprise_Database_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	databases.AzureName = source.AzureName
+	database.AzureName = source.AzureName
 
 	// ClientProtocol
-	databases.ClientProtocol = genruntime.ClonePointerToString(source.ClientProtocol)
+	database.ClientProtocol = genruntime.ClonePointerToString(source.ClientProtocol)
 
 	// ClusteringPolicy
-	databases.ClusteringPolicy = genruntime.ClonePointerToString(source.ClusteringPolicy)
+	database.ClusteringPolicy = genruntime.ClonePointerToString(source.ClusteringPolicy)
 
 	// EvictionPolicy
-	databases.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
+	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
 	// Location
-	databases.Location = genruntime.ClonePointerToString(source.Location)
+	database.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Modules
 	if source.Modules != nil {
@@ -525,20 +525,20 @@ func (databases *RedisEnterprise_Databases_Spec) AssignProperties_From_RedisEnte
 			}
 			moduleList[moduleIndex] = module
 		}
-		databases.Modules = moduleList
+		database.Modules = moduleList
 	} else {
-		databases.Modules = nil
+		database.Modules = nil
 	}
 
 	// OriginalVersion
-	databases.OriginalVersion = source.OriginalVersion
+	database.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		databases.Owner = &owner
+		database.Owner = &owner
 	} else {
-		databases.Owner = nil
+		database.Owner = nil
 	}
 
 	// Persistence
@@ -548,52 +548,52 @@ func (databases *RedisEnterprise_Databases_Spec) AssignProperties_From_RedisEnte
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Persistence() to populate field Persistence")
 		}
-		databases.Persistence = &persistence
+		database.Persistence = &persistence
 	} else {
-		databases.Persistence = nil
+		database.Persistence = nil
 	}
 
 	// Port
-	databases.Port = genruntime.ClonePointerToInt(source.Port)
+	database.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Tags
-	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		databases.PropertyBag = propertyBag
+		database.PropertyBag = propertyBag
 	} else {
-		databases.PropertyBag = nil
+		database.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_RedisEnterprise_Databases_Spec populates the provided destination RedisEnterprise_Databases_Spec from our RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) AssignProperties_To_RedisEnterprise_Databases_Spec(destination *v20210301s.RedisEnterprise_Databases_Spec) error {
+// AssignProperties_To_RedisEnterprise_Database_Spec populates the provided destination RedisEnterprise_Database_Spec from our RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterprise_Database_Spec(destination *v20210301s.RedisEnterprise_Database_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(databases.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
 	// AzureName
-	destination.AzureName = databases.AzureName
+	destination.AzureName = database.AzureName
 
 	// ClientProtocol
-	destination.ClientProtocol = genruntime.ClonePointerToString(databases.ClientProtocol)
+	destination.ClientProtocol = genruntime.ClonePointerToString(database.ClientProtocol)
 
 	// ClusteringPolicy
-	destination.ClusteringPolicy = genruntime.ClonePointerToString(databases.ClusteringPolicy)
+	destination.ClusteringPolicy = genruntime.ClonePointerToString(database.ClusteringPolicy)
 
 	// EvictionPolicy
-	destination.EvictionPolicy = genruntime.ClonePointerToString(databases.EvictionPolicy)
+	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(databases.Location)
+	destination.Location = genruntime.ClonePointerToString(database.Location)
 
 	// Modules
-	if databases.Modules != nil {
-		moduleList := make([]v20210301s.Module, len(databases.Modules))
-		for moduleIndex, moduleItem := range databases.Modules {
+	if database.Modules != nil {
+		moduleList := make([]v20210301s.Module, len(database.Modules))
+		for moduleIndex, moduleItem := range database.Modules {
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
 			var module v20210301s.Module
@@ -609,20 +609,20 @@ func (databases *RedisEnterprise_Databases_Spec) AssignProperties_To_RedisEnterp
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = databases.OriginalVersion
+	destination.OriginalVersion = database.OriginalVersion
 
 	// Owner
-	if databases.Owner != nil {
-		owner := databases.Owner.Copy()
+	if database.Owner != nil {
+		owner := database.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Persistence
-	if databases.Persistence != nil {
+	if database.Persistence != nil {
 		var persistence v20210301s.Persistence
-		err := databases.Persistence.AssignProperties_To_Persistence(&persistence)
+		err := database.Persistence.AssignProperties_To_Persistence(&persistence)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Persistence() to populate field Persistence")
 		}
@@ -632,10 +632,10 @@ func (databases *RedisEnterprise_Databases_Spec) AssignProperties_To_RedisEnterp
 	}
 
 	// Port
-	destination.Port = genruntime.ClonePointerToInt(databases.Port)
+	destination.Port = genruntime.ClonePointerToInt(database.Port)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

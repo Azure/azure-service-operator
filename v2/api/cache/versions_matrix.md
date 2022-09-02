@@ -31,7 +31,7 @@
 | RedisCreateProperties_PublicNetworkAccess            | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisEnterprise                                      |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterpriseDatabase                              |                     | v1alpha1api20210301 |                | v1beta20210301 |
-| RedisEnterprise_Databases_Spec                       |                     | v1alpha1api20210301 |                | v1beta20210301 |
+| RedisEnterprise_Database_Spec                        |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterprise_Spec                                 |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisFirewallRule                                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisFirewallRuleProperties                          | v1alpha1api20201201 |                     | v1beta20201201 |                |
@@ -52,9 +52,9 @@
 | RedisProperties_STATUS_ProvisioningState             | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisProperties_STATUS_PublicNetworkAccess           | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisResource_STATUS                                 | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| Redis_FirewallRules_Spec                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| Redis_LinkedServers_Spec                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| Redis_PatchSchedules_Spec                            | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| Redis_FirewallRule_Spec                              | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| Redis_LinkedServer_Spec                              | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| Redis_PatchSchedule_Spec                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_Spec                                           | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | ResourceState_STATUS                                 |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ScheduleEntries                                      | v1alpha1api20201201 |                     | v1beta20201201 |                |

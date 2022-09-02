@@ -28,7 +28,7 @@ import (
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Spec  `json:"spec,omitempty"`
+	Spec              Server_Spec   `json:"spec,omitempty"`
 	Status            Server_STATUS `json:"status,omitempty"`
 }
 
@@ -273,10 +273,10 @@ func (server *Server) AssignProperties_From_Server(source *v20180601s.Server) er
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Spec
-	err := spec.AssignProperties_From_Servers_Spec(&source.Spec)
+	var spec Server_Spec
+	err := spec.AssignProperties_From_Server_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Server_Spec() to populate field Spec")
 	}
 	server.Spec = spec
 
@@ -299,10 +299,10 @@ func (server *Server) AssignProperties_To_Server(destination *v20180601s.Server)
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180601s.Servers_Spec
-	err := server.Spec.AssignProperties_To_Servers_Spec(&spec)
+	var spec v20180601s.Server_Spec
+	err := server.Spec.AssignProperties_To_Server_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Server_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -334,6 +334,335 @@ type ServerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Server `json:"items"`
 }
+
+type Server_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: The location the resource resides in.
+	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServerOperatorSpec `json:"operatorSpec,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	// Properties: The properties used to create a new server.
+	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
+
+	// Sku: Billing information related properties of a server.
+	Sku *Sku `json:"sku,omitempty"`
+
+	// Tags: Application-specific metadata in the form of key-value pairs.
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Server_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if server == nil {
+		return nil, nil
+	}
+	result := &Server_SpecARM{}
+
+	// Set property ‘Location’:
+	if server.Location != nil {
+		location := *server.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if server.Properties != nil {
+		propertiesARM, err := (*server.Properties).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		properties := *propertiesARM.(*ServerPropertiesForCreateARM)
+		result.Properties = &properties
+	}
+
+	// Set property ‘Sku’:
+	if server.Sku != nil {
+		skuARM, err := (*server.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*SkuARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if server.Tags != nil {
+		result.Tags = make(map[string]string, len(server.Tags))
+		for key, value := range server.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (server *Server_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Server_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Server_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		server.Location = &location
+	}
+
+	// no assignment for property ‘OperatorSpec’
+
+	// Set property ‘Owner’:
+	server.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Properties’:
+	if typedInput.Properties != nil {
+		var properties1 ServerPropertiesForCreate
+		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
+		if err != nil {
+			return err
+		}
+		properties := properties1
+		server.Properties = &properties
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		server.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		server.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			server.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Server_Spec{}
+
+// ConvertSpecFrom populates our Server_Spec from the provided source
+func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20180601s.Server_Spec)
+	if ok {
+		// Populate our instance from source
+		return server.AssignProperties_From_Server_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20180601s.Server_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = server.AssignProperties_From_Server_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Server_Spec
+func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20180601s.Server_Spec)
+	if ok {
+		// Populate destination from our instance
+		return server.AssignProperties_To_Server_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20180601s.Server_Spec{}
+	err := server.AssignProperties_To_Server_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Server_Spec populates our Server_Spec from the provided source Server_Spec
+func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v20180601s.Server_Spec) error {
+
+	// AzureName
+	server.AzureName = source.AzureName
+
+	// Location
+	server.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServerOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerOperatorSpec() to populate field OperatorSpec")
+		}
+		server.OperatorSpec = &operatorSpec
+	} else {
+		server.OperatorSpec = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		server.Owner = &owner
+	} else {
+		server.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property ServerPropertiesForCreate
+		err := property.AssignProperties_From_ServerPropertiesForCreate(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForCreate() to populate field Properties")
+		}
+		server.Properties = &property
+	} else {
+		server.Properties = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		server.Sku = &sku
+	} else {
+		server.Sku = nil
+	}
+
+	// Tags
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Server_Spec populates the provided destination Server_Spec from our Server_Spec
+func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v20180601s.Server_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = server.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(server.Location)
+
+	// OperatorSpec
+	if server.OperatorSpec != nil {
+		var operatorSpec v20180601s.ServerOperatorSpec
+		err := server.OperatorSpec.AssignProperties_To_ServerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = server.OriginalVersion()
+
+	// Owner
+	if server.Owner != nil {
+		owner := server.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if server.Properties != nil {
+		var property v20180601s.ServerPropertiesForCreate
+		err := server.Properties.AssignProperties_To_ServerPropertiesForCreate(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForCreate() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Sku
+	if server.Sku != nil {
+		var sku v20180601s.Sku
+		err := server.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (server *Server_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (server *Server_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
 type Server_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -897,335 +1226,6 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v201
 	// No error
 	return nil
 }
-
-type Servers_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The location the resource resides in.
-	Location *string `json:"location,omitempty"`
-
-	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	// passed directly to Azure
-	OperatorSpec *ServerOperatorSpec `json:"operatorSpec,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// +kubebuilder:validation:Required
-	// Properties: The properties used to create a new server.
-	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
-
-	// Sku: Billing information related properties of a server.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Tags: Application-specific metadata in the form of key-value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Servers_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (servers *Servers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if servers == nil {
-		return nil, nil
-	}
-	result := &Servers_SpecARM{}
-
-	// Set property ‘Location’:
-	if servers.Location != nil {
-		location := *servers.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if servers.Properties != nil {
-		propertiesARM, err := (*servers.Properties).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		properties := *propertiesARM.(*ServerPropertiesForCreateARM)
-		result.Properties = &properties
-	}
-
-	// Set property ‘Sku’:
-	if servers.Sku != nil {
-		skuARM, err := (*servers.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*SkuARM)
-		result.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if servers.Tags != nil {
-		result.Tags = make(map[string]string, len(servers.Tags))
-		for key, value := range servers.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (servers *Servers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (servers *Servers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	servers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		servers.Location = &location
-	}
-
-	// no assignment for property ‘OperatorSpec’
-
-	// Set property ‘Owner’:
-	servers.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Properties’:
-	if typedInput.Properties != nil {
-		var properties1 ServerPropertiesForCreate
-		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
-		}
-		properties := properties1
-		servers.Properties = &properties
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		servers.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		servers.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			servers.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Servers_Spec{}
-
-// ConvertSpecFrom populates our Servers_Spec from the provided source
-func (servers *Servers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180601s.Servers_Spec)
-	if ok {
-		// Populate our instance from source
-		return servers.AssignProperties_From_Servers_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180601s.Servers_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = servers.AssignProperties_From_Servers_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Servers_Spec
-func (servers *Servers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180601s.Servers_Spec)
-	if ok {
-		// Populate destination from our instance
-		return servers.AssignProperties_To_Servers_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180601s.Servers_Spec{}
-	err := servers.AssignProperties_To_Servers_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Servers_Spec populates our Servers_Spec from the provided source Servers_Spec
-func (servers *Servers_Spec) AssignProperties_From_Servers_Spec(source *v20180601s.Servers_Spec) error {
-
-	// AzureName
-	servers.AzureName = source.AzureName
-
-	// Location
-	servers.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec ServerOperatorSpec
-		err := operatorSpec.AssignProperties_From_ServerOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerOperatorSpec() to populate field OperatorSpec")
-		}
-		servers.OperatorSpec = &operatorSpec
-	} else {
-		servers.OperatorSpec = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		servers.Owner = &owner
-	} else {
-		servers.Owner = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property ServerPropertiesForCreate
-		err := property.AssignProperties_From_ServerPropertiesForCreate(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForCreate() to populate field Properties")
-		}
-		servers.Properties = &property
-	} else {
-		servers.Properties = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignProperties_From_Sku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
-		}
-		servers.Sku = &sku
-	} else {
-		servers.Sku = nil
-	}
-
-	// Tags
-	servers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Servers_Spec populates the provided destination Servers_Spec from our Servers_Spec
-func (servers *Servers_Spec) AssignProperties_To_Servers_Spec(destination *v20180601s.Servers_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = servers.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(servers.Location)
-
-	// OperatorSpec
-	if servers.OperatorSpec != nil {
-		var operatorSpec v20180601s.ServerOperatorSpec
-		err := servers.OperatorSpec.AssignProperties_To_ServerOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = servers.OriginalVersion()
-
-	// Owner
-	if servers.Owner != nil {
-		owner := servers.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Properties
-	if servers.Properties != nil {
-		var property v20180601s.ServerPropertiesForCreate
-		err := servers.Properties.AssignProperties_To_ServerPropertiesForCreate(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForCreate() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Sku
-	if servers.Sku != nil {
-		var sku v20180601s.Sku
-		err := servers.Sku.AssignProperties_To_Sku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(servers.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (servers *Servers_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (servers *Servers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
 type MinimalTlsVersion_STATUS string
 

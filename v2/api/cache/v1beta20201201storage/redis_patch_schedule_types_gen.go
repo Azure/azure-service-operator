@@ -26,7 +26,7 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_PatchSchedules_Spec `json:"spec,omitempty"`
+	Spec              Redis_PatchSchedule_Spec  `json:"spec,omitempty"`
 	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
 }
 
@@ -129,8 +129,8 @@ type RedisPatchScheduleList struct {
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
-// Storage version of v1beta20201201.Redis_PatchSchedules_Spec
-type Redis_PatchSchedules_Spec struct {
+// Storage version of v1beta20201201.Redis_PatchSchedule_Spec
+type Redis_PatchSchedule_Spec struct {
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -144,24 +144,24 @@ type Redis_PatchSchedules_Spec struct {
 	Tags            map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Redis_PatchSchedules_Spec{}
+var _ genruntime.ConvertibleSpec = &Redis_PatchSchedule_Spec{}
 
-// ConvertSpecFrom populates our Redis_PatchSchedules_Spec from the provided source
-func (schedules *Redis_PatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == schedules {
+// ConvertSpecFrom populates our Redis_PatchSchedule_Spec from the provided source
+func (schedule *Redis_PatchSchedule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(schedules)
+	return source.ConvertSpecTo(schedule)
 }
 
-// ConvertSpecTo populates the provided destination from our Redis_PatchSchedules_Spec
-func (schedules *Redis_PatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == schedules {
+// ConvertSpecTo populates the provided destination from our Redis_PatchSchedule_Spec
+func (schedule *Redis_PatchSchedule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(schedules)
+	return destination.ConvertSpecFrom(schedule)
 }
 
 // Storage version of v1beta20201201.RedisPatchSchedule_STATUS

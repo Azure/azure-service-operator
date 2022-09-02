@@ -161,36 +161,36 @@ func NamespacesEventhubsAuthorizationRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Namespaces_Eventhubs_AuthorizationRules_SpecGenerator()
+	gens["Spec"] = Namespaces_Eventhubs_AuthorizationRule_SpecGenerator()
 	gens["Status"] = AuthorizationRule_STATUSGenerator()
 }
 
-func Test_Namespaces_Eventhubs_AuthorizationRules_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespaces_Eventhubs_AuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Namespaces_Eventhubs_AuthorizationRules_Spec to Namespaces_Eventhubs_AuthorizationRules_Spec via AssignProperties_To_Namespaces_Eventhubs_AuthorizationRules_Spec & AssignProperties_From_Namespaces_Eventhubs_AuthorizationRules_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRules_Spec, Namespaces_Eventhubs_AuthorizationRules_SpecGenerator()))
+		"Round trip from Namespaces_Eventhubs_AuthorizationRule_Spec to Namespaces_Eventhubs_AuthorizationRule_Spec via AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec & AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec, Namespaces_Eventhubs_AuthorizationRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRules_Spec tests if a specific instance of Namespaces_Eventhubs_AuthorizationRules_Spec can be assigned to v1beta20211101storage and back losslessly
-func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRules_Spec(subject Namespaces_Eventhubs_AuthorizationRules_Spec) string {
+// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec tests if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Spec can be assigned to v1beta20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec(subject Namespaces_Eventhubs_AuthorizationRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Eventhubs_AuthorizationRules_Spec
-	err := copied.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRules_Spec(&other)
+	var other v20211101s.Namespaces_Eventhubs_AuthorizationRule_Spec
+	err := copied.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Namespaces_Eventhubs_AuthorizationRules_Spec
-	err = actual.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRules_Spec(&other)
+	var actual Namespaces_Eventhubs_AuthorizationRule_Spec
+	err = actual.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRules_Spec(su
 	return ""
 }
 
-func Test_Namespaces_Eventhubs_AuthorizationRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhubs_AuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Eventhubs_AuthorizationRules_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRules_Spec, Namespaces_Eventhubs_AuthorizationRules_SpecGenerator()))
+		"Round trip of Namespaces_Eventhubs_AuthorizationRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec, Namespaces_Eventhubs_AuthorizationRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRules_Spec runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRules_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRules_Spec(subject Namespaces_Eventhubs_AuthorizationRules_Spec) string {
+// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec(subject Namespaces_Eventhubs_AuthorizationRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRules_Spec(sub
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Eventhubs_AuthorizationRules_Spec
+	var actual Namespaces_Eventhubs_AuthorizationRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,25 +246,25 @@ func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRules_Spec(sub
 	return ""
 }
 
-// Generator of Namespaces_Eventhubs_AuthorizationRules_Spec instances for property testing - lazily instantiated by
-// Namespaces_Eventhubs_AuthorizationRules_SpecGenerator()
-var namespaces_Eventhubs_AuthorizationRules_SpecGenerator gopter.Gen
+// Generator of Namespaces_Eventhubs_AuthorizationRule_Spec instances for property testing - lazily instantiated by
+// Namespaces_Eventhubs_AuthorizationRule_SpecGenerator()
+var namespaces_Eventhubs_AuthorizationRule_SpecGenerator gopter.Gen
 
-// Namespaces_Eventhubs_AuthorizationRules_SpecGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRules_Spec instances for property testing.
-func Namespaces_Eventhubs_AuthorizationRules_SpecGenerator() gopter.Gen {
-	if namespaces_Eventhubs_AuthorizationRules_SpecGenerator != nil {
-		return namespaces_Eventhubs_AuthorizationRules_SpecGenerator
+// Namespaces_Eventhubs_AuthorizationRule_SpecGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRule_Spec instances for property testing.
+func Namespaces_Eventhubs_AuthorizationRule_SpecGenerator() gopter.Gen {
+	if namespaces_Eventhubs_AuthorizationRule_SpecGenerator != nil {
+		return namespaces_Eventhubs_AuthorizationRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRules_Spec(generators)
-	namespaces_Eventhubs_AuthorizationRules_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRules_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec(generators)
+	namespaces_Eventhubs_AuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_Spec{}), generators)
 
-	return namespaces_Eventhubs_AuthorizationRules_SpecGenerator
+	return namespaces_Eventhubs_AuthorizationRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRules_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRules_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRuleProperties_Rights_Listen, AuthorizationRuleProperties_Rights_Manage, AuthorizationRuleProperties_Rights_Send))

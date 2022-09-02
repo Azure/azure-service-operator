@@ -29,7 +29,7 @@ import (
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Components_Spec                     `json:"spec,omitempty"`
+	Spec              Component_Spec                      `json:"spec,omitempty"`
 	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
 }
 
@@ -270,10 +270,10 @@ func (component *Component) AssignProperties_From_Component(source *alpha2020020
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Components_Spec
-	err := spec.AssignProperties_From_Components_Spec(&source.Spec)
+	var spec Component_Spec
+	err := spec.AssignProperties_From_Component_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Components_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Component_Spec() to populate field Spec")
 	}
 	component.Spec = spec
 
@@ -296,10 +296,10 @@ func (component *Component) AssignProperties_To_Component(destination *alpha2020
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20200202s.Components_Spec
-	err := component.Spec.AssignProperties_To_Components_Spec(&spec)
+	var spec alpha20200202s.Component_Spec
+	err := component.Spec.AssignProperties_To_Component_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Components_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -1089,7 +1089,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_To_Applic
 	return nil
 }
 
-type Components_Spec struct {
+type Component_Spec struct {
 	// +kubebuilder:validation:Required
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
 
@@ -1123,30 +1123,30 @@ type Components_Spec struct {
 	WorkspaceResourceReference      *genruntime.ResourceReference                                           `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Components_Spec{}
+var _ genruntime.ARMTransformer = &Component_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if components == nil {
+func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if component == nil {
 		return nil, nil
 	}
-	result := &Components_SpecARM{}
+	result := &Component_SpecARM{}
 
 	// Set property ‘Etag’:
-	if components.Etag != nil {
-		etag := *components.Etag
+	if component.Etag != nil {
+		etag := *component.Etag
 		result.Etag = &etag
 	}
 
 	// Set property ‘Kind’:
-	if components.Kind != nil {
-		kind := *components.Kind
+	if component.Kind != nil {
+		kind := *component.Kind
 		result.Kind = &kind
 	}
 
 	// Set property ‘Location’:
-	if components.Location != nil {
-		location := *components.Location
+	if component.Location != nil {
+		location := *component.Location
 		result.Location = &location
 	}
 
@@ -1154,76 +1154,76 @@ func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if components.Application_Type != nil ||
-		components.DisableIpMasking != nil ||
-		components.DisableLocalAuth != nil ||
-		components.Flow_Type != nil ||
-		components.ForceCustomerStorageForProfiler != nil ||
-		components.HockeyAppId != nil ||
-		components.ImmediatePurgeDataOn30Days != nil ||
-		components.IngestionMode != nil ||
-		components.PublicNetworkAccessForIngestion != nil ||
-		components.PublicNetworkAccessForQuery != nil ||
-		components.Request_Source != nil ||
-		components.RetentionInDays != nil ||
-		components.SamplingPercentage != nil ||
-		components.WorkspaceResourceReference != nil {
+	if component.Application_Type != nil ||
+		component.DisableIpMasking != nil ||
+		component.DisableLocalAuth != nil ||
+		component.Flow_Type != nil ||
+		component.ForceCustomerStorageForProfiler != nil ||
+		component.HockeyAppId != nil ||
+		component.ImmediatePurgeDataOn30Days != nil ||
+		component.IngestionMode != nil ||
+		component.PublicNetworkAccessForIngestion != nil ||
+		component.PublicNetworkAccessForQuery != nil ||
+		component.Request_Source != nil ||
+		component.RetentionInDays != nil ||
+		component.SamplingPercentage != nil ||
+		component.WorkspaceResourceReference != nil {
 		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
 	}
-	if components.Application_Type != nil {
-		application_Type := *components.Application_Type
+	if component.Application_Type != nil {
+		application_Type := *component.Application_Type
 		result.Properties.Application_Type = &application_Type
 	}
-	if components.DisableIpMasking != nil {
-		disableIpMasking := *components.DisableIpMasking
+	if component.DisableIpMasking != nil {
+		disableIpMasking := *component.DisableIpMasking
 		result.Properties.DisableIpMasking = &disableIpMasking
 	}
-	if components.DisableLocalAuth != nil {
-		disableLocalAuth := *components.DisableLocalAuth
+	if component.DisableLocalAuth != nil {
+		disableLocalAuth := *component.DisableLocalAuth
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
-	if components.Flow_Type != nil {
-		flow_Type := *components.Flow_Type
+	if component.Flow_Type != nil {
+		flow_Type := *component.Flow_Type
 		result.Properties.Flow_Type = &flow_Type
 	}
-	if components.ForceCustomerStorageForProfiler != nil {
-		forceCustomerStorageForProfiler := *components.ForceCustomerStorageForProfiler
+	if component.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
 		result.Properties.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
 	}
-	if components.HockeyAppId != nil {
-		hockeyAppId := *components.HockeyAppId
+	if component.HockeyAppId != nil {
+		hockeyAppId := *component.HockeyAppId
 		result.Properties.HockeyAppId = &hockeyAppId
 	}
-	if components.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Days := *components.ImmediatePurgeDataOn30Days
+	if component.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Days := *component.ImmediatePurgeDataOn30Days
 		result.Properties.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
 	}
-	if components.IngestionMode != nil {
-		ingestionMode := *components.IngestionMode
+	if component.IngestionMode != nil {
+		ingestionMode := *component.IngestionMode
 		result.Properties.IngestionMode = &ingestionMode
 	}
-	if components.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *components.PublicNetworkAccessForIngestion
+	if component.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := *component.PublicNetworkAccessForIngestion
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
-	if components.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *components.PublicNetworkAccessForQuery
+	if component.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := *component.PublicNetworkAccessForQuery
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
-	if components.Request_Source != nil {
-		request_Source := *components.Request_Source
+	if component.Request_Source != nil {
+		request_Source := *component.Request_Source
 		result.Properties.Request_Source = &request_Source
 	}
-	if components.RetentionInDays != nil {
-		retentionInDays := *components.RetentionInDays
+	if component.RetentionInDays != nil {
+		retentionInDays := *component.RetentionInDays
 		result.Properties.RetentionInDays = &retentionInDays
 	}
-	if components.SamplingPercentage != nil {
-		samplingPercentage := *components.SamplingPercentage
+	if component.SamplingPercentage != nil {
+		samplingPercentage := *component.SamplingPercentage
 		result.Properties.SamplingPercentage = &samplingPercentage
 	}
-	if components.WorkspaceResourceReference != nil {
-		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*components.WorkspaceResourceReference)
+	if component.WorkspaceResourceReference != nil {
+		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*component.WorkspaceResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1232,9 +1232,9 @@ func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Tags’:
-	if components.Tags != nil {
-		result.Tags = make(map[string]string, len(components.Tags))
-		for key, value := range components.Tags {
+	if component.Tags != nil {
+		result.Tags = make(map[string]string, len(component.Tags))
+		for key, value := range component.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -1242,15 +1242,15 @@ func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (components *Components_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Components_SpecARM{}
+func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Component_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Components_SpecARM)
+func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Component_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Components_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Application_Type’:
@@ -1258,19 +1258,19 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
 			application_Type := *typedInput.Properties.Application_Type
-			components.Application_Type = &application_Type
+			component.Application_Type = &application_Type
 		}
 	}
 
 	// Set property ‘AzureName’:
-	components.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	component.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘DisableIpMasking’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIpMasking != nil {
 			disableIpMasking := *typedInput.Properties.DisableIpMasking
-			components.DisableIpMasking = &disableIpMasking
+			component.DisableIpMasking = &disableIpMasking
 		}
 	}
 
@@ -1279,14 +1279,14 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAuth != nil {
 			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
-			components.DisableLocalAuth = &disableLocalAuth
+			component.DisableLocalAuth = &disableLocalAuth
 		}
 	}
 
 	// Set property ‘Etag’:
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		components.Etag = &etag
+		component.Etag = &etag
 	}
 
 	// Set property ‘Flow_Type’:
@@ -1294,7 +1294,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
 			flow_Type := *typedInput.Properties.Flow_Type
-			components.Flow_Type = &flow_Type
+			component.Flow_Type = &flow_Type
 		}
 	}
 
@@ -1303,7 +1303,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
 			forceCustomerStorageForProfiler := *typedInput.Properties.ForceCustomerStorageForProfiler
-			components.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+			component.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
 		}
 	}
 
@@ -1312,7 +1312,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppId != nil {
 			hockeyAppId := *typedInput.Properties.HockeyAppId
-			components.HockeyAppId = &hockeyAppId
+			component.HockeyAppId = &hockeyAppId
 		}
 	}
 
@@ -1321,7 +1321,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
 			immediatePurgeDataOn30Days := *typedInput.Properties.ImmediatePurgeDataOn30Days
-			components.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
+			component.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
 		}
 	}
 
@@ -1330,24 +1330,24 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
 			ingestionMode := *typedInput.Properties.IngestionMode
-			components.IngestionMode = &ingestionMode
+			component.IngestionMode = &ingestionMode
 		}
 	}
 
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		components.Kind = &kind
+		component.Kind = &kind
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		components.Location = &location
+		component.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	components.Owner = &genruntime.KnownResourceReference{
+	component.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1356,7 +1356,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
 			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
-			components.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
 
@@ -1365,7 +1365,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
 			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
-			components.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
 
@@ -1374,7 +1374,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
 			request_Source := *typedInput.Properties.Request_Source
-			components.Request_Source = &request_Source
+			component.Request_Source = &request_Source
 		}
 	}
 
@@ -1383,7 +1383,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
 			retentionInDays := *typedInput.Properties.RetentionInDays
-			components.RetentionInDays = &retentionInDays
+			component.RetentionInDays = &retentionInDays
 		}
 	}
 
@@ -1392,15 +1392,15 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SamplingPercentage != nil {
 			samplingPercentage := *typedInput.Properties.SamplingPercentage
-			components.SamplingPercentage = &samplingPercentage
+			component.SamplingPercentage = &samplingPercentage
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		components.Tags = make(map[string]string, len(typedInput.Tags))
+		component.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			components.Tags[key] = value
+			component.Tags[key] = value
 		}
 	}
 
@@ -1410,25 +1410,25 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Components_Spec{}
+var _ genruntime.ConvertibleSpec = &Component_Spec{}
 
-// ConvertSpecFrom populates our Components_Spec from the provided source
-func (components *Components_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20200202s.Components_Spec)
+// ConvertSpecFrom populates our Component_Spec from the provided source
+func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20200202s.Component_Spec)
 	if ok {
 		// Populate our instance from source
-		return components.AssignProperties_From_Components_Spec(src)
+		return component.AssignProperties_From_Component_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20200202s.Components_Spec{}
+	src = &alpha20200202s.Component_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = components.AssignProperties_From_Components_Spec(src)
+	err = component.AssignProperties_From_Component_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1436,17 +1436,17 @@ func (components *Components_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Components_Spec
-func (components *Components_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20200202s.Components_Spec)
+// ConvertSpecTo populates the provided destination from our Component_Spec
+func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20200202s.Component_Spec)
 	if ok {
 		// Populate destination from our instance
-		return components.AssignProperties_To_Components_Spec(dst)
+		return component.AssignProperties_To_Component_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20200202s.Components_Spec{}
-	err := components.AssignProperties_To_Components_Spec(dst)
+	dst = &alpha20200202s.Component_Spec{}
+	err := component.AssignProperties_To_Component_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1460,266 +1460,266 @@ func (components *Components_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Components_Spec populates our Components_Spec from the provided source Components_Spec
-func (components *Components_Spec) AssignProperties_From_Components_Spec(source *alpha20200202s.Components_Spec) error {
+// AssignProperties_From_Component_Spec populates our Component_Spec from the provided source Component_Spec
+func (component *Component_Spec) AssignProperties_From_Component_Spec(source *alpha20200202s.Component_Spec) error {
 
 	// Application_Type
 	if source.Application_Type != nil {
 		application_Type := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
-		components.Application_Type = &application_Type
+		component.Application_Type = &application_Type
 	} else {
-		components.Application_Type = nil
+		component.Application_Type = nil
 	}
 
 	// AzureName
-	components.AzureName = source.AzureName
+	component.AzureName = source.AzureName
 
 	// DisableIpMasking
 	if source.DisableIpMasking != nil {
 		disableIpMasking := *source.DisableIpMasking
-		components.DisableIpMasking = &disableIpMasking
+		component.DisableIpMasking = &disableIpMasking
 	} else {
-		components.DisableIpMasking = nil
+		component.DisableIpMasking = nil
 	}
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
 		disableLocalAuth := *source.DisableLocalAuth
-		components.DisableLocalAuth = &disableLocalAuth
+		component.DisableLocalAuth = &disableLocalAuth
 	} else {
-		components.DisableLocalAuth = nil
+		component.DisableLocalAuth = nil
 	}
 
 	// Etag
-	components.Etag = genruntime.ClonePointerToString(source.Etag)
+	component.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Flow_Type
 	if source.Flow_Type != nil {
 		flow_Type := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
-		components.Flow_Type = &flow_Type
+		component.Flow_Type = &flow_Type
 	} else {
-		components.Flow_Type = nil
+		component.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
 	if source.ForceCustomerStorageForProfiler != nil {
 		forceCustomerStorageForProfiler := *source.ForceCustomerStorageForProfiler
-		components.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+		component.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
 	} else {
-		components.ForceCustomerStorageForProfiler = nil
+		component.ForceCustomerStorageForProfiler = nil
 	}
 
 	// HockeyAppId
-	components.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
+	component.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
 
 	// ImmediatePurgeDataOn30Days
 	if source.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
-		components.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
+		component.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
 	} else {
-		components.ImmediatePurgeDataOn30Days = nil
+		component.ImmediatePurgeDataOn30Days = nil
 	}
 
 	// IngestionMode
 	if source.IngestionMode != nil {
 		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode(*source.IngestionMode)
-		components.IngestionMode = &ingestionMode
+		component.IngestionMode = &ingestionMode
 	} else {
-		components.IngestionMode = nil
+		component.IngestionMode = nil
 	}
 
 	// Kind
-	components.Kind = genruntime.ClonePointerToString(source.Kind)
+	component.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
-	components.Location = genruntime.ClonePointerToString(source.Location)
+	component.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		components.Owner = &owner
+		component.Owner = &owner
 	} else {
-		components.Owner = nil
+		component.Owner = nil
 	}
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
 		publicNetworkAccessForIngestion := ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
-		components.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
-		components.PublicNetworkAccessForIngestion = nil
+		component.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
 		publicNetworkAccessForQuery := ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
-		components.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
-		components.PublicNetworkAccessForQuery = nil
+		component.PublicNetworkAccessForQuery = nil
 	}
 
 	// Request_Source
 	if source.Request_Source != nil {
 		request_Source := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
-		components.Request_Source = &request_Source
+		component.Request_Source = &request_Source
 	} else {
-		components.Request_Source = nil
+		component.Request_Source = nil
 	}
 
 	// RetentionInDays
-	components.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
 
 	// SamplingPercentage
 	if source.SamplingPercentage != nil {
 		samplingPercentage := *source.SamplingPercentage
-		components.SamplingPercentage = &samplingPercentage
+		component.SamplingPercentage = &samplingPercentage
 	} else {
-		components.SamplingPercentage = nil
+		component.SamplingPercentage = nil
 	}
 
 	// Tags
-	components.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	component.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// WorkspaceResourceReference
 	if source.WorkspaceResourceReference != nil {
 		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
-		components.WorkspaceResourceReference = &workspaceResourceReference
+		component.WorkspaceResourceReference = &workspaceResourceReference
 	} else {
-		components.WorkspaceResourceReference = nil
+		component.WorkspaceResourceReference = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Components_Spec populates the provided destination Components_Spec from our Components_Spec
-func (components *Components_Spec) AssignProperties_To_Components_Spec(destination *alpha20200202s.Components_Spec) error {
+// AssignProperties_To_Component_Spec populates the provided destination Component_Spec from our Component_Spec
+func (component *Component_Spec) AssignProperties_To_Component_Spec(destination *alpha20200202s.Component_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Application_Type
-	if components.Application_Type != nil {
-		application_Type := string(*components.Application_Type)
+	if component.Application_Type != nil {
+		application_Type := string(*component.Application_Type)
 		destination.Application_Type = &application_Type
 	} else {
 		destination.Application_Type = nil
 	}
 
 	// AzureName
-	destination.AzureName = components.AzureName
+	destination.AzureName = component.AzureName
 
 	// DisableIpMasking
-	if components.DisableIpMasking != nil {
-		disableIpMasking := *components.DisableIpMasking
+	if component.DisableIpMasking != nil {
+		disableIpMasking := *component.DisableIpMasking
 		destination.DisableIpMasking = &disableIpMasking
 	} else {
 		destination.DisableIpMasking = nil
 	}
 
 	// DisableLocalAuth
-	if components.DisableLocalAuth != nil {
-		disableLocalAuth := *components.DisableLocalAuth
+	if component.DisableLocalAuth != nil {
+		disableLocalAuth := *component.DisableLocalAuth
 		destination.DisableLocalAuth = &disableLocalAuth
 	} else {
 		destination.DisableLocalAuth = nil
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(components.Etag)
+	destination.Etag = genruntime.ClonePointerToString(component.Etag)
 
 	// Flow_Type
-	if components.Flow_Type != nil {
-		flow_Type := string(*components.Flow_Type)
+	if component.Flow_Type != nil {
+		flow_Type := string(*component.Flow_Type)
 		destination.Flow_Type = &flow_Type
 	} else {
 		destination.Flow_Type = nil
 	}
 
 	// ForceCustomerStorageForProfiler
-	if components.ForceCustomerStorageForProfiler != nil {
-		forceCustomerStorageForProfiler := *components.ForceCustomerStorageForProfiler
+	if component.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
 		destination.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
 	} else {
 		destination.ForceCustomerStorageForProfiler = nil
 	}
 
 	// HockeyAppId
-	destination.HockeyAppId = genruntime.ClonePointerToString(components.HockeyAppId)
+	destination.HockeyAppId = genruntime.ClonePointerToString(component.HockeyAppId)
 
 	// ImmediatePurgeDataOn30Days
-	if components.ImmediatePurgeDataOn30Days != nil {
-		immediatePurgeDataOn30Day := *components.ImmediatePurgeDataOn30Days
+	if component.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Day := *component.ImmediatePurgeDataOn30Days
 		destination.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
 	} else {
 		destination.ImmediatePurgeDataOn30Days = nil
 	}
 
 	// IngestionMode
-	if components.IngestionMode != nil {
-		ingestionMode := string(*components.IngestionMode)
+	if component.IngestionMode != nil {
+		ingestionMode := string(*component.IngestionMode)
 		destination.IngestionMode = &ingestionMode
 	} else {
 		destination.IngestionMode = nil
 	}
 
 	// Kind
-	destination.Kind = genruntime.ClonePointerToString(components.Kind)
+	destination.Kind = genruntime.ClonePointerToString(component.Kind)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(components.Location)
+	destination.Location = genruntime.ClonePointerToString(component.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = components.OriginalVersion()
+	destination.OriginalVersion = component.OriginalVersion()
 
 	// Owner
-	if components.Owner != nil {
-		owner := components.Owner.Copy()
+	if component.Owner != nil {
+		owner := component.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PublicNetworkAccessForIngestion
-	if components.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := string(*components.PublicNetworkAccessForIngestion)
+	if component.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := string(*component.PublicNetworkAccessForIngestion)
 		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		destination.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
-	if components.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := string(*components.PublicNetworkAccessForQuery)
+	if component.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := string(*component.PublicNetworkAccessForQuery)
 		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		destination.PublicNetworkAccessForQuery = nil
 	}
 
 	// Request_Source
-	if components.Request_Source != nil {
-		request_Source := string(*components.Request_Source)
+	if component.Request_Source != nil {
+		request_Source := string(*component.Request_Source)
 		destination.Request_Source = &request_Source
 	} else {
 		destination.Request_Source = nil
 	}
 
 	// RetentionInDays
-	destination.RetentionInDays = genruntime.ClonePointerToInt(components.RetentionInDays)
+	destination.RetentionInDays = genruntime.ClonePointerToInt(component.RetentionInDays)
 
 	// SamplingPercentage
-	if components.SamplingPercentage != nil {
-		samplingPercentage := *components.SamplingPercentage
+	if component.SamplingPercentage != nil {
+		samplingPercentage := *component.SamplingPercentage
 		destination.SamplingPercentage = &samplingPercentage
 	} else {
 		destination.SamplingPercentage = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(components.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(component.Tags)
 
 	// WorkspaceResourceReference
-	if components.WorkspaceResourceReference != nil {
-		workspaceResourceReference := components.WorkspaceResourceReference.Copy()
+	if component.WorkspaceResourceReference != nil {
+		workspaceResourceReference := component.WorkspaceResourceReference.Copy()
 		destination.WorkspaceResourceReference = &workspaceResourceReference
 	} else {
 		destination.WorkspaceResourceReference = nil
@@ -1737,12 +1737,12 @@ func (components *Components_Spec) AssignProperties_To_Components_Spec(destinati
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (components *Components_Spec) OriginalVersion() string {
+func (component *Component_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (components *Components_Spec) SetAzureName(azureName string) { components.AzureName = azureName }
+func (component *Component_Spec) SetAzureName(azureName string) { component.AzureName = azureName }
 
 // Deprecated version of ApplicationInsightsComponentProperties_Application_Type. Use
 // v1beta20200202.ApplicationInsightsComponentProperties_Application_Type instead

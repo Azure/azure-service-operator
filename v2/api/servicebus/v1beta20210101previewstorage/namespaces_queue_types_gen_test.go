@@ -74,24 +74,24 @@ func NamespacesQueueGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) {
-	gens["Spec"] = Namespaces_Queues_SpecGenerator()
+	gens["Spec"] = Namespaces_Queue_SpecGenerator()
 	gens["Status"] = SBQueue_STATUSGenerator()
 }
 
-func Test_Namespaces_Queues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Queue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Queues_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Queues_Spec, Namespaces_Queues_SpecGenerator()))
+		"Round trip of Namespaces_Queue_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Queue_Spec, Namespaces_Queue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Queues_Spec runs a test to see if a specific instance of Namespaces_Queues_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Queues_Spec(subject Namespaces_Queues_Spec) string {
+// RunJSONSerializationTestForNamespaces_Queue_Spec runs a test to see if a specific instance of Namespaces_Queue_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Queue_Spec(subject Namespaces_Queue_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForNamespaces_Queues_Spec(subject Namespaces_Queues
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Queues_Spec
+	var actual Namespaces_Queue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForNamespaces_Queues_Spec(subject Namespaces_Queues
 	return ""
 }
 
-// Generator of Namespaces_Queues_Spec instances for property testing - lazily instantiated by
-// Namespaces_Queues_SpecGenerator()
-var namespaces_Queues_SpecGenerator gopter.Gen
+// Generator of Namespaces_Queue_Spec instances for property testing - lazily instantiated by
+// Namespaces_Queue_SpecGenerator()
+var namespaces_Queue_SpecGenerator gopter.Gen
 
-// Namespaces_Queues_SpecGenerator returns a generator of Namespaces_Queues_Spec instances for property testing.
-func Namespaces_Queues_SpecGenerator() gopter.Gen {
-	if namespaces_Queues_SpecGenerator != nil {
-		return namespaces_Queues_SpecGenerator
+// Namespaces_Queue_SpecGenerator returns a generator of Namespaces_Queue_Spec instances for property testing.
+func Namespaces_Queue_SpecGenerator() gopter.Gen {
+	if namespaces_Queue_SpecGenerator != nil {
+		return namespaces_Queue_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Queues_Spec(generators)
-	namespaces_Queues_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Queues_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec(generators)
+	namespaces_Queue_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Queue_Spec{}), generators)
 
-	return namespaces_Queues_SpecGenerator
+	return namespaces_Queue_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Queues_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Queues_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())

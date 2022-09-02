@@ -48,9 +48,9 @@
 | ServerProperties_STATUS_UserVisibleState                                       | v1beta20180601 |
 | ServerVersion_STATUS                                                           | v1beta20180601 |
 | Server_STATUS                                                                  | v1beta20180601 |
-| Servers_Configurations_Spec                                                    | v1beta20180601 |
-| Servers_Databases_Spec                                                         | v1beta20180601 |
-| Servers_Spec                                                                   | v1beta20180601 |
+| Server_Spec                                                                    | v1beta20180601 |
+| Servers_Configuration_Spec                                                     | v1beta20180601 |
+| Servers_Database_Spec                                                          | v1beta20180601 |
 | Sku                                                                            | v1beta20180601 |
 | Sku_STATUS                                                                     | v1beta20180601 |
 | Sku_STATUS_Tier                                                                | v1beta20180601 |

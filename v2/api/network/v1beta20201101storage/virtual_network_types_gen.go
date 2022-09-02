@@ -26,7 +26,7 @@ import (
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_Spec  `json:"spec,omitempty"`
+	Spec              VirtualNetwork_Spec   `json:"spec,omitempty"`
 	Status            VirtualNetwork_STATUS `json:"status,omitempty"`
 }
 
@@ -129,6 +129,52 @@ type VirtualNetworkList struct {
 	Items           []VirtualNetwork `json:"items"`
 }
 
+// Storage version of v1beta20201101.VirtualNetwork_Spec
+type VirtualNetwork_Spec struct {
+	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName            string                        `json:"azureName,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
+	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
+	Location             *string                       `json:"location,omitempty"`
+	OriginalVersion      string                        `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
+
+// ConvertSpecFrom populates our VirtualNetwork_Spec from the provided source
+func (network *VirtualNetwork_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(network)
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualNetwork_Spec
+func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(network)
+}
+
 // Storage version of v1beta20201101.VirtualNetwork_STATUS
 type VirtualNetwork_STATUS struct {
 	AddressSpace         *AddressSpace_STATUS                 `json:"addressSpace,omitempty"`
@@ -169,52 +215,6 @@ func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.Con
 	}
 
 	return destination.ConvertStatusFrom(network)
-}
-
-// Storage version of v1beta20201101.VirtualNetworks_Spec
-type VirtualNetworks_Spec struct {
-	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName            string                        `json:"azureName,omitempty"`
-	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
-	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
-	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
-	Location             *string                       `json:"location,omitempty"`
-	OriginalVersion      string                        `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_Spec{}
-
-// ConvertSpecFrom populates our VirtualNetworks_Spec from the provided source
-func (networks *VirtualNetworks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == networks {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(networks)
-}
-
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_Spec
-func (networks *VirtualNetworks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == networks {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(networks)
 }
 
 // Storage version of v1beta20201101.AddressSpace

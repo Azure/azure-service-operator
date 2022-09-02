@@ -74,7 +74,7 @@ func ComponentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForComponent is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent(gens map[string]gopter.Gen) {
-	gens["Spec"] = Components_SpecGenerator()
+	gens["Spec"] = Component_SpecGenerator()
 	gens["Status"] = ApplicationInsightsComponent_STATUSGenerator()
 }
 
@@ -182,20 +182,20 @@ func AddRelatedPropertyGeneratorsForApplicationInsightsComponent_STATUS(gens map
 	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResource_STATUSGenerator())
 }
 
-func Test_Components_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Components_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponents_Spec, Components_SpecGenerator()))
+		"Round trip of Component_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponent_Spec, Component_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponents_Spec runs a test to see if a specific instance of Components_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponents_Spec(subject Components_Spec) string {
+// RunJSONSerializationTestForComponent_Spec runs a test to see if a specific instance of Component_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -203,7 +203,7 @@ func RunJSONSerializationTestForComponents_Spec(subject Components_Spec) string 
 	}
 
 	// Deserialize back into memory
-	var actual Components_Spec
+	var actual Component_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -221,24 +221,24 @@ func RunJSONSerializationTestForComponents_Spec(subject Components_Spec) string 
 	return ""
 }
 
-// Generator of Components_Spec instances for property testing - lazily instantiated by Components_SpecGenerator()
-var components_SpecGenerator gopter.Gen
+// Generator of Component_Spec instances for property testing - lazily instantiated by Component_SpecGenerator()
+var component_SpecGenerator gopter.Gen
 
-// Components_SpecGenerator returns a generator of Components_Spec instances for property testing.
-func Components_SpecGenerator() gopter.Gen {
-	if components_SpecGenerator != nil {
-		return components_SpecGenerator
+// Component_SpecGenerator returns a generator of Component_Spec instances for property testing.
+func Component_SpecGenerator() gopter.Gen {
+	if component_SpecGenerator != nil {
+		return component_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponents_Spec(generators)
-	components_SpecGenerator = gen.Struct(reflect.TypeOf(Components_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
+	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
 
-	return components_SpecGenerator
+	return component_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForComponents_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponents_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
 	gens["Application_Type"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())

@@ -26,8 +26,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Endpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS         `json:"status,omitempty"`
+	Spec              Profiles_Endpoint_Spec `json:"spec,omitempty"`
+	Status            Endpoint_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -181,8 +181,8 @@ func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(endpoint)
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoints_Spec
-type Profiles_Endpoints_Spec struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Spec
+type Profiles_Endpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName              string                                            `json:"azureName,omitempty"`
@@ -195,11 +195,11 @@ type Profiles_Endpoints_Spec struct {
 	IsHttpsAllowed         *bool                                             `json:"isHttpsAllowed,omitempty"`
 	Location               *string                                           `json:"location,omitempty"`
 	OptimizationType       *string                                           `json:"optimizationType,omitempty"`
-	OriginGroups           []Profiles_Endpoints_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
+	OriginGroups           []Profiles_Endpoint_Spec_Properties_OriginGroups  `json:"originGroups,omitempty"`
 	OriginHostHeader       *string                                           `json:"originHostHeader,omitempty"`
 	OriginPath             *string                                           `json:"originPath,omitempty"`
 	OriginalVersion        string                                            `json:"originalVersion,omitempty"`
-	Origins                []Profiles_Endpoints_Spec_Properties_Origins      `json:"origins,omitempty"`
+	Origins                []Profiles_Endpoint_Spec_Properties_Origins       `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -214,24 +214,24 @@ type Profiles_Endpoints_Spec struct {
 	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Endpoints_Spec{}
+var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Endpoints_Spec from the provided source
-func (endpoints *Profiles_Endpoints_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == endpoints {
+// ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(endpoints)
+	return source.ConvertSpecTo(endpoint)
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Endpoints_Spec
-func (endpoints *Profiles_Endpoints_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == endpoints {
+// ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(endpoints)
+	return destination.ConvertSpecFrom(endpoint)
 }
 
 // Storage version of v1beta20210601.CustomDomain_STATUS_SubResourceEmbedded
@@ -316,8 +316,8 @@ type GeoFilter_STATUS struct {
 	RelativePath *string                `json:"relativePath,omitempty"`
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoints_Spec_Properties_OriginGroups
-type Profiles_Endpoints_Spec_Properties_OriginGroups struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Spec_Properties_OriginGroups
+type Profiles_Endpoint_Spec_Properties_OriginGroups struct {
 	HealthProbeSettings                                   *HealthProbeParameters                       `json:"healthProbeSettings,omitempty"`
 	Name                                                  *string                                      `json:"name,omitempty"`
 	Origins                                               []ResourceReference                          `json:"origins,omitempty"`
@@ -326,8 +326,8 @@ type Profiles_Endpoints_Spec_Properties_OriginGroups struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                         `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoints_Spec_Properties_Origins
-type Profiles_Endpoints_Spec_Properties_Origins struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Spec_Properties_Origins
+type Profiles_Endpoint_Spec_Properties_Origins struct {
 	Enabled                    *bool   `json:"enabled,omitempty"`
 	HostName                   *string `json:"hostName,omitempty"`
 	HttpPort                   *int    `json:"httpPort,omitempty"`

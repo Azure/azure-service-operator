@@ -44,6 +44,6 @@
 | VaultProperties_STATUS_CreateMode                        | v1beta20210401preview |
 | VaultProperties_STATUS_ProvisioningState                 | v1beta20210401preview |
 | Vault_STATUS                                             | v1beta20210401preview |
-| Vaults_Spec                                              | v1beta20210401preview |
+| Vault_Spec                                               | v1beta20210401preview |
 | VirtualNetworkRule                                       | v1beta20210401preview |
 | VirtualNetworkRule_STATUS                                | v1beta20210401preview |

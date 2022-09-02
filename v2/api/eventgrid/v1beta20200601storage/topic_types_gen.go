@@ -26,7 +26,7 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Topics_Spec  `json:"spec,omitempty"`
+	Spec              Topic_Spec   `json:"spec,omitempty"`
 	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
@@ -129,6 +129,43 @@ type TopicList struct {
 	Items           []Topic `json:"items"`
 }
 
+// Storage version of v1beta20200601.Topic_Spec
+type Topic_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Topic_Spec{}
+
+// ConvertSpecFrom populates our Topic_Spec from the provided source
+func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(topic)
+}
+
+// ConvertSpecTo populates the provided destination from our Topic_Spec
+func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(topic)
+}
+
 // Storage version of v1beta20200601.Topic_STATUS
 type Topic_STATUS struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
@@ -167,43 +204,6 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	}
 
 	return destination.ConvertStatusFrom(topic)
-}
-
-// Storage version of v1beta20200601.Topics_Spec
-type Topics_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Topics_Spec{}
-
-// ConvertSpecFrom populates our Topics_Spec from the provided source
-func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topics {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(topics)
-}
-
-// ConvertSpecTo populates the provided destination from our Topics_Spec
-func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topics {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(topics)
 }
 
 // Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
