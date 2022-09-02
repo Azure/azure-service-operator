@@ -54,7 +54,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	workload := subscription.PutAliasRequestProperties_Workload_Production
 	sub := &subscription.Alias{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
-		Spec: subscription.Aliases_Spec{
+		Spec: subscription.Alias_Spec{
 			Properties: &subscription.PutAliasRequestProperties{
 				DisplayName:  to.StringPtr("Subscription for ASO testing"),
 				Workload:     &workload,
@@ -72,7 +72,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
-		Spec: authorization.RoleAssignments_Spec{
+		Spec: authorization.RoleAssignment_Spec{
 			Location: tc.AzureRegion,
 			Owner:    tc.AsExtensionOwner(sub),
 			//PrincipalId: mi.Status.PrincipalId,

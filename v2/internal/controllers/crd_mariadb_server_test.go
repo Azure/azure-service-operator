@@ -34,7 +34,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
-		Spec: mariadb.Servers_Spec{
+		Spec: mariadb.Server_Spec{
 			AzureName: serverName,
 			Location:  &location, // Can't do it in WestUS2
 			Owner:     testcommon.AsOwner(rg),
@@ -75,7 +75,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	configuration := mariadb.Configuration{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Configurations_Spec{
+		Spec: mariadb.Servers_Configuration_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
 			Location:  &location,
@@ -89,7 +89,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	database := mariadb.Database{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Databases_Spec{
+		Spec: mariadb.Servers_Database_Spec{
 			AzureName: *to.StringPtr("adventureworks"),
 			Location:  &location,
 			Owner:     testcommon.AsOwner(&server),

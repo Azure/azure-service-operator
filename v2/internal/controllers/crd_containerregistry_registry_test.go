@@ -30,7 +30,7 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 	skuName := containerregistry.Sku_Name_Basic
 	acct := containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: containerregistry.Registries_Spec{
+		Spec: containerregistry.Registry_Spec{
 			AdminUserEnabled:    &adminUserEnabled,
 			AzureName:           name,
 			Location:            tc.AzureRegion,
