@@ -210,6 +210,13 @@ if should-install "$TOOL_DEST/cmctl"; then
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
+# Ensure tooling for Hugo is available
+write-verbose "Checking for /usr/bin/postcss"
+if should-install "/usr/bin/postcss"; then 
+    write-info "Installing postcss"
+    sudo npm install -g postcss postcss-cli autoprefixer
+fi
+
 if [ "$VERBOSE" == true ]; then 
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi
