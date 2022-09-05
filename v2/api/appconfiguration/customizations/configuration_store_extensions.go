@@ -70,7 +70,7 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 		pager = confClient.NewListKeysPager(id.ResourceGroupName, obj.AzureName(), nil)
 		for pager.More() {
 			resp, err = pager.NextPage(ctx)
-			secretsByName(resp.Value, keys)
+			addSecretsToMap(resp.Value, keys)
 
 		}
 		if err != nil {
@@ -115,7 +115,7 @@ func secretsSpecified(obj *storage.ConfigurationStore) bool {
 	return false
 }
 
-func secretsByName(keys []*armappconfiguration.APIKey, result map[string]armappconfiguration.APIKey) {
+func addSecretsToMap(keys []*armappconfiguration.APIKey, result map[string]armappconfiguration.APIKey) {
 	for _, key := range keys {
 		if key == nil || key.Name == nil {
 			continue
@@ -131,18 +131,33 @@ func secretsToWrite(obj *storage.ConfigurationStore, keys map[string]armappconfi
 	}
 
 	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryConnectionString, *keys["Primary"].ConnectionString)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryKeyID, *keys["Primary"].ID)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryKey, *keys["Primary"].Value)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyConnectionString, *keys["Primary Read Only"].ConnectionString)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKeyID, *keys["Primary Read Only"].ID)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKey, *keys["Primary Read Only"].Value)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryConnectionString, *keys["Secondary"].ConnectionString)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryKeyID, *keys["Secondary"].ID)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryKey, *keys["Secondary"].Value)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *keys["Secondary Read Only"].ConnectionString)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *keys["Secondary Read Only"].ID)
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKey, *keys["Secondary Read Only"].Value)
+	primary, ok := keys["Primary"]
+	if ok {
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryConnectionString, *primary.ConnectionString)
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryKeyID, *primary.ID)
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryKey, *primary.Value)
+	}
+
+	primaryReadOnly, ok := keys["Primary Read Only"]
+	if ok {
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyConnectionString, *primaryReadOnly.ConnectionString)
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKeyID, *primaryReadOnly.ID)
+		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKey, *primaryReadOnly.Value)
+	}
+
+	secondary, ok := keys["Secondary"]
+	if ok {
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryConnectionString, *secondary.ConnectionString)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryKeyID, *secondary.ID)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryKey, *secondary.Value)
+	}
+
+	SecondaryReadOnly, ok := keys["Secondary Read Only"]
+	if ok {
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *SecondaryReadOnly.ConnectionString)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *SecondaryReadOnly.ID)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKey, *SecondaryReadOnly.Value)
+	}
 
 	return collector.Secrets(), nil
 }
