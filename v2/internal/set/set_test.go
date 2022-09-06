@@ -50,6 +50,7 @@ func (s *S) M() {}
 var _ I = &S{}
 
 type cloningMap[K comparable, V any] struct {
+	//nolint:structcheck // 2022-09 incorrectly flaggging inner as unused
 	inner map[K]V
 }
 
