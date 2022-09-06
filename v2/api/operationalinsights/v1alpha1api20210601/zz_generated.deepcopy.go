@@ -144,7 +144,7 @@ func (in *WorkspaceCapping_STATUS) DeepCopyInto(out *WorkspaceCapping_STATUS) {
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
-		*out = new(WorkspaceCappingSTATUSDataIngestionStatus)
+		*out = new(WorkspaceCapping_STATUS_DataIngestionStatus)
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -174,7 +174,7 @@ func (in *WorkspaceCapping_STATUSARM) DeepCopyInto(out *WorkspaceCapping_STATUSA
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
-		*out = new(WorkspaceCappingSTATUSDataIngestionStatus)
+		*out = new(WorkspaceCapping_STATUS_DataIngestionStatus)
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -415,17 +415,17 @@ func (in *WorkspacePropertiesARM) DeepCopyInto(out *WorkspacePropertiesARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(WorkspacePropertiesPublicNetworkAccessForIngestion)
+		*out = new(WorkspaceProperties_PublicNetworkAccessForIngestion)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(WorkspacePropertiesPublicNetworkAccessForQuery)
+		*out = new(WorkspaceProperties_PublicNetworkAccessForQuery)
 		**out = **in
 	}
 	if in.RetentionInDays != nil {
@@ -492,7 +492,7 @@ func (in *WorkspaceProperties_STATUSARM) DeepCopyInto(out *WorkspaceProperties_S
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSTATUSProvisioningState)
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -542,7 +542,7 @@ func (in *WorkspaceSku) DeepCopyInto(out *WorkspaceSku) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(WorkspaceSkuName)
+		*out = new(WorkspaceSku_Name)
 		**out = **in
 	}
 }
@@ -567,7 +567,7 @@ func (in *WorkspaceSkuARM) DeepCopyInto(out *WorkspaceSkuARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(WorkspaceSkuName)
+		*out = new(WorkspaceSku_Name)
 		**out = **in
 	}
 }
@@ -587,7 +587,7 @@ func (in *WorkspaceSku_STATUS) DeepCopyInto(out *WorkspaceSku_STATUS) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuSTATUSCapacityReservationLevel)
+		*out = new(WorkspaceSku_STATUS_CapacityReservationLevel)
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -597,7 +597,7 @@ func (in *WorkspaceSku_STATUS) DeepCopyInto(out *WorkspaceSku_STATUS) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(WorkspaceSkuSTATUSName)
+		*out = new(WorkspaceSku_STATUS_Name)
 		**out = **in
 	}
 }
@@ -617,7 +617,7 @@ func (in *WorkspaceSku_STATUSARM) DeepCopyInto(out *WorkspaceSku_STATUSARM) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
-		*out = new(WorkspaceSkuSTATUSCapacityReservationLevel)
+		*out = new(WorkspaceSku_STATUS_CapacityReservationLevel)
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -627,7 +627,7 @@ func (in *WorkspaceSku_STATUSARM) DeepCopyInto(out *WorkspaceSku_STATUSARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(WorkspaceSkuSTATUSName)
+		*out = new(WorkspaceSku_STATUS_Name)
 		**out = **in
 	}
 }
@@ -706,7 +706,7 @@ func (in *Workspace_STATUS) DeepCopyInto(out *Workspace_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSTATUSProvisioningState)
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -840,17 +840,17 @@ func (in *Workspaces_Spec) DeepCopyInto(out *Workspaces_Spec) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesProvisioningState)
+		*out = new(WorkspaceProperties_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(WorkspacePropertiesPublicNetworkAccessForIngestion)
+		*out = new(WorkspaceProperties_PublicNetworkAccessForIngestion)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(WorkspacePropertiesPublicNetworkAccessForQuery)
+		*out = new(WorkspaceProperties_PublicNetworkAccessForQuery)
 		**out = **in
 	}
 	if in.RetentionInDays != nil {

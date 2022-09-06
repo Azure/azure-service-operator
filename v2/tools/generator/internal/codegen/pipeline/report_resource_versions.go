@@ -220,12 +220,13 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
+		api := report.generateApiLink(rsrc)
 		sample := report.generateSampleLink(rsrc, sampleLinks)
 		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
 		result.AddRow(
-			rsrc.Name().Name(),
+			api,
 			armVersion,
 			crdVersion,
 			supportedFrom,
@@ -238,6 +239,45 @@ func (report *ResourceVersionsReport) createTable(
 	}
 
 	return result, nil
+}
+
+// generateApiLink returns a link to the API definition for the given resource
+func (report *ResourceVersionsReport) generateApiLink(rsrc astmodel.TypeDefinition) string {
+
+	name := rsrc.Name()
+	crdKind := name.Name()
+	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
+	pathTemplate := report.reportConfiguration.ResourcePathTemplate
+	if linkTemplate == "" || pathTemplate == "" {
+		// One or both of LinkTemplate and PathTemplate are not set, so we can't generate a link
+		return crdKind
+	}
+
+	docFile := report.resourceDocFile(name)
+	if _, err := os.Stat(docFile); errors.Is(err, fs.ErrNotExist) {
+		// docFile does not exist, don't build a link
+		return crdKind
+	}
+
+	link := report.expandPlaceholders(linkTemplate, name)
+	return fmt.Sprintf("[%s](%s)", crdKind, link)
+}
+
+func (report *ResourceVersionsReport) resourceDocFile(name astmodel.TypeName) string {
+	relativePath := report.expandPlaceholders(report.reportConfiguration.ResourcePathTemplate, name)
+	baseDir := filepath.Dir(report.reportConfiguration.FullOutputPath())
+	return filepath.Join(baseDir, relativePath)
+}
+
+func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc astmodel.TypeName) string {
+	crdKind := rsrc.Name()
+	crdGroup, crdVersion := rsrc.PackageReference.GroupVersion()
+
+	result := template
+	result = strings.Replace(result, "{group}", crdGroup, -1)
+	result = strings.Replace(result, "{version}", crdVersion, -1)
+	result = strings.Replace(result, "{kind}", crdKind, -1)
+	return result
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {

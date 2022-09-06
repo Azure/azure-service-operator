@@ -26,7 +26,7 @@ func (in *EncryptionProperty) DeepCopyInto(out *EncryptionProperty) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertyStatus)
+		*out = new(EncryptionProperty_Status)
 		**out = **in
 	}
 }
@@ -51,7 +51,7 @@ func (in *EncryptionPropertyARM) DeepCopyInto(out *EncryptionPropertyARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertyStatus)
+		*out = new(EncryptionProperty_Status)
 		**out = **in
 	}
 }
@@ -76,7 +76,7 @@ func (in *EncryptionProperty_STATUS) DeepCopyInto(out *EncryptionProperty_STATUS
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertySTATUSStatus)
+		*out = new(EncryptionProperty_STATUS_Status)
 		**out = **in
 	}
 }
@@ -101,7 +101,7 @@ func (in *EncryptionProperty_STATUSARM) DeepCopyInto(out *EncryptionProperty_STA
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertySTATUSStatus)
+		*out = new(EncryptionProperty_STATUS_Status)
 		**out = **in
 	}
 }
@@ -121,7 +121,7 @@ func (in *ExportPolicy) DeepCopyInto(out *ExportPolicy) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ExportPolicyStatus)
+		*out = new(ExportPolicy_Status)
 		**out = **in
 	}
 }
@@ -141,7 +141,7 @@ func (in *ExportPolicyARM) DeepCopyInto(out *ExportPolicyARM) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ExportPolicyStatus)
+		*out = new(ExportPolicy_Status)
 		**out = **in
 	}
 }
@@ -161,7 +161,7 @@ func (in *ExportPolicy_STATUS) DeepCopyInto(out *ExportPolicy_STATUS) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ExportPolicySTATUSStatus)
+		*out = new(ExportPolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -181,7 +181,7 @@ func (in *ExportPolicy_STATUSARM) DeepCopyInto(out *ExportPolicy_STATUSARM) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ExportPolicySTATUSStatus)
+		*out = new(ExportPolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -201,7 +201,7 @@ func (in *IPRule) DeepCopyInto(out *IPRule) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleAction)
+		*out = new(IPRule_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -226,7 +226,7 @@ func (in *IPRuleARM) DeepCopyInto(out *IPRuleARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleAction)
+		*out = new(IPRule_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -251,7 +251,7 @@ func (in *IPRule_STATUS) DeepCopyInto(out *IPRule_STATUS) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleSTATUSAction)
+		*out = new(IPRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -276,7 +276,7 @@ func (in *IPRule_STATUSARM) DeepCopyInto(out *IPRule_STATUSARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleSTATUSAction)
+		*out = new(IPRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -311,7 +311,7 @@ func (in *IdentityProperties) DeepCopyInto(out *IdentityProperties) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityPropertiesType)
+		*out = new(IdentityProperties_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -348,7 +348,7 @@ func (in *IdentityPropertiesARM) DeepCopyInto(out *IdentityPropertiesARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityPropertiesType)
+		*out = new(IdentityProperties_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -385,7 +385,7 @@ func (in *IdentityProperties_STATUS) DeepCopyInto(out *IdentityProperties_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityPropertiesSTATUSType)
+		*out = new(IdentityProperties_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -422,7 +422,7 @@ func (in *IdentityProperties_STATUSARM) DeepCopyInto(out *IdentityProperties_STA
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityPropertiesSTATUSType)
+		*out = new(IdentityProperties_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -579,7 +579,7 @@ func (in *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -606,7 +606,7 @@ func (in *NetworkRuleSetARM) DeepCopyInto(out *NetworkRuleSetARM) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -633,7 +633,7 @@ func (in *NetworkRuleSet_STATUS) DeepCopyInto(out *NetworkRuleSet_STATUS) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -660,7 +660,7 @@ func (in *NetworkRuleSet_STATUSARM) DeepCopyInto(out *NetworkRuleSet_STATUSARM) 
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -877,7 +877,7 @@ func (in *QuarantinePolicy) DeepCopyInto(out *QuarantinePolicy) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(QuarantinePolicyStatus)
+		*out = new(QuarantinePolicy_Status)
 		**out = **in
 	}
 }
@@ -897,7 +897,7 @@ func (in *QuarantinePolicyARM) DeepCopyInto(out *QuarantinePolicyARM) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(QuarantinePolicyStatus)
+		*out = new(QuarantinePolicy_Status)
 		**out = **in
 	}
 }
@@ -917,7 +917,7 @@ func (in *QuarantinePolicy_STATUS) DeepCopyInto(out *QuarantinePolicy_STATUS) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(QuarantinePolicySTATUSStatus)
+		*out = new(QuarantinePolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -937,7 +937,7 @@ func (in *QuarantinePolicy_STATUSARM) DeepCopyInto(out *QuarantinePolicy_STATUSA
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(QuarantinePolicySTATUSStatus)
+		*out = new(QuarantinePolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -982,7 +982,7 @@ func (in *Registries_Spec) DeepCopyInto(out *Registries_Spec) {
 	}
 	if in.NetworkRuleBypassOptions != nil {
 		in, out := &in.NetworkRuleBypassOptions, &out.NetworkRuleBypassOptions
-		*out = new(RegistryPropertiesNetworkRuleBypassOptions)
+		*out = new(RegistryProperties_NetworkRuleBypassOptions)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -1002,7 +1002,7 @@ func (in *Registries_Spec) DeepCopyInto(out *Registries_Spec) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RegistryPropertiesPublicNetworkAccess)
+		*out = new(RegistryProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1019,7 +1019,7 @@ func (in *Registries_Spec) DeepCopyInto(out *Registries_Spec) {
 	}
 	if in.ZoneRedundancy != nil {
 		in, out := &in.ZoneRedundancy, &out.ZoneRedundancy
-		*out = new(RegistryPropertiesZoneRedundancy)
+		*out = new(RegistryProperties_ZoneRedundancy)
 		**out = **in
 	}
 }
@@ -1155,7 +1155,7 @@ func (in *RegistryPropertiesARM) DeepCopyInto(out *RegistryPropertiesARM) {
 	}
 	if in.NetworkRuleBypassOptions != nil {
 		in, out := &in.NetworkRuleBypassOptions, &out.NetworkRuleBypassOptions
-		*out = new(RegistryPropertiesNetworkRuleBypassOptions)
+		*out = new(RegistryProperties_NetworkRuleBypassOptions)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -1170,12 +1170,12 @@ func (in *RegistryPropertiesARM) DeepCopyInto(out *RegistryPropertiesARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RegistryPropertiesPublicNetworkAccess)
+		*out = new(RegistryProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.ZoneRedundancy != nil {
 		in, out := &in.ZoneRedundancy, &out.ZoneRedundancy
-		*out = new(RegistryPropertiesZoneRedundancy)
+		*out = new(RegistryProperties_ZoneRedundancy)
 		**out = **in
 	}
 }
@@ -1225,7 +1225,7 @@ func (in *RegistryProperties_STATUSARM) DeepCopyInto(out *RegistryProperties_STA
 	}
 	if in.NetworkRuleBypassOptions != nil {
 		in, out := &in.NetworkRuleBypassOptions, &out.NetworkRuleBypassOptions
-		*out = new(RegistryPropertiesSTATUSNetworkRuleBypassOptions)
+		*out = new(RegistryProperties_STATUS_NetworkRuleBypassOptions)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -1247,12 +1247,12 @@ func (in *RegistryProperties_STATUSARM) DeepCopyInto(out *RegistryProperties_STA
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(RegistryPropertiesSTATUSProvisioningState)
+		*out = new(RegistryProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RegistryPropertiesSTATUSPublicNetworkAccess)
+		*out = new(RegistryProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Status != nil {
@@ -1262,7 +1262,7 @@ func (in *RegistryProperties_STATUSARM) DeepCopyInto(out *RegistryProperties_STA
 	}
 	if in.ZoneRedundancy != nil {
 		in, out := &in.ZoneRedundancy, &out.ZoneRedundancy
-		*out = new(RegistryPropertiesSTATUSZoneRedundancy)
+		*out = new(RegistryProperties_STATUS_ZoneRedundancy)
 		**out = **in
 	}
 }
@@ -1339,7 +1339,7 @@ func (in *Registry_STATUS) DeepCopyInto(out *Registry_STATUS) {
 	}
 	if in.NetworkRuleBypassOptions != nil {
 		in, out := &in.NetworkRuleBypassOptions, &out.NetworkRuleBypassOptions
-		*out = new(RegistryPropertiesSTATUSNetworkRuleBypassOptions)
+		*out = new(RegistryProperties_STATUS_NetworkRuleBypassOptions)
 		**out = **in
 	}
 	if in.NetworkRuleSet != nil {
@@ -1361,12 +1361,12 @@ func (in *Registry_STATUS) DeepCopyInto(out *Registry_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(RegistryPropertiesSTATUSProvisioningState)
+		*out = new(RegistryProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RegistryPropertiesSTATUSPublicNetworkAccess)
+		*out = new(RegistryProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1398,7 +1398,7 @@ func (in *Registry_STATUS) DeepCopyInto(out *Registry_STATUS) {
 	}
 	if in.ZoneRedundancy != nil {
 		in, out := &in.ZoneRedundancy, &out.ZoneRedundancy
-		*out = new(RegistryPropertiesSTATUSZoneRedundancy)
+		*out = new(RegistryProperties_STATUS_ZoneRedundancy)
 		**out = **in
 	}
 }
@@ -1485,7 +1485,7 @@ func (in *RetentionPolicy) DeepCopyInto(out *RetentionPolicy) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(RetentionPolicyStatus)
+		*out = new(RetentionPolicy_Status)
 		**out = **in
 	}
 }
@@ -1510,7 +1510,7 @@ func (in *RetentionPolicyARM) DeepCopyInto(out *RetentionPolicyARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(RetentionPolicyStatus)
+		*out = new(RetentionPolicy_Status)
 		**out = **in
 	}
 }
@@ -1540,7 +1540,7 @@ func (in *RetentionPolicy_STATUS) DeepCopyInto(out *RetentionPolicy_STATUS) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(RetentionPolicySTATUSStatus)
+		*out = new(RetentionPolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -1570,7 +1570,7 @@ func (in *RetentionPolicy_STATUSARM) DeepCopyInto(out *RetentionPolicy_STATUSARM
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(RetentionPolicySTATUSStatus)
+		*out = new(RetentionPolicy_STATUS_Status)
 		**out = **in
 	}
 }
@@ -1590,7 +1590,7 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -1610,7 +1610,7 @@ func (in *SkuARM) DeepCopyInto(out *SkuARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -1630,12 +1630,12 @@ func (in *Sku_STATUS) DeepCopyInto(out *Sku_STATUS) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuSTATUSTier)
+		*out = new(Sku_STATUS_Tier)
 		**out = **in
 	}
 }
@@ -1655,12 +1655,12 @@ func (in *Sku_STATUSARM) DeepCopyInto(out *Sku_STATUSARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuSTATUSTier)
+		*out = new(Sku_STATUS_Tier)
 		**out = **in
 	}
 }
@@ -1750,7 +1750,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1765,7 +1765,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -1795,7 +1795,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1810,7 +1810,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -1830,12 +1830,12 @@ func (in *TrustPolicy) DeepCopyInto(out *TrustPolicy) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(TrustPolicyStatus)
+		*out = new(TrustPolicy_Status)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(TrustPolicyType)
+		*out = new(TrustPolicy_Type)
 		**out = **in
 	}
 }
@@ -1855,12 +1855,12 @@ func (in *TrustPolicyARM) DeepCopyInto(out *TrustPolicyARM) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(TrustPolicyStatus)
+		*out = new(TrustPolicy_Status)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(TrustPolicyType)
+		*out = new(TrustPolicy_Type)
 		**out = **in
 	}
 }
@@ -1880,12 +1880,12 @@ func (in *TrustPolicy_STATUS) DeepCopyInto(out *TrustPolicy_STATUS) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(TrustPolicySTATUSStatus)
+		*out = new(TrustPolicy_STATUS_Status)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(TrustPolicySTATUSType)
+		*out = new(TrustPolicy_STATUS_Type)
 		**out = **in
 	}
 }
@@ -1905,12 +1905,12 @@ func (in *TrustPolicy_STATUSARM) DeepCopyInto(out *TrustPolicy_STATUSARM) {
 	*out = *in
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(TrustPolicySTATUSStatus)
+		*out = new(TrustPolicy_STATUS_Status)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(TrustPolicySTATUSType)
+		*out = new(TrustPolicy_STATUS_Type)
 		**out = **in
 	}
 }

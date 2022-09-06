@@ -102,6 +102,8 @@ import (
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
 	managedidentity_v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
+	managedidentity_v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview"
+	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131previewstorage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_alpha20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	network_alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
@@ -410,6 +412,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20180901s.PrivateDnsZone),
@@ -745,6 +750,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
+	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
+	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
 	result = append(
 		result,
 		new(network_alpha20201101.LoadBalancer),
@@ -944,6 +951,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_alpha20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
+	_ = managedidentity_v20220131p.AddToScheme(scheme)
+	_ = managedidentity_v20220131ps.AddToScheme(scheme)
 	_ = network_alpha20201101.AddToScheme(scheme)
 	_ = network_alpha20201101s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
@@ -1030,6 +1039,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
+	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})

@@ -42,7 +42,7 @@ type ServerProperties_STATUSARM struct {
 	Backup *Backup_STATUSARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerPropertiesSTATUSCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
 
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -68,7 +68,7 @@ type ServerProperties_STATUSARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: A state of a server that is visible to user.
-	State *ServerPropertiesSTATUSState `json:"state,omitempty"`
+	State *ServerProperties_STATUS_State `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_STATUSARM `json:"storage,omitempty"`
@@ -82,7 +82,7 @@ type Sku_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 type Backup_STATUSARM struct {
@@ -93,18 +93,18 @@ type Backup_STATUSARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *BackupSTATUSGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *Backup_STATUS_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
 type HighAvailability_STATUSARM struct {
 	// Mode: The HA mode for the server.
-	Mode *HighAvailabilitySTATUSMode `json:"mode,omitempty"`
+	Mode *HighAvailability_STATUS_Mode `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: A state of a HA server that is visible to user.
-	State *HighAvailabilitySTATUSState `json:"state,omitempty"`
+	State *HighAvailability_STATUS_State `json:"state,omitempty"`
 }
 
 type MaintenanceWindow_STATUSARM struct {
@@ -129,15 +129,15 @@ type Network_STATUSARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 
 	// PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *NetworkSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *Network_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-type SkuSTATUSTier string
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Burstable       = SkuSTATUSTier("Burstable")
-	SkuSTATUSTier_GeneralPurpose  = SkuSTATUSTier("GeneralPurpose")
-	SkuSTATUSTier_MemoryOptimized = SkuSTATUSTier("MemoryOptimized")
+	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
+	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
+	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
 )
 
 type Storage_STATUSARM struct {

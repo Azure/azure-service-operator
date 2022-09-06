@@ -349,9 +349,10 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 	}
 
 	if err := transformer.Property.WasMatched(); err != nil {
-		return errors.Wrap(
+		return errors.Wrapf(
 			err,
-			"matched types but all properties were excluded by name or type")
+			"%s matched types but all properties were excluded by name or type",
+			transformer.TypeMatcher.String())
 	}
 
 	return nil

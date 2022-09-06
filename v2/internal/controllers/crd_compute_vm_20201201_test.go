@@ -46,7 +46,7 @@ func newVirtualMachine20201201(
 	secretRef genruntime.SecretReference,
 ) *compute2020.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute2020.HardwareProfileVmSize_StandardD1V2
+	size := compute2020.HardwareProfile_VmSize_Standard_D1_V2
 
 	return &compute2020.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
@@ -72,16 +72,18 @@ func newVirtualMachine20201201(
 				},
 			},
 			NetworkProfile: &compute2020.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
-					Reference: tc.MakeReferenceFromResource(networkInterface),
-				}},
+				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{
+					{
+						Reference: tc.MakeReferenceFromResource(networkInterface),
+					},
+				},
 			},
 		},
 	}
 }
 
 func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic
+	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterfaces_Spec{

@@ -25,12 +25,12 @@ func Test_AuthorizationRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AuthorizationRule_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationRuleSTATUSARM, AuthorizationRuleSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAuthorizationRule_STATUSARM, AuthorizationRule_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAuthorizationRuleSTATUSARM runs a test to see if a specific instance of AuthorizationRule_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationRuleSTATUSARM(subject AuthorizationRule_STATUSARM) string {
+// RunJSONSerializationTestForAuthorizationRule_STATUSARM runs a test to see if a specific instance of AuthorizationRule_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationRule_STATUSARM(subject AuthorizationRule_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,43 +57,43 @@ func RunJSONSerializationTestForAuthorizationRuleSTATUSARM(subject Authorization
 }
 
 // Generator of AuthorizationRule_STATUSARM instances for property testing - lazily instantiated by
-// AuthorizationRuleSTATUSARMGenerator()
-var authorizationRuleSTATUSARMGenerator gopter.Gen
+// AuthorizationRule_STATUSARMGenerator()
+var authorizationRule_STATUSARMGenerator gopter.Gen
 
-// AuthorizationRuleSTATUSARMGenerator returns a generator of AuthorizationRule_STATUSARM instances for property testing.
-// We first initialize authorizationRuleSTATUSARMGenerator with a simplified generator based on the
+// AuthorizationRule_STATUSARMGenerator returns a generator of AuthorizationRule_STATUSARM instances for property testing.
+// We first initialize authorizationRule_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AuthorizationRuleSTATUSARMGenerator() gopter.Gen {
-	if authorizationRuleSTATUSARMGenerator != nil {
-		return authorizationRuleSTATUSARMGenerator
+func AuthorizationRule_STATUSARMGenerator() gopter.Gen {
+	if authorizationRule_STATUSARMGenerator != nil {
+		return authorizationRule_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSARM(generators)
-	authorizationRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUSARM(generators)
+	authorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForAuthorizationRuleSTATUSARM(generators)
-	authorizationRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForAuthorizationRule_STATUSARM(generators)
+	authorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUSARM{}), generators)
 
-	return authorizationRuleSTATUSARMGenerator
+	return authorizationRule_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAuthorizationRule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForAuthorizationRuleSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthorizationRuleSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AuthorizationRuleSTATUSPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForAuthorizationRule_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AuthorizationRule_STATUS_PropertiesARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
 func Test_AuthorizationRule_STATUS_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,12 +104,12 @@ func Test_AuthorizationRule_STATUS_PropertiesARM_WhenSerializedToJson_Deserializ
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AuthorizationRule_STATUS_PropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationRuleSTATUSPropertiesARM, AuthorizationRuleSTATUSPropertiesARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAuthorizationRule_STATUS_PropertiesARM, AuthorizationRule_STATUS_PropertiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAuthorizationRuleSTATUSPropertiesARM runs a test to see if a specific instance of AuthorizationRule_STATUS_PropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationRuleSTATUSPropertiesARM(subject AuthorizationRule_STATUS_PropertiesARM) string {
+// RunJSONSerializationTestForAuthorizationRule_STATUS_PropertiesARM runs a test to see if a specific instance of AuthorizationRule_STATUS_PropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationRule_STATUS_PropertiesARM(subject AuthorizationRule_STATUS_PropertiesARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -136,25 +136,25 @@ func RunJSONSerializationTestForAuthorizationRuleSTATUSPropertiesARM(subject Aut
 }
 
 // Generator of AuthorizationRule_STATUS_PropertiesARM instances for property testing - lazily instantiated by
-// AuthorizationRuleSTATUSPropertiesARMGenerator()
-var authorizationRuleSTATUSPropertiesARMGenerator gopter.Gen
+// AuthorizationRule_STATUS_PropertiesARMGenerator()
+var authorizationRule_STATUS_PropertiesARMGenerator gopter.Gen
 
-// AuthorizationRuleSTATUSPropertiesARMGenerator returns a generator of AuthorizationRule_STATUS_PropertiesARM instances for property testing.
-func AuthorizationRuleSTATUSPropertiesARMGenerator() gopter.Gen {
-	if authorizationRuleSTATUSPropertiesARMGenerator != nil {
-		return authorizationRuleSTATUSPropertiesARMGenerator
+// AuthorizationRule_STATUS_PropertiesARMGenerator returns a generator of AuthorizationRule_STATUS_PropertiesARM instances for property testing.
+func AuthorizationRule_STATUS_PropertiesARMGenerator() gopter.Gen {
+	if authorizationRule_STATUS_PropertiesARMGenerator != nil {
+		return authorizationRule_STATUS_PropertiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSPropertiesARM(generators)
-	authorizationRuleSTATUSPropertiesARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS_PropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS_PropertiesARM(generators)
+	authorizationRule_STATUS_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS_PropertiesARM{}), generators)
 
-	return authorizationRuleSTATUSPropertiesARMGenerator
+	return authorizationRule_STATUS_PropertiesARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationRuleSTATUSPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRuleSTATUSPropertiesRights_Listen, AuthorizationRuleSTATUSPropertiesRights_Manage, AuthorizationRuleSTATUSPropertiesRights_Send))
+// AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS_PropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS_PropertiesARM(gens map[string]gopter.Gen) {
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRule_STATUS_Properties_Rights_Listen, AuthorizationRule_STATUS_Properties_Rights_Manage, AuthorizationRule_STATUS_Properties_Rights_Send))
 }
 
 func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -165,12 +165,12 @@ func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SystemData_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemDataSTATUSARM, SystemDataSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUSARM, SystemData_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSystemDataSTATUSARM runs a test to see if a specific instance of SystemData_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemDataSTATUSARM(subject SystemData_STATUSARM) string {
+// RunJSONSerializationTestForSystemData_STATUSARM runs a test to see if a specific instance of SystemData_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUSARM(subject SystemData_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -197,36 +197,36 @@ func RunJSONSerializationTestForSystemDataSTATUSARM(subject SystemData_STATUSARM
 }
 
 // Generator of SystemData_STATUSARM instances for property testing - lazily instantiated by
-// SystemDataSTATUSARMGenerator()
-var systemDataSTATUSARMGenerator gopter.Gen
+// SystemData_STATUSARMGenerator()
+var systemData_STATUSARMGenerator gopter.Gen
 
-// SystemDataSTATUSARMGenerator returns a generator of SystemData_STATUSARM instances for property testing.
-func SystemDataSTATUSARMGenerator() gopter.Gen {
-	if systemDataSTATUSARMGenerator != nil {
-		return systemDataSTATUSARMGenerator
+// SystemData_STATUSARMGenerator returns a generator of SystemData_STATUSARM instances for property testing.
+func SystemData_STATUSARMGenerator() gopter.Gen {
+	if systemData_STATUSARMGenerator != nil {
+		return systemData_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemDataSTATUSARM(generators)
-	systemDataSTATUSARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUSARM(generators)
+	systemData_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUSARM{}), generators)
 
-	return systemDataSTATUSARMGenerator
+	return systemData_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemDataSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemDataSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSystemData_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataSTATUSCreatedByType_Application,
-		SystemDataSTATUSCreatedByType_Key,
-		SystemDataSTATUSCreatedByType_ManagedIdentity,
-		SystemDataSTATUSCreatedByType_User))
+		SystemData_STATUS_CreatedByType_Application,
+		SystemData_STATUS_CreatedByType_Key,
+		SystemData_STATUS_CreatedByType_ManagedIdentity,
+		SystemData_STATUS_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataSTATUSLastModifiedByType_Application,
-		SystemDataSTATUSLastModifiedByType_Key,
-		SystemDataSTATUSLastModifiedByType_ManagedIdentity,
-		SystemDataSTATUSLastModifiedByType_User))
+		SystemData_STATUS_LastModifiedByType_Application,
+		SystemData_STATUS_LastModifiedByType_Key,
+		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
+		SystemData_STATUS_LastModifiedByType_User))
 }

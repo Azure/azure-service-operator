@@ -67,7 +67,7 @@ func Test_StorageAccountsQueueService_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccountsQueueService to StorageAccountsQueueService via AssignPropertiesToStorageAccountsQueueService & AssignPropertiesFromStorageAccountsQueueService returns original",
+		"Round trip from StorageAccountsQueueService to StorageAccountsQueueService via AssignProperties_To_StorageAccountsQueueService & AssignProperties_From_StorageAccountsQueueService returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsQueueService, StorageAccountsQueueServiceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAcco
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210401s.StorageAccountsQueueService
-	err := copied.AssignPropertiesToStorageAccountsQueueService(&other)
+	err := copied.AssignProperties_To_StorageAccountsQueueService(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageAccountsQueueService
-	err = actual.AssignPropertiesFromStorageAccountsQueueService(&other)
+	err = actual.AssignProperties_From_StorageAccountsQueueService(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -161,8 +161,8 @@ func StorageAccountsQueueServiceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueService is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueService(gens map[string]gopter.Gen) {
-	gens["Spec"] = StorageAccountsQueueServicesSpecGenerator()
-	gens["Status"] = QueueServicePropertiesSTATUSGenerator()
+	gens["Spec"] = StorageAccounts_QueueServices_SpecGenerator()
+	gens["Status"] = QueueServiceProperties_STATUSGenerator()
 }
 
 func Test_QueueServiceProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -171,26 +171,26 @@ func Test_QueueServiceProperties_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from QueueServiceProperties_STATUS to QueueServiceProperties_STATUS via AssignPropertiesToQueueServicePropertiesSTATUS & AssignPropertiesFromQueueServicePropertiesSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForQueueServicePropertiesSTATUS, QueueServicePropertiesSTATUSGenerator()))
+		"Round trip from QueueServiceProperties_STATUS to QueueServiceProperties_STATUS via AssignProperties_To_QueueServiceProperties_STATUS & AssignProperties_From_QueueServiceProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForQueueServiceProperties_STATUS, QueueServiceProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForQueueServicePropertiesSTATUS tests if a specific instance of QueueServiceProperties_STATUS can be assigned to v1beta20210401storage and back losslessly
-func RunPropertyAssignmentTestForQueueServicePropertiesSTATUS(subject QueueServiceProperties_STATUS) string {
+// RunPropertyAssignmentTestForQueueServiceProperties_STATUS tests if a specific instance of QueueServiceProperties_STATUS can be assigned to v1beta20210401storage and back losslessly
+func RunPropertyAssignmentTestForQueueServiceProperties_STATUS(subject QueueServiceProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210401s.QueueServiceProperties_STATUS
-	err := copied.AssignPropertiesToQueueServicePropertiesSTATUS(&other)
+	err := copied.AssignProperties_To_QueueServiceProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual QueueServiceProperties_STATUS
-	err = actual.AssignPropertiesFromQueueServicePropertiesSTATUS(&other)
+	err = actual.AssignProperties_From_QueueServiceProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -215,12 +215,12 @@ func Test_QueueServiceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of QueueServiceProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQueueServicePropertiesSTATUS, QueueServicePropertiesSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForQueueServiceProperties_STATUS, QueueServiceProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForQueueServicePropertiesSTATUS runs a test to see if a specific instance of QueueServiceProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForQueueServicePropertiesSTATUS(subject QueueServiceProperties_STATUS) string {
+// RunJSONSerializationTestForQueueServiceProperties_STATUS runs a test to see if a specific instance of QueueServiceProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForQueueServiceProperties_STATUS(subject QueueServiceProperties_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -247,69 +247,69 @@ func RunJSONSerializationTestForQueueServicePropertiesSTATUS(subject QueueServic
 }
 
 // Generator of QueueServiceProperties_STATUS instances for property testing - lazily instantiated by
-// QueueServicePropertiesSTATUSGenerator()
-var queueServicePropertiesSTATUSGenerator gopter.Gen
+// QueueServiceProperties_STATUSGenerator()
+var queueServiceProperties_STATUSGenerator gopter.Gen
 
-// QueueServicePropertiesSTATUSGenerator returns a generator of QueueServiceProperties_STATUS instances for property testing.
-// We first initialize queueServicePropertiesSTATUSGenerator with a simplified generator based on the
+// QueueServiceProperties_STATUSGenerator returns a generator of QueueServiceProperties_STATUS instances for property testing.
+// We first initialize queueServiceProperties_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func QueueServicePropertiesSTATUSGenerator() gopter.Gen {
-	if queueServicePropertiesSTATUSGenerator != nil {
-		return queueServicePropertiesSTATUSGenerator
+func QueueServiceProperties_STATUSGenerator() gopter.Gen {
+	if queueServiceProperties_STATUSGenerator != nil {
+		return queueServiceProperties_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueueServicePropertiesSTATUS(generators)
-	queueServicePropertiesSTATUSGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForQueueServiceProperties_STATUS(generators)
+	queueServiceProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueueServicePropertiesSTATUS(generators)
-	AddRelatedPropertyGeneratorsForQueueServicePropertiesSTATUS(generators)
-	queueServicePropertiesSTATUSGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForQueueServiceProperties_STATUS(generators)
+	AddRelatedPropertyGeneratorsForQueueServiceProperties_STATUS(generators)
+	queueServiceProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(QueueServiceProperties_STATUS{}), generators)
 
-	return queueServicePropertiesSTATUSGenerator
+	return queueServiceProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForQueueServicePropertiesSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQueueServicePropertiesSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForQueueServiceProperties_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForQueueServiceProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForQueueServicePropertiesSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForQueueServicePropertiesSTATUS(gens map[string]gopter.Gen) {
-	gens["Cors"] = gen.PtrOf(CorsRulesSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForQueueServiceProperties_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForQueueServiceProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["Cors"] = gen.PtrOf(CorsRules_STATUSGenerator())
 }
 
-func Test_StorageAccountsQueueServices_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccounts_QueueServices_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccountsQueueServices_Spec to StorageAccountsQueueServices_Spec via AssignPropertiesToStorageAccountsQueueServicesSpec & AssignPropertiesFromStorageAccountsQueueServicesSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsQueueServicesSpec, StorageAccountsQueueServicesSpecGenerator()))
+		"Round trip from StorageAccounts_QueueServices_Spec to StorageAccounts_QueueServices_Spec via AssignProperties_To_StorageAccounts_QueueServices_Spec & AssignProperties_From_StorageAccounts_QueueServices_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_QueueServices_Spec, StorageAccounts_QueueServices_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsQueueServicesSpec tests if a specific instance of StorageAccountsQueueServices_Spec can be assigned to v1beta20210401storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccountsQueueServicesSpec(subject StorageAccountsQueueServices_Spec) string {
+// RunPropertyAssignmentTestForStorageAccounts_QueueServices_Spec tests if a specific instance of StorageAccounts_QueueServices_Spec can be assigned to v1beta20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Spec(subject StorageAccounts_QueueServices_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210401s.StorageAccountsQueueServices_Spec
-	err := copied.AssignPropertiesToStorageAccountsQueueServicesSpec(&other)
+	var other v20210401s.StorageAccounts_QueueServices_Spec
+	err := copied.AssignProperties_To_StorageAccounts_QueueServices_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccountsQueueServices_Spec
-	err = actual.AssignPropertiesFromStorageAccountsQueueServicesSpec(&other)
+	var actual StorageAccounts_QueueServices_Spec
+	err = actual.AssignProperties_From_StorageAccounts_QueueServices_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -326,20 +326,20 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesSpec(subject Storag
 	return ""
 }
 
-func Test_StorageAccountsQueueServices_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_QueueServices_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountsQueueServices_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServicesSpec, StorageAccountsQueueServicesSpecGenerator()))
+		"Round trip of StorageAccounts_QueueServices_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_QueueServices_Spec, StorageAccounts_QueueServices_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsQueueServicesSpec runs a test to see if a specific instance of StorageAccountsQueueServices_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsQueueServicesSpec(subject StorageAccountsQueueServices_Spec) string {
+// RunJSONSerializationTestForStorageAccounts_QueueServices_Spec runs a test to see if a specific instance of StorageAccounts_QueueServices_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_QueueServices_Spec(subject StorageAccounts_QueueServices_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -347,7 +347,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSpec(subject Storage
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountsQueueServices_Spec
+	var actual StorageAccounts_QueueServices_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -365,40 +365,40 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSpec(subject Storage
 	return ""
 }
 
-// Generator of StorageAccountsQueueServices_Spec instances for property testing - lazily instantiated by
-// StorageAccountsQueueServicesSpecGenerator()
-var storageAccountsQueueServicesSpecGenerator gopter.Gen
+// Generator of StorageAccounts_QueueServices_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_QueueServices_SpecGenerator()
+var storageAccounts_QueueServices_SpecGenerator gopter.Gen
 
-// StorageAccountsQueueServicesSpecGenerator returns a generator of StorageAccountsQueueServices_Spec instances for property testing.
-// We first initialize storageAccountsQueueServicesSpecGenerator with a simplified generator based on the
+// StorageAccounts_QueueServices_SpecGenerator returns a generator of StorageAccounts_QueueServices_Spec instances for property testing.
+// We first initialize storageAccounts_QueueServices_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountsQueueServicesSpecGenerator() gopter.Gen {
-	if storageAccountsQueueServicesSpecGenerator != nil {
-		return storageAccountsQueueServicesSpecGenerator
+func StorageAccounts_QueueServices_SpecGenerator() gopter.Gen {
+	if storageAccounts_QueueServices_SpecGenerator != nil {
+		return storageAccounts_QueueServices_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSpec(generators)
-	storageAccountsQueueServicesSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Spec(generators)
+	storageAccounts_QueueServices_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_QueueServices_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSpec(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSpec(generators)
-	storageAccountsQueueServicesSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServices_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Spec(generators)
+	storageAccounts_QueueServices_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_QueueServices_Spec{}), generators)
 
-	return storageAccountsQueueServicesSpecGenerator
+	return storageAccounts_QueueServices_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Spec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Spec(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
 }

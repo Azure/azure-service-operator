@@ -15,6 +15,12 @@ type SupportedResourcesReport struct {
 
 	OutputPath   string `yaml:"outputPath,omitempty"`   // Destination filepath for the report, relative to DestinationGoModuleFile
 	Introduction string `yaml:"introduction,omitempty"` // Introduction to the report
+	// ResourceUrlTemplate is a template for URL to the API docs for a resource
+	// It may use the placeholders {group} {version} and {kind}
+	ResourceUrlTemplate string `yaml:"resourceUrlTemplate"`
+	// ResourcePathTemplate is a template used for generating a file path for checking whether docs for a resource have been generated
+	// specified relative to the directory of outputPath
+	ResourcePathTemplate string `yaml:"resourcePathTemplate"`
 }
 
 // NewSupportedResourcesReport creates a new SupportedResourcesReport.

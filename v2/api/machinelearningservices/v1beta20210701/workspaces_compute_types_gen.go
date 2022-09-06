@@ -29,8 +29,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WorkspacesComputes_Spec `json:"spec,omitempty"`
-	Status            ComputeResource_STATUS  `json:"status,omitempty"`
+	Spec              Workspaces_Computes_Spec `json:"spec,omitempty"`
+	Status            ComputeResource_STATUS   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -54,7 +54,7 @@ func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesCompute but received %T instead", hub)
 	}
 
-	return compute.AssignPropertiesFromWorkspacesCompute(source)
+	return compute.AssignProperties_From_WorkspacesCompute(source)
 }
 
 // ConvertTo populates the provided hub WorkspacesCompute from our WorkspacesCompute
@@ -64,7 +64,7 @@ func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesCompute but received %T instead", hub)
 	}
 
-	return compute.AssignPropertiesToWorkspacesCompute(destination)
+	return compute.AssignProperties_To_WorkspacesCompute(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspacescompute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacescomputes,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspacescomputes.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -249,25 +249,25 @@ func (compute *WorkspacesCompute) validateWriteOnceProperties(old runtime.Object
 	return genruntime.ValidateWriteOnceProperties(oldObj, compute)
 }
 
-// AssignPropertiesFromWorkspacesCompute populates our WorkspacesCompute from the provided source WorkspacesCompute
-func (compute *WorkspacesCompute) AssignPropertiesFromWorkspacesCompute(source *v20210701s.WorkspacesCompute) error {
+// AssignProperties_From_WorkspacesCompute populates our WorkspacesCompute from the provided source WorkspacesCompute
+func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source *v20210701s.WorkspacesCompute) error {
 
 	// ObjectMeta
 	compute.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec WorkspacesComputes_Spec
-	err := spec.AssignPropertiesFromWorkspacesComputesSpec(&source.Spec)
+	var spec Workspaces_Computes_Spec
+	err := spec.AssignProperties_From_Workspaces_Computes_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspacesComputesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Computes_Spec() to populate field Spec")
 	}
 	compute.Spec = spec
 
 	// Status
 	var status ComputeResource_STATUS
-	err = status.AssignPropertiesFromComputeResourceSTATUS(&source.Status)
+	err = status.AssignProperties_From_ComputeResource_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromComputeResourceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ComputeResource_STATUS() to populate field Status")
 	}
 	compute.Status = status
 
@@ -275,25 +275,25 @@ func (compute *WorkspacesCompute) AssignPropertiesFromWorkspacesCompute(source *
 	return nil
 }
 
-// AssignPropertiesToWorkspacesCompute populates the provided destination WorkspacesCompute from our WorkspacesCompute
-func (compute *WorkspacesCompute) AssignPropertiesToWorkspacesCompute(destination *v20210701s.WorkspacesCompute) error {
+// AssignProperties_To_WorkspacesCompute populates the provided destination WorkspacesCompute from our WorkspacesCompute
+func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destination *v20210701s.WorkspacesCompute) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *compute.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210701s.WorkspacesComputes_Spec
-	err := compute.Spec.AssignPropertiesToWorkspacesComputesSpec(&spec)
+	var spec v20210701s.Workspaces_Computes_Spec
+	err := compute.Spec.AssignProperties_To_Workspaces_Computes_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspacesComputesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Computes_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20210701s.ComputeResource_STATUS
-	err = compute.Status.AssignPropertiesToComputeResourceSTATUS(&status)
+	err = compute.Status.AssignProperties_To_ComputeResource_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToComputeResourceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ComputeResource_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -358,7 +358,7 @@ func (resource *ComputeResource_STATUS) ConvertStatusFrom(source genruntime.Conv
 	src, ok := source.(*v20210701s.ComputeResource_STATUS)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromComputeResourceSTATUS(src)
+		return resource.AssignProperties_From_ComputeResource_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -369,7 +369,7 @@ func (resource *ComputeResource_STATUS) ConvertStatusFrom(source genruntime.Conv
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromComputeResourceSTATUS(src)
+	err = resource.AssignProperties_From_ComputeResource_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -382,12 +382,12 @@ func (resource *ComputeResource_STATUS) ConvertStatusTo(destination genruntime.C
 	dst, ok := destination.(*v20210701s.ComputeResource_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToComputeResourceSTATUS(dst)
+		return resource.AssignProperties_To_ComputeResource_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210701s.ComputeResource_STATUS{}
-	err := resource.AssignPropertiesToComputeResourceSTATUS(dst)
+	err := resource.AssignProperties_To_ComputeResource_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -497,8 +497,8 @@ func (resource *ComputeResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromComputeResourceSTATUS populates our ComputeResource_STATUS from the provided source ComputeResource_STATUS
-func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATUS(source *v20210701s.ComputeResource_STATUS) error {
+// AssignProperties_From_ComputeResource_STATUS populates our ComputeResource_STATUS from the provided source ComputeResource_STATUS
+func (resource *ComputeResource_STATUS) AssignProperties_From_ComputeResource_STATUS(source *v20210701s.ComputeResource_STATUS) error {
 
 	// Conditions
 	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -509,9 +509,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATU
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_STATUS
-		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
+		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
 		}
 		resource.Identity = &identity
 	} else {
@@ -527,9 +527,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATU
 	// Properties
 	if source.Properties != nil {
 		var property Compute_STATUS
-		err := property.AssignPropertiesFromComputeSTATUS(source.Properties)
+		err := property.AssignProperties_From_Compute_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeSTATUS() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_STATUS() to populate field Properties")
 		}
 		resource.Properties = &property
 	} else {
@@ -539,9 +539,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATU
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		resource.Sku = &sku
 	} else {
@@ -551,9 +551,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATU
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		resource.SystemData = &systemDatum
 	} else {
@@ -570,8 +570,8 @@ func (resource *ComputeResource_STATUS) AssignPropertiesFromComputeResourceSTATU
 	return nil
 }
 
-// AssignPropertiesToComputeResourceSTATUS populates the provided destination ComputeResource_STATUS from our ComputeResource_STATUS
-func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(destination *v20210701s.ComputeResource_STATUS) error {
+// AssignProperties_To_ComputeResource_STATUS populates the provided destination ComputeResource_STATUS from our ComputeResource_STATUS
+func (resource *ComputeResource_STATUS) AssignProperties_To_ComputeResource_STATUS(destination *v20210701s.ComputeResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -584,9 +584,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(
 	// Identity
 	if resource.Identity != nil {
 		var identity v20210701s.Identity_STATUS
-		err := resource.Identity.AssignPropertiesToIdentitySTATUS(&identity)
+		err := resource.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -602,9 +602,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(
 	// Properties
 	if resource.Properties != nil {
 		var property v20210701s.Compute_STATUS
-		err := resource.Properties.AssignPropertiesToComputeSTATUS(&property)
+		err := resource.Properties.AssignProperties_To_Compute_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeSTATUS() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -614,9 +614,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(
 	// Sku
 	if resource.Sku != nil {
 		var sku v20210701s.Sku_STATUS
-		err := resource.Sku.AssignPropertiesToSkuSTATUS(&sku)
+		err := resource.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -626,9 +626,9 @@ func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(
 	// SystemData
 	if resource.SystemData != nil {
 		var systemDatum v20210701s.SystemData_STATUS
-		err := resource.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := resource.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -652,7 +652,7 @@ func (resource *ComputeResource_STATUS) AssignPropertiesToComputeResourceSTATUS(
 	return nil
 }
 
-type WorkspacesComputes_Spec struct {
+type Workspaces_Computes_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -683,14 +683,14 @@ type WorkspacesComputes_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &WorkspacesComputes_Spec{}
+var _ genruntime.ARMTransformer = &Workspaces_Computes_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if computes == nil {
 		return nil, nil
 	}
-	result := &WorkspacesComputes_SpecARM{}
+	result := &Workspaces_Computes_SpecARM{}
 
 	// Set property ‘Identity’:
 	if computes.Identity != nil {
@@ -752,15 +752,15 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (computes *WorkspacesComputes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspacesComputes_SpecARM{}
+func (computes *Workspaces_Computes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspaces_Computes_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (computes *WorkspacesComputes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspacesComputes_SpecARM)
+func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspaces_Computes_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspacesComputes_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Computes_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -833,25 +833,25 @@ func (computes *WorkspacesComputes_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &WorkspacesComputes_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_Computes_Spec{}
 
-// ConvertSpecFrom populates our WorkspacesComputes_Spec from the provided source
-func (computes *WorkspacesComputes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210701s.WorkspacesComputes_Spec)
+// ConvertSpecFrom populates our Workspaces_Computes_Spec from the provided source
+func (computes *Workspaces_Computes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210701s.Workspaces_Computes_Spec)
 	if ok {
 		// Populate our instance from source
-		return computes.AssignPropertiesFromWorkspacesComputesSpec(src)
+		return computes.AssignProperties_From_Workspaces_Computes_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.WorkspacesComputes_Spec{}
+	src = &v20210701s.Workspaces_Computes_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = computes.AssignPropertiesFromWorkspacesComputesSpec(src)
+	err = computes.AssignProperties_From_Workspaces_Computes_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -859,17 +859,17 @@ func (computes *WorkspacesComputes_Spec) ConvertSpecFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our WorkspacesComputes_Spec
-func (computes *WorkspacesComputes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210701s.WorkspacesComputes_Spec)
+// ConvertSpecTo populates the provided destination from our Workspaces_Computes_Spec
+func (computes *Workspaces_Computes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210701s.Workspaces_Computes_Spec)
 	if ok {
 		// Populate destination from our instance
-		return computes.AssignPropertiesToWorkspacesComputesSpec(dst)
+		return computes.AssignProperties_To_Workspaces_Computes_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.WorkspacesComputes_Spec{}
-	err := computes.AssignPropertiesToWorkspacesComputesSpec(dst)
+	dst = &v20210701s.Workspaces_Computes_Spec{}
+	err := computes.AssignProperties_To_Workspaces_Computes_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -883,8 +883,8 @@ func (computes *WorkspacesComputes_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromWorkspacesComputesSpec populates our WorkspacesComputes_Spec from the provided source WorkspacesComputes_Spec
-func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesSpec(source *v20210701s.WorkspacesComputes_Spec) error {
+// AssignProperties_From_Workspaces_Computes_Spec populates our Workspaces_Computes_Spec from the provided source Workspaces_Computes_Spec
+func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Computes_Spec(source *v20210701s.Workspaces_Computes_Spec) error {
 
 	// AzureName
 	computes.AzureName = source.AzureName
@@ -892,9 +892,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesS
 	// Identity
 	if source.Identity != nil {
 		var identity Identity
-		err := identity.AssignPropertiesFromIdentity(source.Identity)
+		err := identity.AssignProperties_From_Identity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
 		computes.Identity = &identity
 	} else {
@@ -915,9 +915,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesS
 	// Properties
 	if source.Properties != nil {
 		var property Compute
-		err := property.AssignPropertiesFromCompute(source.Properties)
+		err := property.AssignProperties_From_Compute(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCompute() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute() to populate field Properties")
 		}
 		computes.Properties = &property
 	} else {
@@ -927,9 +927,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesS
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
+		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		computes.Sku = &sku
 	} else {
@@ -939,9 +939,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesS
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
 		}
 		computes.SystemData = &systemDatum
 	} else {
@@ -955,8 +955,8 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesFromWorkspacesComputesS
 	return nil
 }
 
-// AssignPropertiesToWorkspacesComputesSpec populates the provided destination WorkspacesComputes_Spec from our WorkspacesComputes_Spec
-func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpec(destination *v20210701s.WorkspacesComputes_Spec) error {
+// AssignProperties_To_Workspaces_Computes_Spec populates the provided destination Workspaces_Computes_Spec from our Workspaces_Computes_Spec
+func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Computes_Spec(destination *v20210701s.Workspaces_Computes_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -966,9 +966,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpe
 	// Identity
 	if computes.Identity != nil {
 		var identity v20210701s.Identity
-		err := computes.Identity.AssignPropertiesToIdentity(&identity)
+		err := computes.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -992,9 +992,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpe
 	// Properties
 	if computes.Properties != nil {
 		var property v20210701s.Compute
-		err := computes.Properties.AssignPropertiesToCompute(&property)
+		err := computes.Properties.AssignProperties_To_Compute(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCompute() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1004,9 +1004,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpe
 	// Sku
 	if computes.Sku != nil {
 		var sku v20210701s.Sku
-		err := computes.Sku.AssignPropertiesToSku(&sku)
+		err := computes.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1016,9 +1016,9 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpe
 	// SystemData
 	if computes.SystemData != nil {
 		var systemDatum v20210701s.SystemData
-		err := computes.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		err := computes.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1040,12 +1040,12 @@ func (computes *WorkspacesComputes_Spec) AssignPropertiesToWorkspacesComputesSpe
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (computes *WorkspacesComputes_Spec) OriginalVersion() string {
+func (computes *Workspaces_Computes_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (computes *WorkspacesComputes_Spec) SetAzureName(azureName string) {
+func (computes *Workspaces_Computes_Spec) SetAzureName(azureName string) {
 	computes.AzureName = azureName
 }
 
@@ -1295,15 +1295,15 @@ func (compute *Compute) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	return nil
 }
 
-// AssignPropertiesFromCompute populates our Compute from the provided source Compute
-func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) error {
+// AssignProperties_From_Compute populates our Compute from the provided source Compute
+func (compute *Compute) AssignProperties_From_Compute(source *v20210701s.Compute) error {
 
 	// AKS
 	if source.AKS != nil {
 		var aks Compute_AKS
-		err := aks.AssignPropertiesFromComputeAKS(source.AKS)
+		err := aks.AssignProperties_From_Compute_AKS(source.AKS)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeAKS() to populate field AKS")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_AKS() to populate field AKS")
 		}
 		compute.AKS = &aks
 	} else {
@@ -1313,9 +1313,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// AmlCompute
 	if source.AmlCompute != nil {
 		var amlCompute Compute_AmlCompute
-		err := amlCompute.AssignPropertiesFromComputeAmlCompute(source.AmlCompute)
+		err := amlCompute.AssignProperties_From_Compute_AmlCompute(source.AmlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeAmlCompute() to populate field AmlCompute")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_AmlCompute() to populate field AmlCompute")
 		}
 		compute.AmlCompute = &amlCompute
 	} else {
@@ -1325,9 +1325,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// ComputeInstance
 	if source.ComputeInstance != nil {
 		var computeInstance Compute_ComputeInstance
-		err := computeInstance.AssignPropertiesFromComputeComputeInstance(source.ComputeInstance)
+		err := computeInstance.AssignProperties_From_Compute_ComputeInstance(source.ComputeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeComputeInstance() to populate field ComputeInstance")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_ComputeInstance() to populate field ComputeInstance")
 		}
 		compute.ComputeInstance = &computeInstance
 	} else {
@@ -1337,9 +1337,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// DataFactory
 	if source.DataFactory != nil {
 		var dataFactory Compute_DataFactory
-		err := dataFactory.AssignPropertiesFromComputeDataFactory(source.DataFactory)
+		err := dataFactory.AssignProperties_From_Compute_DataFactory(source.DataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeDataFactory() to populate field DataFactory")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_DataFactory() to populate field DataFactory")
 		}
 		compute.DataFactory = &dataFactory
 	} else {
@@ -1349,9 +1349,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// DataLakeAnalytics
 	if source.DataLakeAnalytics != nil {
 		var dataLakeAnalytic Compute_DataLakeAnalytics
-		err := dataLakeAnalytic.AssignPropertiesFromComputeDataLakeAnalytics(source.DataLakeAnalytics)
+		err := dataLakeAnalytic.AssignProperties_From_Compute_DataLakeAnalytics(source.DataLakeAnalytics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeDataLakeAnalytics() to populate field DataLakeAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_DataLakeAnalytics() to populate field DataLakeAnalytics")
 		}
 		compute.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1361,9 +1361,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// Databricks
 	if source.Databricks != nil {
 		var databrick Compute_Databricks
-		err := databrick.AssignPropertiesFromComputeDatabricks(source.Databricks)
+		err := databrick.AssignProperties_From_Compute_Databricks(source.Databricks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeDatabricks() to populate field Databricks")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_Databricks() to populate field Databricks")
 		}
 		compute.Databricks = &databrick
 	} else {
@@ -1373,9 +1373,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// HDInsight
 	if source.HDInsight != nil {
 		var hdInsight Compute_HDInsight
-		err := hdInsight.AssignPropertiesFromComputeHDInsight(source.HDInsight)
+		err := hdInsight.AssignProperties_From_Compute_HDInsight(source.HDInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeHDInsight() to populate field HDInsight")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_HDInsight() to populate field HDInsight")
 		}
 		compute.HDInsight = &hdInsight
 	} else {
@@ -1385,9 +1385,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// SynapseSpark
 	if source.SynapseSpark != nil {
 		var synapseSpark Compute_SynapseSpark
-		err := synapseSpark.AssignPropertiesFromComputeSynapseSpark(source.SynapseSpark)
+		err := synapseSpark.AssignProperties_From_Compute_SynapseSpark(source.SynapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeSynapseSpark() to populate field SynapseSpark")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_SynapseSpark() to populate field SynapseSpark")
 		}
 		compute.SynapseSpark = &synapseSpark
 	} else {
@@ -1397,9 +1397,9 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	// VirtualMachine
 	if source.VirtualMachine != nil {
 		var virtualMachine Compute_VirtualMachine
-		err := virtualMachine.AssignPropertiesFromComputeVirtualMachine(source.VirtualMachine)
+		err := virtualMachine.AssignProperties_From_Compute_VirtualMachine(source.VirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeVirtualMachine() to populate field VirtualMachine")
+			return errors.Wrap(err, "calling AssignProperties_From_Compute_VirtualMachine() to populate field VirtualMachine")
 		}
 		compute.VirtualMachine = &virtualMachine
 	} else {
@@ -1410,17 +1410,17 @@ func (compute *Compute) AssignPropertiesFromCompute(source *v20210701s.Compute) 
 	return nil
 }
 
-// AssignPropertiesToCompute populates the provided destination Compute from our Compute
-func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Compute) error {
+// AssignProperties_To_Compute populates the provided destination Compute from our Compute
+func (compute *Compute) AssignProperties_To_Compute(destination *v20210701s.Compute) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AKS
 	if compute.AKS != nil {
 		var aks v20210701s.Compute_AKS
-		err := compute.AKS.AssignPropertiesToComputeAKS(&aks)
+		err := compute.AKS.AssignProperties_To_Compute_AKS(&aks)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeAKS() to populate field AKS")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_AKS() to populate field AKS")
 		}
 		destination.AKS = &aks
 	} else {
@@ -1430,9 +1430,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// AmlCompute
 	if compute.AmlCompute != nil {
 		var amlCompute v20210701s.Compute_AmlCompute
-		err := compute.AmlCompute.AssignPropertiesToComputeAmlCompute(&amlCompute)
+		err := compute.AmlCompute.AssignProperties_To_Compute_AmlCompute(&amlCompute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeAmlCompute() to populate field AmlCompute")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_AmlCompute() to populate field AmlCompute")
 		}
 		destination.AmlCompute = &amlCompute
 	} else {
@@ -1442,9 +1442,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// ComputeInstance
 	if compute.ComputeInstance != nil {
 		var computeInstance v20210701s.Compute_ComputeInstance
-		err := compute.ComputeInstance.AssignPropertiesToComputeComputeInstance(&computeInstance)
+		err := compute.ComputeInstance.AssignProperties_To_Compute_ComputeInstance(&computeInstance)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeComputeInstance() to populate field ComputeInstance")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_ComputeInstance() to populate field ComputeInstance")
 		}
 		destination.ComputeInstance = &computeInstance
 	} else {
@@ -1454,9 +1454,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// DataFactory
 	if compute.DataFactory != nil {
 		var dataFactory v20210701s.Compute_DataFactory
-		err := compute.DataFactory.AssignPropertiesToComputeDataFactory(&dataFactory)
+		err := compute.DataFactory.AssignProperties_To_Compute_DataFactory(&dataFactory)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeDataFactory() to populate field DataFactory")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_DataFactory() to populate field DataFactory")
 		}
 		destination.DataFactory = &dataFactory
 	} else {
@@ -1466,9 +1466,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// DataLakeAnalytics
 	if compute.DataLakeAnalytics != nil {
 		var dataLakeAnalytic v20210701s.Compute_DataLakeAnalytics
-		err := compute.DataLakeAnalytics.AssignPropertiesToComputeDataLakeAnalytics(&dataLakeAnalytic)
+		err := compute.DataLakeAnalytics.AssignProperties_To_Compute_DataLakeAnalytics(&dataLakeAnalytic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeDataLakeAnalytics() to populate field DataLakeAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_DataLakeAnalytics() to populate field DataLakeAnalytics")
 		}
 		destination.DataLakeAnalytics = &dataLakeAnalytic
 	} else {
@@ -1478,9 +1478,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// Databricks
 	if compute.Databricks != nil {
 		var databrick v20210701s.Compute_Databricks
-		err := compute.Databricks.AssignPropertiesToComputeDatabricks(&databrick)
+		err := compute.Databricks.AssignProperties_To_Compute_Databricks(&databrick)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeDatabricks() to populate field Databricks")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_Databricks() to populate field Databricks")
 		}
 		destination.Databricks = &databrick
 	} else {
@@ -1490,9 +1490,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// HDInsight
 	if compute.HDInsight != nil {
 		var hdInsight v20210701s.Compute_HDInsight
-		err := compute.HDInsight.AssignPropertiesToComputeHDInsight(&hdInsight)
+		err := compute.HDInsight.AssignProperties_To_Compute_HDInsight(&hdInsight)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeHDInsight() to populate field HDInsight")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_HDInsight() to populate field HDInsight")
 		}
 		destination.HDInsight = &hdInsight
 	} else {
@@ -1502,9 +1502,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// SynapseSpark
 	if compute.SynapseSpark != nil {
 		var synapseSpark v20210701s.Compute_SynapseSpark
-		err := compute.SynapseSpark.AssignPropertiesToComputeSynapseSpark(&synapseSpark)
+		err := compute.SynapseSpark.AssignProperties_To_Compute_SynapseSpark(&synapseSpark)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeSynapseSpark() to populate field SynapseSpark")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_SynapseSpark() to populate field SynapseSpark")
 		}
 		destination.SynapseSpark = &synapseSpark
 	} else {
@@ -1514,9 +1514,9 @@ func (compute *Compute) AssignPropertiesToCompute(destination *v20210701s.Comput
 	// VirtualMachine
 	if compute.VirtualMachine != nil {
 		var virtualMachine v20210701s.Compute_VirtualMachine
-		err := compute.VirtualMachine.AssignPropertiesToComputeVirtualMachine(&virtualMachine)
+		err := compute.VirtualMachine.AssignProperties_To_Compute_VirtualMachine(&virtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeVirtualMachine() to populate field VirtualMachine")
+			return errors.Wrap(err, "calling AssignProperties_To_Compute_VirtualMachine() to populate field VirtualMachine")
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
@@ -1563,7 +1563,7 @@ type Compute_STATUS struct {
 
 	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
 	// Failed.
-	ProvisioningState *ComputeSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *Compute_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// ResourceId: ARM resource id of the underlying compute
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -1651,8 +1651,8 @@ func (compute *Compute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromComputeSTATUS populates our Compute_STATUS from the provided source Compute_STATUS
-func (compute *Compute_STATUS) AssignPropertiesFromComputeSTATUS(source *v20210701s.Compute_STATUS) error {
+// AssignProperties_From_Compute_STATUS populates our Compute_STATUS from the provided source Compute_STATUS
+func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *v20210701s.Compute_STATUS) error {
 
 	// ComputeLocation
 	compute.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
@@ -1697,9 +1697,9 @@ func (compute *Compute_STATUS) AssignPropertiesFromComputeSTATUS(source *v202107
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
 			var provisioningError ErrorResponse_STATUS
-			err := provisioningError.AssignPropertiesFromErrorResponseSTATUS(&provisioningErrorItem)
+			err := provisioningError.AssignProperties_From_ErrorResponse_STATUS(&provisioningErrorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromErrorResponseSTATUS() to populate field ProvisioningErrors")
+				return errors.Wrap(err, "calling AssignProperties_From_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -1710,7 +1710,7 @@ func (compute *Compute_STATUS) AssignPropertiesFromComputeSTATUS(source *v202107
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ComputeSTATUSProvisioningState(*source.ProvisioningState)
+		provisioningState := Compute_STATUS_ProvisioningState(*source.ProvisioningState)
 		compute.ProvisioningState = &provisioningState
 	} else {
 		compute.ProvisioningState = nil
@@ -1723,8 +1723,8 @@ func (compute *Compute_STATUS) AssignPropertiesFromComputeSTATUS(source *v202107
 	return nil
 }
 
-// AssignPropertiesToComputeSTATUS populates the provided destination Compute_STATUS from our Compute_STATUS
-func (compute *Compute_STATUS) AssignPropertiesToComputeSTATUS(destination *v20210701s.Compute_STATUS) error {
+// AssignProperties_To_Compute_STATUS populates the provided destination Compute_STATUS from our Compute_STATUS
+func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v20210701s.Compute_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1771,9 +1771,9 @@ func (compute *Compute_STATUS) AssignPropertiesToComputeSTATUS(destination *v202
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
 			var provisioningError v20210701s.ErrorResponse_STATUS
-			err := provisioningErrorItem.AssignPropertiesToErrorResponseSTATUS(&provisioningError)
+			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToErrorResponseSTATUS() to populate field ProvisioningErrors")
+				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
 			}
 			provisioningErrorList[provisioningErrorIndex] = provisioningError
 		}
@@ -1809,7 +1809,7 @@ type Compute_AKS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeAKSComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_AKS_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -1929,15 +1929,15 @@ func (computeAKS *Compute_AKS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromComputeAKS populates our Compute_AKS from the provided source Compute_AKS
-func (computeAKS *Compute_AKS) AssignPropertiesFromComputeAKS(source *v20210701s.Compute_AKS) error {
+// AssignProperties_From_Compute_AKS populates our Compute_AKS from the provided source Compute_AKS
+func (computeAKS *Compute_AKS) AssignProperties_From_Compute_AKS(source *v20210701s.Compute_AKS) error {
 
 	// ComputeLocation
 	computeAKS.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeAKSComputeType(*source.ComputeType)
+		computeType := Compute_AKS_ComputeType(*source.ComputeType)
 		computeAKS.ComputeType = &computeType
 	} else {
 		computeAKS.ComputeType = nil
@@ -1957,9 +1957,9 @@ func (computeAKS *Compute_AKS) AssignPropertiesFromComputeAKS(source *v20210701s
 	// Properties
 	if source.Properties != nil {
 		var property AKSProperties
-		err := property.AssignPropertiesFromAKSProperties(source.Properties)
+		err := property.AssignProperties_From_AKSProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAKSProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_AKSProperties() to populate field Properties")
 		}
 		computeAKS.Properties = &property
 	} else {
@@ -1978,8 +1978,8 @@ func (computeAKS *Compute_AKS) AssignPropertiesFromComputeAKS(source *v20210701s
 	return nil
 }
 
-// AssignPropertiesToComputeAKS populates the provided destination Compute_AKS from our Compute_AKS
-func (computeAKS *Compute_AKS) AssignPropertiesToComputeAKS(destination *v20210701s.Compute_AKS) error {
+// AssignProperties_To_Compute_AKS populates the provided destination Compute_AKS from our Compute_AKS
+func (computeAKS *Compute_AKS) AssignProperties_To_Compute_AKS(destination *v20210701s.Compute_AKS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2008,9 +2008,9 @@ func (computeAKS *Compute_AKS) AssignPropertiesToComputeAKS(destination *v202107
 	// Properties
 	if computeAKS.Properties != nil {
 		var property v20210701s.AKSProperties
-		err := computeAKS.Properties.AssignPropertiesToAKSProperties(&property)
+		err := computeAKS.Properties.AssignProperties_To_AKSProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAKSProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_AKSProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2041,7 +2041,7 @@ type Compute_AmlCompute struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeAmlComputeComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_AmlCompute_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2161,15 +2161,15 @@ func (compute *Compute_AmlCompute) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromComputeAmlCompute populates our Compute_AmlCompute from the provided source Compute_AmlCompute
-func (compute *Compute_AmlCompute) AssignPropertiesFromComputeAmlCompute(source *v20210701s.Compute_AmlCompute) error {
+// AssignProperties_From_Compute_AmlCompute populates our Compute_AmlCompute from the provided source Compute_AmlCompute
+func (compute *Compute_AmlCompute) AssignProperties_From_Compute_AmlCompute(source *v20210701s.Compute_AmlCompute) error {
 
 	// ComputeLocation
 	compute.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeAmlComputeComputeType(*source.ComputeType)
+		computeType := Compute_AmlCompute_ComputeType(*source.ComputeType)
 		compute.ComputeType = &computeType
 	} else {
 		compute.ComputeType = nil
@@ -2189,9 +2189,9 @@ func (compute *Compute_AmlCompute) AssignPropertiesFromComputeAmlCompute(source 
 	// Properties
 	if source.Properties != nil {
 		var property AmlComputeProperties
-		err := property.AssignPropertiesFromAmlComputeProperties(source.Properties)
+		err := property.AssignProperties_From_AmlComputeProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAmlComputeProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_AmlComputeProperties() to populate field Properties")
 		}
 		compute.Properties = &property
 	} else {
@@ -2210,8 +2210,8 @@ func (compute *Compute_AmlCompute) AssignPropertiesFromComputeAmlCompute(source 
 	return nil
 }
 
-// AssignPropertiesToComputeAmlCompute populates the provided destination Compute_AmlCompute from our Compute_AmlCompute
-func (compute *Compute_AmlCompute) AssignPropertiesToComputeAmlCompute(destination *v20210701s.Compute_AmlCompute) error {
+// AssignProperties_To_Compute_AmlCompute populates the provided destination Compute_AmlCompute from our Compute_AmlCompute
+func (compute *Compute_AmlCompute) AssignProperties_To_Compute_AmlCompute(destination *v20210701s.Compute_AmlCompute) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2240,9 +2240,9 @@ func (compute *Compute_AmlCompute) AssignPropertiesToComputeAmlCompute(destinati
 	// Properties
 	if compute.Properties != nil {
 		var property v20210701s.AmlComputeProperties
-		err := compute.Properties.AssignPropertiesToAmlComputeProperties(&property)
+		err := compute.Properties.AssignProperties_To_AmlComputeProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAmlComputeProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_AmlComputeProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2273,7 +2273,7 @@ type Compute_ComputeInstance struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeComputeInstanceComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_ComputeInstance_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2393,15 +2393,15 @@ func (instance *Compute_ComputeInstance) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromComputeComputeInstance populates our Compute_ComputeInstance from the provided source Compute_ComputeInstance
-func (instance *Compute_ComputeInstance) AssignPropertiesFromComputeComputeInstance(source *v20210701s.Compute_ComputeInstance) error {
+// AssignProperties_From_Compute_ComputeInstance populates our Compute_ComputeInstance from the provided source Compute_ComputeInstance
+func (instance *Compute_ComputeInstance) AssignProperties_From_Compute_ComputeInstance(source *v20210701s.Compute_ComputeInstance) error {
 
 	// ComputeLocation
 	instance.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeComputeInstanceComputeType(*source.ComputeType)
+		computeType := Compute_ComputeInstance_ComputeType(*source.ComputeType)
 		instance.ComputeType = &computeType
 	} else {
 		instance.ComputeType = nil
@@ -2421,9 +2421,9 @@ func (instance *Compute_ComputeInstance) AssignPropertiesFromComputeComputeInsta
 	// Properties
 	if source.Properties != nil {
 		var property ComputeInstanceProperties
-		err := property.AssignPropertiesFromComputeInstanceProperties(source.Properties)
+		err := property.AssignProperties_From_ComputeInstanceProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeInstanceProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceProperties() to populate field Properties")
 		}
 		instance.Properties = &property
 	} else {
@@ -2442,8 +2442,8 @@ func (instance *Compute_ComputeInstance) AssignPropertiesFromComputeComputeInsta
 	return nil
 }
 
-// AssignPropertiesToComputeComputeInstance populates the provided destination Compute_ComputeInstance from our Compute_ComputeInstance
-func (instance *Compute_ComputeInstance) AssignPropertiesToComputeComputeInstance(destination *v20210701s.Compute_ComputeInstance) error {
+// AssignProperties_To_Compute_ComputeInstance populates the provided destination Compute_ComputeInstance from our Compute_ComputeInstance
+func (instance *Compute_ComputeInstance) AssignProperties_To_Compute_ComputeInstance(destination *v20210701s.Compute_ComputeInstance) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2472,9 +2472,9 @@ func (instance *Compute_ComputeInstance) AssignPropertiesToComputeComputeInstanc
 	// Properties
 	if instance.Properties != nil {
 		var property v20210701s.ComputeInstanceProperties
-		err := instance.Properties.AssignPropertiesToComputeInstanceProperties(&property)
+		err := instance.Properties.AssignProperties_To_ComputeInstanceProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeInstanceProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2505,7 +2505,7 @@ type Compute_Databricks struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeDatabricksComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_Databricks_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2625,15 +2625,15 @@ func (databricks *Compute_Databricks) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromComputeDatabricks populates our Compute_Databricks from the provided source Compute_Databricks
-func (databricks *Compute_Databricks) AssignPropertiesFromComputeDatabricks(source *v20210701s.Compute_Databricks) error {
+// AssignProperties_From_Compute_Databricks populates our Compute_Databricks from the provided source Compute_Databricks
+func (databricks *Compute_Databricks) AssignProperties_From_Compute_Databricks(source *v20210701s.Compute_Databricks) error {
 
 	// ComputeLocation
 	databricks.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeDatabricksComputeType(*source.ComputeType)
+		computeType := Compute_Databricks_ComputeType(*source.ComputeType)
 		databricks.ComputeType = &computeType
 	} else {
 		databricks.ComputeType = nil
@@ -2653,9 +2653,9 @@ func (databricks *Compute_Databricks) AssignPropertiesFromComputeDatabricks(sour
 	// Properties
 	if source.Properties != nil {
 		var property DatabricksProperties
-		err := property.AssignPropertiesFromDatabricksProperties(source.Properties)
+		err := property.AssignProperties_From_DatabricksProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDatabricksProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_DatabricksProperties() to populate field Properties")
 		}
 		databricks.Properties = &property
 	} else {
@@ -2674,8 +2674,8 @@ func (databricks *Compute_Databricks) AssignPropertiesFromComputeDatabricks(sour
 	return nil
 }
 
-// AssignPropertiesToComputeDatabricks populates the provided destination Compute_Databricks from our Compute_Databricks
-func (databricks *Compute_Databricks) AssignPropertiesToComputeDatabricks(destination *v20210701s.Compute_Databricks) error {
+// AssignProperties_To_Compute_Databricks populates the provided destination Compute_Databricks from our Compute_Databricks
+func (databricks *Compute_Databricks) AssignProperties_To_Compute_Databricks(destination *v20210701s.Compute_Databricks) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2704,9 +2704,9 @@ func (databricks *Compute_Databricks) AssignPropertiesToComputeDatabricks(destin
 	// Properties
 	if databricks.Properties != nil {
 		var property v20210701s.DatabricksProperties
-		err := databricks.Properties.AssignPropertiesToDatabricksProperties(&property)
+		err := databricks.Properties.AssignProperties_To_DatabricksProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDatabricksProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_DatabricksProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2737,7 +2737,7 @@ type Compute_DataFactory struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeDataFactoryComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_DataFactory_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2833,15 +2833,15 @@ func (factory *Compute_DataFactory) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromComputeDataFactory populates our Compute_DataFactory from the provided source Compute_DataFactory
-func (factory *Compute_DataFactory) AssignPropertiesFromComputeDataFactory(source *v20210701s.Compute_DataFactory) error {
+// AssignProperties_From_Compute_DataFactory populates our Compute_DataFactory from the provided source Compute_DataFactory
+func (factory *Compute_DataFactory) AssignProperties_From_Compute_DataFactory(source *v20210701s.Compute_DataFactory) error {
 
 	// ComputeLocation
 	factory.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeDataFactoryComputeType(*source.ComputeType)
+		computeType := Compute_DataFactory_ComputeType(*source.ComputeType)
 		factory.ComputeType = &computeType
 	} else {
 		factory.ComputeType = nil
@@ -2870,8 +2870,8 @@ func (factory *Compute_DataFactory) AssignPropertiesFromComputeDataFactory(sourc
 	return nil
 }
 
-// AssignPropertiesToComputeDataFactory populates the provided destination Compute_DataFactory from our Compute_DataFactory
-func (factory *Compute_DataFactory) AssignPropertiesToComputeDataFactory(destination *v20210701s.Compute_DataFactory) error {
+// AssignProperties_To_Compute_DataFactory populates the provided destination Compute_DataFactory from our Compute_DataFactory
+func (factory *Compute_DataFactory) AssignProperties_To_Compute_DataFactory(destination *v20210701s.Compute_DataFactory) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2921,7 +2921,7 @@ type Compute_DataLakeAnalytics struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeDataLakeAnalyticsComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3039,15 +3039,15 @@ func (analytics *Compute_DataLakeAnalytics) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromComputeDataLakeAnalytics populates our Compute_DataLakeAnalytics from the provided source Compute_DataLakeAnalytics
-func (analytics *Compute_DataLakeAnalytics) AssignPropertiesFromComputeDataLakeAnalytics(source *v20210701s.Compute_DataLakeAnalytics) error {
+// AssignProperties_From_Compute_DataLakeAnalytics populates our Compute_DataLakeAnalytics from the provided source Compute_DataLakeAnalytics
+func (analytics *Compute_DataLakeAnalytics) AssignProperties_From_Compute_DataLakeAnalytics(source *v20210701s.Compute_DataLakeAnalytics) error {
 
 	// ComputeLocation
 	analytics.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeDataLakeAnalyticsComputeType(*source.ComputeType)
+		computeType := Compute_DataLakeAnalytics_ComputeType(*source.ComputeType)
 		analytics.ComputeType = &computeType
 	} else {
 		analytics.ComputeType = nil
@@ -3067,9 +3067,9 @@ func (analytics *Compute_DataLakeAnalytics) AssignPropertiesFromComputeDataLakeA
 	// Properties
 	if source.Properties != nil {
 		var property DataLakeAnalyticsProperties
-		err := property.AssignPropertiesFromDataLakeAnalyticsProperties(source.Properties)
+		err := property.AssignProperties_From_DataLakeAnalyticsProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDataLakeAnalyticsProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_DataLakeAnalyticsProperties() to populate field Properties")
 		}
 		analytics.Properties = &property
 	} else {
@@ -3088,8 +3088,8 @@ func (analytics *Compute_DataLakeAnalytics) AssignPropertiesFromComputeDataLakeA
 	return nil
 }
 
-// AssignPropertiesToComputeDataLakeAnalytics populates the provided destination Compute_DataLakeAnalytics from our Compute_DataLakeAnalytics
-func (analytics *Compute_DataLakeAnalytics) AssignPropertiesToComputeDataLakeAnalytics(destination *v20210701s.Compute_DataLakeAnalytics) error {
+// AssignProperties_To_Compute_DataLakeAnalytics populates the provided destination Compute_DataLakeAnalytics from our Compute_DataLakeAnalytics
+func (analytics *Compute_DataLakeAnalytics) AssignProperties_To_Compute_DataLakeAnalytics(destination *v20210701s.Compute_DataLakeAnalytics) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3118,9 +3118,9 @@ func (analytics *Compute_DataLakeAnalytics) AssignPropertiesToComputeDataLakeAna
 	// Properties
 	if analytics.Properties != nil {
 		var property v20210701s.DataLakeAnalyticsProperties
-		err := analytics.Properties.AssignPropertiesToDataLakeAnalyticsProperties(&property)
+		err := analytics.Properties.AssignProperties_To_DataLakeAnalyticsProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDataLakeAnalyticsProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalyticsProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3151,7 +3151,7 @@ type Compute_HDInsight struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeHDInsightComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_HDInsight_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3271,15 +3271,15 @@ func (insight *Compute_HDInsight) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromComputeHDInsight populates our Compute_HDInsight from the provided source Compute_HDInsight
-func (insight *Compute_HDInsight) AssignPropertiesFromComputeHDInsight(source *v20210701s.Compute_HDInsight) error {
+// AssignProperties_From_Compute_HDInsight populates our Compute_HDInsight from the provided source Compute_HDInsight
+func (insight *Compute_HDInsight) AssignProperties_From_Compute_HDInsight(source *v20210701s.Compute_HDInsight) error {
 
 	// ComputeLocation
 	insight.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeHDInsightComputeType(*source.ComputeType)
+		computeType := Compute_HDInsight_ComputeType(*source.ComputeType)
 		insight.ComputeType = &computeType
 	} else {
 		insight.ComputeType = nil
@@ -3299,9 +3299,9 @@ func (insight *Compute_HDInsight) AssignPropertiesFromComputeHDInsight(source *v
 	// Properties
 	if source.Properties != nil {
 		var property HDInsightProperties
-		err := property.AssignPropertiesFromHDInsightProperties(source.Properties)
+		err := property.AssignProperties_From_HDInsightProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHDInsightProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_HDInsightProperties() to populate field Properties")
 		}
 		insight.Properties = &property
 	} else {
@@ -3320,8 +3320,8 @@ func (insight *Compute_HDInsight) AssignPropertiesFromComputeHDInsight(source *v
 	return nil
 }
 
-// AssignPropertiesToComputeHDInsight populates the provided destination Compute_HDInsight from our Compute_HDInsight
-func (insight *Compute_HDInsight) AssignPropertiesToComputeHDInsight(destination *v20210701s.Compute_HDInsight) error {
+// AssignProperties_To_Compute_HDInsight populates the provided destination Compute_HDInsight from our Compute_HDInsight
+func (insight *Compute_HDInsight) AssignProperties_To_Compute_HDInsight(destination *v20210701s.Compute_HDInsight) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3350,9 +3350,9 @@ func (insight *Compute_HDInsight) AssignPropertiesToComputeHDInsight(destination
 	// Properties
 	if insight.Properties != nil {
 		var property v20210701s.HDInsightProperties
-		err := insight.Properties.AssignPropertiesToHDInsightProperties(&property)
+		err := insight.Properties.AssignProperties_To_HDInsightProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHDInsightProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_HDInsightProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3383,7 +3383,7 @@ type Compute_SynapseSpark struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeSynapseSparkComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_SynapseSpark_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3501,15 +3501,15 @@ func (spark *Compute_SynapseSpark) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromComputeSynapseSpark populates our Compute_SynapseSpark from the provided source Compute_SynapseSpark
-func (spark *Compute_SynapseSpark) AssignPropertiesFromComputeSynapseSpark(source *v20210701s.Compute_SynapseSpark) error {
+// AssignProperties_From_Compute_SynapseSpark populates our Compute_SynapseSpark from the provided source Compute_SynapseSpark
+func (spark *Compute_SynapseSpark) AssignProperties_From_Compute_SynapseSpark(source *v20210701s.Compute_SynapseSpark) error {
 
 	// ComputeLocation
 	spark.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeSynapseSparkComputeType(*source.ComputeType)
+		computeType := Compute_SynapseSpark_ComputeType(*source.ComputeType)
 		spark.ComputeType = &computeType
 	} else {
 		spark.ComputeType = nil
@@ -3529,9 +3529,9 @@ func (spark *Compute_SynapseSpark) AssignPropertiesFromComputeSynapseSpark(sourc
 	// Properties
 	if source.Properties != nil {
 		var property SynapseSparkProperties
-		err := property.AssignPropertiesFromSynapseSparkProperties(source.Properties)
+		err := property.AssignProperties_From_SynapseSparkProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSynapseSparkProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_SynapseSparkProperties() to populate field Properties")
 		}
 		spark.Properties = &property
 	} else {
@@ -3550,8 +3550,8 @@ func (spark *Compute_SynapseSpark) AssignPropertiesFromComputeSynapseSpark(sourc
 	return nil
 }
 
-// AssignPropertiesToComputeSynapseSpark populates the provided destination Compute_SynapseSpark from our Compute_SynapseSpark
-func (spark *Compute_SynapseSpark) AssignPropertiesToComputeSynapseSpark(destination *v20210701s.Compute_SynapseSpark) error {
+// AssignProperties_To_Compute_SynapseSpark populates the provided destination Compute_SynapseSpark from our Compute_SynapseSpark
+func (spark *Compute_SynapseSpark) AssignProperties_To_Compute_SynapseSpark(destination *v20210701s.Compute_SynapseSpark) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3580,9 +3580,9 @@ func (spark *Compute_SynapseSpark) AssignPropertiesToComputeSynapseSpark(destina
 	// Properties
 	if spark.Properties != nil {
 		var property v20210701s.SynapseSparkProperties
-		err := spark.Properties.AssignPropertiesToSynapseSparkProperties(&property)
+		err := spark.Properties.AssignProperties_To_SynapseSparkProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSynapseSparkProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_SynapseSparkProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3613,7 +3613,7 @@ type Compute_VirtualMachine struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	ComputeType *ComputeVirtualMachineComputeType `json:"computeType,omitempty"`
+	ComputeType *Compute_VirtualMachine_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3731,15 +3731,15 @@ func (machine *Compute_VirtualMachine) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromComputeVirtualMachine populates our Compute_VirtualMachine from the provided source Compute_VirtualMachine
-func (machine *Compute_VirtualMachine) AssignPropertiesFromComputeVirtualMachine(source *v20210701s.Compute_VirtualMachine) error {
+// AssignProperties_From_Compute_VirtualMachine populates our Compute_VirtualMachine from the provided source Compute_VirtualMachine
+func (machine *Compute_VirtualMachine) AssignProperties_From_Compute_VirtualMachine(source *v20210701s.Compute_VirtualMachine) error {
 
 	// ComputeLocation
 	machine.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
 
 	// ComputeType
 	if source.ComputeType != nil {
-		computeType := ComputeVirtualMachineComputeType(*source.ComputeType)
+		computeType := Compute_VirtualMachine_ComputeType(*source.ComputeType)
 		machine.ComputeType = &computeType
 	} else {
 		machine.ComputeType = nil
@@ -3759,9 +3759,9 @@ func (machine *Compute_VirtualMachine) AssignPropertiesFromComputeVirtualMachine
 	// Properties
 	if source.Properties != nil {
 		var property VirtualMachineProperties
-		err := property.AssignPropertiesFromVirtualMachineProperties(source.Properties)
+		err := property.AssignProperties_From_VirtualMachineProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineProperties() to populate field Properties")
 		}
 		machine.Properties = &property
 	} else {
@@ -3780,8 +3780,8 @@ func (machine *Compute_VirtualMachine) AssignPropertiesFromComputeVirtualMachine
 	return nil
 }
 
-// AssignPropertiesToComputeVirtualMachine populates the provided destination Compute_VirtualMachine from our Compute_VirtualMachine
-func (machine *Compute_VirtualMachine) AssignPropertiesToComputeVirtualMachine(destination *v20210701s.Compute_VirtualMachine) error {
+// AssignProperties_To_Compute_VirtualMachine populates the provided destination Compute_VirtualMachine from our Compute_VirtualMachine
+func (machine *Compute_VirtualMachine) AssignProperties_To_Compute_VirtualMachine(destination *v20210701s.Compute_VirtualMachine) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3810,9 +3810,9 @@ func (machine *Compute_VirtualMachine) AssignPropertiesToComputeVirtualMachine(d
 	// Properties
 	if machine.Properties != nil {
 		var property v20210701s.VirtualMachineProperties
-		err := machine.Properties.AssignPropertiesToVirtualMachineProperties(&property)
+		err := machine.Properties.AssignProperties_To_VirtualMachineProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -3872,15 +3872,15 @@ func (response *ErrorResponse_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromErrorResponseSTATUS populates our ErrorResponse_STATUS from the provided source ErrorResponse_STATUS
-func (response *ErrorResponse_STATUS) AssignPropertiesFromErrorResponseSTATUS(source *v20210701s.ErrorResponse_STATUS) error {
+// AssignProperties_From_ErrorResponse_STATUS populates our ErrorResponse_STATUS from the provided source ErrorResponse_STATUS
+func (response *ErrorResponse_STATUS) AssignProperties_From_ErrorResponse_STATUS(source *v20210701s.ErrorResponse_STATUS) error {
 
 	// Error
 	if source.Error != nil {
 		var error ErrorDetail_STATUS
-		err := error.AssignPropertiesFromErrorDetailSTATUS(source.Error)
+		err := error.AssignProperties_From_ErrorDetail_STATUS(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromErrorDetailSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field Error")
 		}
 		response.Error = &error
 	} else {
@@ -3891,17 +3891,17 @@ func (response *ErrorResponse_STATUS) AssignPropertiesFromErrorResponseSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToErrorResponseSTATUS populates the provided destination ErrorResponse_STATUS from our ErrorResponse_STATUS
-func (response *ErrorResponse_STATUS) AssignPropertiesToErrorResponseSTATUS(destination *v20210701s.ErrorResponse_STATUS) error {
+// AssignProperties_To_ErrorResponse_STATUS populates the provided destination ErrorResponse_STATUS from our ErrorResponse_STATUS
+func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(destination *v20210701s.ErrorResponse_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error
 	if response.Error != nil {
 		var error v20210701s.ErrorDetail_STATUS
-		err := response.Error.AssignPropertiesToErrorDetailSTATUS(&error)
+		err := response.Error.AssignProperties_To_ErrorDetail_STATUS(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToErrorDetailSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -3935,13 +3935,13 @@ type AKSProperties struct {
 	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
 
 	// ClusterPurpose: Intended usage of the cluster.
-	ClusterPurpose *AKSPropertiesClusterPurpose `json:"clusterPurpose,omitempty"`
+	ClusterPurpose *AKSProperties_ClusterPurpose `json:"clusterPurpose,omitempty"`
 
 	// LoadBalancerSubnet: Load Balancer Subnet
 	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
 
 	// LoadBalancerType: Load Balancer Type.
-	LoadBalancerType *AKSPropertiesLoadBalancerType `json:"loadBalancerType,omitempty"`
+	LoadBalancerType *AKSProperties_LoadBalancerType `json:"loadBalancerType,omitempty"`
 
 	// SslConfiguration: The ssl configuration for scoring
 	SslConfiguration *SslConfiguration `json:"sslConfiguration,omitempty"`
@@ -4088,8 +4088,8 @@ func (properties *AKSProperties) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromAKSProperties populates our AKSProperties from the provided source AKSProperties
-func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v20210701s.AKSProperties) error {
+// AssignProperties_From_AKSProperties populates our AKSProperties from the provided source AKSProperties
+func (properties *AKSProperties) AssignProperties_From_AKSProperties(source *v20210701s.AKSProperties) error {
 
 	// AgentCount
 	if source.AgentCount != nil {
@@ -4105,9 +4105,9 @@ func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v2021
 	// AksNetworkingConfiguration
 	if source.AksNetworkingConfiguration != nil {
 		var aksNetworkingConfiguration AksNetworkingConfiguration
-		err := aksNetworkingConfiguration.AssignPropertiesFromAksNetworkingConfiguration(source.AksNetworkingConfiguration)
+		err := aksNetworkingConfiguration.AssignProperties_From_AksNetworkingConfiguration(source.AksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
 		}
 		properties.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -4119,7 +4119,7 @@ func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v2021
 
 	// ClusterPurpose
 	if source.ClusterPurpose != nil {
-		clusterPurpose := AKSPropertiesClusterPurpose(*source.ClusterPurpose)
+		clusterPurpose := AKSProperties_ClusterPurpose(*source.ClusterPurpose)
 		properties.ClusterPurpose = &clusterPurpose
 	} else {
 		properties.ClusterPurpose = nil
@@ -4130,7 +4130,7 @@ func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v2021
 
 	// LoadBalancerType
 	if source.LoadBalancerType != nil {
-		loadBalancerType := AKSPropertiesLoadBalancerType(*source.LoadBalancerType)
+		loadBalancerType := AKSProperties_LoadBalancerType(*source.LoadBalancerType)
 		properties.LoadBalancerType = &loadBalancerType
 	} else {
 		properties.LoadBalancerType = nil
@@ -4139,9 +4139,9 @@ func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v2021
 	// SslConfiguration
 	if source.SslConfiguration != nil {
 		var sslConfiguration SslConfiguration
-		err := sslConfiguration.AssignPropertiesFromSslConfiguration(source.SslConfiguration)
+		err := sslConfiguration.AssignProperties_From_SslConfiguration(source.SslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSslConfiguration() to populate field SslConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SslConfiguration() to populate field SslConfiguration")
 		}
 		properties.SslConfiguration = &sslConfiguration
 	} else {
@@ -4152,8 +4152,8 @@ func (properties *AKSProperties) AssignPropertiesFromAKSProperties(source *v2021
 	return nil
 }
 
-// AssignPropertiesToAKSProperties populates the provided destination AKSProperties from our AKSProperties
-func (properties *AKSProperties) AssignPropertiesToAKSProperties(destination *v20210701s.AKSProperties) error {
+// AssignProperties_To_AKSProperties populates the provided destination AKSProperties from our AKSProperties
+func (properties *AKSProperties) AssignProperties_To_AKSProperties(destination *v20210701s.AKSProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4171,9 +4171,9 @@ func (properties *AKSProperties) AssignPropertiesToAKSProperties(destination *v2
 	// AksNetworkingConfiguration
 	if properties.AksNetworkingConfiguration != nil {
 		var aksNetworkingConfiguration v20210701s.AksNetworkingConfiguration
-		err := properties.AksNetworkingConfiguration.AssignPropertiesToAksNetworkingConfiguration(&aksNetworkingConfiguration)
+		err := properties.AksNetworkingConfiguration.AssignProperties_To_AksNetworkingConfiguration(&aksNetworkingConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
 		}
 		destination.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	} else {
@@ -4205,9 +4205,9 @@ func (properties *AKSProperties) AssignPropertiesToAKSProperties(destination *v2
 	// SslConfiguration
 	if properties.SslConfiguration != nil {
 		var sslConfiguration v20210701s.SslConfiguration
-		err := properties.SslConfiguration.AssignPropertiesToSslConfiguration(&sslConfiguration)
+		err := properties.SslConfiguration.AssignProperties_To_SslConfiguration(&sslConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSslConfiguration() to populate field SslConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SslConfiguration() to populate field SslConfiguration")
 		}
 		destination.SslConfiguration = &sslConfiguration
 	} else {
@@ -4236,14 +4236,14 @@ type AmlComputeProperties struct {
 	IsolatedNetwork *bool `json:"isolatedNetwork,omitempty"`
 
 	// OsType: Compute OS Type.
-	OsType *AmlComputePropertiesOsType `json:"osType,omitempty"`
+	OsType *AmlComputeProperties_OsType `json:"osType,omitempty"`
 
 	// RemoteLoginPortPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh
 	// port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the
 	// cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined,
 	// else is open all public nodes. It can be default only during cluster creation time, after creation it will be either
 	// enabled or disabled.
-	RemoteLoginPortPublicAccess *AmlComputePropertiesRemoteLoginPortPublicAccess `json:"remoteLoginPortPublicAccess,omitempty"`
+	RemoteLoginPortPublicAccess *AmlComputeProperties_RemoteLoginPortPublicAccess `json:"remoteLoginPortPublicAccess,omitempty"`
 
 	// ScaleSettings: scale settings for AML Compute
 	ScaleSettings *ScaleSettings `json:"scaleSettings,omitempty"`
@@ -4258,7 +4258,7 @@ type AmlComputeProperties struct {
 	VirtualMachineImage *VirtualMachineImage `json:"virtualMachineImage,omitempty"`
 
 	// VmPriority: Virtual Machine priority.
-	VmPriority *AmlComputePropertiesVmPriority `json:"vmPriority,omitempty"`
+	VmPriority *AmlComputeProperties_VmPriority `json:"vmPriority,omitempty"`
 
 	// VmSize: Virtual Machine Size
 	VmSize *string `json:"vmSize,omitempty"`
@@ -4447,8 +4447,8 @@ func (properties *AmlComputeProperties) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromAmlComputeProperties populates our AmlComputeProperties from the provided source AmlComputeProperties
-func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties(source *v20210701s.AmlComputeProperties) error {
+// AssignProperties_From_AmlComputeProperties populates our AmlComputeProperties from the provided source AmlComputeProperties
+func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperties(source *v20210701s.AmlComputeProperties) error {
 
 	// EnableNodePublicIp
 	if source.EnableNodePublicIp != nil {
@@ -4468,7 +4468,7 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 
 	// OsType
 	if source.OsType != nil {
-		osType := AmlComputePropertiesOsType(*source.OsType)
+		osType := AmlComputeProperties_OsType(*source.OsType)
 		properties.OsType = &osType
 	} else {
 		properties.OsType = nil
@@ -4476,7 +4476,7 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 
 	// RemoteLoginPortPublicAccess
 	if source.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := AmlComputePropertiesRemoteLoginPortPublicAccess(*source.RemoteLoginPortPublicAccess)
+		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess(*source.RemoteLoginPortPublicAccess)
 		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	} else {
 		properties.RemoteLoginPortPublicAccess = nil
@@ -4485,9 +4485,9 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 	// ScaleSettings
 	if source.ScaleSettings != nil {
 		var scaleSetting ScaleSettings
-		err := scaleSetting.AssignPropertiesFromScaleSettings(source.ScaleSettings)
+		err := scaleSetting.AssignProperties_From_ScaleSettings(source.ScaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromScaleSettings() to populate field ScaleSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_ScaleSettings() to populate field ScaleSettings")
 		}
 		properties.ScaleSettings = &scaleSetting
 	} else {
@@ -4497,9 +4497,9 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 	// Subnet
 	if source.Subnet != nil {
 		var subnet ResourceId
-		err := subnet.AssignPropertiesFromResourceId(source.Subnet)
+		err := subnet.AssignProperties_From_ResourceId(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceId() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -4509,9 +4509,9 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 	// UserAccountCredentials
 	if source.UserAccountCredentials != nil {
 		var userAccountCredential UserAccountCredentials
-		err := userAccountCredential.AssignPropertiesFromUserAccountCredentials(source.UserAccountCredentials)
+		err := userAccountCredential.AssignProperties_From_UserAccountCredentials(source.UserAccountCredentials)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUserAccountCredentials() to populate field UserAccountCredentials")
+			return errors.Wrap(err, "calling AssignProperties_From_UserAccountCredentials() to populate field UserAccountCredentials")
 		}
 		properties.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -4521,9 +4521,9 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 	// VirtualMachineImage
 	if source.VirtualMachineImage != nil {
 		var virtualMachineImage VirtualMachineImage
-		err := virtualMachineImage.AssignPropertiesFromVirtualMachineImage(source.VirtualMachineImage)
+		err := virtualMachineImage.AssignProperties_From_VirtualMachineImage(source.VirtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineImage() to populate field VirtualMachineImage")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineImage() to populate field VirtualMachineImage")
 		}
 		properties.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -4532,7 +4532,7 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 
 	// VmPriority
 	if source.VmPriority != nil {
-		vmPriority := AmlComputePropertiesVmPriority(*source.VmPriority)
+		vmPriority := AmlComputeProperties_VmPriority(*source.VmPriority)
 		properties.VmPriority = &vmPriority
 	} else {
 		properties.VmPriority = nil
@@ -4545,8 +4545,8 @@ func (properties *AmlComputeProperties) AssignPropertiesFromAmlComputeProperties
 	return nil
 }
 
-// AssignPropertiesToAmlComputeProperties populates the provided destination AmlComputeProperties from our AmlComputeProperties
-func (properties *AmlComputeProperties) AssignPropertiesToAmlComputeProperties(destination *v20210701s.AmlComputeProperties) error {
+// AssignProperties_To_AmlComputeProperties populates the provided destination AmlComputeProperties from our AmlComputeProperties
+func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties(destination *v20210701s.AmlComputeProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4585,9 +4585,9 @@ func (properties *AmlComputeProperties) AssignPropertiesToAmlComputeProperties(d
 	// ScaleSettings
 	if properties.ScaleSettings != nil {
 		var scaleSetting v20210701s.ScaleSettings
-		err := properties.ScaleSettings.AssignPropertiesToScaleSettings(&scaleSetting)
+		err := properties.ScaleSettings.AssignProperties_To_ScaleSettings(&scaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToScaleSettings() to populate field ScaleSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_ScaleSettings() to populate field ScaleSettings")
 		}
 		destination.ScaleSettings = &scaleSetting
 	} else {
@@ -4597,9 +4597,9 @@ func (properties *AmlComputeProperties) AssignPropertiesToAmlComputeProperties(d
 	// Subnet
 	if properties.Subnet != nil {
 		var subnet v20210701s.ResourceId
-		err := properties.Subnet.AssignPropertiesToResourceId(&subnet)
+		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceId() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -4609,9 +4609,9 @@ func (properties *AmlComputeProperties) AssignPropertiesToAmlComputeProperties(d
 	// UserAccountCredentials
 	if properties.UserAccountCredentials != nil {
 		var userAccountCredential v20210701s.UserAccountCredentials
-		err := properties.UserAccountCredentials.AssignPropertiesToUserAccountCredentials(&userAccountCredential)
+		err := properties.UserAccountCredentials.AssignProperties_To_UserAccountCredentials(&userAccountCredential)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUserAccountCredentials() to populate field UserAccountCredentials")
+			return errors.Wrap(err, "calling AssignProperties_To_UserAccountCredentials() to populate field UserAccountCredentials")
 		}
 		destination.UserAccountCredentials = &userAccountCredential
 	} else {
@@ -4621,9 +4621,9 @@ func (properties *AmlComputeProperties) AssignPropertiesToAmlComputeProperties(d
 	// VirtualMachineImage
 	if properties.VirtualMachineImage != nil {
 		var virtualMachineImage v20210701s.VirtualMachineImage
-		err := properties.VirtualMachineImage.AssignPropertiesToVirtualMachineImage(&virtualMachineImage)
+		err := properties.VirtualMachineImage.AssignProperties_To_VirtualMachineImage(&virtualMachineImage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineImage() to populate field VirtualMachineImage")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineImage() to populate field VirtualMachineImage")
 		}
 		destination.VirtualMachineImage = &virtualMachineImage
 	} else {
@@ -4657,10 +4657,10 @@ type ComputeInstanceProperties struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
 	// applications on this instance depending on his/her assigned role.
-	ApplicationSharingPolicy *ComputeInstancePropertiesApplicationSharingPolicy `json:"applicationSharingPolicy,omitempty"`
+	ApplicationSharingPolicy *ComputeInstanceProperties_ApplicationSharingPolicy `json:"applicationSharingPolicy,omitempty"`
 
 	// ComputeInstanceAuthorizationType: The Compute Instance Authorization type. Available values are personal (default).
-	ComputeInstanceAuthorizationType *ComputeInstancePropertiesComputeInstanceAuthorizationType `json:"computeInstanceAuthorizationType,omitempty"`
+	ComputeInstanceAuthorizationType *ComputeInstanceProperties_ComputeInstanceAuthorizationType `json:"computeInstanceAuthorizationType,omitempty"`
 
 	// PersonalComputeInstanceSettings: Settings for a personal compute instance.
 	PersonalComputeInstanceSettings *PersonalComputeInstanceSettings `json:"personalComputeInstanceSettings,omitempty"`
@@ -4825,12 +4825,12 @@ func (properties *ComputeInstanceProperties) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromComputeInstanceProperties populates our ComputeInstanceProperties from the provided source ComputeInstanceProperties
-func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstanceProperties(source *v20210701s.ComputeInstanceProperties) error {
+// AssignProperties_From_ComputeInstanceProperties populates our ComputeInstanceProperties from the provided source ComputeInstanceProperties
+func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstanceProperties(source *v20210701s.ComputeInstanceProperties) error {
 
 	// ApplicationSharingPolicy
 	if source.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := ComputeInstancePropertiesApplicationSharingPolicy(*source.ApplicationSharingPolicy)
+		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy(*source.ApplicationSharingPolicy)
 		properties.ApplicationSharingPolicy = &applicationSharingPolicy
 	} else {
 		properties.ApplicationSharingPolicy = nil
@@ -4838,7 +4838,7 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 
 	// ComputeInstanceAuthorizationType
 	if source.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := ComputeInstancePropertiesComputeInstanceAuthorizationType(*source.ComputeInstanceAuthorizationType)
+		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType(*source.ComputeInstanceAuthorizationType)
 		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	} else {
 		properties.ComputeInstanceAuthorizationType = nil
@@ -4847,9 +4847,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 	// PersonalComputeInstanceSettings
 	if source.PersonalComputeInstanceSettings != nil {
 		var personalComputeInstanceSetting PersonalComputeInstanceSettings
-		err := personalComputeInstanceSetting.AssignPropertiesFromPersonalComputeInstanceSettings(source.PersonalComputeInstanceSettings)
+		err := personalComputeInstanceSetting.AssignProperties_From_PersonalComputeInstanceSettings(source.PersonalComputeInstanceSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
 		}
 		properties.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -4859,9 +4859,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 	// SetupScripts
 	if source.SetupScripts != nil {
 		var setupScript SetupScripts
-		err := setupScript.AssignPropertiesFromSetupScripts(source.SetupScripts)
+		err := setupScript.AssignProperties_From_SetupScripts(source.SetupScripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSetupScripts() to populate field SetupScripts")
+			return errors.Wrap(err, "calling AssignProperties_From_SetupScripts() to populate field SetupScripts")
 		}
 		properties.SetupScripts = &setupScript
 	} else {
@@ -4871,9 +4871,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 	// SshSettings
 	if source.SshSettings != nil {
 		var sshSetting ComputeInstanceSshSettings
-		err := sshSetting.AssignPropertiesFromComputeInstanceSshSettings(source.SshSettings)
+		err := sshSetting.AssignProperties_From_ComputeInstanceSshSettings(source.SshSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromComputeInstanceSshSettings() to populate field SshSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_ComputeInstanceSshSettings() to populate field SshSettings")
 		}
 		properties.SshSettings = &sshSetting
 	} else {
@@ -4883,9 +4883,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 	// Subnet
 	if source.Subnet != nil {
 		var subnet ResourceId
-		err := subnet.AssignPropertiesFromResourceId(source.Subnet)
+		err := subnet.AssignProperties_From_ResourceId(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceId() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceId() to populate field Subnet")
 		}
 		properties.Subnet = &subnet
 	} else {
@@ -4899,8 +4899,8 @@ func (properties *ComputeInstanceProperties) AssignPropertiesFromComputeInstance
 	return nil
 }
 
-// AssignPropertiesToComputeInstanceProperties populates the provided destination ComputeInstanceProperties from our ComputeInstanceProperties
-func (properties *ComputeInstanceProperties) AssignPropertiesToComputeInstanceProperties(destination *v20210701s.ComputeInstanceProperties) error {
+// AssignProperties_To_ComputeInstanceProperties populates the provided destination ComputeInstanceProperties from our ComputeInstanceProperties
+func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstanceProperties(destination *v20210701s.ComputeInstanceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4923,9 +4923,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesToComputeInstancePr
 	// PersonalComputeInstanceSettings
 	if properties.PersonalComputeInstanceSettings != nil {
 		var personalComputeInstanceSetting v20210701s.PersonalComputeInstanceSettings
-		err := properties.PersonalComputeInstanceSettings.AssignPropertiesToPersonalComputeInstanceSettings(&personalComputeInstanceSetting)
+		err := properties.PersonalComputeInstanceSettings.AssignProperties_To_PersonalComputeInstanceSettings(&personalComputeInstanceSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
 		}
 		destination.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
 	} else {
@@ -4935,9 +4935,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesToComputeInstancePr
 	// SetupScripts
 	if properties.SetupScripts != nil {
 		var setupScript v20210701s.SetupScripts
-		err := properties.SetupScripts.AssignPropertiesToSetupScripts(&setupScript)
+		err := properties.SetupScripts.AssignProperties_To_SetupScripts(&setupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSetupScripts() to populate field SetupScripts")
+			return errors.Wrap(err, "calling AssignProperties_To_SetupScripts() to populate field SetupScripts")
 		}
 		destination.SetupScripts = &setupScript
 	} else {
@@ -4947,9 +4947,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesToComputeInstancePr
 	// SshSettings
 	if properties.SshSettings != nil {
 		var sshSetting v20210701s.ComputeInstanceSshSettings
-		err := properties.SshSettings.AssignPropertiesToComputeInstanceSshSettings(&sshSetting)
+		err := properties.SshSettings.AssignProperties_To_ComputeInstanceSshSettings(&sshSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToComputeInstanceSshSettings() to populate field SshSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings() to populate field SshSettings")
 		}
 		destination.SshSettings = &sshSetting
 	} else {
@@ -4959,9 +4959,9 @@ func (properties *ComputeInstanceProperties) AssignPropertiesToComputeInstancePr
 	// Subnet
 	if properties.Subnet != nil {
 		var subnet v20210701s.ResourceId
-		err := properties.Subnet.AssignPropertiesToResourceId(&subnet)
+		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceId() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -5042,8 +5042,8 @@ func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDatabricksProperties populates our DatabricksProperties from the provided source DatabricksProperties
-func (properties *DatabricksProperties) AssignPropertiesFromDatabricksProperties(source *v20210701s.DatabricksProperties) error {
+// AssignProperties_From_DatabricksProperties populates our DatabricksProperties from the provided source DatabricksProperties
+func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperties(source *v20210701s.DatabricksProperties) error {
 
 	// DatabricksAccessToken
 	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
@@ -5055,8 +5055,8 @@ func (properties *DatabricksProperties) AssignPropertiesFromDatabricksProperties
 	return nil
 }
 
-// AssignPropertiesToDatabricksProperties populates the provided destination DatabricksProperties from our DatabricksProperties
-func (properties *DatabricksProperties) AssignPropertiesToDatabricksProperties(destination *v20210701s.DatabricksProperties) error {
+// AssignProperties_To_DatabricksProperties populates the provided destination DatabricksProperties from our DatabricksProperties
+func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties(destination *v20210701s.DatabricksProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5122,8 +5122,8 @@ func (properties *DataLakeAnalyticsProperties) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDataLakeAnalyticsProperties populates our DataLakeAnalyticsProperties from the provided source DataLakeAnalyticsProperties
-func (properties *DataLakeAnalyticsProperties) AssignPropertiesFromDataLakeAnalyticsProperties(source *v20210701s.DataLakeAnalyticsProperties) error {
+// AssignProperties_From_DataLakeAnalyticsProperties populates our DataLakeAnalyticsProperties from the provided source DataLakeAnalyticsProperties
+func (properties *DataLakeAnalyticsProperties) AssignProperties_From_DataLakeAnalyticsProperties(source *v20210701s.DataLakeAnalyticsProperties) error {
 
 	// DataLakeStoreAccountName
 	properties.DataLakeStoreAccountName = genruntime.ClonePointerToString(source.DataLakeStoreAccountName)
@@ -5132,8 +5132,8 @@ func (properties *DataLakeAnalyticsProperties) AssignPropertiesFromDataLakeAnaly
 	return nil
 }
 
-// AssignPropertiesToDataLakeAnalyticsProperties populates the provided destination DataLakeAnalyticsProperties from our DataLakeAnalyticsProperties
-func (properties *DataLakeAnalyticsProperties) AssignPropertiesToDataLakeAnalyticsProperties(destination *v20210701s.DataLakeAnalyticsProperties) error {
+// AssignProperties_To_DataLakeAnalyticsProperties populates the provided destination DataLakeAnalyticsProperties from our DataLakeAnalyticsProperties
+func (properties *DataLakeAnalyticsProperties) AssignProperties_To_DataLakeAnalyticsProperties(destination *v20210701s.DataLakeAnalyticsProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5224,8 +5224,8 @@ func (detail *ErrorDetail_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromErrorDetailSTATUS populates our ErrorDetail_STATUS from the provided source ErrorDetail_STATUS
-func (detail *ErrorDetail_STATUS) AssignPropertiesFromErrorDetailSTATUS(source *v20210701s.ErrorDetail_STATUS) error {
+// AssignProperties_From_ErrorDetail_STATUS populates our ErrorDetail_STATUS from the provided source ErrorDetail_STATUS
+func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(source *v20210701s.ErrorDetail_STATUS) error {
 
 	// AdditionalInfo
 	if source.AdditionalInfo != nil {
@@ -5234,9 +5234,9 @@ func (detail *ErrorDetail_STATUS) AssignPropertiesFromErrorDetailSTATUS(source *
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
-			err := additionalInfo.AssignPropertiesFromErrorAdditionalInfoSTATUS(&additionalInfoItem)
+			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromErrorAdditionalInfoSTATUS() to populate field AdditionalInfo")
+				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -5255,9 +5255,9 @@ func (detail *ErrorDetail_STATUS) AssignPropertiesFromErrorDetailSTATUS(source *
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
 			var detailLocal ErrorDetail_STATUS_Unrolled
-			err := detailLocal.AssignPropertiesFromErrorDetailSTATUSUnrolled(&detailItem)
+			err := detailLocal.AssignProperties_From_ErrorDetail_STATUS_Unrolled(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromErrorDetailSTATUSUnrolled() to populate field Details")
+				return errors.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -5276,8 +5276,8 @@ func (detail *ErrorDetail_STATUS) AssignPropertiesFromErrorDetailSTATUS(source *
 	return nil
 }
 
-// AssignPropertiesToErrorDetailSTATUS populates the provided destination ErrorDetail_STATUS from our ErrorDetail_STATUS
-func (detail *ErrorDetail_STATUS) AssignPropertiesToErrorDetailSTATUS(destination *v20210701s.ErrorDetail_STATUS) error {
+// AssignProperties_To_ErrorDetail_STATUS populates the provided destination ErrorDetail_STATUS from our ErrorDetail_STATUS
+func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destination *v20210701s.ErrorDetail_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5288,9 +5288,9 @@ func (detail *ErrorDetail_STATUS) AssignPropertiesToErrorDetailSTATUS(destinatio
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
 			var additionalInfo v20210701s.ErrorAdditionalInfo_STATUS
-			err := additionalInfoItem.AssignPropertiesToErrorAdditionalInfoSTATUS(&additionalInfo)
+			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToErrorAdditionalInfoSTATUS() to populate field AdditionalInfo")
+				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -5309,9 +5309,9 @@ func (detail *ErrorDetail_STATUS) AssignPropertiesToErrorDetailSTATUS(destinatio
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
 			var detailLocal v20210701s.ErrorDetail_STATUS_Unrolled
-			err := detailItem.AssignPropertiesToErrorDetailSTATUSUnrolled(&detailLocal)
+			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToErrorDetailSTATUSUnrolled() to populate field Details")
+				return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
 			}
 			detailList[detailIndex] = detailLocal
 		}
@@ -5421,8 +5421,8 @@ func (properties *HDInsightProperties) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromHDInsightProperties populates our HDInsightProperties from the provided source HDInsightProperties
-func (properties *HDInsightProperties) AssignPropertiesFromHDInsightProperties(source *v20210701s.HDInsightProperties) error {
+// AssignProperties_From_HDInsightProperties populates our HDInsightProperties from the provided source HDInsightProperties
+func (properties *HDInsightProperties) AssignProperties_From_HDInsightProperties(source *v20210701s.HDInsightProperties) error {
 
 	// Address
 	properties.Address = genruntime.ClonePointerToString(source.Address)
@@ -5430,9 +5430,9 @@ func (properties *HDInsightProperties) AssignPropertiesFromHDInsightProperties(s
 	// AdministratorAccount
 	if source.AdministratorAccount != nil {
 		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.AssignPropertiesFromVirtualMachineSshCredentials(source.AdministratorAccount)
+		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -5446,8 +5446,8 @@ func (properties *HDInsightProperties) AssignPropertiesFromHDInsightProperties(s
 	return nil
 }
 
-// AssignPropertiesToHDInsightProperties populates the provided destination HDInsightProperties from our HDInsightProperties
-func (properties *HDInsightProperties) AssignPropertiesToHDInsightProperties(destination *v20210701s.HDInsightProperties) error {
+// AssignProperties_To_HDInsightProperties populates the provided destination HDInsightProperties from our HDInsightProperties
+func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(destination *v20210701s.HDInsightProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5457,9 +5457,9 @@ func (properties *HDInsightProperties) AssignPropertiesToHDInsightProperties(des
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
 		var administratorAccount v20210701s.VirtualMachineSshCredentials
-		err := properties.AdministratorAccount.AssignPropertiesToVirtualMachineSshCredentials(&administratorAccount)
+		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -5678,15 +5678,15 @@ func (properties *SynapseSparkProperties) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromSynapseSparkProperties populates our SynapseSparkProperties from the provided source SynapseSparkProperties
-func (properties *SynapseSparkProperties) AssignPropertiesFromSynapseSparkProperties(source *v20210701s.SynapseSparkProperties) error {
+// AssignProperties_From_SynapseSparkProperties populates our SynapseSparkProperties from the provided source SynapseSparkProperties
+func (properties *SynapseSparkProperties) AssignProperties_From_SynapseSparkProperties(source *v20210701s.SynapseSparkProperties) error {
 
 	// AutoPauseProperties
 	if source.AutoPauseProperties != nil {
 		var autoPauseProperty AutoPauseProperties
-		err := autoPauseProperty.AssignPropertiesFromAutoPauseProperties(source.AutoPauseProperties)
+		err := autoPauseProperty.AssignProperties_From_AutoPauseProperties(source.AutoPauseProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoPauseProperties() to populate field AutoPauseProperties")
+			return errors.Wrap(err, "calling AssignProperties_From_AutoPauseProperties() to populate field AutoPauseProperties")
 		}
 		properties.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -5696,9 +5696,9 @@ func (properties *SynapseSparkProperties) AssignPropertiesFromSynapseSparkProper
 	// AutoScaleProperties
 	if source.AutoScaleProperties != nil {
 		var autoScaleProperty AutoScaleProperties
-		err := autoScaleProperty.AssignPropertiesFromAutoScaleProperties(source.AutoScaleProperties)
+		err := autoScaleProperty.AssignProperties_From_AutoScaleProperties(source.AutoScaleProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoScaleProperties() to populate field AutoScaleProperties")
+			return errors.Wrap(err, "calling AssignProperties_From_AutoScaleProperties() to populate field AutoScaleProperties")
 		}
 		properties.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -5733,17 +5733,17 @@ func (properties *SynapseSparkProperties) AssignPropertiesFromSynapseSparkProper
 	return nil
 }
 
-// AssignPropertiesToSynapseSparkProperties populates the provided destination SynapseSparkProperties from our SynapseSparkProperties
-func (properties *SynapseSparkProperties) AssignPropertiesToSynapseSparkProperties(destination *v20210701s.SynapseSparkProperties) error {
+// AssignProperties_To_SynapseSparkProperties populates the provided destination SynapseSparkProperties from our SynapseSparkProperties
+func (properties *SynapseSparkProperties) AssignProperties_To_SynapseSparkProperties(destination *v20210701s.SynapseSparkProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoPauseProperties
 	if properties.AutoPauseProperties != nil {
 		var autoPauseProperty v20210701s.AutoPauseProperties
-		err := properties.AutoPauseProperties.AssignPropertiesToAutoPauseProperties(&autoPauseProperty)
+		err := properties.AutoPauseProperties.AssignProperties_To_AutoPauseProperties(&autoPauseProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoPauseProperties() to populate field AutoPauseProperties")
+			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPauseProperties")
 		}
 		destination.AutoPauseProperties = &autoPauseProperty
 	} else {
@@ -5753,9 +5753,9 @@ func (properties *SynapseSparkProperties) AssignPropertiesToSynapseSparkProperti
 	// AutoScaleProperties
 	if properties.AutoScaleProperties != nil {
 		var autoScaleProperty v20210701s.AutoScaleProperties
-		err := properties.AutoScaleProperties.AssignPropertiesToAutoScaleProperties(&autoScaleProperty)
+		err := properties.AutoScaleProperties.AssignProperties_To_AutoScaleProperties(&autoScaleProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoScaleProperties() to populate field AutoScaleProperties")
+			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScaleProperties")
 		}
 		destination.AutoScaleProperties = &autoScaleProperty
 	} else {
@@ -5911,8 +5911,8 @@ func (properties *VirtualMachineProperties) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineProperties populates our VirtualMachineProperties from the provided source VirtualMachineProperties
-func (properties *VirtualMachineProperties) AssignPropertiesFromVirtualMachineProperties(source *v20210701s.VirtualMachineProperties) error {
+// AssignProperties_From_VirtualMachineProperties populates our VirtualMachineProperties from the provided source VirtualMachineProperties
+func (properties *VirtualMachineProperties) AssignProperties_From_VirtualMachineProperties(source *v20210701s.VirtualMachineProperties) error {
 
 	// Address
 	properties.Address = genruntime.ClonePointerToString(source.Address)
@@ -5920,9 +5920,9 @@ func (properties *VirtualMachineProperties) AssignPropertiesFromVirtualMachinePr
 	// AdministratorAccount
 	if source.AdministratorAccount != nil {
 		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.AssignPropertiesFromVirtualMachineSshCredentials(source.AdministratorAccount)
+		err := administratorAccount.AssignProperties_From_VirtualMachineSshCredentials(source.AdministratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		properties.AdministratorAccount = &administratorAccount
 	} else {
@@ -5947,8 +5947,8 @@ func (properties *VirtualMachineProperties) AssignPropertiesFromVirtualMachinePr
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineProperties populates the provided destination VirtualMachineProperties from our VirtualMachineProperties
-func (properties *VirtualMachineProperties) AssignPropertiesToVirtualMachineProperties(destination *v20210701s.VirtualMachineProperties) error {
+// AssignProperties_To_VirtualMachineProperties populates the provided destination VirtualMachineProperties from our VirtualMachineProperties
+func (properties *VirtualMachineProperties) AssignProperties_To_VirtualMachineProperties(destination *v20210701s.VirtualMachineProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5958,9 +5958,9 @@ func (properties *VirtualMachineProperties) AssignPropertiesToVirtualMachineProp
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
 		var administratorAccount v20210701s.VirtualMachineSshCredentials
-		err := properties.AdministratorAccount.AssignPropertiesToVirtualMachineSshCredentials(&administratorAccount)
+		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineSshCredentials() to populate field AdministratorAccount")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
 		}
 		destination.AdministratorAccount = &administratorAccount
 	} else {
@@ -6088,8 +6088,8 @@ func (configuration *AksNetworkingConfiguration) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromAksNetworkingConfiguration populates our AksNetworkingConfiguration from the provided source AksNetworkingConfiguration
-func (configuration *AksNetworkingConfiguration) AssignPropertiesFromAksNetworkingConfiguration(source *v20210701s.AksNetworkingConfiguration) error {
+// AssignProperties_From_AksNetworkingConfiguration populates our AksNetworkingConfiguration from the provided source AksNetworkingConfiguration
+func (configuration *AksNetworkingConfiguration) AssignProperties_From_AksNetworkingConfiguration(source *v20210701s.AksNetworkingConfiguration) error {
 
 	// DnsServiceIP
 	if source.DnsServiceIP != nil {
@@ -6127,8 +6127,8 @@ func (configuration *AksNetworkingConfiguration) AssignPropertiesFromAksNetworki
 	return nil
 }
 
-// AssignPropertiesToAksNetworkingConfiguration populates the provided destination AksNetworkingConfiguration from our AksNetworkingConfiguration
-func (configuration *AksNetworkingConfiguration) AssignPropertiesToAksNetworkingConfiguration(destination *v20210701s.AksNetworkingConfiguration) error {
+// AssignProperties_To_AksNetworkingConfiguration populates the provided destination AksNetworkingConfiguration from our AksNetworkingConfiguration
+func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworkingConfiguration(destination *v20210701s.AksNetworkingConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6232,8 +6232,8 @@ func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromAutoPauseProperties populates our AutoPauseProperties from the provided source AutoPauseProperties
-func (properties *AutoPauseProperties) AssignPropertiesFromAutoPauseProperties(source *v20210701s.AutoPauseProperties) error {
+// AssignProperties_From_AutoPauseProperties populates our AutoPauseProperties from the provided source AutoPauseProperties
+func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v20210701s.AutoPauseProperties) error {
 
 	// DelayInMinutes
 	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
@@ -6250,8 +6250,8 @@ func (properties *AutoPauseProperties) AssignPropertiesFromAutoPauseProperties(s
 	return nil
 }
 
-// AssignPropertiesToAutoPauseProperties populates the provided destination AutoPauseProperties from our AutoPauseProperties
-func (properties *AutoPauseProperties) AssignPropertiesToAutoPauseProperties(destination *v20210701s.AutoPauseProperties) error {
+// AssignProperties_To_AutoPauseProperties populates the provided destination AutoPauseProperties from our AutoPauseProperties
+func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v20210701s.AutoPauseProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6347,8 +6347,8 @@ func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromAutoScaleProperties populates our AutoScaleProperties from the provided source AutoScaleProperties
-func (properties *AutoScaleProperties) AssignPropertiesFromAutoScaleProperties(source *v20210701s.AutoScaleProperties) error {
+// AssignProperties_From_AutoScaleProperties populates our AutoScaleProperties from the provided source AutoScaleProperties
+func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v20210701s.AutoScaleProperties) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -6368,8 +6368,8 @@ func (properties *AutoScaleProperties) AssignPropertiesFromAutoScaleProperties(s
 	return nil
 }
 
-// AssignPropertiesToAutoScaleProperties populates the provided destination AutoScaleProperties from our AutoScaleProperties
-func (properties *AutoScaleProperties) AssignPropertiesToAutoScaleProperties(destination *v20210701s.AutoScaleProperties) error {
+// AssignProperties_To_AutoScaleProperties populates the provided destination AutoScaleProperties from our AutoScaleProperties
+func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v20210701s.AutoScaleProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6407,7 +6407,7 @@ type ComputeInstanceSshSettings struct {
 	// SshPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is
 	// closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the
 	// VNet/subnet policy if applicable.
-	SshPublicAccess *ComputeInstanceSshSettingsSshPublicAccess `json:"sshPublicAccess,omitempty"`
+	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess `json:"sshPublicAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ComputeInstanceSshSettings{}
@@ -6461,15 +6461,15 @@ func (settings *ComputeInstanceSshSettings) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromComputeInstanceSshSettings populates our ComputeInstanceSshSettings from the provided source ComputeInstanceSshSettings
-func (settings *ComputeInstanceSshSettings) AssignPropertiesFromComputeInstanceSshSettings(source *v20210701s.ComputeInstanceSshSettings) error {
+// AssignProperties_From_ComputeInstanceSshSettings populates our ComputeInstanceSshSettings from the provided source ComputeInstanceSshSettings
+func (settings *ComputeInstanceSshSettings) AssignProperties_From_ComputeInstanceSshSettings(source *v20210701s.ComputeInstanceSshSettings) error {
 
 	// AdminPublicKey
 	settings.AdminPublicKey = genruntime.ClonePointerToString(source.AdminPublicKey)
 
 	// SshPublicAccess
 	if source.SshPublicAccess != nil {
-		sshPublicAccess := ComputeInstanceSshSettingsSshPublicAccess(*source.SshPublicAccess)
+		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess(*source.SshPublicAccess)
 		settings.SshPublicAccess = &sshPublicAccess
 	} else {
 		settings.SshPublicAccess = nil
@@ -6479,8 +6479,8 @@ func (settings *ComputeInstanceSshSettings) AssignPropertiesFromComputeInstanceS
 	return nil
 }
 
-// AssignPropertiesToComputeInstanceSshSettings populates the provided destination ComputeInstanceSshSettings from our ComputeInstanceSshSettings
-func (settings *ComputeInstanceSshSettings) AssignPropertiesToComputeInstanceSshSettings(destination *v20210701s.ComputeInstanceSshSettings) error {
+// AssignProperties_To_ComputeInstanceSshSettings populates the provided destination ComputeInstanceSshSettings from our ComputeInstanceSshSettings
+func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceSshSettings(destination *v20210701s.ComputeInstanceSshSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6546,8 +6546,8 @@ func (info *ErrorAdditionalInfo_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromErrorAdditionalInfoSTATUS populates our ErrorAdditionalInfo_STATUS from the provided source ErrorAdditionalInfo_STATUS
-func (info *ErrorAdditionalInfo_STATUS) AssignPropertiesFromErrorAdditionalInfoSTATUS(source *v20210701s.ErrorAdditionalInfo_STATUS) error {
+// AssignProperties_From_ErrorAdditionalInfo_STATUS populates our ErrorAdditionalInfo_STATUS from the provided source ErrorAdditionalInfo_STATUS
+func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInfo_STATUS(source *v20210701s.ErrorAdditionalInfo_STATUS) error {
 
 	// Info
 	if source.Info != nil {
@@ -6569,8 +6569,8 @@ func (info *ErrorAdditionalInfo_STATUS) AssignPropertiesFromErrorAdditionalInfoS
 	return nil
 }
 
-// AssignPropertiesToErrorAdditionalInfoSTATUS populates the provided destination ErrorAdditionalInfo_STATUS from our ErrorAdditionalInfo_STATUS
-func (info *ErrorAdditionalInfo_STATUS) AssignPropertiesToErrorAdditionalInfoSTATUS(destination *v20210701s.ErrorAdditionalInfo_STATUS) error {
+// AssignProperties_To_ErrorAdditionalInfo_STATUS populates the provided destination ErrorAdditionalInfo_STATUS from our ErrorAdditionalInfo_STATUS
+func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_STATUS(destination *v20210701s.ErrorAdditionalInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6661,8 +6661,8 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromErrorDetailSTATUSUnrolled populates our ErrorDetail_STATUS_Unrolled from the provided source ErrorDetail_STATUS_Unrolled
-func (unrolled *ErrorDetail_STATUS_Unrolled) AssignPropertiesFromErrorDetailSTATUSUnrolled(source *v20210701s.ErrorDetail_STATUS_Unrolled) error {
+// AssignProperties_From_ErrorDetail_STATUS_Unrolled populates our ErrorDetail_STATUS_Unrolled from the provided source ErrorDetail_STATUS_Unrolled
+func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_STATUS_Unrolled(source *v20210701s.ErrorDetail_STATUS_Unrolled) error {
 
 	// AdditionalInfo
 	if source.AdditionalInfo != nil {
@@ -6671,9 +6671,9 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignPropertiesFromErrorDetailSTAT
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
 			var additionalInfo ErrorAdditionalInfo_STATUS
-			err := additionalInfo.AssignPropertiesFromErrorAdditionalInfoSTATUS(&additionalInfoItem)
+			err := additionalInfo.AssignProperties_From_ErrorAdditionalInfo_STATUS(&additionalInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromErrorAdditionalInfoSTATUS() to populate field AdditionalInfo")
+				return errors.Wrap(err, "calling AssignProperties_From_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -6695,8 +6695,8 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignPropertiesFromErrorDetailSTAT
 	return nil
 }
 
-// AssignPropertiesToErrorDetailSTATUSUnrolled populates the provided destination ErrorDetail_STATUS_Unrolled from our ErrorDetail_STATUS_Unrolled
-func (unrolled *ErrorDetail_STATUS_Unrolled) AssignPropertiesToErrorDetailSTATUSUnrolled(destination *v20210701s.ErrorDetail_STATUS_Unrolled) error {
+// AssignProperties_To_ErrorDetail_STATUS_Unrolled populates the provided destination ErrorDetail_STATUS_Unrolled from our ErrorDetail_STATUS_Unrolled
+func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STATUS_Unrolled(destination *v20210701s.ErrorDetail_STATUS_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6707,9 +6707,9 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignPropertiesToErrorDetailSTATUS
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
 			var additionalInfo v20210701s.ErrorAdditionalInfo_STATUS
-			err := additionalInfoItem.AssignPropertiesToErrorAdditionalInfoSTATUS(&additionalInfo)
+			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToErrorAdditionalInfoSTATUS() to populate field AdditionalInfo")
+				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
 			}
 			additionalInfoList[additionalInfoIndex] = additionalInfo
 		}
@@ -6792,15 +6792,15 @@ func (settings *PersonalComputeInstanceSettings) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromPersonalComputeInstanceSettings populates our PersonalComputeInstanceSettings from the provided source PersonalComputeInstanceSettings
-func (settings *PersonalComputeInstanceSettings) AssignPropertiesFromPersonalComputeInstanceSettings(source *v20210701s.PersonalComputeInstanceSettings) error {
+// AssignProperties_From_PersonalComputeInstanceSettings populates our PersonalComputeInstanceSettings from the provided source PersonalComputeInstanceSettings
+func (settings *PersonalComputeInstanceSettings) AssignProperties_From_PersonalComputeInstanceSettings(source *v20210701s.PersonalComputeInstanceSettings) error {
 
 	// AssignedUser
 	if source.AssignedUser != nil {
 		var assignedUser AssignedUser
-		err := assignedUser.AssignPropertiesFromAssignedUser(source.AssignedUser)
+		err := assignedUser.AssignProperties_From_AssignedUser(source.AssignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAssignedUser() to populate field AssignedUser")
+			return errors.Wrap(err, "calling AssignProperties_From_AssignedUser() to populate field AssignedUser")
 		}
 		settings.AssignedUser = &assignedUser
 	} else {
@@ -6811,17 +6811,17 @@ func (settings *PersonalComputeInstanceSettings) AssignPropertiesFromPersonalCom
 	return nil
 }
 
-// AssignPropertiesToPersonalComputeInstanceSettings populates the provided destination PersonalComputeInstanceSettings from our PersonalComputeInstanceSettings
-func (settings *PersonalComputeInstanceSettings) AssignPropertiesToPersonalComputeInstanceSettings(destination *v20210701s.PersonalComputeInstanceSettings) error {
+// AssignProperties_To_PersonalComputeInstanceSettings populates the provided destination PersonalComputeInstanceSettings from our PersonalComputeInstanceSettings
+func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalComputeInstanceSettings(destination *v20210701s.PersonalComputeInstanceSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AssignedUser
 	if settings.AssignedUser != nil {
 		var assignedUser v20210701s.AssignedUser
-		err := settings.AssignedUser.AssignPropertiesToAssignedUser(&assignedUser)
+		err := settings.AssignedUser.AssignProperties_To_AssignedUser(&assignedUser)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAssignedUser() to populate field AssignedUser")
+			return errors.Wrap(err, "calling AssignProperties_To_AssignedUser() to populate field AssignedUser")
 		}
 		destination.AssignedUser = &assignedUser
 	} else {
@@ -6885,8 +6885,8 @@ func (resourceId *ResourceId) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromResourceId populates our ResourceId from the provided source ResourceId
-func (resourceId *ResourceId) AssignPropertiesFromResourceId(source *v20210701s.ResourceId) error {
+// AssignProperties_From_ResourceId populates our ResourceId from the provided source ResourceId
+func (resourceId *ResourceId) AssignProperties_From_ResourceId(source *v20210701s.ResourceId) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -6900,8 +6900,8 @@ func (resourceId *ResourceId) AssignPropertiesFromResourceId(source *v20210701s.
 	return nil
 }
 
-// AssignPropertiesToResourceId populates the provided destination ResourceId from our ResourceId
-func (resourceId *ResourceId) AssignPropertiesToResourceId(destination *v20210701s.ResourceId) error {
+// AssignProperties_To_ResourceId populates the provided destination ResourceId from our ResourceId
+func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v20210701s.ResourceId) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7000,8 +7000,8 @@ func (settings *ScaleSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromScaleSettings populates our ScaleSettings from the provided source ScaleSettings
-func (settings *ScaleSettings) AssignPropertiesFromScaleSettings(source *v20210701s.ScaleSettings) error {
+// AssignProperties_From_ScaleSettings populates our ScaleSettings from the provided source ScaleSettings
+func (settings *ScaleSettings) AssignProperties_From_ScaleSettings(source *v20210701s.ScaleSettings) error {
 
 	// MaxNodeCount
 	settings.MaxNodeCount = genruntime.ClonePointerToInt(source.MaxNodeCount)
@@ -7021,8 +7021,8 @@ func (settings *ScaleSettings) AssignPropertiesFromScaleSettings(source *v202107
 	return nil
 }
 
-// AssignPropertiesToScaleSettings populates the provided destination ScaleSettings from our ScaleSettings
-func (settings *ScaleSettings) AssignPropertiesToScaleSettings(destination *v20210701s.ScaleSettings) error {
+// AssignProperties_To_ScaleSettings populates the provided destination ScaleSettings from our ScaleSettings
+func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v20210701s.ScaleSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7105,15 +7105,15 @@ func (scripts *SetupScripts) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSetupScripts populates our SetupScripts from the provided source SetupScripts
-func (scripts *SetupScripts) AssignPropertiesFromSetupScripts(source *v20210701s.SetupScripts) error {
+// AssignProperties_From_SetupScripts populates our SetupScripts from the provided source SetupScripts
+func (scripts *SetupScripts) AssignProperties_From_SetupScripts(source *v20210701s.SetupScripts) error {
 
 	// Scripts
 	if source.Scripts != nil {
 		var script ScriptsToExecute
-		err := script.AssignPropertiesFromScriptsToExecute(source.Scripts)
+		err := script.AssignProperties_From_ScriptsToExecute(source.Scripts)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromScriptsToExecute() to populate field Scripts")
+			return errors.Wrap(err, "calling AssignProperties_From_ScriptsToExecute() to populate field Scripts")
 		}
 		scripts.Scripts = &script
 	} else {
@@ -7124,17 +7124,17 @@ func (scripts *SetupScripts) AssignPropertiesFromSetupScripts(source *v20210701s
 	return nil
 }
 
-// AssignPropertiesToSetupScripts populates the provided destination SetupScripts from our SetupScripts
-func (scripts *SetupScripts) AssignPropertiesToSetupScripts(destination *v20210701s.SetupScripts) error {
+// AssignProperties_To_SetupScripts populates the provided destination SetupScripts from our SetupScripts
+func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v20210701s.SetupScripts) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Scripts
 	if scripts.Scripts != nil {
 		var script v20210701s.ScriptsToExecute
-		err := scripts.Scripts.AssignPropertiesToScriptsToExecute(&script)
+		err := scripts.Scripts.AssignProperties_To_ScriptsToExecute(&script)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToScriptsToExecute() to populate field Scripts")
+			return errors.Wrap(err, "calling AssignProperties_To_ScriptsToExecute() to populate field Scripts")
 		}
 		destination.Scripts = &script
 	} else {
@@ -7170,7 +7170,7 @@ type SslConfiguration struct {
 	OverwriteExistingDomain *bool `json:"overwriteExistingDomain,omitempty"`
 
 	// Status: Enable or disable ssl for scoring.
-	Status *SslConfigurationStatus `json:"status,omitempty"`
+	Status *SslConfiguration_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SslConfiguration{}
@@ -7272,8 +7272,8 @@ func (configuration *SslConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromSslConfiguration populates our SslConfiguration from the provided source SslConfiguration
-func (configuration *SslConfiguration) AssignPropertiesFromSslConfiguration(source *v20210701s.SslConfiguration) error {
+// AssignProperties_From_SslConfiguration populates our SslConfiguration from the provided source SslConfiguration
+func (configuration *SslConfiguration) AssignProperties_From_SslConfiguration(source *v20210701s.SslConfiguration) error {
 
 	// Cert
 	configuration.Cert = genruntime.ClonePointerToString(source.Cert)
@@ -7297,7 +7297,7 @@ func (configuration *SslConfiguration) AssignPropertiesFromSslConfiguration(sour
 
 	// Status
 	if source.Status != nil {
-		status := SslConfigurationStatus(*source.Status)
+		status := SslConfiguration_Status(*source.Status)
 		configuration.Status = &status
 	} else {
 		configuration.Status = nil
@@ -7307,8 +7307,8 @@ func (configuration *SslConfiguration) AssignPropertiesFromSslConfiguration(sour
 	return nil
 }
 
-// AssignPropertiesToSslConfiguration populates the provided destination SslConfiguration from our SslConfiguration
-func (configuration *SslConfiguration) AssignPropertiesToSslConfiguration(destination *v20210701s.SslConfiguration) error {
+// AssignProperties_To_SslConfiguration populates the provided destination SslConfiguration from our SslConfiguration
+func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(destination *v20210701s.SslConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7427,8 +7427,8 @@ func (credentials *UserAccountCredentials) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromUserAccountCredentials populates our UserAccountCredentials from the provided source UserAccountCredentials
-func (credentials *UserAccountCredentials) AssignPropertiesFromUserAccountCredentials(source *v20210701s.UserAccountCredentials) error {
+// AssignProperties_From_UserAccountCredentials populates our UserAccountCredentials from the provided source UserAccountCredentials
+func (credentials *UserAccountCredentials) AssignProperties_From_UserAccountCredentials(source *v20210701s.UserAccountCredentials) error {
 
 	// AdminUserName
 	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
@@ -7453,8 +7453,8 @@ func (credentials *UserAccountCredentials) AssignPropertiesFromUserAccountCreden
 	return nil
 }
 
-// AssignPropertiesToUserAccountCredentials populates the provided destination UserAccountCredentials from our UserAccountCredentials
-func (credentials *UserAccountCredentials) AssignPropertiesToUserAccountCredentials(destination *v20210701s.UserAccountCredentials) error {
+// AssignProperties_To_UserAccountCredentials populates the provided destination UserAccountCredentials from our UserAccountCredentials
+func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCredentials(destination *v20210701s.UserAccountCredentials) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7534,8 +7534,8 @@ func (image *VirtualMachineImage) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineImage populates our VirtualMachineImage from the provided source VirtualMachineImage
-func (image *VirtualMachineImage) AssignPropertiesFromVirtualMachineImage(source *v20210701s.VirtualMachineImage) error {
+// AssignProperties_From_VirtualMachineImage populates our VirtualMachineImage from the provided source VirtualMachineImage
+func (image *VirtualMachineImage) AssignProperties_From_VirtualMachineImage(source *v20210701s.VirtualMachineImage) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -7549,8 +7549,8 @@ func (image *VirtualMachineImage) AssignPropertiesFromVirtualMachineImage(source
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineImage populates the provided destination VirtualMachineImage from our VirtualMachineImage
-func (image *VirtualMachineImage) AssignPropertiesToVirtualMachineImage(destination *v20210701s.VirtualMachineImage) error {
+// AssignProperties_To_VirtualMachineImage populates the provided destination VirtualMachineImage from our VirtualMachineImage
+func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destination *v20210701s.VirtualMachineImage) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7663,8 +7663,8 @@ func (credentials *VirtualMachineSshCredentials) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineSshCredentials populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials
-func (credentials *VirtualMachineSshCredentials) AssignPropertiesFromVirtualMachineSshCredentials(source *v20210701s.VirtualMachineSshCredentials) error {
+// AssignProperties_From_VirtualMachineSshCredentials populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials
+func (credentials *VirtualMachineSshCredentials) AssignProperties_From_VirtualMachineSshCredentials(source *v20210701s.VirtualMachineSshCredentials) error {
 
 	// Password
 	if source.Password != nil {
@@ -7687,8 +7687,8 @@ func (credentials *VirtualMachineSshCredentials) AssignPropertiesFromVirtualMach
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineSshCredentials populates the provided destination VirtualMachineSshCredentials from our VirtualMachineSshCredentials
-func (credentials *VirtualMachineSshCredentials) AssignPropertiesToVirtualMachineSshCredentials(destination *v20210701s.VirtualMachineSshCredentials) error {
+// AssignProperties_To_VirtualMachineSshCredentials populates the provided destination VirtualMachineSshCredentials from our VirtualMachineSshCredentials
+func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMachineSshCredentials(destination *v20210701s.VirtualMachineSshCredentials) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7782,8 +7782,8 @@ func (user *AssignedUser) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromAssignedUser populates our AssignedUser from the provided source AssignedUser
-func (user *AssignedUser) AssignPropertiesFromAssignedUser(source *v20210701s.AssignedUser) error {
+// AssignProperties_From_AssignedUser populates our AssignedUser from the provided source AssignedUser
+func (user *AssignedUser) AssignProperties_From_AssignedUser(source *v20210701s.AssignedUser) error {
 
 	// ObjectId
 	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
@@ -7795,8 +7795,8 @@ func (user *AssignedUser) AssignPropertiesFromAssignedUser(source *v20210701s.As
 	return nil
 }
 
-// AssignPropertiesToAssignedUser populates the provided destination AssignedUser from our AssignedUser
-func (user *AssignedUser) AssignPropertiesToAssignedUser(destination *v20210701s.AssignedUser) error {
+// AssignProperties_To_AssignedUser populates the provided destination AssignedUser from our AssignedUser
+func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v20210701s.AssignedUser) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7895,15 +7895,15 @@ func (execute *ScriptsToExecute) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromScriptsToExecute populates our ScriptsToExecute from the provided source ScriptsToExecute
-func (execute *ScriptsToExecute) AssignPropertiesFromScriptsToExecute(source *v20210701s.ScriptsToExecute) error {
+// AssignProperties_From_ScriptsToExecute populates our ScriptsToExecute from the provided source ScriptsToExecute
+func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *v20210701s.ScriptsToExecute) error {
 
 	// CreationScript
 	if source.CreationScript != nil {
 		var creationScript ScriptReference
-		err := creationScript.AssignPropertiesFromScriptReference(source.CreationScript)
+		err := creationScript.AssignProperties_From_ScriptReference(source.CreationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromScriptReference() to populate field CreationScript")
+			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field CreationScript")
 		}
 		execute.CreationScript = &creationScript
 	} else {
@@ -7913,9 +7913,9 @@ func (execute *ScriptsToExecute) AssignPropertiesFromScriptsToExecute(source *v2
 	// StartupScript
 	if source.StartupScript != nil {
 		var startupScript ScriptReference
-		err := startupScript.AssignPropertiesFromScriptReference(source.StartupScript)
+		err := startupScript.AssignProperties_From_ScriptReference(source.StartupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromScriptReference() to populate field StartupScript")
+			return errors.Wrap(err, "calling AssignProperties_From_ScriptReference() to populate field StartupScript")
 		}
 		execute.StartupScript = &startupScript
 	} else {
@@ -7926,17 +7926,17 @@ func (execute *ScriptsToExecute) AssignPropertiesFromScriptsToExecute(source *v2
 	return nil
 }
 
-// AssignPropertiesToScriptsToExecute populates the provided destination ScriptsToExecute from our ScriptsToExecute
-func (execute *ScriptsToExecute) AssignPropertiesToScriptsToExecute(destination *v20210701s.ScriptsToExecute) error {
+// AssignProperties_To_ScriptsToExecute populates the provided destination ScriptsToExecute from our ScriptsToExecute
+func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destination *v20210701s.ScriptsToExecute) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreationScript
 	if execute.CreationScript != nil {
 		var creationScript v20210701s.ScriptReference
-		err := execute.CreationScript.AssignPropertiesToScriptReference(&creationScript)
+		err := execute.CreationScript.AssignProperties_To_ScriptReference(&creationScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToScriptReference() to populate field CreationScript")
+			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field CreationScript")
 		}
 		destination.CreationScript = &creationScript
 	} else {
@@ -7946,9 +7946,9 @@ func (execute *ScriptsToExecute) AssignPropertiesToScriptsToExecute(destination 
 	// StartupScript
 	if execute.StartupScript != nil {
 		var startupScript v20210701s.ScriptReference
-		err := execute.StartupScript.AssignPropertiesToScriptReference(&startupScript)
+		err := execute.StartupScript.AssignProperties_To_ScriptReference(&startupScript)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToScriptReference() to populate field StartupScript")
+			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field StartupScript")
 		}
 		destination.StartupScript = &startupScript
 	} else {
@@ -8056,8 +8056,8 @@ func (reference *ScriptReference) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromScriptReference populates our ScriptReference from the provided source ScriptReference
-func (reference *ScriptReference) AssignPropertiesFromScriptReference(source *v20210701s.ScriptReference) error {
+// AssignProperties_From_ScriptReference populates our ScriptReference from the provided source ScriptReference
+func (reference *ScriptReference) AssignProperties_From_ScriptReference(source *v20210701s.ScriptReference) error {
 
 	// ScriptArguments
 	reference.ScriptArguments = genruntime.ClonePointerToString(source.ScriptArguments)
@@ -8075,8 +8075,8 @@ func (reference *ScriptReference) AssignPropertiesFromScriptReference(source *v2
 	return nil
 }
 
-// AssignPropertiesToScriptReference populates the provided destination ScriptReference from our ScriptReference
-func (reference *ScriptReference) AssignPropertiesToScriptReference(destination *v20210701s.ScriptReference) error {
+// AssignProperties_To_ScriptReference populates the provided destination ScriptReference from our ScriptReference
+func (reference *ScriptReference) AssignProperties_To_ScriptReference(destination *v20210701s.ScriptReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -25,12 +25,12 @@ func Test_RouteTable_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTable_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTableSTATUSARM, RouteTableSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRouteTable_STATUSARM, RouteTable_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTableSTATUSARM runs a test to see if a specific instance of RouteTable_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTableSTATUSARM(subject RouteTable_STATUSARM) string {
+// RunJSONSerializationTestForRouteTable_STATUSARM runs a test to see if a specific instance of RouteTable_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTable_STATUSARM(subject RouteTable_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,33 +57,33 @@ func RunJSONSerializationTestForRouteTableSTATUSARM(subject RouteTable_STATUSARM
 }
 
 // Generator of RouteTable_STATUSARM instances for property testing - lazily instantiated by
-// RouteTableSTATUSARMGenerator()
-var routeTableSTATUSARMGenerator gopter.Gen
+// RouteTable_STATUSARMGenerator()
+var routeTable_STATUSARMGenerator gopter.Gen
 
-// RouteTableSTATUSARMGenerator returns a generator of RouteTable_STATUSARM instances for property testing.
-// We first initialize routeTableSTATUSARMGenerator with a simplified generator based on the
+// RouteTable_STATUSARMGenerator returns a generator of RouteTable_STATUSARM instances for property testing.
+// We first initialize routeTable_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RouteTableSTATUSARMGenerator() gopter.Gen {
-	if routeTableSTATUSARMGenerator != nil {
-		return routeTableSTATUSARMGenerator
+func RouteTable_STATUSARMGenerator() gopter.Gen {
+	if routeTable_STATUSARMGenerator != nil {
+		return routeTable_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableSTATUSARM(generators)
-	routeTableSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTable_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTable_STATUSARM(generators)
+	routeTable_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTable_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTableSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForRouteTableSTATUSARM(generators)
-	routeTableSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTable_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTable_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForRouteTable_STATUSARM(generators)
+	routeTable_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTable_STATUSARM{}), generators)
 
-	return routeTableSTATUSARMGenerator
+	return routeTable_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTableSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTableSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTable_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTable_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -92,9 +92,9 @@ func AddIndependentPropertyGeneratorsForRouteTableSTATUSARM(gens map[string]gopt
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRouteTableSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteTableSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RouteTablePropertiesFormatSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForRouteTable_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRouteTable_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RouteTablePropertiesFormat_STATUSARMGenerator())
 }
 
 func Test_RouteTablePropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,12 +105,12 @@ func Test_RouteTablePropertiesFormat_STATUSARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTablePropertiesFormat_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTablePropertiesFormatSTATUSARM, RouteTablePropertiesFormatSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRouteTablePropertiesFormat_STATUSARM, RouteTablePropertiesFormat_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTablePropertiesFormatSTATUSARM runs a test to see if a specific instance of RouteTablePropertiesFormat_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTablePropertiesFormatSTATUSARM(subject RouteTablePropertiesFormat_STATUSARM) string {
+// RunJSONSerializationTestForRouteTablePropertiesFormat_STATUSARM runs a test to see if a specific instance of RouteTablePropertiesFormat_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTablePropertiesFormat_STATUSARM(subject RouteTablePropertiesFormat_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -137,24 +137,24 @@ func RunJSONSerializationTestForRouteTablePropertiesFormatSTATUSARM(subject Rout
 }
 
 // Generator of RouteTablePropertiesFormat_STATUSARM instances for property testing - lazily instantiated by
-// RouteTablePropertiesFormatSTATUSARMGenerator()
-var routeTablePropertiesFormatSTATUSARMGenerator gopter.Gen
+// RouteTablePropertiesFormat_STATUSARMGenerator()
+var routeTablePropertiesFormat_STATUSARMGenerator gopter.Gen
 
-// RouteTablePropertiesFormatSTATUSARMGenerator returns a generator of RouteTablePropertiesFormat_STATUSARM instances for property testing.
-func RouteTablePropertiesFormatSTATUSARMGenerator() gopter.Gen {
-	if routeTablePropertiesFormatSTATUSARMGenerator != nil {
-		return routeTablePropertiesFormatSTATUSARMGenerator
+// RouteTablePropertiesFormat_STATUSARMGenerator returns a generator of RouteTablePropertiesFormat_STATUSARM instances for property testing.
+func RouteTablePropertiesFormat_STATUSARMGenerator() gopter.Gen {
+	if routeTablePropertiesFormat_STATUSARMGenerator != nil {
+		return routeTablePropertiesFormat_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatSTATUSARM(generators)
-	routeTablePropertiesFormatSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormat_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_STATUSARM(generators)
+	routeTablePropertiesFormat_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormat_STATUSARM{}), generators)
 
-	return routeTablePropertiesFormatSTATUSARMGenerator
+	return routeTablePropertiesFormat_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,

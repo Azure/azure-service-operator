@@ -206,12 +206,12 @@ func (in *AzureFilesIdentityBasedAuthentication) DeepCopyInto(out *AzureFilesIde
 	}
 	if in.DefaultSharePermission != nil {
 		in, out := &in.DefaultSharePermission, &out.DefaultSharePermission
-		*out = new(AzureFilesIdentityBasedAuthenticationDefaultSharePermission)
+		*out = new(AzureFilesIdentityBasedAuthentication_DefaultSharePermission)
 		**out = **in
 	}
 	if in.DirectoryServiceOptions != nil {
 		in, out := &in.DirectoryServiceOptions, &out.DirectoryServiceOptions
-		*out = new(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions)
+		*out = new(AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions)
 		**out = **in
 	}
 }
@@ -236,12 +236,12 @@ func (in *AzureFilesIdentityBasedAuthenticationARM) DeepCopyInto(out *AzureFiles
 	}
 	if in.DefaultSharePermission != nil {
 		in, out := &in.DefaultSharePermission, &out.DefaultSharePermission
-		*out = new(AzureFilesIdentityBasedAuthenticationDefaultSharePermission)
+		*out = new(AzureFilesIdentityBasedAuthentication_DefaultSharePermission)
 		**out = **in
 	}
 	if in.DirectoryServiceOptions != nil {
 		in, out := &in.DirectoryServiceOptions, &out.DirectoryServiceOptions
-		*out = new(AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions)
+		*out = new(AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions)
 		**out = **in
 	}
 }
@@ -266,12 +266,12 @@ func (in *AzureFilesIdentityBasedAuthentication_STATUS) DeepCopyInto(out *AzureF
 	}
 	if in.DefaultSharePermission != nil {
 		in, out := &in.DefaultSharePermission, &out.DefaultSharePermission
-		*out = new(AzureFilesIdentityBasedAuthenticationSTATUSDefaultSharePermission)
+		*out = new(AzureFilesIdentityBasedAuthentication_STATUS_DefaultSharePermission)
 		**out = **in
 	}
 	if in.DirectoryServiceOptions != nil {
 		in, out := &in.DirectoryServiceOptions, &out.DirectoryServiceOptions
-		*out = new(AzureFilesIdentityBasedAuthenticationSTATUSDirectoryServiceOptions)
+		*out = new(AzureFilesIdentityBasedAuthentication_STATUS_DirectoryServiceOptions)
 		**out = **in
 	}
 }
@@ -296,12 +296,12 @@ func (in *AzureFilesIdentityBasedAuthentication_STATUSARM) DeepCopyInto(out *Azu
 	}
 	if in.DefaultSharePermission != nil {
 		in, out := &in.DefaultSharePermission, &out.DefaultSharePermission
-		*out = new(AzureFilesIdentityBasedAuthenticationSTATUSDefaultSharePermission)
+		*out = new(AzureFilesIdentityBasedAuthentication_STATUS_DefaultSharePermission)
 		**out = **in
 	}
 	if in.DirectoryServiceOptions != nil {
 		in, out := &in.DirectoryServiceOptions, &out.DirectoryServiceOptions
-		*out = new(AzureFilesIdentityBasedAuthenticationSTATUSDirectoryServiceOptions)
+		*out = new(AzureFilesIdentityBasedAuthentication_STATUS_DirectoryServiceOptions)
 		**out = **in
 	}
 }
@@ -383,17 +383,17 @@ func (in *BlobContainer_STATUS) DeepCopyInto(out *BlobContainer_STATUS) {
 	}
 	if in.LeaseDuration != nil {
 		in, out := &in.LeaseDuration, &out.LeaseDuration
-		*out = new(ContainerPropertiesSTATUSLeaseDuration)
+		*out = new(ContainerProperties_STATUS_LeaseDuration)
 		**out = **in
 	}
 	if in.LeaseState != nil {
 		in, out := &in.LeaseState, &out.LeaseState
-		*out = new(ContainerPropertiesSTATUSLeaseState)
+		*out = new(ContainerProperties_STATUS_LeaseState)
 		**out = **in
 	}
 	if in.LeaseStatus != nil {
 		in, out := &in.LeaseStatus, &out.LeaseStatus
-		*out = new(ContainerPropertiesSTATUSLeaseStatus)
+		*out = new(ContainerProperties_STATUS_LeaseStatus)
 		**out = **in
 	}
 	if in.LegalHold != nil {
@@ -415,7 +415,7 @@ func (in *BlobContainer_STATUS) DeepCopyInto(out *BlobContainer_STATUS) {
 	}
 	if in.PublicAccess != nil {
 		in, out := &in.PublicAccess, &out.PublicAccess
-		*out = new(ContainerPropertiesSTATUSPublicAccess)
+		*out = new(ContainerProperties_STATUS_PublicAccess)
 		**out = **in
 	}
 	if in.RemainingRetentionDays != nil {
@@ -609,7 +609,7 @@ func (in *BlobRestoreStatus_STATUS) DeepCopyInto(out *BlobRestoreStatus_STATUS) 
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(BlobRestoreStatusSTATUSStatus)
+		*out = new(BlobRestoreStatus_STATUS_Status)
 		**out = **in
 	}
 }
@@ -644,7 +644,7 @@ func (in *BlobRestoreStatus_STATUSARM) DeepCopyInto(out *BlobRestoreStatus_STATU
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(BlobRestoreStatusSTATUSStatus)
+		*out = new(BlobRestoreStatus_STATUS_Status)
 		**out = **in
 	}
 }
@@ -1033,7 +1033,7 @@ func (in *ContainerPropertiesARM) DeepCopyInto(out *ContainerPropertiesARM) {
 	}
 	if in.PublicAccess != nil {
 		in, out := &in.PublicAccess, &out.PublicAccess
-		*out = new(ContainerPropertiesPublicAccess)
+		*out = new(ContainerProperties_PublicAccess)
 		**out = **in
 	}
 }
@@ -1098,17 +1098,17 @@ func (in *ContainerProperties_STATUSARM) DeepCopyInto(out *ContainerProperties_S
 	}
 	if in.LeaseDuration != nil {
 		in, out := &in.LeaseDuration, &out.LeaseDuration
-		*out = new(ContainerPropertiesSTATUSLeaseDuration)
+		*out = new(ContainerProperties_STATUS_LeaseDuration)
 		**out = **in
 	}
 	if in.LeaseState != nil {
 		in, out := &in.LeaseState, &out.LeaseState
-		*out = new(ContainerPropertiesSTATUSLeaseState)
+		*out = new(ContainerProperties_STATUS_LeaseState)
 		**out = **in
 	}
 	if in.LeaseStatus != nil {
 		in, out := &in.LeaseStatus, &out.LeaseStatus
-		*out = new(ContainerPropertiesSTATUSLeaseStatus)
+		*out = new(ContainerProperties_STATUS_LeaseStatus)
 		**out = **in
 	}
 	if in.LegalHold != nil {
@@ -1125,7 +1125,7 @@ func (in *ContainerProperties_STATUSARM) DeepCopyInto(out *ContainerProperties_S
 	}
 	if in.PublicAccess != nil {
 		in, out := &in.PublicAccess, &out.PublicAccess
-		*out = new(ContainerPropertiesSTATUSPublicAccess)
+		*out = new(ContainerProperties_STATUS_PublicAccess)
 		**out = **in
 	}
 	if in.RemainingRetentionDays != nil {
@@ -1160,7 +1160,7 @@ func (in *CorsRule) DeepCopyInto(out *CorsRule) {
 	}
 	if in.AllowedMethods != nil {
 		in, out := &in.AllowedMethods, &out.AllowedMethods
-		*out = make([]CorsRuleAllowedMethods, len(*in))
+		*out = make([]CorsRule_AllowedMethods, len(*in))
 		copy(*out, *in)
 	}
 	if in.AllowedOrigins != nil {
@@ -1200,7 +1200,7 @@ func (in *CorsRuleARM) DeepCopyInto(out *CorsRuleARM) {
 	}
 	if in.AllowedMethods != nil {
 		in, out := &in.AllowedMethods, &out.AllowedMethods
-		*out = make([]CorsRuleAllowedMethods, len(*in))
+		*out = make([]CorsRule_AllowedMethods, len(*in))
 		copy(*out, *in)
 	}
 	if in.AllowedOrigins != nil {
@@ -1240,7 +1240,7 @@ func (in *CorsRule_STATUS) DeepCopyInto(out *CorsRule_STATUS) {
 	}
 	if in.AllowedMethods != nil {
 		in, out := &in.AllowedMethods, &out.AllowedMethods
-		*out = make([]CorsRuleSTATUSAllowedMethods, len(*in))
+		*out = make([]CorsRule_STATUS_AllowedMethods, len(*in))
 		copy(*out, *in)
 	}
 	if in.AllowedOrigins != nil {
@@ -1280,7 +1280,7 @@ func (in *CorsRule_STATUSARM) DeepCopyInto(out *CorsRule_STATUSARM) {
 	}
 	if in.AllowedMethods != nil {
 		in, out := &in.AllowedMethods, &out.AllowedMethods
-		*out = make([]CorsRuleSTATUSAllowedMethods, len(*in))
+		*out = make([]CorsRule_STATUS_AllowedMethods, len(*in))
 		copy(*out, *in)
 	}
 	if in.AllowedOrigins != nil {
@@ -1788,7 +1788,7 @@ func (in *Encryption) DeepCopyInto(out *Encryption) {
 	}
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionKeySource)
+		*out = new(Encryption_KeySource)
 		**out = **in
 	}
 	if in.Keyvaultproperties != nil {
@@ -1828,7 +1828,7 @@ func (in *EncryptionARM) DeepCopyInto(out *EncryptionARM) {
 	}
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionKeySource)
+		*out = new(Encryption_KeySource)
 		**out = **in
 	}
 	if in.Keyvaultproperties != nil {
@@ -1948,7 +1948,7 @@ func (in *EncryptionService) DeepCopyInto(out *EncryptionService) {
 	}
 	if in.KeyType != nil {
 		in, out := &in.KeyType, &out.KeyType
-		*out = new(EncryptionServiceKeyType)
+		*out = new(EncryptionService_KeyType)
 		**out = **in
 	}
 }
@@ -1973,7 +1973,7 @@ func (in *EncryptionServiceARM) DeepCopyInto(out *EncryptionServiceARM) {
 	}
 	if in.KeyType != nil {
 		in, out := &in.KeyType, &out.KeyType
-		*out = new(EncryptionServiceKeyType)
+		*out = new(EncryptionService_KeyType)
 		**out = **in
 	}
 }
@@ -1998,7 +1998,7 @@ func (in *EncryptionService_STATUS) DeepCopyInto(out *EncryptionService_STATUS) 
 	}
 	if in.KeyType != nil {
 		in, out := &in.KeyType, &out.KeyType
-		*out = new(EncryptionServiceSTATUSKeyType)
+		*out = new(EncryptionService_STATUS_KeyType)
 		**out = **in
 	}
 	if in.LastEnabledTime != nil {
@@ -2028,7 +2028,7 @@ func (in *EncryptionService_STATUSARM) DeepCopyInto(out *EncryptionService_STATU
 	}
 	if in.KeyType != nil {
 		in, out := &in.KeyType, &out.KeyType
-		*out = new(EncryptionServiceSTATUSKeyType)
+		*out = new(EncryptionService_STATUS_KeyType)
 		**out = **in
 	}
 	if in.LastEnabledTime != nil {
@@ -2198,7 +2198,7 @@ func (in *Encryption_STATUS) DeepCopyInto(out *Encryption_STATUS) {
 	}
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionSTATUSKeySource)
+		*out = new(Encryption_STATUS_KeySource)
 		**out = **in
 	}
 	if in.Keyvaultproperties != nil {
@@ -2238,7 +2238,7 @@ func (in *Encryption_STATUSARM) DeepCopyInto(out *Encryption_STATUSARM) {
 	}
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionSTATUSKeySource)
+		*out = new(Encryption_STATUS_KeySource)
 		**out = **in
 	}
 	if in.Keyvaultproperties != nil {
@@ -2388,7 +2388,7 @@ func (in *ExtendedLocation) DeepCopyInto(out *ExtendedLocation) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocation_Type)
 		**out = **in
 	}
 }
@@ -2413,7 +2413,7 @@ func (in *ExtendedLocationARM) DeepCopyInto(out *ExtendedLocationARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocation_Type)
 		**out = **in
 	}
 }
@@ -2493,7 +2493,7 @@ func (in *GeoReplicationStats_STATUS) DeepCopyInto(out *GeoReplicationStats_STAT
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(GeoReplicationStatsSTATUSStatus)
+		*out = new(GeoReplicationStats_STATUS_Status)
 		**out = **in
 	}
 }
@@ -2523,7 +2523,7 @@ func (in *GeoReplicationStats_STATUSARM) DeepCopyInto(out *GeoReplicationStats_S
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(GeoReplicationStatsSTATUSStatus)
+		*out = new(GeoReplicationStats_STATUS_Status)
 		**out = **in
 	}
 }
@@ -2543,7 +2543,7 @@ func (in *IPRule) DeepCopyInto(out *IPRule) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleAction)
+		*out = new(IPRule_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -2568,7 +2568,7 @@ func (in *IPRuleARM) DeepCopyInto(out *IPRuleARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleAction)
+		*out = new(IPRule_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -2593,7 +2593,7 @@ func (in *IPRule_STATUS) DeepCopyInto(out *IPRule_STATUS) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleSTATUSAction)
+		*out = new(IPRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -2618,7 +2618,7 @@ func (in *IPRule_STATUSARM) DeepCopyInto(out *IPRule_STATUSARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IPRuleSTATUSAction)
+		*out = new(IPRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -2643,7 +2643,7 @@ func (in *Identity) DeepCopyInto(out *Identity) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityType)
+		*out = new(Identity_Type)
 		**out = **in
 	}
 }
@@ -2663,7 +2663,7 @@ func (in *IdentityARM) DeepCopyInto(out *IdentityARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityType)
+		*out = new(Identity_Type)
 		**out = **in
 	}
 }
@@ -2693,7 +2693,7 @@ func (in *Identity_STATUS) DeepCopyInto(out *Identity_STATUS) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentitySTATUSType)
+		*out = new(Identity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2730,7 +2730,7 @@ func (in *Identity_STATUSARM) DeepCopyInto(out *Identity_STATUSARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentitySTATUSType)
+		*out = new(Identity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2772,7 +2772,7 @@ func (in *ImmutabilityPolicyProperties_STATUS) DeepCopyInto(out *ImmutabilityPol
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ImmutabilityPolicyPropertySTATUSState)
+		*out = new(ImmutabilityPolicyProperty_STATUS_State)
 		**out = **in
 	}
 	if in.UpdateHistory != nil {
@@ -2841,7 +2841,7 @@ func (in *ImmutabilityPolicyProperty_STATUSARM) DeepCopyInto(out *ImmutabilityPo
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ImmutabilityPolicyPropertySTATUSState)
+		*out = new(ImmutabilityPolicyProperty_STATUS_State)
 		**out = **in
 	}
 }
@@ -2906,7 +2906,7 @@ func (in *ImmutableStorageWithVersioning_STATUS) DeepCopyInto(out *ImmutableStor
 	}
 	if in.MigrationState != nil {
 		in, out := &in.MigrationState, &out.MigrationState
-		*out = new(ImmutableStorageWithVersioningSTATUSMigrationState)
+		*out = new(ImmutableStorageWithVersioning_STATUS_MigrationState)
 		**out = **in
 	}
 	if in.TimeStamp != nil {
@@ -2936,7 +2936,7 @@ func (in *ImmutableStorageWithVersioning_STATUSARM) DeepCopyInto(out *ImmutableS
 	}
 	if in.MigrationState != nil {
 		in, out := &in.MigrationState, &out.MigrationState
-		*out = new(ImmutableStorageWithVersioningSTATUSMigrationState)
+		*out = new(ImmutableStorageWithVersioning_STATUS_MigrationState)
 		**out = **in
 	}
 	if in.TimeStamp != nil {
@@ -3241,7 +3241,7 @@ func (in *LastAccessTimeTrackingPolicy) DeepCopyInto(out *LastAccessTimeTracking
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LastAccessTimeTrackingPolicyName)
+		*out = new(LastAccessTimeTrackingPolicy_Name)
 		**out = **in
 	}
 	if in.TrackingGranularityInDays != nil {
@@ -3276,7 +3276,7 @@ func (in *LastAccessTimeTrackingPolicyARM) DeepCopyInto(out *LastAccessTimeTrack
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LastAccessTimeTrackingPolicyName)
+		*out = new(LastAccessTimeTrackingPolicy_Name)
 		**out = **in
 	}
 	if in.TrackingGranularityInDays != nil {
@@ -3311,7 +3311,7 @@ func (in *LastAccessTimeTrackingPolicy_STATUS) DeepCopyInto(out *LastAccessTimeT
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LastAccessTimeTrackingPolicySTATUSName)
+		*out = new(LastAccessTimeTrackingPolicy_STATUS_Name)
 		**out = **in
 	}
 	if in.TrackingGranularityInDays != nil {
@@ -3346,7 +3346,7 @@ func (in *LastAccessTimeTrackingPolicy_STATUSARM) DeepCopyInto(out *LastAccessTi
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LastAccessTimeTrackingPolicySTATUSName)
+		*out = new(LastAccessTimeTrackingPolicy_STATUS_Name)
 		**out = **in
 	}
 	if in.TrackingGranularityInDays != nil {
@@ -3973,7 +3973,7 @@ func (in *ManagementPolicyRule) DeepCopyInto(out *ManagementPolicyRule) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagementPolicyRuleType)
+		*out = new(ManagementPolicyRule_Type)
 		**out = **in
 	}
 }
@@ -4008,7 +4008,7 @@ func (in *ManagementPolicyRuleARM) DeepCopyInto(out *ManagementPolicyRuleARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagementPolicyRuleType)
+		*out = new(ManagementPolicyRule_Type)
 		**out = **in
 	}
 }
@@ -4043,7 +4043,7 @@ func (in *ManagementPolicyRule_STATUS) DeepCopyInto(out *ManagementPolicyRule_ST
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagementPolicyRuleSTATUSType)
+		*out = new(ManagementPolicyRule_STATUS_Type)
 		**out = **in
 	}
 }
@@ -4078,7 +4078,7 @@ func (in *ManagementPolicyRule_STATUSARM) DeepCopyInto(out *ManagementPolicyRule
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagementPolicyRuleSTATUSType)
+		*out = new(ManagementPolicyRule_STATUS_Type)
 		**out = **in
 	}
 }
@@ -4508,12 +4508,12 @@ func (in *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetBypass)
+		*out = new(NetworkRuleSet_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -4554,12 +4554,12 @@ func (in *NetworkRuleSetARM) DeepCopyInto(out *NetworkRuleSetARM) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetBypass)
+		*out = new(NetworkRuleSet_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -4600,12 +4600,12 @@ func (in *NetworkRuleSet_STATUS) DeepCopyInto(out *NetworkRuleSet_STATUS) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetSTATUSBypass)
+		*out = new(NetworkRuleSet_STATUS_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -4646,12 +4646,12 @@ func (in *NetworkRuleSet_STATUSARM) DeepCopyInto(out *NetworkRuleSet_STATUSARM) 
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetSTATUSBypass)
+		*out = new(NetworkRuleSet_STATUS_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -5128,7 +5128,7 @@ func (in *RoutingPreference) DeepCopyInto(out *RoutingPreference) {
 	}
 	if in.RoutingChoice != nil {
 		in, out := &in.RoutingChoice, &out.RoutingChoice
-		*out = new(RoutingPreferenceRoutingChoice)
+		*out = new(RoutingPreference_RoutingChoice)
 		**out = **in
 	}
 }
@@ -5158,7 +5158,7 @@ func (in *RoutingPreferenceARM) DeepCopyInto(out *RoutingPreferenceARM) {
 	}
 	if in.RoutingChoice != nil {
 		in, out := &in.RoutingChoice, &out.RoutingChoice
-		*out = new(RoutingPreferenceRoutingChoice)
+		*out = new(RoutingPreference_RoutingChoice)
 		**out = **in
 	}
 }
@@ -5188,7 +5188,7 @@ func (in *RoutingPreference_STATUS) DeepCopyInto(out *RoutingPreference_STATUS) 
 	}
 	if in.RoutingChoice != nil {
 		in, out := &in.RoutingChoice, &out.RoutingChoice
-		*out = new(RoutingPreferenceSTATUSRoutingChoice)
+		*out = new(RoutingPreference_STATUS_RoutingChoice)
 		**out = **in
 	}
 }
@@ -5218,7 +5218,7 @@ func (in *RoutingPreference_STATUSARM) DeepCopyInto(out *RoutingPreference_STATU
 	}
 	if in.RoutingChoice != nil {
 		in, out := &in.RoutingChoice, &out.RoutingChoice
-		*out = new(RoutingPreferenceSTATUSRoutingChoice)
+		*out = new(RoutingPreference_STATUS_RoutingChoice)
 		**out = **in
 	}
 }
@@ -5238,7 +5238,7 @@ func (in *SasPolicy) DeepCopyInto(out *SasPolicy) {
 	*out = *in
 	if in.ExpirationAction != nil {
 		in, out := &in.ExpirationAction, &out.ExpirationAction
-		*out = new(SasPolicyExpirationAction)
+		*out = new(SasPolicy_ExpirationAction)
 		**out = **in
 	}
 	if in.SasExpirationPeriod != nil {
@@ -5263,7 +5263,7 @@ func (in *SasPolicyARM) DeepCopyInto(out *SasPolicyARM) {
 	*out = *in
 	if in.ExpirationAction != nil {
 		in, out := &in.ExpirationAction, &out.ExpirationAction
-		*out = new(SasPolicyExpirationAction)
+		*out = new(SasPolicy_ExpirationAction)
 		**out = **in
 	}
 	if in.SasExpirationPeriod != nil {
@@ -5288,7 +5288,7 @@ func (in *SasPolicy_STATUS) DeepCopyInto(out *SasPolicy_STATUS) {
 	*out = *in
 	if in.ExpirationAction != nil {
 		in, out := &in.ExpirationAction, &out.ExpirationAction
-		*out = new(SasPolicySTATUSExpirationAction)
+		*out = new(SasPolicy_STATUS_ExpirationAction)
 		**out = **in
 	}
 	if in.SasExpirationPeriod != nil {
@@ -5313,7 +5313,7 @@ func (in *SasPolicy_STATUSARM) DeepCopyInto(out *SasPolicy_STATUSARM) {
 	*out = *in
 	if in.ExpirationAction != nil {
 		in, out := &in.ExpirationAction, &out.ExpirationAction
-		*out = new(SasPolicySTATUSExpirationAction)
+		*out = new(SasPolicy_STATUS_ExpirationAction)
 		**out = **in
 	}
 	if in.SasExpirationPeriod != nil {
@@ -5338,12 +5338,12 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuTier)
+		*out = new(Sku_Tier)
 		**out = **in
 	}
 }
@@ -5363,12 +5363,12 @@ func (in *SkuARM) DeepCopyInto(out *SkuARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuTier)
+		*out = new(Sku_Tier)
 		**out = **in
 	}
 }
@@ -5732,7 +5732,7 @@ func (in *StorageAccountPropertiesCreateParametersARM) DeepCopyInto(out *Storage
 	*out = *in
 	if in.AccessTier != nil {
 		in, out := &in.AccessTier, &out.AccessTier
-		*out = new(StorageAccountPropertiesCreateParametersAccessTier)
+		*out = new(StorageAccountPropertiesCreateParameters_AccessTier)
 		**out = **in
 	}
 	if in.AllowBlobPublicAccess != nil {
@@ -5782,12 +5782,12 @@ func (in *StorageAccountPropertiesCreateParametersARM) DeepCopyInto(out *Storage
 	}
 	if in.LargeFileSharesState != nil {
 		in, out := &in.LargeFileSharesState, &out.LargeFileSharesState
-		*out = new(StorageAccountPropertiesCreateParametersLargeFileSharesState)
+		*out = new(StorageAccountPropertiesCreateParameters_LargeFileSharesState)
 		**out = **in
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(StorageAccountPropertiesCreateParametersMinimumTlsVersion)
+		*out = new(StorageAccountPropertiesCreateParameters_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.NetworkAcls != nil {
@@ -5827,7 +5827,7 @@ func (in *StorageAccountProperties_STATUSARM) DeepCopyInto(out *StorageAccountPr
 	*out = *in
 	if in.AccessTier != nil {
 		in, out := &in.AccessTier, &out.AccessTier
-		*out = new(StorageAccountPropertiesSTATUSAccessTier)
+		*out = new(StorageAccountProperties_STATUS_AccessTier)
 		**out = **in
 	}
 	if in.AllowBlobPublicAccess != nil {
@@ -5902,7 +5902,7 @@ func (in *StorageAccountProperties_STATUSARM) DeepCopyInto(out *StorageAccountPr
 	}
 	if in.LargeFileSharesState != nil {
 		in, out := &in.LargeFileSharesState, &out.LargeFileSharesState
-		*out = new(StorageAccountPropertiesSTATUSLargeFileSharesState)
+		*out = new(StorageAccountProperties_STATUS_LargeFileSharesState)
 		**out = **in
 	}
 	if in.LastGeoFailoverTime != nil {
@@ -5912,7 +5912,7 @@ func (in *StorageAccountProperties_STATUSARM) DeepCopyInto(out *StorageAccountPr
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(StorageAccountPropertiesSTATUSMinimumTlsVersion)
+		*out = new(StorageAccountProperties_STATUS_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.NetworkAcls != nil {
@@ -5939,7 +5939,7 @@ func (in *StorageAccountProperties_STATUSARM) DeepCopyInto(out *StorageAccountPr
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(StorageAccountPropertiesSTATUSProvisioningState)
+		*out = new(StorageAccountProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.RoutingPreference != nil {
@@ -5964,12 +5964,12 @@ func (in *StorageAccountProperties_STATUSARM) DeepCopyInto(out *StorageAccountPr
 	}
 	if in.StatusOfPrimary != nil {
 		in, out := &in.StatusOfPrimary, &out.StatusOfPrimary
-		*out = new(StorageAccountPropertiesSTATUSStatusOfPrimary)
+		*out = new(StorageAccountProperties_STATUS_StatusOfPrimary)
 		**out = **in
 	}
 	if in.StatusOfSecondary != nil {
 		in, out := &in.StatusOfSecondary, &out.StatusOfSecondary
-		*out = new(StorageAccountPropertiesSTATUSStatusOfSecondary)
+		*out = new(StorageAccountProperties_STATUS_StatusOfSecondary)
 		**out = **in
 	}
 	if in.SupportsHttpsTrafficOnly != nil {
@@ -5994,7 +5994,7 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 	*out = *in
 	if in.AccessTier != nil {
 		in, out := &in.AccessTier, &out.AccessTier
-		*out = new(StorageAccountPropertiesSTATUSAccessTier)
+		*out = new(StorageAccountProperties_STATUS_AccessTier)
 		**out = **in
 	}
 	if in.AllowBlobPublicAccess != nil {
@@ -6091,12 +6091,12 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(StorageAccountSTATUSKind)
+		*out = new(StorageAccount_STATUS_Kind)
 		**out = **in
 	}
 	if in.LargeFileSharesState != nil {
 		in, out := &in.LargeFileSharesState, &out.LargeFileSharesState
-		*out = new(StorageAccountPropertiesSTATUSLargeFileSharesState)
+		*out = new(StorageAccountProperties_STATUS_LargeFileSharesState)
 		**out = **in
 	}
 	if in.LastGeoFailoverTime != nil {
@@ -6111,7 +6111,7 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(StorageAccountPropertiesSTATUSMinimumTlsVersion)
+		*out = new(StorageAccountProperties_STATUS_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -6143,7 +6143,7 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(StorageAccountPropertiesSTATUSProvisioningState)
+		*out = new(StorageAccountProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.RoutingPreference != nil {
@@ -6173,12 +6173,12 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 	}
 	if in.StatusOfPrimary != nil {
 		in, out := &in.StatusOfPrimary, &out.StatusOfPrimary
-		*out = new(StorageAccountPropertiesSTATUSStatusOfPrimary)
+		*out = new(StorageAccountProperties_STATUS_StatusOfPrimary)
 		**out = **in
 	}
 	if in.StatusOfSecondary != nil {
 		in, out := &in.StatusOfSecondary, &out.StatusOfSecondary
-		*out = new(StorageAccountPropertiesSTATUSStatusOfSecondary)
+		*out = new(StorageAccountProperties_STATUS_StatusOfSecondary)
 		**out = **in
 	}
 	if in.SupportsHttpsTrafficOnly != nil {
@@ -6230,7 +6230,7 @@ func (in *StorageAccount_STATUSARM) DeepCopyInto(out *StorageAccount_STATUSARM) 
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(StorageAccountSTATUSKind)
+		*out = new(StorageAccount_STATUS_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -6393,265 +6393,6 @@ func (in *StorageAccountsBlobServicesContainerList) DeepCopyObject() runtime.Obj
 		return c
 	}
 	return nil
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsBlobServicesContainers_Spec) DeepCopyInto(out *StorageAccountsBlobServicesContainers_Spec) {
-	*out = *in
-	if in.DefaultEncryptionScope != nil {
-		in, out := &in.DefaultEncryptionScope, &out.DefaultEncryptionScope
-		*out = new(string)
-		**out = **in
-	}
-	if in.DenyEncryptionScopeOverride != nil {
-		in, out := &in.DenyEncryptionScopeOverride, &out.DenyEncryptionScopeOverride
-		*out = new(bool)
-		**out = **in
-	}
-	if in.ImmutableStorageWithVersioning != nil {
-		in, out := &in.ImmutableStorageWithVersioning, &out.ImmutableStorageWithVersioning
-		*out = new(ImmutableStorageWithVersioning)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Metadata != nil {
-		in, out := &in.Metadata, &out.Metadata
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.PublicAccess != nil {
-		in, out := &in.PublicAccess, &out.PublicAccess
-		*out = new(ContainerPropertiesPublicAccess)
-		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsBlobServicesContainers_Spec.
-func (in *StorageAccountsBlobServicesContainers_Spec) DeepCopy() *StorageAccountsBlobServicesContainers_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsBlobServicesContainers_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsBlobServicesContainers_SpecARM) DeepCopyInto(out *StorageAccountsBlobServicesContainers_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ContainerPropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsBlobServicesContainers_SpecARM.
-func (in *StorageAccountsBlobServicesContainers_SpecARM) DeepCopy() *StorageAccountsBlobServicesContainers_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsBlobServicesContainers_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsBlobServices_Spec) DeepCopyInto(out *StorageAccountsBlobServices_Spec) {
-	*out = *in
-	if in.AutomaticSnapshotPolicyEnabled != nil {
-		in, out := &in.AutomaticSnapshotPolicyEnabled, &out.AutomaticSnapshotPolicyEnabled
-		*out = new(bool)
-		**out = **in
-	}
-	if in.ChangeFeed != nil {
-		in, out := &in.ChangeFeed, &out.ChangeFeed
-		*out = new(ChangeFeed)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ContainerDeleteRetentionPolicy != nil {
-		in, out := &in.ContainerDeleteRetentionPolicy, &out.ContainerDeleteRetentionPolicy
-		*out = new(DeleteRetentionPolicy)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Cors != nil {
-		in, out := &in.Cors, &out.Cors
-		*out = new(CorsRules)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.DefaultServiceVersion != nil {
-		in, out := &in.DefaultServiceVersion, &out.DefaultServiceVersion
-		*out = new(string)
-		**out = **in
-	}
-	if in.DeleteRetentionPolicy != nil {
-		in, out := &in.DeleteRetentionPolicy, &out.DeleteRetentionPolicy
-		*out = new(DeleteRetentionPolicy)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.IsVersioningEnabled != nil {
-		in, out := &in.IsVersioningEnabled, &out.IsVersioningEnabled
-		*out = new(bool)
-		**out = **in
-	}
-	if in.LastAccessTimeTrackingPolicy != nil {
-		in, out := &in.LastAccessTimeTrackingPolicy, &out.LastAccessTimeTrackingPolicy
-		*out = new(LastAccessTimeTrackingPolicy)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.RestorePolicy != nil {
-		in, out := &in.RestorePolicy, &out.RestorePolicy
-		*out = new(RestorePolicyProperties)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsBlobServices_Spec.
-func (in *StorageAccountsBlobServices_Spec) DeepCopy() *StorageAccountsBlobServices_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsBlobServices_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsBlobServices_SpecARM) DeepCopyInto(out *StorageAccountsBlobServices_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(BlobServicePropertiesPropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsBlobServices_SpecARM.
-func (in *StorageAccountsBlobServices_SpecARM) DeepCopy() *StorageAccountsBlobServices_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsBlobServices_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsManagementPolicies_Spec) DeepCopyInto(out *StorageAccountsManagementPolicies_Spec) {
-	*out = *in
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Policy != nil {
-		in, out := &in.Policy, &out.Policy
-		*out = new(ManagementPolicySchema)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsManagementPolicies_Spec.
-func (in *StorageAccountsManagementPolicies_Spec) DeepCopy() *StorageAccountsManagementPolicies_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsManagementPolicies_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsManagementPolicies_SpecARM) DeepCopyInto(out *StorageAccountsManagementPolicies_SpecARM) {
-	*out = *in
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ManagementPolicyPropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsManagementPolicies_SpecARM.
-func (in *StorageAccountsManagementPolicies_SpecARM) DeepCopy() *StorageAccountsManagementPolicies_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageAccountsManagementPolicies_SpecARM)
-	in.DeepCopyInto(out)
-	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
@@ -6832,7 +6573,266 @@ func (in *StorageAccountsQueueServicesQueueList) DeepCopyObject() runtime.Object
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsQueueServicesQueues_Spec) DeepCopyInto(out *StorageAccountsQueueServicesQueues_Spec) {
+func (in *StorageAccounts_BlobServices_Containers_Spec) DeepCopyInto(out *StorageAccounts_BlobServices_Containers_Spec) {
+	*out = *in
+	if in.DefaultEncryptionScope != nil {
+		in, out := &in.DefaultEncryptionScope, &out.DefaultEncryptionScope
+		*out = new(string)
+		**out = **in
+	}
+	if in.DenyEncryptionScopeOverride != nil {
+		in, out := &in.DenyEncryptionScopeOverride, &out.DenyEncryptionScopeOverride
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ImmutableStorageWithVersioning != nil {
+		in, out := &in.ImmutableStorageWithVersioning, &out.ImmutableStorageWithVersioning
+		*out = new(ImmutableStorageWithVersioning)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Metadata != nil {
+		in, out := &in.Metadata, &out.Metadata
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.PublicAccess != nil {
+		in, out := &in.PublicAccess, &out.PublicAccess
+		*out = new(ContainerProperties_PublicAccess)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_BlobServices_Containers_Spec.
+func (in *StorageAccounts_BlobServices_Containers_Spec) DeepCopy() *StorageAccounts_BlobServices_Containers_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_BlobServices_Containers_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_BlobServices_Containers_SpecARM) DeepCopyInto(out *StorageAccounts_BlobServices_Containers_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ContainerPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_BlobServices_Containers_SpecARM.
+func (in *StorageAccounts_BlobServices_Containers_SpecARM) DeepCopy() *StorageAccounts_BlobServices_Containers_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_BlobServices_Containers_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_BlobServices_Spec) DeepCopyInto(out *StorageAccounts_BlobServices_Spec) {
+	*out = *in
+	if in.AutomaticSnapshotPolicyEnabled != nil {
+		in, out := &in.AutomaticSnapshotPolicyEnabled, &out.AutomaticSnapshotPolicyEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ChangeFeed != nil {
+		in, out := &in.ChangeFeed, &out.ChangeFeed
+		*out = new(ChangeFeed)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ContainerDeleteRetentionPolicy != nil {
+		in, out := &in.ContainerDeleteRetentionPolicy, &out.ContainerDeleteRetentionPolicy
+		*out = new(DeleteRetentionPolicy)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Cors != nil {
+		in, out := &in.Cors, &out.Cors
+		*out = new(CorsRules)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DefaultServiceVersion != nil {
+		in, out := &in.DefaultServiceVersion, &out.DefaultServiceVersion
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeleteRetentionPolicy != nil {
+		in, out := &in.DeleteRetentionPolicy, &out.DeleteRetentionPolicy
+		*out = new(DeleteRetentionPolicy)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.IsVersioningEnabled != nil {
+		in, out := &in.IsVersioningEnabled, &out.IsVersioningEnabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.LastAccessTimeTrackingPolicy != nil {
+		in, out := &in.LastAccessTimeTrackingPolicy, &out.LastAccessTimeTrackingPolicy
+		*out = new(LastAccessTimeTrackingPolicy)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.RestorePolicy != nil {
+		in, out := &in.RestorePolicy, &out.RestorePolicy
+		*out = new(RestorePolicyProperties)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_BlobServices_Spec.
+func (in *StorageAccounts_BlobServices_Spec) DeepCopy() *StorageAccounts_BlobServices_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_BlobServices_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_BlobServices_SpecARM) DeepCopyInto(out *StorageAccounts_BlobServices_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(BlobServicePropertiesPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_BlobServices_SpecARM.
+func (in *StorageAccounts_BlobServices_SpecARM) DeepCopy() *StorageAccounts_BlobServices_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_BlobServices_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_ManagementPolicies_Spec) DeepCopyInto(out *StorageAccounts_ManagementPolicies_Spec) {
+	*out = *in
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Policy != nil {
+		in, out := &in.Policy, &out.Policy
+		*out = new(ManagementPolicySchema)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_ManagementPolicies_Spec.
+func (in *StorageAccounts_ManagementPolicies_Spec) DeepCopy() *StorageAccounts_ManagementPolicies_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_ManagementPolicies_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_ManagementPolicies_SpecARM) DeepCopyInto(out *StorageAccounts_ManagementPolicies_SpecARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ManagementPolicyPropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_ManagementPolicies_SpecARM.
+func (in *StorageAccounts_ManagementPolicies_SpecARM) DeepCopy() *StorageAccounts_ManagementPolicies_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageAccounts_ManagementPolicies_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageAccounts_QueueServices_Queues_Spec) DeepCopyInto(out *StorageAccounts_QueueServices_Queues_Spec) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -6860,18 +6860,18 @@ func (in *StorageAccountsQueueServicesQueues_Spec) DeepCopyInto(out *StorageAcco
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsQueueServicesQueues_Spec.
-func (in *StorageAccountsQueueServicesQueues_Spec) DeepCopy() *StorageAccountsQueueServicesQueues_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_QueueServices_Queues_Spec.
+func (in *StorageAccounts_QueueServices_Queues_Spec) DeepCopy() *StorageAccounts_QueueServices_Queues_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageAccountsQueueServicesQueues_Spec)
+	out := new(StorageAccounts_QueueServices_Queues_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsQueueServicesQueues_SpecARM) DeepCopyInto(out *StorageAccountsQueueServicesQueues_SpecARM) {
+func (in *StorageAccounts_QueueServices_Queues_SpecARM) DeepCopyInto(out *StorageAccounts_QueueServices_Queues_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -6892,18 +6892,18 @@ func (in *StorageAccountsQueueServicesQueues_SpecARM) DeepCopyInto(out *StorageA
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsQueueServicesQueues_SpecARM.
-func (in *StorageAccountsQueueServicesQueues_SpecARM) DeepCopy() *StorageAccountsQueueServicesQueues_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_QueueServices_Queues_SpecARM.
+func (in *StorageAccounts_QueueServices_Queues_SpecARM) DeepCopy() *StorageAccounts_QueueServices_Queues_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageAccountsQueueServicesQueues_SpecARM)
+	out := new(StorageAccounts_QueueServices_Queues_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsQueueServices_Spec) DeepCopyInto(out *StorageAccountsQueueServices_Spec) {
+func (in *StorageAccounts_QueueServices_Spec) DeepCopyInto(out *StorageAccounts_QueueServices_Spec) {
 	*out = *in
 	if in.Cors != nil {
 		in, out := &in.Cors, &out.Cors
@@ -6929,18 +6929,18 @@ func (in *StorageAccountsQueueServices_Spec) DeepCopyInto(out *StorageAccountsQu
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsQueueServices_Spec.
-func (in *StorageAccountsQueueServices_Spec) DeepCopy() *StorageAccountsQueueServices_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_QueueServices_Spec.
+func (in *StorageAccounts_QueueServices_Spec) DeepCopy() *StorageAccounts_QueueServices_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageAccountsQueueServices_Spec)
+	out := new(StorageAccounts_QueueServices_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageAccountsQueueServices_SpecARM) DeepCopyInto(out *StorageAccountsQueueServices_SpecARM) {
+func (in *StorageAccounts_QueueServices_SpecARM) DeepCopyInto(out *StorageAccounts_QueueServices_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -6961,12 +6961,12 @@ func (in *StorageAccountsQueueServices_SpecARM) DeepCopyInto(out *StorageAccount
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccountsQueueServices_SpecARM.
-func (in *StorageAccountsQueueServices_SpecARM) DeepCopy() *StorageAccountsQueueServices_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageAccounts_QueueServices_SpecARM.
+func (in *StorageAccounts_QueueServices_SpecARM) DeepCopy() *StorageAccounts_QueueServices_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageAccountsQueueServices_SpecARM)
+	out := new(StorageAccounts_QueueServices_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6976,7 +6976,7 @@ func (in *StorageAccounts_Spec) DeepCopyInto(out *StorageAccounts_Spec) {
 	*out = *in
 	if in.AccessTier != nil {
 		in, out := &in.AccessTier, &out.AccessTier
-		*out = new(StorageAccountPropertiesCreateParametersAccessTier)
+		*out = new(StorageAccountPropertiesCreateParameters_AccessTier)
 		**out = **in
 	}
 	if in.AllowBlobPublicAccess != nil {
@@ -7036,12 +7036,12 @@ func (in *StorageAccounts_Spec) DeepCopyInto(out *StorageAccounts_Spec) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(StorageAccountsSpecKind)
+		*out = new(StorageAccounts_Spec_Kind)
 		**out = **in
 	}
 	if in.LargeFileSharesState != nil {
 		in, out := &in.LargeFileSharesState, &out.LargeFileSharesState
-		*out = new(StorageAccountPropertiesCreateParametersLargeFileSharesState)
+		*out = new(StorageAccountPropertiesCreateParameters_LargeFileSharesState)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -7051,7 +7051,7 @@ func (in *StorageAccounts_Spec) DeepCopyInto(out *StorageAccounts_Spec) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(StorageAccountPropertiesCreateParametersMinimumTlsVersion)
+		*out = new(StorageAccountPropertiesCreateParameters_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.NetworkAcls != nil {
@@ -7123,7 +7123,7 @@ func (in *StorageAccounts_SpecARM) DeepCopyInto(out *StorageAccounts_SpecARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(StorageAccountsSpecKind)
+		*out = new(StorageAccounts_Spec_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -7469,7 +7469,7 @@ func (in *UpdateHistoryProperty_STATUS) DeepCopyInto(out *UpdateHistoryProperty_
 	}
 	if in.Update != nil {
 		in, out := &in.Update, &out.Update
-		*out = new(UpdateHistoryPropertySTATUSUpdate)
+		*out = new(UpdateHistoryProperty_STATUS_Update)
 		**out = **in
 	}
 	if in.Upn != nil {
@@ -7514,7 +7514,7 @@ func (in *UpdateHistoryProperty_STATUSARM) DeepCopyInto(out *UpdateHistoryProper
 	}
 	if in.Update != nil {
 		in, out := &in.Update, &out.Update
-		*out = new(UpdateHistoryPropertySTATUSUpdate)
+		*out = new(UpdateHistoryProperty_STATUS_Update)
 		**out = **in
 	}
 	if in.Upn != nil {
@@ -7589,7 +7589,7 @@ func (in *VirtualNetworkRule) DeepCopyInto(out *VirtualNetworkRule) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(VirtualNetworkRuleAction)
+		*out = new(VirtualNetworkRule_Action)
 		**out = **in
 	}
 	if in.Reference != nil {
@@ -7599,7 +7599,7 @@ func (in *VirtualNetworkRule) DeepCopyInto(out *VirtualNetworkRule) {
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(VirtualNetworkRuleState)
+		*out = new(VirtualNetworkRule_State)
 		**out = **in
 	}
 }
@@ -7619,7 +7619,7 @@ func (in *VirtualNetworkRuleARM) DeepCopyInto(out *VirtualNetworkRuleARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(VirtualNetworkRuleAction)
+		*out = new(VirtualNetworkRule_Action)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -7629,7 +7629,7 @@ func (in *VirtualNetworkRuleARM) DeepCopyInto(out *VirtualNetworkRuleARM) {
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(VirtualNetworkRuleState)
+		*out = new(VirtualNetworkRule_State)
 		**out = **in
 	}
 }
@@ -7649,7 +7649,7 @@ func (in *VirtualNetworkRule_STATUS) DeepCopyInto(out *VirtualNetworkRule_STATUS
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(VirtualNetworkRuleSTATUSAction)
+		*out = new(VirtualNetworkRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -7659,7 +7659,7 @@ func (in *VirtualNetworkRule_STATUS) DeepCopyInto(out *VirtualNetworkRule_STATUS
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(VirtualNetworkRuleSTATUSState)
+		*out = new(VirtualNetworkRule_STATUS_State)
 		**out = **in
 	}
 }
@@ -7679,7 +7679,7 @@ func (in *VirtualNetworkRule_STATUSARM) DeepCopyInto(out *VirtualNetworkRule_STA
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(VirtualNetworkRuleSTATUSAction)
+		*out = new(VirtualNetworkRule_STATUS_Action)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -7689,7 +7689,7 @@ func (in *VirtualNetworkRule_STATUSARM) DeepCopyInto(out *VirtualNetworkRule_STA
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(VirtualNetworkRuleSTATUSState)
+		*out = new(VirtualNetworkRule_STATUS_State)
 		**out = **in
 	}
 }

@@ -8,26 +8,26 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversdatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversdatabases/status,serversdatabases/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=sql.azure.com,resources=servers_databases,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=sql.azure.com,resources={servers_databases/status,servers_databases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers_databases
-type ServersDatabase struct {
+type Servers_Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS       `json:"status,omitempty"`
+	Spec              Servers_Databases_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS        `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers_databases
-type ServersDatabaseList struct {
+type Servers_DatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ServersDatabase `json:"items"`
+	Items           []Servers_Database `json:"items"`
 }
 
 type Database_STATUS struct {
@@ -35,9 +35,9 @@ type Database_STATUS struct {
 	AtProvider              DatabaseObservation `json:"atProvider,omitempty"`
 }
 
-type ServersDatabases_Spec struct {
+type Servers_Databases_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           ServersDatabasesParameters `json:"forProvider,omitempty"`
+	ForProvider           Servers_DatabasesParameters `json:"forProvider,omitempty"`
 }
 
 type DatabaseObservation struct {
@@ -46,7 +46,7 @@ type DatabaseObservation struct {
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabasePropertiesSTATUSCatalogCollation `json:"catalogCollation,omitempty"`
+	CatalogCollation *DatabaseProperties_STATUS_CatalogCollation `json:"catalogCollation,omitempty"`
 
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -68,13 +68,13 @@ type DatabaseObservation struct {
 	// RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault.
 	// recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-	CreateMode *DatabasePropertiesSTATUSCreateMode `json:"createMode,omitempty"`
+	CreateMode *DatabaseProperties_STATUS_CreateMode `json:"createMode,omitempty"`
 
 	// CreationDate: The creation date of the database (ISO8601 format).
 	CreationDate *string `json:"creationDate,omitempty"`
 
 	// CurrentBackupStorageRedundancy: The storage account type used to store backups for this database.
-	CurrentBackupStorageRedundancy *DatabasePropertiesSTATUSCurrentBackupStorageRedundancy `json:"currentBackupStorageRedundancy,omitempty"`
+	CurrentBackupStorageRedundancy *DatabaseProperties_STATUS_CurrentBackupStorageRedundancy `json:"currentBackupStorageRedundancy,omitempty"`
 
 	// CurrentServiceObjectiveName: The current service level objective name of the database.
 	CurrentServiceObjectiveName *string `json:"currentServiceObjectiveName,omitempty"`
@@ -110,7 +110,7 @@ type DatabaseObservation struct {
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
-	LicenseType *DatabasePropertiesSTATUSLicenseType `json:"licenseType,omitempty"`
+	LicenseType *DatabaseProperties_STATUS_LicenseType `json:"licenseType,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -144,7 +144,7 @@ type DatabaseObservation struct {
 
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region.
-	ReadScale *DatabasePropertiesSTATUSReadScale `json:"readScale,omitempty"`
+	ReadScale *DatabaseProperties_STATUS_ReadScale `json:"readScale,omitempty"`
 
 	// RecoverableDatabaseId: The resource identifier of the recoverable database associated with create operation of this
 	// database.
@@ -155,7 +155,7 @@ type DatabaseObservation struct {
 	RecoveryServicesRecoveryPointId *string `json:"recoveryServicesRecoveryPointId,omitempty"`
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
-	RequestedBackupStorageRedundancy *DatabasePropertiesSTATUSRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
+	RequestedBackupStorageRedundancy *DatabaseProperties_STATUS_RequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
 
 	// RequestedServiceObjectiveName: The requested service level objective name of the database.
 	RequestedServiceObjectiveName *string `json:"requestedServiceObjectiveName,omitempty"`
@@ -173,10 +173,10 @@ type DatabaseObservation struct {
 	ResumedDate *string `json:"resumedDate,omitempty"`
 
 	// SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabasePropertiesSTATUSSampleName `json:"sampleName,omitempty"`
+	SampleName *DatabaseProperties_STATUS_SampleName `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType *DatabasePropertiesSTATUSSecondaryType `json:"secondaryType,omitempty"`
+	SecondaryType *DatabaseProperties_STATUS_SecondaryType `json:"secondaryType,omitempty"`
 
 	// Sku: The database SKU.
 	// The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,
@@ -197,7 +197,7 @@ type DatabaseObservation struct {
 	SourceDatabaseId *string `json:"sourceDatabaseId,omitempty"`
 
 	// Status: The status of the database.
-	Status *DatabasePropertiesSTATUSStatus `json:"status,omitempty"`
+	Status *DatabaseProperties_STATUS_Status `json:"status,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -210,13 +210,13 @@ type DatabaseObservation struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type ServersDatabasesParameters struct {
+type Servers_DatabasesParameters struct {
 	// AutoPauseDelay: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause
 	// is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabasePropertiesCatalogCollation `json:"catalogCollation,omitempty"`
+	CatalogCollation *DatabaseProperties_CatalogCollation `json:"catalogCollation,omitempty"`
 
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -238,7 +238,7 @@ type ServersDatabasesParameters struct {
 	// RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault.
 	// recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-	CreateMode *DatabasePropertiesCreateMode `json:"createMode,omitempty"`
+	CreateMode *DatabaseProperties_CreateMode `json:"createMode,omitempty"`
 
 	// ElasticPoolId: The resource identifier of the elastic pool containing this database.
 	ElasticPoolId *string `json:"elasticPoolId,omitempty"`
@@ -249,7 +249,7 @@ type ServersDatabasesParameters struct {
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
-	LicenseType *DatabasePropertiesLicenseType `json:"licenseType,omitempty"`
+	LicenseType *DatabaseProperties_LicenseType `json:"licenseType,omitempty"`
 
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -274,7 +274,7 @@ type ServersDatabasesParameters struct {
 
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region.
-	ReadScale *DatabasePropertiesReadScale `json:"readScale,omitempty"`
+	ReadScale *DatabaseProperties_ReadScale `json:"readScale,omitempty"`
 
 	// RecoverableDatabaseId: The resource identifier of the recoverable database associated with create operation of this
 	// database.
@@ -285,10 +285,10 @@ type ServersDatabasesParameters struct {
 	RecoveryServicesRecoveryPointId *string `json:"recoveryServicesRecoveryPointId,omitempty"`
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
-	RequestedBackupStorageRedundancy *DatabasePropertiesRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
-	ResourceGroupName                string                                              `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef             *v1alpha1.Reference                                 `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector        *v1alpha1.Selector                                  `json:"resourceGroupNameSelector,omitempty"`
+	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
+	ResourceGroupName                string                                               `json:"resourceGroupName,omitempty"`
+	ResourceGroupNameRef             *v1alpha1.Reference                                  `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector        *v1alpha1.Selector                                   `json:"resourceGroupNameSelector,omitempty"`
 
 	// RestorableDroppedDatabaseId: The resource identifier of the restorable dropped database associated with create operation
 	// of this database.
@@ -299,13 +299,13 @@ type ServersDatabasesParameters struct {
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	// SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabasePropertiesSampleName `json:"sampleName,omitempty"`
+	SampleName *DatabaseProperties_SampleName `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType      *DatabasePropertiesSecondaryType `json:"secondaryType,omitempty"`
-	ServerName         string                           `json:"serverName,omitempty"`
-	ServerNameRef      *v1alpha1.Reference              `json:"serverNameRef,omitempty"`
-	ServerNameSelector *v1alpha1.Selector               `json:"serverNameSelector,omitempty"`
+	SecondaryType      *DatabaseProperties_SecondaryType `json:"secondaryType,omitempty"`
+	ServerName         string                            `json:"serverName,omitempty"`
+	ServerNameRef      *v1alpha1.Reference               `json:"serverNameRef,omitempty"`
+	ServerNameSelector *v1alpha1.Selector                `json:"serverNameSelector,omitempty"`
 
 	// Sku: An ARM Resource SKU.
 	Sku *Sku `json:"sku,omitempty"`
@@ -325,162 +325,162 @@ type ServersDatabasesParameters struct {
 }
 
 // +kubebuilder:validation:Enum={"DATABASE_DEFAULT","SQL_Latin1_General_CP1_CI_AS"}
-type DatabasePropertiesCatalogCollation string
+type DatabaseProperties_CatalogCollation string
 
 const (
-	DatabasePropertiesCatalogCollation_DATABASEDEFAULT         = DatabasePropertiesCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesCatalogCollation_SQLLatin1GeneralCP1CIAS = DatabasePropertiesCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
+	DatabaseProperties_CatalogCollation_DATABASE_DEFAULT             = DatabaseProperties_CatalogCollation("DATABASE_DEFAULT")
+	DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
 // +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
-type DatabasePropertiesCreateMode string
+type DatabaseProperties_CreateMode string
 
 const (
-	DatabasePropertiesCreateMode_Copy                           = DatabasePropertiesCreateMode("Copy")
-	DatabasePropertiesCreateMode_Default                        = DatabasePropertiesCreateMode("Default")
-	DatabasePropertiesCreateMode_OnlineSecondary                = DatabasePropertiesCreateMode("OnlineSecondary")
-	DatabasePropertiesCreateMode_PointInTimeRestore             = DatabasePropertiesCreateMode("PointInTimeRestore")
-	DatabasePropertiesCreateMode_Recovery                       = DatabasePropertiesCreateMode("Recovery")
-	DatabasePropertiesCreateMode_Restore                        = DatabasePropertiesCreateMode("Restore")
-	DatabasePropertiesCreateMode_RestoreExternalBackup          = DatabasePropertiesCreateMode("RestoreExternalBackup")
-	DatabasePropertiesCreateMode_RestoreExternalBackupSecondary = DatabasePropertiesCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesCreateMode_RestoreLongTermRetentionBackup = DatabasePropertiesCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesCreateMode_Secondary                      = DatabasePropertiesCreateMode("Secondary")
+	DatabaseProperties_CreateMode_Copy                           = DatabaseProperties_CreateMode("Copy")
+	DatabaseProperties_CreateMode_Default                        = DatabaseProperties_CreateMode("Default")
+	DatabaseProperties_CreateMode_OnlineSecondary                = DatabaseProperties_CreateMode("OnlineSecondary")
+	DatabaseProperties_CreateMode_PointInTimeRestore             = DatabaseProperties_CreateMode("PointInTimeRestore")
+	DatabaseProperties_CreateMode_Recovery                       = DatabaseProperties_CreateMode("Recovery")
+	DatabaseProperties_CreateMode_Restore                        = DatabaseProperties_CreateMode("Restore")
+	DatabaseProperties_CreateMode_RestoreExternalBackup          = DatabaseProperties_CreateMode("RestoreExternalBackup")
+	DatabaseProperties_CreateMode_RestoreExternalBackupSecondary = DatabaseProperties_CreateMode("RestoreExternalBackupSecondary")
+	DatabaseProperties_CreateMode_RestoreLongTermRetentionBackup = DatabaseProperties_CreateMode("RestoreLongTermRetentionBackup")
+	DatabaseProperties_CreateMode_Secondary                      = DatabaseProperties_CreateMode("Secondary")
 )
 
 // +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
-type DatabasePropertiesLicenseType string
+type DatabaseProperties_LicenseType string
 
 const (
-	DatabasePropertiesLicenseType_BasePrice       = DatabasePropertiesLicenseType("BasePrice")
-	DatabasePropertiesLicenseType_LicenseIncluded = DatabasePropertiesLicenseType("LicenseIncluded")
+	DatabaseProperties_LicenseType_BasePrice       = DatabaseProperties_LicenseType("BasePrice")
+	DatabaseProperties_LicenseType_LicenseIncluded = DatabaseProperties_LicenseType("LicenseIncluded")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type DatabasePropertiesReadScale string
+type DatabaseProperties_ReadScale string
 
 const (
-	DatabasePropertiesReadScale_Disabled = DatabasePropertiesReadScale("Disabled")
-	DatabasePropertiesReadScale_Enabled  = DatabasePropertiesReadScale("Enabled")
+	DatabaseProperties_ReadScale_Disabled = DatabaseProperties_ReadScale("Disabled")
+	DatabaseProperties_ReadScale_Enabled  = DatabaseProperties_ReadScale("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Local","Zone"}
-type DatabasePropertiesRequestedBackupStorageRedundancy string
+type DatabaseProperties_RequestedBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesRequestedBackupStorageRedundancy_Geo   = DatabasePropertiesRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesRequestedBackupStorageRedundancy_Local = DatabasePropertiesRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesRequestedBackupStorageRedundancy_Zone  = DatabasePropertiesRequestedBackupStorageRedundancy("Zone")
+	DatabaseProperties_RequestedBackupStorageRedundancy_Geo   = DatabaseProperties_RequestedBackupStorageRedundancy("Geo")
+	DatabaseProperties_RequestedBackupStorageRedundancy_Local = DatabaseProperties_RequestedBackupStorageRedundancy("Local")
+	DatabaseProperties_RequestedBackupStorageRedundancy_Zone  = DatabaseProperties_RequestedBackupStorageRedundancy("Zone")
 )
 
 // +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
-type DatabasePropertiesSampleName string
+type DatabaseProperties_SampleName string
 
 const (
-	DatabasePropertiesSampleName_AdventureWorksLT       = DatabasePropertiesSampleName("AdventureWorksLT")
-	DatabasePropertiesSampleName_WideWorldImportersFull = DatabasePropertiesSampleName("WideWorldImportersFull")
-	DatabasePropertiesSampleName_WideWorldImportersStd  = DatabasePropertiesSampleName("WideWorldImportersStd")
+	DatabaseProperties_SampleName_AdventureWorksLT       = DatabaseProperties_SampleName("AdventureWorksLT")
+	DatabaseProperties_SampleName_WideWorldImportersFull = DatabaseProperties_SampleName("WideWorldImportersFull")
+	DatabaseProperties_SampleName_WideWorldImportersStd  = DatabaseProperties_SampleName("WideWorldImportersStd")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Named"}
-type DatabasePropertiesSecondaryType string
+type DatabaseProperties_SecondaryType string
 
 const (
-	DatabasePropertiesSecondaryType_Geo   = DatabasePropertiesSecondaryType("Geo")
-	DatabasePropertiesSecondaryType_Named = DatabasePropertiesSecondaryType("Named")
+	DatabaseProperties_SecondaryType_Geo   = DatabaseProperties_SecondaryType("Geo")
+	DatabaseProperties_SecondaryType_Named = DatabaseProperties_SecondaryType("Named")
 )
 
-type DatabasePropertiesSTATUSCatalogCollation string
+type DatabaseProperties_STATUS_CatalogCollation string
 
 const (
-	DatabasePropertiesSTATUSCatalogCollation_DATABASEDEFAULT         = DatabasePropertiesSTATUSCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesSTATUSCatalogCollation_SQLLatin1GeneralCP1CIAS = DatabasePropertiesSTATUSCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
+	DatabaseProperties_STATUS_CatalogCollation_DATABASE_DEFAULT             = DatabaseProperties_STATUS_CatalogCollation("DATABASE_DEFAULT")
+	DatabaseProperties_STATUS_CatalogCollation_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_STATUS_CatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
-type DatabasePropertiesSTATUSCreateMode string
+type DatabaseProperties_STATUS_CreateMode string
 
 const (
-	DatabasePropertiesSTATUSCreateMode_Copy                           = DatabasePropertiesSTATUSCreateMode("Copy")
-	DatabasePropertiesSTATUSCreateMode_Default                        = DatabasePropertiesSTATUSCreateMode("Default")
-	DatabasePropertiesSTATUSCreateMode_OnlineSecondary                = DatabasePropertiesSTATUSCreateMode("OnlineSecondary")
-	DatabasePropertiesSTATUSCreateMode_PointInTimeRestore             = DatabasePropertiesSTATUSCreateMode("PointInTimeRestore")
-	DatabasePropertiesSTATUSCreateMode_Recovery                       = DatabasePropertiesSTATUSCreateMode("Recovery")
-	DatabasePropertiesSTATUSCreateMode_Restore                        = DatabasePropertiesSTATUSCreateMode("Restore")
-	DatabasePropertiesSTATUSCreateMode_RestoreExternalBackup          = DatabasePropertiesSTATUSCreateMode("RestoreExternalBackup")
-	DatabasePropertiesSTATUSCreateMode_RestoreExternalBackupSecondary = DatabasePropertiesSTATUSCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesSTATUSCreateMode_RestoreLongTermRetentionBackup = DatabasePropertiesSTATUSCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesSTATUSCreateMode_Secondary                      = DatabasePropertiesSTATUSCreateMode("Secondary")
+	DatabaseProperties_STATUS_CreateMode_Copy                           = DatabaseProperties_STATUS_CreateMode("Copy")
+	DatabaseProperties_STATUS_CreateMode_Default                        = DatabaseProperties_STATUS_CreateMode("Default")
+	DatabaseProperties_STATUS_CreateMode_OnlineSecondary                = DatabaseProperties_STATUS_CreateMode("OnlineSecondary")
+	DatabaseProperties_STATUS_CreateMode_PointInTimeRestore             = DatabaseProperties_STATUS_CreateMode("PointInTimeRestore")
+	DatabaseProperties_STATUS_CreateMode_Recovery                       = DatabaseProperties_STATUS_CreateMode("Recovery")
+	DatabaseProperties_STATUS_CreateMode_Restore                        = DatabaseProperties_STATUS_CreateMode("Restore")
+	DatabaseProperties_STATUS_CreateMode_RestoreExternalBackup          = DatabaseProperties_STATUS_CreateMode("RestoreExternalBackup")
+	DatabaseProperties_STATUS_CreateMode_RestoreExternalBackupSecondary = DatabaseProperties_STATUS_CreateMode("RestoreExternalBackupSecondary")
+	DatabaseProperties_STATUS_CreateMode_RestoreLongTermRetentionBackup = DatabaseProperties_STATUS_CreateMode("RestoreLongTermRetentionBackup")
+	DatabaseProperties_STATUS_CreateMode_Secondary                      = DatabaseProperties_STATUS_CreateMode("Secondary")
 )
 
-type DatabasePropertiesSTATUSCurrentBackupStorageRedundancy string
+type DatabaseProperties_STATUS_CurrentBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesSTATUSCurrentBackupStorageRedundancy_Geo   = DatabasePropertiesSTATUSCurrentBackupStorageRedundancy("Geo")
-	DatabasePropertiesSTATUSCurrentBackupStorageRedundancy_Local = DatabasePropertiesSTATUSCurrentBackupStorageRedundancy("Local")
-	DatabasePropertiesSTATUSCurrentBackupStorageRedundancy_Zone  = DatabasePropertiesSTATUSCurrentBackupStorageRedundancy("Zone")
+	DatabaseProperties_STATUS_CurrentBackupStorageRedundancy_Geo   = DatabaseProperties_STATUS_CurrentBackupStorageRedundancy("Geo")
+	DatabaseProperties_STATUS_CurrentBackupStorageRedundancy_Local = DatabaseProperties_STATUS_CurrentBackupStorageRedundancy("Local")
+	DatabaseProperties_STATUS_CurrentBackupStorageRedundancy_Zone  = DatabaseProperties_STATUS_CurrentBackupStorageRedundancy("Zone")
 )
 
-type DatabasePropertiesSTATUSLicenseType string
+type DatabaseProperties_STATUS_LicenseType string
 
 const (
-	DatabasePropertiesSTATUSLicenseType_BasePrice       = DatabasePropertiesSTATUSLicenseType("BasePrice")
-	DatabasePropertiesSTATUSLicenseType_LicenseIncluded = DatabasePropertiesSTATUSLicenseType("LicenseIncluded")
+	DatabaseProperties_STATUS_LicenseType_BasePrice       = DatabaseProperties_STATUS_LicenseType("BasePrice")
+	DatabaseProperties_STATUS_LicenseType_LicenseIncluded = DatabaseProperties_STATUS_LicenseType("LicenseIncluded")
 )
 
-type DatabasePropertiesSTATUSReadScale string
+type DatabaseProperties_STATUS_ReadScale string
 
 const (
-	DatabasePropertiesSTATUSReadScale_Disabled = DatabasePropertiesSTATUSReadScale("Disabled")
-	DatabasePropertiesSTATUSReadScale_Enabled  = DatabasePropertiesSTATUSReadScale("Enabled")
+	DatabaseProperties_STATUS_ReadScale_Disabled = DatabaseProperties_STATUS_ReadScale("Disabled")
+	DatabaseProperties_STATUS_ReadScale_Enabled  = DatabaseProperties_STATUS_ReadScale("Enabled")
 )
 
-type DatabasePropertiesSTATUSRequestedBackupStorageRedundancy string
+type DatabaseProperties_STATUS_RequestedBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesSTATUSRequestedBackupStorageRedundancy_Geo   = DatabasePropertiesSTATUSRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesSTATUSRequestedBackupStorageRedundancy_Local = DatabasePropertiesSTATUSRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesSTATUSRequestedBackupStorageRedundancy_Zone  = DatabasePropertiesSTATUSRequestedBackupStorageRedundancy("Zone")
+	DatabaseProperties_STATUS_RequestedBackupStorageRedundancy_Geo   = DatabaseProperties_STATUS_RequestedBackupStorageRedundancy("Geo")
+	DatabaseProperties_STATUS_RequestedBackupStorageRedundancy_Local = DatabaseProperties_STATUS_RequestedBackupStorageRedundancy("Local")
+	DatabaseProperties_STATUS_RequestedBackupStorageRedundancy_Zone  = DatabaseProperties_STATUS_RequestedBackupStorageRedundancy("Zone")
 )
 
-type DatabasePropertiesSTATUSSampleName string
+type DatabaseProperties_STATUS_SampleName string
 
 const (
-	DatabasePropertiesSTATUSSampleName_AdventureWorksLT       = DatabasePropertiesSTATUSSampleName("AdventureWorksLT")
-	DatabasePropertiesSTATUSSampleName_WideWorldImportersFull = DatabasePropertiesSTATUSSampleName("WideWorldImportersFull")
-	DatabasePropertiesSTATUSSampleName_WideWorldImportersStd  = DatabasePropertiesSTATUSSampleName("WideWorldImportersStd")
+	DatabaseProperties_STATUS_SampleName_AdventureWorksLT       = DatabaseProperties_STATUS_SampleName("AdventureWorksLT")
+	DatabaseProperties_STATUS_SampleName_WideWorldImportersFull = DatabaseProperties_STATUS_SampleName("WideWorldImportersFull")
+	DatabaseProperties_STATUS_SampleName_WideWorldImportersStd  = DatabaseProperties_STATUS_SampleName("WideWorldImportersStd")
 )
 
-type DatabasePropertiesSTATUSSecondaryType string
+type DatabaseProperties_STATUS_SecondaryType string
 
 const (
-	DatabasePropertiesSTATUSSecondaryType_Geo   = DatabasePropertiesSTATUSSecondaryType("Geo")
-	DatabasePropertiesSTATUSSecondaryType_Named = DatabasePropertiesSTATUSSecondaryType("Named")
+	DatabaseProperties_STATUS_SecondaryType_Geo   = DatabaseProperties_STATUS_SecondaryType("Geo")
+	DatabaseProperties_STATUS_SecondaryType_Named = DatabaseProperties_STATUS_SecondaryType("Named")
 )
 
-type DatabasePropertiesSTATUSStatus string
+type DatabaseProperties_STATUS_Status string
 
 const (
-	DatabasePropertiesSTATUSStatus_AutoClosed                        = DatabasePropertiesSTATUSStatus("AutoClosed")
-	DatabasePropertiesSTATUSStatus_Copying                           = DatabasePropertiesSTATUSStatus("Copying")
-	DatabasePropertiesSTATUSStatus_Creating                          = DatabasePropertiesSTATUSStatus("Creating")
-	DatabasePropertiesSTATUSStatus_Disabled                          = DatabasePropertiesSTATUSStatus("Disabled")
-	DatabasePropertiesSTATUSStatus_EmergencyMode                     = DatabasePropertiesSTATUSStatus("EmergencyMode")
-	DatabasePropertiesSTATUSStatus_Inaccessible                      = DatabasePropertiesSTATUSStatus("Inaccessible")
-	DatabasePropertiesSTATUSStatus_Offline                           = DatabasePropertiesSTATUSStatus("Offline")
-	DatabasePropertiesSTATUSStatus_OfflineChangingDwPerformanceTiers = DatabasePropertiesSTATUSStatus("OfflineChangingDwPerformanceTiers")
-	DatabasePropertiesSTATUSStatus_OfflineSecondary                  = DatabasePropertiesSTATUSStatus("OfflineSecondary")
-	DatabasePropertiesSTATUSStatus_Online                            = DatabasePropertiesSTATUSStatus("Online")
-	DatabasePropertiesSTATUSStatus_OnlineChangingDwPerformanceTiers  = DatabasePropertiesSTATUSStatus("OnlineChangingDwPerformanceTiers")
-	DatabasePropertiesSTATUSStatus_Paused                            = DatabasePropertiesSTATUSStatus("Paused")
-	DatabasePropertiesSTATUSStatus_Pausing                           = DatabasePropertiesSTATUSStatus("Pausing")
-	DatabasePropertiesSTATUSStatus_Recovering                        = DatabasePropertiesSTATUSStatus("Recovering")
-	DatabasePropertiesSTATUSStatus_RecoveryPending                   = DatabasePropertiesSTATUSStatus("RecoveryPending")
-	DatabasePropertiesSTATUSStatus_Restoring                         = DatabasePropertiesSTATUSStatus("Restoring")
-	DatabasePropertiesSTATUSStatus_Resuming                          = DatabasePropertiesSTATUSStatus("Resuming")
-	DatabasePropertiesSTATUSStatus_Scaling                           = DatabasePropertiesSTATUSStatus("Scaling")
-	DatabasePropertiesSTATUSStatus_Shutdown                          = DatabasePropertiesSTATUSStatus("Shutdown")
-	DatabasePropertiesSTATUSStatus_Standby                           = DatabasePropertiesSTATUSStatus("Standby")
-	DatabasePropertiesSTATUSStatus_Suspect                           = DatabasePropertiesSTATUSStatus("Suspect")
+	DatabaseProperties_STATUS_Status_AutoClosed                        = DatabaseProperties_STATUS_Status("AutoClosed")
+	DatabaseProperties_STATUS_Status_Copying                           = DatabaseProperties_STATUS_Status("Copying")
+	DatabaseProperties_STATUS_Status_Creating                          = DatabaseProperties_STATUS_Status("Creating")
+	DatabaseProperties_STATUS_Status_Disabled                          = DatabaseProperties_STATUS_Status("Disabled")
+	DatabaseProperties_STATUS_Status_EmergencyMode                     = DatabaseProperties_STATUS_Status("EmergencyMode")
+	DatabaseProperties_STATUS_Status_Inaccessible                      = DatabaseProperties_STATUS_Status("Inaccessible")
+	DatabaseProperties_STATUS_Status_Offline                           = DatabaseProperties_STATUS_Status("Offline")
+	DatabaseProperties_STATUS_Status_OfflineChangingDwPerformanceTiers = DatabaseProperties_STATUS_Status("OfflineChangingDwPerformanceTiers")
+	DatabaseProperties_STATUS_Status_OfflineSecondary                  = DatabaseProperties_STATUS_Status("OfflineSecondary")
+	DatabaseProperties_STATUS_Status_Online                            = DatabaseProperties_STATUS_Status("Online")
+	DatabaseProperties_STATUS_Status_OnlineChangingDwPerformanceTiers  = DatabaseProperties_STATUS_Status("OnlineChangingDwPerformanceTiers")
+	DatabaseProperties_STATUS_Status_Paused                            = DatabaseProperties_STATUS_Status("Paused")
+	DatabaseProperties_STATUS_Status_Pausing                           = DatabaseProperties_STATUS_Status("Pausing")
+	DatabaseProperties_STATUS_Status_Recovering                        = DatabaseProperties_STATUS_Status("Recovering")
+	DatabaseProperties_STATUS_Status_RecoveryPending                   = DatabaseProperties_STATUS_Status("RecoveryPending")
+	DatabaseProperties_STATUS_Status_Restoring                         = DatabaseProperties_STATUS_Status("Restoring")
+	DatabaseProperties_STATUS_Status_Resuming                          = DatabaseProperties_STATUS_Status("Resuming")
+	DatabaseProperties_STATUS_Status_Scaling                           = DatabaseProperties_STATUS_Status("Scaling")
+	DatabaseProperties_STATUS_Status_Shutdown                          = DatabaseProperties_STATUS_Status("Shutdown")
+	DatabaseProperties_STATUS_Status_Standby                           = DatabaseProperties_STATUS_Status("Standby")
+	DatabaseProperties_STATUS_Status_Suspect                           = DatabaseProperties_STATUS_Status("Suspect")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/Sku
@@ -520,5 +520,5 @@ type Sku_STATUS struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&ServersDatabase{}, &ServersDatabaseList{})
+	SchemeBuilder.Register(&Servers_Database{}, &Servers_DatabaseList{})
 }

@@ -19,63 +19,63 @@ type ApplicationInsightsComponent_STATUSARM struct {
 
 // Deprecated version of ApplicationInsightsComponentProperties_STATUS. Use v1beta20200202.ApplicationInsightsComponentProperties_STATUS instead
 type ApplicationInsightsComponentProperties_STATUSARM struct {
-	AppId                           *string                                                      `json:"AppId,omitempty"`
-	ApplicationId                   *string                                                      `json:"ApplicationId,omitempty"`
-	ApplicationType                 *ApplicationInsightsComponentPropertiesSTATUSApplicationType `json:"Application_Type,omitempty"`
-	ConnectionString                *string                                                      `json:"ConnectionString,omitempty"`
-	CreationDate                    *string                                                      `json:"CreationDate,omitempty"`
-	DisableIpMasking                *bool                                                        `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool                                                        `json:"DisableLocalAuth,omitempty"`
-	FlowType                        *ApplicationInsightsComponentPropertiesSTATUSFlowType        `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool                                                        `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string                                                      `json:"HockeyAppId,omitempty"`
-	HockeyAppToken                  *string                                                      `json:"HockeyAppToken,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool                                                        `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *ApplicationInsightsComponentPropertiesSTATUSIngestionMode   `json:"IngestionMode,omitempty"`
-	InstrumentationKey              *string                                                      `json:"InstrumentationKey,omitempty"`
-	LaMigrationDate                 *string                                                      `json:"LaMigrationDate,omitempty"`
-	Name                            *string                                                      `json:"Name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM                        `json:"PrivateLinkScopedResources,omitempty"`
-	ProvisioningState               *string                                                      `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS                              `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS                              `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *ApplicationInsightsComponentPropertiesSTATUSRequestSource   `json:"Request_Source,omitempty"`
-	RetentionInDays                 *int                                                         `json:"RetentionInDays,omitempty"`
-	SamplingPercentage              *float64                                                     `json:"SamplingPercentage,omitempty"`
-	TenantId                        *string                                                      `json:"TenantId,omitempty"`
-	WorkspaceResourceId             *string                                                      `json:"WorkspaceResourceId,omitempty"`
+	AppId                           *string                                                         `json:"AppId,omitempty"`
+	ApplicationId                   *string                                                         `json:"ApplicationId,omitempty"`
+	Application_Type                *ApplicationInsightsComponentProperties_STATUS_Application_Type `json:"Application_Type,omitempty"`
+	ConnectionString                *string                                                         `json:"ConnectionString,omitempty"`
+	CreationDate                    *string                                                         `json:"CreationDate,omitempty"`
+	DisableIpMasking                *bool                                                           `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                                                           `json:"DisableLocalAuth,omitempty"`
+	Flow_Type                       *ApplicationInsightsComponentProperties_STATUS_Flow_Type        `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                                                           `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                                                         `json:"HockeyAppId,omitempty"`
+	HockeyAppToken                  *string                                                         `json:"HockeyAppToken,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                                                           `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *ApplicationInsightsComponentProperties_STATUS_IngestionMode    `json:"IngestionMode,omitempty"`
+	InstrumentationKey              *string                                                         `json:"InstrumentationKey,omitempty"`
+	LaMigrationDate                 *string                                                         `json:"LaMigrationDate,omitempty"`
+	Name                            *string                                                         `json:"Name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM                           `json:"PrivateLinkScopedResources,omitempty"`
+	ProvisioningState               *string                                                         `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS                                 `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS                                 `json:"publicNetworkAccessForQuery,omitempty"`
+	Request_Source                  *ApplicationInsightsComponentProperties_STATUS_Request_Source   `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                                                            `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                                                        `json:"SamplingPercentage,omitempty"`
+	TenantId                        *string                                                         `json:"TenantId,omitempty"`
+	WorkspaceResourceId             *string                                                         `json:"WorkspaceResourceId,omitempty"`
 }
 
-// Deprecated version of ApplicationInsightsComponentPropertiesSTATUSApplicationType. Use
-// v1beta20200202.ApplicationInsightsComponentPropertiesSTATUSApplicationType instead
-type ApplicationInsightsComponentPropertiesSTATUSApplicationType string
+// Deprecated version of ApplicationInsightsComponentProperties_STATUS_Application_Type. Use
+// v1beta20200202.ApplicationInsightsComponentProperties_STATUS_Application_Type instead
+type ApplicationInsightsComponentProperties_STATUS_Application_Type string
 
 const (
-	ApplicationInsightsComponentPropertiesSTATUSApplicationType_Other = ApplicationInsightsComponentPropertiesSTATUSApplicationType("other")
-	ApplicationInsightsComponentPropertiesSTATUSApplicationType_Web   = ApplicationInsightsComponentPropertiesSTATUSApplicationType("web")
+	ApplicationInsightsComponentProperties_STATUS_Application_Type_Other = ApplicationInsightsComponentProperties_STATUS_Application_Type("other")
+	ApplicationInsightsComponentProperties_STATUS_Application_Type_Web   = ApplicationInsightsComponentProperties_STATUS_Application_Type("web")
 )
 
-// Deprecated version of ApplicationInsightsComponentPropertiesSTATUSFlowType. Use
-// v1beta20200202.ApplicationInsightsComponentPropertiesSTATUSFlowType instead
-type ApplicationInsightsComponentPropertiesSTATUSFlowType string
+// Deprecated version of ApplicationInsightsComponentProperties_STATUS_Flow_Type. Use
+// v1beta20200202.ApplicationInsightsComponentProperties_STATUS_Flow_Type instead
+type ApplicationInsightsComponentProperties_STATUS_Flow_Type string
 
-const ApplicationInsightsComponentPropertiesSTATUSFlowType_Bluefield = ApplicationInsightsComponentPropertiesSTATUSFlowType("Bluefield")
+const ApplicationInsightsComponentProperties_STATUS_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_STATUS_Flow_Type("Bluefield")
 
-// Deprecated version of ApplicationInsightsComponentPropertiesSTATUSIngestionMode. Use
-// v1beta20200202.ApplicationInsightsComponentPropertiesSTATUSIngestionMode instead
-type ApplicationInsightsComponentPropertiesSTATUSIngestionMode string
+// Deprecated version of ApplicationInsightsComponentProperties_STATUS_IngestionMode. Use
+// v1beta20200202.ApplicationInsightsComponentProperties_STATUS_IngestionMode instead
+type ApplicationInsightsComponentProperties_STATUS_IngestionMode string
 
 const (
-	ApplicationInsightsComponentPropertiesSTATUSIngestionMode_ApplicationInsights                       = ApplicationInsightsComponentPropertiesSTATUSIngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentPropertiesSTATUSIngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesSTATUSIngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentPropertiesSTATUSIngestionMode_LogAnalytics                              = ApplicationInsightsComponentPropertiesSTATUSIngestionMode("LogAnalytics")
+	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsights                       = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_STATUS_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_STATUS_IngestionMode("LogAnalytics")
 )
 
-// Deprecated version of ApplicationInsightsComponentPropertiesSTATUSRequestSource. Use
-// v1beta20200202.ApplicationInsightsComponentPropertiesSTATUSRequestSource instead
-type ApplicationInsightsComponentPropertiesSTATUSRequestSource string
+// Deprecated version of ApplicationInsightsComponentProperties_STATUS_Request_Source. Use
+// v1beta20200202.ApplicationInsightsComponentProperties_STATUS_Request_Source instead
+type ApplicationInsightsComponentProperties_STATUS_Request_Source string
 
-const ApplicationInsightsComponentPropertiesSTATUSRequestSource_Rest = ApplicationInsightsComponentPropertiesSTATUSRequestSource("rest")
+const ApplicationInsightsComponentProperties_STATUS_Request_Source_Rest = ApplicationInsightsComponentProperties_STATUS_Request_Source("rest")
 
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20200202.PrivateLinkScopedResource_STATUS instead
 type PrivateLinkScopedResource_STATUSARM struct {

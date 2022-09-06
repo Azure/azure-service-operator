@@ -64,7 +64,7 @@ type Compute_STATUSARM struct {
 
 	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
 	// Failed.
-	ProvisioningState *ComputeSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *Compute_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// ResourceId: ARM resource id of the underlying compute
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -78,7 +78,7 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *IdentitySTATUSType `json:"type,omitempty"`
+	Type *Identity_STATUS_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The user assigned identities associated with the resource.
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
@@ -100,7 +100,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -109,19 +109,19 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-type ComputeSTATUSProvisioningState string
+type Compute_STATUS_ProvisioningState string
 
 const (
-	ComputeSTATUSProvisioningState_Canceled  = ComputeSTATUSProvisioningState("Canceled")
-	ComputeSTATUSProvisioningState_Creating  = ComputeSTATUSProvisioningState("Creating")
-	ComputeSTATUSProvisioningState_Deleting  = ComputeSTATUSProvisioningState("Deleting")
-	ComputeSTATUSProvisioningState_Failed    = ComputeSTATUSProvisioningState("Failed")
-	ComputeSTATUSProvisioningState_Succeeded = ComputeSTATUSProvisioningState("Succeeded")
-	ComputeSTATUSProvisioningState_Unknown   = ComputeSTATUSProvisioningState("Unknown")
-	ComputeSTATUSProvisioningState_Updating  = ComputeSTATUSProvisioningState("Updating")
+	Compute_STATUS_ProvisioningState_Canceled  = Compute_STATUS_ProvisioningState("Canceled")
+	Compute_STATUS_ProvisioningState_Creating  = Compute_STATUS_ProvisioningState("Creating")
+	Compute_STATUS_ProvisioningState_Deleting  = Compute_STATUS_ProvisioningState("Deleting")
+	Compute_STATUS_ProvisioningState_Failed    = Compute_STATUS_ProvisioningState("Failed")
+	Compute_STATUS_ProvisioningState_Succeeded = Compute_STATUS_ProvisioningState("Succeeded")
+	Compute_STATUS_ProvisioningState_Unknown   = Compute_STATUS_ProvisioningState("Unknown")
+	Compute_STATUS_ProvisioningState_Updating  = Compute_STATUS_ProvisioningState("Updating")
 )
 
 type ComputeType_STATUS string
@@ -144,31 +144,31 @@ type ErrorResponse_STATUSARM struct {
 	Error *ErrorDetail_STATUSARM `json:"error,omitempty"`
 }
 
-type IdentitySTATUSType string
+type Identity_STATUS_Type string
 
 const (
-	IdentitySTATUSType_None                       = IdentitySTATUSType("None")
-	IdentitySTATUSType_SystemAssigned             = IdentitySTATUSType("SystemAssigned")
-	IdentitySTATUSType_SystemAssignedUserAssigned = IdentitySTATUSType("SystemAssigned,UserAssigned")
-	IdentitySTATUSType_UserAssigned               = IdentitySTATUSType("UserAssigned")
+	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
+	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
+	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned,UserAssigned")
+	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
 )
 
-type SystemDataSTATUSCreatedByType string
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-type SystemDataSTATUSLastModifiedByType string
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )
 
 type UserAssignedIdentity_STATUSARM struct {

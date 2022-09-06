@@ -17,15 +17,15 @@ type Test struct {
 	StringArrayAlias []string `json:"stringArrayAlias,omitempty"`
 }
 
-// AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
+// AssignProperties_From_Test populates our Test from the provided source Test
+func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// Foo
 	if source.Foo != nil {
 		var foo Foo
-		err := foo.AssignPropertiesFromFoo(source.Foo)
+		err := foo.AssignProperties_From_Foo(source.Foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field Foo")
+			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
 		}
 		test.Foo = &foo
 	} else {
@@ -35,9 +35,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// FooAlias
 	if source.FooAlias != nil {
 		var fooAlia Foo
-		err := fooAlia.AssignPropertiesFromFoo(source.FooAlias)
+		err := fooAlia.AssignProperties_From_Foo(source.FooAlias)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field FooAlias")
+			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field FooAlias")
 		}
 		test.FooAlias = &fooAlia
 	} else {
@@ -54,17 +54,17 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	return nil
 }
 
-// AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
+// AssignProperties_To_Test populates the provided destination Test from our Test
+func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Foo
 	if test.Foo != nil {
 		var foo v20200101s.Foo
-		err := test.Foo.AssignPropertiesToFoo(&foo)
+		err := test.Foo.AssignProperties_To_Foo(&foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
+			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
 		}
 		destination.Foo = &foo
 	} else {
@@ -74,9 +74,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// FooAlias
 	if test.FooAlias != nil {
 		var fooAlia v20200101s.Foo
-		err := test.FooAlias.AssignPropertiesToFoo(&fooAlia)
+		err := test.FooAlias.AssignProperties_To_Foo(&fooAlia)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field FooAlias")
+			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field FooAlias")
 		}
 		destination.FooAlias = &fooAlia
 	} else {
@@ -105,8 +105,8 @@ type Foo struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// AssignPropertiesFromFoo populates our Foo from the provided source Foo
-func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
+// AssignProperties_From_Foo populates our Foo from the provided source Foo
+func (foo *Foo) AssignProperties_From_Foo(source *v20200101s.Foo) error {
 
 	// Name
 	foo.Name = genruntime.ClonePointerToString(source.Name)
@@ -115,8 +115,8 @@ func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
 	return nil
 }
 
-// AssignPropertiesToFoo populates the provided destination Foo from our Foo
-func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
+// AssignProperties_To_Foo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignProperties_To_Foo(destination *v20200101s.Foo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

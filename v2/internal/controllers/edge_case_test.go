@@ -74,7 +74,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworks_Subnets_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},

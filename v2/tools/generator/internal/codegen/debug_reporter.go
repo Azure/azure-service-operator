@@ -25,7 +25,6 @@ import (
 type debugReporter struct {
 	outputFolder  string
 	groupSelector config.StringMatcher
-	priorText     string
 }
 
 // newDebugReporter creates a new debugReporter.

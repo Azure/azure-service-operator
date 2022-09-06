@@ -83,7 +83,7 @@ interactions:
     body: '{"properties":{"provisioningState":"Creating","endpoint":null},"systemData":null,"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B2D0F27-87F9-4FFA-BC89-AD7FE2924C7A?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B830176-B55E-42A6-A729-E9625DB6ACFF?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -111,10 +111,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B2D0F27-87F9-4FFA-BC89-AD7FE2924C7A?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B830176-B55E-42A6-A729-E9625DB6ACFF?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B2D0F27-87F9-4FFA-BC89-AD7FE2924C7A?api-version=2020-06-01","name":"1b2d0f27-87f9-4ffa-bc89-ad7fe2924c7a","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1B830176-B55E-42A6-A729-E9625DB6ACFF?api-version=2020-06-01","name":"1b830176-b55e-42a6-a729-e9625db6acff","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -144,7 +144,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6e0a42d6-95ed-443d-8356-0dde8a8284a1","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"47e07c27-0f6c-40ce-9bc9-77c5c511e438","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -176,7 +176,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6e0a42d6-95ed-443d-8356-0dde8a8284a1","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"47e07c27-0f6c-40ce-9bc9-77c5c511e438","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -215,7 +215,7 @@ interactions:
     body: '{"properties":{"provisioningState":"Updating","endpoint":null},"systemData":null,"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1CF05F50-5B7D-4CD2-92B7-2BAC38618F89?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/B0717779-B619-4919-8D42-146FB36FB382?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -243,10 +243,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1CF05F50-5B7D-4CD2-92B7-2BAC38618F89?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/B0717779-B619-4919-8D42-146FB36FB382?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/1CF05F50-5B7D-4CD2-92B7-2BAC38618F89?api-version=2020-06-01","name":"1cf05f50-5b7d-4cd2-92b7-2bac38618f89","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/B0717779-B619-4919-8D42-146FB36FB382?api-version=2020-06-01","name":"b0717779-b619-4919-8d42-146fb36fb382","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -276,7 +276,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6e0a42d6-95ed-443d-8356-0dde8a8284a1","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"47e07c27-0f6c-40ce-9bc9-77c5c511e438","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -308,7 +308,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6e0a42d6-95ed-443d-8356-0dde8a8284a1","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"47e07c27-0f6c-40ce-9bc9-77c5c511e438","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -355,7 +355,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/307612d8-8d34-49e1-996d-44fb12f195e4?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67aae98e-d5bb-4c0b-837f-2e3e58379ce9?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -375,7 +375,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/307612d8-8d34-49e1-996d-44fb12f195e4?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67aae98e-d5bb-4c0b-837f-2e3e58379ce9?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -389,7 +389,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/307612d8-8d34-49e1-996d-44fb12f195e4?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67aae98e-d5bb-4c0b-837f-2e3e58379ce9?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -409,7 +409,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/307612d8-8d34-49e1-996d-44fb12f195e4?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67aae98e-d5bb-4c0b-837f-2e3e58379ce9?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","name":"asoteststorhycqcd","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorhycqcd.dfs.core.windows.net/","web":"https://asoteststorhycqcd.z5.web.core.windows.net/","blob":"https://asoteststorhycqcd.blob.core.windows.net/","queue":"https://asoteststorhycqcd.queue.core.windows.net/","table":"https://asoteststorhycqcd.table.core.windows.net/","file":"https://asoteststorhycqcd.file.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
@@ -619,7 +619,7 @@ interactions:
     body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/microsoft.eventgrid/topics/asotest-topic-fnrbdr","provisioningState":"Creating","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd","queueName":"asotest-queue-ffibbc"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr/providers/Microsoft.EventGrid/eventSubscriptions/asotest-sub-jrvntx","name":"asotest-sub-jrvntx","type":"Microsoft.EventGrid/eventSubscriptions"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8FAC7542-3523-44B6-8CC7-A2AC34DBAF10?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/7DF4A238-685E-4FBA-9E96-685CC580FFE8?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -639,7 +639,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "898"
+      - "899"
     status: 201 Created
     code: 201
     duration: ""
@@ -649,10 +649,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8FAC7542-3523-44B6-8CC7-A2AC34DBAF10?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/7DF4A238-685E-4FBA-9E96-685CC580FFE8?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8FAC7542-3523-44B6-8CC7-A2AC34DBAF10?api-version=2020-06-01","name":"8fac7542-3523-44b6-8cc7-a2ac34dbaf10","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/7DF4A238-685E-4FBA-9E96-685CC580FFE8?api-version=2020-06-01","name":"7df4a238-685e-4fba-9e96-685cc580ffe8","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -749,7 +749,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/AE189847-03DB-4CAB-82CE-672124B6BED5?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/59C50FF5-98AF-4560-8DC4-F63A5C3DA468?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -757,7 +757,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/AE189847-03DB-4CAB-82CE-672124B6BED5?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/59C50FF5-98AF-4560-8DC4-F63A5C3DA468?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -775,20 +775,15 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/59C50FF5-98AF-4560-8DC4-F63A5C3DA468?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"Topic asotest-topic-fnrbdr
-      is not found."}}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/59C50FF5-98AF-4560-8DC4-F63A5C3DA468?api-version=2020-06-01","name":"59c50ff5-98af-4560-8dc4-f63a5c3da468","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "90"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -799,10 +794,12 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -811,7 +808,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "5"
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
@@ -874,75 +871,10 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"HttpResourceNotFound","message":"The request url http://10.0.90.181:30008/011cccb4-baf2-4564-896e-d911f333590c/133008823537453216/cb1f7626-f861-410e-940a-42b54a69eef3/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
-      is not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "392"
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 204 No Content
-    code: 204
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
-    method: DELETE
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
   response:
     body: ""
     headers:
@@ -950,151 +882,134 @@ interactions:
       - no-cache
       Content-Length:
       - "0"
-      Content-Type:
-      - text/plain; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWU9TSE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asoteststorhycqcd'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd/queueServices/default/queues/asotest-queue-ffibbc?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asoteststorhycqcd'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Storage/storageAccounts/asoteststorhycqcd?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Storage/storageAccounts/asoteststorhycqcd''
-      under resource group ''asotest-rg-cyoshn'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "240"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-cyoshn''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
     duration: ""

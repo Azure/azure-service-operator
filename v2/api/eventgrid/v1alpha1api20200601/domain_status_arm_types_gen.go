@@ -18,23 +18,23 @@ type Domain_STATUSARM struct {
 type DomainProperties_STATUSARM struct {
 	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_STATUSARM                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *DomainPropertiesSTATUSInputSchema                               `json:"inputSchema,omitempty"`
+	InputSchema                *DomainProperties_STATUS_InputSchema                             `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_STATUSARM                                    `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *DomainPropertiesSTATUSProvisioningState                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *DomainPropertiesSTATUSPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *DomainProperties_STATUS_ProvisioningState                       `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *DomainProperties_STATUS_PublicNetworkAccess                     `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of InboundIpRule_STATUS. Use v1beta20200601.InboundIpRule_STATUS instead
 type InboundIpRule_STATUSARM struct {
-	Action *InboundIpRuleSTATUSAction `json:"action,omitempty"`
-	IpMask *string                    `json:"ipMask,omitempty"`
+	Action *InboundIpRule_STATUS_Action `json:"action,omitempty"`
+	IpMask *string                      `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUSARM struct {
-	InputSchemaMappingType *InputSchemaMappingSTATUSInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *InputSchemaMapping_STATUS_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead

@@ -53,7 +53,7 @@ func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected cache/v1beta20201201storage/Redis but received %T instead", hub)
 	}
 
-	return redis.AssignPropertiesFromRedis(source)
+	return redis.AssignProperties_From_Redis(source)
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
@@ -63,7 +63,7 @@ func (redis *Redis) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected cache/v1beta20201201storage/Redis but received %T instead", hub)
 	}
 
-	return redis.AssignPropertiesToRedis(destination)
+	return redis.AssignProperties_To_Redis(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redis,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1
@@ -270,25 +270,25 @@ func (redis *Redis) validateWriteOnceProperties(old runtime.Object) error {
 	return genruntime.ValidateWriteOnceProperties(oldObj, redis)
 }
 
-// AssignPropertiesFromRedis populates our Redis from the provided source Redis
-func (redis *Redis) AssignPropertiesFromRedis(source *v20201201s.Redis) error {
+// AssignProperties_From_Redis populates our Redis from the provided source Redis
+func (redis *Redis) AssignProperties_From_Redis(source *v20201201s.Redis) error {
 
 	// ObjectMeta
 	redis.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Redis_Spec
-	err := spec.AssignPropertiesFromRedisSpec(&source.Spec)
+	err := spec.AssignProperties_From_Redis_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Redis_Spec() to populate field Spec")
 	}
 	redis.Spec = spec
 
 	// Status
 	var status RedisResource_STATUS
-	err = status.AssignPropertiesFromRedisResourceSTATUS(&source.Status)
+	err = status.AssignProperties_From_RedisResource_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisResourceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_RedisResource_STATUS() to populate field Status")
 	}
 	redis.Status = status
 
@@ -296,25 +296,25 @@ func (redis *Redis) AssignPropertiesFromRedis(source *v20201201s.Redis) error {
 	return nil
 }
 
-// AssignPropertiesToRedis populates the provided destination Redis from our Redis
-func (redis *Redis) AssignPropertiesToRedis(destination *v20201201s.Redis) error {
+// AssignProperties_To_Redis populates the provided destination Redis from our Redis
+func (redis *Redis) AssignProperties_To_Redis(destination *v20201201s.Redis) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *redis.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20201201s.Redis_Spec
-	err := redis.Spec.AssignPropertiesToRedisSpec(&spec)
+	err := redis.Spec.AssignProperties_To_Redis_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Redis_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20201201s.RedisResource_STATUS
-	err = redis.Status.AssignPropertiesToRedisResourceSTATUS(&status)
+	err = redis.Status.AssignProperties_To_RedisResource_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisResourceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_RedisResource_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -357,7 +357,7 @@ type Redis_Spec struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2').
-	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -372,14 +372,16 @@ type Redis_Spec struct {
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'.
-	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	// etc.
 	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
-	// RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
+	// RedisVersion: Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value
+	// 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in
+	// a PUT/PATCH request. Supported versions: 4.0, 6.0.
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ReplicasPerMaster: The number of replicas to be created per primary.
@@ -685,7 +687,7 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src, ok := source.(*v20201201s.Redis_Spec)
 	if ok {
 		// Populate our instance from source
-		return redis.AssignPropertiesFromRedisSpec(src)
+		return redis.AssignProperties_From_Redis_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -696,7 +698,7 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	}
 
 	// Update our instance from src
-	err = redis.AssignPropertiesFromRedisSpec(src)
+	err = redis.AssignProperties_From_Redis_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -709,12 +711,12 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst, ok := destination.(*v20201201s.Redis_Spec)
 	if ok {
 		// Populate destination from our instance
-		return redis.AssignPropertiesToRedisSpec(dst)
+		return redis.AssignProperties_To_Redis_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201201s.Redis_Spec{}
-	err := redis.AssignPropertiesToRedisSpec(dst)
+	err := redis.AssignProperties_To_Redis_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -728,8 +730,8 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return nil
 }
 
-// AssignPropertiesFromRedisSpec populates our Redis_Spec from the provided source Redis_Spec
-func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_Spec) error {
+// AssignProperties_From_Redis_Spec populates our Redis_Spec from the provided source Redis_Spec
+func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Redis_Spec) error {
 
 	// AzureName
 	redis.AzureName = source.AzureName
@@ -747,7 +749,7 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreatePropertiesMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
 		redis.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		redis.MinimumTlsVersion = nil
@@ -756,9 +758,9 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 	// OperatorSpec
 	if source.OperatorSpec != nil {
 		var operatorSpec RedisOperatorSpec
-		err := operatorSpec.AssignPropertiesFromRedisOperatorSpec(source.OperatorSpec)
+		err := operatorSpec.AssignProperties_From_RedisOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisOperatorSpec() to populate field OperatorSpec")
+			return errors.Wrap(err, "calling AssignProperties_From_RedisOperatorSpec() to populate field OperatorSpec")
 		}
 		redis.OperatorSpec = &operatorSpec
 	} else {
@@ -775,7 +777,7 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreatePropertiesPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
 		redis.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		redis.PublicNetworkAccess = nil
@@ -799,9 +801,9 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
+		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		redis.Sku = &sku
 	} else {
@@ -837,8 +839,8 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 	return nil
 }
 
-// AssignPropertiesToRedisSpec populates the provided destination Redis_Spec from our Redis_Spec
-func (redis *Redis_Spec) AssignPropertiesToRedisSpec(destination *v20201201s.Redis_Spec) error {
+// AssignProperties_To_Redis_Spec populates the provided destination Redis_Spec from our Redis_Spec
+func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.Redis_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -867,9 +869,9 @@ func (redis *Redis_Spec) AssignPropertiesToRedisSpec(destination *v20201201s.Red
 	// OperatorSpec
 	if redis.OperatorSpec != nil {
 		var operatorSpec v20201201s.RedisOperatorSpec
-		err := redis.OperatorSpec.AssignPropertiesToRedisOperatorSpec(&operatorSpec)
+		err := redis.OperatorSpec.AssignProperties_To_RedisOperatorSpec(&operatorSpec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisOperatorSpec() to populate field OperatorSpec")
+			return errors.Wrap(err, "calling AssignProperties_To_RedisOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -913,9 +915,9 @@ func (redis *Redis_Spec) AssignPropertiesToRedisSpec(destination *v20201201s.Red
 	// Sku
 	if redis.Sku != nil {
 		var sku v20201201s.Sku
-		err := redis.Sku.AssignPropertiesToSku(&sku)
+		err := redis.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -991,7 +993,7 @@ type RedisResource_STATUS struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisPropertiesSTATUSMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_STATUS_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -1003,12 +1005,12 @@ type RedisResource_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *RedisProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -1061,7 +1063,7 @@ func (resource *RedisResource_STATUS) ConvertStatusFrom(source genruntime.Conver
 	src, ok := source.(*v20201201s.RedisResource_STATUS)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromRedisResourceSTATUS(src)
+		return resource.AssignProperties_From_RedisResource_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -1072,7 +1074,7 @@ func (resource *RedisResource_STATUS) ConvertStatusFrom(source genruntime.Conver
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromRedisResourceSTATUS(src)
+	err = resource.AssignProperties_From_RedisResource_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1085,12 +1087,12 @@ func (resource *RedisResource_STATUS) ConvertStatusTo(destination genruntime.Con
 	dst, ok := destination.(*v20201201s.RedisResource_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToRedisResourceSTATUS(dst)
+		return resource.AssignProperties_To_RedisResource_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201201s.RedisResource_STATUS{}
-	err := resource.AssignPropertiesToRedisResourceSTATUS(dst)
+	err := resource.AssignProperties_To_RedisResource_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1353,8 +1355,8 @@ func (resource *RedisResource_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromRedisResourceSTATUS populates our RedisResource_STATUS from the provided source RedisResource_STATUS
-func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(source *v20201201s.RedisResource_STATUS) error {
+// AssignProperties_From_RedisResource_STATUS populates our RedisResource_STATUS from the provided source RedisResource_STATUS
+func (resource *RedisResource_STATUS) AssignProperties_From_RedisResource_STATUS(source *v20201201s.RedisResource_STATUS) error {
 
 	// Conditions
 	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1380,9 +1382,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 			// Shadow the loop variable to avoid aliasing
 			instanceItem := instanceItem
 			var instance RedisInstanceDetails_STATUS
-			err := instance.AssignPropertiesFromRedisInstanceDetailsSTATUS(&instanceItem)
+			err := instance.AssignProperties_From_RedisInstanceDetails_STATUS(&instanceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRedisInstanceDetailsSTATUS() to populate field Instances")
+				return errors.Wrap(err, "calling AssignProperties_From_RedisInstanceDetails_STATUS() to populate field Instances")
 			}
 			instanceList[instanceIndex] = instance
 		}
@@ -1398,9 +1400,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 			// Shadow the loop variable to avoid aliasing
 			linkedServerItem := linkedServerItem
 			var linkedServer RedisLinkedServer_STATUS
-			err := linkedServer.AssignPropertiesFromRedisLinkedServerSTATUS(&linkedServerItem)
+			err := linkedServer.AssignProperties_From_RedisLinkedServer_STATUS(&linkedServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerSTATUS() to populate field LinkedServers")
+				return errors.Wrap(err, "calling AssignProperties_From_RedisLinkedServer_STATUS() to populate field LinkedServers")
 			}
 			linkedServerList[linkedServerIndex] = linkedServer
 		}
@@ -1414,7 +1416,7 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisPropertiesSTATUSMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisProperties_STATUS_MinimumTlsVersion(*source.MinimumTlsVersion)
 		resource.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		resource.MinimumTlsVersion = nil
@@ -1433,9 +1435,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1446,7 +1448,7 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := RedisPropertiesSTATUSProvisioningState(*source.ProvisioningState)
+		provisioningState := RedisProperties_STATUS_ProvisioningState(*source.ProvisioningState)
 		resource.ProvisioningState = &provisioningState
 	} else {
 		resource.ProvisioningState = nil
@@ -1454,7 +1456,7 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisPropertiesSTATUSPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisProperties_STATUS_PublicNetworkAccess(*source.PublicNetworkAccess)
 		resource.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		resource.PublicNetworkAccess = nil
@@ -1478,9 +1480,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		resource.Sku = &sku
 	} else {
@@ -1512,8 +1514,8 @@ func (resource *RedisResource_STATUS) AssignPropertiesFromRedisResourceSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToRedisResourceSTATUS populates the provided destination RedisResource_STATUS from our RedisResource_STATUS
-func (resource *RedisResource_STATUS) AssignPropertiesToRedisResourceSTATUS(destination *v20201201s.RedisResource_STATUS) error {
+// AssignProperties_To_RedisResource_STATUS populates the provided destination RedisResource_STATUS from our RedisResource_STATUS
+func (resource *RedisResource_STATUS) AssignProperties_To_RedisResource_STATUS(destination *v20201201s.RedisResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1541,9 +1543,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesToRedisResourceSTATUS(dest
 			// Shadow the loop variable to avoid aliasing
 			instanceItem := instanceItem
 			var instance v20201201s.RedisInstanceDetails_STATUS
-			err := instanceItem.AssignPropertiesToRedisInstanceDetailsSTATUS(&instance)
+			err := instanceItem.AssignProperties_To_RedisInstanceDetails_STATUS(&instance)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRedisInstanceDetailsSTATUS() to populate field Instances")
+				return errors.Wrap(err, "calling AssignProperties_To_RedisInstanceDetails_STATUS() to populate field Instances")
 			}
 			instanceList[instanceIndex] = instance
 		}
@@ -1559,9 +1561,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesToRedisResourceSTATUS(dest
 			// Shadow the loop variable to avoid aliasing
 			linkedServerItem := linkedServerItem
 			var linkedServer v20201201s.RedisLinkedServer_STATUS
-			err := linkedServerItem.AssignPropertiesToRedisLinkedServerSTATUS(&linkedServer)
+			err := linkedServerItem.AssignProperties_To_RedisLinkedServer_STATUS(&linkedServer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerSTATUS() to populate field LinkedServers")
+				return errors.Wrap(err, "calling AssignProperties_To_RedisLinkedServer_STATUS() to populate field LinkedServers")
 			}
 			linkedServerList[linkedServerIndex] = linkedServer
 		}
@@ -1594,9 +1596,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesToRedisResourceSTATUS(dest
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1639,9 +1641,9 @@ func (resource *RedisResource_STATUS) AssignPropertiesToRedisResourceSTATUS(dest
 	// Sku
 	if resource.Sku != nil {
 		var sku v20201201s.Sku_STATUS
-		err := resource.Sku.AssignPropertiesToSkuSTATUS(&sku)
+		err := resource.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1710,8 +1712,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(source *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1720,8 +1722,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(destination *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1740,20 +1742,20 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 }
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreatePropertiesMinimumTlsVersion string
+type RedisCreateProperties_MinimumTlsVersion string
 
 const (
-	RedisCreatePropertiesMinimumTlsVersion_10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion_11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion_12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
+	RedisCreateProperties_MinimumTlsVersion_10 = RedisCreateProperties_MinimumTlsVersion("1.0")
+	RedisCreateProperties_MinimumTlsVersion_11 = RedisCreateProperties_MinimumTlsVersion("1.1")
+	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreatePropertiesPublicNetworkAccess string
+type RedisCreateProperties_PublicNetworkAccess string
 
 const (
-	RedisCreatePropertiesPublicNetworkAccess_Disabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccess_Enabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
+	RedisCreateProperties_PublicNetworkAccess_Disabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
 type RedisInstanceDetails_STATUS struct {
@@ -1830,8 +1832,8 @@ func (details *RedisInstanceDetails_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromRedisInstanceDetailsSTATUS populates our RedisInstanceDetails_STATUS from the provided source RedisInstanceDetails_STATUS
-func (details *RedisInstanceDetails_STATUS) AssignPropertiesFromRedisInstanceDetailsSTATUS(source *v20201201s.RedisInstanceDetails_STATUS) error {
+// AssignProperties_From_RedisInstanceDetails_STATUS populates our RedisInstanceDetails_STATUS from the provided source RedisInstanceDetails_STATUS
+func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceDetails_STATUS(source *v20201201s.RedisInstanceDetails_STATUS) error {
 
 	// IsMaster
 	if source.IsMaster != nil {
@@ -1865,8 +1867,8 @@ func (details *RedisInstanceDetails_STATUS) AssignPropertiesFromRedisInstanceDet
 	return nil
 }
 
-// AssignPropertiesToRedisInstanceDetailsSTATUS populates the provided destination RedisInstanceDetails_STATUS from our RedisInstanceDetails_STATUS
-func (details *RedisInstanceDetails_STATUS) AssignPropertiesToRedisInstanceDetailsSTATUS(destination *v20201201s.RedisInstanceDetails_STATUS) error {
+// AssignProperties_To_RedisInstanceDetails_STATUS populates the provided destination RedisInstanceDetails_STATUS from our RedisInstanceDetails_STATUS
+func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDetails_STATUS(destination *v20201201s.RedisInstanceDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1938,8 +1940,8 @@ func (server *RedisLinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromRedisLinkedServerSTATUS populates our RedisLinkedServer_STATUS from the provided source RedisLinkedServer_STATUS
-func (server *RedisLinkedServer_STATUS) AssignPropertiesFromRedisLinkedServerSTATUS(source *v20201201s.RedisLinkedServer_STATUS) error {
+// AssignProperties_From_RedisLinkedServer_STATUS populates our RedisLinkedServer_STATUS from the provided source RedisLinkedServer_STATUS
+func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_STATUS(source *v20201201s.RedisLinkedServer_STATUS) error {
 
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
@@ -1948,8 +1950,8 @@ func (server *RedisLinkedServer_STATUS) AssignPropertiesFromRedisLinkedServerSTA
 	return nil
 }
 
-// AssignPropertiesToRedisLinkedServerSTATUS populates the provided destination RedisLinkedServer_STATUS from our RedisLinkedServer_STATUS
-func (server *RedisLinkedServer_STATUS) AssignPropertiesToRedisLinkedServerSTATUS(destination *v20201201s.RedisLinkedServer_STATUS) error {
+// AssignProperties_To_RedisLinkedServer_STATUS populates the provided destination RedisLinkedServer_STATUS from our RedisLinkedServer_STATUS
+func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_STATUS(destination *v20201201s.RedisLinkedServer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1973,15 +1975,15 @@ type RedisOperatorSpec struct {
 	Secrets *RedisOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// AssignPropertiesFromRedisOperatorSpec populates our RedisOperatorSpec from the provided source RedisOperatorSpec
-func (operator *RedisOperatorSpec) AssignPropertiesFromRedisOperatorSpec(source *v20201201s.RedisOperatorSpec) error {
+// AssignProperties_From_RedisOperatorSpec populates our RedisOperatorSpec from the provided source RedisOperatorSpec
+func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(source *v20201201s.RedisOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
 		var secret RedisOperatorSecrets
-		err := secret.AssignPropertiesFromRedisOperatorSecrets(source.Secrets)
+		err := secret.AssignProperties_From_RedisOperatorSecrets(source.Secrets)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisOperatorSecrets() to populate field Secrets")
+			return errors.Wrap(err, "calling AssignProperties_From_RedisOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1992,17 +1994,17 @@ func (operator *RedisOperatorSpec) AssignPropertiesFromRedisOperatorSpec(source 
 	return nil
 }
 
-// AssignPropertiesToRedisOperatorSpec populates the provided destination RedisOperatorSpec from our RedisOperatorSpec
-func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destination *v20201201s.RedisOperatorSpec) error {
+// AssignProperties_To_RedisOperatorSpec populates the provided destination RedisOperatorSpec from our RedisOperatorSpec
+func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destination *v20201201s.RedisOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
 		var secret v20201201s.RedisOperatorSecrets
-		err := operator.Secrets.AssignPropertiesToRedisOperatorSecrets(&secret)
+		err := operator.Secrets.AssignProperties_To_RedisOperatorSecrets(&secret)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisOperatorSecrets() to populate field Secrets")
+			return errors.Wrap(err, "calling AssignProperties_To_RedisOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -2020,36 +2022,36 @@ func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destinati
 	return nil
 }
 
-type RedisPropertiesSTATUSMinimumTlsVersion string
+type RedisProperties_STATUS_MinimumTlsVersion string
 
 const (
-	RedisPropertiesSTATUSMinimumTlsVersion_10 = RedisPropertiesSTATUSMinimumTlsVersion("1.0")
-	RedisPropertiesSTATUSMinimumTlsVersion_11 = RedisPropertiesSTATUSMinimumTlsVersion("1.1")
-	RedisPropertiesSTATUSMinimumTlsVersion_12 = RedisPropertiesSTATUSMinimumTlsVersion("1.2")
+	RedisProperties_STATUS_MinimumTlsVersion_10 = RedisProperties_STATUS_MinimumTlsVersion("1.0")
+	RedisProperties_STATUS_MinimumTlsVersion_11 = RedisProperties_STATUS_MinimumTlsVersion("1.1")
+	RedisProperties_STATUS_MinimumTlsVersion_12 = RedisProperties_STATUS_MinimumTlsVersion("1.2")
 )
 
-type RedisPropertiesSTATUSProvisioningState string
+type RedisProperties_STATUS_ProvisioningState string
 
 const (
-	RedisPropertiesSTATUSProvisioningState_Creating               = RedisPropertiesSTATUSProvisioningState("Creating")
-	RedisPropertiesSTATUSProvisioningState_Deleting               = RedisPropertiesSTATUSProvisioningState("Deleting")
-	RedisPropertiesSTATUSProvisioningState_Disabled               = RedisPropertiesSTATUSProvisioningState("Disabled")
-	RedisPropertiesSTATUSProvisioningState_Failed                 = RedisPropertiesSTATUSProvisioningState("Failed")
-	RedisPropertiesSTATUSProvisioningState_Linking                = RedisPropertiesSTATUSProvisioningState("Linking")
-	RedisPropertiesSTATUSProvisioningState_Provisioning           = RedisPropertiesSTATUSProvisioningState("Provisioning")
-	RedisPropertiesSTATUSProvisioningState_RecoveringScaleFailure = RedisPropertiesSTATUSProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesSTATUSProvisioningState_Scaling                = RedisPropertiesSTATUSProvisioningState("Scaling")
-	RedisPropertiesSTATUSProvisioningState_Succeeded              = RedisPropertiesSTATUSProvisioningState("Succeeded")
-	RedisPropertiesSTATUSProvisioningState_Unlinking              = RedisPropertiesSTATUSProvisioningState("Unlinking")
-	RedisPropertiesSTATUSProvisioningState_Unprovisioning         = RedisPropertiesSTATUSProvisioningState("Unprovisioning")
-	RedisPropertiesSTATUSProvisioningState_Updating               = RedisPropertiesSTATUSProvisioningState("Updating")
+	RedisProperties_STATUS_ProvisioningState_Creating               = RedisProperties_STATUS_ProvisioningState("Creating")
+	RedisProperties_STATUS_ProvisioningState_Deleting               = RedisProperties_STATUS_ProvisioningState("Deleting")
+	RedisProperties_STATUS_ProvisioningState_Disabled               = RedisProperties_STATUS_ProvisioningState("Disabled")
+	RedisProperties_STATUS_ProvisioningState_Failed                 = RedisProperties_STATUS_ProvisioningState("Failed")
+	RedisProperties_STATUS_ProvisioningState_Linking                = RedisProperties_STATUS_ProvisioningState("Linking")
+	RedisProperties_STATUS_ProvisioningState_Provisioning           = RedisProperties_STATUS_ProvisioningState("Provisioning")
+	RedisProperties_STATUS_ProvisioningState_RecoveringScaleFailure = RedisProperties_STATUS_ProvisioningState("RecoveringScaleFailure")
+	RedisProperties_STATUS_ProvisioningState_Scaling                = RedisProperties_STATUS_ProvisioningState("Scaling")
+	RedisProperties_STATUS_ProvisioningState_Succeeded              = RedisProperties_STATUS_ProvisioningState("Succeeded")
+	RedisProperties_STATUS_ProvisioningState_Unlinking              = RedisProperties_STATUS_ProvisioningState("Unlinking")
+	RedisProperties_STATUS_ProvisioningState_Unprovisioning         = RedisProperties_STATUS_ProvisioningState("Unprovisioning")
+	RedisProperties_STATUS_ProvisioningState_Updating               = RedisProperties_STATUS_ProvisioningState("Updating")
 )
 
-type RedisPropertiesSTATUSPublicNetworkAccess string
+type RedisProperties_STATUS_PublicNetworkAccess string
 
 const (
-	RedisPropertiesSTATUSPublicNetworkAccess_Disabled = RedisPropertiesSTATUSPublicNetworkAccess("Disabled")
-	RedisPropertiesSTATUSPublicNetworkAccess_Enabled  = RedisPropertiesSTATUSPublicNetworkAccess("Enabled")
+	RedisProperties_STATUS_PublicNetworkAccess_Disabled = RedisProperties_STATUS_PublicNetworkAccess("Disabled")
+	RedisProperties_STATUS_PublicNetworkAccess_Enabled  = RedisProperties_STATUS_PublicNetworkAccess("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
@@ -2061,11 +2063,11 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuFamily `json:"family,omitempty"`
+	Family *Sku_Family `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name *SkuName `json:"name,omitempty"`
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -2131,15 +2133,15 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	return nil
 }
 
-// AssignPropertiesFromSku populates our Sku from the provided source Sku
-func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
+// AssignProperties_From_Sku populates our Sku from the provided source Sku
+func (sku *Sku) AssignProperties_From_Sku(source *v20201201s.Sku) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	if source.Family != nil {
-		family := SkuFamily(*source.Family)
+		family := Sku_Family(*source.Family)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -2147,7 +2149,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
+		name := Sku_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2157,8 +2159,8 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 	return nil
 }
 
-// AssignPropertiesToSku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignPropertiesToSku(destination *v20201201s.Sku) error {
+// AssignProperties_To_Sku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2198,10 +2200,10 @@ type Sku_STATUS struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuSTATUSFamily `json:"family,omitempty"`
+	Family *Sku_STATUS_Family `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *SkuSTATUSName `json:"name,omitempty"`
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -2240,15 +2242,15 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20201201s.Sku_STATUS) error {
+// AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20201201s.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	if source.Family != nil {
-		family := SkuSTATUSFamily(*source.Family)
+		family := Sku_STATUS_Family(*source.Family)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -2256,7 +2258,7 @@ func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20201201s.Sku_STAT
 
 	// Name
 	if source.Name != nil {
-		name := SkuSTATUSName(*source.Name)
+		name := Sku_STATUS_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2266,8 +2268,8 @@ func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20201201s.Sku_STAT
 	return nil
 }
 
-// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20201201s.Sku_STATUS) error {
+// AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20201201s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2320,8 +2322,8 @@ type RedisOperatorSecrets struct {
 	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
-// AssignPropertiesFromRedisOperatorSecrets populates our RedisOperatorSecrets from the provided source RedisOperatorSecrets
-func (secrets *RedisOperatorSecrets) AssignPropertiesFromRedisOperatorSecrets(source *v20201201s.RedisOperatorSecrets) error {
+// AssignProperties_From_RedisOperatorSecrets populates our RedisOperatorSecrets from the provided source RedisOperatorSecrets
+func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(source *v20201201s.RedisOperatorSecrets) error {
 
 	// HostName
 	if source.HostName != nil {
@@ -2367,8 +2369,8 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesFromRedisOperatorSecrets(so
 	return nil
 }
 
-// AssignPropertiesToRedisOperatorSecrets populates the provided destination RedisOperatorSecrets from our RedisOperatorSecrets
-func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(destination *v20201201s.RedisOperatorSecrets) error {
+// AssignProperties_To_RedisOperatorSecrets populates the provided destination RedisOperatorSecrets from our RedisOperatorSecrets
+func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(destination *v20201201s.RedisOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2424,35 +2426,35 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(dest
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type SkuFamily string
+type Sku_Family string
 
 const (
-	SkuFamily_C = SkuFamily("C")
-	SkuFamily_P = SkuFamily("P")
+	Sku_Family_C = Sku_Family("C")
+	Sku_Family_P = Sku_Family("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuName string
+type Sku_Name string
 
 const (
-	SkuName_Basic    = SkuName("Basic")
-	SkuName_Premium  = SkuName("Premium")
-	SkuName_Standard = SkuName("Standard")
+	Sku_Name_Basic    = Sku_Name("Basic")
+	Sku_Name_Premium  = Sku_Name("Premium")
+	Sku_Name_Standard = Sku_Name("Standard")
 )
 
-type SkuSTATUSFamily string
+type Sku_STATUS_Family string
 
 const (
-	SkuSTATUSFamily_C = SkuSTATUSFamily("C")
-	SkuSTATUSFamily_P = SkuSTATUSFamily("P")
+	Sku_STATUS_Family_C = Sku_STATUS_Family("C")
+	Sku_STATUS_Family_P = Sku_STATUS_Family("P")
 )
 
-type SkuSTATUSName string
+type Sku_STATUS_Name string
 
 const (
-	SkuSTATUSName_Basic    = SkuSTATUSName("Basic")
-	SkuSTATUSName_Premium  = SkuSTATUSName("Premium")
-	SkuSTATUSName_Standard = SkuSTATUSName("Standard")
+	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
 )
 
 func init() {

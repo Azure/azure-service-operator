@@ -114,17 +114,21 @@ func (config *Configuration) GetTypeTransformersError() error {
 }
 
 func (config *Configuration) GetPropertyTransformersError() error {
+	var errs []error
 	for _, filter := range config.propertyTransformers {
 		if err := filter.RequiredTypesWereMatched(); err != nil {
-			return errors.Wrap(err, "type transformer target")
+			errs = append(errs, err)
+			continue
 		}
 
 		if err := filter.RequiredPropertiesWereMatched(); err != nil {
-			return errors.Wrapf(err, "type transformer target")
+			errs = append(errs, err)
 		}
 	}
 
-	return nil
+	return errors.Wrap(
+		kerrors.NewAggregate(errs),
+		"type transformer target")
 }
 
 // NewConfiguration returns a new empty Configuration

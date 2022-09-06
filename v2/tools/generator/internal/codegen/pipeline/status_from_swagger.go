@@ -123,17 +123,20 @@ func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Typ
 
 type resourceLookup map[astmodel.TypeName]astmodel.Type
 
-func lowerCase(name astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(name.PackageReference, strings.ToLower(name.Name()))
+func asKey(name astmodel.TypeName) astmodel.TypeName {
+	n := strings.ToLower(name.Name())
+	n = strings.ReplaceAll(n, "_", "")
+
+	return astmodel.MakeTypeName(name.PackageReference, n)
 }
 
 func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.Type, bool) {
-	result, ok := resourceLookup[lowerCase(name)]
+	result, ok := resourceLookup[asKey(name)]
 	return result, ok
 }
 
 func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
-	lower := lowerCase(name)
+	lower := asKey(name)
 	if _, ok := resourceLookup[lower]; ok {
 		panic(fmt.Sprintf("lowercase name collision: %s", name))
 	}
@@ -141,7 +144,7 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 	resourceLookup[lower] = theType
 }
 
-// statusTypeRenamer appends our standard StatusSuffix '_Stotus` to all types
+// statusTypeRenamer appends our standard StatusSuffix '_Status` to all types
 var statusTypeRenamer = astmodel.NewRenamingVisitorFromLambda(appendStatusSuffix)
 
 func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {

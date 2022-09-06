@@ -20,14 +20,14 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	deny := signalrservice.SignalRNetworkACLsDefaultAction_Deny
-	systemAssigned := signalrservice.ManagedIdentityType_SystemAssigned
+	deny := signalrservice.SignalRNetworkACLs_DefaultAction_Deny
+	systemAssigned := signalrservice.ManagedIdentity_Type_SystemAssigned
 	// Adapted from the quickstart example:
 	// https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-signalr-service-arm-template
-	serviceModeFlag := signalrservice.SignalRFeatureFlag_ServiceMode
-	connectivityLogsFlag := signalrservice.SignalRFeatureFlag_EnableConnectivityLogs
-	enableMessagingLogsFlag := signalrservice.SignalRFeatureFlag_EnableMessagingLogs
-	enableliveTraceFlag := signalrservice.SignalRFeatureFlag_EnableLiveTrace
+	serviceModeFlag := signalrservice.SignalRFeature_Flag_ServiceMode
+	connectivityLogsFlag := signalrservice.SignalRFeature_Flag_EnableConnectivityLogs
+	enableMessagingLogsFlag := signalrservice.SignalRFeature_Flag_EnableMessagingLogs
+	enableliveTraceFlag := signalrservice.SignalRFeature_Flag_EnableLiveTrace
 	signalR := signalrservice.SignalR{
 		ObjectMeta: tc.MakeObjectMeta("signalr"),
 		Spec: signalrservice.SignalR_Spec{
@@ -62,14 +62,14 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 			NetworkACLs: &signalrservice.SignalRNetworkACLs{
 				DefaultAction: &deny,
 				PublicNetwork: &signalrservice.NetworkACL{
-					Allow: []signalrservice.NetworkACLAllow{
-						signalrservice.NetworkACLAllow_ClientConnection,
+					Allow: []signalrservice.NetworkACL_Allow{
+						signalrservice.NetworkACL_Allow_ClientConnection,
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
 					Name: to.StringPtr("privateendpointname"),
-					Allow: []signalrservice.PrivateEndpointACLAllow{
-						signalrservice.PrivateEndpointACLAllow_ServerConnection,
+					Allow: []signalrservice.PrivateEndpointACL_Allow{
+						signalrservice.PrivateEndpointACL_Allow_ServerConnection,
 					},
 				}},
 			},

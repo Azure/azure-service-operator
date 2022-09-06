@@ -281,6 +281,7 @@ var OperationTimeoutReplaying = 2 * time.Minute
 //   * Deleting an AKS cluster.
 //   * Creating a Redis Enterprise Database.
 //   * Deleting a CosmosDB MongoDB.
+//   * Creating a Virtual Network Gateway Controller.
 var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
@@ -347,6 +348,12 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 	}
 
 	return tc.G.Eventually(actual, tc.OperationTimeout(), tc.PollingInterval())
+}
+
+func (tc *KubePerTestContext) ExpectResourceIsDeletedInAzure(armId string, apiVersion string) {
+	tc.Eventually(func() (bool, time.Duration, error) {
+		return tc.AzureClient.HeadByID(tc.Ctx, armId, apiVersion)
+	}).Should(gomega.BeFalse())
 }
 
 func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.ResourceGroup {

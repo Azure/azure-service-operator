@@ -67,7 +67,7 @@ func Test_Snapshot_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Snapshot to Snapshot via AssignPropertiesToSnapshot & AssignPropertiesFromSnapshot returns original",
+		"Round trip from Snapshot to Snapshot via AssignProperties_To_Snapshot & AssignProperties_From_Snapshot returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSnapshot, SnapshotGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200930s.Snapshot
-	err := copied.AssignPropertiesToSnapshot(&other)
+	err := copied.AssignProperties_To_Snapshot(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Snapshot
-	err = actual.AssignPropertiesFromSnapshot(&other)
+	err = actual.AssignProperties_From_Snapshot(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,8 +160,8 @@ func SnapshotGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSnapshot is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshot(gens map[string]gopter.Gen) {
-	gens["Spec"] = SnapshotsSpecGenerator()
-	gens["Status"] = SnapshotSTATUSGenerator()
+	gens["Spec"] = Snapshots_SpecGenerator()
+	gens["Status"] = Snapshot_STATUSGenerator()
 }
 
 func Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -170,26 +170,26 @@ func Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Snapshot_STATUS to Snapshot_STATUS via AssignPropertiesToSnapshotSTATUS & AssignPropertiesFromSnapshotSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotSTATUS, SnapshotSTATUSGenerator()))
+		"Round trip from Snapshot_STATUS to Snapshot_STATUS via AssignProperties_To_Snapshot_STATUS & AssignProperties_From_Snapshot_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSnapshot_STATUS, Snapshot_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshotSTATUS tests if a specific instance of Snapshot_STATUS can be assigned to v1beta20200930storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotSTATUS(subject Snapshot_STATUS) string {
+// RunPropertyAssignmentTestForSnapshot_STATUS tests if a specific instance of Snapshot_STATUS can be assigned to v1beta20200930storage and back losslessly
+func RunPropertyAssignmentTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200930s.Snapshot_STATUS
-	err := copied.AssignPropertiesToSnapshotSTATUS(&other)
+	err := copied.AssignProperties_To_Snapshot_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Snapshot_STATUS
-	err = actual.AssignPropertiesFromSnapshotSTATUS(&other)
+	err = actual.AssignProperties_From_Snapshot_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -214,12 +214,12 @@ func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Snapshot_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotSTATUS, SnapshotSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSnapshot_STATUS, Snapshot_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSnapshotSTATUS runs a test to see if a specific instance of Snapshot_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotSTATUS(subject Snapshot_STATUS) string {
+// RunJSONSerializationTestForSnapshot_STATUS runs a test to see if a specific instance of Snapshot_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -245,33 +245,33 @@ func RunJSONSerializationTestForSnapshotSTATUS(subject Snapshot_STATUS) string {
 	return ""
 }
 
-// Generator of Snapshot_STATUS instances for property testing - lazily instantiated by SnapshotSTATUSGenerator()
-var snapshotSTATUSGenerator gopter.Gen
+// Generator of Snapshot_STATUS instances for property testing - lazily instantiated by Snapshot_STATUSGenerator()
+var snapshot_STATUSGenerator gopter.Gen
 
-// SnapshotSTATUSGenerator returns a generator of Snapshot_STATUS instances for property testing.
-// We first initialize snapshotSTATUSGenerator with a simplified generator based on the
+// Snapshot_STATUSGenerator returns a generator of Snapshot_STATUS instances for property testing.
+// We first initialize snapshot_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SnapshotSTATUSGenerator() gopter.Gen {
-	if snapshotSTATUSGenerator != nil {
-		return snapshotSTATUSGenerator
+func Snapshot_STATUSGenerator() gopter.Gen {
+	if snapshot_STATUSGenerator != nil {
+		return snapshot_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSTATUS(generators)
-	snapshotSTATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
+	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSTATUS(generators)
-	AddRelatedPropertyGeneratorsForSnapshotSTATUS(generators)
-	snapshotSTATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
+	AddRelatedPropertyGeneratorsForSnapshot_STATUS(generators)
+	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
 
-	return snapshotSTATUSGenerator
+	return snapshot_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshotSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -291,14 +291,14 @@ func AddIndependentPropertyGeneratorsForSnapshotSTATUS(gens map[string]gopter.Ge
 	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSnapshotSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshotSTATUS(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationDataSTATUSGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionSTATUSGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionSTATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanSTATUSGenerator())
-	gens["Sku"] = gen.PtrOf(SnapshotSkuSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
+	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
+	gens["Encryption"] = gen.PtrOf(Encryption_STATUSGenerator())
+	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_STATUSGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
 }
 
 func Test_Snapshots_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -307,26 +307,26 @@ func Test_Snapshots_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Snapshots_Spec to Snapshots_Spec via AssignPropertiesToSnapshotsSpec & AssignPropertiesFromSnapshotsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotsSpec, SnapshotsSpecGenerator()))
+		"Round trip from Snapshots_Spec to Snapshots_Spec via AssignProperties_To_Snapshots_Spec & AssignProperties_From_Snapshots_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSnapshots_Spec, Snapshots_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshotsSpec tests if a specific instance of Snapshots_Spec can be assigned to v1beta20200930storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotsSpec(subject Snapshots_Spec) string {
+// RunPropertyAssignmentTestForSnapshots_Spec tests if a specific instance of Snapshots_Spec can be assigned to v1beta20200930storage and back losslessly
+func RunPropertyAssignmentTestForSnapshots_Spec(subject Snapshots_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200930s.Snapshots_Spec
-	err := copied.AssignPropertiesToSnapshotsSpec(&other)
+	err := copied.AssignProperties_To_Snapshots_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Snapshots_Spec
-	err = actual.AssignPropertiesFromSnapshotsSpec(&other)
+	err = actual.AssignProperties_From_Snapshots_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -351,12 +351,12 @@ func Test_Snapshots_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Snapshots_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotsSpec, SnapshotsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSnapshots_Spec, Snapshots_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSnapshotsSpec runs a test to see if a specific instance of Snapshots_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotsSpec(subject Snapshots_Spec) string {
+// RunJSONSerializationTestForSnapshots_Spec runs a test to see if a specific instance of Snapshots_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSnapshots_Spec(subject Snapshots_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -382,33 +382,33 @@ func RunJSONSerializationTestForSnapshotsSpec(subject Snapshots_Spec) string {
 	return ""
 }
 
-// Generator of Snapshots_Spec instances for property testing - lazily instantiated by SnapshotsSpecGenerator()
-var snapshotsSpecGenerator gopter.Gen
+// Generator of Snapshots_Spec instances for property testing - lazily instantiated by Snapshots_SpecGenerator()
+var snapshots_SpecGenerator gopter.Gen
 
-// SnapshotsSpecGenerator returns a generator of Snapshots_Spec instances for property testing.
-// We first initialize snapshotsSpecGenerator with a simplified generator based on the
+// Snapshots_SpecGenerator returns a generator of Snapshots_Spec instances for property testing.
+// We first initialize snapshots_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SnapshotsSpecGenerator() gopter.Gen {
-	if snapshotsSpecGenerator != nil {
-		return snapshotsSpecGenerator
+func Snapshots_SpecGenerator() gopter.Gen {
+	if snapshots_SpecGenerator != nil {
+		return snapshots_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotsSpec(generators)
-	snapshotsSpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSnapshots_Spec(generators)
+	snapshots_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotsSpec(generators)
-	AddRelatedPropertyGeneratorsForSnapshotsSpec(generators)
-	snapshotsSpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForSnapshots_Spec(generators)
+	AddRelatedPropertyGeneratorsForSnapshots_Spec(generators)
+	snapshots_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
 
-	return snapshotsSpecGenerator
+	return snapshots_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshotsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSnapshots_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSnapshots_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.AlphaString())
@@ -421,8 +421,8 @@ func AddIndependentPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSnapshotsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSnapshots_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSnapshots_Spec(gens map[string]gopter.Gen) {
 	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
@@ -437,7 +437,7 @@ func Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SnapshotSku to SnapshotSku via AssignPropertiesToSnapshotSku & AssignPropertiesFromSnapshotSku returns original",
+		"Round trip from SnapshotSku to SnapshotSku via AssignProperties_To_SnapshotSku & AssignProperties_From_SnapshotSku returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSnapshotSku, SnapshotSkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -449,14 +449,14 @@ func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200930s.SnapshotSku
-	err := copied.AssignPropertiesToSnapshotSku(&other)
+	err := copied.AssignProperties_To_SnapshotSku(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SnapshotSku
-	err = actual.AssignPropertiesFromSnapshotSku(&other)
+	err = actual.AssignProperties_From_SnapshotSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -539,26 +539,26 @@ func Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SnapshotSku_STATUS to SnapshotSku_STATUS via AssignPropertiesToSnapshotSkuSTATUS & AssignPropertiesFromSnapshotSkuSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotSkuSTATUS, SnapshotSkuSTATUSGenerator()))
+		"Round trip from SnapshotSku_STATUS to SnapshotSku_STATUS via AssignProperties_To_SnapshotSku_STATUS & AssignProperties_From_SnapshotSku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSnapshotSku_STATUS, SnapshotSku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshotSkuSTATUS tests if a specific instance of SnapshotSku_STATUS can be assigned to v1beta20200930storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotSkuSTATUS(subject SnapshotSku_STATUS) string {
+// RunPropertyAssignmentTestForSnapshotSku_STATUS tests if a specific instance of SnapshotSku_STATUS can be assigned to v1beta20200930storage and back losslessly
+func RunPropertyAssignmentTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200930s.SnapshotSku_STATUS
-	err := copied.AssignPropertiesToSnapshotSkuSTATUS(&other)
+	err := copied.AssignProperties_To_SnapshotSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SnapshotSku_STATUS
-	err = actual.AssignPropertiesFromSnapshotSkuSTATUS(&other)
+	err = actual.AssignProperties_From_SnapshotSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -583,12 +583,12 @@ func Test_SnapshotSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SnapshotSku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotSkuSTATUS, SnapshotSkuSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSnapshotSku_STATUS, SnapshotSku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSnapshotSkuSTATUS runs a test to see if a specific instance of SnapshotSku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotSkuSTATUS(subject SnapshotSku_STATUS) string {
+// RunJSONSerializationTestForSnapshotSku_STATUS runs a test to see if a specific instance of SnapshotSku_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -614,24 +614,24 @@ func RunJSONSerializationTestForSnapshotSkuSTATUS(subject SnapshotSku_STATUS) st
 	return ""
 }
 
-// Generator of SnapshotSku_STATUS instances for property testing - lazily instantiated by SnapshotSkuSTATUSGenerator()
-var snapshotSkuSTATUSGenerator gopter.Gen
+// Generator of SnapshotSku_STATUS instances for property testing - lazily instantiated by SnapshotSku_STATUSGenerator()
+var snapshotSku_STATUSGenerator gopter.Gen
 
-// SnapshotSkuSTATUSGenerator returns a generator of SnapshotSku_STATUS instances for property testing.
-func SnapshotSkuSTATUSGenerator() gopter.Gen {
-	if snapshotSkuSTATUSGenerator != nil {
-		return snapshotSkuSTATUSGenerator
+// SnapshotSku_STATUSGenerator returns a generator of SnapshotSku_STATUS instances for property testing.
+func SnapshotSku_STATUSGenerator() gopter.Gen {
+	if snapshotSku_STATUSGenerator != nil {
+		return snapshotSku_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSkuSTATUS(generators)
-	snapshotSkuSTATUSGenerator = gen.Struct(reflect.TypeOf(SnapshotSku_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(generators)
+	snapshotSku_STATUSGenerator = gen.Struct(reflect.TypeOf(SnapshotSku_STATUS{}), generators)
 
-	return snapshotSkuSTATUSGenerator
+	return snapshotSku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshotSkuSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotSkuSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSnapshotSku_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }

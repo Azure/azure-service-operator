@@ -176,7 +176,7 @@ func (in *AdvancedFilter_BoolEquals) DeepCopyInto(out *AdvancedFilter_BoolEquals
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterBoolEqualsOperatorType)
+		*out = new(AdvancedFilter_BoolEquals_OperatorType)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -231,7 +231,7 @@ func (in *AdvancedFilter_NumberGreaterThan) DeepCopyInto(out *AdvancedFilter_Num
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberGreaterThanOperatorType)
+		*out = new(AdvancedFilter_NumberGreaterThan_OperatorType)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -286,7 +286,7 @@ func (in *AdvancedFilter_NumberGreaterThanOrEquals) DeepCopyInto(out *AdvancedFi
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberGreaterThanOrEqualsOperatorType)
+		*out = new(AdvancedFilter_NumberGreaterThanOrEquals_OperatorType)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -341,7 +341,7 @@ func (in *AdvancedFilter_NumberIn) DeepCopyInto(out *AdvancedFilter_NumberIn) {
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberInOperatorType)
+		*out = new(AdvancedFilter_NumberIn_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -396,7 +396,7 @@ func (in *AdvancedFilter_NumberLessThan) DeepCopyInto(out *AdvancedFilter_Number
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberLessThanOperatorType)
+		*out = new(AdvancedFilter_NumberLessThan_OperatorType)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -451,7 +451,7 @@ func (in *AdvancedFilter_NumberLessThanOrEquals) DeepCopyInto(out *AdvancedFilte
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberLessThanOrEqualsOperatorType)
+		*out = new(AdvancedFilter_NumberLessThanOrEquals_OperatorType)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -506,7 +506,7 @@ func (in *AdvancedFilter_NumberNotIn) DeepCopyInto(out *AdvancedFilter_NumberNot
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterNumberNotInOperatorType)
+		*out = new(AdvancedFilter_NumberNotIn_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -561,7 +561,7 @@ func (in *AdvancedFilter_STATUS) DeepCopyInto(out *AdvancedFilter_STATUS) {
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterSTATUSOperatorType)
+		*out = new(AdvancedFilter_STATUS_OperatorType)
 		**out = **in
 	}
 }
@@ -586,7 +586,7 @@ func (in *AdvancedFilter_STATUSARM) DeepCopyInto(out *AdvancedFilter_STATUSARM) 
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterSTATUSOperatorType)
+		*out = new(AdvancedFilter_STATUS_OperatorType)
 		**out = **in
 	}
 }
@@ -611,7 +611,7 @@ func (in *AdvancedFilter_StringBeginsWith) DeepCopyInto(out *AdvancedFilter_Stri
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStringBeginsWithOperatorType)
+		*out = new(AdvancedFilter_StringBeginsWith_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -666,7 +666,7 @@ func (in *AdvancedFilter_StringContains) DeepCopyInto(out *AdvancedFilter_String
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStringContainsOperatorType)
+		*out = new(AdvancedFilter_StringContains_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -721,7 +721,7 @@ func (in *AdvancedFilter_StringEndsWith) DeepCopyInto(out *AdvancedFilter_String
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStringEndsWithOperatorType)
+		*out = new(AdvancedFilter_StringEndsWith_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -776,7 +776,7 @@ func (in *AdvancedFilter_StringIn) DeepCopyInto(out *AdvancedFilter_StringIn) {
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStringInOperatorType)
+		*out = new(AdvancedFilter_StringIn_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -831,7 +831,7 @@ func (in *AdvancedFilter_StringNotIn) DeepCopyInto(out *AdvancedFilter_StringNot
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStringNotInOperatorType)
+		*out = new(AdvancedFilter_StringNotIn_OperatorType)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -881,7 +881,7 @@ func (in *AzureFunctionEventSubscriptionDestination) DeepCopyInto(out *AzureFunc
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(AzureFunctionEventSubscriptionDestinationEndpointType)
+		*out = new(AzureFunctionEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -986,7 +986,7 @@ func (in *DeadLetterDestination_STATUS) DeepCopyInto(out *DeadLetterDestination_
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestinationSTATUSEndpointType)
+		*out = new(DeadLetterDestination_STATUS_EndpointType)
 		**out = **in
 	}
 }
@@ -1006,7 +1006,7 @@ func (in *DeadLetterDestination_STATUSARM) DeepCopyInto(out *DeadLetterDestinati
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestinationSTATUSEndpointType)
+		*out = new(DeadLetterDestination_STATUS_EndpointType)
 		**out = **in
 	}
 }
@@ -1092,7 +1092,7 @@ func (in *DomainPropertiesARM) DeepCopyInto(out *DomainPropertiesARM) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesInputSchema)
+		*out = new(DomainProperties_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1102,7 +1102,7 @@ func (in *DomainPropertiesARM) DeepCopyInto(out *DomainPropertiesARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess)
 		**out = **in
 	}
 }
@@ -1134,7 +1134,7 @@ func (in *DomainProperties_STATUSARM) DeepCopyInto(out *DomainProperties_STATUSA
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesSTATUSInputSchema)
+		*out = new(DomainProperties_STATUS_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1156,12 +1156,12 @@ func (in *DomainProperties_STATUSARM) DeepCopyInto(out *DomainProperties_STATUSA
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesSTATUSProvisioningState)
+		*out = new(DomainProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesSTATUSPublicNetworkAccess)
+		*out = new(DomainProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 }
@@ -1181,7 +1181,7 @@ func (in *DomainTopicProperties_STATUSARM) DeepCopyInto(out *DomainTopicProperti
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainTopicPropertiesSTATUSProvisioningState)
+		*out = new(DomainTopicProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 }
@@ -1218,7 +1218,7 @@ func (in *DomainTopic_STATUS) DeepCopyInto(out *DomainTopic_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainTopicPropertiesSTATUSProvisioningState)
+		*out = new(DomainTopicProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1312,7 +1312,7 @@ func (in *Domain_STATUS) DeepCopyInto(out *Domain_STATUS) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesSTATUSInputSchema)
+		*out = new(DomainProperties_STATUS_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1344,12 +1344,12 @@ func (in *Domain_STATUS) DeepCopyInto(out *Domain_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesSTATUSProvisioningState)
+		*out = new(DomainProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesSTATUSPublicNetworkAccess)
+		*out = new(DomainProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1493,65 +1493,6 @@ func (in *DomainsTopicList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DomainsTopics_Spec) DeepCopyInto(out *DomainsTopics_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DomainsTopics_Spec.
-func (in *DomainsTopics_Spec) DeepCopy() *DomainsTopics_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DomainsTopics_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DomainsTopics_SpecARM) DeepCopyInto(out *DomainsTopics_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DomainsTopics_SpecARM.
-func (in *DomainsTopics_SpecARM) DeepCopy() *DomainsTopics_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DomainsTopics_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Domains_Spec) DeepCopyInto(out *Domains_Spec) {
 	*out = *in
 	if in.InboundIpRules != nil {
@@ -1563,7 +1504,7 @@ func (in *Domains_Spec) DeepCopyInto(out *Domains_Spec) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesInputSchema)
+		*out = new(DomainProperties_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1583,7 +1524,7 @@ func (in *Domains_Spec) DeepCopyInto(out *Domains_Spec) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesPublicNetworkAccess)
+		*out = new(DomainProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -1638,11 +1579,70 @@ func (in *Domains_SpecARM) DeepCopy() *Domains_SpecARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Domains_Topics_Spec) DeepCopyInto(out *Domains_Topics_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Domains_Topics_Spec.
+func (in *Domains_Topics_Spec) DeepCopy() *Domains_Topics_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(Domains_Topics_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Domains_Topics_SpecARM) DeepCopyInto(out *Domains_Topics_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Domains_Topics_SpecARM.
+func (in *Domains_Topics_SpecARM) DeepCopy() *Domains_Topics_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(Domains_Topics_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EventHubEventSubscriptionDestination) DeepCopyInto(out *EventHubEventSubscriptionDestination) {
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventHubEventSubscriptionDestinationEndpointType)
+		*out = new(EventHubEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1854,7 +1854,7 @@ func (in *EventSubscriptionDestination_STATUS) DeepCopyInto(out *EventSubscripti
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestinationSTATUSEndpointType)
+		*out = new(EventSubscriptionDestination_STATUS_EndpointType)
 		**out = **in
 	}
 }
@@ -1874,7 +1874,7 @@ func (in *EventSubscriptionDestination_STATUSARM) DeepCopyInto(out *EventSubscri
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestinationSTATUSEndpointType)
+		*out = new(EventSubscriptionDestination_STATUS_EndpointType)
 		**out = **in
 	}
 }
@@ -2104,7 +2104,7 @@ func (in *EventSubscriptionPropertiesARM) DeepCopyInto(out *EventSubscriptionPro
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2154,7 +2154,7 @@ func (in *EventSubscriptionProperties_STATUSARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesSTATUSEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_STATUS_EventDeliverySchema)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2174,7 +2174,7 @@ func (in *EventSubscriptionProperties_STATUSARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesSTATUSProvisioningState)
+		*out = new(EventSubscriptionProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -2221,7 +2221,7 @@ func (in *EventSubscription_STATUS) DeepCopyInto(out *EventSubscription_STATUS) 
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesSTATUSEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_STATUS_EventDeliverySchema)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2251,7 +2251,7 @@ func (in *EventSubscription_STATUS) DeepCopyInto(out *EventSubscription_STATUS) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesSTATUSProvisioningState)
+		*out = new(EventSubscriptionProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -2341,7 +2341,7 @@ func (in *EventSubscriptions_Spec) DeepCopyInto(out *EventSubscriptions_Spec) {
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesEventDeliverySchema)
+		*out = new(EventSubscriptionProperties_EventDeliverySchema)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2430,7 +2430,7 @@ func (in *HybridConnectionEventSubscriptionDestination) DeepCopyInto(out *Hybrid
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(HybridConnectionEventSubscriptionDestinationEndpointType)
+		*out = new(HybridConnectionEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -2515,7 +2515,7 @@ func (in *InboundIpRule) DeepCopyInto(out *InboundIpRule) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleAction)
+		*out = new(InboundIpRule_Action)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2540,7 +2540,7 @@ func (in *InboundIpRuleARM) DeepCopyInto(out *InboundIpRuleARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleAction)
+		*out = new(InboundIpRule_Action)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2565,7 +2565,7 @@ func (in *InboundIpRule_STATUS) DeepCopyInto(out *InboundIpRule_STATUS) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleSTATUSAction)
+		*out = new(InboundIpRule_STATUS_Action)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2590,7 +2590,7 @@ func (in *InboundIpRule_STATUSARM) DeepCopyInto(out *InboundIpRule_STATUSARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleSTATUSAction)
+		*out = new(InboundIpRule_STATUS_Action)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2615,7 +2615,7 @@ func (in *InputSchemaMapping_STATUS) DeepCopyInto(out *InputSchemaMapping_STATUS
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMappingSTATUSInputSchemaMappingType)
+		*out = new(InputSchemaMapping_STATUS_InputSchemaMappingType)
 		**out = **in
 	}
 }
@@ -2635,7 +2635,7 @@ func (in *InputSchemaMapping_STATUSARM) DeepCopyInto(out *InputSchemaMapping_STA
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMappingSTATUSInputSchemaMappingType)
+		*out = new(InputSchemaMapping_STATUS_InputSchemaMappingType)
 		**out = **in
 	}
 }
@@ -2745,7 +2745,7 @@ func (in *JsonInputSchemaMapping) DeepCopyInto(out *JsonInputSchemaMapping) {
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(JsonInputSchemaMappingInputSchemaMappingType)
+		*out = new(JsonInputSchemaMapping_InputSchemaMappingType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -2770,7 +2770,7 @@ func (in *JsonInputSchemaMappingARM) DeepCopyInto(out *JsonInputSchemaMappingARM
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(JsonInputSchemaMappingInputSchemaMappingType)
+		*out = new(JsonInputSchemaMapping_InputSchemaMappingType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3065,7 +3065,7 @@ func (in *ServiceBusQueueEventSubscriptionDestination) DeepCopyInto(out *Service
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(ServiceBusQueueEventSubscriptionDestinationEndpointType)
+		*out = new(ServiceBusQueueEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3150,7 +3150,7 @@ func (in *ServiceBusTopicEventSubscriptionDestination) DeepCopyInto(out *Service
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(ServiceBusTopicEventSubscriptionDestinationEndpointType)
+		*out = new(ServiceBusTopicEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3235,7 +3235,7 @@ func (in *StorageBlobDeadLetterDestination) DeepCopyInto(out *StorageBlobDeadLet
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(StorageBlobDeadLetterDestinationEndpointType)
+		*out = new(StorageBlobDeadLetterDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3260,7 +3260,7 @@ func (in *StorageBlobDeadLetterDestinationARM) DeepCopyInto(out *StorageBlobDead
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(StorageBlobDeadLetterDestinationEndpointType)
+		*out = new(StorageBlobDeadLetterDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3335,7 +3335,7 @@ func (in *StorageQueueEventSubscriptionDestination) DeepCopyInto(out *StorageQue
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(StorageQueueEventSubscriptionDestinationEndpointType)
+		*out = new(StorageQueueEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -3440,7 +3440,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3455,7 +3455,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -3485,7 +3485,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3500,7 +3500,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -3591,7 +3591,7 @@ func (in *TopicProperties_STATUSARM) DeepCopyInto(out *TopicProperties_STATUSARM
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesSTATUSInputSchema)
+		*out = new(TopicProperties_STATUS_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -3613,12 +3613,12 @@ func (in *TopicProperties_STATUSARM) DeepCopyInto(out *TopicProperties_STATUSARM
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesSTATUSProvisioningState)
+		*out = new(TopicProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesSTATUSPublicNetworkAccess)
+		*out = new(TopicProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 }
@@ -3662,7 +3662,7 @@ func (in *Topic_STATUS) DeepCopyInto(out *Topic_STATUS) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesSTATUSInputSchema)
+		*out = new(TopicProperties_STATUS_InputSchema)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -3694,12 +3694,12 @@ func (in *Topic_STATUS) DeepCopyInto(out *Topic_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesSTATUSProvisioningState)
+		*out = new(TopicProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesSTATUSPublicNetworkAccess)
+		*out = new(TopicProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -3847,7 +3847,7 @@ func (in *WebHookEventSubscriptionDestination) DeepCopyInto(out *WebHookEventSub
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(WebHookEventSubscriptionDestinationEndpointType)
+		*out = new(WebHookEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
 	if in.Properties != nil {

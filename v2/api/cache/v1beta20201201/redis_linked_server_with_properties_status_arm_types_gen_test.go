@@ -25,12 +25,12 @@ func Test_RedisLinkedServerWithProperties_STATUSARM_WhenSerializedToJson_Deseria
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServerWithProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUSARM, RedisLinkedServerWithPropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerWithProperties_STATUSARM, RedisLinkedServerWithProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUSARM runs a test to see if a specific instance of RedisLinkedServerWithProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUSARM(subject RedisLinkedServerWithProperties_STATUSARM) string {
+// RunJSONSerializationTestForRedisLinkedServerWithProperties_STATUSARM runs a test to see if a specific instance of RedisLinkedServerWithProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisLinkedServerWithProperties_STATUSARM(subject RedisLinkedServerWithProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,41 +57,41 @@ func RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUSARM(subject
 }
 
 // Generator of RedisLinkedServerWithProperties_STATUSARM instances for property testing - lazily instantiated by
-// RedisLinkedServerWithPropertiesSTATUSARMGenerator()
-var redisLinkedServerWithPropertiesSTATUSARMGenerator gopter.Gen
+// RedisLinkedServerWithProperties_STATUSARMGenerator()
+var redisLinkedServerWithProperties_STATUSARMGenerator gopter.Gen
 
-// RedisLinkedServerWithPropertiesSTATUSARMGenerator returns a generator of RedisLinkedServerWithProperties_STATUSARM instances for property testing.
-// We first initialize redisLinkedServerWithPropertiesSTATUSARMGenerator with a simplified generator based on the
+// RedisLinkedServerWithProperties_STATUSARMGenerator returns a generator of RedisLinkedServerWithProperties_STATUSARM instances for property testing.
+// We first initialize redisLinkedServerWithProperties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisLinkedServerWithPropertiesSTATUSARMGenerator() gopter.Gen {
-	if redisLinkedServerWithPropertiesSTATUSARMGenerator != nil {
-		return redisLinkedServerWithPropertiesSTATUSARMGenerator
+func RedisLinkedServerWithProperties_STATUSARMGenerator() gopter.Gen {
+	if redisLinkedServerWithProperties_STATUSARMGenerator != nil {
+		return redisLinkedServerWithProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM(generators)
-	redisLinkedServerWithPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerWithProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM(generators)
+	redisLinkedServerWithProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerWithProperties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM(generators)
-	redisLinkedServerWithPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerWithProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM(generators)
+	redisLinkedServerWithProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerWithProperties_STATUSARM{}), generators)
 
-	return redisLinkedServerWithPropertiesSTATUSARMGenerator
+	return redisLinkedServerWithProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RedisLinkedServerPropertiesSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisLinkedServerWithProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RedisLinkedServerProperties_STATUSARMGenerator())
 }
 
 func Test_RedisLinkedServerProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_RedisLinkedServerProperties_STATUSARM_WhenSerializedToJson_Deserialize
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServerProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerPropertiesSTATUSARM, RedisLinkedServerPropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerProperties_STATUSARM, RedisLinkedServerProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisLinkedServerPropertiesSTATUSARM runs a test to see if a specific instance of RedisLinkedServerProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisLinkedServerPropertiesSTATUSARM(subject RedisLinkedServerProperties_STATUSARM) string {
+// RunJSONSerializationTestForRedisLinkedServerProperties_STATUSARM runs a test to see if a specific instance of RedisLinkedServerProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisLinkedServerProperties_STATUSARM(subject RedisLinkedServerProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,26 +134,26 @@ func RunJSONSerializationTestForRedisLinkedServerPropertiesSTATUSARM(subject Red
 }
 
 // Generator of RedisLinkedServerProperties_STATUSARM instances for property testing - lazily instantiated by
-// RedisLinkedServerPropertiesSTATUSARMGenerator()
-var redisLinkedServerPropertiesSTATUSARMGenerator gopter.Gen
+// RedisLinkedServerProperties_STATUSARMGenerator()
+var redisLinkedServerProperties_STATUSARMGenerator gopter.Gen
 
-// RedisLinkedServerPropertiesSTATUSARMGenerator returns a generator of RedisLinkedServerProperties_STATUSARM instances for property testing.
-func RedisLinkedServerPropertiesSTATUSARMGenerator() gopter.Gen {
-	if redisLinkedServerPropertiesSTATUSARMGenerator != nil {
-		return redisLinkedServerPropertiesSTATUSARMGenerator
+// RedisLinkedServerProperties_STATUSARMGenerator returns a generator of RedisLinkedServerProperties_STATUSARM instances for property testing.
+func RedisLinkedServerProperties_STATUSARMGenerator() gopter.Gen {
+	if redisLinkedServerProperties_STATUSARMGenerator != nil {
+		return redisLinkedServerProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesSTATUSARM(generators)
-	redisLinkedServerPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_STATUSARM(generators)
+	redisLinkedServerProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerProperties_STATUSARM{}), generators)
 
-	return redisLinkedServerPropertiesSTATUSARMGenerator
+	return redisLinkedServerProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisLinkedServerProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerPropertiesSTATUSServerRole_Primary, RedisLinkedServerPropertiesSTATUSServerRole_Secondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerProperties_STATUS_ServerRole_Primary, RedisLinkedServerProperties_STATUS_ServerRole_Secondary))
 }

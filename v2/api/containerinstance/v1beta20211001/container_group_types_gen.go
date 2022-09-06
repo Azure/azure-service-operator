@@ -54,7 +54,7 @@ func (group *ContainerGroup) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected containerinstance/v1beta20211001storage/ContainerGroup but received %T instead", hub)
 	}
 
-	return group.AssignPropertiesFromContainerGroup(source)
+	return group.AssignProperties_From_ContainerGroup(source)
 }
 
 // ConvertTo populates the provided hub ContainerGroup from our ContainerGroup
@@ -64,7 +64,7 @@ func (group *ContainerGroup) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected containerinstance/v1beta20211001storage/ContainerGroup but received %T instead", hub)
 	}
 
-	return group.AssignPropertiesToContainerGroup(destination)
+	return group.AssignProperties_To_ContainerGroup(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
@@ -249,25 +249,25 @@ func (group *ContainerGroup) validateWriteOnceProperties(old runtime.Object) err
 	return genruntime.ValidateWriteOnceProperties(oldObj, group)
 }
 
-// AssignPropertiesFromContainerGroup populates our ContainerGroup from the provided source ContainerGroup
-func (group *ContainerGroup) AssignPropertiesFromContainerGroup(source *v20211001s.ContainerGroup) error {
+// AssignProperties_From_ContainerGroup populates our ContainerGroup from the provided source ContainerGroup
+func (group *ContainerGroup) AssignProperties_From_ContainerGroup(source *v20211001s.ContainerGroup) error {
 
 	// ObjectMeta
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec ContainerGroups_Spec
-	err := spec.AssignPropertiesFromContainerGroupsSpec(&source.Spec)
+	err := spec.AssignProperties_From_ContainerGroups_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ContainerGroups_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
 	// Status
 	var status ContainerGroup_STATUS
-	err = status.AssignPropertiesFromContainerGroupSTATUS(&source.Status)
+	err = status.AssignProperties_From_ContainerGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -275,25 +275,25 @@ func (group *ContainerGroup) AssignPropertiesFromContainerGroup(source *v2021100
 	return nil
 }
 
-// AssignPropertiesToContainerGroup populates the provided destination ContainerGroup from our ContainerGroup
-func (group *ContainerGroup) AssignPropertiesToContainerGroup(destination *v20211001s.ContainerGroup) error {
+// AssignProperties_To_ContainerGroup populates the provided destination ContainerGroup from our ContainerGroup
+func (group *ContainerGroup) AssignProperties_To_ContainerGroup(destination *v20211001s.ContainerGroup) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20211001s.ContainerGroups_Spec
-	err := group.Spec.AssignPropertiesToContainerGroupsSpec(&spec)
+	err := group.Spec.AssignProperties_To_ContainerGroups_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToContainerGroupsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ContainerGroups_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20211001s.ContainerGroup_STATUS
-	err = group.Status.AssignPropertiesToContainerGroupSTATUS(&status)
+	err = group.Status.AssignProperties_To_ContainerGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToContainerGroupSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -364,7 +364,7 @@ type ContainerGroup_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroupSTATUSPropertiesOsType `json:"osType,omitempty"`
+	OsType *ContainerGroup_STATUS_Properties_OsType `json:"osType,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -373,7 +373,7 @@ type ContainerGroup_STATUS struct {
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-	RestartPolicy *ContainerGroupSTATUSPropertiesRestartPolicy `json:"restartPolicy,omitempty"`
+	RestartPolicy *ContainerGroup_STATUS_Properties_RestartPolicy `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
 	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
@@ -401,7 +401,7 @@ func (group *ContainerGroup_STATUS) ConvertStatusFrom(source genruntime.Converti
 	src, ok := source.(*v20211001s.ContainerGroup_STATUS)
 	if ok {
 		// Populate our instance from source
-		return group.AssignPropertiesFromContainerGroupSTATUS(src)
+		return group.AssignProperties_From_ContainerGroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -412,7 +412,7 @@ func (group *ContainerGroup_STATUS) ConvertStatusFrom(source genruntime.Converti
 	}
 
 	// Update our instance from src
-	err = group.AssignPropertiesFromContainerGroupSTATUS(src)
+	err = group.AssignProperties_From_ContainerGroup_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -425,12 +425,12 @@ func (group *ContainerGroup_STATUS) ConvertStatusTo(destination genruntime.Conve
 	dst, ok := destination.(*v20211001s.ContainerGroup_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return group.AssignPropertiesToContainerGroupSTATUS(dst)
+		return group.AssignProperties_To_ContainerGroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20211001s.ContainerGroup_STATUS{}
-	err := group.AssignPropertiesToContainerGroupSTATUS(dst)
+	err := group.AssignProperties_To_ContainerGroup_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -683,8 +683,8 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupSTATUS populates our ContainerGroup_STATUS from the provided source ContainerGroup_STATUS
-func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(source *v20211001s.ContainerGroup_STATUS) error {
+// AssignProperties_From_ContainerGroup_STATUS populates our ContainerGroup_STATUS from the provided source ContainerGroup_STATUS
+func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(source *v20211001s.ContainerGroup_STATUS) error {
 
 	// Conditions
 	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -696,9 +696,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
 			var container Container_STATUS
-			err := container.AssignPropertiesFromContainerSTATUS(&containerItem)
+			err := container.AssignProperties_From_Container_STATUS(&containerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerSTATUS() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_From_Container_STATUS() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -710,9 +710,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// Diagnostics
 	if source.Diagnostics != nil {
 		var diagnostic ContainerGroupDiagnostics_STATUS
-		err := diagnostic.AssignPropertiesFromContainerGroupDiagnosticsSTATUS(source.Diagnostics)
+		err := diagnostic.AssignProperties_From_ContainerGroupDiagnostics_STATUS(source.Diagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupDiagnosticsSTATUS() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupDiagnostics_STATUS() to populate field Diagnostics")
 		}
 		group.Diagnostics = &diagnostic
 	} else {
@@ -722,9 +722,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// DnsConfig
 	if source.DnsConfig != nil {
 		var dnsConfig DnsConfiguration_STATUS
-		err := dnsConfig.AssignPropertiesFromDnsConfigurationSTATUS(source.DnsConfig)
+		err := dnsConfig.AssignProperties_From_DnsConfiguration_STATUS(source.DnsConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDnsConfigurationSTATUS() to populate field DnsConfig")
+			return errors.Wrap(err, "calling AssignProperties_From_DnsConfiguration_STATUS() to populate field DnsConfig")
 		}
 		group.DnsConfig = &dnsConfig
 	} else {
@@ -734,9 +734,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// EncryptionProperties
 	if source.EncryptionProperties != nil {
 		var encryptionProperty EncryptionProperties_STATUS
-		err := encryptionProperty.AssignPropertiesFromEncryptionPropertiesSTATUS(source.EncryptionProperties)
+		err := encryptionProperty.AssignProperties_From_EncryptionProperties_STATUS(source.EncryptionProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertiesSTATUS() to populate field EncryptionProperties")
+			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties_STATUS() to populate field EncryptionProperties")
 		}
 		group.EncryptionProperties = &encryptionProperty
 	} else {
@@ -749,9 +749,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// Identity
 	if source.Identity != nil {
 		var identity ContainerGroupIdentity_STATUS
-		err := identity.AssignPropertiesFromContainerGroupIdentitySTATUS(source.Identity)
+		err := identity.AssignProperties_From_ContainerGroupIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupIdentity_STATUS() to populate field Identity")
 		}
 		group.Identity = &identity
 	} else {
@@ -765,9 +765,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential ImageRegistryCredential_STATUS
-			err := imageRegistryCredential.AssignPropertiesFromImageRegistryCredentialSTATUS(&imageRegistryCredentialItem)
+			err := imageRegistryCredential.AssignProperties_From_ImageRegistryCredential_STATUS(&imageRegistryCredentialItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromImageRegistryCredentialSTATUS() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_From_ImageRegistryCredential_STATUS() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -783,9 +783,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
 			var initContainer InitContainerDefinition_STATUS
-			err := initContainer.AssignPropertiesFromInitContainerDefinitionSTATUS(&initContainerItem)
+			err := initContainer.AssignProperties_From_InitContainerDefinition_STATUS(&initContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInitContainerDefinitionSTATUS() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_From_InitContainerDefinition_STATUS() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -797,9 +797,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// InstanceView
 	if source.InstanceView != nil {
 		var instanceView ContainerGroup_STATUS_Properties_InstanceView
-		err := instanceView.AssignPropertiesFromContainerGroupSTATUSPropertiesInstanceView(source.InstanceView)
+		err := instanceView.AssignProperties_From_ContainerGroup_STATUS_Properties_InstanceView(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupSTATUSPropertiesInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_STATUS_Properties_InstanceView() to populate field InstanceView")
 		}
 		group.InstanceView = &instanceView
 	} else {
@@ -809,9 +809,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	// IpAddress
 	if source.IpAddress != nil {
 		var ipAddress IpAddress_STATUS
-		err := ipAddress.AssignPropertiesFromIpAddressSTATUS(source.IpAddress)
+		err := ipAddress.AssignProperties_From_IpAddress_STATUS(source.IpAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIpAddressSTATUS() to populate field IpAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_IpAddress_STATUS() to populate field IpAddress")
 		}
 		group.IpAddress = &ipAddress
 	} else {
@@ -826,7 +826,7 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 
 	// OsType
 	if source.OsType != nil {
-		osType := ContainerGroupSTATUSPropertiesOsType(*source.OsType)
+		osType := ContainerGroup_STATUS_Properties_OsType(*source.OsType)
 		group.OsType = &osType
 	} else {
 		group.OsType = nil
@@ -837,7 +837,7 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 
 	// RestartPolicy
 	if source.RestartPolicy != nil {
-		restartPolicy := ContainerGroupSTATUSPropertiesRestartPolicy(*source.RestartPolicy)
+		restartPolicy := ContainerGroup_STATUS_Properties_RestartPolicy(*source.RestartPolicy)
 		group.RestartPolicy = &restartPolicy
 	} else {
 		group.RestartPolicy = nil
@@ -858,9 +858,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 			// Shadow the loop variable to avoid aliasing
 			subnetIdItem := subnetIdItem
 			var subnetId ContainerGroupSubnetId_STATUS
-			err := subnetId.AssignPropertiesFromContainerGroupSubnetIdSTATUS(&subnetIdItem)
+			err := subnetId.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupSubnetIdSTATUS() to populate field SubnetIds")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
 			subnetIdList[subnetIdIndex] = subnetId
 		}
@@ -882,9 +882,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 			// Shadow the loop variable to avoid aliasing
 			volumeItem := volumeItem
 			var volume Volume_STATUS
-			err := volume.AssignPropertiesFromVolumeSTATUS(&volumeItem)
+			err := volume.AssignProperties_From_Volume_STATUS(&volumeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolumeSTATUS() to populate field Volumes")
+				return errors.Wrap(err, "calling AssignProperties_From_Volume_STATUS() to populate field Volumes")
 			}
 			volumeList[volumeIndex] = volume
 		}
@@ -900,8 +900,8 @@ func (group *ContainerGroup_STATUS) AssignPropertiesFromContainerGroupSTATUS(sou
 	return nil
 }
 
-// AssignPropertiesToContainerGroupSTATUS populates the provided destination ContainerGroup_STATUS from our ContainerGroup_STATUS
-func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(destination *v20211001s.ContainerGroup_STATUS) error {
+// AssignProperties_To_ContainerGroup_STATUS populates the provided destination ContainerGroup_STATUS from our ContainerGroup_STATUS
+func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(destination *v20211001s.ContainerGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -915,9 +915,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
 			var container v20211001s.Container_STATUS
-			err := containerItem.AssignPropertiesToContainerSTATUS(&container)
+			err := containerItem.AssignProperties_To_Container_STATUS(&container)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerSTATUS() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_To_Container_STATUS() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -929,9 +929,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// Diagnostics
 	if group.Diagnostics != nil {
 		var diagnostic v20211001s.ContainerGroupDiagnostics_STATUS
-		err := group.Diagnostics.AssignPropertiesToContainerGroupDiagnosticsSTATUS(&diagnostic)
+		err := group.Diagnostics.AssignProperties_To_ContainerGroupDiagnostics_STATUS(&diagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerGroupDiagnosticsSTATUS() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupDiagnostics_STATUS() to populate field Diagnostics")
 		}
 		destination.Diagnostics = &diagnostic
 	} else {
@@ -941,9 +941,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// DnsConfig
 	if group.DnsConfig != nil {
 		var dnsConfig v20211001s.DnsConfiguration_STATUS
-		err := group.DnsConfig.AssignPropertiesToDnsConfigurationSTATUS(&dnsConfig)
+		err := group.DnsConfig.AssignProperties_To_DnsConfiguration_STATUS(&dnsConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDnsConfigurationSTATUS() to populate field DnsConfig")
+			return errors.Wrap(err, "calling AssignProperties_To_DnsConfiguration_STATUS() to populate field DnsConfig")
 		}
 		destination.DnsConfig = &dnsConfig
 	} else {
@@ -953,9 +953,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// EncryptionProperties
 	if group.EncryptionProperties != nil {
 		var encryptionProperty v20211001s.EncryptionProperties_STATUS
-		err := group.EncryptionProperties.AssignPropertiesToEncryptionPropertiesSTATUS(&encryptionProperty)
+		err := group.EncryptionProperties.AssignProperties_To_EncryptionProperties_STATUS(&encryptionProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertiesSTATUS() to populate field EncryptionProperties")
+			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties_STATUS() to populate field EncryptionProperties")
 		}
 		destination.EncryptionProperties = &encryptionProperty
 	} else {
@@ -968,9 +968,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// Identity
 	if group.Identity != nil {
 		var identity v20211001s.ContainerGroupIdentity_STATUS
-		err := group.Identity.AssignPropertiesToContainerGroupIdentitySTATUS(&identity)
+		err := group.Identity.AssignProperties_To_ContainerGroupIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerGroupIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -984,9 +984,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential v20211001s.ImageRegistryCredential_STATUS
-			err := imageRegistryCredentialItem.AssignPropertiesToImageRegistryCredentialSTATUS(&imageRegistryCredential)
+			err := imageRegistryCredentialItem.AssignProperties_To_ImageRegistryCredential_STATUS(&imageRegistryCredential)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToImageRegistryCredentialSTATUS() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_To_ImageRegistryCredential_STATUS() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -1002,9 +1002,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
 			var initContainer v20211001s.InitContainerDefinition_STATUS
-			err := initContainerItem.AssignPropertiesToInitContainerDefinitionSTATUS(&initContainer)
+			err := initContainerItem.AssignProperties_To_InitContainerDefinition_STATUS(&initContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInitContainerDefinitionSTATUS() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_To_InitContainerDefinition_STATUS() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -1016,9 +1016,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// InstanceView
 	if group.InstanceView != nil {
 		var instanceView v20211001s.ContainerGroup_STATUS_Properties_InstanceView
-		err := group.InstanceView.AssignPropertiesToContainerGroupSTATUSPropertiesInstanceView(&instanceView)
+		err := group.InstanceView.AssignProperties_To_ContainerGroup_STATUS_Properties_InstanceView(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerGroupSTATUSPropertiesInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_STATUS_Properties_InstanceView() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -1028,9 +1028,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 	// IpAddress
 	if group.IpAddress != nil {
 		var ipAddress v20211001s.IpAddress_STATUS
-		err := group.IpAddress.AssignPropertiesToIpAddressSTATUS(&ipAddress)
+		err := group.IpAddress.AssignProperties_To_IpAddress_STATUS(&ipAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIpAddressSTATUS() to populate field IpAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_IpAddress_STATUS() to populate field IpAddress")
 		}
 		destination.IpAddress = &ipAddress
 	} else {
@@ -1077,9 +1077,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 			// Shadow the loop variable to avoid aliasing
 			subnetIdItem := subnetIdItem
 			var subnetId v20211001s.ContainerGroupSubnetId_STATUS
-			err := subnetIdItem.AssignPropertiesToContainerGroupSubnetIdSTATUS(&subnetId)
+			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetId)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupSubnetIdSTATUS() to populate field SubnetIds")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
 			subnetIdList[subnetIdIndex] = subnetId
 		}
@@ -1101,9 +1101,9 @@ func (group *ContainerGroup_STATUS) AssignPropertiesToContainerGroupSTATUS(desti
 			// Shadow the loop variable to avoid aliasing
 			volumeItem := volumeItem
 			var volume v20211001s.Volume_STATUS
-			err := volumeItem.AssignPropertiesToVolumeSTATUS(&volume)
+			err := volumeItem.AssignProperties_To_Volume_STATUS(&volume)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolumeSTATUS() to populate field Volumes")
+				return errors.Wrap(err, "calling AssignProperties_To_Volume_STATUS() to populate field Volumes")
 			}
 			volumeList[volumeIndex] = volume
 		}
@@ -1161,7 +1161,7 @@ type ContainerGroups_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroupsSpecPropertiesOsType `json:"osType,omitempty"`
+	OsType *ContainerGroups_Spec_Properties_OsType `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1174,10 +1174,10 @@ type ContainerGroups_Spec struct {
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
 	// .
-	RestartPolicy *ContainerGroupsSpecPropertiesRestartPolicy `json:"restartPolicy,omitempty"`
+	RestartPolicy *ContainerGroups_Spec_Properties_RestartPolicy `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
-	Sku *ContainerGroupsSpecPropertiesSku `json:"sku,omitempty"`
+	Sku *ContainerGroups_Spec_Properties_Sku `json:"sku,omitempty"`
 
 	// SubnetIds: The subnet resource IDs for a container group.
 	SubnetIds []ContainerGroupSubnetId `json:"subnetIds,omitempty"`
@@ -1539,7 +1539,7 @@ func (groups *ContainerGroups_Spec) ConvertSpecFrom(source genruntime.Convertibl
 	src, ok := source.(*v20211001s.ContainerGroups_Spec)
 	if ok {
 		// Populate our instance from source
-		return groups.AssignPropertiesFromContainerGroupsSpec(src)
+		return groups.AssignProperties_From_ContainerGroups_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1550,7 +1550,7 @@ func (groups *ContainerGroups_Spec) ConvertSpecFrom(source genruntime.Convertibl
 	}
 
 	// Update our instance from src
-	err = groups.AssignPropertiesFromContainerGroupsSpec(src)
+	err = groups.AssignProperties_From_ContainerGroups_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1563,12 +1563,12 @@ func (groups *ContainerGroups_Spec) ConvertSpecTo(destination genruntime.Convert
 	dst, ok := destination.(*v20211001s.ContainerGroups_Spec)
 	if ok {
 		// Populate destination from our instance
-		return groups.AssignPropertiesToContainerGroupsSpec(dst)
+		return groups.AssignProperties_To_ContainerGroups_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20211001s.ContainerGroups_Spec{}
-	err := groups.AssignPropertiesToContainerGroupsSpec(dst)
+	err := groups.AssignProperties_To_ContainerGroups_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1582,8 +1582,8 @@ func (groups *ContainerGroups_Spec) ConvertSpecTo(destination genruntime.Convert
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupsSpec populates our ContainerGroups_Spec from the provided source ContainerGroups_Spec
-func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(source *v20211001s.ContainerGroups_Spec) error {
+// AssignProperties_From_ContainerGroups_Spec populates our ContainerGroups_Spec from the provided source ContainerGroups_Spec
+func (groups *ContainerGroups_Spec) AssignProperties_From_ContainerGroups_Spec(source *v20211001s.ContainerGroups_Spec) error {
 
 	// AzureName
 	groups.AzureName = source.AzureName
@@ -1595,9 +1595,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
 			var container ContainerGroups_Spec_Properties_Containers
-			err := container.AssignPropertiesFromContainerGroupsSpecPropertiesContainers(&containerItem)
+			err := container.AssignProperties_From_ContainerGroups_Spec_Properties_Containers(&containerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupsSpecPropertiesContainers() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroups_Spec_Properties_Containers() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -1609,9 +1609,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	// Diagnostics
 	if source.Diagnostics != nil {
 		var diagnostic ContainerGroupDiagnostics
-		err := diagnostic.AssignPropertiesFromContainerGroupDiagnostics(source.Diagnostics)
+		err := diagnostic.AssignProperties_From_ContainerGroupDiagnostics(source.Diagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupDiagnostics() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupDiagnostics() to populate field Diagnostics")
 		}
 		groups.Diagnostics = &diagnostic
 	} else {
@@ -1621,9 +1621,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	// DnsConfig
 	if source.DnsConfig != nil {
 		var dnsConfig DnsConfiguration
-		err := dnsConfig.AssignPropertiesFromDnsConfiguration(source.DnsConfig)
+		err := dnsConfig.AssignProperties_From_DnsConfiguration(source.DnsConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDnsConfiguration() to populate field DnsConfig")
+			return errors.Wrap(err, "calling AssignProperties_From_DnsConfiguration() to populate field DnsConfig")
 		}
 		groups.DnsConfig = &dnsConfig
 	} else {
@@ -1633,9 +1633,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	// EncryptionProperties
 	if source.EncryptionProperties != nil {
 		var encryptionProperty EncryptionProperties
-		err := encryptionProperty.AssignPropertiesFromEncryptionProperties(source.EncryptionProperties)
+		err := encryptionProperty.AssignProperties_From_EncryptionProperties(source.EncryptionProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperties() to populate field EncryptionProperties")
+			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties() to populate field EncryptionProperties")
 		}
 		groups.EncryptionProperties = &encryptionProperty
 	} else {
@@ -1645,9 +1645,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	// Identity
 	if source.Identity != nil {
 		var identity ContainerGroupIdentity
-		err := identity.AssignPropertiesFromContainerGroupIdentity(source.Identity)
+		err := identity.AssignProperties_From_ContainerGroupIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupIdentity() to populate field Identity")
 		}
 		groups.Identity = &identity
 	} else {
@@ -1661,9 +1661,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential ContainerGroups_Spec_Properties_ImageRegistryCredentials
-			err := imageRegistryCredential.AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials(&imageRegistryCredentialItem)
+			err := imageRegistryCredential.AssignProperties_From_ContainerGroups_Spec_Properties_ImageRegistryCredentials(&imageRegistryCredentialItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroups_Spec_Properties_ImageRegistryCredentials() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -1679,9 +1679,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
 			var initContainer ContainerGroups_Spec_Properties_InitContainers
-			err := initContainer.AssignPropertiesFromContainerGroupsSpecPropertiesInitContainers(&initContainerItem)
+			err := initContainer.AssignProperties_From_ContainerGroups_Spec_Properties_InitContainers(&initContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupsSpecPropertiesInitContainers() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroups_Spec_Properties_InitContainers() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -1693,9 +1693,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	// IpAddress
 	if source.IpAddress != nil {
 		var ipAddress IpAddress
-		err := ipAddress.AssignPropertiesFromIpAddress(source.IpAddress)
+		err := ipAddress.AssignProperties_From_IpAddress(source.IpAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIpAddress() to populate field IpAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_IpAddress() to populate field IpAddress")
 		}
 		groups.IpAddress = &ipAddress
 	} else {
@@ -1707,7 +1707,7 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 
 	// OsType
 	if source.OsType != nil {
-		osType := ContainerGroupsSpecPropertiesOsType(*source.OsType)
+		osType := ContainerGroups_Spec_Properties_OsType(*source.OsType)
 		groups.OsType = &osType
 	} else {
 		groups.OsType = nil
@@ -1723,7 +1723,7 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 
 	// RestartPolicy
 	if source.RestartPolicy != nil {
-		restartPolicy := ContainerGroupsSpecPropertiesRestartPolicy(*source.RestartPolicy)
+		restartPolicy := ContainerGroups_Spec_Properties_RestartPolicy(*source.RestartPolicy)
 		groups.RestartPolicy = &restartPolicy
 	} else {
 		groups.RestartPolicy = nil
@@ -1731,7 +1731,7 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 
 	// Sku
 	if source.Sku != nil {
-		sku := ContainerGroupsSpecPropertiesSku(*source.Sku)
+		sku := ContainerGroups_Spec_Properties_Sku(*source.Sku)
 		groups.Sku = &sku
 	} else {
 		groups.Sku = nil
@@ -1744,9 +1744,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 			// Shadow the loop variable to avoid aliasing
 			subnetIdItem := subnetIdItem
 			var subnetId ContainerGroupSubnetId
-			err := subnetId.AssignPropertiesFromContainerGroupSubnetId(&subnetIdItem)
+			err := subnetId.AssignProperties_From_ContainerGroupSubnetId(&subnetIdItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupSubnetId() to populate field SubnetIds")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
 			subnetIdList[subnetIdIndex] = subnetId
 		}
@@ -1765,9 +1765,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 			// Shadow the loop variable to avoid aliasing
 			volumeItem := volumeItem
 			var volume Volume
-			err := volume.AssignPropertiesFromVolume(&volumeItem)
+			err := volume.AssignProperties_From_Volume(&volumeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolume() to populate field Volumes")
+				return errors.Wrap(err, "calling AssignProperties_From_Volume() to populate field Volumes")
 			}
 			volumeList[volumeIndex] = volume
 		}
@@ -1783,8 +1783,8 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 	return nil
 }
 
-// AssignPropertiesToContainerGroupsSpec populates the provided destination ContainerGroups_Spec from our ContainerGroups_Spec
-func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destination *v20211001s.ContainerGroups_Spec) error {
+// AssignProperties_To_ContainerGroups_Spec populates the provided destination ContainerGroups_Spec from our ContainerGroups_Spec
+func (groups *ContainerGroups_Spec) AssignProperties_To_ContainerGroups_Spec(destination *v20211001s.ContainerGroups_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1798,9 +1798,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
 			var container v20211001s.ContainerGroups_Spec_Properties_Containers
-			err := containerItem.AssignPropertiesToContainerGroupsSpecPropertiesContainers(&container)
+			err := containerItem.AssignProperties_To_ContainerGroups_Spec_Properties_Containers(&container)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupsSpecPropertiesContainers() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroups_Spec_Properties_Containers() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -1812,9 +1812,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 	// Diagnostics
 	if groups.Diagnostics != nil {
 		var diagnostic v20211001s.ContainerGroupDiagnostics
-		err := groups.Diagnostics.AssignPropertiesToContainerGroupDiagnostics(&diagnostic)
+		err := groups.Diagnostics.AssignProperties_To_ContainerGroupDiagnostics(&diagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerGroupDiagnostics() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupDiagnostics() to populate field Diagnostics")
 		}
 		destination.Diagnostics = &diagnostic
 	} else {
@@ -1824,9 +1824,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 	// DnsConfig
 	if groups.DnsConfig != nil {
 		var dnsConfig v20211001s.DnsConfiguration
-		err := groups.DnsConfig.AssignPropertiesToDnsConfiguration(&dnsConfig)
+		err := groups.DnsConfig.AssignProperties_To_DnsConfiguration(&dnsConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDnsConfiguration() to populate field DnsConfig")
+			return errors.Wrap(err, "calling AssignProperties_To_DnsConfiguration() to populate field DnsConfig")
 		}
 		destination.DnsConfig = &dnsConfig
 	} else {
@@ -1836,9 +1836,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 	// EncryptionProperties
 	if groups.EncryptionProperties != nil {
 		var encryptionProperty v20211001s.EncryptionProperties
-		err := groups.EncryptionProperties.AssignPropertiesToEncryptionProperties(&encryptionProperty)
+		err := groups.EncryptionProperties.AssignProperties_To_EncryptionProperties(&encryptionProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperties() to populate field EncryptionProperties")
+			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field EncryptionProperties")
 		}
 		destination.EncryptionProperties = &encryptionProperty
 	} else {
@@ -1848,9 +1848,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 	// Identity
 	if groups.Identity != nil {
 		var identity v20211001s.ContainerGroupIdentity
-		err := groups.Identity.AssignPropertiesToContainerGroupIdentity(&identity)
+		err := groups.Identity.AssignProperties_To_ContainerGroupIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerGroupIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1864,9 +1864,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
 			var imageRegistryCredential v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials
-			err := imageRegistryCredentialItem.AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials(&imageRegistryCredential)
+			err := imageRegistryCredentialItem.AssignProperties_To_ContainerGroups_Spec_Properties_ImageRegistryCredentials(&imageRegistryCredential)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroups_Spec_Properties_ImageRegistryCredentials() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -1882,9 +1882,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
 			var initContainer v20211001s.ContainerGroups_Spec_Properties_InitContainers
-			err := initContainerItem.AssignPropertiesToContainerGroupsSpecPropertiesInitContainers(&initContainer)
+			err := initContainerItem.AssignProperties_To_ContainerGroups_Spec_Properties_InitContainers(&initContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupsSpecPropertiesInitContainers() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroups_Spec_Properties_InitContainers() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -1896,9 +1896,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 	// IpAddress
 	if groups.IpAddress != nil {
 		var ipAddress v20211001s.IpAddress
-		err := groups.IpAddress.AssignPropertiesToIpAddress(&ipAddress)
+		err := groups.IpAddress.AssignProperties_To_IpAddress(&ipAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIpAddress() to populate field IpAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_IpAddress() to populate field IpAddress")
 		}
 		destination.IpAddress = &ipAddress
 	} else {
@@ -1950,9 +1950,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 			// Shadow the loop variable to avoid aliasing
 			subnetIdItem := subnetIdItem
 			var subnetId v20211001s.ContainerGroupSubnetId
-			err := subnetIdItem.AssignPropertiesToContainerGroupSubnetId(&subnetId)
+			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId(&subnetId)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupSubnetId() to populate field SubnetIds")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
 			subnetIdList[subnetIdIndex] = subnetId
 		}
@@ -1971,9 +1971,9 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 			// Shadow the loop variable to avoid aliasing
 			volumeItem := volumeItem
 			var volume v20211001s.Volume
-			err := volumeItem.AssignPropertiesToVolume(&volume)
+			err := volumeItem.AssignProperties_To_Volume(&volume)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolume() to populate field Volumes")
+				return errors.Wrap(err, "calling AssignProperties_To_Volume() to populate field Volumes")
 			}
 			volumeList[volumeIndex] = volume
 		}
@@ -2172,8 +2172,8 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromContainerSTATUS populates our Container_STATUS from the provided source Container_STATUS
-func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v20211001s.Container_STATUS) error {
+// AssignProperties_From_Container_STATUS populates our Container_STATUS from the provided source Container_STATUS
+func (container *Container_STATUS) AssignProperties_From_Container_STATUS(source *v20211001s.Container_STATUS) error {
 
 	// Command
 	container.Command = genruntime.CloneSliceOfString(source.Command)
@@ -2185,9 +2185,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable_STATUS
-			err := environmentVariable.AssignPropertiesFromEnvironmentVariableSTATUS(&environmentVariableItem)
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEnvironmentVariableSTATUS() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -2202,9 +2202,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 	// InstanceView
 	if source.InstanceView != nil {
 		var instanceView ContainerProperties_STATUS_InstanceView
-		err := instanceView.AssignPropertiesFromContainerPropertiesSTATUSInstanceView(source.InstanceView)
+		err := instanceView.AssignProperties_From_ContainerProperties_STATUS_InstanceView(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerPropertiesSTATUSInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProperties_STATUS_InstanceView() to populate field InstanceView")
 		}
 		container.InstanceView = &instanceView
 	} else {
@@ -2214,9 +2214,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 	// LivenessProbe
 	if source.LivenessProbe != nil {
 		var livenessProbe ContainerProbe_STATUS
-		err := livenessProbe.AssignPropertiesFromContainerProbeSTATUS(source.LivenessProbe)
+		err := livenessProbe.AssignProperties_From_ContainerProbe_STATUS(source.LivenessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerProbeSTATUS() to populate field LivenessProbe")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe_STATUS() to populate field LivenessProbe")
 		}
 		container.LivenessProbe = &livenessProbe
 	} else {
@@ -2233,9 +2233,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port ContainerPort_STATUS
-			err := port.AssignPropertiesFromContainerPortSTATUS(&portItem)
+			err := port.AssignProperties_From_ContainerPort_STATUS(&portItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerPortSTATUS() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerPort_STATUS() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -2247,9 +2247,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 	// ReadinessProbe
 	if source.ReadinessProbe != nil {
 		var readinessProbe ContainerProbe_STATUS
-		err := readinessProbe.AssignPropertiesFromContainerProbeSTATUS(source.ReadinessProbe)
+		err := readinessProbe.AssignProperties_From_ContainerProbe_STATUS(source.ReadinessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerProbeSTATUS() to populate field ReadinessProbe")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe_STATUS() to populate field ReadinessProbe")
 		}
 		container.ReadinessProbe = &readinessProbe
 	} else {
@@ -2259,9 +2259,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 	// Resources
 	if source.Resources != nil {
 		var resource ResourceRequirements_STATUS
-		err := resource.AssignPropertiesFromResourceRequirementsSTATUS(source.Resources)
+		err := resource.AssignProperties_From_ResourceRequirements_STATUS(source.Resources)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceRequirementsSTATUS() to populate field Resources")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequirements_STATUS() to populate field Resources")
 		}
 		container.Resources = &resource
 	} else {
@@ -2275,9 +2275,9 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
-			err := volumeMount.AssignPropertiesFromVolumeMountSTATUS(&volumeMountItem)
+			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolumeMountSTATUS() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount_STATUS() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -2290,8 +2290,8 @@ func (container *Container_STATUS) AssignPropertiesFromContainerSTATUS(source *v
 	return nil
 }
 
-// AssignPropertiesToContainerSTATUS populates the provided destination Container_STATUS from our Container_STATUS
-func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination *v20211001s.Container_STATUS) error {
+// AssignProperties_To_Container_STATUS populates the provided destination Container_STATUS from our Container_STATUS
+func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destination *v20211001s.Container_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2305,9 +2305,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable v20211001s.EnvironmentVariable_STATUS
-			err := environmentVariableItem.AssignPropertiesToEnvironmentVariableSTATUS(&environmentVariable)
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable_STATUS(&environmentVariable)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEnvironmentVariableSTATUS() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -2322,9 +2322,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 	// InstanceView
 	if container.InstanceView != nil {
 		var instanceView v20211001s.ContainerProperties_STATUS_InstanceView
-		err := container.InstanceView.AssignPropertiesToContainerPropertiesSTATUSInstanceView(&instanceView)
+		err := container.InstanceView.AssignProperties_To_ContainerProperties_STATUS_InstanceView(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerPropertiesSTATUSInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProperties_STATUS_InstanceView() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -2334,9 +2334,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 	// LivenessProbe
 	if container.LivenessProbe != nil {
 		var livenessProbe v20211001s.ContainerProbe_STATUS
-		err := container.LivenessProbe.AssignPropertiesToContainerProbeSTATUS(&livenessProbe)
+		err := container.LivenessProbe.AssignProperties_To_ContainerProbe_STATUS(&livenessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerProbeSTATUS() to populate field LivenessProbe")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe_STATUS() to populate field LivenessProbe")
 		}
 		destination.LivenessProbe = &livenessProbe
 	} else {
@@ -2353,9 +2353,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port v20211001s.ContainerPort_STATUS
-			err := portItem.AssignPropertiesToContainerPortSTATUS(&port)
+			err := portItem.AssignProperties_To_ContainerPort_STATUS(&port)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerPortSTATUS() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerPort_STATUS() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -2367,9 +2367,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 	// ReadinessProbe
 	if container.ReadinessProbe != nil {
 		var readinessProbe v20211001s.ContainerProbe_STATUS
-		err := container.ReadinessProbe.AssignPropertiesToContainerProbeSTATUS(&readinessProbe)
+		err := container.ReadinessProbe.AssignProperties_To_ContainerProbe_STATUS(&readinessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerProbeSTATUS() to populate field ReadinessProbe")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe_STATUS() to populate field ReadinessProbe")
 		}
 		destination.ReadinessProbe = &readinessProbe
 	} else {
@@ -2379,9 +2379,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 	// Resources
 	if container.Resources != nil {
 		var resource v20211001s.ResourceRequirements_STATUS
-		err := container.Resources.AssignPropertiesToResourceRequirementsSTATUS(&resource)
+		err := container.Resources.AssignProperties_To_ResourceRequirements_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceRequirementsSTATUS() to populate field Resources")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequirements_STATUS() to populate field Resources")
 		}
 		destination.Resources = &resource
 	} else {
@@ -2395,9 +2395,9 @@ func (container *Container_STATUS) AssignPropertiesToContainerSTATUS(destination
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount v20211001s.VolumeMount_STATUS
-			err := volumeMountItem.AssignPropertiesToVolumeMountSTATUS(&volumeMount)
+			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolumeMountSTATUS() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount_STATUS() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -2459,8 +2459,8 @@ func (view *ContainerGroup_STATUS_Properties_InstanceView) PopulateFromARM(owner
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupSTATUSPropertiesInstanceView populates our ContainerGroup_STATUS_Properties_InstanceView from the provided source ContainerGroup_STATUS_Properties_InstanceView
-func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesFromContainerGroupSTATUSPropertiesInstanceView(source *v20211001s.ContainerGroup_STATUS_Properties_InstanceView) error {
+// AssignProperties_From_ContainerGroup_STATUS_Properties_InstanceView populates our ContainerGroup_STATUS_Properties_InstanceView from the provided source ContainerGroup_STATUS_Properties_InstanceView
+func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignProperties_From_ContainerGroup_STATUS_Properties_InstanceView(source *v20211001s.ContainerGroup_STATUS_Properties_InstanceView) error {
 
 	// Events
 	if source.Events != nil {
@@ -2469,9 +2469,9 @@ func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesFromC
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event Event_STATUS
-			err := event.AssignPropertiesFromEventSTATUS(&eventItem)
+			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_From_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -2487,8 +2487,8 @@ func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesFromC
 	return nil
 }
 
-// AssignPropertiesToContainerGroupSTATUSPropertiesInstanceView populates the provided destination ContainerGroup_STATUS_Properties_InstanceView from our ContainerGroup_STATUS_Properties_InstanceView
-func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesToContainerGroupSTATUSPropertiesInstanceView(destination *v20211001s.ContainerGroup_STATUS_Properties_InstanceView) error {
+// AssignProperties_To_ContainerGroup_STATUS_Properties_InstanceView populates the provided destination ContainerGroup_STATUS_Properties_InstanceView from our ContainerGroup_STATUS_Properties_InstanceView
+func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignProperties_To_ContainerGroup_STATUS_Properties_InstanceView(destination *v20211001s.ContainerGroup_STATUS_Properties_InstanceView) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2499,9 +2499,9 @@ func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesToCon
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event v20211001s.Event_STATUS
-			err := eventItem.AssignPropertiesToEventSTATUS(&event)
+			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_To_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -2523,6 +2523,21 @@ func (view *ContainerGroup_STATUS_Properties_InstanceView) AssignPropertiesToCon
 	// No error
 	return nil
 }
+
+type ContainerGroup_STATUS_Properties_OsType string
+
+const (
+	ContainerGroup_STATUS_Properties_OsType_Linux   = ContainerGroup_STATUS_Properties_OsType("Linux")
+	ContainerGroup_STATUS_Properties_OsType_Windows = ContainerGroup_STATUS_Properties_OsType("Windows")
+)
+
+type ContainerGroup_STATUS_Properties_RestartPolicy string
+
+const (
+	ContainerGroup_STATUS_Properties_RestartPolicy_Always    = ContainerGroup_STATUS_Properties_RestartPolicy("Always")
+	ContainerGroup_STATUS_Properties_RestartPolicy_Never     = ContainerGroup_STATUS_Properties_RestartPolicy("Never")
+	ContainerGroup_STATUS_Properties_RestartPolicy_OnFailure = ContainerGroup_STATUS_Properties_RestartPolicy("OnFailure")
+)
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupDiagnostics
 type ContainerGroupDiagnostics struct {
@@ -2578,15 +2593,15 @@ func (diagnostics *ContainerGroupDiagnostics) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupDiagnostics populates our ContainerGroupDiagnostics from the provided source ContainerGroupDiagnostics
-func (diagnostics *ContainerGroupDiagnostics) AssignPropertiesFromContainerGroupDiagnostics(source *v20211001s.ContainerGroupDiagnostics) error {
+// AssignProperties_From_ContainerGroupDiagnostics populates our ContainerGroupDiagnostics from the provided source ContainerGroupDiagnostics
+func (diagnostics *ContainerGroupDiagnostics) AssignProperties_From_ContainerGroupDiagnostics(source *v20211001s.ContainerGroupDiagnostics) error {
 
 	// LogAnalytics
 	if source.LogAnalytics != nil {
 		var logAnalytic LogAnalytics
-		err := logAnalytic.AssignPropertiesFromLogAnalytics(source.LogAnalytics)
+		err := logAnalytic.AssignProperties_From_LogAnalytics(source.LogAnalytics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLogAnalytics() to populate field LogAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_From_LogAnalytics() to populate field LogAnalytics")
 		}
 		diagnostics.LogAnalytics = &logAnalytic
 	} else {
@@ -2597,17 +2612,17 @@ func (diagnostics *ContainerGroupDiagnostics) AssignPropertiesFromContainerGroup
 	return nil
 }
 
-// AssignPropertiesToContainerGroupDiagnostics populates the provided destination ContainerGroupDiagnostics from our ContainerGroupDiagnostics
-func (diagnostics *ContainerGroupDiagnostics) AssignPropertiesToContainerGroupDiagnostics(destination *v20211001s.ContainerGroupDiagnostics) error {
+// AssignProperties_To_ContainerGroupDiagnostics populates the provided destination ContainerGroupDiagnostics from our ContainerGroupDiagnostics
+func (diagnostics *ContainerGroupDiagnostics) AssignProperties_To_ContainerGroupDiagnostics(destination *v20211001s.ContainerGroupDiagnostics) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// LogAnalytics
 	if diagnostics.LogAnalytics != nil {
 		var logAnalytic v20211001s.LogAnalytics
-		err := diagnostics.LogAnalytics.AssignPropertiesToLogAnalytics(&logAnalytic)
+		err := diagnostics.LogAnalytics.AssignProperties_To_LogAnalytics(&logAnalytic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLogAnalytics() to populate field LogAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_To_LogAnalytics() to populate field LogAnalytics")
 		}
 		destination.LogAnalytics = &logAnalytic
 	} else {
@@ -2659,15 +2674,15 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupDiagnosticsSTATUS populates our ContainerGroupDiagnostics_STATUS from the provided source ContainerGroupDiagnostics_STATUS
-func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignPropertiesFromContainerGroupDiagnosticsSTATUS(source *v20211001s.ContainerGroupDiagnostics_STATUS) error {
+// AssignProperties_From_ContainerGroupDiagnostics_STATUS populates our ContainerGroupDiagnostics_STATUS from the provided source ContainerGroupDiagnostics_STATUS
+func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignProperties_From_ContainerGroupDiagnostics_STATUS(source *v20211001s.ContainerGroupDiagnostics_STATUS) error {
 
 	// LogAnalytics
 	if source.LogAnalytics != nil {
 		var logAnalytic LogAnalytics_STATUS
-		err := logAnalytic.AssignPropertiesFromLogAnalyticsSTATUS(source.LogAnalytics)
+		err := logAnalytic.AssignProperties_From_LogAnalytics_STATUS(source.LogAnalytics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLogAnalyticsSTATUS() to populate field LogAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_From_LogAnalytics_STATUS() to populate field LogAnalytics")
 		}
 		diagnostics.LogAnalytics = &logAnalytic
 	} else {
@@ -2678,17 +2693,17 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignPropertiesFromContain
 	return nil
 }
 
-// AssignPropertiesToContainerGroupDiagnosticsSTATUS populates the provided destination ContainerGroupDiagnostics_STATUS from our ContainerGroupDiagnostics_STATUS
-func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignPropertiesToContainerGroupDiagnosticsSTATUS(destination *v20211001s.ContainerGroupDiagnostics_STATUS) error {
+// AssignProperties_To_ContainerGroupDiagnostics_STATUS populates the provided destination ContainerGroupDiagnostics_STATUS from our ContainerGroupDiagnostics_STATUS
+func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignProperties_To_ContainerGroupDiagnostics_STATUS(destination *v20211001s.ContainerGroupDiagnostics_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// LogAnalytics
 	if diagnostics.LogAnalytics != nil {
 		var logAnalytic v20211001s.LogAnalytics_STATUS
-		err := diagnostics.LogAnalytics.AssignPropertiesToLogAnalyticsSTATUS(&logAnalytic)
+		err := diagnostics.LogAnalytics.AssignProperties_To_LogAnalytics_STATUS(&logAnalytic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLogAnalyticsSTATUS() to populate field LogAnalytics")
+			return errors.Wrap(err, "calling AssignProperties_To_LogAnalytics_STATUS() to populate field LogAnalytics")
 		}
 		destination.LogAnalytics = &logAnalytic
 	} else {
@@ -2711,7 +2726,7 @@ type ContainerGroupIdentity struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-	Type *ContainerGroupIdentityType `json:"type,omitempty"`
+	Type *ContainerGroupIdentity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerGroupIdentity{}
@@ -2753,12 +2768,12 @@ func (identity *ContainerGroupIdentity) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupIdentity populates our ContainerGroupIdentity from the provided source ContainerGroupIdentity
-func (identity *ContainerGroupIdentity) AssignPropertiesFromContainerGroupIdentity(source *v20211001s.ContainerGroupIdentity) error {
+// AssignProperties_From_ContainerGroupIdentity populates our ContainerGroupIdentity from the provided source ContainerGroupIdentity
+func (identity *ContainerGroupIdentity) AssignProperties_From_ContainerGroupIdentity(source *v20211001s.ContainerGroupIdentity) error {
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContainerGroupIdentityType(*source.Type)
+		typeVar := ContainerGroupIdentity_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2768,8 +2783,8 @@ func (identity *ContainerGroupIdentity) AssignPropertiesFromContainerGroupIdenti
 	return nil
 }
 
-// AssignPropertiesToContainerGroupIdentity populates the provided destination ContainerGroupIdentity from our ContainerGroupIdentity
-func (identity *ContainerGroupIdentity) AssignPropertiesToContainerGroupIdentity(destination *v20211001s.ContainerGroupIdentity) error {
+// AssignProperties_To_ContainerGroupIdentity populates the provided destination ContainerGroupIdentity from our ContainerGroupIdentity
+func (identity *ContainerGroupIdentity) AssignProperties_To_ContainerGroupIdentity(destination *v20211001s.ContainerGroupIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2804,7 +2819,7 @@ type ContainerGroupIdentity_STATUS struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-	Type *ContainerGroupIdentitySTATUSType `json:"type,omitempty"`
+	Type *ContainerGroupIdentity_STATUS_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -2861,8 +2876,8 @@ func (identity *ContainerGroupIdentity_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupIdentitySTATUS populates our ContainerGroupIdentity_STATUS from the provided source ContainerGroupIdentity_STATUS
-func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesFromContainerGroupIdentitySTATUS(source *v20211001s.ContainerGroupIdentity_STATUS) error {
+// AssignProperties_From_ContainerGroupIdentity_STATUS populates our ContainerGroupIdentity_STATUS from the provided source ContainerGroupIdentity_STATUS
+func (identity *ContainerGroupIdentity_STATUS) AssignProperties_From_ContainerGroupIdentity_STATUS(source *v20211001s.ContainerGroupIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2872,7 +2887,7 @@ func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesFromContainerGrou
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContainerGroupIdentitySTATUSType(*source.Type)
+		typeVar := ContainerGroupIdentity_STATUS_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2885,9 +2900,9 @@ func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesFromContainerGrou
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity ContainerGroupIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromContainerGroupIdentitySTATUSUserAssignedIdentities(&userAssignedIdentityValue)
+			err := userAssignedIdentity.AssignProperties_From_ContainerGroupIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupIdentitySTATUSUserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2900,8 +2915,8 @@ func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesFromContainerGrou
 	return nil
 }
 
-// AssignPropertiesToContainerGroupIdentitySTATUS populates the provided destination ContainerGroupIdentity_STATUS from our ContainerGroupIdentity_STATUS
-func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesToContainerGroupIdentitySTATUS(destination *v20211001s.ContainerGroupIdentity_STATUS) error {
+// AssignProperties_To_ContainerGroupIdentity_STATUS populates the provided destination ContainerGroupIdentity_STATUS from our ContainerGroupIdentity_STATUS
+func (identity *ContainerGroupIdentity_STATUS) AssignProperties_To_ContainerGroupIdentity_STATUS(destination *v20211001s.ContainerGroupIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2926,9 +2941,9 @@ func (identity *ContainerGroupIdentity_STATUS) AssignPropertiesToContainerGroupI
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity v20211001s.ContainerGroupIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToContainerGroupIdentitySTATUSUserAssignedIdentities(&userAssignedIdentity)
+			err := userAssignedIdentityValue.AssignProperties_To_ContainerGroupIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupIdentitySTATUSUserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3181,8 +3196,8 @@ func (containers *ContainerGroups_Spec_Properties_Containers) PopulateFromARM(ow
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupsSpecPropertiesContainers populates our ContainerGroups_Spec_Properties_Containers from the provided source ContainerGroups_Spec_Properties_Containers
-func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFromContainerGroupsSpecPropertiesContainers(source *v20211001s.ContainerGroups_Spec_Properties_Containers) error {
+// AssignProperties_From_ContainerGroups_Spec_Properties_Containers populates our ContainerGroups_Spec_Properties_Containers from the provided source ContainerGroups_Spec_Properties_Containers
+func (containers *ContainerGroups_Spec_Properties_Containers) AssignProperties_From_ContainerGroups_Spec_Properties_Containers(source *v20211001s.ContainerGroups_Spec_Properties_Containers) error {
 
 	// Command
 	containers.Command = genruntime.CloneSliceOfString(source.Command)
@@ -3194,9 +3209,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
-			err := environmentVariable.AssignPropertiesFromEnvironmentVariable(&environmentVariableItem)
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEnvironmentVariable() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -3211,9 +3226,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 	// LivenessProbe
 	if source.LivenessProbe != nil {
 		var livenessProbe ContainerProbe
-		err := livenessProbe.AssignPropertiesFromContainerProbe(source.LivenessProbe)
+		err := livenessProbe.AssignProperties_From_ContainerProbe(source.LivenessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerProbe() to populate field LivenessProbe")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field LivenessProbe")
 		}
 		containers.LivenessProbe = &livenessProbe
 	} else {
@@ -3230,9 +3245,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port ContainerPort
-			err := port.AssignPropertiesFromContainerPort(&portItem)
+			err := port.AssignProperties_From_ContainerPort(&portItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromContainerPort() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerPort() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -3244,9 +3259,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 	// ReadinessProbe
 	if source.ReadinessProbe != nil {
 		var readinessProbe ContainerProbe
-		err := readinessProbe.AssignPropertiesFromContainerProbe(source.ReadinessProbe)
+		err := readinessProbe.AssignProperties_From_ContainerProbe(source.ReadinessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerProbe() to populate field ReadinessProbe")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field ReadinessProbe")
 		}
 		containers.ReadinessProbe = &readinessProbe
 	} else {
@@ -3256,9 +3271,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 	// Resources
 	if source.Resources != nil {
 		var resource ResourceRequirements
-		err := resource.AssignPropertiesFromResourceRequirements(source.Resources)
+		err := resource.AssignProperties_From_ResourceRequirements(source.Resources)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceRequirements() to populate field Resources")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequirements() to populate field Resources")
 		}
 		containers.Resources = &resource
 	} else {
@@ -3272,9 +3287,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
-			err := volumeMount.AssignPropertiesFromVolumeMount(&volumeMountItem)
+			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolumeMount() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -3287,8 +3302,8 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesFr
 	return nil
 }
 
-// AssignPropertiesToContainerGroupsSpecPropertiesContainers populates the provided destination ContainerGroups_Spec_Properties_Containers from our ContainerGroups_Spec_Properties_Containers
-func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesToContainerGroupsSpecPropertiesContainers(destination *v20211001s.ContainerGroups_Spec_Properties_Containers) error {
+// AssignProperties_To_ContainerGroups_Spec_Properties_Containers populates the provided destination ContainerGroups_Spec_Properties_Containers from our ContainerGroups_Spec_Properties_Containers
+func (containers *ContainerGroups_Spec_Properties_Containers) AssignProperties_To_ContainerGroups_Spec_Properties_Containers(destination *v20211001s.ContainerGroups_Spec_Properties_Containers) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3302,9 +3317,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable v20211001s.EnvironmentVariable
-			err := environmentVariableItem.AssignPropertiesToEnvironmentVariable(&environmentVariable)
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEnvironmentVariable() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -3319,9 +3334,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 	// LivenessProbe
 	if containers.LivenessProbe != nil {
 		var livenessProbe v20211001s.ContainerProbe
-		err := containers.LivenessProbe.AssignPropertiesToContainerProbe(&livenessProbe)
+		err := containers.LivenessProbe.AssignProperties_To_ContainerProbe(&livenessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerProbe() to populate field LivenessProbe")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field LivenessProbe")
 		}
 		destination.LivenessProbe = &livenessProbe
 	} else {
@@ -3338,9 +3353,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port v20211001s.ContainerPort
-			err := portItem.AssignPropertiesToContainerPort(&port)
+			err := portItem.AssignProperties_To_ContainerPort(&port)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToContainerPort() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerPort() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -3352,9 +3367,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 	// ReadinessProbe
 	if containers.ReadinessProbe != nil {
 		var readinessProbe v20211001s.ContainerProbe
-		err := containers.ReadinessProbe.AssignPropertiesToContainerProbe(&readinessProbe)
+		err := containers.ReadinessProbe.AssignProperties_To_ContainerProbe(&readinessProbe)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerProbe() to populate field ReadinessProbe")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field ReadinessProbe")
 		}
 		destination.ReadinessProbe = &readinessProbe
 	} else {
@@ -3364,9 +3379,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 	// Resources
 	if containers.Resources != nil {
 		var resource v20211001s.ResourceRequirements
-		err := containers.Resources.AssignPropertiesToResourceRequirements(&resource)
+		err := containers.Resources.AssignProperties_To_ResourceRequirements(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceRequirements() to populate field Resources")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequirements() to populate field Resources")
 		}
 		destination.Resources = &resource
 	} else {
@@ -3380,9 +3395,9 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount v20211001s.VolumeMount
-			err := volumeMountItem.AssignPropertiesToVolumeMount(&volumeMount)
+			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolumeMount() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -3507,8 +3522,8 @@ func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) Pop
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials populates our ContainerGroups_Spec_Properties_ImageRegistryCredentials from the provided source ContainerGroups_Spec_Properties_ImageRegistryCredentials
-func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials(source *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
+// AssignProperties_From_ContainerGroups_Spec_Properties_ImageRegistryCredentials populates our ContainerGroups_Spec_Properties_ImageRegistryCredentials from the provided source ContainerGroups_Spec_Properties_ImageRegistryCredentials
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignProperties_From_ContainerGroups_Spec_Properties_ImageRegistryCredentials(source *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
 
 	// Identity
 	credentials.Identity = genruntime.ClonePointerToString(source.Identity)
@@ -3534,8 +3549,8 @@ func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) Ass
 	return nil
 }
 
-// AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials populates the provided destination ContainerGroups_Spec_Properties_ImageRegistryCredentials from our ContainerGroups_Spec_Properties_ImageRegistryCredentials
-func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials(destination *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
+// AssignProperties_To_ContainerGroups_Spec_Properties_ImageRegistryCredentials populates the provided destination ContainerGroups_Spec_Properties_ImageRegistryCredentials from our ContainerGroups_Spec_Properties_ImageRegistryCredentials
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignProperties_To_ContainerGroups_Spec_Properties_ImageRegistryCredentials(destination *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3699,8 +3714,8 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) PopulateFromAR
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupsSpecPropertiesInitContainers populates our ContainerGroups_Spec_Properties_InitContainers from the provided source ContainerGroups_Spec_Properties_InitContainers
-func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignPropertiesFromContainerGroupsSpecPropertiesInitContainers(source *v20211001s.ContainerGroups_Spec_Properties_InitContainers) error {
+// AssignProperties_From_ContainerGroups_Spec_Properties_InitContainers populates our ContainerGroups_Spec_Properties_InitContainers from the provided source ContainerGroups_Spec_Properties_InitContainers
+func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperties_From_ContainerGroups_Spec_Properties_InitContainers(source *v20211001s.ContainerGroups_Spec_Properties_InitContainers) error {
 
 	// Command
 	containers.Command = genruntime.CloneSliceOfString(source.Command)
@@ -3712,9 +3727,9 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable
-			err := environmentVariable.AssignPropertiesFromEnvironmentVariable(&environmentVariableItem)
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEnvironmentVariable() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -3736,9 +3751,9 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount
-			err := volumeMount.AssignPropertiesFromVolumeMount(&volumeMountItem)
+			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolumeMount() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -3751,8 +3766,8 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 	return nil
 }
 
-// AssignPropertiesToContainerGroupsSpecPropertiesInitContainers populates the provided destination ContainerGroups_Spec_Properties_InitContainers from our ContainerGroups_Spec_Properties_InitContainers
-func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignPropertiesToContainerGroupsSpecPropertiesInitContainers(destination *v20211001s.ContainerGroups_Spec_Properties_InitContainers) error {
+// AssignProperties_To_ContainerGroups_Spec_Properties_InitContainers populates the provided destination ContainerGroups_Spec_Properties_InitContainers from our ContainerGroups_Spec_Properties_InitContainers
+func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperties_To_ContainerGroups_Spec_Properties_InitContainers(destination *v20211001s.ContainerGroups_Spec_Properties_InitContainers) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3766,9 +3781,9 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable v20211001s.EnvironmentVariable
-			err := environmentVariableItem.AssignPropertiesToEnvironmentVariable(&environmentVariable)
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEnvironmentVariable() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -3790,9 +3805,9 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount v20211001s.VolumeMount
-			err := volumeMountItem.AssignPropertiesToVolumeMount(&volumeMount)
+			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolumeMount() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -3812,51 +3827,36 @@ func (containers *ContainerGroups_Spec_Properties_InitContainers) AssignProperti
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type ContainerGroups_Spec_Properties_OsType string
+
+const (
+	ContainerGroups_Spec_Properties_OsType_Linux   = ContainerGroups_Spec_Properties_OsType("Linux")
+	ContainerGroups_Spec_Properties_OsType_Windows = ContainerGroups_Spec_Properties_OsType("Windows")
+)
+
+// +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
+type ContainerGroups_Spec_Properties_RestartPolicy string
+
+const (
+	ContainerGroups_Spec_Properties_RestartPolicy_Always    = ContainerGroups_Spec_Properties_RestartPolicy("Always")
+	ContainerGroups_Spec_Properties_RestartPolicy_Never     = ContainerGroups_Spec_Properties_RestartPolicy("Never")
+	ContainerGroups_Spec_Properties_RestartPolicy_OnFailure = ContainerGroups_Spec_Properties_RestartPolicy("OnFailure")
+)
+
+// +kubebuilder:validation:Enum={"Dedicated","Standard"}
+type ContainerGroups_Spec_Properties_Sku string
+
+const (
+	ContainerGroups_Spec_Properties_Sku_Dedicated = ContainerGroups_Spec_Properties_Sku("Dedicated")
+	ContainerGroups_Spec_Properties_Sku_Standard  = ContainerGroups_Spec_Properties_Sku("Standard")
+)
+
 type ContainerGroupSku_STATUS string
 
 const (
 	ContainerGroupSku_STATUS_Dedicated = ContainerGroupSku_STATUS("Dedicated")
 	ContainerGroupSku_STATUS_Standard  = ContainerGroupSku_STATUS("Standard")
-)
-
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type ContainerGroupsSpecPropertiesOsType string
-
-const (
-	ContainerGroupsSpecPropertiesOsType_Linux   = ContainerGroupsSpecPropertiesOsType("Linux")
-	ContainerGroupsSpecPropertiesOsType_Windows = ContainerGroupsSpecPropertiesOsType("Windows")
-)
-
-// +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
-type ContainerGroupsSpecPropertiesRestartPolicy string
-
-const (
-	ContainerGroupsSpecPropertiesRestartPolicy_Always    = ContainerGroupsSpecPropertiesRestartPolicy("Always")
-	ContainerGroupsSpecPropertiesRestartPolicy_Never     = ContainerGroupsSpecPropertiesRestartPolicy("Never")
-	ContainerGroupsSpecPropertiesRestartPolicy_OnFailure = ContainerGroupsSpecPropertiesRestartPolicy("OnFailure")
-)
-
-// +kubebuilder:validation:Enum={"Dedicated","Standard"}
-type ContainerGroupsSpecPropertiesSku string
-
-const (
-	ContainerGroupsSpecPropertiesSku_Dedicated = ContainerGroupsSpecPropertiesSku("Dedicated")
-	ContainerGroupsSpecPropertiesSku_Standard  = ContainerGroupsSpecPropertiesSku("Standard")
-)
-
-type ContainerGroupSTATUSPropertiesOsType string
-
-const (
-	ContainerGroupSTATUSPropertiesOsType_Linux   = ContainerGroupSTATUSPropertiesOsType("Linux")
-	ContainerGroupSTATUSPropertiesOsType_Windows = ContainerGroupSTATUSPropertiesOsType("Windows")
-)
-
-type ContainerGroupSTATUSPropertiesRestartPolicy string
-
-const (
-	ContainerGroupSTATUSPropertiesRestartPolicy_Always    = ContainerGroupSTATUSPropertiesRestartPolicy("Always")
-	ContainerGroupSTATUSPropertiesRestartPolicy_Never     = ContainerGroupSTATUSPropertiesRestartPolicy("Never")
-	ContainerGroupSTATUSPropertiesRestartPolicy_OnFailure = ContainerGroupSTATUSPropertiesRestartPolicy("OnFailure")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
@@ -3920,8 +3920,8 @@ func (subnetId *ContainerGroupSubnetId) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupSubnetId populates our ContainerGroupSubnetId from the provided source ContainerGroupSubnetId
-func (subnetId *ContainerGroupSubnetId) AssignPropertiesFromContainerGroupSubnetId(source *v20211001s.ContainerGroupSubnetId) error {
+// AssignProperties_From_ContainerGroupSubnetId populates our ContainerGroupSubnetId from the provided source ContainerGroupSubnetId
+func (subnetId *ContainerGroupSubnetId) AssignProperties_From_ContainerGroupSubnetId(source *v20211001s.ContainerGroupSubnetId) error {
 
 	// Name
 	subnetId.Name = genruntime.ClonePointerToString(source.Name)
@@ -3938,8 +3938,8 @@ func (subnetId *ContainerGroupSubnetId) AssignPropertiesFromContainerGroupSubnet
 	return nil
 }
 
-// AssignPropertiesToContainerGroupSubnetId populates the provided destination ContainerGroupSubnetId from our ContainerGroupSubnetId
-func (subnetId *ContainerGroupSubnetId) AssignPropertiesToContainerGroupSubnetId(destination *v20211001s.ContainerGroupSubnetId) error {
+// AssignProperties_To_ContainerGroupSubnetId populates the provided destination ContainerGroupSubnetId from our ContainerGroupSubnetId
+func (subnetId *ContainerGroupSubnetId) AssignProperties_To_ContainerGroupSubnetId(destination *v20211001s.ContainerGroupSubnetId) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4003,8 +4003,8 @@ func (subnetId *ContainerGroupSubnetId_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupSubnetIdSTATUS populates our ContainerGroupSubnetId_STATUS from the provided source ContainerGroupSubnetId_STATUS
-func (subnetId *ContainerGroupSubnetId_STATUS) AssignPropertiesFromContainerGroupSubnetIdSTATUS(source *v20211001s.ContainerGroupSubnetId_STATUS) error {
+// AssignProperties_From_ContainerGroupSubnetId_STATUS populates our ContainerGroupSubnetId_STATUS from the provided source ContainerGroupSubnetId_STATUS
+func (subnetId *ContainerGroupSubnetId_STATUS) AssignProperties_From_ContainerGroupSubnetId_STATUS(source *v20211001s.ContainerGroupSubnetId_STATUS) error {
 
 	// Id
 	subnetId.Id = genruntime.ClonePointerToString(source.Id)
@@ -4016,8 +4016,8 @@ func (subnetId *ContainerGroupSubnetId_STATUS) AssignPropertiesFromContainerGrou
 	return nil
 }
 
-// AssignPropertiesToContainerGroupSubnetIdSTATUS populates the provided destination ContainerGroupSubnetId_STATUS from our ContainerGroupSubnetId_STATUS
-func (subnetId *ContainerGroupSubnetId_STATUS) AssignPropertiesToContainerGroupSubnetIdSTATUS(destination *v20211001s.ContainerGroupSubnetId_STATUS) error {
+// AssignProperties_To_ContainerGroupSubnetId_STATUS populates the provided destination ContainerGroupSubnetId_STATUS from our ContainerGroupSubnetId_STATUS
+func (subnetId *ContainerGroupSubnetId_STATUS) AssignProperties_To_ContainerGroupSubnetId_STATUS(destination *v20211001s.ContainerGroupSubnetId_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4112,8 +4112,8 @@ func (configuration *DnsConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromDnsConfiguration populates our DnsConfiguration from the provided source DnsConfiguration
-func (configuration *DnsConfiguration) AssignPropertiesFromDnsConfiguration(source *v20211001s.DnsConfiguration) error {
+// AssignProperties_From_DnsConfiguration populates our DnsConfiguration from the provided source DnsConfiguration
+func (configuration *DnsConfiguration) AssignProperties_From_DnsConfiguration(source *v20211001s.DnsConfiguration) error {
 
 	// NameServers
 	configuration.NameServers = genruntime.CloneSliceOfString(source.NameServers)
@@ -4128,8 +4128,8 @@ func (configuration *DnsConfiguration) AssignPropertiesFromDnsConfiguration(sour
 	return nil
 }
 
-// AssignPropertiesToDnsConfiguration populates the provided destination DnsConfiguration from our DnsConfiguration
-func (configuration *DnsConfiguration) AssignPropertiesToDnsConfiguration(destination *v20211001s.DnsConfiguration) error {
+// AssignProperties_To_DnsConfiguration populates the provided destination DnsConfiguration from our DnsConfiguration
+func (configuration *DnsConfiguration) AssignProperties_To_DnsConfiguration(destination *v20211001s.DnsConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4199,8 +4199,8 @@ func (configuration *DnsConfiguration_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromDnsConfigurationSTATUS populates our DnsConfiguration_STATUS from the provided source DnsConfiguration_STATUS
-func (configuration *DnsConfiguration_STATUS) AssignPropertiesFromDnsConfigurationSTATUS(source *v20211001s.DnsConfiguration_STATUS) error {
+// AssignProperties_From_DnsConfiguration_STATUS populates our DnsConfiguration_STATUS from the provided source DnsConfiguration_STATUS
+func (configuration *DnsConfiguration_STATUS) AssignProperties_From_DnsConfiguration_STATUS(source *v20211001s.DnsConfiguration_STATUS) error {
 
 	// NameServers
 	configuration.NameServers = genruntime.CloneSliceOfString(source.NameServers)
@@ -4215,8 +4215,8 @@ func (configuration *DnsConfiguration_STATUS) AssignPropertiesFromDnsConfigurati
 	return nil
 }
 
-// AssignPropertiesToDnsConfigurationSTATUS populates the provided destination DnsConfiguration_STATUS from our DnsConfiguration_STATUS
-func (configuration *DnsConfiguration_STATUS) AssignPropertiesToDnsConfigurationSTATUS(destination *v20211001s.DnsConfiguration_STATUS) error {
+// AssignProperties_To_DnsConfiguration_STATUS populates the provided destination DnsConfiguration_STATUS from our DnsConfiguration_STATUS
+func (configuration *DnsConfiguration_STATUS) AssignProperties_To_DnsConfiguration_STATUS(destination *v20211001s.DnsConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4318,8 +4318,8 @@ func (properties *EncryptionProperties) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromEncryptionProperties populates our EncryptionProperties from the provided source EncryptionProperties
-func (properties *EncryptionProperties) AssignPropertiesFromEncryptionProperties(source *v20211001s.EncryptionProperties) error {
+// AssignProperties_From_EncryptionProperties populates our EncryptionProperties from the provided source EncryptionProperties
+func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperties(source *v20211001s.EncryptionProperties) error {
 
 	// KeyName
 	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -4334,8 +4334,8 @@ func (properties *EncryptionProperties) AssignPropertiesFromEncryptionProperties
 	return nil
 }
 
-// AssignPropertiesToEncryptionProperties populates the provided destination EncryptionProperties from our EncryptionProperties
-func (properties *EncryptionProperties) AssignPropertiesToEncryptionProperties(destination *v20211001s.EncryptionProperties) error {
+// AssignProperties_To_EncryptionProperties populates the provided destination EncryptionProperties from our EncryptionProperties
+func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties(destination *v20211001s.EncryptionProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4406,8 +4406,8 @@ func (properties *EncryptionProperties_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromEncryptionPropertiesSTATUS populates our EncryptionProperties_STATUS from the provided source EncryptionProperties_STATUS
-func (properties *EncryptionProperties_STATUS) AssignPropertiesFromEncryptionPropertiesSTATUS(source *v20211001s.EncryptionProperties_STATUS) error {
+// AssignProperties_From_EncryptionProperties_STATUS populates our EncryptionProperties_STATUS from the provided source EncryptionProperties_STATUS
+func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionProperties_STATUS(source *v20211001s.EncryptionProperties_STATUS) error {
 
 	// KeyName
 	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -4422,8 +4422,8 @@ func (properties *EncryptionProperties_STATUS) AssignPropertiesFromEncryptionPro
 	return nil
 }
 
-// AssignPropertiesToEncryptionPropertiesSTATUS populates the provided destination EncryptionProperties_STATUS from our EncryptionProperties_STATUS
-func (properties *EncryptionProperties_STATUS) AssignPropertiesToEncryptionPropertiesSTATUS(destination *v20211001s.EncryptionProperties_STATUS) error {
+// AssignProperties_To_EncryptionProperties_STATUS populates the provided destination EncryptionProperties_STATUS from our EncryptionProperties_STATUS
+func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionProperties_STATUS(destination *v20211001s.EncryptionProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4503,8 +4503,8 @@ func (credential *ImageRegistryCredential_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromImageRegistryCredentialSTATUS populates our ImageRegistryCredential_STATUS from the provided source ImageRegistryCredential_STATUS
-func (credential *ImageRegistryCredential_STATUS) AssignPropertiesFromImageRegistryCredentialSTATUS(source *v20211001s.ImageRegistryCredential_STATUS) error {
+// AssignProperties_From_ImageRegistryCredential_STATUS populates our ImageRegistryCredential_STATUS from the provided source ImageRegistryCredential_STATUS
+func (credential *ImageRegistryCredential_STATUS) AssignProperties_From_ImageRegistryCredential_STATUS(source *v20211001s.ImageRegistryCredential_STATUS) error {
 
 	// Identity
 	credential.Identity = genruntime.ClonePointerToString(source.Identity)
@@ -4522,8 +4522,8 @@ func (credential *ImageRegistryCredential_STATUS) AssignPropertiesFromImageRegis
 	return nil
 }
 
-// AssignPropertiesToImageRegistryCredentialSTATUS populates the provided destination ImageRegistryCredential_STATUS from our ImageRegistryCredential_STATUS
-func (credential *ImageRegistryCredential_STATUS) AssignPropertiesToImageRegistryCredentialSTATUS(destination *v20211001s.ImageRegistryCredential_STATUS) error {
+// AssignProperties_To_ImageRegistryCredential_STATUS populates the provided destination ImageRegistryCredential_STATUS from our ImageRegistryCredential_STATUS
+func (credential *ImageRegistryCredential_STATUS) AssignProperties_To_ImageRegistryCredential_STATUS(destination *v20211001s.ImageRegistryCredential_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4651,8 +4651,8 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromInitContainerDefinitionSTATUS populates our InitContainerDefinition_STATUS from the provided source InitContainerDefinition_STATUS
-func (definition *InitContainerDefinition_STATUS) AssignPropertiesFromInitContainerDefinitionSTATUS(source *v20211001s.InitContainerDefinition_STATUS) error {
+// AssignProperties_From_InitContainerDefinition_STATUS populates our InitContainerDefinition_STATUS from the provided source InitContainerDefinition_STATUS
+func (definition *InitContainerDefinition_STATUS) AssignProperties_From_InitContainerDefinition_STATUS(source *v20211001s.InitContainerDefinition_STATUS) error {
 
 	// Command
 	definition.Command = genruntime.CloneSliceOfString(source.Command)
@@ -4664,9 +4664,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesFromInitContai
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable EnvironmentVariable_STATUS
-			err := environmentVariable.AssignPropertiesFromEnvironmentVariableSTATUS(&environmentVariableItem)
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable_STATUS(&environmentVariableItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEnvironmentVariableSTATUS() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -4681,9 +4681,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesFromInitContai
 	// InstanceView
 	if source.InstanceView != nil {
 		var instanceView InitContainerPropertiesDefinition_STATUS_InstanceView
-		err := instanceView.AssignPropertiesFromInitContainerPropertiesDefinitionSTATUSInstanceView(source.InstanceView)
+		err := instanceView.AssignProperties_From_InitContainerPropertiesDefinition_STATUS_InstanceView(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInitContainerPropertiesDefinitionSTATUSInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_From_InitContainerPropertiesDefinition_STATUS_InstanceView() to populate field InstanceView")
 		}
 		definition.InstanceView = &instanceView
 	} else {
@@ -4700,9 +4700,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesFromInitContai
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount VolumeMount_STATUS
-			err := volumeMount.AssignPropertiesFromVolumeMountSTATUS(&volumeMountItem)
+			err := volumeMount.AssignProperties_From_VolumeMount_STATUS(&volumeMountItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVolumeMountSTATUS() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount_STATUS() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -4715,8 +4715,8 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesFromInitContai
 	return nil
 }
 
-// AssignPropertiesToInitContainerDefinitionSTATUS populates the provided destination InitContainerDefinition_STATUS from our InitContainerDefinition_STATUS
-func (definition *InitContainerDefinition_STATUS) AssignPropertiesToInitContainerDefinitionSTATUS(destination *v20211001s.InitContainerDefinition_STATUS) error {
+// AssignProperties_To_InitContainerDefinition_STATUS populates the provided destination InitContainerDefinition_STATUS from our InitContainerDefinition_STATUS
+func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContainerDefinition_STATUS(destination *v20211001s.InitContainerDefinition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4730,9 +4730,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesToInitContaine
 			// Shadow the loop variable to avoid aliasing
 			environmentVariableItem := environmentVariableItem
 			var environmentVariable v20211001s.EnvironmentVariable_STATUS
-			err := environmentVariableItem.AssignPropertiesToEnvironmentVariableSTATUS(&environmentVariable)
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable_STATUS(&environmentVariable)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEnvironmentVariableSTATUS() to populate field EnvironmentVariables")
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
 			}
 			environmentVariableList[environmentVariableIndex] = environmentVariable
 		}
@@ -4747,9 +4747,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesToInitContaine
 	// InstanceView
 	if definition.InstanceView != nil {
 		var instanceView v20211001s.InitContainerPropertiesDefinition_STATUS_InstanceView
-		err := definition.InstanceView.AssignPropertiesToInitContainerPropertiesDefinitionSTATUSInstanceView(&instanceView)
+		err := definition.InstanceView.AssignProperties_To_InitContainerPropertiesDefinition_STATUS_InstanceView(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInitContainerPropertiesDefinitionSTATUSInstanceView() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_To_InitContainerPropertiesDefinition_STATUS_InstanceView() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -4766,9 +4766,9 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesToInitContaine
 			// Shadow the loop variable to avoid aliasing
 			volumeMountItem := volumeMountItem
 			var volumeMount v20211001s.VolumeMount_STATUS
-			err := volumeMountItem.AssignPropertiesToVolumeMountSTATUS(&volumeMount)
+			err := volumeMountItem.AssignProperties_To_VolumeMount_STATUS(&volumeMount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVolumeMountSTATUS() to populate field VolumeMounts")
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount_STATUS() to populate field VolumeMounts")
 			}
 			volumeMountList[volumeMountIndex] = volumeMount
 		}
@@ -4790,11 +4790,17 @@ func (definition *InitContainerDefinition_STATUS) AssignPropertiesToInitContaine
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress
 type IpAddress struct {
+	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
+	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
+	// value is the default value if selected and means the object's domain name label can be reused within the same tenant.
+	// The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
+	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
+	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
+	// tenant.
+	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope `json:"autoGeneratedDomainNameLabelScope,omitempty"`
+
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
-
-	// DnsNameLabelReusePolicy: The value representing the security enum.
-	DnsNameLabelReusePolicy *IpAddressDnsNameLabelReusePolicy `json:"dnsNameLabelReusePolicy,omitempty"`
 
 	// Ip: The IP exposed to the public internet.
 	Ip *string `json:"ip,omitempty"`
@@ -4805,7 +4811,7 @@ type IpAddress struct {
 
 	// +kubebuilder:validation:Required
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddressType `json:"type,omitempty"`
+	Type *IpAddress_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IpAddress{}
@@ -4817,16 +4823,16 @@ func (address *IpAddress) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &IpAddressARM{}
 
+	// Set property ‘AutoGeneratedDomainNameLabelScope’:
+	if address.AutoGeneratedDomainNameLabelScope != nil {
+		autoGeneratedDomainNameLabelScope := *address.AutoGeneratedDomainNameLabelScope
+		result.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+	}
+
 	// Set property ‘DnsNameLabel’:
 	if address.DnsNameLabel != nil {
 		dnsNameLabel := *address.DnsNameLabel
 		result.DnsNameLabel = &dnsNameLabel
-	}
-
-	// Set property ‘DnsNameLabelReusePolicy’:
-	if address.DnsNameLabelReusePolicy != nil {
-		dnsNameLabelReusePolicy := *address.DnsNameLabelReusePolicy
-		result.DnsNameLabelReusePolicy = &dnsNameLabelReusePolicy
 	}
 
 	// Set property ‘Ip’:
@@ -4864,16 +4870,16 @@ func (address *IpAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpAddressARM, got %T", armInput)
 	}
 
+	// Set property ‘AutoGeneratedDomainNameLabelScope’:
+	if typedInput.AutoGeneratedDomainNameLabelScope != nil {
+		autoGeneratedDomainNameLabelScope := *typedInput.AutoGeneratedDomainNameLabelScope
+		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+	}
+
 	// Set property ‘DnsNameLabel’:
 	if typedInput.DnsNameLabel != nil {
 		dnsNameLabel := *typedInput.DnsNameLabel
 		address.DnsNameLabel = &dnsNameLabel
-	}
-
-	// Set property ‘DnsNameLabelReusePolicy’:
-	if typedInput.DnsNameLabelReusePolicy != nil {
-		dnsNameLabelReusePolicy := *typedInput.DnsNameLabelReusePolicy
-		address.DnsNameLabelReusePolicy = &dnsNameLabelReusePolicy
 	}
 
 	// Set property ‘Ip’:
@@ -4902,19 +4908,19 @@ func (address *IpAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromIpAddress populates our IpAddress from the provided source IpAddress
-func (address *IpAddress) AssignPropertiesFromIpAddress(source *v20211001s.IpAddress) error {
+// AssignProperties_From_IpAddress populates our IpAddress from the provided source IpAddress
+func (address *IpAddress) AssignProperties_From_IpAddress(source *v20211001s.IpAddress) error {
+
+	// AutoGeneratedDomainNameLabelScope
+	if source.AutoGeneratedDomainNameLabelScope != nil {
+		autoGeneratedDomainNameLabelScope := IpAddress_AutoGeneratedDomainNameLabelScope(*source.AutoGeneratedDomainNameLabelScope)
+		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+	} else {
+		address.AutoGeneratedDomainNameLabelScope = nil
+	}
 
 	// DnsNameLabel
 	address.DnsNameLabel = genruntime.ClonePointerToString(source.DnsNameLabel)
-
-	// DnsNameLabelReusePolicy
-	if source.DnsNameLabelReusePolicy != nil {
-		dnsNameLabelReusePolicy := IpAddressDnsNameLabelReusePolicy(*source.DnsNameLabelReusePolicy)
-		address.DnsNameLabelReusePolicy = &dnsNameLabelReusePolicy
-	} else {
-		address.DnsNameLabelReusePolicy = nil
-	}
 
 	// Ip
 	address.Ip = genruntime.ClonePointerToString(source.Ip)
@@ -4926,9 +4932,9 @@ func (address *IpAddress) AssignPropertiesFromIpAddress(source *v20211001s.IpAdd
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port Port
-			err := port.AssignPropertiesFromPort(&portItem)
+			err := port.AssignProperties_From_Port(&portItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPort() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_From_Port() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -4939,7 +4945,7 @@ func (address *IpAddress) AssignPropertiesFromIpAddress(source *v20211001s.IpAdd
 
 	// Type
 	if source.Type != nil {
-		typeVar := IpAddressType(*source.Type)
+		typeVar := IpAddress_Type(*source.Type)
 		address.Type = &typeVar
 	} else {
 		address.Type = nil
@@ -4949,21 +4955,21 @@ func (address *IpAddress) AssignPropertiesFromIpAddress(source *v20211001s.IpAdd
 	return nil
 }
 
-// AssignPropertiesToIpAddress populates the provided destination IpAddress from our IpAddress
-func (address *IpAddress) AssignPropertiesToIpAddress(destination *v20211001s.IpAddress) error {
+// AssignProperties_To_IpAddress populates the provided destination IpAddress from our IpAddress
+func (address *IpAddress) AssignProperties_To_IpAddress(destination *v20211001s.IpAddress) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// AutoGeneratedDomainNameLabelScope
+	if address.AutoGeneratedDomainNameLabelScope != nil {
+		autoGeneratedDomainNameLabelScope := string(*address.AutoGeneratedDomainNameLabelScope)
+		destination.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+	} else {
+		destination.AutoGeneratedDomainNameLabelScope = nil
+	}
+
 	// DnsNameLabel
 	destination.DnsNameLabel = genruntime.ClonePointerToString(address.DnsNameLabel)
-
-	// DnsNameLabelReusePolicy
-	if address.DnsNameLabelReusePolicy != nil {
-		dnsNameLabelReusePolicy := string(*address.DnsNameLabelReusePolicy)
-		destination.DnsNameLabelReusePolicy = &dnsNameLabelReusePolicy
-	} else {
-		destination.DnsNameLabelReusePolicy = nil
-	}
 
 	// Ip
 	destination.Ip = genruntime.ClonePointerToString(address.Ip)
@@ -4975,9 +4981,9 @@ func (address *IpAddress) AssignPropertiesToIpAddress(destination *v20211001s.Ip
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port v20211001s.Port
-			err := portItem.AssignPropertiesToPort(&port)
+			err := portItem.AssignProperties_To_Port(&port)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPort() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_To_Port() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -5010,7 +5016,7 @@ type IpAddress_STATUS struct {
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
 
 	// DnsNameLabelReusePolicy: The value representing the security enum.
-	DnsNameLabelReusePolicy *IpAddressSTATUSDnsNameLabelReusePolicy `json:"dnsNameLabelReusePolicy,omitempty"`
+	DnsNameLabelReusePolicy *IpAddress_STATUS_DnsNameLabelReusePolicy `json:"dnsNameLabelReusePolicy,omitempty"`
 
 	// Fqdn: The FQDN for the IP.
 	Fqdn *string `json:"fqdn,omitempty"`
@@ -5022,7 +5028,7 @@ type IpAddress_STATUS struct {
 	Ports []Port_STATUS `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddressSTATUSType `json:"type,omitempty"`
+	Type *IpAddress_STATUS_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IpAddress_STATUS{}
@@ -5083,15 +5089,15 @@ func (address *IpAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIpAddressSTATUS populates our IpAddress_STATUS from the provided source IpAddress_STATUS
-func (address *IpAddress_STATUS) AssignPropertiesFromIpAddressSTATUS(source *v20211001s.IpAddress_STATUS) error {
+// AssignProperties_From_IpAddress_STATUS populates our IpAddress_STATUS from the provided source IpAddress_STATUS
+func (address *IpAddress_STATUS) AssignProperties_From_IpAddress_STATUS(source *v20211001s.IpAddress_STATUS) error {
 
 	// DnsNameLabel
 	address.DnsNameLabel = genruntime.ClonePointerToString(source.DnsNameLabel)
 
 	// DnsNameLabelReusePolicy
 	if source.DnsNameLabelReusePolicy != nil {
-		dnsNameLabelReusePolicy := IpAddressSTATUSDnsNameLabelReusePolicy(*source.DnsNameLabelReusePolicy)
+		dnsNameLabelReusePolicy := IpAddress_STATUS_DnsNameLabelReusePolicy(*source.DnsNameLabelReusePolicy)
 		address.DnsNameLabelReusePolicy = &dnsNameLabelReusePolicy
 	} else {
 		address.DnsNameLabelReusePolicy = nil
@@ -5110,9 +5116,9 @@ func (address *IpAddress_STATUS) AssignPropertiesFromIpAddressSTATUS(source *v20
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port Port_STATUS
-			err := port.AssignPropertiesFromPortSTATUS(&portItem)
+			err := port.AssignProperties_From_Port_STATUS(&portItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPortSTATUS() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_From_Port_STATUS() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -5123,7 +5129,7 @@ func (address *IpAddress_STATUS) AssignPropertiesFromIpAddressSTATUS(source *v20
 
 	// Type
 	if source.Type != nil {
-		typeVar := IpAddressSTATUSType(*source.Type)
+		typeVar := IpAddress_STATUS_Type(*source.Type)
 		address.Type = &typeVar
 	} else {
 		address.Type = nil
@@ -5133,8 +5139,8 @@ func (address *IpAddress_STATUS) AssignPropertiesFromIpAddressSTATUS(source *v20
 	return nil
 }
 
-// AssignPropertiesToIpAddressSTATUS populates the provided destination IpAddress_STATUS from our IpAddress_STATUS
-func (address *IpAddress_STATUS) AssignPropertiesToIpAddressSTATUS(destination *v20211001s.IpAddress_STATUS) error {
+// AssignProperties_To_IpAddress_STATUS populates the provided destination IpAddress_STATUS from our IpAddress_STATUS
+func (address *IpAddress_STATUS) AssignProperties_To_IpAddress_STATUS(destination *v20211001s.IpAddress_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5162,9 +5168,9 @@ func (address *IpAddress_STATUS) AssignPropertiesToIpAddressSTATUS(destination *
 			// Shadow the loop variable to avoid aliasing
 			portItem := portItem
 			var port v20211001s.Port_STATUS
-			err := portItem.AssignPropertiesToPortSTATUS(&port)
+			err := portItem.AssignProperties_To_Port_STATUS(&port)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPortSTATUS() to populate field Ports")
+				return errors.Wrap(err, "calling AssignProperties_To_Port_STATUS() to populate field Ports")
 			}
 			portList[portIndex] = port
 		}
@@ -5324,15 +5330,15 @@ func (volume *Volume) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	return nil
 }
 
-// AssignPropertiesFromVolume populates our Volume from the provided source Volume
-func (volume *Volume) AssignPropertiesFromVolume(source *v20211001s.Volume) error {
+// AssignProperties_From_Volume populates our Volume from the provided source Volume
+func (volume *Volume) AssignProperties_From_Volume(source *v20211001s.Volume) error {
 
 	// AzureFile
 	if source.AzureFile != nil {
 		var azureFile AzureFileVolume
-		err := azureFile.AssignPropertiesFromAzureFileVolume(source.AzureFile)
+		err := azureFile.AssignProperties_From_AzureFileVolume(source.AzureFile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFileVolume() to populate field AzureFile")
+			return errors.Wrap(err, "calling AssignProperties_From_AzureFileVolume() to populate field AzureFile")
 		}
 		volume.AzureFile = &azureFile
 	} else {
@@ -5355,9 +5361,9 @@ func (volume *Volume) AssignPropertiesFromVolume(source *v20211001s.Volume) erro
 	// GitRepo
 	if source.GitRepo != nil {
 		var gitRepo GitRepoVolume
-		err := gitRepo.AssignPropertiesFromGitRepoVolume(source.GitRepo)
+		err := gitRepo.AssignProperties_From_GitRepoVolume(source.GitRepo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGitRepoVolume() to populate field GitRepo")
+			return errors.Wrap(err, "calling AssignProperties_From_GitRepoVolume() to populate field GitRepo")
 		}
 		volume.GitRepo = &gitRepo
 	} else {
@@ -5374,17 +5380,17 @@ func (volume *Volume) AssignPropertiesFromVolume(source *v20211001s.Volume) erro
 	return nil
 }
 
-// AssignPropertiesToVolume populates the provided destination Volume from our Volume
-func (volume *Volume) AssignPropertiesToVolume(destination *v20211001s.Volume) error {
+// AssignProperties_To_Volume populates the provided destination Volume from our Volume
+func (volume *Volume) AssignProperties_To_Volume(destination *v20211001s.Volume) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFile
 	if volume.AzureFile != nil {
 		var azureFile v20211001s.AzureFileVolume
-		err := volume.AzureFile.AssignPropertiesToAzureFileVolume(&azureFile)
+		err := volume.AzureFile.AssignProperties_To_AzureFileVolume(&azureFile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFileVolume() to populate field AzureFile")
+			return errors.Wrap(err, "calling AssignProperties_To_AzureFileVolume() to populate field AzureFile")
 		}
 		destination.AzureFile = &azureFile
 	} else {
@@ -5407,9 +5413,9 @@ func (volume *Volume) AssignPropertiesToVolume(destination *v20211001s.Volume) e
 	// GitRepo
 	if volume.GitRepo != nil {
 		var gitRepo v20211001s.GitRepoVolume
-		err := volume.GitRepo.AssignPropertiesToGitRepoVolume(&gitRepo)
+		err := volume.GitRepo.AssignProperties_To_GitRepoVolume(&gitRepo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGitRepoVolume() to populate field GitRepo")
+			return errors.Wrap(err, "calling AssignProperties_To_GitRepoVolume() to populate field GitRepo")
 		}
 		destination.GitRepo = &gitRepo
 	} else {
@@ -5512,15 +5518,15 @@ func (volume *Volume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromVolumeSTATUS populates our Volume_STATUS from the provided source Volume_STATUS
-func (volume *Volume_STATUS) AssignPropertiesFromVolumeSTATUS(source *v20211001s.Volume_STATUS) error {
+// AssignProperties_From_Volume_STATUS populates our Volume_STATUS from the provided source Volume_STATUS
+func (volume *Volume_STATUS) AssignProperties_From_Volume_STATUS(source *v20211001s.Volume_STATUS) error {
 
 	// AzureFile
 	if source.AzureFile != nil {
 		var azureFile AzureFileVolume_STATUS
-		err := azureFile.AssignPropertiesFromAzureFileVolumeSTATUS(source.AzureFile)
+		err := azureFile.AssignProperties_From_AzureFileVolume_STATUS(source.AzureFile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFileVolumeSTATUS() to populate field AzureFile")
+			return errors.Wrap(err, "calling AssignProperties_From_AzureFileVolume_STATUS() to populate field AzureFile")
 		}
 		volume.AzureFile = &azureFile
 	} else {
@@ -5543,9 +5549,9 @@ func (volume *Volume_STATUS) AssignPropertiesFromVolumeSTATUS(source *v20211001s
 	// GitRepo
 	if source.GitRepo != nil {
 		var gitRepo GitRepoVolume_STATUS
-		err := gitRepo.AssignPropertiesFromGitRepoVolumeSTATUS(source.GitRepo)
+		err := gitRepo.AssignProperties_From_GitRepoVolume_STATUS(source.GitRepo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGitRepoVolumeSTATUS() to populate field GitRepo")
+			return errors.Wrap(err, "calling AssignProperties_From_GitRepoVolume_STATUS() to populate field GitRepo")
 		}
 		volume.GitRepo = &gitRepo
 	} else {
@@ -5562,17 +5568,17 @@ func (volume *Volume_STATUS) AssignPropertiesFromVolumeSTATUS(source *v20211001s
 	return nil
 }
 
-// AssignPropertiesToVolumeSTATUS populates the provided destination Volume_STATUS from our Volume_STATUS
-func (volume *Volume_STATUS) AssignPropertiesToVolumeSTATUS(destination *v20211001s.Volume_STATUS) error {
+// AssignProperties_To_Volume_STATUS populates the provided destination Volume_STATUS from our Volume_STATUS
+func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *v20211001s.Volume_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFile
 	if volume.AzureFile != nil {
 		var azureFile v20211001s.AzureFileVolume_STATUS
-		err := volume.AzureFile.AssignPropertiesToAzureFileVolumeSTATUS(&azureFile)
+		err := volume.AzureFile.AssignProperties_To_AzureFileVolume_STATUS(&azureFile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFileVolumeSTATUS() to populate field AzureFile")
+			return errors.Wrap(err, "calling AssignProperties_To_AzureFileVolume_STATUS() to populate field AzureFile")
 		}
 		destination.AzureFile = &azureFile
 	} else {
@@ -5595,9 +5601,9 @@ func (volume *Volume_STATUS) AssignPropertiesToVolumeSTATUS(destination *v202110
 	// GitRepo
 	if volume.GitRepo != nil {
 		var gitRepo v20211001s.GitRepoVolume_STATUS
-		err := volume.GitRepo.AssignPropertiesToGitRepoVolumeSTATUS(&gitRepo)
+		err := volume.GitRepo.AssignProperties_To_GitRepoVolume_STATUS(&gitRepo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGitRepoVolumeSTATUS() to populate field GitRepo")
+			return errors.Wrap(err, "calling AssignProperties_To_GitRepoVolume_STATUS() to populate field GitRepo")
 		}
 		destination.GitRepo = &gitRepo
 	} else {
@@ -5713,8 +5719,8 @@ func (volume *AzureFileVolume) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromAzureFileVolume populates our AzureFileVolume from the provided source AzureFileVolume
-func (volume *AzureFileVolume) AssignPropertiesFromAzureFileVolume(source *v20211001s.AzureFileVolume) error {
+// AssignProperties_From_AzureFileVolume populates our AzureFileVolume from the provided source AzureFileVolume
+func (volume *AzureFileVolume) AssignProperties_From_AzureFileVolume(source *v20211001s.AzureFileVolume) error {
 
 	// ReadOnly
 	if source.ReadOnly != nil {
@@ -5737,8 +5743,8 @@ func (volume *AzureFileVolume) AssignPropertiesFromAzureFileVolume(source *v2021
 	return nil
 }
 
-// AssignPropertiesToAzureFileVolume populates the provided destination AzureFileVolume from our AzureFileVolume
-func (volume *AzureFileVolume) AssignPropertiesToAzureFileVolume(destination *v20211001s.AzureFileVolume) error {
+// AssignProperties_To_AzureFileVolume populates the provided destination AzureFileVolume from our AzureFileVolume
+func (volume *AzureFileVolume) AssignProperties_To_AzureFileVolume(destination *v20211001s.AzureFileVolume) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5826,8 +5832,8 @@ func (volume *AzureFileVolume_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromAzureFileVolumeSTATUS populates our AzureFileVolume_STATUS from the provided source AzureFileVolume_STATUS
-func (volume *AzureFileVolume_STATUS) AssignPropertiesFromAzureFileVolumeSTATUS(source *v20211001s.AzureFileVolume_STATUS) error {
+// AssignProperties_From_AzureFileVolume_STATUS populates our AzureFileVolume_STATUS from the provided source AzureFileVolume_STATUS
+func (volume *AzureFileVolume_STATUS) AssignProperties_From_AzureFileVolume_STATUS(source *v20211001s.AzureFileVolume_STATUS) error {
 
 	// ReadOnly
 	if source.ReadOnly != nil {
@@ -5850,8 +5856,8 @@ func (volume *AzureFileVolume_STATUS) AssignPropertiesFromAzureFileVolumeSTATUS(
 	return nil
 }
 
-// AssignPropertiesToAzureFileVolumeSTATUS populates the provided destination AzureFileVolume_STATUS from our AzureFileVolume_STATUS
-func (volume *AzureFileVolume_STATUS) AssignPropertiesToAzureFileVolumeSTATUS(destination *v20211001s.AzureFileVolume_STATUS) error {
+// AssignProperties_To_AzureFileVolume_STATUS populates the provided destination AzureFileVolume_STATUS from our AzureFileVolume_STATUS
+func (volume *AzureFileVolume_STATUS) AssignProperties_To_AzureFileVolume_STATUS(destination *v20211001s.AzureFileVolume_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5921,8 +5927,8 @@ func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) Populate
 	return nil
 }
 
-// AssignPropertiesFromContainerGroupIdentitySTATUSUserAssignedIdentities populates our ContainerGroupIdentity_STATUS_UserAssignedIdentities from the provided source ContainerGroupIdentity_STATUS_UserAssignedIdentities
-func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) AssignPropertiesFromContainerGroupIdentitySTATUSUserAssignedIdentities(source *v20211001s.ContainerGroupIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_From_ContainerGroupIdentity_STATUS_UserAssignedIdentities populates our ContainerGroupIdentity_STATUS_UserAssignedIdentities from the provided source ContainerGroupIdentity_STATUS_UserAssignedIdentities
+func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) AssignProperties_From_ContainerGroupIdentity_STATUS_UserAssignedIdentities(source *v20211001s.ContainerGroupIdentity_STATUS_UserAssignedIdentities) error {
 
 	// ClientId
 	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -5934,8 +5940,8 @@ func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-// AssignPropertiesToContainerGroupIdentitySTATUSUserAssignedIdentities populates the provided destination ContainerGroupIdentity_STATUS_UserAssignedIdentities from our ContainerGroupIdentity_STATUS_UserAssignedIdentities
-func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) AssignPropertiesToContainerGroupIdentitySTATUSUserAssignedIdentities(destination *v20211001s.ContainerGroupIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_To_ContainerGroupIdentity_STATUS_UserAssignedIdentities populates the provided destination ContainerGroupIdentity_STATUS_UserAssignedIdentities from our ContainerGroupIdentity_STATUS_UserAssignedIdentities
+func (identities *ContainerGroupIdentity_STATUS_UserAssignedIdentities) AssignProperties_To_ContainerGroupIdentity_STATUS_UserAssignedIdentities(destination *v20211001s.ContainerGroupIdentity_STATUS_UserAssignedIdentities) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5963,7 +5969,7 @@ type ContainerPort struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *ContainerPortProtocol `json:"protocol,omitempty"`
+	Protocol *ContainerPort_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerPort{}
@@ -6017,15 +6023,15 @@ func (port *ContainerPort) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromContainerPort populates our ContainerPort from the provided source ContainerPort
-func (port *ContainerPort) AssignPropertiesFromContainerPort(source *v20211001s.ContainerPort) error {
+// AssignProperties_From_ContainerPort populates our ContainerPort from the provided source ContainerPort
+func (port *ContainerPort) AssignProperties_From_ContainerPort(source *v20211001s.ContainerPort) error {
 
 	// Port
 	port.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ContainerPortProtocol(*source.Protocol)
+		protocol := ContainerPort_Protocol(*source.Protocol)
 		port.Protocol = &protocol
 	} else {
 		port.Protocol = nil
@@ -6035,8 +6041,8 @@ func (port *ContainerPort) AssignPropertiesFromContainerPort(source *v20211001s.
 	return nil
 }
 
-// AssignPropertiesToContainerPort populates the provided destination ContainerPort from our ContainerPort
-func (port *ContainerPort) AssignPropertiesToContainerPort(destination *v20211001s.ContainerPort) error {
+// AssignProperties_To_ContainerPort populates the provided destination ContainerPort from our ContainerPort
+func (port *ContainerPort) AssignProperties_To_ContainerPort(destination *v20211001s.ContainerPort) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6067,7 +6073,7 @@ type ContainerPort_STATUS struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *ContainerPortSTATUSProtocol `json:"protocol,omitempty"`
+	Protocol *ContainerPort_STATUS_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerPort_STATUS{}
@@ -6100,15 +6106,15 @@ func (port *ContainerPort_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromContainerPortSTATUS populates our ContainerPort_STATUS from the provided source ContainerPort_STATUS
-func (port *ContainerPort_STATUS) AssignPropertiesFromContainerPortSTATUS(source *v20211001s.ContainerPort_STATUS) error {
+// AssignProperties_From_ContainerPort_STATUS populates our ContainerPort_STATUS from the provided source ContainerPort_STATUS
+func (port *ContainerPort_STATUS) AssignProperties_From_ContainerPort_STATUS(source *v20211001s.ContainerPort_STATUS) error {
 
 	// Port
 	port.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ContainerPortSTATUSProtocol(*source.Protocol)
+		protocol := ContainerPort_STATUS_Protocol(*source.Protocol)
 		port.Protocol = &protocol
 	} else {
 		port.Protocol = nil
@@ -6118,8 +6124,8 @@ func (port *ContainerPort_STATUS) AssignPropertiesFromContainerPortSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToContainerPortSTATUS populates the provided destination ContainerPort_STATUS from our ContainerPort_STATUS
-func (port *ContainerPort_STATUS) AssignPropertiesToContainerPortSTATUS(destination *v20211001s.ContainerPort_STATUS) error {
+// AssignProperties_To_ContainerPort_STATUS populates the provided destination ContainerPort_STATUS from our ContainerPort_STATUS
+func (port *ContainerPort_STATUS) AssignProperties_To_ContainerPort_STATUS(destination *v20211001s.ContainerPort_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6298,15 +6304,15 @@ func (probe *ContainerProbe) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromContainerProbe populates our ContainerProbe from the provided source ContainerProbe
-func (probe *ContainerProbe) AssignPropertiesFromContainerProbe(source *v20211001s.ContainerProbe) error {
+// AssignProperties_From_ContainerProbe populates our ContainerProbe from the provided source ContainerProbe
+func (probe *ContainerProbe) AssignProperties_From_ContainerProbe(source *v20211001s.ContainerProbe) error {
 
 	// Exec
 	if source.Exec != nil {
 		var exec ContainerExec
-		err := exec.AssignPropertiesFromContainerExec(source.Exec)
+		err := exec.AssignProperties_From_ContainerExec(source.Exec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerExec() to populate field Exec")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerExec() to populate field Exec")
 		}
 		probe.Exec = &exec
 	} else {
@@ -6319,9 +6325,9 @@ func (probe *ContainerProbe) AssignPropertiesFromContainerProbe(source *v2021100
 	// HttpGet
 	if source.HttpGet != nil {
 		var httpGet ContainerHttpGet
-		err := httpGet.AssignPropertiesFromContainerHttpGet(source.HttpGet)
+		err := httpGet.AssignProperties_From_ContainerHttpGet(source.HttpGet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerHttpGet() to populate field HttpGet")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerHttpGet() to populate field HttpGet")
 		}
 		probe.HttpGet = &httpGet
 	} else {
@@ -6344,17 +6350,17 @@ func (probe *ContainerProbe) AssignPropertiesFromContainerProbe(source *v2021100
 	return nil
 }
 
-// AssignPropertiesToContainerProbe populates the provided destination ContainerProbe from our ContainerProbe
-func (probe *ContainerProbe) AssignPropertiesToContainerProbe(destination *v20211001s.ContainerProbe) error {
+// AssignProperties_To_ContainerProbe populates the provided destination ContainerProbe from our ContainerProbe
+func (probe *ContainerProbe) AssignProperties_To_ContainerProbe(destination *v20211001s.ContainerProbe) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exec
 	if probe.Exec != nil {
 		var exec v20211001s.ContainerExec
-		err := probe.Exec.AssignPropertiesToContainerExec(&exec)
+		err := probe.Exec.AssignProperties_To_ContainerExec(&exec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerExec() to populate field Exec")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerExec() to populate field Exec")
 		}
 		destination.Exec = &exec
 	} else {
@@ -6367,9 +6373,9 @@ func (probe *ContainerProbe) AssignPropertiesToContainerProbe(destination *v2021
 	// HttpGet
 	if probe.HttpGet != nil {
 		var httpGet v20211001s.ContainerHttpGet
-		err := probe.HttpGet.AssignPropertiesToContainerHttpGet(&httpGet)
+		err := probe.HttpGet.AssignProperties_To_ContainerHttpGet(&httpGet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerHttpGet() to populate field HttpGet")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerHttpGet() to populate field HttpGet")
 		}
 		destination.HttpGet = &httpGet
 	} else {
@@ -6492,15 +6498,15 @@ func (probe *ContainerProbe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromContainerProbeSTATUS populates our ContainerProbe_STATUS from the provided source ContainerProbe_STATUS
-func (probe *ContainerProbe_STATUS) AssignPropertiesFromContainerProbeSTATUS(source *v20211001s.ContainerProbe_STATUS) error {
+// AssignProperties_From_ContainerProbe_STATUS populates our ContainerProbe_STATUS from the provided source ContainerProbe_STATUS
+func (probe *ContainerProbe_STATUS) AssignProperties_From_ContainerProbe_STATUS(source *v20211001s.ContainerProbe_STATUS) error {
 
 	// Exec
 	if source.Exec != nil {
 		var exec ContainerExec_STATUS
-		err := exec.AssignPropertiesFromContainerExecSTATUS(source.Exec)
+		err := exec.AssignProperties_From_ContainerExec_STATUS(source.Exec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerExecSTATUS() to populate field Exec")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerExec_STATUS() to populate field Exec")
 		}
 		probe.Exec = &exec
 	} else {
@@ -6513,9 +6519,9 @@ func (probe *ContainerProbe_STATUS) AssignPropertiesFromContainerProbeSTATUS(sou
 	// HttpGet
 	if source.HttpGet != nil {
 		var httpGet ContainerHttpGet_STATUS
-		err := httpGet.AssignPropertiesFromContainerHttpGetSTATUS(source.HttpGet)
+		err := httpGet.AssignProperties_From_ContainerHttpGet_STATUS(source.HttpGet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerHttpGetSTATUS() to populate field HttpGet")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerHttpGet_STATUS() to populate field HttpGet")
 		}
 		probe.HttpGet = &httpGet
 	} else {
@@ -6538,17 +6544,17 @@ func (probe *ContainerProbe_STATUS) AssignPropertiesFromContainerProbeSTATUS(sou
 	return nil
 }
 
-// AssignPropertiesToContainerProbeSTATUS populates the provided destination ContainerProbe_STATUS from our ContainerProbe_STATUS
-func (probe *ContainerProbe_STATUS) AssignPropertiesToContainerProbeSTATUS(destination *v20211001s.ContainerProbe_STATUS) error {
+// AssignProperties_To_ContainerProbe_STATUS populates the provided destination ContainerProbe_STATUS from our ContainerProbe_STATUS
+func (probe *ContainerProbe_STATUS) AssignProperties_To_ContainerProbe_STATUS(destination *v20211001s.ContainerProbe_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Exec
 	if probe.Exec != nil {
 		var exec v20211001s.ContainerExec_STATUS
-		err := probe.Exec.AssignPropertiesToContainerExecSTATUS(&exec)
+		err := probe.Exec.AssignProperties_To_ContainerExec_STATUS(&exec)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerExecSTATUS() to populate field Exec")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerExec_STATUS() to populate field Exec")
 		}
 		destination.Exec = &exec
 	} else {
@@ -6561,9 +6567,9 @@ func (probe *ContainerProbe_STATUS) AssignPropertiesToContainerProbeSTATUS(desti
 	// HttpGet
 	if probe.HttpGet != nil {
 		var httpGet v20211001s.ContainerHttpGet_STATUS
-		err := probe.HttpGet.AssignPropertiesToContainerHttpGetSTATUS(&httpGet)
+		err := probe.HttpGet.AssignProperties_To_ContainerHttpGet_STATUS(&httpGet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerHttpGetSTATUS() to populate field HttpGet")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerHttpGet_STATUS() to populate field HttpGet")
 		}
 		destination.HttpGet = &httpGet
 	} else {
@@ -6663,15 +6669,15 @@ func (view *ContainerProperties_STATUS_InstanceView) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromContainerPropertiesSTATUSInstanceView populates our ContainerProperties_STATUS_InstanceView from the provided source ContainerProperties_STATUS_InstanceView
-func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesFromContainerPropertiesSTATUSInstanceView(source *v20211001s.ContainerProperties_STATUS_InstanceView) error {
+// AssignProperties_From_ContainerProperties_STATUS_InstanceView populates our ContainerProperties_STATUS_InstanceView from the provided source ContainerProperties_STATUS_InstanceView
+func (view *ContainerProperties_STATUS_InstanceView) AssignProperties_From_ContainerProperties_STATUS_InstanceView(source *v20211001s.ContainerProperties_STATUS_InstanceView) error {
 
 	// CurrentState
 	if source.CurrentState != nil {
 		var currentState ContainerState_STATUS
-		err := currentState.AssignPropertiesFromContainerStateSTATUS(source.CurrentState)
+		err := currentState.AssignProperties_From_ContainerState_STATUS(source.CurrentState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerStateSTATUS() to populate field CurrentState")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerState_STATUS() to populate field CurrentState")
 		}
 		view.CurrentState = &currentState
 	} else {
@@ -6685,9 +6691,9 @@ func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesFromContain
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event Event_STATUS
-			err := event.AssignPropertiesFromEventSTATUS(&eventItem)
+			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_From_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -6699,9 +6705,9 @@ func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesFromContain
 	// PreviousState
 	if source.PreviousState != nil {
 		var previousState ContainerState_STATUS
-		err := previousState.AssignPropertiesFromContainerStateSTATUS(source.PreviousState)
+		err := previousState.AssignProperties_From_ContainerState_STATUS(source.PreviousState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerStateSTATUS() to populate field PreviousState")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerState_STATUS() to populate field PreviousState")
 		}
 		view.PreviousState = &previousState
 	} else {
@@ -6715,17 +6721,17 @@ func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesFromContain
 	return nil
 }
 
-// AssignPropertiesToContainerPropertiesSTATUSInstanceView populates the provided destination ContainerProperties_STATUS_InstanceView from our ContainerProperties_STATUS_InstanceView
-func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesToContainerPropertiesSTATUSInstanceView(destination *v20211001s.ContainerProperties_STATUS_InstanceView) error {
+// AssignProperties_To_ContainerProperties_STATUS_InstanceView populates the provided destination ContainerProperties_STATUS_InstanceView from our ContainerProperties_STATUS_InstanceView
+func (view *ContainerProperties_STATUS_InstanceView) AssignProperties_To_ContainerProperties_STATUS_InstanceView(destination *v20211001s.ContainerProperties_STATUS_InstanceView) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CurrentState
 	if view.CurrentState != nil {
 		var currentState v20211001s.ContainerState_STATUS
-		err := view.CurrentState.AssignPropertiesToContainerStateSTATUS(&currentState)
+		err := view.CurrentState.AssignProperties_To_ContainerState_STATUS(&currentState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerStateSTATUS() to populate field CurrentState")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerState_STATUS() to populate field CurrentState")
 		}
 		destination.CurrentState = &currentState
 	} else {
@@ -6739,9 +6745,9 @@ func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesToContainer
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event v20211001s.Event_STATUS
-			err := eventItem.AssignPropertiesToEventSTATUS(&event)
+			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_To_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -6753,9 +6759,9 @@ func (view *ContainerProperties_STATUS_InstanceView) AssignPropertiesToContainer
 	// PreviousState
 	if view.PreviousState != nil {
 		var previousState v20211001s.ContainerState_STATUS
-		err := view.PreviousState.AssignPropertiesToContainerStateSTATUS(&previousState)
+		err := view.PreviousState.AssignProperties_To_ContainerState_STATUS(&previousState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerStateSTATUS() to populate field PreviousState")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerState_STATUS() to populate field PreviousState")
 		}
 		destination.PreviousState = &previousState
 	} else {
@@ -6852,8 +6858,8 @@ func (variable *EnvironmentVariable) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromEnvironmentVariable populates our EnvironmentVariable from the provided source EnvironmentVariable
-func (variable *EnvironmentVariable) AssignPropertiesFromEnvironmentVariable(source *v20211001s.EnvironmentVariable) error {
+// AssignProperties_From_EnvironmentVariable populates our EnvironmentVariable from the provided source EnvironmentVariable
+func (variable *EnvironmentVariable) AssignProperties_From_EnvironmentVariable(source *v20211001s.EnvironmentVariable) error {
 
 	// Name
 	variable.Name = genruntime.ClonePointerToString(source.Name)
@@ -6868,8 +6874,8 @@ func (variable *EnvironmentVariable) AssignPropertiesFromEnvironmentVariable(sou
 	return nil
 }
 
-// AssignPropertiesToEnvironmentVariable populates the provided destination EnvironmentVariable from our EnvironmentVariable
-func (variable *EnvironmentVariable) AssignPropertiesToEnvironmentVariable(destination *v20211001s.EnvironmentVariable) error {
+// AssignProperties_To_EnvironmentVariable populates the provided destination EnvironmentVariable from our EnvironmentVariable
+func (variable *EnvironmentVariable) AssignProperties_To_EnvironmentVariable(destination *v20211001s.EnvironmentVariable) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6940,8 +6946,8 @@ func (variable *EnvironmentVariable_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromEnvironmentVariableSTATUS populates our EnvironmentVariable_STATUS from the provided source EnvironmentVariable_STATUS
-func (variable *EnvironmentVariable_STATUS) AssignPropertiesFromEnvironmentVariableSTATUS(source *v20211001s.EnvironmentVariable_STATUS) error {
+// AssignProperties_From_EnvironmentVariable_STATUS populates our EnvironmentVariable_STATUS from the provided source EnvironmentVariable_STATUS
+func (variable *EnvironmentVariable_STATUS) AssignProperties_From_EnvironmentVariable_STATUS(source *v20211001s.EnvironmentVariable_STATUS) error {
 
 	// Name
 	variable.Name = genruntime.ClonePointerToString(source.Name)
@@ -6956,8 +6962,8 @@ func (variable *EnvironmentVariable_STATUS) AssignPropertiesFromEnvironmentVaria
 	return nil
 }
 
-// AssignPropertiesToEnvironmentVariableSTATUS populates the provided destination EnvironmentVariable_STATUS from our EnvironmentVariable_STATUS
-func (variable *EnvironmentVariable_STATUS) AssignPropertiesToEnvironmentVariableSTATUS(destination *v20211001s.EnvironmentVariable_STATUS) error {
+// AssignProperties_To_EnvironmentVariable_STATUS populates the provided destination EnvironmentVariable_STATUS from our EnvironmentVariable_STATUS
+func (variable *EnvironmentVariable_STATUS) AssignProperties_To_EnvironmentVariable_STATUS(destination *v20211001s.EnvironmentVariable_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7055,8 +7061,8 @@ func (event *Event_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromEventSTATUS populates our Event_STATUS from the provided source Event_STATUS
-func (event *Event_STATUS) AssignPropertiesFromEventSTATUS(source *v20211001s.Event_STATUS) error {
+// AssignProperties_From_Event_STATUS populates our Event_STATUS from the provided source Event_STATUS
+func (event *Event_STATUS) AssignProperties_From_Event_STATUS(source *v20211001s.Event_STATUS) error {
 
 	// Count
 	event.Count = genruntime.ClonePointerToInt(source.Count)
@@ -7080,8 +7086,8 @@ func (event *Event_STATUS) AssignPropertiesFromEventSTATUS(source *v20211001s.Ev
 	return nil
 }
 
-// AssignPropertiesToEventSTATUS populates the provided destination Event_STATUS from our Event_STATUS
-func (event *Event_STATUS) AssignPropertiesToEventSTATUS(destination *v20211001s.Event_STATUS) error {
+// AssignProperties_To_Event_STATUS populates the provided destination Event_STATUS from our Event_STATUS
+func (event *Event_STATUS) AssignProperties_To_Event_STATUS(destination *v20211001s.Event_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7192,8 +7198,8 @@ func (volume *GitRepoVolume) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromGitRepoVolume populates our GitRepoVolume from the provided source GitRepoVolume
-func (volume *GitRepoVolume) AssignPropertiesFromGitRepoVolume(source *v20211001s.GitRepoVolume) error {
+// AssignProperties_From_GitRepoVolume populates our GitRepoVolume from the provided source GitRepoVolume
+func (volume *GitRepoVolume) AssignProperties_From_GitRepoVolume(source *v20211001s.GitRepoVolume) error {
 
 	// Directory
 	volume.Directory = genruntime.ClonePointerToString(source.Directory)
@@ -7208,8 +7214,8 @@ func (volume *GitRepoVolume) AssignPropertiesFromGitRepoVolume(source *v20211001
 	return nil
 }
 
-// AssignPropertiesToGitRepoVolume populates the provided destination GitRepoVolume from our GitRepoVolume
-func (volume *GitRepoVolume) AssignPropertiesToGitRepoVolume(destination *v20211001s.GitRepoVolume) error {
+// AssignProperties_To_GitRepoVolume populates the provided destination GitRepoVolume from our GitRepoVolume
+func (volume *GitRepoVolume) AssignProperties_To_GitRepoVolume(destination *v20211001s.GitRepoVolume) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7282,8 +7288,8 @@ func (volume *GitRepoVolume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromGitRepoVolumeSTATUS populates our GitRepoVolume_STATUS from the provided source GitRepoVolume_STATUS
-func (volume *GitRepoVolume_STATUS) AssignPropertiesFromGitRepoVolumeSTATUS(source *v20211001s.GitRepoVolume_STATUS) error {
+// AssignProperties_From_GitRepoVolume_STATUS populates our GitRepoVolume_STATUS from the provided source GitRepoVolume_STATUS
+func (volume *GitRepoVolume_STATUS) AssignProperties_From_GitRepoVolume_STATUS(source *v20211001s.GitRepoVolume_STATUS) error {
 
 	// Directory
 	volume.Directory = genruntime.ClonePointerToString(source.Directory)
@@ -7298,8 +7304,8 @@ func (volume *GitRepoVolume_STATUS) AssignPropertiesFromGitRepoVolumeSTATUS(sour
 	return nil
 }
 
-// AssignPropertiesToGitRepoVolumeSTATUS populates the provided destination GitRepoVolume_STATUS from our GitRepoVolume_STATUS
-func (volume *GitRepoVolume_STATUS) AssignPropertiesToGitRepoVolumeSTATUS(destination *v20211001s.GitRepoVolume_STATUS) error {
+// AssignProperties_To_GitRepoVolume_STATUS populates the provided destination GitRepoVolume_STATUS from our GitRepoVolume_STATUS
+func (volume *GitRepoVolume_STATUS) AssignProperties_To_GitRepoVolume_STATUS(destination *v20211001s.GitRepoVolume_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7393,15 +7399,15 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) PopulateFromA
 	return nil
 }
 
-// AssignPropertiesFromInitContainerPropertiesDefinitionSTATUSInstanceView populates our InitContainerPropertiesDefinition_STATUS_InstanceView from the provided source InitContainerPropertiesDefinition_STATUS_InstanceView
-func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropertiesFromInitContainerPropertiesDefinitionSTATUSInstanceView(source *v20211001s.InitContainerPropertiesDefinition_STATUS_InstanceView) error {
+// AssignProperties_From_InitContainerPropertiesDefinition_STATUS_InstanceView populates our InitContainerPropertiesDefinition_STATUS_InstanceView from the provided source InitContainerPropertiesDefinition_STATUS_InstanceView
+func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignProperties_From_InitContainerPropertiesDefinition_STATUS_InstanceView(source *v20211001s.InitContainerPropertiesDefinition_STATUS_InstanceView) error {
 
 	// CurrentState
 	if source.CurrentState != nil {
 		var currentState ContainerState_STATUS
-		err := currentState.AssignPropertiesFromContainerStateSTATUS(source.CurrentState)
+		err := currentState.AssignProperties_From_ContainerState_STATUS(source.CurrentState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerStateSTATUS() to populate field CurrentState")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerState_STATUS() to populate field CurrentState")
 		}
 		view.CurrentState = &currentState
 	} else {
@@ -7415,9 +7421,9 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event Event_STATUS
-			err := event.AssignPropertiesFromEventSTATUS(&eventItem)
+			err := event.AssignProperties_From_Event_STATUS(&eventItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_From_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -7429,9 +7435,9 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 	// PreviousState
 	if source.PreviousState != nil {
 		var previousState ContainerState_STATUS
-		err := previousState.AssignPropertiesFromContainerStateSTATUS(source.PreviousState)
+		err := previousState.AssignProperties_From_ContainerState_STATUS(source.PreviousState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerStateSTATUS() to populate field PreviousState")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerState_STATUS() to populate field PreviousState")
 		}
 		view.PreviousState = &previousState
 	} else {
@@ -7445,17 +7451,17 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 	return nil
 }
 
-// AssignPropertiesToInitContainerPropertiesDefinitionSTATUSInstanceView populates the provided destination InitContainerPropertiesDefinition_STATUS_InstanceView from our InitContainerPropertiesDefinition_STATUS_InstanceView
-func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropertiesToInitContainerPropertiesDefinitionSTATUSInstanceView(destination *v20211001s.InitContainerPropertiesDefinition_STATUS_InstanceView) error {
+// AssignProperties_To_InitContainerPropertiesDefinition_STATUS_InstanceView populates the provided destination InitContainerPropertiesDefinition_STATUS_InstanceView from our InitContainerPropertiesDefinition_STATUS_InstanceView
+func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignProperties_To_InitContainerPropertiesDefinition_STATUS_InstanceView(destination *v20211001s.InitContainerPropertiesDefinition_STATUS_InstanceView) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CurrentState
 	if view.CurrentState != nil {
 		var currentState v20211001s.ContainerState_STATUS
-		err := view.CurrentState.AssignPropertiesToContainerStateSTATUS(&currentState)
+		err := view.CurrentState.AssignProperties_To_ContainerState_STATUS(&currentState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerStateSTATUS() to populate field CurrentState")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerState_STATUS() to populate field CurrentState")
 		}
 		destination.CurrentState = &currentState
 	} else {
@@ -7469,9 +7475,9 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 			// Shadow the loop variable to avoid aliasing
 			eventItem := eventItem
 			var event v20211001s.Event_STATUS
-			err := eventItem.AssignPropertiesToEventSTATUS(&event)
+			err := eventItem.AssignProperties_To_Event_STATUS(&event)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToEventSTATUS() to populate field Events")
+				return errors.Wrap(err, "calling AssignProperties_To_Event_STATUS() to populate field Events")
 			}
 			eventList[eventIndex] = event
 		}
@@ -7483,9 +7489,9 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 	// PreviousState
 	if view.PreviousState != nil {
 		var previousState v20211001s.ContainerState_STATUS
-		err := view.PreviousState.AssignPropertiesToContainerStateSTATUS(&previousState)
+		err := view.PreviousState.AssignProperties_To_ContainerState_STATUS(&previousState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerStateSTATUS() to populate field PreviousState")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerState_STATUS() to populate field PreviousState")
 		}
 		destination.PreviousState = &previousState
 	} else {
@@ -7507,45 +7513,45 @@ func (view *InitContainerPropertiesDefinition_STATUS_InstanceView) AssignPropert
 }
 
 // +kubebuilder:validation:Enum={"Noreuse","ResourceGroupReuse","SubscriptionReuse","TenantReuse","Unsecure"}
-type IpAddressDnsNameLabelReusePolicy string
+type IpAddress_AutoGeneratedDomainNameLabelScope string
 
 const (
-	IpAddressDnsNameLabelReusePolicy_Noreuse            = IpAddressDnsNameLabelReusePolicy("Noreuse")
-	IpAddressDnsNameLabelReusePolicy_ResourceGroupReuse = IpAddressDnsNameLabelReusePolicy("ResourceGroupReuse")
-	IpAddressDnsNameLabelReusePolicy_SubscriptionReuse  = IpAddressDnsNameLabelReusePolicy("SubscriptionReuse")
-	IpAddressDnsNameLabelReusePolicy_TenantReuse        = IpAddressDnsNameLabelReusePolicy("TenantReuse")
-	IpAddressDnsNameLabelReusePolicy_Unsecure           = IpAddressDnsNameLabelReusePolicy("Unsecure")
+	IpAddress_AutoGeneratedDomainNameLabelScope_Noreuse            = IpAddress_AutoGeneratedDomainNameLabelScope("Noreuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_ResourceGroupReuse = IpAddress_AutoGeneratedDomainNameLabelScope("ResourceGroupReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_SubscriptionReuse  = IpAddress_AutoGeneratedDomainNameLabelScope("SubscriptionReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_TenantReuse        = IpAddress_AutoGeneratedDomainNameLabelScope("TenantReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope("Unsecure")
 )
 
-type IpAddressSTATUSDnsNameLabelReusePolicy string
+type IpAddress_STATUS_DnsNameLabelReusePolicy string
 
 const (
-	IpAddressSTATUSDnsNameLabelReusePolicy_Noreuse            = IpAddressSTATUSDnsNameLabelReusePolicy("Noreuse")
-	IpAddressSTATUSDnsNameLabelReusePolicy_ResourceGroupReuse = IpAddressSTATUSDnsNameLabelReusePolicy("ResourceGroupReuse")
-	IpAddressSTATUSDnsNameLabelReusePolicy_SubscriptionReuse  = IpAddressSTATUSDnsNameLabelReusePolicy("SubscriptionReuse")
-	IpAddressSTATUSDnsNameLabelReusePolicy_TenantReuse        = IpAddressSTATUSDnsNameLabelReusePolicy("TenantReuse")
-	IpAddressSTATUSDnsNameLabelReusePolicy_Unsecure           = IpAddressSTATUSDnsNameLabelReusePolicy("Unsecure")
+	IpAddress_STATUS_DnsNameLabelReusePolicy_Noreuse            = IpAddress_STATUS_DnsNameLabelReusePolicy("Noreuse")
+	IpAddress_STATUS_DnsNameLabelReusePolicy_ResourceGroupReuse = IpAddress_STATUS_DnsNameLabelReusePolicy("ResourceGroupReuse")
+	IpAddress_STATUS_DnsNameLabelReusePolicy_SubscriptionReuse  = IpAddress_STATUS_DnsNameLabelReusePolicy("SubscriptionReuse")
+	IpAddress_STATUS_DnsNameLabelReusePolicy_TenantReuse        = IpAddress_STATUS_DnsNameLabelReusePolicy("TenantReuse")
+	IpAddress_STATUS_DnsNameLabelReusePolicy_Unsecure           = IpAddress_STATUS_DnsNameLabelReusePolicy("Unsecure")
 )
 
-type IpAddressSTATUSType string
+type IpAddress_STATUS_Type string
 
 const (
-	IpAddressSTATUSType_Private = IpAddressSTATUSType("Private")
-	IpAddressSTATUSType_Public  = IpAddressSTATUSType("Public")
+	IpAddress_STATUS_Type_Private = IpAddress_STATUS_Type("Private")
+	IpAddress_STATUS_Type_Public  = IpAddress_STATUS_Type("Public")
 )
 
 // +kubebuilder:validation:Enum={"Private","Public"}
-type IpAddressType string
+type IpAddress_Type string
 
 const (
-	IpAddressType_Private = IpAddressType("Private")
-	IpAddressType_Public  = IpAddressType("Public")
+	IpAddress_Type_Private = IpAddress_Type("Private")
+	IpAddress_Type_Public  = IpAddress_Type("Public")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/LogAnalytics
 type LogAnalytics struct {
 	// LogType: The log type to be used.
-	LogType *LogAnalyticsLogType `json:"logType,omitempty"`
+	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -7653,12 +7659,12 @@ func (analytics *LogAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromLogAnalytics populates our LogAnalytics from the provided source LogAnalytics
-func (analytics *LogAnalytics) AssignPropertiesFromLogAnalytics(source *v20211001s.LogAnalytics) error {
+// AssignProperties_From_LogAnalytics populates our LogAnalytics from the provided source LogAnalytics
+func (analytics *LogAnalytics) AssignProperties_From_LogAnalytics(source *v20211001s.LogAnalytics) error {
 
 	// LogType
 	if source.LogType != nil {
-		logType := LogAnalyticsLogType(*source.LogType)
+		logType := LogAnalytics_LogType(*source.LogType)
 		analytics.LogType = &logType
 	} else {
 		analytics.LogType = nil
@@ -7685,8 +7691,8 @@ func (analytics *LogAnalytics) AssignPropertiesFromLogAnalytics(source *v2021100
 	return nil
 }
 
-// AssignPropertiesToLogAnalytics populates the provided destination LogAnalytics from our LogAnalytics
-func (analytics *LogAnalytics) AssignPropertiesToLogAnalytics(destination *v20211001s.LogAnalytics) error {
+// AssignProperties_To_LogAnalytics populates the provided destination LogAnalytics from our LogAnalytics
+func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20211001s.LogAnalytics) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7728,7 +7734,7 @@ func (analytics *LogAnalytics) AssignPropertiesToLogAnalytics(destination *v2021
 
 type LogAnalytics_STATUS struct {
 	// LogType: The log type to be used.
-	LogType *LogAnalyticsSTATUSLogType `json:"logType,omitempty"`
+	LogType *LogAnalytics_STATUS_LogType `json:"logType,omitempty"`
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -7793,12 +7799,12 @@ func (analytics *LogAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromLogAnalyticsSTATUS populates our LogAnalytics_STATUS from the provided source LogAnalytics_STATUS
-func (analytics *LogAnalytics_STATUS) AssignPropertiesFromLogAnalyticsSTATUS(source *v20211001s.LogAnalytics_STATUS) error {
+// AssignProperties_From_LogAnalytics_STATUS populates our LogAnalytics_STATUS from the provided source LogAnalytics_STATUS
+func (analytics *LogAnalytics_STATUS) AssignProperties_From_LogAnalytics_STATUS(source *v20211001s.LogAnalytics_STATUS) error {
 
 	// LogType
 	if source.LogType != nil {
-		logType := LogAnalyticsSTATUSLogType(*source.LogType)
+		logType := LogAnalytics_STATUS_LogType(*source.LogType)
 		analytics.LogType = &logType
 	} else {
 		analytics.LogType = nil
@@ -7820,8 +7826,8 @@ func (analytics *LogAnalytics_STATUS) AssignPropertiesFromLogAnalyticsSTATUS(sou
 	return nil
 }
 
-// AssignPropertiesToLogAnalyticsSTATUS populates the provided destination LogAnalytics_STATUS from our LogAnalytics_STATUS
-func (analytics *LogAnalytics_STATUS) AssignPropertiesToLogAnalyticsSTATUS(destination *v20211001s.LogAnalytics_STATUS) error {
+// AssignProperties_To_LogAnalytics_STATUS populates the provided destination LogAnalytics_STATUS from our LogAnalytics_STATUS
+func (analytics *LogAnalytics_STATUS) AssignProperties_To_LogAnalytics_STATUS(destination *v20211001s.LogAnalytics_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7863,7 +7869,7 @@ type Port struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *PortProtocol `json:"protocol,omitempty"`
+	Protocol *Port_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Port{}
@@ -7917,15 +7923,15 @@ func (port *Port) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armI
 	return nil
 }
 
-// AssignPropertiesFromPort populates our Port from the provided source Port
-func (port *Port) AssignPropertiesFromPort(source *v20211001s.Port) error {
+// AssignProperties_From_Port populates our Port from the provided source Port
+func (port *Port) AssignProperties_From_Port(source *v20211001s.Port) error {
 
 	// Port
 	port.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := PortProtocol(*source.Protocol)
+		protocol := Port_Protocol(*source.Protocol)
 		port.Protocol = &protocol
 	} else {
 		port.Protocol = nil
@@ -7935,8 +7941,8 @@ func (port *Port) AssignPropertiesFromPort(source *v20211001s.Port) error {
 	return nil
 }
 
-// AssignPropertiesToPort populates the provided destination Port from our Port
-func (port *Port) AssignPropertiesToPort(destination *v20211001s.Port) error {
+// AssignProperties_To_Port populates the provided destination Port from our Port
+func (port *Port) AssignProperties_To_Port(destination *v20211001s.Port) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7967,7 +7973,7 @@ type Port_STATUS struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *PortSTATUSProtocol `json:"protocol,omitempty"`
+	Protocol *Port_STATUS_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Port_STATUS{}
@@ -8000,15 +8006,15 @@ func (port *Port_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignPropertiesFromPortSTATUS populates our Port_STATUS from the provided source Port_STATUS
-func (port *Port_STATUS) AssignPropertiesFromPortSTATUS(source *v20211001s.Port_STATUS) error {
+// AssignProperties_From_Port_STATUS populates our Port_STATUS from the provided source Port_STATUS
+func (port *Port_STATUS) AssignProperties_From_Port_STATUS(source *v20211001s.Port_STATUS) error {
 
 	// Port
 	port.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := PortSTATUSProtocol(*source.Protocol)
+		protocol := Port_STATUS_Protocol(*source.Protocol)
 		port.Protocol = &protocol
 	} else {
 		port.Protocol = nil
@@ -8018,8 +8024,8 @@ func (port *Port_STATUS) AssignPropertiesFromPortSTATUS(source *v20211001s.Port_
 	return nil
 }
 
-// AssignPropertiesToPortSTATUS populates the provided destination Port_STATUS from our Port_STATUS
-func (port *Port_STATUS) AssignPropertiesToPortSTATUS(destination *v20211001s.Port_STATUS) error {
+// AssignProperties_To_Port_STATUS populates the provided destination Port_STATUS from our Port_STATUS
+func (port *Port_STATUS) AssignProperties_To_Port_STATUS(destination *v20211001s.Port_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8124,15 +8130,15 @@ func (requirements *ResourceRequirements) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromResourceRequirements populates our ResourceRequirements from the provided source ResourceRequirements
-func (requirements *ResourceRequirements) AssignPropertiesFromResourceRequirements(source *v20211001s.ResourceRequirements) error {
+// AssignProperties_From_ResourceRequirements populates our ResourceRequirements from the provided source ResourceRequirements
+func (requirements *ResourceRequirements) AssignProperties_From_ResourceRequirements(source *v20211001s.ResourceRequirements) error {
 
 	// Limits
 	if source.Limits != nil {
 		var limit ResourceLimits
-		err := limit.AssignPropertiesFromResourceLimits(source.Limits)
+		err := limit.AssignProperties_From_ResourceLimits(source.Limits)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceLimits() to populate field Limits")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceLimits() to populate field Limits")
 		}
 		requirements.Limits = &limit
 	} else {
@@ -8142,9 +8148,9 @@ func (requirements *ResourceRequirements) AssignPropertiesFromResourceRequiremen
 	// Requests
 	if source.Requests != nil {
 		var request ResourceRequests
-		err := request.AssignPropertiesFromResourceRequests(source.Requests)
+		err := request.AssignProperties_From_ResourceRequests(source.Requests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceRequests() to populate field Requests")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequests() to populate field Requests")
 		}
 		requirements.Requests = &request
 	} else {
@@ -8155,17 +8161,17 @@ func (requirements *ResourceRequirements) AssignPropertiesFromResourceRequiremen
 	return nil
 }
 
-// AssignPropertiesToResourceRequirements populates the provided destination ResourceRequirements from our ResourceRequirements
-func (requirements *ResourceRequirements) AssignPropertiesToResourceRequirements(destination *v20211001s.ResourceRequirements) error {
+// AssignProperties_To_ResourceRequirements populates the provided destination ResourceRequirements from our ResourceRequirements
+func (requirements *ResourceRequirements) AssignProperties_To_ResourceRequirements(destination *v20211001s.ResourceRequirements) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Limits
 	if requirements.Limits != nil {
 		var limit v20211001s.ResourceLimits
-		err := requirements.Limits.AssignPropertiesToResourceLimits(&limit)
+		err := requirements.Limits.AssignProperties_To_ResourceLimits(&limit)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceLimits() to populate field Limits")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceLimits() to populate field Limits")
 		}
 		destination.Limits = &limit
 	} else {
@@ -8175,9 +8181,9 @@ func (requirements *ResourceRequirements) AssignPropertiesToResourceRequirements
 	// Requests
 	if requirements.Requests != nil {
 		var request v20211001s.ResourceRequests
-		err := requirements.Requests.AssignPropertiesToResourceRequests(&request)
+		err := requirements.Requests.AssignProperties_To_ResourceRequests(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceRequests() to populate field Requests")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequests() to populate field Requests")
 		}
 		destination.Requests = &request
 	} else {
@@ -8243,15 +8249,15 @@ func (requirements *ResourceRequirements_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromResourceRequirementsSTATUS populates our ResourceRequirements_STATUS from the provided source ResourceRequirements_STATUS
-func (requirements *ResourceRequirements_STATUS) AssignPropertiesFromResourceRequirementsSTATUS(source *v20211001s.ResourceRequirements_STATUS) error {
+// AssignProperties_From_ResourceRequirements_STATUS populates our ResourceRequirements_STATUS from the provided source ResourceRequirements_STATUS
+func (requirements *ResourceRequirements_STATUS) AssignProperties_From_ResourceRequirements_STATUS(source *v20211001s.ResourceRequirements_STATUS) error {
 
 	// Limits
 	if source.Limits != nil {
 		var limit ResourceLimits_STATUS
-		err := limit.AssignPropertiesFromResourceLimitsSTATUS(source.Limits)
+		err := limit.AssignProperties_From_ResourceLimits_STATUS(source.Limits)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceLimitsSTATUS() to populate field Limits")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceLimits_STATUS() to populate field Limits")
 		}
 		requirements.Limits = &limit
 	} else {
@@ -8261,9 +8267,9 @@ func (requirements *ResourceRequirements_STATUS) AssignPropertiesFromResourceReq
 	// Requests
 	if source.Requests != nil {
 		var request ResourceRequests_STATUS
-		err := request.AssignPropertiesFromResourceRequestsSTATUS(source.Requests)
+		err := request.AssignProperties_From_ResourceRequests_STATUS(source.Requests)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceRequestsSTATUS() to populate field Requests")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequests_STATUS() to populate field Requests")
 		}
 		requirements.Requests = &request
 	} else {
@@ -8274,17 +8280,17 @@ func (requirements *ResourceRequirements_STATUS) AssignPropertiesFromResourceReq
 	return nil
 }
 
-// AssignPropertiesToResourceRequirementsSTATUS populates the provided destination ResourceRequirements_STATUS from our ResourceRequirements_STATUS
-func (requirements *ResourceRequirements_STATUS) AssignPropertiesToResourceRequirementsSTATUS(destination *v20211001s.ResourceRequirements_STATUS) error {
+// AssignProperties_To_ResourceRequirements_STATUS populates the provided destination ResourceRequirements_STATUS from our ResourceRequirements_STATUS
+func (requirements *ResourceRequirements_STATUS) AssignProperties_To_ResourceRequirements_STATUS(destination *v20211001s.ResourceRequirements_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Limits
 	if requirements.Limits != nil {
 		var limit v20211001s.ResourceLimits_STATUS
-		err := requirements.Limits.AssignPropertiesToResourceLimitsSTATUS(&limit)
+		err := requirements.Limits.AssignProperties_To_ResourceLimits_STATUS(&limit)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceLimitsSTATUS() to populate field Limits")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceLimits_STATUS() to populate field Limits")
 		}
 		destination.Limits = &limit
 	} else {
@@ -8294,9 +8300,9 @@ func (requirements *ResourceRequirements_STATUS) AssignPropertiesToResourceRequi
 	// Requests
 	if requirements.Requests != nil {
 		var request v20211001s.ResourceRequests_STATUS
-		err := requirements.Requests.AssignPropertiesToResourceRequestsSTATUS(&request)
+		err := requirements.Requests.AssignProperties_To_ResourceRequests_STATUS(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceRequestsSTATUS() to populate field Requests")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequests_STATUS() to populate field Requests")
 		}
 		destination.Requests = &request
 	} else {
@@ -8391,8 +8397,8 @@ func (mount *VolumeMount) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromVolumeMount populates our VolumeMount from the provided source VolumeMount
-func (mount *VolumeMount) AssignPropertiesFromVolumeMount(source *v20211001s.VolumeMount) error {
+// AssignProperties_From_VolumeMount populates our VolumeMount from the provided source VolumeMount
+func (mount *VolumeMount) AssignProperties_From_VolumeMount(source *v20211001s.VolumeMount) error {
 
 	// MountPath
 	mount.MountPath = genruntime.ClonePointerToString(source.MountPath)
@@ -8412,8 +8418,8 @@ func (mount *VolumeMount) AssignPropertiesFromVolumeMount(source *v20211001s.Vol
 	return nil
 }
 
-// AssignPropertiesToVolumeMount populates the provided destination VolumeMount from our VolumeMount
-func (mount *VolumeMount) AssignPropertiesToVolumeMount(destination *v20211001s.VolumeMount) error {
+// AssignProperties_To_VolumeMount populates the provided destination VolumeMount from our VolumeMount
+func (mount *VolumeMount) AssignProperties_To_VolumeMount(destination *v20211001s.VolumeMount) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8489,8 +8495,8 @@ func (mount *VolumeMount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromVolumeMountSTATUS populates our VolumeMount_STATUS from the provided source VolumeMount_STATUS
-func (mount *VolumeMount_STATUS) AssignPropertiesFromVolumeMountSTATUS(source *v20211001s.VolumeMount_STATUS) error {
+// AssignProperties_From_VolumeMount_STATUS populates our VolumeMount_STATUS from the provided source VolumeMount_STATUS
+func (mount *VolumeMount_STATUS) AssignProperties_From_VolumeMount_STATUS(source *v20211001s.VolumeMount_STATUS) error {
 
 	// MountPath
 	mount.MountPath = genruntime.ClonePointerToString(source.MountPath)
@@ -8510,8 +8516,8 @@ func (mount *VolumeMount_STATUS) AssignPropertiesFromVolumeMountSTATUS(source *v
 	return nil
 }
 
-// AssignPropertiesToVolumeMountSTATUS populates the provided destination VolumeMount_STATUS from our VolumeMount_STATUS
-func (mount *VolumeMount_STATUS) AssignPropertiesToVolumeMountSTATUS(destination *v20211001s.VolumeMount_STATUS) error {
+// AssignProperties_To_VolumeMount_STATUS populates the provided destination VolumeMount_STATUS from our VolumeMount_STATUS
+func (mount *VolumeMount_STATUS) AssignProperties_To_VolumeMount_STATUS(destination *v20211001s.VolumeMount_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8583,8 +8589,8 @@ func (exec *ContainerExec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromContainerExec populates our ContainerExec from the provided source ContainerExec
-func (exec *ContainerExec) AssignPropertiesFromContainerExec(source *v20211001s.ContainerExec) error {
+// AssignProperties_From_ContainerExec populates our ContainerExec from the provided source ContainerExec
+func (exec *ContainerExec) AssignProperties_From_ContainerExec(source *v20211001s.ContainerExec) error {
 
 	// Command
 	exec.Command = genruntime.CloneSliceOfString(source.Command)
@@ -8593,8 +8599,8 @@ func (exec *ContainerExec) AssignPropertiesFromContainerExec(source *v20211001s.
 	return nil
 }
 
-// AssignPropertiesToContainerExec populates the provided destination ContainerExec from our ContainerExec
-func (exec *ContainerExec) AssignPropertiesToContainerExec(destination *v20211001s.ContainerExec) error {
+// AssignProperties_To_ContainerExec populates the provided destination ContainerExec from our ContainerExec
+func (exec *ContainerExec) AssignProperties_To_ContainerExec(destination *v20211001s.ContainerExec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8640,8 +8646,8 @@ func (exec *ContainerExec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromContainerExecSTATUS populates our ContainerExec_STATUS from the provided source ContainerExec_STATUS
-func (exec *ContainerExec_STATUS) AssignPropertiesFromContainerExecSTATUS(source *v20211001s.ContainerExec_STATUS) error {
+// AssignProperties_From_ContainerExec_STATUS populates our ContainerExec_STATUS from the provided source ContainerExec_STATUS
+func (exec *ContainerExec_STATUS) AssignProperties_From_ContainerExec_STATUS(source *v20211001s.ContainerExec_STATUS) error {
 
 	// Command
 	exec.Command = genruntime.CloneSliceOfString(source.Command)
@@ -8650,8 +8656,8 @@ func (exec *ContainerExec_STATUS) AssignPropertiesFromContainerExecSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToContainerExecSTATUS populates the provided destination ContainerExec_STATUS from our ContainerExec_STATUS
-func (exec *ContainerExec_STATUS) AssignPropertiesToContainerExecSTATUS(destination *v20211001s.ContainerExec_STATUS) error {
+// AssignProperties_To_ContainerExec_STATUS populates the provided destination ContainerExec_STATUS from our ContainerExec_STATUS
+func (exec *ContainerExec_STATUS) AssignProperties_To_ContainerExec_STATUS(destination *v20211001s.ContainerExec_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8682,7 +8688,7 @@ type ContainerHttpGet struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-	Scheme *ContainerHttpGetScheme `json:"scheme,omitempty"`
+	Scheme *ContainerHttpGet_Scheme `json:"scheme,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerHttpGet{}
@@ -8767,8 +8773,8 @@ func (httpGet *ContainerHttpGet) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromContainerHttpGet populates our ContainerHttpGet from the provided source ContainerHttpGet
-func (httpGet *ContainerHttpGet) AssignPropertiesFromContainerHttpGet(source *v20211001s.ContainerHttpGet) error {
+// AssignProperties_From_ContainerHttpGet populates our ContainerHttpGet from the provided source ContainerHttpGet
+func (httpGet *ContainerHttpGet) AssignProperties_From_ContainerHttpGet(source *v20211001s.ContainerHttpGet) error {
 
 	// HttpHeaders
 	if source.HttpHeaders != nil {
@@ -8777,9 +8783,9 @@ func (httpGet *ContainerHttpGet) AssignPropertiesFromContainerHttpGet(source *v2
 			// Shadow the loop variable to avoid aliasing
 			httpHeaderItem := httpHeaderItem
 			var httpHeader HttpHeader
-			err := httpHeader.AssignPropertiesFromHttpHeader(&httpHeaderItem)
+			err := httpHeader.AssignProperties_From_HttpHeader(&httpHeaderItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpHeader() to populate field HttpHeaders")
+				return errors.Wrap(err, "calling AssignProperties_From_HttpHeader() to populate field HttpHeaders")
 			}
 			httpHeaderList[httpHeaderIndex] = httpHeader
 		}
@@ -8796,7 +8802,7 @@ func (httpGet *ContainerHttpGet) AssignPropertiesFromContainerHttpGet(source *v2
 
 	// Scheme
 	if source.Scheme != nil {
-		scheme := ContainerHttpGetScheme(*source.Scheme)
+		scheme := ContainerHttpGet_Scheme(*source.Scheme)
 		httpGet.Scheme = &scheme
 	} else {
 		httpGet.Scheme = nil
@@ -8806,8 +8812,8 @@ func (httpGet *ContainerHttpGet) AssignPropertiesFromContainerHttpGet(source *v2
 	return nil
 }
 
-// AssignPropertiesToContainerHttpGet populates the provided destination ContainerHttpGet from our ContainerHttpGet
-func (httpGet *ContainerHttpGet) AssignPropertiesToContainerHttpGet(destination *v20211001s.ContainerHttpGet) error {
+// AssignProperties_To_ContainerHttpGet populates the provided destination ContainerHttpGet from our ContainerHttpGet
+func (httpGet *ContainerHttpGet) AssignProperties_To_ContainerHttpGet(destination *v20211001s.ContainerHttpGet) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8818,9 +8824,9 @@ func (httpGet *ContainerHttpGet) AssignPropertiesToContainerHttpGet(destination 
 			// Shadow the loop variable to avoid aliasing
 			httpHeaderItem := httpHeaderItem
 			var httpHeader v20211001s.HttpHeader
-			err := httpHeaderItem.AssignPropertiesToHttpHeader(&httpHeader)
+			err := httpHeaderItem.AssignProperties_To_HttpHeader(&httpHeader)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpHeader() to populate field HttpHeaders")
+				return errors.Wrap(err, "calling AssignProperties_To_HttpHeader() to populate field HttpHeaders")
 			}
 			httpHeaderList[httpHeaderIndex] = httpHeader
 		}
@@ -8865,7 +8871,7 @@ type ContainerHttpGet_STATUS struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-	Scheme *ContainerHttpGetSTATUSScheme `json:"scheme,omitempty"`
+	Scheme *ContainerHttpGet_STATUS_Scheme `json:"scheme,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerHttpGet_STATUS{}
@@ -8914,8 +8920,8 @@ func (httpGet *ContainerHttpGet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromContainerHttpGetSTATUS populates our ContainerHttpGet_STATUS from the provided source ContainerHttpGet_STATUS
-func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesFromContainerHttpGetSTATUS(source *v20211001s.ContainerHttpGet_STATUS) error {
+// AssignProperties_From_ContainerHttpGet_STATUS populates our ContainerHttpGet_STATUS from the provided source ContainerHttpGet_STATUS
+func (httpGet *ContainerHttpGet_STATUS) AssignProperties_From_ContainerHttpGet_STATUS(source *v20211001s.ContainerHttpGet_STATUS) error {
 
 	// HttpHeaders
 	if source.HttpHeaders != nil {
@@ -8924,9 +8930,9 @@ func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesFromContainerHttpGetSTAT
 			// Shadow the loop variable to avoid aliasing
 			httpHeaderItem := httpHeaderItem
 			var httpHeader HttpHeader_STATUS
-			err := httpHeader.AssignPropertiesFromHttpHeaderSTATUS(&httpHeaderItem)
+			err := httpHeader.AssignProperties_From_HttpHeader_STATUS(&httpHeaderItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpHeaderSTATUS() to populate field HttpHeaders")
+				return errors.Wrap(err, "calling AssignProperties_From_HttpHeader_STATUS() to populate field HttpHeaders")
 			}
 			httpHeaderList[httpHeaderIndex] = httpHeader
 		}
@@ -8943,7 +8949,7 @@ func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesFromContainerHttpGetSTAT
 
 	// Scheme
 	if source.Scheme != nil {
-		scheme := ContainerHttpGetSTATUSScheme(*source.Scheme)
+		scheme := ContainerHttpGet_STATUS_Scheme(*source.Scheme)
 		httpGet.Scheme = &scheme
 	} else {
 		httpGet.Scheme = nil
@@ -8953,8 +8959,8 @@ func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesFromContainerHttpGetSTAT
 	return nil
 }
 
-// AssignPropertiesToContainerHttpGetSTATUS populates the provided destination ContainerHttpGet_STATUS from our ContainerHttpGet_STATUS
-func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesToContainerHttpGetSTATUS(destination *v20211001s.ContainerHttpGet_STATUS) error {
+// AssignProperties_To_ContainerHttpGet_STATUS populates the provided destination ContainerHttpGet_STATUS from our ContainerHttpGet_STATUS
+func (httpGet *ContainerHttpGet_STATUS) AssignProperties_To_ContainerHttpGet_STATUS(destination *v20211001s.ContainerHttpGet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8965,9 +8971,9 @@ func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesToContainerHttpGetSTATUS
 			// Shadow the loop variable to avoid aliasing
 			httpHeaderItem := httpHeaderItem
 			var httpHeader v20211001s.HttpHeader_STATUS
-			err := httpHeaderItem.AssignPropertiesToHttpHeaderSTATUS(&httpHeader)
+			err := httpHeaderItem.AssignProperties_To_HttpHeader_STATUS(&httpHeader)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpHeaderSTATUS() to populate field HttpHeaders")
+				return errors.Wrap(err, "calling AssignProperties_To_HttpHeader_STATUS() to populate field HttpHeaders")
 			}
 			httpHeaderList[httpHeaderIndex] = httpHeader
 		}
@@ -9002,18 +9008,18 @@ func (httpGet *ContainerHttpGet_STATUS) AssignPropertiesToContainerHttpGetSTATUS
 }
 
 // +kubebuilder:validation:Enum={"TCP","UDP"}
-type ContainerPortProtocol string
+type ContainerPort_Protocol string
 
 const (
-	ContainerPortProtocol_TCP = ContainerPortProtocol("TCP")
-	ContainerPortProtocol_UDP = ContainerPortProtocol("UDP")
+	ContainerPort_Protocol_TCP = ContainerPort_Protocol("TCP")
+	ContainerPort_Protocol_UDP = ContainerPort_Protocol("UDP")
 )
 
-type ContainerPortSTATUSProtocol string
+type ContainerPort_STATUS_Protocol string
 
 const (
-	ContainerPortSTATUSProtocol_TCP = ContainerPortSTATUSProtocol("TCP")
-	ContainerPortSTATUSProtocol_UDP = ContainerPortSTATUSProtocol("UDP")
+	ContainerPort_STATUS_Protocol_TCP = ContainerPort_STATUS_Protocol("TCP")
+	ContainerPort_STATUS_Protocol_UDP = ContainerPort_STATUS_Protocol("UDP")
 )
 
 type ContainerState_STATUS struct {
@@ -9081,8 +9087,8 @@ func (state *ContainerState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromContainerStateSTATUS populates our ContainerState_STATUS from the provided source ContainerState_STATUS
-func (state *ContainerState_STATUS) AssignPropertiesFromContainerStateSTATUS(source *v20211001s.ContainerState_STATUS) error {
+// AssignProperties_From_ContainerState_STATUS populates our ContainerState_STATUS from the provided source ContainerState_STATUS
+func (state *ContainerState_STATUS) AssignProperties_From_ContainerState_STATUS(source *v20211001s.ContainerState_STATUS) error {
 
 	// DetailStatus
 	state.DetailStatus = genruntime.ClonePointerToString(source.DetailStatus)
@@ -9103,8 +9109,8 @@ func (state *ContainerState_STATUS) AssignPropertiesFromContainerStateSTATUS(sou
 	return nil
 }
 
-// AssignPropertiesToContainerStateSTATUS populates the provided destination ContainerState_STATUS from our ContainerState_STATUS
-func (state *ContainerState_STATUS) AssignPropertiesToContainerStateSTATUS(destination *v20211001s.ContainerState_STATUS) error {
+// AssignProperties_To_ContainerState_STATUS populates the provided destination ContainerState_STATUS from our ContainerState_STATUS
+func (state *ContainerState_STATUS) AssignProperties_To_ContainerState_STATUS(destination *v20211001s.ContainerState_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9135,33 +9141,33 @@ func (state *ContainerState_STATUS) AssignPropertiesToContainerStateSTATUS(desti
 }
 
 // +kubebuilder:validation:Enum={"ContainerInsights","ContainerInstanceLogs"}
-type LogAnalyticsLogType string
+type LogAnalytics_LogType string
 
 const (
-	LogAnalyticsLogType_ContainerInsights     = LogAnalyticsLogType("ContainerInsights")
-	LogAnalyticsLogType_ContainerInstanceLogs = LogAnalyticsLogType("ContainerInstanceLogs")
+	LogAnalytics_LogType_ContainerInsights     = LogAnalytics_LogType("ContainerInsights")
+	LogAnalytics_LogType_ContainerInstanceLogs = LogAnalytics_LogType("ContainerInstanceLogs")
 )
 
-type LogAnalyticsSTATUSLogType string
+type LogAnalytics_STATUS_LogType string
 
 const (
-	LogAnalyticsSTATUSLogType_ContainerInsights     = LogAnalyticsSTATUSLogType("ContainerInsights")
-	LogAnalyticsSTATUSLogType_ContainerInstanceLogs = LogAnalyticsSTATUSLogType("ContainerInstanceLogs")
+	LogAnalytics_STATUS_LogType_ContainerInsights     = LogAnalytics_STATUS_LogType("ContainerInsights")
+	LogAnalytics_STATUS_LogType_ContainerInstanceLogs = LogAnalytics_STATUS_LogType("ContainerInstanceLogs")
 )
 
 // +kubebuilder:validation:Enum={"TCP","UDP"}
-type PortProtocol string
+type Port_Protocol string
 
 const (
-	PortProtocol_TCP = PortProtocol("TCP")
-	PortProtocol_UDP = PortProtocol("UDP")
+	Port_Protocol_TCP = Port_Protocol("TCP")
+	Port_Protocol_UDP = Port_Protocol("UDP")
 )
 
-type PortSTATUSProtocol string
+type Port_STATUS_Protocol string
 
 const (
-	PortSTATUSProtocol_TCP = PortSTATUSProtocol("TCP")
-	PortSTATUSProtocol_UDP = PortSTATUSProtocol("UDP")
+	Port_STATUS_Protocol_TCP = Port_STATUS_Protocol("TCP")
+	Port_STATUS_Protocol_UDP = Port_STATUS_Protocol("UDP")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceLimits
@@ -9248,8 +9254,8 @@ func (limits *ResourceLimits) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromResourceLimits populates our ResourceLimits from the provided source ResourceLimits
-func (limits *ResourceLimits) AssignPropertiesFromResourceLimits(source *v20211001s.ResourceLimits) error {
+// AssignProperties_From_ResourceLimits populates our ResourceLimits from the provided source ResourceLimits
+func (limits *ResourceLimits) AssignProperties_From_ResourceLimits(source *v20211001s.ResourceLimits) error {
 
 	// Cpu
 	if source.Cpu != nil {
@@ -9262,9 +9268,9 @@ func (limits *ResourceLimits) AssignPropertiesFromResourceLimits(source *v202110
 	// Gpu
 	if source.Gpu != nil {
 		var gpu GpuResource
-		err := gpu.AssignPropertiesFromGpuResource(source.Gpu)
+		err := gpu.AssignProperties_From_GpuResource(source.Gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGpuResource() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_From_GpuResource() to populate field Gpu")
 		}
 		limits.Gpu = &gpu
 	} else {
@@ -9283,8 +9289,8 @@ func (limits *ResourceLimits) AssignPropertiesFromResourceLimits(source *v202110
 	return nil
 }
 
-// AssignPropertiesToResourceLimits populates the provided destination ResourceLimits from our ResourceLimits
-func (limits *ResourceLimits) AssignPropertiesToResourceLimits(destination *v20211001s.ResourceLimits) error {
+// AssignProperties_To_ResourceLimits populates the provided destination ResourceLimits from our ResourceLimits
+func (limits *ResourceLimits) AssignProperties_To_ResourceLimits(destination *v20211001s.ResourceLimits) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9299,9 +9305,9 @@ func (limits *ResourceLimits) AssignPropertiesToResourceLimits(destination *v202
 	// Gpu
 	if limits.Gpu != nil {
 		var gpu v20211001s.GpuResource
-		err := limits.Gpu.AssignPropertiesToGpuResource(&gpu)
+		err := limits.Gpu.AssignProperties_To_GpuResource(&gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGpuResource() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_To_GpuResource() to populate field Gpu")
 		}
 		destination.Gpu = &gpu
 	} else {
@@ -9379,8 +9385,8 @@ func (limits *ResourceLimits_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromResourceLimitsSTATUS populates our ResourceLimits_STATUS from the provided source ResourceLimits_STATUS
-func (limits *ResourceLimits_STATUS) AssignPropertiesFromResourceLimitsSTATUS(source *v20211001s.ResourceLimits_STATUS) error {
+// AssignProperties_From_ResourceLimits_STATUS populates our ResourceLimits_STATUS from the provided source ResourceLimits_STATUS
+func (limits *ResourceLimits_STATUS) AssignProperties_From_ResourceLimits_STATUS(source *v20211001s.ResourceLimits_STATUS) error {
 
 	// Cpu
 	if source.Cpu != nil {
@@ -9393,9 +9399,9 @@ func (limits *ResourceLimits_STATUS) AssignPropertiesFromResourceLimitsSTATUS(so
 	// Gpu
 	if source.Gpu != nil {
 		var gpu GpuResource_STATUS
-		err := gpu.AssignPropertiesFromGpuResourceSTATUS(source.Gpu)
+		err := gpu.AssignProperties_From_GpuResource_STATUS(source.Gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGpuResourceSTATUS() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_From_GpuResource_STATUS() to populate field Gpu")
 		}
 		limits.Gpu = &gpu
 	} else {
@@ -9414,8 +9420,8 @@ func (limits *ResourceLimits_STATUS) AssignPropertiesFromResourceLimitsSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToResourceLimitsSTATUS populates the provided destination ResourceLimits_STATUS from our ResourceLimits_STATUS
-func (limits *ResourceLimits_STATUS) AssignPropertiesToResourceLimitsSTATUS(destination *v20211001s.ResourceLimits_STATUS) error {
+// AssignProperties_To_ResourceLimits_STATUS populates the provided destination ResourceLimits_STATUS from our ResourceLimits_STATUS
+func (limits *ResourceLimits_STATUS) AssignProperties_To_ResourceLimits_STATUS(destination *v20211001s.ResourceLimits_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9430,9 +9436,9 @@ func (limits *ResourceLimits_STATUS) AssignPropertiesToResourceLimitsSTATUS(dest
 	// Gpu
 	if limits.Gpu != nil {
 		var gpu v20211001s.GpuResource_STATUS
-		err := limits.Gpu.AssignPropertiesToGpuResourceSTATUS(&gpu)
+		err := limits.Gpu.AssignProperties_To_GpuResource_STATUS(&gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGpuResourceSTATUS() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_To_GpuResource_STATUS() to populate field Gpu")
 		}
 		destination.Gpu = &gpu
 	} else {
@@ -9544,8 +9550,8 @@ func (requests *ResourceRequests) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromResourceRequests populates our ResourceRequests from the provided source ResourceRequests
-func (requests *ResourceRequests) AssignPropertiesFromResourceRequests(source *v20211001s.ResourceRequests) error {
+// AssignProperties_From_ResourceRequests populates our ResourceRequests from the provided source ResourceRequests
+func (requests *ResourceRequests) AssignProperties_From_ResourceRequests(source *v20211001s.ResourceRequests) error {
 
 	// Cpu
 	if source.Cpu != nil {
@@ -9558,9 +9564,9 @@ func (requests *ResourceRequests) AssignPropertiesFromResourceRequests(source *v
 	// Gpu
 	if source.Gpu != nil {
 		var gpu GpuResource
-		err := gpu.AssignPropertiesFromGpuResource(source.Gpu)
+		err := gpu.AssignProperties_From_GpuResource(source.Gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGpuResource() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_From_GpuResource() to populate field Gpu")
 		}
 		requests.Gpu = &gpu
 	} else {
@@ -9579,8 +9585,8 @@ func (requests *ResourceRequests) AssignPropertiesFromResourceRequests(source *v
 	return nil
 }
 
-// AssignPropertiesToResourceRequests populates the provided destination ResourceRequests from our ResourceRequests
-func (requests *ResourceRequests) AssignPropertiesToResourceRequests(destination *v20211001s.ResourceRequests) error {
+// AssignProperties_To_ResourceRequests populates the provided destination ResourceRequests from our ResourceRequests
+func (requests *ResourceRequests) AssignProperties_To_ResourceRequests(destination *v20211001s.ResourceRequests) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9595,9 +9601,9 @@ func (requests *ResourceRequests) AssignPropertiesToResourceRequests(destination
 	// Gpu
 	if requests.Gpu != nil {
 		var gpu v20211001s.GpuResource
-		err := requests.Gpu.AssignPropertiesToGpuResource(&gpu)
+		err := requests.Gpu.AssignProperties_To_GpuResource(&gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGpuResource() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_To_GpuResource() to populate field Gpu")
 		}
 		destination.Gpu = &gpu
 	} else {
@@ -9675,8 +9681,8 @@ func (requests *ResourceRequests_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromResourceRequestsSTATUS populates our ResourceRequests_STATUS from the provided source ResourceRequests_STATUS
-func (requests *ResourceRequests_STATUS) AssignPropertiesFromResourceRequestsSTATUS(source *v20211001s.ResourceRequests_STATUS) error {
+// AssignProperties_From_ResourceRequests_STATUS populates our ResourceRequests_STATUS from the provided source ResourceRequests_STATUS
+func (requests *ResourceRequests_STATUS) AssignProperties_From_ResourceRequests_STATUS(source *v20211001s.ResourceRequests_STATUS) error {
 
 	// Cpu
 	if source.Cpu != nil {
@@ -9689,9 +9695,9 @@ func (requests *ResourceRequests_STATUS) AssignPropertiesFromResourceRequestsSTA
 	// Gpu
 	if source.Gpu != nil {
 		var gpu GpuResource_STATUS
-		err := gpu.AssignPropertiesFromGpuResourceSTATUS(source.Gpu)
+		err := gpu.AssignProperties_From_GpuResource_STATUS(source.Gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromGpuResourceSTATUS() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_From_GpuResource_STATUS() to populate field Gpu")
 		}
 		requests.Gpu = &gpu
 	} else {
@@ -9710,8 +9716,8 @@ func (requests *ResourceRequests_STATUS) AssignPropertiesFromResourceRequestsSTA
 	return nil
 }
 
-// AssignPropertiesToResourceRequestsSTATUS populates the provided destination ResourceRequests_STATUS from our ResourceRequests_STATUS
-func (requests *ResourceRequests_STATUS) AssignPropertiesToResourceRequestsSTATUS(destination *v20211001s.ResourceRequests_STATUS) error {
+// AssignProperties_To_ResourceRequests_STATUS populates the provided destination ResourceRequests_STATUS from our ResourceRequests_STATUS
+func (requests *ResourceRequests_STATUS) AssignProperties_To_ResourceRequests_STATUS(destination *v20211001s.ResourceRequests_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9726,9 +9732,9 @@ func (requests *ResourceRequests_STATUS) AssignPropertiesToResourceRequestsSTATU
 	// Gpu
 	if requests.Gpu != nil {
 		var gpu v20211001s.GpuResource_STATUS
-		err := requests.Gpu.AssignPropertiesToGpuResourceSTATUS(&gpu)
+		err := requests.Gpu.AssignProperties_To_GpuResource_STATUS(&gpu)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToGpuResourceSTATUS() to populate field Gpu")
+			return errors.Wrap(err, "calling AssignProperties_To_GpuResource_STATUS() to populate field Gpu")
 		}
 		destination.Gpu = &gpu
 	} else {
@@ -9755,18 +9761,18 @@ func (requests *ResourceRequests_STATUS) AssignPropertiesToResourceRequestsSTATU
 }
 
 // +kubebuilder:validation:Enum={"http","https"}
-type ContainerHttpGetScheme string
+type ContainerHttpGet_Scheme string
 
 const (
-	ContainerHttpGetScheme_Http  = ContainerHttpGetScheme("http")
-	ContainerHttpGetScheme_Https = ContainerHttpGetScheme("https")
+	ContainerHttpGet_Scheme_Http  = ContainerHttpGet_Scheme("http")
+	ContainerHttpGet_Scheme_Https = ContainerHttpGet_Scheme("https")
 )
 
-type ContainerHttpGetSTATUSScheme string
+type ContainerHttpGet_STATUS_Scheme string
 
 const (
-	ContainerHttpGetSTATUSScheme_Http  = ContainerHttpGetSTATUSScheme("http")
-	ContainerHttpGetSTATUSScheme_Https = ContainerHttpGetSTATUSScheme("https")
+	ContainerHttpGet_STATUS_Scheme_Http  = ContainerHttpGet_STATUS_Scheme("http")
+	ContainerHttpGet_STATUS_Scheme_Https = ContainerHttpGet_STATUS_Scheme("https")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GpuResource
@@ -9777,7 +9783,7 @@ type GpuResource struct {
 
 	// +kubebuilder:validation:Required
 	// Sku: The SKU of the GPU resource.
-	Sku *GpuResourceSku `json:"sku,omitempty"`
+	Sku *GpuResource_Sku `json:"sku,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &GpuResource{}
@@ -9831,15 +9837,15 @@ func (resource *GpuResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromGpuResource populates our GpuResource from the provided source GpuResource
-func (resource *GpuResource) AssignPropertiesFromGpuResource(source *v20211001s.GpuResource) error {
+// AssignProperties_From_GpuResource populates our GpuResource from the provided source GpuResource
+func (resource *GpuResource) AssignProperties_From_GpuResource(source *v20211001s.GpuResource) error {
 
 	// Count
 	resource.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// Sku
 	if source.Sku != nil {
-		sku := GpuResourceSku(*source.Sku)
+		sku := GpuResource_Sku(*source.Sku)
 		resource.Sku = &sku
 	} else {
 		resource.Sku = nil
@@ -9849,8 +9855,8 @@ func (resource *GpuResource) AssignPropertiesFromGpuResource(source *v20211001s.
 	return nil
 }
 
-// AssignPropertiesToGpuResource populates the provided destination GpuResource from our GpuResource
-func (resource *GpuResource) AssignPropertiesToGpuResource(destination *v20211001s.GpuResource) error {
+// AssignProperties_To_GpuResource populates the provided destination GpuResource from our GpuResource
+func (resource *GpuResource) AssignProperties_To_GpuResource(destination *v20211001s.GpuResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9881,7 +9887,7 @@ type GpuResource_STATUS struct {
 	Count *int `json:"count,omitempty"`
 
 	// Sku: The SKU of the GPU resource.
-	Sku *GpuResourceSTATUSSku `json:"sku,omitempty"`
+	Sku *GpuResource_STATUS_Sku `json:"sku,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GpuResource_STATUS{}
@@ -9914,15 +9920,15 @@ func (resource *GpuResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromGpuResourceSTATUS populates our GpuResource_STATUS from the provided source GpuResource_STATUS
-func (resource *GpuResource_STATUS) AssignPropertiesFromGpuResourceSTATUS(source *v20211001s.GpuResource_STATUS) error {
+// AssignProperties_From_GpuResource_STATUS populates our GpuResource_STATUS from the provided source GpuResource_STATUS
+func (resource *GpuResource_STATUS) AssignProperties_From_GpuResource_STATUS(source *v20211001s.GpuResource_STATUS) error {
 
 	// Count
 	resource.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// Sku
 	if source.Sku != nil {
-		sku := GpuResourceSTATUSSku(*source.Sku)
+		sku := GpuResource_STATUS_Sku(*source.Sku)
 		resource.Sku = &sku
 	} else {
 		resource.Sku = nil
@@ -9932,8 +9938,8 @@ func (resource *GpuResource_STATUS) AssignPropertiesFromGpuResourceSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToGpuResourceSTATUS populates the provided destination GpuResource_STATUS from our GpuResource_STATUS
-func (resource *GpuResource_STATUS) AssignPropertiesToGpuResourceSTATUS(destination *v20211001s.GpuResource_STATUS) error {
+// AssignProperties_To_GpuResource_STATUS populates the provided destination GpuResource_STATUS from our GpuResource_STATUS
+func (resource *GpuResource_STATUS) AssignProperties_To_GpuResource_STATUS(destination *v20211001s.GpuResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10019,8 +10025,8 @@ func (header *HttpHeader) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromHttpHeader populates our HttpHeader from the provided source HttpHeader
-func (header *HttpHeader) AssignPropertiesFromHttpHeader(source *v20211001s.HttpHeader) error {
+// AssignProperties_From_HttpHeader populates our HttpHeader from the provided source HttpHeader
+func (header *HttpHeader) AssignProperties_From_HttpHeader(source *v20211001s.HttpHeader) error {
 
 	// Name
 	header.Name = genruntime.ClonePointerToString(source.Name)
@@ -10032,8 +10038,8 @@ func (header *HttpHeader) AssignPropertiesFromHttpHeader(source *v20211001s.Http
 	return nil
 }
 
-// AssignPropertiesToHttpHeader populates the provided destination HttpHeader from our HttpHeader
-func (header *HttpHeader) AssignPropertiesToHttpHeader(destination *v20211001s.HttpHeader) error {
+// AssignProperties_To_HttpHeader populates the provided destination HttpHeader from our HttpHeader
+func (header *HttpHeader) AssignProperties_To_HttpHeader(destination *v20211001s.HttpHeader) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10092,8 +10098,8 @@ func (header *HttpHeader_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromHttpHeaderSTATUS populates our HttpHeader_STATUS from the provided source HttpHeader_STATUS
-func (header *HttpHeader_STATUS) AssignPropertiesFromHttpHeaderSTATUS(source *v20211001s.HttpHeader_STATUS) error {
+// AssignProperties_From_HttpHeader_STATUS populates our HttpHeader_STATUS from the provided source HttpHeader_STATUS
+func (header *HttpHeader_STATUS) AssignProperties_From_HttpHeader_STATUS(source *v20211001s.HttpHeader_STATUS) error {
 
 	// Name
 	header.Name = genruntime.ClonePointerToString(source.Name)
@@ -10105,8 +10111,8 @@ func (header *HttpHeader_STATUS) AssignPropertiesFromHttpHeaderSTATUS(source *v2
 	return nil
 }
 
-// AssignPropertiesToHttpHeaderSTATUS populates the provided destination HttpHeader_STATUS from our HttpHeader_STATUS
-func (header *HttpHeader_STATUS) AssignPropertiesToHttpHeaderSTATUS(destination *v20211001s.HttpHeader_STATUS) error {
+// AssignProperties_To_HttpHeader_STATUS populates the provided destination HttpHeader_STATUS from our HttpHeader_STATUS
+func (header *HttpHeader_STATUS) AssignProperties_To_HttpHeader_STATUS(destination *v20211001s.HttpHeader_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10128,20 +10134,20 @@ func (header *HttpHeader_STATUS) AssignPropertiesToHttpHeaderSTATUS(destination 
 }
 
 // +kubebuilder:validation:Enum={"K80","P100","V100"}
-type GpuResourceSku string
+type GpuResource_Sku string
 
 const (
-	GpuResourceSku_K80  = GpuResourceSku("K80")
-	GpuResourceSku_P100 = GpuResourceSku("P100")
-	GpuResourceSku_V100 = GpuResourceSku("V100")
+	GpuResource_Sku_K80  = GpuResource_Sku("K80")
+	GpuResource_Sku_P100 = GpuResource_Sku("P100")
+	GpuResource_Sku_V100 = GpuResource_Sku("V100")
 )
 
-type GpuResourceSTATUSSku string
+type GpuResource_STATUS_Sku string
 
 const (
-	GpuResourceSTATUSSku_K80  = GpuResourceSTATUSSku("K80")
-	GpuResourceSTATUSSku_P100 = GpuResourceSTATUSSku("P100")
-	GpuResourceSTATUSSku_V100 = GpuResourceSTATUSSku("V100")
+	GpuResource_STATUS_Sku_K80  = GpuResource_STATUS_Sku("K80")
+	GpuResource_STATUS_Sku_P100 = GpuResource_STATUS_Sku("P100")
+	GpuResource_STATUS_Sku_V100 = GpuResource_STATUS_Sku("V100")
 )
 
 func init() {

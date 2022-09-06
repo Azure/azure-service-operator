@@ -25,12 +25,12 @@ func Test_FirewallRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FirewallRule_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFirewallRuleSTATUSARM, FirewallRuleSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFirewallRule_STATUSARM, FirewallRule_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFirewallRuleSTATUSARM runs a test to see if a specific instance of FirewallRule_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFirewallRuleSTATUSARM(subject FirewallRule_STATUSARM) string {
+// RunJSONSerializationTestForFirewallRule_STATUSARM runs a test to see if a specific instance of FirewallRule_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFirewallRule_STATUSARM(subject FirewallRule_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,42 +57,42 @@ func RunJSONSerializationTestForFirewallRuleSTATUSARM(subject FirewallRule_STATU
 }
 
 // Generator of FirewallRule_STATUSARM instances for property testing - lazily instantiated by
-// FirewallRuleSTATUSARMGenerator()
-var firewallRuleSTATUSARMGenerator gopter.Gen
+// FirewallRule_STATUSARMGenerator()
+var firewallRule_STATUSARMGenerator gopter.Gen
 
-// FirewallRuleSTATUSARMGenerator returns a generator of FirewallRule_STATUSARM instances for property testing.
-// We first initialize firewallRuleSTATUSARMGenerator with a simplified generator based on the
+// FirewallRule_STATUSARMGenerator returns a generator of FirewallRule_STATUSARM instances for property testing.
+// We first initialize firewallRule_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FirewallRuleSTATUSARMGenerator() gopter.Gen {
-	if firewallRuleSTATUSARMGenerator != nil {
-		return firewallRuleSTATUSARMGenerator
+func FirewallRule_STATUSARMGenerator() gopter.Gen {
+	if firewallRule_STATUSARMGenerator != nil {
+		return firewallRule_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRuleSTATUSARM(generators)
-	firewallRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForFirewallRule_STATUSARM(generators)
+	firewallRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRuleSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForFirewallRuleSTATUSARM(generators)
-	firewallRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForFirewallRule_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForFirewallRule_STATUSARM(generators)
+	firewallRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUSARM{}), generators)
 
-	return firewallRuleSTATUSARMGenerator
+	return firewallRule_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFirewallRuleSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFirewallRuleSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFirewallRule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFirewallRule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFirewallRuleSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFirewallRuleSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FirewallRulePropertiesSTATUSARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForFirewallRule_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFirewallRule_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(FirewallRuleProperties_STATUSARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
 func Test_FirewallRuleProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -103,12 +103,12 @@ func Test_FirewallRuleProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FirewallRuleProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFirewallRulePropertiesSTATUSARM, FirewallRulePropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFirewallRuleProperties_STATUSARM, FirewallRuleProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFirewallRulePropertiesSTATUSARM runs a test to see if a specific instance of FirewallRuleProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFirewallRulePropertiesSTATUSARM(subject FirewallRuleProperties_STATUSARM) string {
+// RunJSONSerializationTestForFirewallRuleProperties_STATUSARM runs a test to see if a specific instance of FirewallRuleProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFirewallRuleProperties_STATUSARM(subject FirewallRuleProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -135,24 +135,24 @@ func RunJSONSerializationTestForFirewallRulePropertiesSTATUSARM(subject Firewall
 }
 
 // Generator of FirewallRuleProperties_STATUSARM instances for property testing - lazily instantiated by
-// FirewallRulePropertiesSTATUSARMGenerator()
-var firewallRulePropertiesSTATUSARMGenerator gopter.Gen
+// FirewallRuleProperties_STATUSARMGenerator()
+var firewallRuleProperties_STATUSARMGenerator gopter.Gen
 
-// FirewallRulePropertiesSTATUSARMGenerator returns a generator of FirewallRuleProperties_STATUSARM instances for property testing.
-func FirewallRulePropertiesSTATUSARMGenerator() gopter.Gen {
-	if firewallRulePropertiesSTATUSARMGenerator != nil {
-		return firewallRulePropertiesSTATUSARMGenerator
+// FirewallRuleProperties_STATUSARMGenerator returns a generator of FirewallRuleProperties_STATUSARM instances for property testing.
+func FirewallRuleProperties_STATUSARMGenerator() gopter.Gen {
+	if firewallRuleProperties_STATUSARMGenerator != nil {
+		return firewallRuleProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRulePropertiesSTATUSARM(generators)
-	firewallRulePropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRuleProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUSARM(generators)
+	firewallRuleProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(FirewallRuleProperties_STATUSARM{}), generators)
 
-	return firewallRulePropertiesSTATUSARMGenerator
+	return firewallRuleProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFirewallRulePropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFirewallRulePropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }

@@ -174,7 +174,14 @@ fi
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.12.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.14.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+fi
+
+# Install Trivy
+write-verbose "Checking for $TOOL_DEST/trivy"
+if should-install "$TOOL_DEST/trivy"; then
+    write-info "Installing trivy"
+    curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.31.2/trivy_0.31.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
 fi
 
 # Install helm
@@ -201,6 +208,13 @@ write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+fi
+
+# Ensure tooling for Hugo is available
+write-verbose "Checking for /usr/bin/postcss"
+if should-install "/usr/bin/postcss"; then 
+    write-info "Installing postcss"
+    sudo npm install -g postcss postcss-cli autoprefixer
 fi
 
 if [ "$VERBOSE" == true ]; then 

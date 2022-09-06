@@ -228,7 +228,6 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		var severity conditions.ConditionSeverity
 		severity, err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
 		if err != nil {
-			log.Error(err, "error during reconcile")
 			// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 			// We must also ignore conflict here because updating a resource that
@@ -380,6 +379,7 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 		log.V(Info).Info("Delete succeeded, removing finalizer")
 		controllerutil.RemoveFinalizer(metaObj, GenericControllerFinalizer)
 	}
+
 	// TODO: can't set this before the delete call right now due to how ARM resources determine if they need to issue a first delete.
 	// TODO: Once I merge a fix to use the async operation for delete polling this can move up to above the Delete call in theory
 	conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Deleting(metaObj.GetGeneration()))
@@ -410,13 +410,13 @@ func (gr *GenericReconciler) makeSuccessResult() ctrl.Result {
 	return result
 }
 
-func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) (conditions.ConditionSeverity, error) {
+func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) (conditions.ConditionSeverity, error) {
 	conditions.SetCondition(obj, gr.PositiveConditions.Ready.ReadyCondition(
 		err.Severity,
 		obj.GetGeneration(),
 		err.Reason,
 		err.Error()))
-	commitErr := gr.KubeClient.CommitObject(ctx, obj)
+	commitErr := gr.CommitUpdate(ctx, log, nil, obj)
 	if commitErr != nil {
 		return conditions.ConditionSeverityNone, errors.Wrap(commitErr, "updating resource error")
 	}
@@ -491,12 +491,9 @@ func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Conte
 	if !ok {
 		// An unknown error, we wrap it as a ready condition error so that the user will always see something, even if
 		// the error is generic
-		// TODO: This breaks the existing Delete handling in the ARM controller so for now don't do it
-		// TODO: Will follow up with a separate PR to do it
-		//readyErr = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
-		return conditions.ConditionSeverityNone, err
+		readyErr = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
 	}
 
 	log.Error(readyErr, "Encountered error impacting Ready condition")
-	return gr.WriteReadyConditionError(ctx, metaObj, readyErr)
+	return gr.WriteReadyConditionError(ctx, log, metaObj, readyErr)
 }

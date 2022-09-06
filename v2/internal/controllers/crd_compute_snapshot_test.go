@@ -23,7 +23,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
-	createOption := compute.CreationDataCreateOption_Empty
+	createOption := compute.CreationData_CreateOption_Empty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute.Snapshots_Spec{

@@ -90,7 +90,7 @@ type VirtualMachineScaleSetIdentity_STATUSARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentitySTATUSType `json:"type,omitempty"`
+	Type *VirtualMachineScaleSetIdentity_STATUS_Type `json:"type,omitempty"`
 }
 
 type VirtualMachineScaleSetProperties_STATUSARM struct {
@@ -185,7 +185,7 @@ type ScaleInPolicy_STATUSARM struct {
 	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
 	// scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
 	// zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
-	Rules []ScaleInPolicySTATUSRules `json:"rules,omitempty"`
+	Rules []ScaleInPolicy_STATUS_Rules `json:"rules,omitempty"`
 }
 
 type SubResource_STATUSARM struct {
@@ -202,19 +202,19 @@ type UpgradePolicy_STATUSARM struct {
 	// Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
 	// manualUpgrade action.
 	// Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicySTATUSMode `json:"mode,omitempty"`
+	Mode *UpgradePolicy_STATUS_Mode `json:"mode,omitempty"`
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_STATUSARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
-type VirtualMachineScaleSetIdentitySTATUSType string
+type VirtualMachineScaleSetIdentity_STATUS_Type string
 
 const (
-	VirtualMachineScaleSetIdentitySTATUSType_None                       = VirtualMachineScaleSetIdentitySTATUSType("None")
-	VirtualMachineScaleSetIdentitySTATUSType_SystemAssigned             = VirtualMachineScaleSetIdentitySTATUSType("SystemAssigned")
-	VirtualMachineScaleSetIdentitySTATUSType_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentitySTATUSType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentitySTATUSType_UserAssigned               = VirtualMachineScaleSetIdentitySTATUSType("UserAssigned")
+	VirtualMachineScaleSetIdentity_STATUS_Type_None                       = VirtualMachineScaleSetIdentity_STATUS_Type("None")
+	VirtualMachineScaleSetIdentity_STATUS_Type_SystemAssigned             = VirtualMachineScaleSetIdentity_STATUS_Type("SystemAssigned")
+	VirtualMachineScaleSetIdentity_STATUS_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_STATUS_Type("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_STATUS_Type_UserAssigned               = VirtualMachineScaleSetIdentity_STATUS_Type("UserAssigned")
 )
 
 type VirtualMachineScaleSetVMProfile_STATUSARM struct {
@@ -506,7 +506,7 @@ type VirtualMachineScaleSetOSDisk_STATUSARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *VirtualMachineScaleSetOSDiskSTATUSOsType `json:"osType,omitempty"`
+	OsType *VirtualMachineScaleSetOSDisk_STATUS_OsType `json:"osType,omitempty"`
 
 	// VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
@@ -622,7 +622,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_STATUSARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesSTATUSPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_STATUS_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -649,7 +649,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM stru
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSTATUSPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`

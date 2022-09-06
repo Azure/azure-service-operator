@@ -23,7 +23,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	zoneRedundant := false
-	sku := servicebus.SBSkuName_Basic
+	sku := servicebus.SBSku_Name_Basic
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbnamespace")),
 		Spec: servicebus.Namespaces_Spec{
@@ -53,16 +53,13 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
 func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebus.NamespacesQueues_Spec{
+		Spec: servicebus.Namespaces_Queues_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},

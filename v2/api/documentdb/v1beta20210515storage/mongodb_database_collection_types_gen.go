@@ -26,8 +26,8 @@ import (
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollections_Spec `json:"spec,omitempty"`
-	Status            MongoDBCollectionGetResults_STATUS               `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabases_Collections_Spec `json:"spec,omitempty"`
+	Status            MongoDBCollectionGetResults_STATUS                 `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -129,8 +129,8 @@ type MongodbDatabaseCollectionList struct {
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec
-type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_Spec
+type DatabaseAccounts_MongodbDatabases_Collections_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -148,10 +148,10 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollections_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Collections_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Collections_Spec from the provided source
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == collections {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -159,8 +159,8 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 	return source.ConvertSpecTo(collections)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_Spec
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == collections {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

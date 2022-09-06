@@ -30,7 +30,7 @@ func (person *Person) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
 	}
 
-	return person.AssignPropertiesFromPerson(source)
+	return person.AssignProperties_From_Person(source)
 }
 
 // ConvertTo populates the provided hub Person from our Person
@@ -40,28 +40,28 @@ func (person *Person) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
 	}
 
-	return person.AssignPropertiesToPerson(destination)
+	return person.AssignProperties_To_Person(destination)
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) error {
 
 	// ObjectMeta
 	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Person_Spec
-	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
+	err := spec.AssignProperties_From_Person_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPersonSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Person_Spec() to populate field Spec")
 	}
 	person.Spec = spec
 
 	// Status
 	var status Person_STATUS
-	err = status.AssignPropertiesFromPersonSTATUS(&source.Status)
+	err = status.AssignProperties_From_Person_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPersonSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Person_STATUS() to populate field Status")
 	}
 	person.Status = status
 
@@ -69,25 +69,25 @@ func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) erro
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *v20211231s.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20211231s.Person_Spec
-	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
+	err := person.Spec.AssignProperties_To_Person_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20211231s.Person_STATUS
-	err = person.Status.AssignPropertiesToPersonSTATUS(&status)
+	err = person.Status.AssignProperties_To_Person_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPersonSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -115,8 +115,8 @@ type Person_Spec struct {
 	ResidentialAddress Address `json:"residentialAddress,omitempty"`
 }
 
-// AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Person_Spec) error {
+// AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
+func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.Person_Spec) error {
 
 	// FamilyName
 	person.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
@@ -130,9 +130,9 @@ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Per
 	// PostalAddress
 	if source.PostalAddress != nil {
 		var postalAddress Address
-		err := postalAddress.AssignPropertiesFromAddress(source.PostalAddress)
+		err := postalAddress.AssignProperties_From_Address(source.PostalAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddress() to populate field PostalAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_Address() to populate field PostalAddress")
 		}
 		person.PostalAddress = postalAddress
 	} else {
@@ -142,9 +142,9 @@ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Per
 	// ResidentialAddress
 	if source.ResidentialAddress != nil {
 		var residentialAddress Address
-		err := residentialAddress.AssignPropertiesFromAddress(source.ResidentialAddress)
+		err := residentialAddress.AssignProperties_From_Address(source.ResidentialAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddress() to populate field ResidentialAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_Address() to populate field ResidentialAddress")
 		}
 		person.ResidentialAddress = residentialAddress
 	} else {
@@ -155,8 +155,8 @@ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Per
 	return nil
 }
 
-// AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231s.Person_Spec) error {
+// AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
+func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20211231s.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -174,17 +174,17 @@ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231s.
 
 	// PostalAddress
 	var postalAddress v20211231s.Address
-	err := person.PostalAddress.AssignPropertiesToAddress(&postalAddress)
+	err := person.PostalAddress.AssignProperties_To_Address(&postalAddress)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAddress() to populate field PostalAddress")
+		return errors.Wrap(err, "calling AssignProperties_To_Address() to populate field PostalAddress")
 	}
 	destination.PostalAddress = &postalAddress
 
 	// ResidentialAddress
 	var residentialAddress v20211231s.Address
-	err = person.ResidentialAddress.AssignPropertiesToAddress(&residentialAddress)
+	err = person.ResidentialAddress.AssignProperties_To_Address(&residentialAddress)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAddress() to populate field ResidentialAddress")
+		return errors.Wrap(err, "calling AssignProperties_To_Address() to populate field ResidentialAddress")
 	}
 	destination.ResidentialAddress = &residentialAddress
 
@@ -203,8 +203,8 @@ type Person_STATUS struct {
 	Status string `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromPersonSTATUS populates our Person_STATUS from the provided source Person_STATUS
-func (person *Person_STATUS) AssignPropertiesFromPersonSTATUS(source *v20211231s.Person_STATUS) error {
+// AssignProperties_From_Person_STATUS populates our Person_STATUS from the provided source Person_STATUS
+func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v20211231s.Person_STATUS) error {
 
 	// Status
 	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -213,8 +213,8 @@ func (person *Person_STATUS) AssignPropertiesFromPersonSTATUS(source *v20211231s
 	return nil
 }
 
-// AssignPropertiesToPersonSTATUS populates the provided destination Person_STATUS from our Person_STATUS
-func (person *Person_STATUS) AssignPropertiesToPersonSTATUS(destination *v20211231s.Person_STATUS) error {
+// AssignProperties_To_Person_STATUS populates the provided destination Person_STATUS from our Person_STATUS
+func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v20211231s.Person_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -241,8 +241,8 @@ type Address struct {
 	FullAddress string `json:"fullAddress,omitempty"`
 }
 
-// AssignPropertiesFromAddress populates our Address from the provided source Address
-func (address *Address) AssignPropertiesFromAddress(source *v20211231s.Address) error {
+// AssignProperties_From_Address populates our Address from the provided source Address
+func (address *Address) AssignProperties_From_Address(source *v20211231s.Address) error {
 
 	// City
 	address.City = genruntime.GetOptionalStringValue(source.City)
@@ -254,8 +254,8 @@ func (address *Address) AssignPropertiesFromAddress(source *v20211231s.Address) 
 	return nil
 }
 
-// AssignPropertiesToAddress populates the provided destination Address from our Address
-func (address *Address) AssignPropertiesToAddress(destination *v20211231s.Address) error {
+// AssignProperties_To_Address populates the provided destination Address from our Address
+func (address *Address) AssignProperties_To_Address(destination *v20211231s.Address) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

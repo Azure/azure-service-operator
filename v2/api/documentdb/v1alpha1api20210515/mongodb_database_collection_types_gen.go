@@ -28,8 +28,8 @@ import (
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollections_Spec `json:"spec,omitempty"`
-	Status            MongoDBCollectionGetResults_STATUS               `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabases_Collections_Spec `json:"spec,omitempty"`
+	Status            MongoDBCollectionGetResults_STATUS                 `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -56,7 +56,7 @@ func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) err
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = collection.AssignPropertiesFromMongodbDatabaseCollection(&source)
+	err = collection.AssignProperties_From_MongodbDatabaseCollection(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to collection")
 	}
@@ -68,7 +68,7 @@ func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) err
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20210515s.MongodbDatabaseCollection
-	err := collection.AssignPropertiesToMongodbDatabaseCollection(&destination)
+	err := collection.AssignProperties_To_MongodbDatabaseCollection(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from collection")
 	}
@@ -262,25 +262,25 @@ func (collection *MongodbDatabaseCollection) validateWriteOnceProperties(old run
 	return genruntime.ValidateWriteOnceProperties(oldObj, collection)
 }
 
-// AssignPropertiesFromMongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection
-func (collection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabaseCollection(source *alpha20210515s.MongodbDatabaseCollection) error {
+// AssignProperties_From_MongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection
+func (collection *MongodbDatabaseCollection) AssignProperties_From_MongodbDatabaseCollection(source *alpha20210515s.MongodbDatabaseCollection) error {
 
 	// ObjectMeta
 	collection.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsMongodbDatabasesCollections_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(&source.Spec)
+	var spec DatabaseAccounts_MongodbDatabases_Collections_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec() to populate field Spec")
 	}
 	collection.Spec = spec
 
 	// Status
 	var status MongoDBCollectionGetResults_STATUS
-	err = status.AssignPropertiesFromMongoDBCollectionGetResultsSTATUS(&source.Status)
+	err = status.AssignProperties_From_MongoDBCollectionGetResults_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionGetResultsSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_MongoDBCollectionGetResults_STATUS() to populate field Status")
 	}
 	collection.Status = status
 
@@ -288,25 +288,25 @@ func (collection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabase
 	return nil
 }
 
-// AssignPropertiesToMongodbDatabaseCollection populates the provided destination MongodbDatabaseCollection from our MongodbDatabaseCollection
-func (collection *MongodbDatabaseCollection) AssignPropertiesToMongodbDatabaseCollection(destination *alpha20210515s.MongodbDatabaseCollection) error {
+// AssignProperties_To_MongodbDatabaseCollection populates the provided destination MongodbDatabaseCollection from our MongodbDatabaseCollection
+func (collection *MongodbDatabaseCollection) AssignProperties_To_MongodbDatabaseCollection(destination *alpha20210515s.MongodbDatabaseCollection) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *collection.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec
-	err := collection.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(&spec)
+	var spec alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec
+	err := collection.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status alpha20210515s.MongoDBCollectionGetResults_STATUS
-	err = collection.Status.AssignPropertiesToMongoDBCollectionGetResultsSTATUS(&status)
+	err = collection.Status.AssignProperties_To_MongoDBCollectionGetResults_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionGetResultsSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_MongoDBCollectionGetResults_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,7 +331,7 @@ type MongodbDatabaseCollectionList struct {
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
+type DatabaseAccounts_MongodbDatabases_Collections_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
@@ -349,14 +349,14 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	Tags     map[string]string          `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollections_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccounts_MongodbDatabases_Collections_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if collections == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
+	result := &DatabaseAccounts_MongodbDatabases_Collections_SpecARM{}
 
 	// Set property ‘Location’:
 	if collections.Location != nil {
@@ -399,15 +399,15 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_MongodbDatabases_Collections_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesCollections_SpecARM)
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collections_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesCollections_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -464,25 +464,25 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFro
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollections_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Collections_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Collections_Spec from the provided source
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec)
 	if ok {
 		// Populate our instance from source
-		return collections.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(src)
+		return collections.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec{}
+	src = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = collections.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(src)
+	err = collections.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -490,17 +490,17 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_Spec
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec)
 	if ok {
 		// Populate destination from our instance
-		return collections.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(dst)
+		return collections.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec{}
-	err := collections.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(dst)
+	dst = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec{}
+	err := collections.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -514,8 +514,8 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(source *alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
+// AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec populates our DatabaseAccounts_MongodbDatabases_Collections_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_Spec
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec(source *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec) error {
 
 	// AzureName
 	collections.AzureName = source.AzureName
@@ -526,9 +526,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
-		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		err := option.AssignProperties_From_CreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
 		collections.Options = &option
 	} else {
@@ -546,9 +546,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	// Resource
 	if source.Resource != nil {
 		var resource MongoDBCollectionResource
-		err := resource.AssignPropertiesFromMongoDBCollectionResource(source.Resource)
+		err := resource.AssignProperties_From_MongoDBCollectionResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoDBCollectionResource() to populate field Resource")
 		}
 		collections.Resource = &resource
 	} else {
@@ -562,8 +562,8 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec populates the provided destination DatabaseAccountsMongodbDatabasesCollections_Spec from our DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(destination *alpha20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
+// AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec populates the provided destination DatabaseAccounts_MongodbDatabases_Collections_Spec from our DatabaseAccounts_MongodbDatabases_Collections_Spec
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec(destination *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -576,9 +576,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	// Options
 	if collections.Options != nil {
 		var option alpha20210515s.CreateUpdateOptions
-		err := collections.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		err := collections.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -599,9 +599,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 	// Resource
 	if collections.Resource != nil {
 		var resource alpha20210515s.MongoDBCollectionResource
-		err := collections.Resource.AssignPropertiesToMongoDBCollectionResource(&resource)
+		err := collections.Resource.AssignProperties_To_MongoDBCollectionResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoDBCollectionResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -623,12 +623,12 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) OriginalVersion() string {
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) SetAzureName(azureName string) {
+func (collections *DatabaseAccounts_MongodbDatabases_Collections_Spec) SetAzureName(azureName string) {
 	collections.AzureName = azureName
 }
 
@@ -652,7 +652,7 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusFrom(source genr
 	src, ok := source.(*alpha20210515s.MongoDBCollectionGetResults_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromMongoDBCollectionGetResultsSTATUS(src)
+		return results.AssignProperties_From_MongoDBCollectionGetResults_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -663,7 +663,7 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusFrom(source genr
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromMongoDBCollectionGetResultsSTATUS(src)
+	err = results.AssignProperties_From_MongoDBCollectionGetResults_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -676,12 +676,12 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusTo(destination g
 	dst, ok := destination.(*alpha20210515s.MongoDBCollectionGetResults_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToMongoDBCollectionGetResultsSTATUS(dst)
+		return results.AssignProperties_To_MongoDBCollectionGetResults_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20210515s.MongoDBCollectionGetResults_STATUS{}
-	err := results.AssignPropertiesToMongoDBCollectionGetResultsSTATUS(dst)
+	err := results.AssignProperties_To_MongoDBCollectionGetResults_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -775,8 +775,8 @@ func (results *MongoDBCollectionGetResults_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromMongoDBCollectionGetResultsSTATUS populates our MongoDBCollectionGetResults_STATUS from the provided source MongoDBCollectionGetResults_STATUS
-func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesFromMongoDBCollectionGetResultsSTATUS(source *alpha20210515s.MongoDBCollectionGetResults_STATUS) error {
+// AssignProperties_From_MongoDBCollectionGetResults_STATUS populates our MongoDBCollectionGetResults_STATUS from the provided source MongoDBCollectionGetResults_STATUS
+func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_From_MongoDBCollectionGetResults_STATUS(source *alpha20210515s.MongoDBCollectionGetResults_STATUS) error {
 
 	// Conditions
 	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -793,9 +793,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesFromMongoDBCo
 	// Options
 	if source.Options != nil {
 		var option OptionsResource_STATUS
-		err := option.AssignPropertiesFromOptionsResourceSTATUS(source.Options)
+		err := option.AssignProperties_From_OptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceSTATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
 		results.Options = &option
 	} else {
@@ -805,9 +805,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesFromMongoDBCo
 	// Resource
 	if source.Resource != nil {
 		var resource MongoDBCollectionGetProperties_STATUS_Resource
-		err := resource.AssignPropertiesFromMongoDBCollectionGetPropertiesSTATUSResource(source.Resource)
+		err := resource.AssignProperties_From_MongoDBCollectionGetProperties_STATUS_Resource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionGetPropertiesSTATUSResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoDBCollectionGetProperties_STATUS_Resource() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -824,8 +824,8 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesFromMongoDBCo
 	return nil
 }
 
-// AssignPropertiesToMongoDBCollectionGetResultsSTATUS populates the provided destination MongoDBCollectionGetResults_STATUS from our MongoDBCollectionGetResults_STATUS
-func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesToMongoDBCollectionGetResultsSTATUS(destination *alpha20210515s.MongoDBCollectionGetResults_STATUS) error {
+// AssignProperties_To_MongoDBCollectionGetResults_STATUS populates the provided destination MongoDBCollectionGetResults_STATUS from our MongoDBCollectionGetResults_STATUS
+func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_To_MongoDBCollectionGetResults_STATUS(destination *alpha20210515s.MongoDBCollectionGetResults_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -844,9 +844,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesToMongoDBColl
 	// Options
 	if results.Options != nil {
 		var option alpha20210515s.OptionsResource_STATUS
-		err := results.Options.AssignPropertiesToOptionsResourceSTATUS(&option)
+		err := results.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceSTATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -856,9 +856,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignPropertiesToMongoDBColl
 	// Resource
 	if results.Resource != nil {
 		var resource alpha20210515s.MongoDBCollectionGetProperties_STATUS_Resource
-		err := results.Resource.AssignPropertiesToMongoDBCollectionGetPropertiesSTATUSResource(&resource)
+		err := results.Resource.AssignProperties_To_MongoDBCollectionGetProperties_STATUS_Resource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionGetPropertiesSTATUSResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoDBCollectionGetProperties_STATUS_Resource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -959,8 +959,8 @@ func (resource *MongoDBCollectionGetProperties_STATUS_Resource) PopulateFromARM(
 	return nil
 }
 
-// AssignPropertiesFromMongoDBCollectionGetPropertiesSTATUSResource populates our MongoDBCollectionGetProperties_STATUS_Resource from the provided source MongoDBCollectionGetProperties_STATUS_Resource
-func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignPropertiesFromMongoDBCollectionGetPropertiesSTATUSResource(source *alpha20210515s.MongoDBCollectionGetProperties_STATUS_Resource) error {
+// AssignProperties_From_MongoDBCollectionGetProperties_STATUS_Resource populates our MongoDBCollectionGetProperties_STATUS_Resource from the provided source MongoDBCollectionGetProperties_STATUS_Resource
+func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignProperties_From_MongoDBCollectionGetProperties_STATUS_Resource(source *alpha20210515s.MongoDBCollectionGetProperties_STATUS_Resource) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -978,9 +978,9 @@ func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignProperties
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal MongoIndex_STATUS
-			err := indexLocal.AssignPropertiesFromMongoIndexSTATUS(&indexItem)
+			err := indexLocal.AssignProperties_From_MongoIndex_STATUS(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromMongoIndexSTATUS() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_From_MongoIndex_STATUS() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -1007,8 +1007,8 @@ func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignProperties
 	return nil
 }
 
-// AssignPropertiesToMongoDBCollectionGetPropertiesSTATUSResource populates the provided destination MongoDBCollectionGetProperties_STATUS_Resource from our MongoDBCollectionGetProperties_STATUS_Resource
-func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignPropertiesToMongoDBCollectionGetPropertiesSTATUSResource(destination *alpha20210515s.MongoDBCollectionGetProperties_STATUS_Resource) error {
+// AssignProperties_To_MongoDBCollectionGetProperties_STATUS_Resource populates the provided destination MongoDBCollectionGetProperties_STATUS_Resource from our MongoDBCollectionGetProperties_STATUS_Resource
+func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignProperties_To_MongoDBCollectionGetProperties_STATUS_Resource(destination *alpha20210515s.MongoDBCollectionGetProperties_STATUS_Resource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1028,9 +1028,9 @@ func (resource *MongoDBCollectionGetProperties_STATUS_Resource) AssignProperties
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal alpha20210515s.MongoIndex_STATUS
-			err := indexItem.AssignPropertiesToMongoIndexSTATUS(&indexLocal)
+			err := indexItem.AssignProperties_To_MongoIndex_STATUS(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToMongoIndexSTATUS() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_To_MongoIndex_STATUS() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -1160,8 +1160,8 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromMongoDBCollectionResource populates our MongoDBCollectionResource from the provided source MongoDBCollectionResource
-func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollectionResource(source *alpha20210515s.MongoDBCollectionResource) error {
+// AssignProperties_From_MongoDBCollectionResource populates our MongoDBCollectionResource from the provided source MongoDBCollectionResource
+func (resource *MongoDBCollectionResource) AssignProperties_From_MongoDBCollectionResource(source *alpha20210515s.MongoDBCollectionResource) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1176,9 +1176,9 @@ func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollection
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal MongoIndex
-			err := indexLocal.AssignPropertiesFromMongoIndex(&indexItem)
+			err := indexLocal.AssignProperties_From_MongoIndex(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromMongoIndex() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_From_MongoIndex() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -1194,8 +1194,8 @@ func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollection
 	return nil
 }
 
-// AssignPropertiesToMongoDBCollectionResource populates the provided destination MongoDBCollectionResource from our MongoDBCollectionResource
-func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionResource(destination *alpha20210515s.MongoDBCollectionResource) error {
+// AssignProperties_To_MongoDBCollectionResource populates the provided destination MongoDBCollectionResource from our MongoDBCollectionResource
+func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollectionResource(destination *alpha20210515s.MongoDBCollectionResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1212,9 +1212,9 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal alpha20210515s.MongoIndex
-			err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
+			err := indexItem.AssignProperties_To_MongoIndex(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToMongoIndex() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_To_MongoIndex() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -1312,15 +1312,15 @@ func (index *MongoIndex) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignPropertiesFromMongoIndex populates our MongoIndex from the provided source MongoIndex
-func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *alpha20210515s.MongoIndex) error {
+// AssignProperties_From_MongoIndex populates our MongoIndex from the provided source MongoIndex
+func (index *MongoIndex) AssignProperties_From_MongoIndex(source *alpha20210515s.MongoIndex) error {
 
 	// Key
 	if source.Key != nil {
 		var key MongoIndexKeys
-		err := key.AssignPropertiesFromMongoIndexKeys(source.Key)
+		err := key.AssignProperties_From_MongoIndexKeys(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoIndexKeys() to populate field Key")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoIndexKeys() to populate field Key")
 		}
 		index.Key = &key
 	} else {
@@ -1330,9 +1330,9 @@ func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *alpha20210515s.M
 	// Options
 	if source.Options != nil {
 		var option MongoIndexOptions
-		err := option.AssignPropertiesFromMongoIndexOptions(source.Options)
+		err := option.AssignProperties_From_MongoIndexOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoIndexOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoIndexOptions() to populate field Options")
 		}
 		index.Options = &option
 	} else {
@@ -1343,17 +1343,17 @@ func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *alpha20210515s.M
 	return nil
 }
 
-// AssignPropertiesToMongoIndex populates the provided destination MongoIndex from our MongoIndex
-func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *alpha20210515s.MongoIndex) error {
+// AssignProperties_To_MongoIndex populates the provided destination MongoIndex from our MongoIndex
+func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *alpha20210515s.MongoIndex) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Key
 	if index.Key != nil {
 		var key alpha20210515s.MongoIndexKeys
-		err := index.Key.AssignPropertiesToMongoIndexKeys(&key)
+		err := index.Key.AssignProperties_To_MongoIndexKeys(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexKeys() to populate field Key")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoIndexKeys() to populate field Key")
 		}
 		destination.Key = &key
 	} else {
@@ -1363,9 +1363,9 @@ func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *alpha20210515
 	// Options
 	if index.Options != nil {
 		var option alpha20210515s.MongoIndexOptions
-		err := index.Options.AssignPropertiesToMongoIndexOptions(&option)
+		err := index.Options.AssignProperties_To_MongoIndexOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoIndexOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -1429,15 +1429,15 @@ func (index *MongoIndex_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromMongoIndexSTATUS populates our MongoIndex_STATUS from the provided source MongoIndex_STATUS
-func (index *MongoIndex_STATUS) AssignPropertiesFromMongoIndexSTATUS(source *alpha20210515s.MongoIndex_STATUS) error {
+// AssignProperties_From_MongoIndex_STATUS populates our MongoIndex_STATUS from the provided source MongoIndex_STATUS
+func (index *MongoIndex_STATUS) AssignProperties_From_MongoIndex_STATUS(source *alpha20210515s.MongoIndex_STATUS) error {
 
 	// Key
 	if source.Key != nil {
 		var key MongoIndexKeys_STATUS
-		err := key.AssignPropertiesFromMongoIndexKeysSTATUS(source.Key)
+		err := key.AssignProperties_From_MongoIndexKeys_STATUS(source.Key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoIndexKeysSTATUS() to populate field Key")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoIndexKeys_STATUS() to populate field Key")
 		}
 		index.Key = &key
 	} else {
@@ -1447,9 +1447,9 @@ func (index *MongoIndex_STATUS) AssignPropertiesFromMongoIndexSTATUS(source *alp
 	// Options
 	if source.Options != nil {
 		var option MongoIndexOptions_STATUS
-		err := option.AssignPropertiesFromMongoIndexOptionsSTATUS(source.Options)
+		err := option.AssignProperties_From_MongoIndexOptions_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoIndexOptionsSTATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoIndexOptions_STATUS() to populate field Options")
 		}
 		index.Options = &option
 	} else {
@@ -1460,17 +1460,17 @@ func (index *MongoIndex_STATUS) AssignPropertiesFromMongoIndexSTATUS(source *alp
 	return nil
 }
 
-// AssignPropertiesToMongoIndexSTATUS populates the provided destination MongoIndex_STATUS from our MongoIndex_STATUS
-func (index *MongoIndex_STATUS) AssignPropertiesToMongoIndexSTATUS(destination *alpha20210515s.MongoIndex_STATUS) error {
+// AssignProperties_To_MongoIndex_STATUS populates the provided destination MongoIndex_STATUS from our MongoIndex_STATUS
+func (index *MongoIndex_STATUS) AssignProperties_To_MongoIndex_STATUS(destination *alpha20210515s.MongoIndex_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Key
 	if index.Key != nil {
 		var key alpha20210515s.MongoIndexKeys_STATUS
-		err := index.Key.AssignPropertiesToMongoIndexKeysSTATUS(&key)
+		err := index.Key.AssignProperties_To_MongoIndexKeys_STATUS(&key)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexKeysSTATUS() to populate field Key")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoIndexKeys_STATUS() to populate field Key")
 		}
 		destination.Key = &key
 	} else {
@@ -1480,9 +1480,9 @@ func (index *MongoIndex_STATUS) AssignPropertiesToMongoIndexSTATUS(destination *
 	// Options
 	if index.Options != nil {
 		var option alpha20210515s.MongoIndexOptions_STATUS
-		err := index.Options.AssignPropertiesToMongoIndexOptionsSTATUS(&option)
+		err := index.Options.AssignProperties_To_MongoIndexOptions_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexOptionsSTATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoIndexOptions_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -1542,8 +1542,8 @@ func (keys *MongoIndexKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	return nil
 }
 
-// AssignPropertiesFromMongoIndexKeys populates our MongoIndexKeys from the provided source MongoIndexKeys
-func (keys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *alpha20210515s.MongoIndexKeys) error {
+// AssignProperties_From_MongoIndexKeys populates our MongoIndexKeys from the provided source MongoIndexKeys
+func (keys *MongoIndexKeys) AssignProperties_From_MongoIndexKeys(source *alpha20210515s.MongoIndexKeys) error {
 
 	// Keys
 	keys.Keys = genruntime.CloneSliceOfString(source.Keys)
@@ -1552,8 +1552,8 @@ func (keys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *alpha2021
 	return nil
 }
 
-// AssignPropertiesToMongoIndexKeys populates the provided destination MongoIndexKeys from our MongoIndexKeys
-func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *alpha20210515s.MongoIndexKeys) error {
+// AssignProperties_To_MongoIndexKeys populates the provided destination MongoIndexKeys from our MongoIndexKeys
+func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *alpha20210515s.MongoIndexKeys) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1599,8 +1599,8 @@ func (keys *MongoIndexKeys_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromMongoIndexKeysSTATUS populates our MongoIndexKeys_STATUS from the provided source MongoIndexKeys_STATUS
-func (keys *MongoIndexKeys_STATUS) AssignPropertiesFromMongoIndexKeysSTATUS(source *alpha20210515s.MongoIndexKeys_STATUS) error {
+// AssignProperties_From_MongoIndexKeys_STATUS populates our MongoIndexKeys_STATUS from the provided source MongoIndexKeys_STATUS
+func (keys *MongoIndexKeys_STATUS) AssignProperties_From_MongoIndexKeys_STATUS(source *alpha20210515s.MongoIndexKeys_STATUS) error {
 
 	// Keys
 	keys.Keys = genruntime.CloneSliceOfString(source.Keys)
@@ -1609,8 +1609,8 @@ func (keys *MongoIndexKeys_STATUS) AssignPropertiesFromMongoIndexKeysSTATUS(sour
 	return nil
 }
 
-// AssignPropertiesToMongoIndexKeysSTATUS populates the provided destination MongoIndexKeys_STATUS from our MongoIndexKeys_STATUS
-func (keys *MongoIndexKeys_STATUS) AssignPropertiesToMongoIndexKeysSTATUS(destination *alpha20210515s.MongoIndexKeys_STATUS) error {
+// AssignProperties_To_MongoIndexKeys_STATUS populates the provided destination MongoIndexKeys_STATUS from our MongoIndexKeys_STATUS
+func (keys *MongoIndexKeys_STATUS) AssignProperties_To_MongoIndexKeys_STATUS(destination *alpha20210515s.MongoIndexKeys_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1685,8 +1685,8 @@ func (options *MongoIndexOptions) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromMongoIndexOptions populates our MongoIndexOptions from the provided source MongoIndexOptions
-func (options *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *alpha20210515s.MongoIndexOptions) error {
+// AssignProperties_From_MongoIndexOptions populates our MongoIndexOptions from the provided source MongoIndexOptions
+func (options *MongoIndexOptions) AssignProperties_From_MongoIndexOptions(source *alpha20210515s.MongoIndexOptions) error {
 
 	// ExpireAfterSeconds
 	options.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
@@ -1703,8 +1703,8 @@ func (options *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *
 	return nil
 }
 
-// AssignPropertiesToMongoIndexOptions populates the provided destination MongoIndexOptions from our MongoIndexOptions
-func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destination *alpha20210515s.MongoIndexOptions) error {
+// AssignProperties_To_MongoIndexOptions populates the provided destination MongoIndexOptions from our MongoIndexOptions
+func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destination *alpha20210515s.MongoIndexOptions) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1766,8 +1766,8 @@ func (options *MongoIndexOptions_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromMongoIndexOptionsSTATUS populates our MongoIndexOptions_STATUS from the provided source MongoIndexOptions_STATUS
-func (options *MongoIndexOptions_STATUS) AssignPropertiesFromMongoIndexOptionsSTATUS(source *alpha20210515s.MongoIndexOptions_STATUS) error {
+// AssignProperties_From_MongoIndexOptions_STATUS populates our MongoIndexOptions_STATUS from the provided source MongoIndexOptions_STATUS
+func (options *MongoIndexOptions_STATUS) AssignProperties_From_MongoIndexOptions_STATUS(source *alpha20210515s.MongoIndexOptions_STATUS) error {
 
 	// ExpireAfterSeconds
 	options.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
@@ -1784,8 +1784,8 @@ func (options *MongoIndexOptions_STATUS) AssignPropertiesFromMongoIndexOptionsST
 	return nil
 }
 
-// AssignPropertiesToMongoIndexOptionsSTATUS populates the provided destination MongoIndexOptions_STATUS from our MongoIndexOptions_STATUS
-func (options *MongoIndexOptions_STATUS) AssignPropertiesToMongoIndexOptionsSTATUS(destination *alpha20210515s.MongoIndexOptions_STATUS) error {
+// AssignProperties_To_MongoIndexOptions_STATUS populates the provided destination MongoIndexOptions_STATUS from our MongoIndexOptions_STATUS
+func (options *MongoIndexOptions_STATUS) AssignProperties_To_MongoIndexOptions_STATUS(destination *alpha20210515s.MongoIndexOptions_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -341,12 +341,12 @@ func (in *RedisParameters) DeepCopyInto(out *RedisParameters) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(RedisCreatePropertiesMinimumTlsVersion)
+		*out = new(RedisCreateProperties_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RedisCreatePropertiesPublicNetworkAccess)
+		*out = new(RedisCreateProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.RedisConfiguration != nil {
@@ -541,7 +541,7 @@ func (in *RedisResourceObservation) DeepCopyInto(out *RedisResourceObservation) 
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(RedisPropertiesSTATUSMinimumTlsVersion)
+		*out = new(RedisProperties_STATUS_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -563,12 +563,12 @@ func (in *RedisResourceObservation) DeepCopyInto(out *RedisResourceObservation) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(RedisPropertiesSTATUSProvisioningState)
+		*out = new(RedisProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RedisPropertiesSTATUSPublicNetworkAccess)
+		*out = new(RedisProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.RedisConfiguration != nil {
@@ -691,12 +691,12 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 	}
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuFamily)
+		*out = new(Sku_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -721,12 +721,12 @@ func (in *Sku_STATUS) DeepCopyInto(out *Sku_STATUS) {
 	}
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuSTATUSFamily)
+		*out = new(Sku_STATUS_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 }

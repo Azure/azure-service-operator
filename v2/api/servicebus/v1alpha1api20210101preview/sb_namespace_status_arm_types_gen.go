@@ -20,7 +20,7 @@ type SBNamespace_STATUSARM struct {
 type Identity_STATUSARM struct {
 	PrincipalId            *string                              `json:"principalId,omitempty"`
 	TenantId               *string                              `json:"tenantId,omitempty"`
-	Type                   *IdentitySTATUSType                  `json:"type,omitempty"`
+	Type                   *Identity_STATUS_Type                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -39,19 +39,19 @@ type SBNamespaceProperties_STATUSARM struct {
 
 // Deprecated version of SBSku_STATUS. Use v1beta20210101preview.SBSku_STATUS instead
 type SBSku_STATUSARM struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Name     *SBSkuSTATUSName `json:"name,omitempty"`
-	Tier     *SBSkuSTATUSTier `json:"tier,omitempty"`
+	Capacity *int               `json:"capacity,omitempty"`
+	Name     *SBSku_STATUS_Name `json:"name,omitempty"`
+	Tier     *SBSku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210101preview.SystemData_STATUS instead
 type SystemData_STATUSARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of DictionaryValue_STATUS. Use v1beta20210101preview.DictionaryValue_STATUS instead
@@ -62,19 +62,19 @@ type DictionaryValue_STATUSARM struct {
 
 // Deprecated version of Encryption_STATUS. Use v1beta20210101preview.Encryption_STATUS instead
 type Encryption_STATUSARM struct {
-	KeySource                       *EncryptionSTATUSKeySource     `json:"keySource,omitempty"`
+	KeySource                       *Encryption_STATUS_KeySource   `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-// Deprecated version of IdentitySTATUSType. Use v1beta20210101preview.IdentitySTATUSType instead
-type IdentitySTATUSType string
+// Deprecated version of Identity_STATUS_Type. Use v1beta20210101preview.Identity_STATUS_Type instead
+type Identity_STATUS_Type string
 
 const (
-	IdentitySTATUSType_None                       = IdentitySTATUSType("None")
-	IdentitySTATUSType_SystemAssigned             = IdentitySTATUSType("SystemAssigned")
-	IdentitySTATUSType_SystemAssignedUserAssigned = IdentitySTATUSType("SystemAssigned, UserAssigned")
-	IdentitySTATUSType_UserAssigned               = IdentitySTATUSType("UserAssigned")
+	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
+	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
+	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
+	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
@@ -83,43 +83,43 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
-// Deprecated version of SBSkuSTATUSName. Use v1beta20210101preview.SBSkuSTATUSName instead
-type SBSkuSTATUSName string
+// Deprecated version of SBSku_STATUS_Name. Use v1beta20210101preview.SBSku_STATUS_Name instead
+type SBSku_STATUS_Name string
 
 const (
-	SBSkuSTATUSName_Basic    = SBSkuSTATUSName("Basic")
-	SBSkuSTATUSName_Premium  = SBSkuSTATUSName("Premium")
-	SBSkuSTATUSName_Standard = SBSkuSTATUSName("Standard")
+	SBSku_STATUS_Name_Basic    = SBSku_STATUS_Name("Basic")
+	SBSku_STATUS_Name_Premium  = SBSku_STATUS_Name("Premium")
+	SBSku_STATUS_Name_Standard = SBSku_STATUS_Name("Standard")
 )
 
-// Deprecated version of SBSkuSTATUSTier. Use v1beta20210101preview.SBSkuSTATUSTier instead
-type SBSkuSTATUSTier string
+// Deprecated version of SBSku_STATUS_Tier. Use v1beta20210101preview.SBSku_STATUS_Tier instead
+type SBSku_STATUS_Tier string
 
 const (
-	SBSkuSTATUSTier_Basic    = SBSkuSTATUSTier("Basic")
-	SBSkuSTATUSTier_Premium  = SBSkuSTATUSTier("Premium")
-	SBSkuSTATUSTier_Standard = SBSkuSTATUSTier("Standard")
+	SBSku_STATUS_Tier_Basic    = SBSku_STATUS_Tier("Basic")
+	SBSku_STATUS_Tier_Premium  = SBSku_STATUS_Tier("Premium")
+	SBSku_STATUS_Tier_Standard = SBSku_STATUS_Tier("Standard")
 )
 
-// Deprecated version of SystemDataSTATUSCreatedByType. Use v1beta20210101preview.SystemDataSTATUSCreatedByType instead
-type SystemDataSTATUSCreatedByType string
+// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20210101preview.SystemData_STATUS_CreatedByType instead
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-// Deprecated version of SystemDataSTATUSLastModifiedByType. Use v1beta20210101preview.SystemDataSTATUSLastModifiedByType
-// instead
-type SystemDataSTATUSLastModifiedByType string
+// Deprecated version of SystemData_STATUS_LastModifiedByType. Use
+// v1beta20210101preview.SystemData_STATUS_LastModifiedByType instead
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20210101preview.KeyVaultProperties_STATUS instead

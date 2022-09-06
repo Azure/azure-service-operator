@@ -257,7 +257,7 @@ const (
 
 type PowerState_STATUSARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerStateSTATUSCode `json:"code,omitempty"`
+	Code *PowerState_STATUS_Code `json:"code,omitempty"`
 }
 
 type ScaleSetEvictionPolicy_STATUS string
@@ -274,11 +274,11 @@ const (
 	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
 
-type PowerStateSTATUSCode string
+type PowerState_STATUS_Code string
 
 const (
-	PowerStateSTATUSCode_Running = PowerStateSTATUSCode("Running")
-	PowerStateSTATUSCode_Stopped = PowerStateSTATUSCode("Stopped")
+	PowerState_STATUS_Code_Running = PowerState_STATUS_Code("Running")
+	PowerState_STATUS_Code_Stopped = PowerState_STATUS_Code("Stopped")
 )
 
 type SysctlConfig_STATUSARM struct {

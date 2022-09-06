@@ -8,6 +8,7 @@ package readonly
 import "golang.org/x/exp/maps"
 
 type Map[K comparable, V any] struct {
+	//nolint:structcheck // 2022-09 incorrectly flaggging inner as unused
 	inner map[K]V
 }
 

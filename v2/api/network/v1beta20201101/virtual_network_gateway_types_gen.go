@@ -53,7 +53,7 @@ func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworkGateway but received %T instead", hub)
 	}
 
-	return gateway.AssignPropertiesFromVirtualNetworkGateway(source)
+	return gateway.AssignProperties_From_VirtualNetworkGateway(source)
 }
 
 // ConvertTo populates the provided hub VirtualNetworkGateway from our VirtualNetworkGateway
@@ -63,7 +63,7 @@ func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworkGateway but received %T instead", hub)
 	}
 
-	return gateway.AssignPropertiesToVirtualNetworkGateway(destination)
+	return gateway.AssignProperties_To_VirtualNetworkGateway(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (gateway *VirtualNetworkGateway) validateWriteOnceProperties(old runtime.Ob
 	return genruntime.ValidateWriteOnceProperties(oldObj, gateway)
 }
 
-// AssignPropertiesFromVirtualNetworkGateway populates our VirtualNetworkGateway from the provided source VirtualNetworkGateway
-func (gateway *VirtualNetworkGateway) AssignPropertiesFromVirtualNetworkGateway(source *v20201101s.VirtualNetworkGateway) error {
+// AssignProperties_From_VirtualNetworkGateway populates our VirtualNetworkGateway from the provided source VirtualNetworkGateway
+func (gateway *VirtualNetworkGateway) AssignProperties_From_VirtualNetworkGateway(source *v20201101s.VirtualNetworkGateway) error {
 
 	// ObjectMeta
 	gateway.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec VirtualNetworkGateways_Spec
-	err := spec.AssignPropertiesFromVirtualNetworkGatewaysSpec(&source.Spec)
+	err := spec.AssignProperties_From_VirtualNetworkGateways_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateways_Spec() to populate field Spec")
 	}
 	gateway.Spec = spec
 
 	// Status
 	var status VirtualNetworkGateway_STATUS
-	err = status.AssignPropertiesFromVirtualNetworkGatewaySTATUS(&source.Status)
+	err = status.AssignProperties_From_VirtualNetworkGateway_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaySTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	gateway.Status = status
 
@@ -274,25 +274,25 @@ func (gateway *VirtualNetworkGateway) AssignPropertiesFromVirtualNetworkGateway(
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGateway populates the provided destination VirtualNetworkGateway from our VirtualNetworkGateway
-func (gateway *VirtualNetworkGateway) AssignPropertiesToVirtualNetworkGateway(destination *v20201101s.VirtualNetworkGateway) error {
+// AssignProperties_To_VirtualNetworkGateway populates the provided destination VirtualNetworkGateway from our VirtualNetworkGateway
+func (gateway *VirtualNetworkGateway) AssignProperties_To_VirtualNetworkGateway(destination *v20201101s.VirtualNetworkGateway) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *gateway.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20201101s.VirtualNetworkGateways_Spec
-	err := gateway.Spec.AssignPropertiesToVirtualNetworkGatewaysSpec(&spec)
+	err := gateway.Spec.AssignProperties_To_VirtualNetworkGateways_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateways_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20201101s.VirtualNetworkGateway_STATUS
-	err = gateway.Status.AssignPropertiesToVirtualNetworkGatewaySTATUS(&status)
+	err = gateway.Status.AssignProperties_To_VirtualNetworkGateway_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaySTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateway_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -351,7 +351,7 @@ type VirtualNetworkGateway_STATUS struct {
 	GatewayDefaultSite *SubResource_STATUS `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType `json:"gatewayType,omitempty"`
+	GatewayType *VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType `json:"gatewayType,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -393,10 +393,10 @@ type VirtualNetworkGateway_STATUS struct {
 	VpnClientConfiguration *VpnClientConfiguration_STATUS `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
 
 	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormatSTATUSVpnType `json:"vpnType,omitempty"`
+	VpnType *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
@@ -406,7 +406,7 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime
 	src, ok := source.(*v20201101s.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate our instance from source
-		return gateway.AssignPropertiesFromVirtualNetworkGatewaySTATUS(src)
+		return gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -417,7 +417,7 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime
 	}
 
 	// Update our instance from src
-	err = gateway.AssignPropertiesFromVirtualNetworkGatewaySTATUS(src)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -430,12 +430,12 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genrunt
 	dst, ok := destination.(*v20201101s.VirtualNetworkGateway_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return gateway.AssignPropertiesToVirtualNetworkGatewaySTATUS(dst)
+		return gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201101s.VirtualNetworkGateway_STATUS{}
-	err := gateway.AssignPropertiesToVirtualNetworkGatewaySTATUS(dst)
+	err := gateway.AssignProperties_To_VirtualNetworkGateway_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -700,8 +700,8 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaySTATUS populates our VirtualNetworkGateway_STATUS from the provided source VirtualNetworkGateway_STATUS
-func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkGatewaySTATUS(source *v20201101s.VirtualNetworkGateway_STATUS) error {
+// AssignProperties_From_VirtualNetworkGateway_STATUS populates our VirtualNetworkGateway_STATUS from the provided source VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetworkGateway_STATUS(source *v20201101s.VirtualNetworkGateway_STATUS) error {
 
 	// ActiveActive
 	if source.ActiveActive != nil {
@@ -714,9 +714,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// BgpSettings
 	if source.BgpSettings != nil {
 		var bgpSetting BgpSettings_STATUS
-		err := bgpSetting.AssignPropertiesFromBgpSettingsSTATUS(source.BgpSettings)
+		err := bgpSetting.AssignProperties_From_BgpSettings_STATUS(source.BgpSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBgpSettingsSTATUS() to populate field BgpSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_BgpSettings_STATUS() to populate field BgpSettings")
 		}
 		gateway.BgpSettings = &bgpSetting
 	} else {
@@ -729,9 +729,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// CustomRoutes
 	if source.CustomRoutes != nil {
 		var customRoute AddressSpace_STATUS
-		err := customRoute.AssignPropertiesFromAddressSpaceSTATUS(source.CustomRoutes)
+		err := customRoute.AssignProperties_From_AddressSpace_STATUS(source.CustomRoutes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceSTATUS() to populate field CustomRoutes")
+			return errors.Wrap(err, "calling AssignProperties_From_AddressSpace_STATUS() to populate field CustomRoutes")
 		}
 		gateway.CustomRoutes = &customRoute
 	} else {
@@ -768,9 +768,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		gateway.ExtendedLocation = &extendedLocation
 	} else {
@@ -780,9 +780,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// GatewayDefaultSite
 	if source.GatewayDefaultSite != nil {
 		var gatewayDefaultSite SubResource_STATUS
-		err := gatewayDefaultSite.AssignPropertiesFromSubResourceSTATUS(source.GatewayDefaultSite)
+		err := gatewayDefaultSite.AssignProperties_From_SubResource_STATUS(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field GatewayDefaultSite")
 		}
 		gateway.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -791,7 +791,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 
 	// GatewayType
 	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType(*source.GatewayType)
+		gatewayType := VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType(*source.GatewayType)
 		gateway.GatewayType = &gatewayType
 	} else {
 		gateway.GatewayType = nil
@@ -810,9 +810,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration VirtualNetworkGatewayIPConfiguration_STATUS
-			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS(&ipConfigurationItem)
+			err := ipConfiguration.AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -841,9 +841,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// Sku
 	if source.Sku != nil {
 		var sku VirtualNetworkGatewaySku_STATUS
-		err := sku.AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS(source.Sku)
+		err := sku.AssignProperties_From_VirtualNetworkGatewaySku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGatewaySku_STATUS() to populate field Sku")
 		}
 		gateway.Sku = &sku
 	} else {
@@ -862,9 +862,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	// VpnClientConfiguration
 	if source.VpnClientConfiguration != nil {
 		var vpnClientConfiguration VpnClientConfiguration_STATUS
-		err := vpnClientConfiguration.AssignPropertiesFromVpnClientConfigurationSTATUS(source.VpnClientConfiguration)
+		err := vpnClientConfiguration.AssignProperties_From_VpnClientConfiguration_STATUS(source.VpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVpnClientConfigurationSTATUS() to populate field VpnClientConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_VpnClientConfiguration_STATUS() to populate field VpnClientConfiguration")
 		}
 		gateway.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -873,7 +873,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration(*source.VpnGatewayGeneration)
+		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration(*source.VpnGatewayGeneration)
 		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
 	} else {
 		gateway.VpnGatewayGeneration = nil
@@ -881,7 +881,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 
 	// VpnType
 	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewayPropertiesFormatSTATUSVpnType(*source.VpnType)
+		vpnType := VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType(*source.VpnType)
 		gateway.VpnType = &vpnType
 	} else {
 		gateway.VpnType = nil
@@ -891,8 +891,8 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesFromVirtualNetworkG
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaySTATUS populates the provided destination VirtualNetworkGateway_STATUS from our VirtualNetworkGateway_STATUS
-func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGatewaySTATUS(destination *v20201101s.VirtualNetworkGateway_STATUS) error {
+// AssignProperties_To_VirtualNetworkGateway_STATUS populates the provided destination VirtualNetworkGateway_STATUS from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkGateway_STATUS(destination *v20201101s.VirtualNetworkGateway_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -907,9 +907,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// BgpSettings
 	if gateway.BgpSettings != nil {
 		var bgpSetting v20201101s.BgpSettings_STATUS
-		err := gateway.BgpSettings.AssignPropertiesToBgpSettingsSTATUS(&bgpSetting)
+		err := gateway.BgpSettings.AssignProperties_To_BgpSettings_STATUS(&bgpSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBgpSettingsSTATUS() to populate field BgpSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_BgpSettings_STATUS() to populate field BgpSettings")
 		}
 		destination.BgpSettings = &bgpSetting
 	} else {
@@ -922,9 +922,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// CustomRoutes
 	if gateway.CustomRoutes != nil {
 		var customRoute v20201101s.AddressSpace_STATUS
-		err := gateway.CustomRoutes.AssignPropertiesToAddressSpaceSTATUS(&customRoute)
+		err := gateway.CustomRoutes.AssignProperties_To_AddressSpace_STATUS(&customRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceSTATUS() to populate field CustomRoutes")
+			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace_STATUS() to populate field CustomRoutes")
 		}
 		destination.CustomRoutes = &customRoute
 	} else {
@@ -961,9 +961,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// ExtendedLocation
 	if gateway.ExtendedLocation != nil {
 		var extendedLocation v20201101s.ExtendedLocation_STATUS
-		err := gateway.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
+		err := gateway.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -973,9 +973,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// GatewayDefaultSite
 	if gateway.GatewayDefaultSite != nil {
 		var gatewayDefaultSite v20201101s.SubResource_STATUS
-		err := gateway.GatewayDefaultSite.AssignPropertiesToSubResourceSTATUS(&gatewayDefaultSite)
+		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource_STATUS(&gatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field GatewayDefaultSite")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1003,9 +1003,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS
-			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS(&ipConfiguration)
+			err := ipConfigurationItem.AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1034,9 +1034,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// Sku
 	if gateway.Sku != nil {
 		var sku v20201101s.VirtualNetworkGatewaySku_STATUS
-		err := gateway.Sku.AssignPropertiesToVirtualNetworkGatewaySkuSTATUS(&sku)
+		err := gateway.Sku.AssignProperties_To_VirtualNetworkGatewaySku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaySkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGatewaySku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1055,9 +1055,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignPropertiesToVirtualNetworkGat
 	// VpnClientConfiguration
 	if gateway.VpnClientConfiguration != nil {
 		var vpnClientConfiguration v20201101s.VpnClientConfiguration_STATUS
-		err := gateway.VpnClientConfiguration.AssignPropertiesToVpnClientConfigurationSTATUS(&vpnClientConfiguration)
+		err := gateway.VpnClientConfiguration.AssignProperties_To_VpnClientConfiguration_STATUS(&vpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVpnClientConfigurationSTATUS() to populate field VpnClientConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_VpnClientConfiguration_STATUS() to populate field VpnClientConfiguration")
 		}
 		destination.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -1120,7 +1120,7 @@ type VirtualNetworkGateways_Spec struct {
 	GatewayDefaultSite *SubResource `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewaysSpecPropertiesGatewayType `json:"gatewayType,omitempty"`
+	GatewayType *VirtualNetworkGateways_Spec_Properties_GatewayType `json:"gatewayType,omitempty"`
 
 	// IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGateways_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
@@ -1153,10 +1153,10 @@ type VirtualNetworkGateways_Spec struct {
 	VpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
 
 	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewaysSpecPropertiesVpnType `json:"vpnType,omitempty"`
+	VpnType *VirtualNetworkGateways_Spec_Properties_VpnType `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGateways_Spec{}
@@ -1504,7 +1504,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertSpecFrom(source genruntime.C
 	src, ok := source.(*v20201101s.VirtualNetworkGateways_Spec)
 	if ok {
 		// Populate our instance from source
-		return gateways.AssignPropertiesFromVirtualNetworkGatewaysSpec(src)
+		return gateways.AssignProperties_From_VirtualNetworkGateways_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1515,7 +1515,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertSpecFrom(source genruntime.C
 	}
 
 	// Update our instance from src
-	err = gateways.AssignPropertiesFromVirtualNetworkGatewaysSpec(src)
+	err = gateways.AssignProperties_From_VirtualNetworkGateways_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1528,12 +1528,12 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntim
 	dst, ok := destination.(*v20201101s.VirtualNetworkGateways_Spec)
 	if ok {
 		// Populate destination from our instance
-		return gateways.AssignPropertiesToVirtualNetworkGatewaysSpec(dst)
+		return gateways.AssignProperties_To_VirtualNetworkGateways_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201101s.VirtualNetworkGateways_Spec{}
-	err := gateways.AssignPropertiesToVirtualNetworkGatewaysSpec(dst)
+	err := gateways.AssignProperties_To_VirtualNetworkGateways_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1547,8 +1547,8 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntim
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaysSpec populates our VirtualNetworkGateways_Spec from the provided source VirtualNetworkGateways_Spec
-func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkGatewaysSpec(source *v20201101s.VirtualNetworkGateways_Spec) error {
+// AssignProperties_From_VirtualNetworkGateways_Spec populates our VirtualNetworkGateways_Spec from the provided source VirtualNetworkGateways_Spec
+func (gateways *VirtualNetworkGateways_Spec) AssignProperties_From_VirtualNetworkGateways_Spec(source *v20201101s.VirtualNetworkGateways_Spec) error {
 
 	// ActiveActive
 	if source.ActiveActive != nil {
@@ -1564,9 +1564,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// BgpSettings
 	if source.BgpSettings != nil {
 		var bgpSetting BgpSettings
-		err := bgpSetting.AssignPropertiesFromBgpSettings(source.BgpSettings)
+		err := bgpSetting.AssignProperties_From_BgpSettings(source.BgpSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBgpSettings() to populate field BgpSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_BgpSettings() to populate field BgpSettings")
 		}
 		gateways.BgpSettings = &bgpSetting
 	} else {
@@ -1576,9 +1576,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// CustomRoutes
 	if source.CustomRoutes != nil {
 		var customRoute AddressSpace
-		err := customRoute.AssignPropertiesFromAddressSpace(source.CustomRoutes)
+		err := customRoute.AssignProperties_From_AddressSpace(source.CustomRoutes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpace() to populate field CustomRoutes")
+			return errors.Wrap(err, "calling AssignProperties_From_AddressSpace() to populate field CustomRoutes")
 		}
 		gateways.CustomRoutes = &customRoute
 	} else {
@@ -1612,9 +1612,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// GatewayDefaultSite
 	if source.GatewayDefaultSite != nil {
 		var gatewayDefaultSite SubResource
-		err := gatewayDefaultSite.AssignPropertiesFromSubResource(source.GatewayDefaultSite)
+		err := gatewayDefaultSite.AssignProperties_From_SubResource(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field GatewayDefaultSite")
 		}
 		gateways.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1623,7 +1623,7 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 
 	// GatewayType
 	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewaysSpecPropertiesGatewayType(*source.GatewayType)
+		gatewayType := VirtualNetworkGateways_Spec_Properties_GatewayType(*source.GatewayType)
 		gateways.GatewayType = &gatewayType
 	} else {
 		gateways.GatewayType = nil
@@ -1636,9 +1636,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration VirtualNetworkGateways_Spec_Properties_IpConfigurations
-			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfigurationItem)
+			err := ipConfiguration.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1661,9 +1661,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// Sku
 	if source.Sku != nil {
 		var sku VirtualNetworkGatewaySku
-		err := sku.AssignPropertiesFromVirtualNetworkGatewaySku(source.Sku)
+		err := sku.AssignProperties_From_VirtualNetworkGatewaySku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaySku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGatewaySku() to populate field Sku")
 		}
 		gateways.Sku = &sku
 	} else {
@@ -1684,9 +1684,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// VirtualNetworkExtendedLocation
 	if source.VirtualNetworkExtendedLocation != nil {
 		var virtualNetworkExtendedLocation ExtendedLocation
-		err := virtualNetworkExtendedLocation.AssignPropertiesFromExtendedLocation(source.VirtualNetworkExtendedLocation)
+		err := virtualNetworkExtendedLocation.AssignProperties_From_ExtendedLocation(source.VirtualNetworkExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field VirtualNetworkExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field VirtualNetworkExtendedLocation")
 		}
 		gateways.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	} else {
@@ -1696,9 +1696,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	// VpnClientConfiguration
 	if source.VpnClientConfiguration != nil {
 		var vpnClientConfiguration VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-		err := vpnClientConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(source.VpnClientConfiguration)
+		err := vpnClientConfiguration.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(source.VpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration() to populate field VpnClientConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration() to populate field VpnClientConfiguration")
 		}
 		gateways.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -1707,7 +1707,7 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration(*source.VpnGatewayGeneration)
+		vpnGatewayGeneration := VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration(*source.VpnGatewayGeneration)
 		gateways.VpnGatewayGeneration = &vpnGatewayGeneration
 	} else {
 		gateways.VpnGatewayGeneration = nil
@@ -1715,7 +1715,7 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 
 	// VpnType
 	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewaysSpecPropertiesVpnType(*source.VpnType)
+		vpnType := VirtualNetworkGateways_Spec_Properties_VpnType(*source.VpnType)
 		gateways.VpnType = &vpnType
 	} else {
 		gateways.VpnType = nil
@@ -1725,8 +1725,8 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesFromVirtualNetworkG
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaysSpec populates the provided destination VirtualNetworkGateways_Spec from our VirtualNetworkGateways_Spec
-func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGatewaysSpec(destination *v20201101s.VirtualNetworkGateways_Spec) error {
+// AssignProperties_To_VirtualNetworkGateways_Spec populates the provided destination VirtualNetworkGateways_Spec from our VirtualNetworkGateways_Spec
+func (gateways *VirtualNetworkGateways_Spec) AssignProperties_To_VirtualNetworkGateways_Spec(destination *v20201101s.VirtualNetworkGateways_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1744,9 +1744,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// BgpSettings
 	if gateways.BgpSettings != nil {
 		var bgpSetting v20201101s.BgpSettings
-		err := gateways.BgpSettings.AssignPropertiesToBgpSettings(&bgpSetting)
+		err := gateways.BgpSettings.AssignProperties_To_BgpSettings(&bgpSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBgpSettings() to populate field BgpSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_BgpSettings() to populate field BgpSettings")
 		}
 		destination.BgpSettings = &bgpSetting
 	} else {
@@ -1756,9 +1756,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// CustomRoutes
 	if gateways.CustomRoutes != nil {
 		var customRoute v20201101s.AddressSpace
-		err := gateways.CustomRoutes.AssignPropertiesToAddressSpace(&customRoute)
+		err := gateways.CustomRoutes.AssignProperties_To_AddressSpace(&customRoute)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAddressSpace() to populate field CustomRoutes")
+			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace() to populate field CustomRoutes")
 		}
 		destination.CustomRoutes = &customRoute
 	} else {
@@ -1792,9 +1792,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// GatewayDefaultSite
 	if gateways.GatewayDefaultSite != nil {
 		var gatewayDefaultSite v20201101s.SubResource
-		err := gateways.GatewayDefaultSite.AssignPropertiesToSubResource(&gatewayDefaultSite)
+		err := gateways.GatewayDefaultSite.AssignProperties_To_SubResource(&gatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field GatewayDefaultSite")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1816,9 +1816,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations
-			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfiguration)
+			err := ipConfigurationItem.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1844,9 +1844,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// Sku
 	if gateways.Sku != nil {
 		var sku v20201101s.VirtualNetworkGatewaySku
-		err := gateways.Sku.AssignPropertiesToVirtualNetworkGatewaySku(&sku)
+		err := gateways.Sku.AssignProperties_To_VirtualNetworkGatewaySku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaySku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGatewaySku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1867,9 +1867,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// VirtualNetworkExtendedLocation
 	if gateways.VirtualNetworkExtendedLocation != nil {
 		var virtualNetworkExtendedLocation v20201101s.ExtendedLocation
-		err := gateways.VirtualNetworkExtendedLocation.AssignPropertiesToExtendedLocation(&virtualNetworkExtendedLocation)
+		err := gateways.VirtualNetworkExtendedLocation.AssignProperties_To_ExtendedLocation(&virtualNetworkExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field VirtualNetworkExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field VirtualNetworkExtendedLocation")
 		}
 		destination.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	} else {
@@ -1879,9 +1879,9 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	// VpnClientConfiguration
 	if gateways.VpnClientConfiguration != nil {
 		var vpnClientConfiguration v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-		err := gateways.VpnClientConfiguration.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&vpnClientConfiguration)
+		err := gateways.VpnClientConfiguration.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(&vpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration() to populate field VpnClientConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration() to populate field VpnClientConfiguration")
 		}
 		destination.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -2022,8 +2022,8 @@ func (settings *BgpSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromBgpSettings populates our BgpSettings from the provided source BgpSettings
-func (settings *BgpSettings) AssignPropertiesFromBgpSettings(source *v20201101s.BgpSettings) error {
+// AssignProperties_From_BgpSettings populates our BgpSettings from the provided source BgpSettings
+func (settings *BgpSettings) AssignProperties_From_BgpSettings(source *v20201101s.BgpSettings) error {
 
 	// Asn
 	if source.Asn != nil {
@@ -2043,9 +2043,9 @@ func (settings *BgpSettings) AssignPropertiesFromBgpSettings(source *v20201101s.
 			// Shadow the loop variable to avoid aliasing
 			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
-			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
+			err := bgpPeeringAddress.AssignProperties_From_IPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
+				return errors.Wrap(err, "calling AssignProperties_From_IPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2061,8 +2061,8 @@ func (settings *BgpSettings) AssignPropertiesFromBgpSettings(source *v20201101s.
 	return nil
 }
 
-// AssignPropertiesToBgpSettings populates the provided destination BgpSettings from our BgpSettings
-func (settings *BgpSettings) AssignPropertiesToBgpSettings(destination *v20201101s.BgpSettings) error {
+// AssignProperties_To_BgpSettings populates the provided destination BgpSettings from our BgpSettings
+func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *v20201101s.BgpSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2084,9 +2084,9 @@ func (settings *BgpSettings) AssignPropertiesToBgpSettings(destination *v2020110
 			// Shadow the loop variable to avoid aliasing
 			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress v20201101s.IPConfigurationBgpPeeringAddress
-			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
+			err := bgpPeeringAddressItem.AssignProperties_To_IPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
+				return errors.Wrap(err, "calling AssignProperties_To_IPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2169,8 +2169,8 @@ func (settings *BgpSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromBgpSettingsSTATUS populates our BgpSettings_STATUS from the provided source BgpSettings_STATUS
-func (settings *BgpSettings_STATUS) AssignPropertiesFromBgpSettingsSTATUS(source *v20201101s.BgpSettings_STATUS) error {
+// AssignProperties_From_BgpSettings_STATUS populates our BgpSettings_STATUS from the provided source BgpSettings_STATUS
+func (settings *BgpSettings_STATUS) AssignProperties_From_BgpSettings_STATUS(source *v20201101s.BgpSettings_STATUS) error {
 
 	// Asn
 	if source.Asn != nil {
@@ -2190,9 +2190,9 @@ func (settings *BgpSettings_STATUS) AssignPropertiesFromBgpSettingsSTATUS(source
 			// Shadow the loop variable to avoid aliasing
 			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress_STATUS
-			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS(&bgpPeeringAddressItem)
+			err := bgpPeeringAddress.AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS() to populate field BgpPeeringAddresses")
+				return errors.Wrap(err, "calling AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2208,8 +2208,8 @@ func (settings *BgpSettings_STATUS) AssignPropertiesFromBgpSettingsSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToBgpSettingsSTATUS populates the provided destination BgpSettings_STATUS from our BgpSettings_STATUS
-func (settings *BgpSettings_STATUS) AssignPropertiesToBgpSettingsSTATUS(destination *v20201101s.BgpSettings_STATUS) error {
+// AssignProperties_To_BgpSettings_STATUS populates the provided destination BgpSettings_STATUS from our BgpSettings_STATUS
+func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(destination *v20201101s.BgpSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2231,9 +2231,9 @@ func (settings *BgpSettings_STATUS) AssignPropertiesToBgpSettingsSTATUS(destinat
 			// Shadow the loop variable to avoid aliasing
 			bgpPeeringAddressItem := bgpPeeringAddressItem
 			var bgpPeeringAddress v20201101s.IPConfigurationBgpPeeringAddress_STATUS
-			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS(&bgpPeeringAddress)
+			err := bgpPeeringAddressItem.AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddress)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS() to populate field BgpPeeringAddresses")
+				return errors.Wrap(err, "calling AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2373,8 +2373,8 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS populates our VirtualNetworkGatewayIPConfiguration_STATUS from the provided source VirtualNetworkGatewayIPConfiguration_STATUS
-func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS(source *v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS) error {
+// AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS populates our VirtualNetworkGatewayIPConfiguration_STATUS from the provided source VirtualNetworkGatewayIPConfiguration_STATUS
+func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS(source *v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS) error {
 
 	// Etag
 	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2407,9 +2407,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
 		var publicIPAddress SubResource_STATUS
-		err := publicIPAddress.AssignPropertiesFromSubResourceSTATUS(source.PublicIPAddress)
+		err := publicIPAddress.AssignProperties_From_SubResource_STATUS(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPAddress")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2419,9 +2419,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	// Subnet
 	if source.Subnet != nil {
 		var subnet SubResource_STATUS
-		err := subnet.AssignPropertiesFromSubResourceSTATUS(source.Subnet)
+		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -2432,8 +2432,8 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS populates the provided destination VirtualNetworkGatewayIPConfiguration_STATUS from our VirtualNetworkGatewayIPConfiguration_STATUS
-func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS(destination *v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS) error {
+// AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS populates the provided destination VirtualNetworkGatewayIPConfiguration_STATUS from our VirtualNetworkGatewayIPConfiguration_STATUS
+func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS(destination *v20201101s.VirtualNetworkGatewayIPConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2468,9 +2468,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
 		var publicIPAddress v20201101s.SubResource_STATUS
-		err := configuration.PublicIPAddress.AssignPropertiesToSubResourceSTATUS(&publicIPAddress)
+		err := configuration.PublicIPAddress.AssignProperties_To_SubResource_STATUS(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2480,9 +2480,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	// Subnet
 	if configuration.Subnet != nil {
 		var subnet v20201101s.SubResource_STATUS
-		err := configuration.Subnet.AssignPropertiesToSubResourceSTATUS(&subnet)
+		err := configuration.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2500,27 +2500,37 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	return nil
 }
 
-type VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType string
+type VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_ExpressRoute = VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType("ExpressRoute")
-	VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_LocalGateway = VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType("LocalGateway")
-	VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType("Vpn")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_ExpressRoute = VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_LocalGateway = VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType("Vpn")
 )
 
-type VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration string
+type VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_Generation1 = VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_Generation2 = VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration("None")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation1 = VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration("Generation1")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation2 = VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration("Generation2")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration("None")
 )
 
-type VirtualNetworkGatewayPropertiesFormatSTATUSVpnType string
+type VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatSTATUSVpnType_PolicyBased = VirtualNetworkGatewayPropertiesFormatSTATUSVpnType("PolicyBased")
-	VirtualNetworkGatewayPropertiesFormatSTATUSVpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormatSTATUSVpnType("RouteBased")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_PolicyBased = VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType("RouteBased")
+)
+
+// +kubebuilder:validation:Enum={"ExpressRoute","HyperNet","LocalGateway","Vpn"}
+type VirtualNetworkGateways_Spec_Properties_GatewayType string
+
+const (
+	VirtualNetworkGateways_Spec_Properties_GatewayType_ExpressRoute = VirtualNetworkGateways_Spec_Properties_GatewayType("ExpressRoute")
+	VirtualNetworkGateways_Spec_Properties_GatewayType_HyperNet     = VirtualNetworkGateways_Spec_Properties_GatewayType("HyperNet")
+	VirtualNetworkGateways_Spec_Properties_GatewayType_LocalGateway = VirtualNetworkGateways_Spec_Properties_GatewayType("LocalGateway")
+	VirtualNetworkGateways_Spec_Properties_GatewayType_Vpn          = VirtualNetworkGateways_Spec_Properties_GatewayType("Vpn")
 )
 
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
@@ -2528,7 +2538,7 @@ type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 	Name *string `json:"name,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
@@ -2640,15 +2650,15 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) P
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations populates our VirtualNetworkGateways_Spec_Properties_IpConfigurations from the provided source VirtualNetworkGateways_Spec_Properties_IpConfigurations
-func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(source *v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations) error {
+// AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations populates our VirtualNetworkGateways_Spec_Properties_IpConfigurations from the provided source VirtualNetworkGateways_Spec_Properties_IpConfigurations
+func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations(source *v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations) error {
 
 	// Name
 	configurations.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod(*source.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod(*source.PrivateIPAllocationMethod)
 		configurations.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	} else {
 		configurations.PrivateIPAllocationMethod = nil
@@ -2657,9 +2667,9 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
 		var publicIPAddress SubResource
-		err := publicIPAddress.AssignPropertiesFromSubResource(source.PublicIPAddress)
+		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
 		}
 		configurations.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2669,9 +2679,9 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	// Subnet
 	if source.Subnet != nil {
 		var subnet SubResource
-		err := subnet.AssignPropertiesFromSubResource(source.Subnet)
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
 		configurations.Subnet = &subnet
 	} else {
@@ -2682,8 +2692,8 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations populates the provided destination VirtualNetworkGateways_Spec_Properties_IpConfigurations from our VirtualNetworkGateways_Spec_Properties_IpConfigurations
-func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations) error {
+// AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations populates the provided destination VirtualNetworkGateways_Spec_Properties_IpConfigurations from our VirtualNetworkGateways_Spec_Properties_IpConfigurations
+func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2701,9 +2711,9 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	// PublicIPAddress
 	if configurations.PublicIPAddress != nil {
 		var publicIPAddress v20201101s.SubResource
-		err := configurations.PublicIPAddress.AssignPropertiesToSubResource(&publicIPAddress)
+		err := configurations.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2713,9 +2723,9 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	// Subnet
 	if configurations.Subnet != nil {
 		var subnet v20201101s.SubResource
-		err := configurations.Subnet.AssignPropertiesToSubResource(&subnet)
+		err := configurations.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2756,7 +2766,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	RadiusServers []RadiusServer `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace `json:"vpnClientAddressPool,omitempty"`
@@ -2765,7 +2775,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	VpnClientIpsecPolicies []IpsecPolicy `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates `json:"vpnClientRevokedCertificates,omitempty"`
@@ -2978,8 +2988,8 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) error {
+// AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) error {
 
 	// AadAudience
 	configuration.AadAudience = genruntime.ClonePointerToString(source.AadAudience)
@@ -3003,9 +3013,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			radiusServerItem := radiusServerItem
 			var radiusServer RadiusServer
-			err := radiusServer.AssignPropertiesFromRadiusServer(&radiusServerItem)
+			err := radiusServer.AssignProperties_From_RadiusServer(&radiusServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRadiusServer() to populate field RadiusServers")
+				return errors.Wrap(err, "calling AssignProperties_From_RadiusServer() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3016,11 +3026,11 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 
 	// VpnAuthenticationTypes
 	if source.VpnAuthenticationTypes != nil {
-		vpnAuthenticationTypeList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
+		vpnAuthenticationTypeList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
 			// Shadow the loop variable to avoid aliasing
 			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes(vpnAuthenticationTypeItem)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
 	} else {
@@ -3030,9 +3040,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	// VpnClientAddressPool
 	if source.VpnClientAddressPool != nil {
 		var vpnClientAddressPool AddressSpace
-		err := vpnClientAddressPool.AssignPropertiesFromAddressSpace(source.VpnClientAddressPool)
+		err := vpnClientAddressPool.AssignProperties_From_AddressSpace(source.VpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpace() to populate field VpnClientAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_From_AddressSpace() to populate field VpnClientAddressPool")
 		}
 		configuration.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3046,9 +3056,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy IpsecPolicy
-			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicy(&vpnClientIpsecPolicyItem)
+			err := vpnClientIpsecPolicy.AssignProperties_From_IpsecPolicy(&vpnClientIpsecPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIpsecPolicy() to populate field VpnClientIpsecPolicies")
+				return errors.Wrap(err, "calling AssignProperties_From_IpsecPolicy() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3059,11 +3069,11 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 
 	// VpnClientProtocols
 	if source.VpnClientProtocols != nil {
-		vpnClientProtocolList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols, len(source.VpnClientProtocols))
+		vpnClientProtocolList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols, len(source.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
 			// Shadow the loop variable to avoid aliasing
 			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols(vpnClientProtocolItem)
+			vpnClientProtocolList[vpnClientProtocolIndex] = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols(vpnClientProtocolItem)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
 	} else {
@@ -3077,9 +3087,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-			err := vpnClientRevokedCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificateItem)
+			err := vpnClientRevokedCertificate.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(&vpnClientRevokedCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3095,9 +3105,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-			err := vpnClientRootCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificateItem)
+			err := vpnClientRootCertificate.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(&vpnClientRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates() to populate field VpnClientRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3110,8 +3120,8 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) error {
+// AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3137,9 +3147,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			radiusServerItem := radiusServerItem
 			var radiusServer v20201101s.RadiusServer
-			err := radiusServerItem.AssignPropertiesToRadiusServer(&radiusServer)
+			err := radiusServerItem.AssignProperties_To_RadiusServer(&radiusServer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRadiusServer() to populate field RadiusServers")
+				return errors.Wrap(err, "calling AssignProperties_To_RadiusServer() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3164,9 +3174,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	// VpnClientAddressPool
 	if configuration.VpnClientAddressPool != nil {
 		var vpnClientAddressPool v20201101s.AddressSpace
-		err := configuration.VpnClientAddressPool.AssignPropertiesToAddressSpace(&vpnClientAddressPool)
+		err := configuration.VpnClientAddressPool.AssignProperties_To_AddressSpace(&vpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAddressSpace() to populate field VpnClientAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace() to populate field VpnClientAddressPool")
 		}
 		destination.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3180,9 +3190,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy v20201101s.IpsecPolicy
-			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicy(&vpnClientIpsecPolicy)
+			err := vpnClientIpsecPolicyItem.AssignProperties_To_IpsecPolicy(&vpnClientIpsecPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIpsecPolicy() to populate field VpnClientIpsecPolicies")
+				return errors.Wrap(err, "calling AssignProperties_To_IpsecPolicy() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3211,9 +3221,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-			err := vpnClientRevokedCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificate)
+			err := vpnClientRevokedCertificateItem.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(&vpnClientRevokedCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3229,9 +3239,9 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-			err := vpnClientRootCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificate)
+			err := vpnClientRootCertificateItem.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(&vpnClientRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates() to populate field VpnClientRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3251,13 +3261,30 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
+type VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration string
+
+const (
+	VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_Generation1 = VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration("Generation1")
+	VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_Generation2 = VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration("Generation2")
+	VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_None        = VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration("None")
+)
+
+// +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
+type VirtualNetworkGateways_Spec_Properties_VpnType string
+
+const (
+	VirtualNetworkGateways_Spec_Properties_VpnType_PolicyBased = VirtualNetworkGateways_Spec_Properties_VpnType("PolicyBased")
+	VirtualNetworkGateways_Spec_Properties_VpnType_RouteBased  = VirtualNetworkGateways_Spec_Properties_VpnType("RouteBased")
+)
+
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
 type VirtualNetworkGatewaySku struct {
 	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
+	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
 
 	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
+	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGatewaySku{}
@@ -3311,12 +3338,12 @@ func (gatewaySku *VirtualNetworkGatewaySku) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaySku populates our VirtualNetworkGatewaySku from the provided source VirtualNetworkGatewaySku
-func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesFromVirtualNetworkGatewaySku(source *v20201101s.VirtualNetworkGatewaySku) error {
+// AssignProperties_From_VirtualNetworkGatewaySku populates our VirtualNetworkGatewaySku from the provided source VirtualNetworkGatewaySku
+func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_From_VirtualNetworkGatewaySku(source *v20201101s.VirtualNetworkGatewaySku) error {
 
 	// Name
 	if source.Name != nil {
-		name := VirtualNetworkGatewaySkuName(*source.Name)
+		name := VirtualNetworkGatewaySku_Name(*source.Name)
 		gatewaySku.Name = &name
 	} else {
 		gatewaySku.Name = nil
@@ -3324,7 +3351,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesFromVirtualNetworkGa
 
 	// Tier
 	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySkuTier(*source.Tier)
+		tier := VirtualNetworkGatewaySku_Tier(*source.Tier)
 		gatewaySku.Tier = &tier
 	} else {
 		gatewaySku.Tier = nil
@@ -3334,8 +3361,8 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesFromVirtualNetworkGa
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaySku populates the provided destination VirtualNetworkGatewaySku from our VirtualNetworkGatewaySku
-func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGatewaySku(destination *v20201101s.VirtualNetworkGatewaySku) error {
+// AssignProperties_To_VirtualNetworkGatewaySku populates the provided destination VirtualNetworkGatewaySku from our VirtualNetworkGatewaySku
+func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_To_VirtualNetworkGatewaySku(destination *v20201101s.VirtualNetworkGatewaySku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3371,10 +3398,10 @@ type VirtualNetworkGatewaySku_STATUS struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySkuSTATUSName `json:"name,omitempty"`
+	Name *VirtualNetworkGatewaySku_STATUS_Name `json:"name,omitempty"`
 
 	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySkuSTATUSTier `json:"tier,omitempty"`
+	Tier *VirtualNetworkGatewaySku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewaySku_STATUS{}
@@ -3413,15 +3440,15 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS populates our VirtualNetworkGatewaySku_STATUS from the provided source VirtualNetworkGatewaySku_STATUS
-func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS(source *v20201101s.VirtualNetworkGatewaySku_STATUS) error {
+// AssignProperties_From_VirtualNetworkGatewaySku_STATUS populates our VirtualNetworkGatewaySku_STATUS from the provided source VirtualNetworkGatewaySku_STATUS
+func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_From_VirtualNetworkGatewaySku_STATUS(source *v20201101s.VirtualNetworkGatewaySku_STATUS) error {
 
 	// Capacity
 	gatewaySku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		name := VirtualNetworkGatewaySkuSTATUSName(*source.Name)
+		name := VirtualNetworkGatewaySku_STATUS_Name(*source.Name)
 		gatewaySku.Name = &name
 	} else {
 		gatewaySku.Name = nil
@@ -3429,7 +3456,7 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignPropertiesFromVirtualNe
 
 	// Tier
 	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySkuSTATUSTier(*source.Tier)
+		tier := VirtualNetworkGatewaySku_STATUS_Tier(*source.Tier)
 		gatewaySku.Tier = &tier
 	} else {
 		gatewaySku.Tier = nil
@@ -3439,8 +3466,8 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignPropertiesFromVirtualNe
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaySkuSTATUS populates the provided destination VirtualNetworkGatewaySku_STATUS from our VirtualNetworkGatewaySku_STATUS
-func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignPropertiesToVirtualNetworkGatewaySkuSTATUS(destination *v20201101s.VirtualNetworkGatewaySku_STATUS) error {
+// AssignProperties_To_VirtualNetworkGatewaySku_STATUS populates the provided destination VirtualNetworkGatewaySku_STATUS from our VirtualNetworkGatewaySku_STATUS
+func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_To_VirtualNetworkGatewaySku_STATUS(destination *v20201101s.VirtualNetworkGatewaySku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3474,33 +3501,6 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignPropertiesToVirtualNetw
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"ExpressRoute","HyperNet","LocalGateway","Vpn"}
-type VirtualNetworkGatewaysSpecPropertiesGatewayType string
-
-const (
-	VirtualNetworkGatewaysSpecPropertiesGatewayType_ExpressRoute = VirtualNetworkGatewaysSpecPropertiesGatewayType("ExpressRoute")
-	VirtualNetworkGatewaysSpecPropertiesGatewayType_HyperNet     = VirtualNetworkGatewaysSpecPropertiesGatewayType("HyperNet")
-	VirtualNetworkGatewaysSpecPropertiesGatewayType_LocalGateway = VirtualNetworkGatewaysSpecPropertiesGatewayType("LocalGateway")
-	VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn          = VirtualNetworkGatewaysSpecPropertiesGatewayType("Vpn")
-)
-
-// +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
-type VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration string
-
-const (
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation2 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_None        = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("None")
-)
-
-// +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
-type VirtualNetworkGatewaysSpecPropertiesVpnType string
-
-const (
-	VirtualNetworkGatewaysSpecPropertiesVpnType_PolicyBased = VirtualNetworkGatewaysSpecPropertiesVpnType("PolicyBased")
-	VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased  = VirtualNetworkGatewaysSpecPropertiesVpnType("RouteBased")
-)
-
 type VpnClientConfiguration_STATUS struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
@@ -3524,7 +3524,7 @@ type VpnClientConfiguration_STATUS struct {
 	RadiusServers []RadiusServer_STATUS `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VpnClientConfigurationSTATUSVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []VpnClientConfiguration_STATUS_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace_STATUS `json:"vpnClientAddressPool,omitempty"`
@@ -3533,7 +3533,7 @@ type VpnClientConfiguration_STATUS struct {
 	VpnClientIpsecPolicies []IpsecPolicy_STATUS `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfigurationSTATUSVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []VpnClientConfiguration_STATUS_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUS `json:"vpnClientRevokedCertificates,omitempty"`
@@ -3651,8 +3651,8 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromVpnClientConfigurationSTATUS populates our VpnClientConfiguration_STATUS from the provided source VpnClientConfiguration_STATUS
-func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClientConfigurationSTATUS(source *v20201101s.VpnClientConfiguration_STATUS) error {
+// AssignProperties_From_VpnClientConfiguration_STATUS populates our VpnClientConfiguration_STATUS from the provided source VpnClientConfiguration_STATUS
+func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnClientConfiguration_STATUS(source *v20201101s.VpnClientConfiguration_STATUS) error {
 
 	// AadAudience
 	configuration.AadAudience = genruntime.ClonePointerToString(source.AadAudience)
@@ -3676,9 +3676,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 			// Shadow the loop variable to avoid aliasing
 			radiusServerItem := radiusServerItem
 			var radiusServer RadiusServer_STATUS
-			err := radiusServer.AssignPropertiesFromRadiusServerSTATUS(&radiusServerItem)
+			err := radiusServer.AssignProperties_From_RadiusServer_STATUS(&radiusServerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRadiusServerSTATUS() to populate field RadiusServers")
+				return errors.Wrap(err, "calling AssignProperties_From_RadiusServer_STATUS() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3689,11 +3689,11 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 
 	// VpnAuthenticationTypes
 	if source.VpnAuthenticationTypes != nil {
-		vpnAuthenticationTypeList := make([]VpnClientConfigurationSTATUSVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
+		vpnAuthenticationTypeList := make([]VpnClientConfiguration_STATUS_VpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
 			// Shadow the loop variable to avoid aliasing
 			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfigurationSTATUSVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfiguration_STATUS_VpnAuthenticationTypes(vpnAuthenticationTypeItem)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
 	} else {
@@ -3703,9 +3703,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 	// VpnClientAddressPool
 	if source.VpnClientAddressPool != nil {
 		var vpnClientAddressPool AddressSpace_STATUS
-		err := vpnClientAddressPool.AssignPropertiesFromAddressSpaceSTATUS(source.VpnClientAddressPool)
+		err := vpnClientAddressPool.AssignProperties_From_AddressSpace_STATUS(source.VpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceSTATUS() to populate field VpnClientAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_From_AddressSpace_STATUS() to populate field VpnClientAddressPool")
 		}
 		configuration.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3719,9 +3719,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 			// Shadow the loop variable to avoid aliasing
 			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy IpsecPolicy_STATUS
-			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicySTATUS(&vpnClientIpsecPolicyItem)
+			err := vpnClientIpsecPolicy.AssignProperties_From_IpsecPolicy_STATUS(&vpnClientIpsecPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIpsecPolicySTATUS() to populate field VpnClientIpsecPolicies")
+				return errors.Wrap(err, "calling AssignProperties_From_IpsecPolicy_STATUS() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3732,11 +3732,11 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 
 	// VpnClientProtocols
 	if source.VpnClientProtocols != nil {
-		vpnClientProtocolList := make([]VpnClientConfigurationSTATUSVpnClientProtocols, len(source.VpnClientProtocols))
+		vpnClientProtocolList := make([]VpnClientConfiguration_STATUS_VpnClientProtocols, len(source.VpnClientProtocols))
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
 			// Shadow the loop variable to avoid aliasing
 			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfigurationSTATUSVpnClientProtocols(vpnClientProtocolItem)
+			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfiguration_STATUS_VpnClientProtocols(vpnClientProtocolItem)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
 	} else {
@@ -3750,9 +3750,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate VpnClientRevokedCertificate_STATUS
-			err := vpnClientRevokedCertificate.AssignPropertiesFromVpnClientRevokedCertificateSTATUS(&vpnClientRevokedCertificateItem)
+			err := vpnClientRevokedCertificate.AssignProperties_From_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVpnClientRevokedCertificateSTATUS() to populate field VpnClientRevokedCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VpnClientRevokedCertificate_STATUS() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3768,9 +3768,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate VpnClientRootCertificate_STATUS
-			err := vpnClientRootCertificate.AssignPropertiesFromVpnClientRootCertificateSTATUS(&vpnClientRootCertificateItem)
+			err := vpnClientRootCertificate.AssignProperties_From_VpnClientRootCertificate_STATUS(&vpnClientRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVpnClientRootCertificateSTATUS() to populate field VpnClientRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VpnClientRootCertificate_STATUS() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3783,8 +3783,8 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesFromVpnClien
 	return nil
 }
 
-// AssignPropertiesToVpnClientConfigurationSTATUS populates the provided destination VpnClientConfiguration_STATUS from our VpnClientConfiguration_STATUS
-func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientConfigurationSTATUS(destination *v20201101s.VpnClientConfiguration_STATUS) error {
+// AssignProperties_To_VpnClientConfiguration_STATUS populates the provided destination VpnClientConfiguration_STATUS from our VpnClientConfiguration_STATUS
+func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClientConfiguration_STATUS(destination *v20201101s.VpnClientConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3810,9 +3810,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 			// Shadow the loop variable to avoid aliasing
 			radiusServerItem := radiusServerItem
 			var radiusServer v20201101s.RadiusServer_STATUS
-			err := radiusServerItem.AssignPropertiesToRadiusServerSTATUS(&radiusServer)
+			err := radiusServerItem.AssignProperties_To_RadiusServer_STATUS(&radiusServer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRadiusServerSTATUS() to populate field RadiusServers")
+				return errors.Wrap(err, "calling AssignProperties_To_RadiusServer_STATUS() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3837,9 +3837,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 	// VpnClientAddressPool
 	if configuration.VpnClientAddressPool != nil {
 		var vpnClientAddressPool v20201101s.AddressSpace_STATUS
-		err := configuration.VpnClientAddressPool.AssignPropertiesToAddressSpaceSTATUS(&vpnClientAddressPool)
+		err := configuration.VpnClientAddressPool.AssignProperties_To_AddressSpace_STATUS(&vpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceSTATUS() to populate field VpnClientAddressPool")
+			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace_STATUS() to populate field VpnClientAddressPool")
 		}
 		destination.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3853,9 +3853,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 			// Shadow the loop variable to avoid aliasing
 			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
 			var vpnClientIpsecPolicy v20201101s.IpsecPolicy_STATUS
-			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicySTATUS(&vpnClientIpsecPolicy)
+			err := vpnClientIpsecPolicyItem.AssignProperties_To_IpsecPolicy_STATUS(&vpnClientIpsecPolicy)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIpsecPolicySTATUS() to populate field VpnClientIpsecPolicies")
+				return errors.Wrap(err, "calling AssignProperties_To_IpsecPolicy_STATUS() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3884,9 +3884,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
 			var vpnClientRevokedCertificate v20201101s.VpnClientRevokedCertificate_STATUS
-			err := vpnClientRevokedCertificateItem.AssignPropertiesToVpnClientRevokedCertificateSTATUS(&vpnClientRevokedCertificate)
+			err := vpnClientRevokedCertificateItem.AssignProperties_To_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVpnClientRevokedCertificateSTATUS() to populate field VpnClientRevokedCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VpnClientRevokedCertificate_STATUS() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3902,9 +3902,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 			// Shadow the loop variable to avoid aliasing
 			vpnClientRootCertificateItem := vpnClientRootCertificateItem
 			var vpnClientRootCertificate v20201101s.VpnClientRootCertificate_STATUS
-			err := vpnClientRootCertificateItem.AssignPropertiesToVpnClientRootCertificateSTATUS(&vpnClientRootCertificate)
+			err := vpnClientRootCertificateItem.AssignProperties_To_VpnClientRootCertificate_STATUS(&vpnClientRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVpnClientRootCertificateSTATUS() to populate field VpnClientRootCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VpnClientRootCertificate_STATUS() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3982,8 +3982,8 @@ func (address *IPConfigurationBgpPeeringAddress) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromIPConfigurationBgpPeeringAddress populates our IPConfigurationBgpPeeringAddress from the provided source IPConfigurationBgpPeeringAddress
-func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesFromIPConfigurationBgpPeeringAddress(source *v20201101s.IPConfigurationBgpPeeringAddress) error {
+// AssignProperties_From_IPConfigurationBgpPeeringAddress populates our IPConfigurationBgpPeeringAddress from the provided source IPConfigurationBgpPeeringAddress
+func (address *IPConfigurationBgpPeeringAddress) AssignProperties_From_IPConfigurationBgpPeeringAddress(source *v20201101s.IPConfigurationBgpPeeringAddress) error {
 
 	// CustomBgpIpAddresses
 	address.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
@@ -3995,8 +3995,8 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesFromIPConfigura
 	return nil
 }
 
-// AssignPropertiesToIPConfigurationBgpPeeringAddress populates the provided destination IPConfigurationBgpPeeringAddress from our IPConfigurationBgpPeeringAddress
-func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesToIPConfigurationBgpPeeringAddress(destination *v20201101s.IPConfigurationBgpPeeringAddress) error {
+// AssignProperties_To_IPConfigurationBgpPeeringAddress populates the provided destination IPConfigurationBgpPeeringAddress from our IPConfigurationBgpPeeringAddress
+func (address *IPConfigurationBgpPeeringAddress) AssignProperties_To_IPConfigurationBgpPeeringAddress(destination *v20201101s.IPConfigurationBgpPeeringAddress) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4070,8 +4070,8 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS populates our IPConfigurationBgpPeeringAddress_STATUS from the provided source IPConfigurationBgpPeeringAddress_STATUS
-func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS(source *v20201101s.IPConfigurationBgpPeeringAddress_STATUS) error {
+// AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS populates our IPConfigurationBgpPeeringAddress_STATUS from the provided source IPConfigurationBgpPeeringAddress_STATUS
+func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS(source *v20201101s.IPConfigurationBgpPeeringAddress_STATUS) error {
 
 	// CustomBgpIpAddresses
 	address.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
@@ -4089,8 +4089,8 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignPropertiesFromIPCo
 	return nil
 }
 
-// AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS populates the provided destination IPConfigurationBgpPeeringAddress_STATUS from our IPConfigurationBgpPeeringAddress_STATUS
-func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS(destination *v20201101s.IPConfigurationBgpPeeringAddress_STATUS) error {
+// AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS populates the provided destination IPConfigurationBgpPeeringAddress_STATUS from our IPConfigurationBgpPeeringAddress_STATUS
+func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS(destination *v20201101s.IPConfigurationBgpPeeringAddress_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4121,27 +4121,27 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignPropertiesToIPConf
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup *IpsecPolicyDhGroup `json:"dhGroup,omitempty"`
+	DhGroup *IpsecPolicy_DhGroup `json:"dhGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption *IpsecPolicyIkeEncryption `json:"ikeEncryption,omitempty"`
+	IkeEncryption *IpsecPolicy_IkeEncryption `json:"ikeEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity *IpsecPolicyIkeIntegrity `json:"ikeIntegrity,omitempty"`
+	IkeIntegrity *IpsecPolicy_IkeIntegrity `json:"ikeIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption *IpsecPolicyIpsecEncryption `json:"ipsecEncryption,omitempty"`
+	IpsecEncryption *IpsecPolicy_IpsecEncryption `json:"ipsecEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity *IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity,omitempty"`
+	IpsecIntegrity *IpsecPolicy_IpsecIntegrity `json:"ipsecIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup *IpsecPolicyPfsGroup `json:"pfsGroup,omitempty"`
+	PfsGroup *IpsecPolicy_PfsGroup `json:"pfsGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
@@ -4277,12 +4277,12 @@ func (policy *IpsecPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromIpsecPolicy populates our IpsecPolicy from the provided source IpsecPolicy
-func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.IpsecPolicy) error {
+// AssignProperties_From_IpsecPolicy populates our IpsecPolicy from the provided source IpsecPolicy
+func (policy *IpsecPolicy) AssignProperties_From_IpsecPolicy(source *v20201101s.IpsecPolicy) error {
 
 	// DhGroup
 	if source.DhGroup != nil {
-		dhGroup := IpsecPolicyDhGroup(*source.DhGroup)
+		dhGroup := IpsecPolicy_DhGroup(*source.DhGroup)
 		policy.DhGroup = &dhGroup
 	} else {
 		policy.DhGroup = nil
@@ -4290,7 +4290,7 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		ikeEncryption := IpsecPolicyIkeEncryption(*source.IkeEncryption)
+		ikeEncryption := IpsecPolicy_IkeEncryption(*source.IkeEncryption)
 		policy.IkeEncryption = &ikeEncryption
 	} else {
 		policy.IkeEncryption = nil
@@ -4298,7 +4298,7 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		ikeIntegrity := IpsecPolicyIkeIntegrity(*source.IkeIntegrity)
+		ikeIntegrity := IpsecPolicy_IkeIntegrity(*source.IkeIntegrity)
 		policy.IkeIntegrity = &ikeIntegrity
 	} else {
 		policy.IkeIntegrity = nil
@@ -4306,7 +4306,7 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		ipsecEncryption := IpsecPolicyIpsecEncryption(*source.IpsecEncryption)
+		ipsecEncryption := IpsecPolicy_IpsecEncryption(*source.IpsecEncryption)
 		policy.IpsecEncryption = &ipsecEncryption
 	} else {
 		policy.IpsecEncryption = nil
@@ -4314,7 +4314,7 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := IpsecPolicyIpsecIntegrity(*source.IpsecIntegrity)
+		ipsecIntegrity := IpsecPolicy_IpsecIntegrity(*source.IpsecIntegrity)
 		policy.IpsecIntegrity = &ipsecIntegrity
 	} else {
 		policy.IpsecIntegrity = nil
@@ -4322,7 +4322,7 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		pfsGroup := IpsecPolicyPfsGroup(*source.PfsGroup)
+		pfsGroup := IpsecPolicy_PfsGroup(*source.PfsGroup)
 		policy.PfsGroup = &pfsGroup
 	} else {
 		policy.PfsGroup = nil
@@ -4338,8 +4338,8 @@ func (policy *IpsecPolicy) AssignPropertiesFromIpsecPolicy(source *v20201101s.Ip
 	return nil
 }
 
-// AssignPropertiesToIpsecPolicy populates the provided destination IpsecPolicy from our IpsecPolicy
-func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v20201101s.IpsecPolicy) error {
+// AssignProperties_To_IpsecPolicy populates the provided destination IpsecPolicy from our IpsecPolicy
+func (policy *IpsecPolicy) AssignProperties_To_IpsecPolicy(destination *v20201101s.IpsecPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4502,8 +4502,8 @@ func (policy *IpsecPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromIpsecPolicySTATUS populates our IpsecPolicy_STATUS from the provided source IpsecPolicy_STATUS
-func (policy *IpsecPolicy_STATUS) AssignPropertiesFromIpsecPolicySTATUS(source *v20201101s.IpsecPolicy_STATUS) error {
+// AssignProperties_From_IpsecPolicy_STATUS populates our IpsecPolicy_STATUS from the provided source IpsecPolicy_STATUS
+func (policy *IpsecPolicy_STATUS) AssignProperties_From_IpsecPolicy_STATUS(source *v20201101s.IpsecPolicy_STATUS) error {
 
 	// DhGroup
 	if source.DhGroup != nil {
@@ -4563,8 +4563,8 @@ func (policy *IpsecPolicy_STATUS) AssignPropertiesFromIpsecPolicySTATUS(source *
 	return nil
 }
 
-// AssignPropertiesToIpsecPolicySTATUS populates the provided destination IpsecPolicy_STATUS from our IpsecPolicy_STATUS
-func (policy *IpsecPolicy_STATUS) AssignPropertiesToIpsecPolicySTATUS(destination *v20201101s.IpsecPolicy_STATUS) error {
+// AssignProperties_To_IpsecPolicy_STATUS populates the provided destination IpsecPolicy_STATUS from our IpsecPolicy_STATUS
+func (policy *IpsecPolicy_STATUS) AssignProperties_To_IpsecPolicy_STATUS(destination *v20201101s.IpsecPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4709,8 +4709,8 @@ func (server *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	return nil
 }
 
-// AssignPropertiesFromRadiusServer populates our RadiusServer from the provided source RadiusServer
-func (server *RadiusServer) AssignPropertiesFromRadiusServer(source *v20201101s.RadiusServer) error {
+// AssignProperties_From_RadiusServer populates our RadiusServer from the provided source RadiusServer
+func (server *RadiusServer) AssignProperties_From_RadiusServer(source *v20201101s.RadiusServer) error {
 
 	// RadiusServerAddress
 	server.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
@@ -4725,8 +4725,8 @@ func (server *RadiusServer) AssignPropertiesFromRadiusServer(source *v20201101s.
 	return nil
 }
 
-// AssignPropertiesToRadiusServer populates the provided destination RadiusServer from our RadiusServer
-func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v20201101s.RadiusServer) error {
+// AssignProperties_To_RadiusServer populates the provided destination RadiusServer from our RadiusServer
+func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *v20201101s.RadiusServer) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4797,8 +4797,8 @@ func (server *RadiusServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromRadiusServerSTATUS populates our RadiusServer_STATUS from the provided source RadiusServer_STATUS
-func (server *RadiusServer_STATUS) AssignPropertiesFromRadiusServerSTATUS(source *v20201101s.RadiusServer_STATUS) error {
+// AssignProperties_From_RadiusServer_STATUS populates our RadiusServer_STATUS from the provided source RadiusServer_STATUS
+func (server *RadiusServer_STATUS) AssignProperties_From_RadiusServer_STATUS(source *v20201101s.RadiusServer_STATUS) error {
 
 	// RadiusServerAddress
 	server.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
@@ -4813,8 +4813,8 @@ func (server *RadiusServer_STATUS) AssignPropertiesFromRadiusServerSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToRadiusServerSTATUS populates the provided destination RadiusServer_STATUS from our RadiusServer_STATUS
-func (server *RadiusServer_STATUS) AssignPropertiesToRadiusServerSTATUS(destination *v20201101s.RadiusServer_STATUS) error {
+// AssignProperties_To_RadiusServer_STATUS populates the provided destination RadiusServer_STATUS from our RadiusServer_STATUS
+func (server *RadiusServer_STATUS) AssignProperties_To_RadiusServer_STATUS(destination *v20201101s.RadiusServer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4839,11 +4839,29 @@ func (server *RadiusServer_STATUS) AssignPropertiesToRadiusServerSTATUS(destinat
 }
 
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
-type VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
+type VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod string
 
 const (
-	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
-	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static  = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
+	VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic = VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Dynamic")
+	VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static  = VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Static")
+)
+
+// +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
+type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes string
+
+const (
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_AAD         = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes("AAD")
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_Certificate = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes("Certificate")
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_Radius      = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes("Radius")
+)
+
+// +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
+type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols string
+
+const (
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_IkeV2   = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols("IkeV2")
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_OpenVPN = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols("OpenVPN")
+	VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_SSTP    = VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols("SSTP")
 )
 
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
@@ -4911,8 +4929,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) error {
+// AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) error {
 
 	// Name
 	certificates.Name = genruntime.ClonePointerToString(source.Name)
@@ -4924,8 +4942,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) error {
+// AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5012,8 +5030,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) error {
+// AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates populates our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates from the provided source VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(source *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) error {
 
 	// Name
 	certificates.Name = genruntime.ClonePointerToString(source.Name)
@@ -5025,8 +5043,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) error {
+// AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates populates the provided destination VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates from our VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(destination *v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5048,127 +5066,109 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 }
 
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
-type VirtualNetworkGatewaySkuName string
+type VirtualNetworkGatewaySku_Name string
 
 const (
-	VirtualNetworkGatewaySkuName_Basic            = VirtualNetworkGatewaySkuName("Basic")
-	VirtualNetworkGatewaySkuName_ErGw1AZ          = VirtualNetworkGatewaySkuName("ErGw1AZ")
-	VirtualNetworkGatewaySkuName_ErGw2AZ          = VirtualNetworkGatewaySkuName("ErGw2AZ")
-	VirtualNetworkGatewaySkuName_ErGw3AZ          = VirtualNetworkGatewaySkuName("ErGw3AZ")
-	VirtualNetworkGatewaySkuName_HighPerformance  = VirtualNetworkGatewaySkuName("HighPerformance")
-	VirtualNetworkGatewaySkuName_Standard         = VirtualNetworkGatewaySkuName("Standard")
-	VirtualNetworkGatewaySkuName_UltraPerformance = VirtualNetworkGatewaySkuName("UltraPerformance")
-	VirtualNetworkGatewaySkuName_VpnGw1           = VirtualNetworkGatewaySkuName("VpnGw1")
-	VirtualNetworkGatewaySkuName_VpnGw1AZ         = VirtualNetworkGatewaySkuName("VpnGw1AZ")
-	VirtualNetworkGatewaySkuName_VpnGw2           = VirtualNetworkGatewaySkuName("VpnGw2")
-	VirtualNetworkGatewaySkuName_VpnGw2AZ         = VirtualNetworkGatewaySkuName("VpnGw2AZ")
-	VirtualNetworkGatewaySkuName_VpnGw3           = VirtualNetworkGatewaySkuName("VpnGw3")
-	VirtualNetworkGatewaySkuName_VpnGw3AZ         = VirtualNetworkGatewaySkuName("VpnGw3AZ")
-	VirtualNetworkGatewaySkuName_VpnGw4           = VirtualNetworkGatewaySkuName("VpnGw4")
-	VirtualNetworkGatewaySkuName_VpnGw4AZ         = VirtualNetworkGatewaySkuName("VpnGw4AZ")
-	VirtualNetworkGatewaySkuName_VpnGw5           = VirtualNetworkGatewaySkuName("VpnGw5")
-	VirtualNetworkGatewaySkuName_VpnGw5AZ         = VirtualNetworkGatewaySkuName("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Name_Basic            = VirtualNetworkGatewaySku_Name("Basic")
+	VirtualNetworkGatewaySku_Name_ErGw1AZ          = VirtualNetworkGatewaySku_Name("ErGw1AZ")
+	VirtualNetworkGatewaySku_Name_ErGw2AZ          = VirtualNetworkGatewaySku_Name("ErGw2AZ")
+	VirtualNetworkGatewaySku_Name_ErGw3AZ          = VirtualNetworkGatewaySku_Name("ErGw3AZ")
+	VirtualNetworkGatewaySku_Name_HighPerformance  = VirtualNetworkGatewaySku_Name("HighPerformance")
+	VirtualNetworkGatewaySku_Name_Standard         = VirtualNetworkGatewaySku_Name("Standard")
+	VirtualNetworkGatewaySku_Name_UltraPerformance = VirtualNetworkGatewaySku_Name("UltraPerformance")
+	VirtualNetworkGatewaySku_Name_VpnGw1           = VirtualNetworkGatewaySku_Name("VpnGw1")
+	VirtualNetworkGatewaySku_Name_VpnGw1AZ         = VirtualNetworkGatewaySku_Name("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw2           = VirtualNetworkGatewaySku_Name("VpnGw2")
+	VirtualNetworkGatewaySku_Name_VpnGw2AZ         = VirtualNetworkGatewaySku_Name("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw3           = VirtualNetworkGatewaySku_Name("VpnGw3")
+	VirtualNetworkGatewaySku_Name_VpnGw3AZ         = VirtualNetworkGatewaySku_Name("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw4           = VirtualNetworkGatewaySku_Name("VpnGw4")
+	VirtualNetworkGatewaySku_Name_VpnGw4AZ         = VirtualNetworkGatewaySku_Name("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw5           = VirtualNetworkGatewaySku_Name("VpnGw5")
+	VirtualNetworkGatewaySku_Name_VpnGw5AZ         = VirtualNetworkGatewaySku_Name("VpnGw5AZ")
 )
 
-type VirtualNetworkGatewaySkuSTATUSName string
+type VirtualNetworkGatewaySku_STATUS_Name string
 
 const (
-	VirtualNetworkGatewaySkuSTATUSName_Basic            = VirtualNetworkGatewaySkuSTATUSName("Basic")
-	VirtualNetworkGatewaySkuSTATUSName_ErGw1AZ          = VirtualNetworkGatewaySkuSTATUSName("ErGw1AZ")
-	VirtualNetworkGatewaySkuSTATUSName_ErGw2AZ          = VirtualNetworkGatewaySkuSTATUSName("ErGw2AZ")
-	VirtualNetworkGatewaySkuSTATUSName_ErGw3AZ          = VirtualNetworkGatewaySkuSTATUSName("ErGw3AZ")
-	VirtualNetworkGatewaySkuSTATUSName_HighPerformance  = VirtualNetworkGatewaySkuSTATUSName("HighPerformance")
-	VirtualNetworkGatewaySkuSTATUSName_Standard         = VirtualNetworkGatewaySkuSTATUSName("Standard")
-	VirtualNetworkGatewaySkuSTATUSName_UltraPerformance = VirtualNetworkGatewaySkuSTATUSName("UltraPerformance")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw1           = VirtualNetworkGatewaySkuSTATUSName("VpnGw1")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw1AZ         = VirtualNetworkGatewaySkuSTATUSName("VpnGw1AZ")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw2           = VirtualNetworkGatewaySkuSTATUSName("VpnGw2")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw2AZ         = VirtualNetworkGatewaySkuSTATUSName("VpnGw2AZ")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw3           = VirtualNetworkGatewaySkuSTATUSName("VpnGw3")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw3AZ         = VirtualNetworkGatewaySkuSTATUSName("VpnGw3AZ")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw4           = VirtualNetworkGatewaySkuSTATUSName("VpnGw4")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw4AZ         = VirtualNetworkGatewaySkuSTATUSName("VpnGw4AZ")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw5           = VirtualNetworkGatewaySkuSTATUSName("VpnGw5")
-	VirtualNetworkGatewaySkuSTATUSName_VpnGw5AZ         = VirtualNetworkGatewaySkuSTATUSName("VpnGw5AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_Basic            = VirtualNetworkGatewaySku_STATUS_Name("Basic")
+	VirtualNetworkGatewaySku_STATUS_Name_ErGw1AZ          = VirtualNetworkGatewaySku_STATUS_Name("ErGw1AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_ErGw2AZ          = VirtualNetworkGatewaySku_STATUS_Name("ErGw2AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_ErGw3AZ          = VirtualNetworkGatewaySku_STATUS_Name("ErGw3AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_HighPerformance  = VirtualNetworkGatewaySku_STATUS_Name("HighPerformance")
+	VirtualNetworkGatewaySku_STATUS_Name_Standard         = VirtualNetworkGatewaySku_STATUS_Name("Standard")
+	VirtualNetworkGatewaySku_STATUS_Name_UltraPerformance = VirtualNetworkGatewaySku_STATUS_Name("UltraPerformance")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw1           = VirtualNetworkGatewaySku_STATUS_Name("VpnGw1")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw1AZ         = VirtualNetworkGatewaySku_STATUS_Name("VpnGw1AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw2           = VirtualNetworkGatewaySku_STATUS_Name("VpnGw2")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw2AZ         = VirtualNetworkGatewaySku_STATUS_Name("VpnGw2AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw3           = VirtualNetworkGatewaySku_STATUS_Name("VpnGw3")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw3AZ         = VirtualNetworkGatewaySku_STATUS_Name("VpnGw3AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw4           = VirtualNetworkGatewaySku_STATUS_Name("VpnGw4")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw4AZ         = VirtualNetworkGatewaySku_STATUS_Name("VpnGw4AZ")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw5           = VirtualNetworkGatewaySku_STATUS_Name("VpnGw5")
+	VirtualNetworkGatewaySku_STATUS_Name_VpnGw5AZ         = VirtualNetworkGatewaySku_STATUS_Name("VpnGw5AZ")
 )
 
-type VirtualNetworkGatewaySkuSTATUSTier string
+type VirtualNetworkGatewaySku_STATUS_Tier string
 
 const (
-	VirtualNetworkGatewaySkuSTATUSTier_Basic            = VirtualNetworkGatewaySkuSTATUSTier("Basic")
-	VirtualNetworkGatewaySkuSTATUSTier_ErGw1AZ          = VirtualNetworkGatewaySkuSTATUSTier("ErGw1AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_ErGw2AZ          = VirtualNetworkGatewaySkuSTATUSTier("ErGw2AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_ErGw3AZ          = VirtualNetworkGatewaySkuSTATUSTier("ErGw3AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_HighPerformance  = VirtualNetworkGatewaySkuSTATUSTier("HighPerformance")
-	VirtualNetworkGatewaySkuSTATUSTier_Standard         = VirtualNetworkGatewaySkuSTATUSTier("Standard")
-	VirtualNetworkGatewaySkuSTATUSTier_UltraPerformance = VirtualNetworkGatewaySkuSTATUSTier("UltraPerformance")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw1           = VirtualNetworkGatewaySkuSTATUSTier("VpnGw1")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw1AZ         = VirtualNetworkGatewaySkuSTATUSTier("VpnGw1AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw2           = VirtualNetworkGatewaySkuSTATUSTier("VpnGw2")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw2AZ         = VirtualNetworkGatewaySkuSTATUSTier("VpnGw2AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw3           = VirtualNetworkGatewaySkuSTATUSTier("VpnGw3")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw3AZ         = VirtualNetworkGatewaySkuSTATUSTier("VpnGw3AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw4           = VirtualNetworkGatewaySkuSTATUSTier("VpnGw4")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw4AZ         = VirtualNetworkGatewaySkuSTATUSTier("VpnGw4AZ")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw5           = VirtualNetworkGatewaySkuSTATUSTier("VpnGw5")
-	VirtualNetworkGatewaySkuSTATUSTier_VpnGw5AZ         = VirtualNetworkGatewaySkuSTATUSTier("VpnGw5AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_Basic            = VirtualNetworkGatewaySku_STATUS_Tier("Basic")
+	VirtualNetworkGatewaySku_STATUS_Tier_ErGw1AZ          = VirtualNetworkGatewaySku_STATUS_Tier("ErGw1AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_ErGw2AZ          = VirtualNetworkGatewaySku_STATUS_Tier("ErGw2AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_ErGw3AZ          = VirtualNetworkGatewaySku_STATUS_Tier("ErGw3AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_HighPerformance  = VirtualNetworkGatewaySku_STATUS_Tier("HighPerformance")
+	VirtualNetworkGatewaySku_STATUS_Tier_Standard         = VirtualNetworkGatewaySku_STATUS_Tier("Standard")
+	VirtualNetworkGatewaySku_STATUS_Tier_UltraPerformance = VirtualNetworkGatewaySku_STATUS_Tier("UltraPerformance")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1           = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw1")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1AZ         = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw1AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2           = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw2")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2AZ         = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw2AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3           = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw3")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3AZ         = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw3AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4           = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw4")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4AZ         = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw4AZ")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5           = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw5")
+	VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5AZ         = VirtualNetworkGatewaySku_STATUS_Tier("VpnGw5AZ")
 )
 
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
-type VirtualNetworkGatewaySkuTier string
+type VirtualNetworkGatewaySku_Tier string
 
 const (
-	VirtualNetworkGatewaySkuTier_Basic            = VirtualNetworkGatewaySkuTier("Basic")
-	VirtualNetworkGatewaySkuTier_ErGw1AZ          = VirtualNetworkGatewaySkuTier("ErGw1AZ")
-	VirtualNetworkGatewaySkuTier_ErGw2AZ          = VirtualNetworkGatewaySkuTier("ErGw2AZ")
-	VirtualNetworkGatewaySkuTier_ErGw3AZ          = VirtualNetworkGatewaySkuTier("ErGw3AZ")
-	VirtualNetworkGatewaySkuTier_HighPerformance  = VirtualNetworkGatewaySkuTier("HighPerformance")
-	VirtualNetworkGatewaySkuTier_Standard         = VirtualNetworkGatewaySkuTier("Standard")
-	VirtualNetworkGatewaySkuTier_UltraPerformance = VirtualNetworkGatewaySkuTier("UltraPerformance")
-	VirtualNetworkGatewaySkuTier_VpnGw1           = VirtualNetworkGatewaySkuTier("VpnGw1")
-	VirtualNetworkGatewaySkuTier_VpnGw1AZ         = VirtualNetworkGatewaySkuTier("VpnGw1AZ")
-	VirtualNetworkGatewaySkuTier_VpnGw2           = VirtualNetworkGatewaySkuTier("VpnGw2")
-	VirtualNetworkGatewaySkuTier_VpnGw2AZ         = VirtualNetworkGatewaySkuTier("VpnGw2AZ")
-	VirtualNetworkGatewaySkuTier_VpnGw3           = VirtualNetworkGatewaySkuTier("VpnGw3")
-	VirtualNetworkGatewaySkuTier_VpnGw3AZ         = VirtualNetworkGatewaySkuTier("VpnGw3AZ")
-	VirtualNetworkGatewaySkuTier_VpnGw4           = VirtualNetworkGatewaySkuTier("VpnGw4")
-	VirtualNetworkGatewaySkuTier_VpnGw4AZ         = VirtualNetworkGatewaySkuTier("VpnGw4AZ")
-	VirtualNetworkGatewaySkuTier_VpnGw5           = VirtualNetworkGatewaySkuTier("VpnGw5")
-	VirtualNetworkGatewaySkuTier_VpnGw5AZ         = VirtualNetworkGatewaySkuTier("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Tier_Basic            = VirtualNetworkGatewaySku_Tier("Basic")
+	VirtualNetworkGatewaySku_Tier_ErGw1AZ          = VirtualNetworkGatewaySku_Tier("ErGw1AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw2AZ          = VirtualNetworkGatewaySku_Tier("ErGw2AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw3AZ          = VirtualNetworkGatewaySku_Tier("ErGw3AZ")
+	VirtualNetworkGatewaySku_Tier_HighPerformance  = VirtualNetworkGatewaySku_Tier("HighPerformance")
+	VirtualNetworkGatewaySku_Tier_Standard         = VirtualNetworkGatewaySku_Tier("Standard")
+	VirtualNetworkGatewaySku_Tier_UltraPerformance = VirtualNetworkGatewaySku_Tier("UltraPerformance")
+	VirtualNetworkGatewaySku_Tier_VpnGw1           = VirtualNetworkGatewaySku_Tier("VpnGw1")
+	VirtualNetworkGatewaySku_Tier_VpnGw1AZ         = VirtualNetworkGatewaySku_Tier("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw2           = VirtualNetworkGatewaySku_Tier("VpnGw2")
+	VirtualNetworkGatewaySku_Tier_VpnGw2AZ         = VirtualNetworkGatewaySku_Tier("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw3           = VirtualNetworkGatewaySku_Tier("VpnGw3")
+	VirtualNetworkGatewaySku_Tier_VpnGw3AZ         = VirtualNetworkGatewaySku_Tier("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw4           = VirtualNetworkGatewaySku_Tier("VpnGw4")
+	VirtualNetworkGatewaySku_Tier_VpnGw4AZ         = VirtualNetworkGatewaySku_Tier("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw5           = VirtualNetworkGatewaySku_Tier("VpnGw5")
+	VirtualNetworkGatewaySku_Tier_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier("VpnGw5AZ")
 )
 
-// +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
-type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes string
+type VpnClientConfiguration_STATUS_VpnAuthenticationTypes string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD         = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("AAD")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Certificate")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius      = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Radius")
+	VpnClientConfiguration_STATUS_VpnAuthenticationTypes_AAD         = VpnClientConfiguration_STATUS_VpnAuthenticationTypes("AAD")
+	VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Certificate = VpnClientConfiguration_STATUS_VpnAuthenticationTypes("Certificate")
+	VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Radius      = VpnClientConfiguration_STATUS_VpnAuthenticationTypes("Radius")
 )
 
-// +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
-type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols string
+type VpnClientConfiguration_STATUS_VpnClientProtocols string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2   = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("IkeV2")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("OpenVPN")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP    = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("SSTP")
-)
-
-type VpnClientConfigurationSTATUSVpnAuthenticationTypes string
-
-const (
-	VpnClientConfigurationSTATUSVpnAuthenticationTypes_AAD         = VpnClientConfigurationSTATUSVpnAuthenticationTypes("AAD")
-	VpnClientConfigurationSTATUSVpnAuthenticationTypes_Certificate = VpnClientConfigurationSTATUSVpnAuthenticationTypes("Certificate")
-	VpnClientConfigurationSTATUSVpnAuthenticationTypes_Radius      = VpnClientConfigurationSTATUSVpnAuthenticationTypes("Radius")
-)
-
-type VpnClientConfigurationSTATUSVpnClientProtocols string
-
-const (
-	VpnClientConfigurationSTATUSVpnClientProtocols_IkeV2   = VpnClientConfigurationSTATUSVpnClientProtocols("IkeV2")
-	VpnClientConfigurationSTATUSVpnClientProtocols_OpenVPN = VpnClientConfigurationSTATUSVpnClientProtocols("OpenVPN")
-	VpnClientConfigurationSTATUSVpnClientProtocols_SSTP    = VpnClientConfigurationSTATUSVpnClientProtocols("SSTP")
+	VpnClientConfiguration_STATUS_VpnClientProtocols_IkeV2   = VpnClientConfiguration_STATUS_VpnClientProtocols("IkeV2")
+	VpnClientConfiguration_STATUS_VpnClientProtocols_OpenVPN = VpnClientConfiguration_STATUS_VpnClientProtocols("OpenVPN")
+	VpnClientConfiguration_STATUS_VpnClientProtocols_SSTP    = VpnClientConfiguration_STATUS_VpnClientProtocols("SSTP")
 )
 
 type VpnClientRevokedCertificate_STATUS struct {
@@ -5242,8 +5242,8 @@ func (certificate *VpnClientRevokedCertificate_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromVpnClientRevokedCertificateSTATUS populates our VpnClientRevokedCertificate_STATUS from the provided source VpnClientRevokedCertificate_STATUS
-func (certificate *VpnClientRevokedCertificate_STATUS) AssignPropertiesFromVpnClientRevokedCertificateSTATUS(source *v20201101s.VpnClientRevokedCertificate_STATUS) error {
+// AssignProperties_From_VpnClientRevokedCertificate_STATUS populates our VpnClientRevokedCertificate_STATUS from the provided source VpnClientRevokedCertificate_STATUS
+func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_From_VpnClientRevokedCertificate_STATUS(source *v20201101s.VpnClientRevokedCertificate_STATUS) error {
 
 	// Etag
 	certificate.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -5269,8 +5269,8 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignPropertiesFromVpnCl
 	return nil
 }
 
-// AssignPropertiesToVpnClientRevokedCertificateSTATUS populates the provided destination VpnClientRevokedCertificate_STATUS from our VpnClientRevokedCertificate_STATUS
-func (certificate *VpnClientRevokedCertificate_STATUS) AssignPropertiesToVpnClientRevokedCertificateSTATUS(destination *v20201101s.VpnClientRevokedCertificate_STATUS) error {
+// AssignProperties_To_VpnClientRevokedCertificate_STATUS populates the provided destination VpnClientRevokedCertificate_STATUS from our VpnClientRevokedCertificate_STATUS
+func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_To_VpnClientRevokedCertificate_STATUS(destination *v20201101s.VpnClientRevokedCertificate_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5376,8 +5376,8 @@ func (certificate *VpnClientRootCertificate_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromVpnClientRootCertificateSTATUS populates our VpnClientRootCertificate_STATUS from the provided source VpnClientRootCertificate_STATUS
-func (certificate *VpnClientRootCertificate_STATUS) AssignPropertiesFromVpnClientRootCertificateSTATUS(source *v20201101s.VpnClientRootCertificate_STATUS) error {
+// AssignProperties_From_VpnClientRootCertificate_STATUS populates our VpnClientRootCertificate_STATUS from the provided source VpnClientRootCertificate_STATUS
+func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_From_VpnClientRootCertificate_STATUS(source *v20201101s.VpnClientRootCertificate_STATUS) error {
 
 	// Etag
 	certificate.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -5403,8 +5403,8 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignPropertiesFromVpnClien
 	return nil
 }
 
-// AssignPropertiesToVpnClientRootCertificateSTATUS populates the provided destination VpnClientRootCertificate_STATUS from our VpnClientRootCertificate_STATUS
-func (certificate *VpnClientRootCertificate_STATUS) AssignPropertiesToVpnClientRootCertificateSTATUS(destination *v20201101s.VpnClientRootCertificate_STATUS) error {
+// AssignProperties_To_VpnClientRootCertificate_STATUS populates the provided destination VpnClientRootCertificate_STATUS from our VpnClientRootCertificate_STATUS
+func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_To_VpnClientRootCertificate_STATUS(destination *v20201101s.VpnClientRootCertificate_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5501,84 +5501,84 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
-type IpsecPolicyDhGroup string
+type IpsecPolicy_DhGroup string
 
 const (
-	IpsecPolicyDhGroup_DHGroup1    = IpsecPolicyDhGroup("DHGroup1")
-	IpsecPolicyDhGroup_DHGroup14   = IpsecPolicyDhGroup("DHGroup14")
-	IpsecPolicyDhGroup_DHGroup2    = IpsecPolicyDhGroup("DHGroup2")
-	IpsecPolicyDhGroup_DHGroup2048 = IpsecPolicyDhGroup("DHGroup2048")
-	IpsecPolicyDhGroup_DHGroup24   = IpsecPolicyDhGroup("DHGroup24")
-	IpsecPolicyDhGroup_ECP256      = IpsecPolicyDhGroup("ECP256")
-	IpsecPolicyDhGroup_ECP384      = IpsecPolicyDhGroup("ECP384")
-	IpsecPolicyDhGroup_None        = IpsecPolicyDhGroup("None")
+	IpsecPolicy_DhGroup_DHGroup1    = IpsecPolicy_DhGroup("DHGroup1")
+	IpsecPolicy_DhGroup_DHGroup14   = IpsecPolicy_DhGroup("DHGroup14")
+	IpsecPolicy_DhGroup_DHGroup2    = IpsecPolicy_DhGroup("DHGroup2")
+	IpsecPolicy_DhGroup_DHGroup2048 = IpsecPolicy_DhGroup("DHGroup2048")
+	IpsecPolicy_DhGroup_DHGroup24   = IpsecPolicy_DhGroup("DHGroup24")
+	IpsecPolicy_DhGroup_ECP256      = IpsecPolicy_DhGroup("ECP256")
+	IpsecPolicy_DhGroup_ECP384      = IpsecPolicy_DhGroup("ECP384")
+	IpsecPolicy_DhGroup_None        = IpsecPolicy_DhGroup("None")
 )
 
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
-type IpsecPolicyIkeEncryption string
+type IpsecPolicy_IkeEncryption string
 
 const (
-	IpsecPolicyIkeEncryption_AES128    = IpsecPolicyIkeEncryption("AES128")
-	IpsecPolicyIkeEncryption_AES192    = IpsecPolicyIkeEncryption("AES192")
-	IpsecPolicyIkeEncryption_AES256    = IpsecPolicyIkeEncryption("AES256")
-	IpsecPolicyIkeEncryption_DES       = IpsecPolicyIkeEncryption("DES")
-	IpsecPolicyIkeEncryption_DES3      = IpsecPolicyIkeEncryption("DES3")
-	IpsecPolicyIkeEncryption_GCMAES128 = IpsecPolicyIkeEncryption("GCMAES128")
-	IpsecPolicyIkeEncryption_GCMAES256 = IpsecPolicyIkeEncryption("GCMAES256")
+	IpsecPolicy_IkeEncryption_AES128    = IpsecPolicy_IkeEncryption("AES128")
+	IpsecPolicy_IkeEncryption_AES192    = IpsecPolicy_IkeEncryption("AES192")
+	IpsecPolicy_IkeEncryption_AES256    = IpsecPolicy_IkeEncryption("AES256")
+	IpsecPolicy_IkeEncryption_DES       = IpsecPolicy_IkeEncryption("DES")
+	IpsecPolicy_IkeEncryption_DES3      = IpsecPolicy_IkeEncryption("DES3")
+	IpsecPolicy_IkeEncryption_GCMAES128 = IpsecPolicy_IkeEncryption("GCMAES128")
+	IpsecPolicy_IkeEncryption_GCMAES256 = IpsecPolicy_IkeEncryption("GCMAES256")
 )
 
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
-type IpsecPolicyIkeIntegrity string
+type IpsecPolicy_IkeIntegrity string
 
 const (
-	IpsecPolicyIkeIntegrity_GCMAES128 = IpsecPolicyIkeIntegrity("GCMAES128")
-	IpsecPolicyIkeIntegrity_GCMAES256 = IpsecPolicyIkeIntegrity("GCMAES256")
-	IpsecPolicyIkeIntegrity_MD5       = IpsecPolicyIkeIntegrity("MD5")
-	IpsecPolicyIkeIntegrity_SHA1      = IpsecPolicyIkeIntegrity("SHA1")
-	IpsecPolicyIkeIntegrity_SHA256    = IpsecPolicyIkeIntegrity("SHA256")
-	IpsecPolicyIkeIntegrity_SHA384    = IpsecPolicyIkeIntegrity("SHA384")
+	IpsecPolicy_IkeIntegrity_GCMAES128 = IpsecPolicy_IkeIntegrity("GCMAES128")
+	IpsecPolicy_IkeIntegrity_GCMAES256 = IpsecPolicy_IkeIntegrity("GCMAES256")
+	IpsecPolicy_IkeIntegrity_MD5       = IpsecPolicy_IkeIntegrity("MD5")
+	IpsecPolicy_IkeIntegrity_SHA1      = IpsecPolicy_IkeIntegrity("SHA1")
+	IpsecPolicy_IkeIntegrity_SHA256    = IpsecPolicy_IkeIntegrity("SHA256")
+	IpsecPolicy_IkeIntegrity_SHA384    = IpsecPolicy_IkeIntegrity("SHA384")
 )
 
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
-type IpsecPolicyIpsecEncryption string
+type IpsecPolicy_IpsecEncryption string
 
 const (
-	IpsecPolicyIpsecEncryption_AES128    = IpsecPolicyIpsecEncryption("AES128")
-	IpsecPolicyIpsecEncryption_AES192    = IpsecPolicyIpsecEncryption("AES192")
-	IpsecPolicyIpsecEncryption_AES256    = IpsecPolicyIpsecEncryption("AES256")
-	IpsecPolicyIpsecEncryption_DES       = IpsecPolicyIpsecEncryption("DES")
-	IpsecPolicyIpsecEncryption_DES3      = IpsecPolicyIpsecEncryption("DES3")
-	IpsecPolicyIpsecEncryption_GCMAES128 = IpsecPolicyIpsecEncryption("GCMAES128")
-	IpsecPolicyIpsecEncryption_GCMAES192 = IpsecPolicyIpsecEncryption("GCMAES192")
-	IpsecPolicyIpsecEncryption_GCMAES256 = IpsecPolicyIpsecEncryption("GCMAES256")
-	IpsecPolicyIpsecEncryption_None      = IpsecPolicyIpsecEncryption("None")
+	IpsecPolicy_IpsecEncryption_AES128    = IpsecPolicy_IpsecEncryption("AES128")
+	IpsecPolicy_IpsecEncryption_AES192    = IpsecPolicy_IpsecEncryption("AES192")
+	IpsecPolicy_IpsecEncryption_AES256    = IpsecPolicy_IpsecEncryption("AES256")
+	IpsecPolicy_IpsecEncryption_DES       = IpsecPolicy_IpsecEncryption("DES")
+	IpsecPolicy_IpsecEncryption_DES3      = IpsecPolicy_IpsecEncryption("DES3")
+	IpsecPolicy_IpsecEncryption_GCMAES128 = IpsecPolicy_IpsecEncryption("GCMAES128")
+	IpsecPolicy_IpsecEncryption_GCMAES192 = IpsecPolicy_IpsecEncryption("GCMAES192")
+	IpsecPolicy_IpsecEncryption_GCMAES256 = IpsecPolicy_IpsecEncryption("GCMAES256")
+	IpsecPolicy_IpsecEncryption_None      = IpsecPolicy_IpsecEncryption("None")
 )
 
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
-type IpsecPolicyIpsecIntegrity string
+type IpsecPolicy_IpsecIntegrity string
 
 const (
-	IpsecPolicyIpsecIntegrity_GCMAES128 = IpsecPolicyIpsecIntegrity("GCMAES128")
-	IpsecPolicyIpsecIntegrity_GCMAES192 = IpsecPolicyIpsecIntegrity("GCMAES192")
-	IpsecPolicyIpsecIntegrity_GCMAES256 = IpsecPolicyIpsecIntegrity("GCMAES256")
-	IpsecPolicyIpsecIntegrity_MD5       = IpsecPolicyIpsecIntegrity("MD5")
-	IpsecPolicyIpsecIntegrity_SHA1      = IpsecPolicyIpsecIntegrity("SHA1")
-	IpsecPolicyIpsecIntegrity_SHA256    = IpsecPolicyIpsecIntegrity("SHA256")
+	IpsecPolicy_IpsecIntegrity_GCMAES128 = IpsecPolicy_IpsecIntegrity("GCMAES128")
+	IpsecPolicy_IpsecIntegrity_GCMAES192 = IpsecPolicy_IpsecIntegrity("GCMAES192")
+	IpsecPolicy_IpsecIntegrity_GCMAES256 = IpsecPolicy_IpsecIntegrity("GCMAES256")
+	IpsecPolicy_IpsecIntegrity_MD5       = IpsecPolicy_IpsecIntegrity("MD5")
+	IpsecPolicy_IpsecIntegrity_SHA1      = IpsecPolicy_IpsecIntegrity("SHA1")
+	IpsecPolicy_IpsecIntegrity_SHA256    = IpsecPolicy_IpsecIntegrity("SHA256")
 )
 
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
-type IpsecPolicyPfsGroup string
+type IpsecPolicy_PfsGroup string
 
 const (
-	IpsecPolicyPfsGroup_ECP256  = IpsecPolicyPfsGroup("ECP256")
-	IpsecPolicyPfsGroup_ECP384  = IpsecPolicyPfsGroup("ECP384")
-	IpsecPolicyPfsGroup_None    = IpsecPolicyPfsGroup("None")
-	IpsecPolicyPfsGroup_PFS1    = IpsecPolicyPfsGroup("PFS1")
-	IpsecPolicyPfsGroup_PFS14   = IpsecPolicyPfsGroup("PFS14")
-	IpsecPolicyPfsGroup_PFS2    = IpsecPolicyPfsGroup("PFS2")
-	IpsecPolicyPfsGroup_PFS2048 = IpsecPolicyPfsGroup("PFS2048")
-	IpsecPolicyPfsGroup_PFS24   = IpsecPolicyPfsGroup("PFS24")
-	IpsecPolicyPfsGroup_PFSMM   = IpsecPolicyPfsGroup("PFSMM")
+	IpsecPolicy_PfsGroup_ECP256  = IpsecPolicy_PfsGroup("ECP256")
+	IpsecPolicy_PfsGroup_ECP384  = IpsecPolicy_PfsGroup("ECP384")
+	IpsecPolicy_PfsGroup_None    = IpsecPolicy_PfsGroup("None")
+	IpsecPolicy_PfsGroup_PFS1    = IpsecPolicy_PfsGroup("PFS1")
+	IpsecPolicy_PfsGroup_PFS14   = IpsecPolicy_PfsGroup("PFS14")
+	IpsecPolicy_PfsGroup_PFS2    = IpsecPolicy_PfsGroup("PFS2")
+	IpsecPolicy_PfsGroup_PFS2048 = IpsecPolicy_PfsGroup("PFS2048")
+	IpsecPolicy_PfsGroup_PFS24   = IpsecPolicy_PfsGroup("PFS24")
+	IpsecPolicy_PfsGroup_PFSMM   = IpsecPolicy_PfsGroup("PFSMM")
 )
 
 type PfsGroup_STATUS string

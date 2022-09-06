@@ -26,8 +26,8 @@ import (
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS       `json:"status,omitempty"`
+	Spec              Servers_Databases_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -160,8 +160,8 @@ func (database *Database_STATUS) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-// Storage version of v1beta20180601.ServersDatabases_Spec
-type ServersDatabases_Spec struct {
+// Storage version of v1beta20180601.Servers_Databases_Spec
+type Servers_Databases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -179,10 +179,10 @@ type ServersDatabases_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ServersDatabases_Spec{}
+var _ genruntime.ConvertibleSpec = &Servers_Databases_Spec{}
 
-// ConvertSpecFrom populates our ServersDatabases_Spec from the provided source
-func (databases *ServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Servers_Databases_Spec from the provided source
+func (databases *Servers_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -190,8 +190,8 @@ func (databases *ServersDatabases_Spec) ConvertSpecFrom(source genruntime.Conver
 	return source.ConvertSpecTo(databases)
 }
 
-// ConvertSpecTo populates the provided destination from our ServersDatabases_Spec
-func (databases *ServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Servers_Databases_Spec
+func (databases *Servers_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

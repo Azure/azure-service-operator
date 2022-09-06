@@ -107,8 +107,12 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 }
 
 func (factory *identifierFactory) createIdentifierUncached(name string, visibility Visibility) string {
+
+	// Trim any leading or trailing underscores before proceeding.
+	name = strings.Trim(name, "_")
+
 	if identifier, ok := factory.renames[name]; ok {
-		// Just lowercase the first character according to visibility
+		// Adjust letter case of the first character according to visibility
 		r := []rune(identifier)
 		if visibility == NotExported {
 			r[0] = unicode.ToLower(r[0])
@@ -119,14 +123,38 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 		return string(r)
 	}
 
-	// replace non-word characters with spaces so title-casing works nicely
-	clean := filterRegex.ReplaceAllLiteralString(name, " ")
+	// Split into parts based on `_` and process each individually
+	parts := strings.Split(name, "_")
+	cleanParts := make([]string, 0, len(parts))
+	partVisibility := visibility
+	for _, part := range parts {
+		clean := factory.cleanPart(part, partVisibility)
+		if len(clean) > 0 {
+			cleanParts = append(cleanParts, clean)
+		}
 
+		partVisibility = Exported
+	}
+
+	result := strings.Join(cleanParts, "_")
+
+	if alternateWord, ok := factory.reservedWords[result]; ok {
+		// This is a reserved word, we need to use an alternate identifier
+		return alternateWord
+	}
+
+	return result
+}
+
+// cleanPart cleans up a part of an identifier
+func (factory *identifierFactory) cleanPart(part string, visibility Visibility) string {
+	clean := filterRegex.ReplaceAllLiteralString(part, " ")
 	cleanWords := sliceIntoWords(clean)
-	var caseCorrectedWords []string
-	for i, word := range cleanWords {
-		if visibility == NotExported && i == 0 {
-			caseCorrectedWords = append(caseCorrectedWords, strings.ToLower(word))
+	caseCorrectedWords := make([]string, 0, len(cleanWords))
+	for ix, word := range cleanWords {
+		var w string
+		if ix == 0 && visibility == NotExported {
+			w = strings.ToLower(word)
 		} else {
 			// Disable lint: the suggested "replacement" for this in /x/cases has fundamental
 			// differences in how it works (e.g. 'JSON' becomes 'Json'; we don’t want that).
@@ -134,18 +162,13 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 			// (something about better handling of various punctuation characters;
 			// our words are punctuation-free).
 			//nolint:staticcheck
-			caseCorrectedWords = append(caseCorrectedWords, strings.Title(word))
+			w = strings.Title(word)
 		}
+
+		caseCorrectedWords = append(caseCorrectedWords, w)
 	}
 
-	result := strings.Join(caseCorrectedWords, "")
-
-	if alternateWord, ok := factory.reservedWords[result]; ok {
-		// This is a reserved word, we need to use an alternate word
-		return alternateWord
-	}
-
-	return result
+	return strings.Join(caseCorrectedWords, "")
 }
 
 func (factory *identifierFactory) CreatePropertyName(propertyName string, visibility Visibility) PropertyName {
@@ -251,7 +274,8 @@ func createForbiddenReceiverSuffixes() set.Set[string] {
 	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
 	status := strings.TrimPrefix(StatusSuffix, "_")
 	spec := strings.TrimPrefix(SpecSuffix, "_")
-	return set.Make(status, spec, "ARM", status+"ARM", spec+"ARM")
+	arm := strings.TrimPrefix(ArmSuffix, "_")
+	return set.Make(status, spec, arm, status+arm, spec+arm)
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
@@ -321,12 +345,12 @@ func sliceIntoWords(identifier string) []string {
 		preceedingLower := i > 0 && unicode.IsLower(chars[i-1])
 		preceedingDigit := i > 0 && unicode.IsDigit(chars[i-1])
 		succeedingLower := i+1 < len(chars) && unicode.IsLower(chars[i+1]) // This case is for handling acronyms like XMLDocument
-		isSpace := unicode.IsSpace(chars[i])
+		isSeparator := unicode.IsSpace(chars[i]) || chars[i] == '_'
 		foundUpper := unicode.IsUpper(chars[i])
 		foundDigit := unicode.IsDigit(chars[i])
 		caseTransition := foundUpper && (preceedingLower || succeedingLower)
 		digitTransition := (foundDigit && !preceedingDigit) || (!foundDigit && preceedingDigit)
-		if isSpace {
+		if isSeparator {
 			r := string(chars[lastStart:i])
 			r = strings.Trim(r, " ")
 			// If r is entirely spaces... just don't append anything
