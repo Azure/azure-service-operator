@@ -329,6 +329,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConf
 	defer set.envtestLock.Unlock()
 	logger.V(2).Info("Starting envtest")
 	// no envtest exists for this config; make one
+	// nolint: contextcheck // 2022-09 @unrepentantgeek Seems to be a false positive
 	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to create shared envtest environment")
