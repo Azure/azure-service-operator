@@ -243,6 +243,9 @@ func (status *ResourceGroupStatus) ConvertStatusFrom(source genruntime.Convertib
 }
 
 type ResourceGroupSpec struct {
+	// +kubebuilder:validation:MaxLength=90
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-_\\.()]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name
 	// of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
