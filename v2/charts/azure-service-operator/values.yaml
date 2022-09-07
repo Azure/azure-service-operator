@@ -76,5 +76,6 @@ podAnnotations: {}
 
 # multiTenant contains the value to enable multi-tenant mode for ASOv2. If multiTenant.enable is true + azureOperatorMode set to "webhooks", chart will
 # install a cluster and if multiTenant.enable is true + azureOperatorMode set to "watchers", chart will install a tenant.
+# NOTE: 'installCRDs' should be set to false while installing a tenant.
 multiTenant:
   enable: false
