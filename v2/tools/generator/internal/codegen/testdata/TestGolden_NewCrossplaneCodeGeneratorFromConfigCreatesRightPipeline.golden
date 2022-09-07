@@ -5,7 +5,6 @@ allof-anyof-objects                                Convert allOf and oneOf to ob
 flattenResources                                   Flatten nested resource types
 stripUnreferenced                                  Strip unreferenced types
 removeAliases                                      Remove type aliases
-pluralizeNames                                     Improve resource pluralization
 nameTypes                                          Name inner types for CRD
 propertyRewrites                                   Modify property types using configured transforms
 add-api-version-enums                              Add enums for API Versions in each package
