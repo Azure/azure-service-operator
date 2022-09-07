@@ -12,8 +12,8 @@ DIR=$5
 
 ASO_CHART="$DIR"charts/azure-service-operator
 GEN_FILES_DIR="$ASO_CHART"/templates/generated
-IF_CLUSTER="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster true) }}"
-IF_TENANT="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster false) }}"
+IF_CLUSTER="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
+IF_TENANT="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.azureOperatorMode \"watchers\") }}"
 
 # Matches and adds helm flow control to a file
 flow_control(){

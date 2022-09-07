@@ -74,11 +74,7 @@ installCRDs: true
 # podAnnotations contain the pod annotations for Azure Service Operator
 podAnnotations: {}
 
-# multiTenant contains the value to enable multi-tenant mode for ASOv2. Also, it contains 'isCluster' flag which is
-# used to know whether to install cluster or a tenant. If multiTenant.enable is true and isCluster set to false, chart will
-# install a tenant.
+# multiTenant contains the value to enable multi-tenant mode for ASOv2. If multiTenant.enable is true + azureOperatorMode set to "webhooks", chart will
+# install a cluster and if multiTenant.enable is true + azureOperatorMode set to "watchers", chart will install a tenant.
 multiTenant:
   enable: false
-#  NOTE: If we set 'isCluster' to false, tenant mode will be enabled and have to make sure we have above 'installCRDs' also set to false
-#  while tenant installation.
-  isCluster: false
