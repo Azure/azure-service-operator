@@ -48,6 +48,9 @@ var exclusions = []string{
 
 	// Excluding dbformysql/user as is not an ARM resource
 	"user",
+
+	// Excluding sqlroleassignment because it needs to reference a principalId
+	"sqlroleassignment",
 }
 
 type SamplesTester struct {
