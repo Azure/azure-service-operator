@@ -310,11 +310,11 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string                        `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *ContainerServiceOSDisk_STATUS `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_STATUS             `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_STATUS                  `json:"osSKU,omitempty"`
-	OsType              *OSType_STATUS                 `json:"osType,omitempty"`
+	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *OSDiskType_STATUS `json:"osDiskType,omitempty"`
+	OsSKU               *OSSKU_STATUS      `json:"osSKU,omitempty"`
+	OsType              *OSType_STATUS     `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:

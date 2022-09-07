@@ -358,7 +358,7 @@ type AgentPool_STATUS struct {
 	NodePublicIPPrefixID      *string                          `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *ContainerServiceOSDisk_STATUS   `json:"osDiskSizeGB,omitempty"`
+	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS               `json:"osDiskType,omitempty"`
 	OsSKU                     *OSSKU_STATUS                    `json:"osSKU,omitempty"`
 	OsType                    *OSType_STATUS                   `json:"osType,omitempty"`
@@ -942,12 +942,7 @@ func (pool *AgentPool_STATUS) AssignProperties_From_AgentPool_STATUS(source *alp
 	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := ContainerServiceOSDisk_STATUS(*source.OsDiskSizeGB)
-		pool.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		pool.OsDiskSizeGB = nil
-	}
+	pool.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
 	if source.OsDiskType != nil {
@@ -1187,12 +1182,7 @@ func (pool *AgentPool_STATUS) AssignProperties_To_AgentPool_STATUS(destination *
 	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if pool.OsDiskSizeGB != nil {
-		osDiskSizeGB := int(*pool.OsDiskSizeGB)
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(pool.OsDiskSizeGB)
 
 	// OsDiskType
 	if pool.OsDiskType != nil {

@@ -5399,7 +5399,7 @@ type ManagedClusterAgentPoolProfile_STATUS struct {
 	NodePublicIPPrefixID      *string                          `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *ContainerServiceOSDisk_STATUS   `json:"osDiskSizeGB,omitempty"`
+	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS               `json:"osDiskType,omitempty"`
 	OsSKU                     *OSSKU_STATUS                    `json:"osSKU,omitempty"`
 	OsType                    *OSType_STATUS                   `json:"osType,omitempty"`
@@ -5804,12 +5804,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 	profile.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := ContainerServiceOSDisk_STATUS(*source.OsDiskSizeGB)
-		profile.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		profile.OsDiskSizeGB = nil
-	}
+	profile.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
 	if source.OsDiskType != nil {
@@ -6040,12 +6035,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 	destination.OrchestratorVersion = genruntime.ClonePointerToString(profile.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := int(*profile.OsDiskSizeGB)
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(profile.OsDiskSizeGB)
 
 	// OsDiskType
 	if profile.OsDiskType != nil {

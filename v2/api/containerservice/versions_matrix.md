@@ -21,7 +21,6 @@
 | ContainerServiceNetworkProfile_STATUS_NetworkPlugin                                          | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceNetworkProfile_STATUS_NetworkPolicy                                          | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceNetworkProfile_STATUS_OutboundType                                           | v1alpha1api20210501 | v1beta20210501 |
-| ContainerServiceOSDisk_STATUS                                                                | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshConfiguration                                                             | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshConfiguration_STATUS                                                      | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceSshPublicKey                                                                 | v1alpha1api20210501 | v1beta20210501 |

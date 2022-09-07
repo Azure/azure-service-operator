@@ -33,7 +33,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUSARM struct {
 	NodePublicIPPrefixID      *string                             `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                            `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                             `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *ContainerServiceOSDisk_STATUS      `json:"osDiskSizeGB,omitempty"`
+	OsDiskSizeGB              *int                                `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS                  `json:"osDiskType,omitempty"`
 	OsSKU                     *OSSKU_STATUS                       `json:"osSKU,omitempty"`
 	OsType                    *OSType_STATUS                      `json:"osType,omitempty"`
@@ -71,9 +71,6 @@ const (
 type AgentPoolUpgradeSettings_STATUSARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
-
-// Deprecated version of ContainerServiceOSDisk_STATUS. Use v1beta20210501.ContainerServiceOSDisk_STATUS instead
-type ContainerServiceOSDisk_STATUS int
 
 // Deprecated version of GPUInstanceProfile_STATUS. Use v1beta20210501.GPUInstanceProfile_STATUS instead
 type GPUInstanceProfile_STATUS string

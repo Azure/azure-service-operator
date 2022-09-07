@@ -5744,11 +5744,11 @@ type ManagedClusterAgentPoolProfile_STATUS struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string                        `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *ContainerServiceOSDisk_STATUS `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_STATUS             `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_STATUS                  `json:"osSKU,omitempty"`
-	OsType              *OSType_STATUS                 `json:"osType,omitempty"`
+	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *OSDiskType_STATUS `json:"osDiskType,omitempty"`
+	OsSKU               *OSSKU_STATUS      `json:"osSKU,omitempty"`
+	OsType              *OSType_STATUS     `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -6181,12 +6181,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 	profile.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := ContainerServiceOSDisk_STATUS(*source.OsDiskSizeGB)
-		profile.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		profile.OsDiskSizeGB = nil
-	}
+	profile.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
 	if source.OsDiskType != nil {
@@ -6417,12 +6412,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 	destination.OrchestratorVersion = genruntime.ClonePointerToString(profile.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := int(*profile.OsDiskSizeGB)
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(profile.OsDiskSizeGB)
 
 	// OsDiskType
 	if profile.OsDiskType != nil {
