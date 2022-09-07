@@ -52,7 +52,11 @@ func isNewer(left, right astmodel.TypeDefinition) bool {
 	return leftVersion > rightVersion
 }
 
-func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *config.Configuration) (astmodel.TypeDefinitionSet, error) {
+func determineOwnership(
+	definitions astmodel.TypeDefinitionSet,
+	configuration *config.Configuration,
+	idFactory astmodel.IdentifierFactory,
+) (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
 	resources := astmodel.FindResourceDefinitions(definitions)

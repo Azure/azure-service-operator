@@ -97,9 +97,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
 
-		// De-pluralize resource types
-		pipeline.ImproveResourcePluralization(idFactory),
-
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
 
