@@ -6,6 +6,8 @@ allof-anyof-objects                                  Convert allOf and oneOf to 
 flattenResources                                     Flatten nested resource types
 augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnused                                          Strip unused types for test
+removeAliases                                        Remove type aliases
+pluralizeNames                                       Improve resource pluralization
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
 removeResourceScope                                  Remove scope from all resources
@@ -15,7 +17,6 @@ transformValidatedFloats                             Transform validated 'spec' 
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 determineResourceOwnership                           Determine ARM resource relationships
 removeAliases                                        Remove type aliases
-pluralizeNames                                       Improve resource pluralization
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it

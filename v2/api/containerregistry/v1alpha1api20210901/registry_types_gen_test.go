@@ -161,36 +161,36 @@ func RegistryGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRegistry is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRegistry(gens map[string]gopter.Gen) {
-	gens["Spec"] = Registries_SpecGenerator()
+	gens["Spec"] = Registry_SpecGenerator()
 	gens["Status"] = Registry_STATUSGenerator()
 }
 
-func Test_Registries_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Registry_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Registries_Spec to Registries_Spec via AssignProperties_To_Registries_Spec & AssignProperties_From_Registries_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRegistries_Spec, Registries_SpecGenerator()))
+		"Round trip from Registry_Spec to Registry_Spec via AssignProperties_To_Registry_Spec & AssignProperties_From_Registry_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistry_Spec, Registry_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRegistries_Spec tests if a specific instance of Registries_Spec can be assigned to v1alpha1api20210901storage and back losslessly
-func RunPropertyAssignmentTestForRegistries_Spec(subject Registries_Spec) string {
+// RunPropertyAssignmentTestForRegistry_Spec tests if a specific instance of Registry_Spec can be assigned to v1alpha1api20210901storage and back losslessly
+func RunPropertyAssignmentTestForRegistry_Spec(subject Registry_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210901s.Registries_Spec
-	err := copied.AssignProperties_To_Registries_Spec(&other)
+	var other alpha20210901s.Registry_Spec
+	err := copied.AssignProperties_To_Registry_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Registries_Spec
-	err = actual.AssignProperties_From_Registries_Spec(&other)
+	var actual Registry_Spec
+	err = actual.AssignProperties_From_Registry_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForRegistries_Spec(subject Registries_Spec) string
 	return ""
 }
 
-func Test_Registries_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Registry_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Registries_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistries_Spec, Registries_SpecGenerator()))
+		"Round trip of Registry_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRegistry_Spec, Registry_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRegistries_Spec runs a test to see if a specific instance of Registries_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistries_Spec(subject Registries_Spec) string {
+// RunJSONSerializationTestForRegistry_Spec runs a test to see if a specific instance of Registry_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRegistry_Spec(subject Registry_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForRegistries_Spec(subject Registries_Spec) string 
 	}
 
 	// Deserialize back into memory
-	var actual Registries_Spec
+	var actual Registry_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,33 +246,33 @@ func RunJSONSerializationTestForRegistries_Spec(subject Registries_Spec) string 
 	return ""
 }
 
-// Generator of Registries_Spec instances for property testing - lazily instantiated by Registries_SpecGenerator()
-var registries_SpecGenerator gopter.Gen
+// Generator of Registry_Spec instances for property testing - lazily instantiated by Registry_SpecGenerator()
+var registry_SpecGenerator gopter.Gen
 
-// Registries_SpecGenerator returns a generator of Registries_Spec instances for property testing.
-// We first initialize registries_SpecGenerator with a simplified generator based on the
+// Registry_SpecGenerator returns a generator of Registry_Spec instances for property testing.
+// We first initialize registry_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Registries_SpecGenerator() gopter.Gen {
-	if registries_SpecGenerator != nil {
-		return registries_SpecGenerator
+func Registry_SpecGenerator() gopter.Gen {
+	if registry_SpecGenerator != nil {
+		return registry_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistries_Spec(generators)
-	registries_SpecGenerator = gen.Struct(reflect.TypeOf(Registries_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRegistry_Spec(generators)
+	registry_SpecGenerator = gen.Struct(reflect.TypeOf(Registry_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistries_Spec(generators)
-	AddRelatedPropertyGeneratorsForRegistries_Spec(generators)
-	registries_SpecGenerator = gen.Struct(reflect.TypeOf(Registries_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRegistry_Spec(generators)
+	AddRelatedPropertyGeneratorsForRegistry_Spec(generators)
+	registry_SpecGenerator = gen.Struct(reflect.TypeOf(Registry_Spec{}), generators)
 
-	return registries_SpecGenerator
+	return registry_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRegistries_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistries_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRegistry_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen) {
 	gens["AdminUserEnabled"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DataEndpointEnabled"] = gen.PtrOf(gen.Bool())
@@ -283,8 +283,8 @@ func AddIndependentPropertyGeneratorsForRegistries_Spec(gens map[string]gopter.G
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_Disabled, RegistryProperties_ZoneRedundancy_Enabled))
 }
 
-// AddRelatedPropertyGeneratorsForRegistries_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistries_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRegistry_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertyGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityPropertiesGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSetGenerator())

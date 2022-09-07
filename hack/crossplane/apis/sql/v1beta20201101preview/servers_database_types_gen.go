@@ -18,8 +18,8 @@ import (
 type Servers_Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS        `json:"status,omitempty"`
+	Spec              Servers_Database_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS       `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -35,9 +35,9 @@ type Database_STATUS struct {
 	AtProvider              DatabaseObservation `json:"atProvider,omitempty"`
 }
 
-type Servers_Databases_Spec struct {
+type Servers_Database_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           Servers_DatabasesParameters `json:"forProvider,omitempty"`
+	ForProvider           Servers_DatabaseParameters `json:"forProvider,omitempty"`
 }
 
 type DatabaseObservation struct {
@@ -210,7 +210,7 @@ type DatabaseObservation struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type Servers_DatabasesParameters struct {
+type Servers_DatabaseParameters struct {
 	// AutoPauseDelay: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause
 	// is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`

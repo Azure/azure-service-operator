@@ -28,8 +28,8 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_ManagementPolicies_Spec `json:"spec,omitempty"`
-	Status            ManagementPolicy_STATUS                 `json:"status,omitempty"`
+	Spec              StorageAccounts_ManagementPolicy_Spec `json:"spec,omitempty"`
+	Status            ManagementPolicy_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -262,10 +262,10 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_From_StorageAcco
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_ManagementPolicies_Spec
-	err := spec.AssignProperties_From_StorageAccounts_ManagementPolicies_Spec(&source.Spec)
+	var spec StorageAccounts_ManagementPolicy_Spec
+	err := spec.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicies_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
@@ -288,10 +288,10 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_To_StorageAccoun
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20210401s.StorageAccounts_ManagementPolicies_Spec
-	err := policy.Spec.AssignProperties_To_StorageAccounts_ManagementPolicies_Spec(&spec)
+	var spec alpha20210401s.StorageAccounts_ManagementPolicy_Spec
+	err := policy.Spec.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicies_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -523,7 +523,7 @@ func (policy *ManagementPolicy_STATUS) AssignProperties_To_ManagementPolicy_STAT
 	return nil
 }
 
-type StorageAccounts_ManagementPolicies_Spec struct {
+type StorageAccounts_ManagementPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -535,35 +535,35 @@ type StorageAccounts_ManagementPolicies_Spec struct {
 	Tags   map[string]string       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccounts_ManagementPolicies_Spec{}
+var _ genruntime.ARMTransformer = &StorageAccounts_ManagementPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if policies == nil {
+func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if policy == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_ManagementPolicies_SpecARM{}
+	result := &StorageAccounts_ManagementPolicy_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if policies.Policy != nil {
+	if policy.Policy != nil {
 		result.Properties = &ManagementPolicyPropertiesARM{}
 	}
-	if policies.Policy != nil {
-		policyARM, err := (*policies.Policy).ConvertToARM(resolved)
+	if policy.Policy != nil {
+		policyARM, err := (*policy.Policy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		policy := *policyARM.(*ManagementPolicySchemaARM)
-		result.Properties.Policy = &policy
+		policy1 := *policyARM.(*ManagementPolicySchemaARM)
+		result.Properties.Policy = &policy1
 	}
 
 	// Set property ‘Tags’:
-	if policies.Tags != nil {
-		result.Tags = make(map[string]string, len(policies.Tags))
-		for key, value := range policies.Tags {
+	if policy.Tags != nil {
+		result.Tags = make(map[string]string, len(policy.Tags))
+		for key, value := range policy.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -571,19 +571,19 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertToARM(resolved g
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policies *StorageAccounts_ManagementPolicies_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_ManagementPolicies_SpecARM{}
+func (policy *StorageAccounts_ManagementPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccounts_ManagementPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policies *StorageAccounts_ManagementPolicies_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_ManagementPolicies_SpecARM)
+func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccounts_ManagementPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicies_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Owner’:
-	policies.Owner = &genruntime.KnownResourceReference{
+	policy.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -591,21 +591,21 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Policy != nil {
-			var policy1 ManagementPolicySchema
-			err := policy1.PopulateFromARM(owner, *typedInput.Properties.Policy)
+			var policy2 ManagementPolicySchema
+			err := policy2.PopulateFromARM(owner, *typedInput.Properties.Policy)
 			if err != nil {
 				return err
 			}
-			policy := policy1
-			policies.Policy = &policy
+			policy1 := policy2
+			policy.Policy = &policy1
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		policies.Tags = make(map[string]string, len(typedInput.Tags))
+		policy.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			policies.Tags[key] = value
+			policy.Tags[key] = value
 		}
 	}
 
@@ -613,25 +613,25 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) PopulateFromARM(owner g
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicies_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicy_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_ManagementPolicies_Spec from the provided source
-func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210401s.StorageAccounts_ManagementPolicies_Spec)
+// ConvertSpecFrom populates our StorageAccounts_ManagementPolicy_Spec from the provided source
+func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210401s.StorageAccounts_ManagementPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policies.AssignProperties_From_StorageAccounts_ManagementPolicies_Spec(src)
+		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210401s.StorageAccounts_ManagementPolicies_Spec{}
+	src = &alpha20210401s.StorageAccounts_ManagementPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policies.AssignProperties_From_StorageAccounts_ManagementPolicies_Spec(src)
+	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -639,17 +639,17 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecFrom(source 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicies_Spec
-func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210401s.StorageAccounts_ManagementPolicies_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210401s.StorageAccounts_ManagementPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policies.AssignProperties_To_StorageAccounts_ManagementPolicies_Spec(dst)
+		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210401s.StorageAccounts_ManagementPolicies_Spec{}
-	err := policies.AssignProperties_To_StorageAccounts_ManagementPolicies_Spec(dst)
+	dst = &alpha20210401s.StorageAccounts_ManagementPolicy_Spec{}
+	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -663,66 +663,66 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecTo(destinati
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_ManagementPolicies_Spec populates our StorageAccounts_ManagementPolicies_Spec from the provided source StorageAccounts_ManagementPolicies_Spec
-func (policies *StorageAccounts_ManagementPolicies_Spec) AssignProperties_From_StorageAccounts_ManagementPolicies_Spec(source *alpha20210401s.StorageAccounts_ManagementPolicies_Spec) error {
+// AssignProperties_From_StorageAccounts_ManagementPolicy_Spec populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(source *alpha20210401s.StorageAccounts_ManagementPolicy_Spec) error {
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		policies.Owner = &owner
+		policy.Owner = &owner
 	} else {
-		policies.Owner = nil
+		policy.Owner = nil
 	}
 
 	// Policy
 	if source.Policy != nil {
-		var policy ManagementPolicySchema
-		err := policy.AssignProperties_From_ManagementPolicySchema(source.Policy)
+		var policyLocal ManagementPolicySchema
+		err := policyLocal.AssignProperties_From_ManagementPolicySchema(source.Policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySchema() to populate field Policy")
 		}
-		policies.Policy = &policy
+		policy.Policy = &policyLocal
 	} else {
-		policies.Policy = nil
+		policy.Policy = nil
 	}
 
 	// Tags
-	policies.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	policy.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_ManagementPolicies_Spec populates the provided destination StorageAccounts_ManagementPolicies_Spec from our StorageAccounts_ManagementPolicies_Spec
-func (policies *StorageAccounts_ManagementPolicies_Spec) AssignProperties_To_StorageAccounts_ManagementPolicies_Spec(destination *alpha20210401s.StorageAccounts_ManagementPolicies_Spec) error {
+// AssignProperties_To_StorageAccounts_ManagementPolicy_Spec populates the provided destination StorageAccounts_ManagementPolicy_Spec from our StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(destination *alpha20210401s.StorageAccounts_ManagementPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// OriginalVersion
-	destination.OriginalVersion = policies.OriginalVersion()
+	destination.OriginalVersion = policy.OriginalVersion()
 
 	// Owner
-	if policies.Owner != nil {
-		owner := policies.Owner.Copy()
+	if policy.Owner != nil {
+		owner := policy.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Policy
-	if policies.Policy != nil {
-		var policy alpha20210401s.ManagementPolicySchema
-		err := policies.Policy.AssignProperties_To_ManagementPolicySchema(&policy)
+	if policy.Policy != nil {
+		var policyLocal alpha20210401s.ManagementPolicySchema
+		err := policy.Policy.AssignProperties_To_ManagementPolicySchema(&policyLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySchema() to populate field Policy")
 		}
-		destination.Policy = &policy
+		destination.Policy = &policyLocal
 	} else {
 		destination.Policy = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(policies.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(policy.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -736,7 +736,7 @@ func (policies *StorageAccounts_ManagementPolicies_Spec) AssignProperties_To_Sto
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policies *StorageAccounts_ManagementPolicies_Spec) OriginalVersion() string {
+func (policy *StorageAccounts_ManagementPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 

@@ -15,7 +15,7 @@ import (
 
 func CreateDummyResource() *v1beta20210101.BatchAccount {
 	return &v1beta20210101.BatchAccount{
-		Spec: v1beta20210101.BatchAccounts_Spec{
+		Spec: v1beta20210101.BatchAccount_Spec{
 			AzureName: "azureName",
 			Location:  to.StringPtr("westus"),
 			Owner: &genruntime.KnownResourceReference{

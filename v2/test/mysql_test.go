@@ -427,7 +427,7 @@ func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 	tier := mysql.Sku_Tier_GeneralPurpose
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServers_Spec{
+		Spec: mysql.FlexibleServer_Spec{
 			Location: location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -451,7 +451,7 @@ func newMySQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleS
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServers_FirewallRules_Spec{
+		Spec: mysql.FlexibleServers_FirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("0.0.0.0"),
 			EndIpAddress:   to.StringPtr("255.255.255.255"),

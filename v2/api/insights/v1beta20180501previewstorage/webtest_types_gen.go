@@ -27,7 +27,7 @@ import (
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Webtests_Spec  `json:"spec,omitempty"`
+	Spec              Webtest_Spec   `json:"spec,omitempty"`
 	Status            WebTest_STATUS `json:"status,omitempty"`
 }
 
@@ -136,6 +136,55 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-05-01-preview")
 
+// Storage version of v1beta20180501preview.Webtest_Spec
+type Webtest_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string                          `json:"azureName,omitempty"`
+	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
+	Description     *string                         `json:"Description,omitempty"`
+	Enabled         *bool                           `json:"Enabled,omitempty"`
+	Frequency       *int                            `json:"Frequency,omitempty"`
+	Kind            *string                         `json:"Kind,omitempty"`
+	Location        *string                         `json:"location,omitempty"`
+	Locations       []WebTestGeolocation            `json:"Locations,omitempty"`
+	Name            *string                         `json:"Name,omitempty"`
+	OriginalVersion string                          `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Request            *WebTestPropertiesRequest          `json:"Request,omitempty"`
+	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
+	Timeout            *int                               `json:"Timeout,omitempty"`
+	ValidationRules    *WebTestPropertiesValidationRules  `json:"ValidationRules,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Webtest_Spec{}
+
+// ConvertSpecFrom populates our Webtest_Spec from the provided source
+func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == webtest {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(webtest)
+}
+
+// ConvertSpecTo populates the provided destination from our Webtest_Spec
+func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == webtest {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(webtest)
+}
+
 // Storage version of v1beta20180501preview.WebTest_STATUS
 type WebTest_STATUS struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
@@ -178,55 +227,6 @@ func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSt
 	}
 
 	return destination.ConvertStatusFrom(test)
-}
-
-// Storage version of v1beta20180501preview.Webtests_Spec
-type Webtests_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string                          `json:"azureName,omitempty"`
-	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
-	Description     *string                         `json:"Description,omitempty"`
-	Enabled         *bool                           `json:"Enabled,omitempty"`
-	Frequency       *int                            `json:"Frequency,omitempty"`
-	Kind            *string                         `json:"Kind,omitempty"`
-	Location        *string                         `json:"location,omitempty"`
-	Locations       []WebTestGeolocation            `json:"Locations,omitempty"`
-	Name            *string                         `json:"Name,omitempty"`
-	OriginalVersion string                          `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Request            *WebTestPropertiesRequest          `json:"Request,omitempty"`
-	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
-	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
-	Tags               map[string]string                  `json:"tags,omitempty"`
-	Timeout            *int                               `json:"Timeout,omitempty"`
-	ValidationRules    *WebTestPropertiesValidationRules  `json:"ValidationRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Webtests_Spec{}
-
-// ConvertSpecFrom populates our Webtests_Spec from the provided source
-func (webtests *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == webtests {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(webtests)
-}
-
-// ConvertSpecTo populates the provided destination from our Webtests_Spec
-func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == webtests {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(webtests)
 }
 
 // Storage version of v1beta20180501preview.WebTestGeolocation

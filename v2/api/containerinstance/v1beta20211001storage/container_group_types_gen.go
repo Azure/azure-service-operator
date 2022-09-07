@@ -27,7 +27,7 @@ import (
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ContainerGroups_Spec  `json:"spec,omitempty"`
+	Spec              ContainerGroup_Spec   `json:"spec,omitempty"`
 	Status            ContainerGroup_STATUS `json:"status,omitempty"`
 }
 
@@ -136,6 +136,57 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
+// Storage version of v1beta20211001.ContainerGroup_Spec
+type ContainerGroup_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                string                                                    `json:"azureName,omitempty"`
+	Containers               []ContainerGroup_Spec_Properties_Containers               `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics                                `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration                                         `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties                                     `json:"encryptionProperties,omitempty"`
+	Identity                 *ContainerGroupIdentity                                   `json:"identity,omitempty"`
+	ImageRegistryCredentials []ContainerGroup_Spec_Properties_ImageRegistryCredentials `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []ContainerGroup_Spec_Properties_InitContainers           `json:"initContainers,omitempty"`
+	IpAddress                *IpAddress                                                `json:"ipAddress,omitempty"`
+	Location                 *string                                                   `json:"location,omitempty"`
+	OriginalVersion          string                                                    `json:"originalVersion,omitempty"`
+	OsType                   *string                                                   `json:"osType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RestartPolicy *string                            `json:"restartPolicy,omitempty"`
+	Sku           *string                            `json:"sku,omitempty"`
+	SubnetIds     []ContainerGroupSubnetId           `json:"subnetIds,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+	Volumes       []Volume                           `json:"volumes,omitempty"`
+	Zones         []string                           `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &ContainerGroup_Spec{}
+
+// ConvertSpecFrom populates our ContainerGroup_Spec from the provided source
+func (group *ContainerGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(group)
+}
+
+// ConvertSpecTo populates the provided destination from our ContainerGroup_Spec
+func (group *ContainerGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == group {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(group)
+}
+
 // Storage version of v1beta20211001.ContainerGroup_STATUS
 type ContainerGroup_STATUS struct {
 	Conditions               []conditions.Condition                         `json:"conditions,omitempty"`
@@ -183,57 +234,6 @@ func (group *ContainerGroup_STATUS) ConvertStatusTo(destination genruntime.Conve
 	return destination.ConvertStatusFrom(group)
 }
 
-// Storage version of v1beta20211001.ContainerGroups_Spec
-type ContainerGroups_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                string                                                     `json:"azureName,omitempty"`
-	Containers               []ContainerGroups_Spec_Properties_Containers               `json:"containers,omitempty"`
-	Diagnostics              *ContainerGroupDiagnostics                                 `json:"diagnostics,omitempty"`
-	DnsConfig                *DnsConfiguration                                          `json:"dnsConfig,omitempty"`
-	EncryptionProperties     *EncryptionProperties                                      `json:"encryptionProperties,omitempty"`
-	Identity                 *ContainerGroupIdentity                                    `json:"identity,omitempty"`
-	ImageRegistryCredentials []ContainerGroups_Spec_Properties_ImageRegistryCredentials `json:"imageRegistryCredentials,omitempty"`
-	InitContainers           []ContainerGroups_Spec_Properties_InitContainers           `json:"initContainers,omitempty"`
-	IpAddress                *IpAddress                                                 `json:"ipAddress,omitempty"`
-	Location                 *string                                                    `json:"location,omitempty"`
-	OriginalVersion          string                                                     `json:"originalVersion,omitempty"`
-	OsType                   *string                                                    `json:"osType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	RestartPolicy *string                            `json:"restartPolicy,omitempty"`
-	Sku           *string                            `json:"sku,omitempty"`
-	SubnetIds     []ContainerGroupSubnetId           `json:"subnetIds,omitempty"`
-	Tags          map[string]string                  `json:"tags,omitempty"`
-	Volumes       []Volume                           `json:"volumes,omitempty"`
-	Zones         []string                           `json:"zones,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &ContainerGroups_Spec{}
-
-// ConvertSpecFrom populates our ContainerGroups_Spec from the provided source
-func (groups *ContainerGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == groups {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(groups)
-}
-
-// ConvertSpecTo populates the provided destination from our ContainerGroups_Spec
-func (groups *ContainerGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == groups {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(groups)
-}
-
 // Storage version of v1beta20211001.Container_STATUS
 type Container_STATUS struct {
 	Command              []string                                 `json:"command,omitempty"`
@@ -247,6 +247,40 @@ type Container_STATUS struct {
 	ReadinessProbe       *ContainerProbe_STATUS                   `json:"readinessProbe,omitempty"`
 	Resources            *ResourceRequirements_STATUS             `json:"resources,omitempty"`
 	VolumeMounts         []VolumeMount_STATUS                     `json:"volumeMounts,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroup_Spec_Properties_Containers
+type ContainerGroup_Spec_Properties_Containers struct {
+	Command              []string               `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable  `json:"environmentVariables,omitempty"`
+	Image                *string                `json:"image,omitempty"`
+	LivenessProbe        *ContainerProbe        `json:"livenessProbe,omitempty"`
+	Name                 *string                `json:"name,omitempty"`
+	Ports                []ContainerPort        `json:"ports,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ReadinessProbe       *ContainerProbe        `json:"readinessProbe,omitempty"`
+	Resources            *ResourceRequirements  `json:"resources,omitempty"`
+	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroup_Spec_Properties_ImageRegistryCredentials
+type ContainerGroup_Spec_Properties_ImageRegistryCredentials struct {
+	Identity    *string                     `json:"identity,omitempty"`
+	IdentityUrl *string                     `json:"identityUrl,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Server      *string                     `json:"server,omitempty"`
+	Username    *string                     `json:"username,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroup_Spec_Properties_InitContainers
+type ContainerGroup_Spec_Properties_InitContainers struct {
+	Command              []string               `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable  `json:"environmentVariables,omitempty"`
+	Image                *string                `json:"image,omitempty"`
+	Name                 *string                `json:"name,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
 }
 
 // Storage version of v1beta20211001.ContainerGroup_STATUS_Properties_InstanceView
@@ -283,40 +317,6 @@ type ContainerGroupIdentity_STATUS struct {
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ContainerGroupIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1beta20211001.ContainerGroups_Spec_Properties_Containers
-type ContainerGroups_Spec_Properties_Containers struct {
-	Command              []string               `json:"command,omitempty"`
-	EnvironmentVariables []EnvironmentVariable  `json:"environmentVariables,omitempty"`
-	Image                *string                `json:"image,omitempty"`
-	LivenessProbe        *ContainerProbe        `json:"livenessProbe,omitempty"`
-	Name                 *string                `json:"name,omitempty"`
-	Ports                []ContainerPort        `json:"ports,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ReadinessProbe       *ContainerProbe        `json:"readinessProbe,omitempty"`
-	Resources            *ResourceRequirements  `json:"resources,omitempty"`
-	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
-}
-
-// Storage version of v1beta20211001.ContainerGroups_Spec_Properties_ImageRegistryCredentials
-type ContainerGroups_Spec_Properties_ImageRegistryCredentials struct {
-	Identity    *string                     `json:"identity,omitempty"`
-	IdentityUrl *string                     `json:"identityUrl,omitempty"`
-	Password    *genruntime.SecretReference `json:"password,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Server      *string                     `json:"server,omitempty"`
-	Username    *string                     `json:"username,omitempty"`
-}
-
-// Storage version of v1beta20211001.ContainerGroups_Spec_Properties_InitContainers
-type ContainerGroups_Spec_Properties_InitContainers struct {
-	Command              []string               `json:"command,omitempty"`
-	EnvironmentVariables []EnvironmentVariable  `json:"environmentVariables,omitempty"`
-	Image                *string                `json:"image,omitempty"`
-	Name                 *string                `json:"name,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
 }
 
 // Storage version of v1beta20211001.ContainerGroupSubnetId

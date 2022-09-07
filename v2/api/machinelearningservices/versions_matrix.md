@@ -103,11 +103,11 @@
 | WorkspaceProperties_STATUS_ProvisioningState               | v1beta20210701 |
 | WorkspaceProperties_STATUS_PublicNetworkAccess             | v1beta20210701 |
 | Workspace_STATUS                                           | v1beta20210701 |
+| Workspace_Spec                                             | v1beta20210701 |
+| Workspace_Spec_Properties                                  | v1beta20210701 |
+| Workspace_Spec_Properties_PublicNetworkAccess              | v1beta20210701 |
+| Workspace_Spec_Properties_SharedPrivateLinkResources       | v1beta20210701 |
 | WorkspacesCompute                                          | v1beta20210701 |
 | WorkspacesConnection                                       | v1beta20210701 |
-| Workspaces_Computes_Spec                                   | v1beta20210701 |
-| Workspaces_Connections_Spec                                | v1beta20210701 |
-| Workspaces_Spec                                            | v1beta20210701 |
-| Workspaces_Spec_Properties                                 | v1beta20210701 |
-| Workspaces_Spec_Properties_PublicNetworkAccess             | v1beta20210701 |
-| Workspaces_Spec_Properties_SharedPrivateLinkResources      | v1beta20210701 |
+| Workspaces_Compute_Spec                                    | v1beta20210701 |
+| Workspaces_Connection_Spec                                 | v1beta20210701 |

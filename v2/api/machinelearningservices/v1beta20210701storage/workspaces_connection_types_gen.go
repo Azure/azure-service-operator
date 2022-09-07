@@ -26,8 +26,8 @@ import (
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Connections_Spec `json:"spec,omitempty"`
-	Status            WorkspaceConnection_STATUS  `json:"status,omitempty"`
+	Spec              Workspaces_Connection_Spec `json:"spec,omitempty"`
+	Status            WorkspaceConnection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -163,8 +163,8 @@ func (connection *WorkspaceConnection_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(connection)
 }
 
-// Storage version of v1beta20210701.Workspaces_Connections_Spec
-type Workspaces_Connections_Spec struct {
+// Storage version of v1beta20210701.Workspaces_Connection_Spec
+type Workspaces_Connection_Spec struct {
 	AuthType *string `json:"authType,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -186,24 +186,24 @@ type Workspaces_Connections_Spec struct {
 	ValueFormat *string                            `json:"valueFormat,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Connections_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_Connection_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Connections_Spec from the provided source
-func (connections *Workspaces_Connections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == connections {
+// ConvertSpecFrom populates our Workspaces_Connection_Spec from the provided source
+func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == connection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(connections)
+	return source.ConvertSpecTo(connection)
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Connections_Spec
-func (connections *Workspaces_Connections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == connections {
+// ConvertSpecTo populates the provided destination from our Workspaces_Connection_Spec
+func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == connection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(connections)
+	return destination.ConvertSpecFrom(connection)
 }
 
 func init() {

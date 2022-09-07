@@ -26,7 +26,7 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
+	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
 	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
@@ -128,6 +128,50 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
+// Storage version of v1beta20200601.EventSubscription_Spec
+type EventSubscription_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName             string                            `json:"azureName,omitempty"`
+	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
+	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
+	Labels                []string                          `json:"labels,omitempty"`
+	Location              *string                           `json:"location,omitempty"`
+	OriginalVersion       string                            `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
+	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
+	Tags        map[string]string                   `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
+
+// ConvertSpecFrom populates our EventSubscription_Spec from the provided source
+func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(subscription)
+}
+
+// ConvertSpecTo populates the provided destination from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(subscription)
+}
+
 // Storage version of v1beta20200601.EventSubscription_STATUS
 type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
@@ -165,50 +209,6 @@ func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genrun
 	}
 
 	return destination.ConvertStatusFrom(subscription)
-}
-
-// Storage version of v1beta20200601.EventSubscriptions_Spec
-type EventSubscriptions_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName             string                            `json:"azureName,omitempty"`
-	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
-	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
-	Labels                []string                          `json:"labels,omitempty"`
-	Location              *string                           `json:"location,omitempty"`
-	OriginalVersion       string                            `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	// extension resource, which means that any other Azure resource can be its owner.
-	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
-	Tags        map[string]string                   `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &EventSubscriptions_Spec{}
-
-// ConvertSpecFrom populates our EventSubscriptions_Spec from the provided source
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == subscriptions {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(subscriptions)
-}
-
-// ConvertSpecTo populates the provided destination from our EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == subscriptions {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(subscriptions)
 }
 
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
