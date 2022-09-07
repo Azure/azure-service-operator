@@ -74,24 +74,24 @@ func RedisLinkedServerGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisLinkedServer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisLinkedServer(gens map[string]gopter.Gen) {
-	gens["Spec"] = Redis_LinkedServers_SpecGenerator()
+	gens["Spec"] = Redis_LinkedServer_SpecGenerator()
 	gens["Status"] = RedisLinkedServerWithProperties_STATUSGenerator()
 }
 
-func Test_Redis_LinkedServers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Redis_LinkedServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Redis_LinkedServers_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedis_LinkedServers_Spec, Redis_LinkedServers_SpecGenerator()))
+		"Round trip of Redis_LinkedServer_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_LinkedServer_Spec, Redis_LinkedServer_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedis_LinkedServers_Spec runs a test to see if a specific instance of Redis_LinkedServers_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedis_LinkedServers_Spec(subject Redis_LinkedServers_Spec) string {
+// RunJSONSerializationTestForRedis_LinkedServer_Spec runs a test to see if a specific instance of Redis_LinkedServer_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_LinkedServer_Spec(subject Redis_LinkedServer_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForRedis_LinkedServers_Spec(subject Redis_LinkedSer
 	}
 
 	// Deserialize back into memory
-	var actual Redis_LinkedServers_Spec
+	var actual Redis_LinkedServer_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForRedis_LinkedServers_Spec(subject Redis_LinkedSer
 	return ""
 }
 
-// Generator of Redis_LinkedServers_Spec instances for property testing - lazily instantiated by
-// Redis_LinkedServers_SpecGenerator()
-var redis_LinkedServers_SpecGenerator gopter.Gen
+// Generator of Redis_LinkedServer_Spec instances for property testing - lazily instantiated by
+// Redis_LinkedServer_SpecGenerator()
+var redis_LinkedServer_SpecGenerator gopter.Gen
 
-// Redis_LinkedServers_SpecGenerator returns a generator of Redis_LinkedServers_Spec instances for property testing.
-func Redis_LinkedServers_SpecGenerator() gopter.Gen {
-	if redis_LinkedServers_SpecGenerator != nil {
-		return redis_LinkedServers_SpecGenerator
+// Redis_LinkedServer_SpecGenerator returns a generator of Redis_LinkedServer_Spec instances for property testing.
+func Redis_LinkedServer_SpecGenerator() gopter.Gen {
+	if redis_LinkedServer_SpecGenerator != nil {
+		return redis_LinkedServer_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_LinkedServers_Spec(generators)
-	redis_LinkedServers_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_LinkedServers_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_LinkedServer_Spec(generators)
+	redis_LinkedServer_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_LinkedServer_Spec{}), generators)
 
-	return redis_LinkedServers_SpecGenerator
+	return redis_LinkedServer_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedis_LinkedServers_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedis_LinkedServers_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedis_LinkedServer_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_LinkedServer_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

@@ -261,7 +261,7 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - name: StorageAccounts_ManagementPolicies_Spec
+  - name: StorageAccounts_ManagementPolicy_Spec
     group: storage
     property: Location
     remove: true
@@ -311,33 +311,33 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhubs_Spec_Properties
+  - name: Namespaces_Eventhub_Spec_Properties
     group: eventhub
     property: Status
     remove: true
     because: This property should be marked readonly
   - group: eventgrid
     version: v*20190601
-    name: Domains_Spec
+    name: Domain_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: eventgrid
     version: "*"
-    name: Topics_Spec
+    name: Topic_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: network
     version: "*"
-    name: PrivateDnsZones_Spec
+    name: PrivateDnsZone_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
   - group: servicebus
-    name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
     remove: true
     because: This property should have been marked readonly but wasn't.
@@ -387,46 +387,46 @@ typeTransformers:
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
   - group: containerservice
-    name: ManagedClusters_AgentPools_Spec
+    name: ManagedClusters_AgentPool_Spec
     property: Tags
     remove: true
     because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
   - group: network
-    name: VirtualNetworks_Subnets_Spec
+    name: VirtualNetworks_Subnet_Spec
     property: Location
     remove: true
     because: Child resource cannot choose location
   - group: network
-    name: VirtualNetworks_Subnets_Spec
+    name: VirtualNetworks_Subnet_Spec
     property: Tags
     remove: true
     because: Child resource cannot set tags
   - group: network
-    name: RouteTables_Routes_Spec
+    name: RouteTables_Route_Spec
     property: Location
     remove: true
     because: Child resource cannot choose location
   - group: network
-    name: RouteTables_Routes_Spec
+    name: RouteTables_Route_Spec
     property: Tags
     remove: true
     because: Child resource cannot set tags
-  - name: Aliases_Spec
+  - name: Alias_Spec
     group: subscription
     property: Location
     remove: true
     because: This shouldn't be on subscription.
-  - name: Aliases_Spec
+  - name: Alias_Spec
     group: subscription
     property: Tags
     remove: true
     because: Tags for subscription are in a different place
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
     group: managedidentity
     property: Location
     remove: true
     because: Child resource shouldn't have location
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
     group: managedidentity
     property: Tags
     remove: true
@@ -435,7 +435,7 @@ typeTransformers:
 
   # Deal with service Swaggers that are just wrong
   - group: insights
-    name: WebTests_Spec
+    name: WebTest_Spec
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
@@ -808,13 +808,13 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
@@ -824,7 +824,7 @@ objectModelConfiguration:
         # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
         Id:
           $armReference: true
-      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces:
         Id:
           $armReference: true
       ManagedDiskParameters:
@@ -871,19 +871,19 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces:
         Id:
           $armReference: true
   containerinstance:
@@ -1139,7 +1139,7 @@ objectModelConfiguration:
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-      Namespaces_Spec_Properties:
+      Namespace_Spec_Properties:
         ClusterArmId:
           $armReference: true
       PrivateEndpoint:
@@ -1195,7 +1195,7 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      Workspaces_Spec_Properties:
+      Workspace_Spec_Properties:
         ApplicationInsights:
           $armReference: true
         PrimaryUserAssignedIdentity:
@@ -1277,13 +1277,13 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddress:
-        $export: true
+      PublicIPAddresses:
+        $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTables_Spec_Properties:
+      RouteTable_Spec_Properties:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
@@ -1298,7 +1298,7 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworks_Spec_Properties:
+      VirtualNetwork_Spec_Properties:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
@@ -1311,7 +1311,7 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateways_Spec_Properties:
+      VirtualNetworkGateway_Spec_Properties:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:

@@ -160,36 +160,36 @@ func AliasGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForAlias is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
-	gens["Spec"] = Aliases_SpecGenerator()
+	gens["Spec"] = Alias_SpecGenerator()
 	gens["Status"] = SubscriptionAliasResponse_STATUSGenerator()
 }
 
-func Test_Aliases_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Aliases_Spec to Aliases_Spec via AssignProperties_To_Aliases_Spec & AssignProperties_From_Aliases_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAliases_Spec, Aliases_SpecGenerator()))
+		"Round trip from Alias_Spec to Alias_Spec via AssignProperties_To_Alias_Spec & AssignProperties_From_Alias_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAlias_Spec, Alias_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAliases_Spec tests if a specific instance of Aliases_Spec can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForAliases_Spec(subject Aliases_Spec) string {
+// RunPropertyAssignmentTestForAlias_Spec tests if a specific instance of Alias_Spec can be assigned to v1beta20211001storage and back losslessly
+func RunPropertyAssignmentTestForAlias_Spec(subject Alias_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.Aliases_Spec
-	err := copied.AssignProperties_To_Aliases_Spec(&other)
+	var other v20211001s.Alias_Spec
+	err := copied.AssignProperties_To_Alias_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Aliases_Spec
-	err = actual.AssignProperties_From_Aliases_Spec(&other)
+	var actual Alias_Spec
+	err = actual.AssignProperties_From_Alias_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForAliases_Spec(subject Aliases_Spec) string {
 	return ""
 }
 
-func Test_Aliases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Alias_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Aliases_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAliases_Spec, Aliases_SpecGenerator()))
+		"Round trip of Alias_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAlias_Spec, Alias_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAliases_Spec runs a test to see if a specific instance of Aliases_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAliases_Spec(subject Aliases_Spec) string {
+// RunJSONSerializationTestForAlias_Spec runs a test to see if a specific instance of Alias_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAlias_Spec(subject Alias_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForAliases_Spec(subject Aliases_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Aliases_Spec
+	var actual Alias_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,38 +245,38 @@ func RunJSONSerializationTestForAliases_Spec(subject Aliases_Spec) string {
 	return ""
 }
 
-// Generator of Aliases_Spec instances for property testing - lazily instantiated by Aliases_SpecGenerator()
-var aliases_SpecGenerator gopter.Gen
+// Generator of Alias_Spec instances for property testing - lazily instantiated by Alias_SpecGenerator()
+var alias_SpecGenerator gopter.Gen
 
-// Aliases_SpecGenerator returns a generator of Aliases_Spec instances for property testing.
-// We first initialize aliases_SpecGenerator with a simplified generator based on the
+// Alias_SpecGenerator returns a generator of Alias_Spec instances for property testing.
+// We first initialize alias_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Aliases_SpecGenerator() gopter.Gen {
-	if aliases_SpecGenerator != nil {
-		return aliases_SpecGenerator
+func Alias_SpecGenerator() gopter.Gen {
+	if alias_SpecGenerator != nil {
+		return alias_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAliases_Spec(generators)
-	aliases_SpecGenerator = gen.Struct(reflect.TypeOf(Aliases_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForAlias_Spec(generators)
+	alias_SpecGenerator = gen.Struct(reflect.TypeOf(Alias_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAliases_Spec(generators)
-	AddRelatedPropertyGeneratorsForAliases_Spec(generators)
-	aliases_SpecGenerator = gen.Struct(reflect.TypeOf(Aliases_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForAlias_Spec(generators)
+	AddRelatedPropertyGeneratorsForAlias_Spec(generators)
+	alias_SpecGenerator = gen.Struct(reflect.TypeOf(Alias_Spec{}), generators)
 
-	return aliases_SpecGenerator
+	return alias_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAliases_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAliases_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAlias_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForAliases_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAliases_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAlias_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
 }
 

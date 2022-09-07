@@ -27,7 +27,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	createOption := compute.CreationData_CreateOption_Empty
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
-		Spec: compute.Disks_Spec{
+		Spec: compute.Disk_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.DiskSku{

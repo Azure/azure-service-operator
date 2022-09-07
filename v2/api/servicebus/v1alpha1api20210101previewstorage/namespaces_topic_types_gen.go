@@ -25,8 +25,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS         `json:"status,omitempty"`
+	Spec              Namespaces_Topic_Spec `json:"spec,omitempty"`
+	Status            SBTopic_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -136,10 +136,10 @@ func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *v202
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Topics_Spec
-	err := spec.AssignProperties_From_Namespaces_Topics_Spec(&source.Spec)
+	var spec Namespaces_Topic_Spec
+	err := spec.AssignProperties_From_Namespaces_Topic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -162,10 +162,10 @@ func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *v
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210101ps.Namespaces_Topics_Spec
-	err := topic.Spec.AssignProperties_To_Namespaces_Topics_Spec(&spec)
+	var spec v20210101ps.Namespaces_Topic_Spec
+	err := topic.Spec.AssignProperties_To_Namespaces_Topic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -199,8 +199,8 @@ type NamespacesTopicList struct {
 	Items           []NamespacesTopic `json:"items"`
 }
 
-// Storage version of v1alpha1api20210101preview.Namespaces_Topics_Spec
-type Namespaces_Topics_Spec struct {
+// Storage version of v1alpha1api20210101preview.Namespaces_Topic_Spec
+type Namespaces_Topic_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
@@ -227,25 +227,25 @@ type Namespaces_Topics_Spec struct {
 	Tags                       map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Topic_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Topics_Spec from the provided source
-func (topics *Namespaces_Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210101ps.Namespaces_Topics_Spec)
+// ConvertSpecFrom populates our Namespaces_Topic_Spec from the provided source
+func (topic *Namespaces_Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210101ps.Namespaces_Topic_Spec)
 	if ok {
 		// Populate our instance from source
-		return topics.AssignProperties_From_Namespaces_Topics_Spec(src)
+		return topic.AssignProperties_From_Namespaces_Topic_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.Namespaces_Topics_Spec{}
+	src = &v20210101ps.Namespaces_Topic_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = topics.AssignProperties_From_Namespaces_Topics_Spec(src)
+	err = topic.AssignProperties_From_Namespaces_Topic_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -253,17 +253,17 @@ func (topics *Namespaces_Topics_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Topics_Spec
-func (topics *Namespaces_Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Spec)
+// ConvertSpecTo populates the provided destination from our Namespaces_Topic_Spec
+func (topic *Namespaces_Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210101ps.Namespaces_Topic_Spec)
 	if ok {
 		// Populate destination from our instance
-		return topics.AssignProperties_To_Namespaces_Topics_Spec(dst)
+		return topic.AssignProperties_To_Namespaces_Topic_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.Namespaces_Topics_Spec{}
-	err := topics.AssignProperties_To_Namespaces_Topics_Spec(dst)
+	dst = &v20210101ps.Namespaces_Topic_Spec{}
+	err := topic.AssignProperties_To_Namespaces_Topic_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -277,170 +277,170 @@ func (topics *Namespaces_Topics_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Topics_Spec populates our Namespaces_Topics_Spec from the provided source Namespaces_Topics_Spec
-func (topics *Namespaces_Topics_Spec) AssignProperties_From_Namespaces_Topics_Spec(source *v20210101ps.Namespaces_Topics_Spec) error {
+// AssignProperties_From_Namespaces_Topic_Spec populates our Namespaces_Topic_Spec from the provided source Namespaces_Topic_Spec
+func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(source *v20210101ps.Namespaces_Topic_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AutoDeleteOnIdle
-	topics.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// AzureName
-	topics.AzureName = source.AzureName
+	topic.AzureName = source.AzureName
 
 	// DefaultMessageTimeToLive
-	topics.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	topics.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
 		enableBatchedOperation := *source.EnableBatchedOperations
-		topics.EnableBatchedOperations = &enableBatchedOperation
+		topic.EnableBatchedOperations = &enableBatchedOperation
 	} else {
-		topics.EnableBatchedOperations = nil
+		topic.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
 	if source.EnableExpress != nil {
 		enableExpress := *source.EnableExpress
-		topics.EnableExpress = &enableExpress
+		topic.EnableExpress = &enableExpress
 	} else {
-		topics.EnableExpress = nil
+		topic.EnableExpress = nil
 	}
 
 	// EnablePartitioning
 	if source.EnablePartitioning != nil {
 		enablePartitioning := *source.EnablePartitioning
-		topics.EnablePartitioning = &enablePartitioning
+		topic.EnablePartitioning = &enablePartitioning
 	} else {
-		topics.EnablePartitioning = nil
+		topic.EnablePartitioning = nil
 	}
 
 	// Location
-	topics.Location = genruntime.ClonePointerToString(source.Location)
+	topic.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxSizeInMegabytes
-	topics.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// OriginalVersion
-	topics.OriginalVersion = source.OriginalVersion
+	topic.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		topics.Owner = &owner
+		topic.Owner = &owner
 	} else {
-		topics.Owner = nil
+		topic.Owner = nil
 	}
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
 		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		topics.RequiresDuplicateDetection = &requiresDuplicateDetection
+		topic.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
-		topics.RequiresDuplicateDetection = nil
+		topic.RequiresDuplicateDetection = nil
 	}
 
 	// SupportOrdering
 	if source.SupportOrdering != nil {
 		supportOrdering := *source.SupportOrdering
-		topics.SupportOrdering = &supportOrdering
+		topic.SupportOrdering = &supportOrdering
 	} else {
-		topics.SupportOrdering = nil
+		topic.SupportOrdering = nil
 	}
 
 	// Tags
-	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		topics.PropertyBag = propertyBag
+		topic.PropertyBag = propertyBag
 	} else {
-		topics.PropertyBag = nil
+		topic.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Topics_Spec populates the provided destination Namespaces_Topics_Spec from our Namespaces_Topics_Spec
-func (topics *Namespaces_Topics_Spec) AssignProperties_To_Namespaces_Topics_Spec(destination *v20210101ps.Namespaces_Topics_Spec) error {
+// AssignProperties_To_Namespaces_Topic_Spec populates the provided destination Namespaces_Topic_Spec from our Namespaces_Topic_Spec
+func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(destination *v20210101ps.Namespaces_Topic_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(topics.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
 
 	// AutoDeleteOnIdle
-	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topics.AutoDeleteOnIdle)
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topic.AutoDeleteOnIdle)
 
 	// AzureName
-	destination.AzureName = topics.AzureName
+	destination.AzureName = topic.AzureName
 
 	// DefaultMessageTimeToLive
-	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topics.DefaultMessageTimeToLive)
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topic.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topics.DuplicateDetectionHistoryTimeWindow)
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topic.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
-	if topics.EnableBatchedOperations != nil {
-		enableBatchedOperation := *topics.EnableBatchedOperations
+	if topic.EnableBatchedOperations != nil {
+		enableBatchedOperation := *topic.EnableBatchedOperations
 		destination.EnableBatchedOperations = &enableBatchedOperation
 	} else {
 		destination.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
-	if topics.EnableExpress != nil {
-		enableExpress := *topics.EnableExpress
+	if topic.EnableExpress != nil {
+		enableExpress := *topic.EnableExpress
 		destination.EnableExpress = &enableExpress
 	} else {
 		destination.EnableExpress = nil
 	}
 
 	// EnablePartitioning
-	if topics.EnablePartitioning != nil {
-		enablePartitioning := *topics.EnablePartitioning
+	if topic.EnablePartitioning != nil {
+		enablePartitioning := *topic.EnablePartitioning
 		destination.EnablePartitioning = &enablePartitioning
 	} else {
 		destination.EnablePartitioning = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(topics.Location)
+	destination.Location = genruntime.ClonePointerToString(topic.Location)
 
 	// MaxSizeInMegabytes
-	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topics.MaxSizeInMegabytes)
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
 	// OriginalVersion
-	destination.OriginalVersion = topics.OriginalVersion
+	destination.OriginalVersion = topic.OriginalVersion
 
 	// Owner
-	if topics.Owner != nil {
-		owner := topics.Owner.Copy()
+	if topic.Owner != nil {
+		owner := topic.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// RequiresDuplicateDetection
-	if topics.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *topics.RequiresDuplicateDetection
+	if topic.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topic.RequiresDuplicateDetection
 		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
 		destination.RequiresDuplicateDetection = nil
 	}
 
 	// SupportOrdering
-	if topics.SupportOrdering != nil {
-		supportOrdering := *topics.SupportOrdering
+	if topic.SupportOrdering != nil {
+		supportOrdering := *topic.SupportOrdering
 		destination.SupportOrdering = &supportOrdering
 	} else {
 		destination.SupportOrdering = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

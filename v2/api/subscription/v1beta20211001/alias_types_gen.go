@@ -28,7 +28,7 @@ import (
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Aliases_Spec                     `json:"spec,omitempty"`
+	Spec              Alias_Spec                       `json:"spec,omitempty"`
 	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
 }
 
@@ -250,10 +250,10 @@ func (alias *Alias) AssignProperties_From_Alias(source *v20211001s.Alias) error 
 	alias.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Aliases_Spec
-	err := spec.AssignProperties_From_Aliases_Spec(&source.Spec)
+	var spec Alias_Spec
+	err := spec.AssignProperties_From_Alias_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Aliases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
 	}
 	alias.Spec = spec
 
@@ -276,10 +276,10 @@ func (alias *Alias) AssignProperties_To_Alias(destination *v20211001s.Alias) err
 	destination.ObjectMeta = *alias.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20211001s.Aliases_Spec
-	err := alias.Spec.AssignProperties_To_Aliases_Spec(&spec)
+	var spec v20211001s.Alias_Spec
+	err := alias.Spec.AssignProperties_To_Alias_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Aliases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -312,7 +312,7 @@ type AliasList struct {
 	Items           []Alias `json:"items"`
 }
 
-type Aliases_Spec struct {
+type Alias_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -322,21 +322,21 @@ type Aliases_Spec struct {
 	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Aliases_Spec{}
+var _ genruntime.ARMTransformer = &Alias_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (aliases *Aliases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if aliases == nil {
+func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if alias == nil {
 		return nil, nil
 	}
-	result := &Aliases_SpecARM{}
+	result := &Alias_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if aliases.Properties != nil {
-		propertiesARM, err := (*aliases.Properties).ConvertToARM(resolved)
+	if alias.Properties != nil {
+		propertiesARM, err := (*alias.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -347,19 +347,19 @@ func (aliases *Aliases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aliases *Aliases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Aliases_SpecARM{}
+func (alias *Alias_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Alias_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (aliases *Aliases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Aliases_SpecARM)
+func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Alias_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Aliases_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	aliases.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -369,32 +369,32 @@ func (aliases *Aliases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			return err
 		}
 		properties := properties1
-		aliases.Properties = &properties
+		alias.Properties = &properties
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Aliases_Spec{}
+var _ genruntime.ConvertibleSpec = &Alias_Spec{}
 
-// ConvertSpecFrom populates our Aliases_Spec from the provided source
-func (aliases *Aliases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211001s.Aliases_Spec)
+// ConvertSpecFrom populates our Alias_Spec from the provided source
+func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20211001s.Alias_Spec)
 	if ok {
 		// Populate our instance from source
-		return aliases.AssignProperties_From_Aliases_Spec(src)
+		return alias.AssignProperties_From_Alias_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211001s.Aliases_Spec{}
+	src = &v20211001s.Alias_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = aliases.AssignProperties_From_Aliases_Spec(src)
+	err = alias.AssignProperties_From_Alias_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -402,17 +402,17 @@ func (aliases *Aliases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Aliases_Spec
-func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211001s.Aliases_Spec)
+// ConvertSpecTo populates the provided destination from our Alias_Spec
+func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20211001s.Alias_Spec)
 	if ok {
 		// Populate destination from our instance
-		return aliases.AssignProperties_To_Aliases_Spec(dst)
+		return alias.AssignProperties_To_Alias_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211001s.Aliases_Spec{}
-	err := aliases.AssignProperties_To_Aliases_Spec(dst)
+	dst = &v20211001s.Alias_Spec{}
+	err := alias.AssignProperties_To_Alias_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -426,11 +426,11 @@ func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-// AssignProperties_From_Aliases_Spec populates our Aliases_Spec from the provided source Aliases_Spec
-func (aliases *Aliases_Spec) AssignProperties_From_Aliases_Spec(source *v20211001s.Aliases_Spec) error {
+// AssignProperties_From_Alias_Spec populates our Alias_Spec from the provided source Alias_Spec
+func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *v20211001s.Alias_Spec) error {
 
 	// AzureName
-	aliases.AzureName = source.AzureName
+	alias.AzureName = source.AzureName
 
 	// Properties
 	if source.Properties != nil {
@@ -439,30 +439,30 @@ func (aliases *Aliases_Spec) AssignProperties_From_Aliases_Spec(source *v2021100
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
 		}
-		aliases.Properties = &property
+		alias.Properties = &property
 	} else {
-		aliases.Properties = nil
+		alias.Properties = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Aliases_Spec populates the provided destination Aliases_Spec from our Aliases_Spec
-func (aliases *Aliases_Spec) AssignProperties_To_Aliases_Spec(destination *v20211001s.Aliases_Spec) error {
+// AssignProperties_To_Alias_Spec populates the provided destination Alias_Spec from our Alias_Spec
+func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *v20211001s.Alias_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = aliases.AzureName
+	destination.AzureName = alias.AzureName
 
 	// OriginalVersion
-	destination.OriginalVersion = aliases.OriginalVersion()
+	destination.OriginalVersion = alias.OriginalVersion()
 
 	// Properties
-	if aliases.Properties != nil {
+	if alias.Properties != nil {
 		var property v20211001s.PutAliasRequestProperties
-		err := aliases.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
+		err := alias.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
 		}
@@ -483,12 +483,12 @@ func (aliases *Aliases_Spec) AssignProperties_To_Aliases_Spec(destination *v2021
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (aliases *Aliases_Spec) OriginalVersion() string {
+func (alias *Alias_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (aliases *Aliases_Spec) SetAzureName(azureName string) { aliases.AzureName = azureName }
+func (alias *Alias_Spec) SetAzureName(azureName string) { alias.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string

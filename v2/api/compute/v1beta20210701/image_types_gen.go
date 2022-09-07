@@ -28,7 +28,7 @@ import (
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Images_Spec  `json:"spec,omitempty"`
+	Spec              Image_Spec   `json:"spec,omitempty"`
 	Status            Image_STATUS `json:"status,omitempty"`
 }
 
@@ -269,10 +269,10 @@ func (image *Image) AssignProperties_From_Image(source *v20210701s.Image) error 
 	image.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Images_Spec
-	err := spec.AssignProperties_From_Images_Spec(&source.Spec)
+	var spec Image_Spec
+	err := spec.AssignProperties_From_Image_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Images_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Image_Spec() to populate field Spec")
 	}
 	image.Spec = spec
 
@@ -295,10 +295,10 @@ func (image *Image) AssignProperties_To_Image(destination *v20210701s.Image) err
 	destination.ObjectMeta = *image.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210701s.Images_Spec
-	err := image.Spec.AssignProperties_To_Images_Spec(&spec)
+	var spec v20210701s.Image_Spec
+	err := image.Spec.AssignProperties_To_Image_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Images_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Image_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -335,6 +335,394 @@ type ImageList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
+
+type Image_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+
+	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
+	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
+	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
+	// resource.
+	HyperVGeneration *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
+
+	// StorageProfile: Describes a storage profile.
+	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Image_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if image == nil {
+		return nil, nil
+	}
+	result := &Image_SpecARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if image.ExtendedLocation != nil {
+		extendedLocationARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Location’:
+	if image.Location != nil {
+		location := *image.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if image.HyperVGeneration != nil ||
+		image.SourceVirtualMachine != nil ||
+		image.StorageProfile != nil {
+		result.Properties = &ImagePropertiesARM{}
+	}
+	if image.HyperVGeneration != nil {
+		hyperVGeneration := *image.HyperVGeneration
+		result.Properties.HyperVGeneration = &hyperVGeneration
+	}
+	if image.SourceVirtualMachine != nil {
+		sourceVirtualMachineARM, err := (*image.SourceVirtualMachine).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sourceVirtualMachine := *sourceVirtualMachineARM.(*SubResourceARM)
+		result.Properties.SourceVirtualMachine = &sourceVirtualMachine
+	}
+	if image.StorageProfile != nil {
+		storageProfileARM, err := (*image.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfileARM.(*ImageStorageProfileARM)
+		result.Properties.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Tags’:
+	if image.Tags != nil {
+		result.Tags = make(map[string]string, len(image.Tags))
+		for key, value := range image.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (image *Image_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Image_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Image_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	image.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		image.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘HyperVGeneration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HyperVGeneration != nil {
+			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			image.HyperVGeneration = &hyperVGeneration
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		image.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	image.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘SourceVirtualMachine’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourceVirtualMachine != nil {
+			var sourceVirtualMachine1 SubResource
+			err := sourceVirtualMachine1.PopulateFromARM(owner, *typedInput.Properties.SourceVirtualMachine)
+			if err != nil {
+				return err
+			}
+			sourceVirtualMachine := sourceVirtualMachine1
+			image.SourceVirtualMachine = &sourceVirtualMachine
+		}
+	}
+
+	// Set property ‘StorageProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageProfile != nil {
+			var storageProfile1 ImageStorageProfile
+			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
+			if err != nil {
+				return err
+			}
+			storageProfile := storageProfile1
+			image.StorageProfile = &storageProfile
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		image.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			image.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Image_Spec{}
+
+// ConvertSpecFrom populates our Image_Spec from the provided source
+func (image *Image_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210701s.Image_Spec)
+	if ok {
+		// Populate our instance from source
+		return image.AssignProperties_From_Image_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210701s.Image_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = image.AssignProperties_From_Image_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Image_Spec
+func (image *Image_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210701s.Image_Spec)
+	if ok {
+		// Populate destination from our instance
+		return image.AssignProperties_To_Image_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210701s.Image_Spec{}
+	err := image.AssignProperties_To_Image_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Image_Spec populates our Image_Spec from the provided source Image_Spec
+func (image *Image_Spec) AssignProperties_From_Image_Spec(source *v20210701s.Image_Spec) error {
+
+	// AzureName
+	image.AzureName = source.AzureName
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		image.ExtendedLocation = &extendedLocation
+	} else {
+		image.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	if source.HyperVGeneration != nil {
+		hyperVGeneration := ImageProperties_HyperVGeneration(*source.HyperVGeneration)
+		image.HyperVGeneration = &hyperVGeneration
+	} else {
+		image.HyperVGeneration = nil
+	}
+
+	// Location
+	image.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		image.Owner = &owner
+	} else {
+		image.Owner = nil
+	}
+
+	// SourceVirtualMachine
+	if source.SourceVirtualMachine != nil {
+		var sourceVirtualMachine SubResource
+		err := sourceVirtualMachine.AssignProperties_From_SubResource(source.SourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SourceVirtualMachine")
+		}
+		image.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		image.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile ImageStorageProfile
+		err := storageProfile.AssignProperties_From_ImageStorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImageStorageProfile() to populate field StorageProfile")
+		}
+		image.StorageProfile = &storageProfile
+	} else {
+		image.StorageProfile = nil
+	}
+
+	// Tags
+	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Image_Spec populates the provided destination Image_Spec from our Image_Spec
+func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *v20210701s.Image_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = image.AzureName
+
+	// ExtendedLocation
+	if image.ExtendedLocation != nil {
+		var extendedLocation v20210701s.ExtendedLocation
+		err := image.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	if image.HyperVGeneration != nil {
+		hyperVGeneration := string(*image.HyperVGeneration)
+		destination.HyperVGeneration = &hyperVGeneration
+	} else {
+		destination.HyperVGeneration = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(image.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = image.OriginalVersion()
+
+	// Owner
+	if image.Owner != nil {
+		owner := image.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// SourceVirtualMachine
+	if image.SourceVirtualMachine != nil {
+		var sourceVirtualMachine v20210701s.SubResource
+		err := image.SourceVirtualMachine.AssignProperties_To_SubResource(&sourceVirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVirtualMachine")
+		}
+		destination.SourceVirtualMachine = &sourceVirtualMachine
+	} else {
+		destination.SourceVirtualMachine = nil
+	}
+
+	// StorageProfile
+	if image.StorageProfile != nil {
+		var storageProfile v20210701s.ImageStorageProfile
+		err := image.StorageProfile.AssignProperties_To_ImageStorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImageStorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(image.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (image *Image_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (image *Image_Spec) SetAzureName(azureName string) { image.AzureName = azureName }
 
 type Image_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -685,394 +1073,6 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202107
 	// No error
 	return nil
 }
-
-type Images_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
-	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
-	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
-	// resource.
-	HyperVGeneration *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
-
-	// StorageProfile: Describes a storage profile.
-	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Images_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if images == nil {
-		return nil, nil
-	}
-	result := &Images_SpecARM{}
-
-	// Set property ‘ExtendedLocation’:
-	if images.ExtendedLocation != nil {
-		extendedLocationARM, err := (*images.ExtendedLocation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
-		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Location’:
-	if images.Location != nil {
-		location := *images.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if images.HyperVGeneration != nil ||
-		images.SourceVirtualMachine != nil ||
-		images.StorageProfile != nil {
-		result.Properties = &ImagePropertiesARM{}
-	}
-	if images.HyperVGeneration != nil {
-		hyperVGeneration := *images.HyperVGeneration
-		result.Properties.HyperVGeneration = &hyperVGeneration
-	}
-	if images.SourceVirtualMachine != nil {
-		sourceVirtualMachineARM, err := (*images.SourceVirtualMachine).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sourceVirtualMachine := *sourceVirtualMachineARM.(*SubResourceARM)
-		result.Properties.SourceVirtualMachine = &sourceVirtualMachine
-	}
-	if images.StorageProfile != nil {
-		storageProfileARM, err := (*images.StorageProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		storageProfile := *storageProfileARM.(*ImageStorageProfileARM)
-		result.Properties.StorageProfile = &storageProfile
-	}
-
-	// Set property ‘Tags’:
-	if images.Tags != nil {
-		result.Tags = make(map[string]string, len(images.Tags))
-		for key, value := range images.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (images *Images_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Images_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Images_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Images_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	images.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		images.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘HyperVGeneration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
-			images.HyperVGeneration = &hyperVGeneration
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		images.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	images.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘SourceVirtualMachine’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SourceVirtualMachine != nil {
-			var sourceVirtualMachine1 SubResource
-			err := sourceVirtualMachine1.PopulateFromARM(owner, *typedInput.Properties.SourceVirtualMachine)
-			if err != nil {
-				return err
-			}
-			sourceVirtualMachine := sourceVirtualMachine1
-			images.SourceVirtualMachine = &sourceVirtualMachine
-		}
-	}
-
-	// Set property ‘StorageProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageProfile != nil {
-			var storageProfile1 ImageStorageProfile
-			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
-			if err != nil {
-				return err
-			}
-			storageProfile := storageProfile1
-			images.StorageProfile = &storageProfile
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		images.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			images.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Images_Spec{}
-
-// ConvertSpecFrom populates our Images_Spec from the provided source
-func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210701s.Images_Spec)
-	if ok {
-		// Populate our instance from source
-		return images.AssignProperties_From_Images_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210701s.Images_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = images.AssignProperties_From_Images_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Images_Spec
-func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210701s.Images_Spec)
-	if ok {
-		// Populate destination from our instance
-		return images.AssignProperties_To_Images_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210701s.Images_Spec{}
-	err := images.AssignProperties_To_Images_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Images_Spec populates our Images_Spec from the provided source Images_Spec
-func (images *Images_Spec) AssignProperties_From_Images_Spec(source *v20210701s.Images_Spec) error {
-
-	// AzureName
-	images.AzureName = source.AzureName
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		images.ExtendedLocation = &extendedLocation
-	} else {
-		images.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := ImageProperties_HyperVGeneration(*source.HyperVGeneration)
-		images.HyperVGeneration = &hyperVGeneration
-	} else {
-		images.HyperVGeneration = nil
-	}
-
-	// Location
-	images.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		images.Owner = &owner
-	} else {
-		images.Owner = nil
-	}
-
-	// SourceVirtualMachine
-	if source.SourceVirtualMachine != nil {
-		var sourceVirtualMachine SubResource
-		err := sourceVirtualMachine.AssignProperties_From_SubResource(source.SourceVirtualMachine)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SourceVirtualMachine")
-		}
-		images.SourceVirtualMachine = &sourceVirtualMachine
-	} else {
-		images.SourceVirtualMachine = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile ImageStorageProfile
-		err := storageProfile.AssignProperties_From_ImageStorageProfile(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ImageStorageProfile() to populate field StorageProfile")
-		}
-		images.StorageProfile = &storageProfile
-	} else {
-		images.StorageProfile = nil
-	}
-
-	// Tags
-	images.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Images_Spec populates the provided destination Images_Spec from our Images_Spec
-func (images *Images_Spec) AssignProperties_To_Images_Spec(destination *v20210701s.Images_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = images.AzureName
-
-	// ExtendedLocation
-	if images.ExtendedLocation != nil {
-		var extendedLocation v20210701s.ExtendedLocation
-		err := images.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if images.HyperVGeneration != nil {
-		hyperVGeneration := string(*images.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(images.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = images.OriginalVersion()
-
-	// Owner
-	if images.Owner != nil {
-		owner := images.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// SourceVirtualMachine
-	if images.SourceVirtualMachine != nil {
-		var sourceVirtualMachine v20210701s.SubResource
-		err := images.SourceVirtualMachine.AssignProperties_To_SubResource(&sourceVirtualMachine)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVirtualMachine")
-		}
-		destination.SourceVirtualMachine = &sourceVirtualMachine
-	} else {
-		destination.SourceVirtualMachine = nil
-	}
-
-	// StorageProfile
-	if images.StorageProfile != nil {
-		var storageProfile v20210701s.ImageStorageProfile
-		err := images.StorageProfile.AssignProperties_To_ImageStorageProfile(&storageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ImageStorageProfile() to populate field StorageProfile")
-		}
-		destination.StorageProfile = &storageProfile
-	} else {
-		destination.StorageProfile = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(images.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (images *Images_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (images *Images_Spec) SetAzureName(azureName string) { images.AzureName = azureName }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {

@@ -29,7 +29,7 @@ func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 	createOption := compute2020.CreationData_CreateOption_Empty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
-		Spec: compute2020.Snapshots_Spec{
+		Spec: compute2020.Snapshot_Spec{
 			CreationData: &compute2020.CreationData{
 				CreateOption: &createOption,
 			},
@@ -49,7 +49,7 @@ func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 	linuxOSState := compute2021.ImageOSDisk_OsState_Generalized
 	image := &compute2021.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
-		Spec: compute2021.Images_Spec{
+		Spec: compute2021.Image_Spec{
 			HyperVGeneration: &v2,
 			Location:         tc.AzureRegion,
 			Owner:            testcommon.AsOwner(rg),

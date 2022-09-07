@@ -27,7 +27,7 @@ import (
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Disks_Spec  `json:"spec,omitempty"`
+	Spec              Disk_Spec   `json:"spec,omitempty"`
 	Status            Disk_STATUS `json:"status,omitempty"`
 }
 
@@ -136,6 +136,64 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-09-30")
 
+// Storage version of v1beta20200930.Disk_Spec
+type Disk_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string        `json:"azureName,omitempty"`
+	BurstingEnabled *bool         `json:"burstingEnabled,omitempty"`
+	CreationData    *CreationData `json:"creationData,omitempty"`
+
+	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
+	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskIOPSReadOnly             *int                          `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                          `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                          `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
+	Encryption                   *Encryption                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
+	Location                     *string                       `json:"location,omitempty"`
+	MaxShares                    *int                          `json:"maxShares,omitempty"`
+	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OriginalVersion              string                        `json:"originalVersion,omitempty"`
+	OsType                       *string                       `json:"osType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku                           `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	Tier         *string                            `json:"tier,omitempty"`
+	Zones        []string                           `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Disk_Spec{}
+
+// ConvertSpecFrom populates our Disk_Spec from the provided source
+func (disk *Disk_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == disk {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(disk)
+}
+
+// ConvertSpecTo populates the provided destination from our Disk_Spec
+func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == disk {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(disk)
+}
+
 // Storage version of v1beta20200930.Disk_STATUS
 type Disk_STATUS struct {
 	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
@@ -192,64 +250,6 @@ func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	}
 
 	return destination.ConvertStatusFrom(disk)
-}
-
-// Storage version of v1beta20200930.Disks_Spec
-type Disks_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string        `json:"azureName,omitempty"`
-	BurstingEnabled *bool         `json:"burstingEnabled,omitempty"`
-	CreationData    *CreationData `json:"creationData,omitempty"`
-
-	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
-	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskIOPSReadOnly             *int                          `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                          `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                          `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
-	Encryption                   *Encryption                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Location                     *string                       `json:"location,omitempty"`
-	MaxShares                    *int                          `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
-	OriginalVersion              string                        `json:"originalVersion,omitempty"`
-	OsType                       *string                       `json:"osType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	Sku          *DiskSku                           `json:"sku,omitempty"`
-	Tags         map[string]string                  `json:"tags,omitempty"`
-	Tier         *string                            `json:"tier,omitempty"`
-	Zones        []string                           `json:"zones,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Disks_Spec{}
-
-// ConvertSpecFrom populates our Disks_Spec from the provided source
-func (disks *Disks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == disks {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(disks)
-}
-
-// ConvertSpecTo populates the provided destination from our Disks_Spec
-func (disks *Disks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == disks {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(disks)
 }
 
 // Storage version of v1beta20200930.CreationData

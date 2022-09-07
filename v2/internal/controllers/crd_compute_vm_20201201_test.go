@@ -50,13 +50,13 @@ func newVirtualMachine20201201(
 
 	return &compute2020.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute2020.VirtualMachines_Spec{
+		Spec: compute2020.VirtualMachine_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			HardwareProfile: &compute2020.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute2020.VirtualMachines_Spec_Properties_OsProfile{
+			OsProfile: &compute2020.VirtualMachine_Spec_Properties_OsProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -71,8 +71,8 @@ func newVirtualMachine20201201(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2020.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{
+			NetworkProfile: &compute2020.VirtualMachine_Spec_Properties_NetworkProfile{
+				NetworkInterfaces: []compute2020.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces{
 					{
 						Reference: tc.MakeReferenceFromResource(networkInterface),
 					},
@@ -86,10 +86,10 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.
 	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
-		Spec: network.NetworkInterfaces_Spec{
+		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaces_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.NetworkInterface_Spec_Properties_IpConfigurations{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
 				Subnet: &network.SubResource{

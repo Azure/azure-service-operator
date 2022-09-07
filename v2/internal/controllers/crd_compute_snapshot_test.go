@@ -26,7 +26,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	createOption := compute.CreationData_CreateOption_Empty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
-		Spec: compute.Snapshots_Spec{
+		Spec: compute.Snapshot_Spec{
 			CreationData: &compute.CreationData{
 				CreateOption: &createOption,
 			},

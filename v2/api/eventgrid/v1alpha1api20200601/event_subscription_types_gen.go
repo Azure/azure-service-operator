@@ -28,7 +28,7 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
+	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
 	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
@@ -268,10 +268,10 @@ func (subscription *EventSubscription) AssignProperties_From_EventSubscription(s
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec EventSubscriptions_Spec
-	err := spec.AssignProperties_From_EventSubscriptions_Spec(&source.Spec)
+	var spec EventSubscription_Spec
+	err := spec.AssignProperties_From_EventSubscription_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptions_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_EventSubscription_Spec() to populate field Spec")
 	}
 	subscription.Spec = spec
 
@@ -294,10 +294,10 @@ func (subscription *EventSubscription) AssignProperties_To_EventSubscription(des
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20200601s.EventSubscriptions_Spec
-	err := subscription.Spec.AssignProperties_To_EventSubscriptions_Spec(&spec)
+	var spec alpha20200601s.EventSubscription_Spec
+	err := subscription.Spec.AssignProperties_To_EventSubscription_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptions_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_EventSubscription_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -328,6 +328,481 @@ type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []EventSubscription `json:"items"`
+}
+
+type EventSubscription_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName             string                                           `json:"azureName,omitempty"`
+	DeadLetterDestination *StorageBlobDeadLetterDestination                `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination                    `json:"destination,omitempty"`
+	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter                         `json:"filter,omitempty"`
+	Labels                []string                                         `json:"labels,omitempty"`
+	Location              *string                                          `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
+	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
+	Tags        map[string]string                   `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &EventSubscription_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if subscription == nil {
+		return nil, nil
+	}
+	result := &EventSubscription_SpecARM{}
+
+	// Set property ‘Location’:
+	if subscription.Location != nil {
+		location := *subscription.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if subscription.DeadLetterDestination != nil ||
+		subscription.Destination != nil ||
+		subscription.EventDeliverySchema != nil ||
+		subscription.ExpirationTimeUtc != nil ||
+		subscription.Filter != nil ||
+		subscription.Labels != nil ||
+		subscription.RetryPolicy != nil {
+		result.Properties = &EventSubscriptionPropertiesARM{}
+	}
+	if subscription.DeadLetterDestination != nil {
+		deadLetterDestinationARM, err := (*subscription.DeadLetterDestination).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		deadLetterDestination := *deadLetterDestinationARM.(*StorageBlobDeadLetterDestinationARM)
+		result.Properties.DeadLetterDestination = &deadLetterDestination
+	}
+	if subscription.Destination != nil {
+		destinationARM, err := (*subscription.Destination).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		destination := *destinationARM.(*EventSubscriptionDestinationARM)
+		result.Properties.Destination = &destination
+	}
+	if subscription.EventDeliverySchema != nil {
+		eventDeliverySchema := *subscription.EventDeliverySchema
+		result.Properties.EventDeliverySchema = &eventDeliverySchema
+	}
+	if subscription.ExpirationTimeUtc != nil {
+		expirationTimeUtc := *subscription.ExpirationTimeUtc
+		result.Properties.ExpirationTimeUtc = &expirationTimeUtc
+	}
+	if subscription.Filter != nil {
+		filterARM, err := (*subscription.Filter).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		filter := *filterARM.(*EventSubscriptionFilterARM)
+		result.Properties.Filter = &filter
+	}
+	for _, item := range subscription.Labels {
+		result.Properties.Labels = append(result.Properties.Labels, item)
+	}
+	if subscription.RetryPolicy != nil {
+		retryPolicyARM, err := (*subscription.RetryPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
+		result.Properties.RetryPolicy = &retryPolicy
+	}
+
+	// Set property ‘Tags’:
+	if subscription.Tags != nil {
+		result.Tags = make(map[string]string, len(subscription.Tags))
+		for key, value := range subscription.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subscription *EventSubscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EventSubscription_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EventSubscription_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	subscription.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DeadLetterDestination’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeadLetterDestination != nil {
+			var deadLetterDestination1 StorageBlobDeadLetterDestination
+			err := deadLetterDestination1.PopulateFromARM(owner, *typedInput.Properties.DeadLetterDestination)
+			if err != nil {
+				return err
+			}
+			deadLetterDestination := deadLetterDestination1
+			subscription.DeadLetterDestination = &deadLetterDestination
+		}
+	}
+
+	// Set property ‘Destination’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Destination != nil {
+			var destination1 EventSubscriptionDestination
+			err := destination1.PopulateFromARM(owner, *typedInput.Properties.Destination)
+			if err != nil {
+				return err
+			}
+			destination := destination1
+			subscription.Destination = &destination
+		}
+	}
+
+	// Set property ‘EventDeliverySchema’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EventDeliverySchema != nil {
+			eventDeliverySchema := *typedInput.Properties.EventDeliverySchema
+			subscription.EventDeliverySchema = &eventDeliverySchema
+		}
+	}
+
+	// Set property ‘ExpirationTimeUtc’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ExpirationTimeUtc != nil {
+			expirationTimeUtc := *typedInput.Properties.ExpirationTimeUtc
+			subscription.ExpirationTimeUtc = &expirationTimeUtc
+		}
+	}
+
+	// Set property ‘Filter’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Filter != nil {
+			var filter1 EventSubscriptionFilter
+			err := filter1.PopulateFromARM(owner, *typedInput.Properties.Filter)
+			if err != nil {
+				return err
+			}
+			filter := filter1
+			subscription.Filter = &filter
+		}
+	}
+
+	// Set property ‘Labels’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Labels {
+			subscription.Labels = append(subscription.Labels, item)
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		subscription.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	subscription.Owner = &owner
+
+	// Set property ‘RetryPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RetryPolicy != nil {
+			var retryPolicy1 RetryPolicy
+			err := retryPolicy1.PopulateFromARM(owner, *typedInput.Properties.RetryPolicy)
+			if err != nil {
+				return err
+			}
+			retryPolicy := retryPolicy1
+			subscription.RetryPolicy = &retryPolicy
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		subscription.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			subscription.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
+
+// ConvertSpecFrom populates our EventSubscription_Spec from the provided source
+func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20200601s.EventSubscription_Spec)
+	if ok {
+		// Populate our instance from source
+		return subscription.AssignProperties_From_EventSubscription_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20200601s.EventSubscription_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = subscription.AssignProperties_From_EventSubscription_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20200601s.EventSubscription_Spec)
+	if ok {
+		// Populate destination from our instance
+		return subscription.AssignProperties_To_EventSubscription_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20200601s.EventSubscription_Spec{}
+	err := subscription.AssignProperties_To_EventSubscription_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_EventSubscription_Spec populates our EventSubscription_Spec from the provided source EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscription_Spec(source *alpha20200601s.EventSubscription_Spec) error {
+
+	// AzureName
+	subscription.AzureName = source.AzureName
+
+	// DeadLetterDestination
+	if source.DeadLetterDestination != nil {
+		var deadLetterDestination StorageBlobDeadLetterDestination
+		err := deadLetterDestination.AssignProperties_From_StorageBlobDeadLetterDestination(source.DeadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+		}
+		subscription.DeadLetterDestination = &deadLetterDestination
+	} else {
+		subscription.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if source.Destination != nil {
+		var destination EventSubscriptionDestination
+		err := destination.AssignProperties_From_EventSubscriptionDestination(source.Destination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionDestination() to populate field Destination")
+		}
+		subscription.Destination = &destination
+	} else {
+		subscription.Destination = nil
+	}
+
+	// EventDeliverySchema
+	if source.EventDeliverySchema != nil {
+		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(*source.EventDeliverySchema)
+		subscription.EventDeliverySchema = &eventDeliverySchema
+	} else {
+		subscription.EventDeliverySchema = nil
+	}
+
+	// ExpirationTimeUtc
+	if source.ExpirationTimeUtc != nil {
+		expirationTimeUtc := *source.ExpirationTimeUtc
+		subscription.ExpirationTimeUtc = &expirationTimeUtc
+	} else {
+		subscription.ExpirationTimeUtc = nil
+	}
+
+	// Filter
+	if source.Filter != nil {
+		var filter EventSubscriptionFilter
+		err := filter.AssignProperties_From_EventSubscriptionFilter(source.Filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionFilter() to populate field Filter")
+		}
+		subscription.Filter = &filter
+	} else {
+		subscription.Filter = nil
+	}
+
+	// Labels
+	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
+
+	// Location
+	subscription.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		subscription.Owner = &owner
+	} else {
+		subscription.Owner = nil
+	}
+
+	// RetryPolicy
+	if source.RetryPolicy != nil {
+		var retryPolicy RetryPolicy
+		err := retryPolicy.AssignProperties_From_RetryPolicy(source.RetryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RetryPolicy() to populate field RetryPolicy")
+		}
+		subscription.RetryPolicy = &retryPolicy
+	} else {
+		subscription.RetryPolicy = nil
+	}
+
+	// Tags
+	subscription.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscription_Spec populates the provided destination EventSubscription_Spec from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscription_Spec(destination *alpha20200601s.EventSubscription_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = subscription.AzureName
+
+	// DeadLetterDestination
+	if subscription.DeadLetterDestination != nil {
+		var deadLetterDestination alpha20200601s.StorageBlobDeadLetterDestination
+		err := subscription.DeadLetterDestination.AssignProperties_To_StorageBlobDeadLetterDestination(&deadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+		}
+		destination.DeadLetterDestination = &deadLetterDestination
+	} else {
+		destination.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if subscription.Destination != nil {
+		var destinationLocal alpha20200601s.EventSubscriptionDestination
+		err := subscription.Destination.AssignProperties_To_EventSubscriptionDestination(&destinationLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination() to populate field Destination")
+		}
+		destination.Destination = &destinationLocal
+	} else {
+		destination.Destination = nil
+	}
+
+	// EventDeliverySchema
+	if subscription.EventDeliverySchema != nil {
+		eventDeliverySchema := string(*subscription.EventDeliverySchema)
+		destination.EventDeliverySchema = &eventDeliverySchema
+	} else {
+		destination.EventDeliverySchema = nil
+	}
+
+	// ExpirationTimeUtc
+	if subscription.ExpirationTimeUtc != nil {
+		expirationTimeUtc := *subscription.ExpirationTimeUtc
+		destination.ExpirationTimeUtc = &expirationTimeUtc
+	} else {
+		destination.ExpirationTimeUtc = nil
+	}
+
+	// Filter
+	if subscription.Filter != nil {
+		var filter alpha20200601s.EventSubscriptionFilter
+		err := subscription.Filter.AssignProperties_To_EventSubscriptionFilter(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter() to populate field Filter")
+		}
+		destination.Filter = &filter
+	} else {
+		destination.Filter = nil
+	}
+
+	// Labels
+	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(subscription.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = subscription.OriginalVersion()
+
+	// Owner
+	if subscription.Owner != nil {
+		owner := subscription.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RetryPolicy
+	if subscription.RetryPolicy != nil {
+		var retryPolicy alpha20200601s.RetryPolicy
+		err := subscription.RetryPolicy.AssignProperties_To_RetryPolicy(&retryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy() to populate field RetryPolicy")
+		}
+		destination.RetryPolicy = &retryPolicy
+	} else {
+		destination.RetryPolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(subscription.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (subscription *EventSubscription_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (subscription *EventSubscription_Spec) SetAzureName(azureName string) {
+	subscription.AzureName = azureName
 }
 
 // Deprecated version of EventSubscription_STATUS. Use v1beta20200601.EventSubscription_STATUS instead
@@ -763,481 +1238,6 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// No error
 	return nil
-}
-
-type EventSubscriptions_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName             string                                           `json:"azureName,omitempty"`
-	DeadLetterDestination *StorageBlobDeadLetterDestination                `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination                    `json:"destination,omitempty"`
-	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter                         `json:"filter,omitempty"`
-	Labels                []string                                         `json:"labels,omitempty"`
-	Location              *string                                          `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	// extension resource, which means that any other Azure resource can be its owner.
-	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
-	Tags        map[string]string                   `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &EventSubscriptions_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if subscriptions == nil {
-		return nil, nil
-	}
-	result := &EventSubscriptions_SpecARM{}
-
-	// Set property ‘Location’:
-	if subscriptions.Location != nil {
-		location := *subscriptions.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if subscriptions.DeadLetterDestination != nil ||
-		subscriptions.Destination != nil ||
-		subscriptions.EventDeliverySchema != nil ||
-		subscriptions.ExpirationTimeUtc != nil ||
-		subscriptions.Filter != nil ||
-		subscriptions.Labels != nil ||
-		subscriptions.RetryPolicy != nil {
-		result.Properties = &EventSubscriptionPropertiesARM{}
-	}
-	if subscriptions.DeadLetterDestination != nil {
-		deadLetterDestinationARM, err := (*subscriptions.DeadLetterDestination).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deadLetterDestination := *deadLetterDestinationARM.(*StorageBlobDeadLetterDestinationARM)
-		result.Properties.DeadLetterDestination = &deadLetterDestination
-	}
-	if subscriptions.Destination != nil {
-		destinationARM, err := (*subscriptions.Destination).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		destination := *destinationARM.(*EventSubscriptionDestinationARM)
-		result.Properties.Destination = &destination
-	}
-	if subscriptions.EventDeliverySchema != nil {
-		eventDeliverySchema := *subscriptions.EventDeliverySchema
-		result.Properties.EventDeliverySchema = &eventDeliverySchema
-	}
-	if subscriptions.ExpirationTimeUtc != nil {
-		expirationTimeUtc := *subscriptions.ExpirationTimeUtc
-		result.Properties.ExpirationTimeUtc = &expirationTimeUtc
-	}
-	if subscriptions.Filter != nil {
-		filterARM, err := (*subscriptions.Filter).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		filter := *filterARM.(*EventSubscriptionFilterARM)
-		result.Properties.Filter = &filter
-	}
-	for _, item := range subscriptions.Labels {
-		result.Properties.Labels = append(result.Properties.Labels, item)
-	}
-	if subscriptions.RetryPolicy != nil {
-		retryPolicyARM, err := (*subscriptions.RetryPolicy).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
-		result.Properties.RetryPolicy = &retryPolicy
-	}
-
-	// Set property ‘Tags’:
-	if subscriptions.Tags != nil {
-		result.Tags = make(map[string]string, len(subscriptions.Tags))
-		for key, value := range subscriptions.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subscriptions *EventSubscriptions_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptions_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subscriptions *EventSubscriptions_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptions_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptions_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	subscriptions.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘DeadLetterDestination’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DeadLetterDestination != nil {
-			var deadLetterDestination1 StorageBlobDeadLetterDestination
-			err := deadLetterDestination1.PopulateFromARM(owner, *typedInput.Properties.DeadLetterDestination)
-			if err != nil {
-				return err
-			}
-			deadLetterDestination := deadLetterDestination1
-			subscriptions.DeadLetterDestination = &deadLetterDestination
-		}
-	}
-
-	// Set property ‘Destination’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Destination != nil {
-			var destination1 EventSubscriptionDestination
-			err := destination1.PopulateFromARM(owner, *typedInput.Properties.Destination)
-			if err != nil {
-				return err
-			}
-			destination := destination1
-			subscriptions.Destination = &destination
-		}
-	}
-
-	// Set property ‘EventDeliverySchema’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EventDeliverySchema != nil {
-			eventDeliverySchema := *typedInput.Properties.EventDeliverySchema
-			subscriptions.EventDeliverySchema = &eventDeliverySchema
-		}
-	}
-
-	// Set property ‘ExpirationTimeUtc’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ExpirationTimeUtc != nil {
-			expirationTimeUtc := *typedInput.Properties.ExpirationTimeUtc
-			subscriptions.ExpirationTimeUtc = &expirationTimeUtc
-		}
-	}
-
-	// Set property ‘Filter’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Filter != nil {
-			var filter1 EventSubscriptionFilter
-			err := filter1.PopulateFromARM(owner, *typedInput.Properties.Filter)
-			if err != nil {
-				return err
-			}
-			filter := filter1
-			subscriptions.Filter = &filter
-		}
-	}
-
-	// Set property ‘Labels’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Labels {
-			subscriptions.Labels = append(subscriptions.Labels, item)
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		subscriptions.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	subscriptions.Owner = &owner
-
-	// Set property ‘RetryPolicy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RetryPolicy != nil {
-			var retryPolicy1 RetryPolicy
-			err := retryPolicy1.PopulateFromARM(owner, *typedInput.Properties.RetryPolicy)
-			if err != nil {
-				return err
-			}
-			retryPolicy := retryPolicy1
-			subscriptions.RetryPolicy = &retryPolicy
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		subscriptions.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			subscriptions.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &EventSubscriptions_Spec{}
-
-// ConvertSpecFrom populates our EventSubscriptions_Spec from the provided source
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20200601s.EventSubscriptions_Spec)
-	if ok {
-		// Populate our instance from source
-		return subscriptions.AssignProperties_From_EventSubscriptions_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20200601s.EventSubscriptions_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = subscriptions.AssignProperties_From_EventSubscriptions_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20200601s.EventSubscriptions_Spec)
-	if ok {
-		// Populate destination from our instance
-		return subscriptions.AssignProperties_To_EventSubscriptions_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20200601s.EventSubscriptions_Spec{}
-	err := subscriptions.AssignProperties_To_EventSubscriptions_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_EventSubscriptions_Spec populates our EventSubscriptions_Spec from the provided source EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) AssignProperties_From_EventSubscriptions_Spec(source *alpha20200601s.EventSubscriptions_Spec) error {
-
-	// AzureName
-	subscriptions.AzureName = source.AzureName
-
-	// DeadLetterDestination
-	if source.DeadLetterDestination != nil {
-		var deadLetterDestination StorageBlobDeadLetterDestination
-		err := deadLetterDestination.AssignProperties_From_StorageBlobDeadLetterDestination(source.DeadLetterDestination)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
-		}
-		subscriptions.DeadLetterDestination = &deadLetterDestination
-	} else {
-		subscriptions.DeadLetterDestination = nil
-	}
-
-	// Destination
-	if source.Destination != nil {
-		var destination EventSubscriptionDestination
-		err := destination.AssignProperties_From_EventSubscriptionDestination(source.Destination)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionDestination() to populate field Destination")
-		}
-		subscriptions.Destination = &destination
-	} else {
-		subscriptions.Destination = nil
-	}
-
-	// EventDeliverySchema
-	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(*source.EventDeliverySchema)
-		subscriptions.EventDeliverySchema = &eventDeliverySchema
-	} else {
-		subscriptions.EventDeliverySchema = nil
-	}
-
-	// ExpirationTimeUtc
-	if source.ExpirationTimeUtc != nil {
-		expirationTimeUtc := *source.ExpirationTimeUtc
-		subscriptions.ExpirationTimeUtc = &expirationTimeUtc
-	} else {
-		subscriptions.ExpirationTimeUtc = nil
-	}
-
-	// Filter
-	if source.Filter != nil {
-		var filter EventSubscriptionFilter
-		err := filter.AssignProperties_From_EventSubscriptionFilter(source.Filter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionFilter() to populate field Filter")
-		}
-		subscriptions.Filter = &filter
-	} else {
-		subscriptions.Filter = nil
-	}
-
-	// Labels
-	subscriptions.Labels = genruntime.CloneSliceOfString(source.Labels)
-
-	// Location
-	subscriptions.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		subscriptions.Owner = &owner
-	} else {
-		subscriptions.Owner = nil
-	}
-
-	// RetryPolicy
-	if source.RetryPolicy != nil {
-		var retryPolicy RetryPolicy
-		err := retryPolicy.AssignProperties_From_RetryPolicy(source.RetryPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetryPolicy() to populate field RetryPolicy")
-		}
-		subscriptions.RetryPolicy = &retryPolicy
-	} else {
-		subscriptions.RetryPolicy = nil
-	}
-
-	// Tags
-	subscriptions.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_EventSubscriptions_Spec populates the provided destination EventSubscriptions_Spec from our EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) AssignProperties_To_EventSubscriptions_Spec(destination *alpha20200601s.EventSubscriptions_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = subscriptions.AzureName
-
-	// DeadLetterDestination
-	if subscriptions.DeadLetterDestination != nil {
-		var deadLetterDestination alpha20200601s.StorageBlobDeadLetterDestination
-		err := subscriptions.DeadLetterDestination.AssignProperties_To_StorageBlobDeadLetterDestination(&deadLetterDestination)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
-		}
-		destination.DeadLetterDestination = &deadLetterDestination
-	} else {
-		destination.DeadLetterDestination = nil
-	}
-
-	// Destination
-	if subscriptions.Destination != nil {
-		var destinationLocal alpha20200601s.EventSubscriptionDestination
-		err := subscriptions.Destination.AssignProperties_To_EventSubscriptionDestination(&destinationLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination() to populate field Destination")
-		}
-		destination.Destination = &destinationLocal
-	} else {
-		destination.Destination = nil
-	}
-
-	// EventDeliverySchema
-	if subscriptions.EventDeliverySchema != nil {
-		eventDeliverySchema := string(*subscriptions.EventDeliverySchema)
-		destination.EventDeliverySchema = &eventDeliverySchema
-	} else {
-		destination.EventDeliverySchema = nil
-	}
-
-	// ExpirationTimeUtc
-	if subscriptions.ExpirationTimeUtc != nil {
-		expirationTimeUtc := *subscriptions.ExpirationTimeUtc
-		destination.ExpirationTimeUtc = &expirationTimeUtc
-	} else {
-		destination.ExpirationTimeUtc = nil
-	}
-
-	// Filter
-	if subscriptions.Filter != nil {
-		var filter alpha20200601s.EventSubscriptionFilter
-		err := subscriptions.Filter.AssignProperties_To_EventSubscriptionFilter(&filter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter() to populate field Filter")
-		}
-		destination.Filter = &filter
-	} else {
-		destination.Filter = nil
-	}
-
-	// Labels
-	destination.Labels = genruntime.CloneSliceOfString(subscriptions.Labels)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(subscriptions.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = subscriptions.OriginalVersion()
-
-	// Owner
-	if subscriptions.Owner != nil {
-		owner := subscriptions.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// RetryPolicy
-	if subscriptions.RetryPolicy != nil {
-		var retryPolicy alpha20200601s.RetryPolicy
-		err := subscriptions.RetryPolicy.AssignProperties_To_RetryPolicy(&retryPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy() to populate field RetryPolicy")
-		}
-		destination.RetryPolicy = &retryPolicy
-	} else {
-		destination.RetryPolicy = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(subscriptions.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (subscriptions *EventSubscriptions_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (subscriptions *EventSubscriptions_Spec) SetAzureName(azureName string) {
-	subscriptions.AzureName = azureName
 }
 
 // Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead

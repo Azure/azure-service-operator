@@ -27,7 +27,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
+	Spec              Workspace_Spec   `json:"spec,omitempty"`
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -136,6 +136,55 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
 
+// Storage version of v1beta20210601.Workspace_Spec
+type Workspace_Spec struct {
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=4
+	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName        string             `json:"azureName,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
+	Features         *WorkspaceFeatures `json:"features,omitempty"`
+	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+	Location         *string            `json:"location,omitempty"`
+	OriginalVersion  string             `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
+
+// ConvertSpecFrom populates our Workspace_Spec from the provided source
+func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(workspace)
+}
+
+// ConvertSpecTo populates the provided destination from our Workspace_Spec
+func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(workspace)
+}
+
 // Storage version of v1beta20210601.Workspace_STATUS
 type Workspace_STATUS struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
@@ -178,55 +227,6 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 	}
 
 	return destination.ConvertStatusFrom(workspace)
-}
-
-// Storage version of v1beta20210601.Workspaces_Spec
-type Workspaces_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=4
-	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string             `json:"azureName,omitempty"`
-	Etag             *string            `json:"etag,omitempty"`
-	Features         *WorkspaceFeatures `json:"features,omitempty"`
-	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Location         *string            `json:"location,omitempty"`
-	OriginalVersion  string             `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
-	Tags                            map[string]string                  `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
-
-// ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == workspaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(workspaces)
-}
-
-// ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == workspaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(workspaces)
 }
 
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS

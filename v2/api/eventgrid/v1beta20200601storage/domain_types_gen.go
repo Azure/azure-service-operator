@@ -26,7 +26,7 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Spec  `json:"spec,omitempty"`
+	Spec              Domain_Spec   `json:"spec,omitempty"`
 	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,47 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
+// Storage version of v1beta20200601.Domain_Spec
+type Domain_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName          string                  `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
+	InputSchema        *string                 `json:"inputSchema,omitempty"`
+	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string                 `json:"location,omitempty"`
+	OriginalVersion    string                  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Domain_Spec{}
+
+// ConvertSpecFrom populates our Domain_Spec from the provided source
+func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(domain)
+}
+
+// ConvertSpecTo populates the provided destination from our Domain_Spec
+func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(domain)
+}
+
 // Storage version of v1beta20200601.Domain_STATUS
 type Domain_STATUS struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
@@ -173,47 +214,6 @@ func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	}
 
 	return destination.ConvertStatusFrom(domain)
-}
-
-// Storage version of v1beta20200601.Domains_Spec
-type Domains_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName          string                  `json:"azureName,omitempty"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Domains_Spec{}
-
-// ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domains {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(domains)
-}
-
-// ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domains {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(domains)
 }
 
 // Storage version of v1beta20200601.InboundIpRule

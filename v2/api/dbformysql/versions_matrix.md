@@ -16,11 +16,11 @@
 | FirewallRuleProperties_STATUS            | v1alpha1api20210501 | v1beta20210501 |
 | FirewallRule_STATUS                      | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServer                           | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServer_Spec                      | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServersDatabase                  | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServersFirewallRule              | v1alpha1api20210501 | v1beta20210501 |
-| FlexibleServers_Databases_Spec           | v1alpha1api20210501 | v1beta20210501 |
-| FlexibleServers_FirewallRules_Spec       | v1alpha1api20210501 | v1beta20210501 |
-| FlexibleServers_Spec                     | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServers_Database_Spec            | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServers_FirewallRule_Spec        | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability                         | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_Mode                    | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_STATUS                  | v1alpha1api20210501 | v1beta20210501 |

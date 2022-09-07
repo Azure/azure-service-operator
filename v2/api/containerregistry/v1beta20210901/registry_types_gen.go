@@ -28,7 +28,7 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Registries_Spec `json:"spec,omitempty"`
+	Spec              Registry_Spec   `json:"spec,omitempty"`
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (registry *Registry) AssignProperties_From_Registry(source *v20210901s.Regi
 	registry.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Registries_Spec
-	err := spec.AssignProperties_From_Registries_Spec(&source.Spec)
+	var spec Registry_Spec
+	err := spec.AssignProperties_From_Registry_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Registries_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Registry_Spec() to populate field Spec")
 	}
 	registry.Spec = spec
 
@@ -281,10 +281,10 @@ func (registry *Registry) AssignProperties_To_Registry(destination *v20210901s.R
 	destination.ObjectMeta = *registry.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210901s.Registries_Spec
-	err := registry.Spec.AssignProperties_To_Registries_Spec(&spec)
+	var spec v20210901s.Registry_Spec
+	err := registry.Spec.AssignProperties_To_Registry_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Registries_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Registry_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -322,7 +322,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
-type Registries_Spec struct {
+type Registry_Spec struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
@@ -372,18 +372,18 @@ type Registries_Spec struct {
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Registries_Spec{}
+var _ genruntime.ARMTransformer = &Registry_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if registries == nil {
+func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if registry == nil {
 		return nil, nil
 	}
-	result := &Registries_SpecARM{}
+	result := &Registry_SpecARM{}
 
 	// Set property ‘Identity’:
-	if registries.Identity != nil {
-		identityARM, err := (*registries.Identity).ConvertToARM(resolved)
+	if registry.Identity != nil {
+		identityARM, err := (*registry.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -392,8 +392,8 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Location’:
-	if registries.Location != nil {
-		location := *registries.Location
+	if registry.Location != nil {
+		location := *registry.Location
 		result.Location = &location
 	}
 
@@ -401,64 +401,64 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if registries.AdminUserEnabled != nil ||
-		registries.DataEndpointEnabled != nil ||
-		registries.Encryption != nil ||
-		registries.NetworkRuleBypassOptions != nil ||
-		registries.NetworkRuleSet != nil ||
-		registries.Policies != nil ||
-		registries.PublicNetworkAccess != nil ||
-		registries.ZoneRedundancy != nil {
+	if registry.AdminUserEnabled != nil ||
+		registry.DataEndpointEnabled != nil ||
+		registry.Encryption != nil ||
+		registry.NetworkRuleBypassOptions != nil ||
+		registry.NetworkRuleSet != nil ||
+		registry.Policies != nil ||
+		registry.PublicNetworkAccess != nil ||
+		registry.ZoneRedundancy != nil {
 		result.Properties = &RegistryPropertiesARM{}
 	}
-	if registries.AdminUserEnabled != nil {
-		adminUserEnabled := *registries.AdminUserEnabled
+	if registry.AdminUserEnabled != nil {
+		adminUserEnabled := *registry.AdminUserEnabled
 		result.Properties.AdminUserEnabled = &adminUserEnabled
 	}
-	if registries.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *registries.DataEndpointEnabled
+	if registry.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registry.DataEndpointEnabled
 		result.Properties.DataEndpointEnabled = &dataEndpointEnabled
 	}
-	if registries.Encryption != nil {
-		encryptionARM, err := (*registries.Encryption).ConvertToARM(resolved)
+	if registry.Encryption != nil {
+		encryptionARM, err := (*registry.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		encryption := *encryptionARM.(*EncryptionPropertyARM)
 		result.Properties.Encryption = &encryption
 	}
-	if registries.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOptions := *registries.NetworkRuleBypassOptions
+	if registry.NetworkRuleBypassOptions != nil {
+		networkRuleBypassOptions := *registry.NetworkRuleBypassOptions
 		result.Properties.NetworkRuleBypassOptions = &networkRuleBypassOptions
 	}
-	if registries.NetworkRuleSet != nil {
-		networkRuleSetARM, err := (*registries.NetworkRuleSet).ConvertToARM(resolved)
+	if registry.NetworkRuleSet != nil {
+		networkRuleSetARM, err := (*registry.NetworkRuleSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		networkRuleSet := *networkRuleSetARM.(*NetworkRuleSetARM)
 		result.Properties.NetworkRuleSet = &networkRuleSet
 	}
-	if registries.Policies != nil {
-		policiesARM, err := (*registries.Policies).ConvertToARM(resolved)
+	if registry.Policies != nil {
+		policiesARM, err := (*registry.Policies).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		policies := *policiesARM.(*PoliciesARM)
 		result.Properties.Policies = &policies
 	}
-	if registries.PublicNetworkAccess != nil {
-		publicNetworkAccess := *registries.PublicNetworkAccess
+	if registry.PublicNetworkAccess != nil {
+		publicNetworkAccess := *registry.PublicNetworkAccess
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
-	if registries.ZoneRedundancy != nil {
-		zoneRedundancy := *registries.ZoneRedundancy
+	if registry.ZoneRedundancy != nil {
+		zoneRedundancy := *registry.ZoneRedundancy
 		result.Properties.ZoneRedundancy = &zoneRedundancy
 	}
 
 	// Set property ‘Sku’:
-	if registries.Sku != nil {
-		skuARM, err := (*registries.Sku).ConvertToARM(resolved)
+	if registry.Sku != nil {
+		skuARM, err := (*registry.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -467,9 +467,9 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Tags’:
-	if registries.Tags != nil {
-		result.Tags = make(map[string]string, len(registries.Tags))
-		for key, value := range registries.Tags {
+	if registry.Tags != nil {
+		result.Tags = make(map[string]string, len(registry.Tags))
+		for key, value := range registry.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -477,15 +477,15 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (registries *Registries_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Registries_SpecARM{}
+func (registry *Registry_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Registry_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Registries_SpecARM)
+func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Registry_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Registries_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Registry_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AdminUserEnabled’:
@@ -493,19 +493,19 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdminUserEnabled != nil {
 			adminUserEnabled := *typedInput.Properties.AdminUserEnabled
-			registries.AdminUserEnabled = &adminUserEnabled
+			registry.AdminUserEnabled = &adminUserEnabled
 		}
 	}
 
 	// Set property ‘AzureName’:
-	registries.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	registry.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘DataEndpointEnabled’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataEndpointEnabled != nil {
 			dataEndpointEnabled := *typedInput.Properties.DataEndpointEnabled
-			registries.DataEndpointEnabled = &dataEndpointEnabled
+			registry.DataEndpointEnabled = &dataEndpointEnabled
 		}
 	}
 
@@ -519,7 +519,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			encryption := encryption1
-			registries.Encryption = &encryption
+			registry.Encryption = &encryption
 		}
 	}
 
@@ -531,13 +531,13 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		identity := identity1
-		registries.Identity = &identity
+		registry.Identity = &identity
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		registries.Location = &location
+		registry.Location = &location
 	}
 
 	// Set property ‘NetworkRuleBypassOptions’:
@@ -545,7 +545,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkRuleBypassOptions != nil {
 			networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
-			registries.NetworkRuleBypassOptions = &networkRuleBypassOptions
+			registry.NetworkRuleBypassOptions = &networkRuleBypassOptions
 		}
 	}
 
@@ -559,12 +559,12 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			networkRuleSet := networkRuleSet1
-			registries.NetworkRuleSet = &networkRuleSet
+			registry.NetworkRuleSet = &networkRuleSet
 		}
 	}
 
 	// Set property ‘Owner’:
-	registries.Owner = &genruntime.KnownResourceReference{
+	registry.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -578,7 +578,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			policies := policies1
-			registries.Policies = &policies
+			registry.Policies = &policies
 		}
 	}
 
@@ -587,7 +587,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			registries.PublicNetworkAccess = &publicNetworkAccess
+			registry.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
 
@@ -599,14 +599,14 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		sku := sku1
-		registries.Sku = &sku
+		registry.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		registries.Tags = make(map[string]string, len(typedInput.Tags))
+		registry.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			registries.Tags[key] = value
+			registry.Tags[key] = value
 		}
 	}
 
@@ -615,7 +615,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundancy != nil {
 			zoneRedundancy := *typedInput.Properties.ZoneRedundancy
-			registries.ZoneRedundancy = &zoneRedundancy
+			registry.ZoneRedundancy = &zoneRedundancy
 		}
 	}
 
@@ -623,25 +623,25 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Registries_Spec{}
+var _ genruntime.ConvertibleSpec = &Registry_Spec{}
 
-// ConvertSpecFrom populates our Registries_Spec from the provided source
-func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210901s.Registries_Spec)
+// ConvertSpecFrom populates our Registry_Spec from the provided source
+func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210901s.Registry_Spec)
 	if ok {
 		// Populate our instance from source
-		return registries.AssignProperties_From_Registries_Spec(src)
+		return registry.AssignProperties_From_Registry_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210901s.Registries_Spec{}
+	src = &v20210901s.Registry_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = registries.AssignProperties_From_Registries_Spec(src)
+	err = registry.AssignProperties_From_Registry_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -649,17 +649,17 @@ func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Registries_Spec
-func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210901s.Registries_Spec)
+// ConvertSpecTo populates the provided destination from our Registry_Spec
+func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210901s.Registry_Spec)
 	if ok {
 		// Populate destination from our instance
-		return registries.AssignProperties_To_Registries_Spec(dst)
+		return registry.AssignProperties_To_Registry_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210901s.Registries_Spec{}
-	err := registries.AssignProperties_To_Registries_Spec(dst)
+	dst = &v20210901s.Registry_Spec{}
+	err := registry.AssignProperties_To_Registry_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -673,26 +673,26 @@ func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Registries_Spec populates our Registries_Spec from the provided source Registries_Spec
-func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source *v20210901s.Registries_Spec) error {
+// AssignProperties_From_Registry_Spec populates our Registry_Spec from the provided source Registry_Spec
+func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v20210901s.Registry_Spec) error {
 
 	// AdminUserEnabled
 	if source.AdminUserEnabled != nil {
 		adminUserEnabled := *source.AdminUserEnabled
-		registries.AdminUserEnabled = &adminUserEnabled
+		registry.AdminUserEnabled = &adminUserEnabled
 	} else {
-		registries.AdminUserEnabled = nil
+		registry.AdminUserEnabled = nil
 	}
 
 	// AzureName
-	registries.AzureName = source.AzureName
+	registry.AzureName = source.AzureName
 
 	// DataEndpointEnabled
 	if source.DataEndpointEnabled != nil {
 		dataEndpointEnabled := *source.DataEndpointEnabled
-		registries.DataEndpointEnabled = &dataEndpointEnabled
+		registry.DataEndpointEnabled = &dataEndpointEnabled
 	} else {
-		registries.DataEndpointEnabled = nil
+		registry.DataEndpointEnabled = nil
 	}
 
 	// Encryption
@@ -702,9 +702,9 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperty() to populate field Encryption")
 		}
-		registries.Encryption = &encryption
+		registry.Encryption = &encryption
 	} else {
-		registries.Encryption = nil
+		registry.Encryption = nil
 	}
 
 	// Identity
@@ -714,20 +714,20 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_IdentityProperties() to populate field Identity")
 		}
-		registries.Identity = &identity
+		registry.Identity = &identity
 	} else {
-		registries.Identity = nil
+		registry.Identity = nil
 	}
 
 	// Location
-	registries.Location = genruntime.ClonePointerToString(source.Location)
+	registry.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
 		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
-		registries.NetworkRuleBypassOptions = &networkRuleBypassOption
+		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
 	} else {
-		registries.NetworkRuleBypassOptions = nil
+		registry.NetworkRuleBypassOptions = nil
 	}
 
 	// NetworkRuleSet
@@ -737,17 +737,17 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
-		registries.NetworkRuleSet = &networkRuleSet
+		registry.NetworkRuleSet = &networkRuleSet
 	} else {
-		registries.NetworkRuleSet = nil
+		registry.NetworkRuleSet = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		registries.Owner = &owner
+		registry.Owner = &owner
 	} else {
-		registries.Owner = nil
+		registry.Owner = nil
 	}
 
 	// Policies
@@ -757,17 +757,17 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Policies() to populate field Policies")
 		}
-		registries.Policies = &policy
+		registry.Policies = &policy
 	} else {
-		registries.Policies = nil
+		registry.Policies = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := RegistryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		registries.PublicNetworkAccess = &publicNetworkAccess
+		registry.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		registries.PublicNetworkAccess = nil
+		registry.PublicNetworkAccess = nil
 	}
 
 	// Sku
@@ -777,54 +777,54 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
-		registries.Sku = &sku
+		registry.Sku = &sku
 	} else {
-		registries.Sku = nil
+		registry.Sku = nil
 	}
 
 	// Tags
-	registries.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
 		zoneRedundancy := RegistryProperties_ZoneRedundancy(*source.ZoneRedundancy)
-		registries.ZoneRedundancy = &zoneRedundancy
+		registry.ZoneRedundancy = &zoneRedundancy
 	} else {
-		registries.ZoneRedundancy = nil
+		registry.ZoneRedundancy = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Registries_Spec populates the provided destination Registries_Spec from our Registries_Spec
-func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destination *v20210901s.Registries_Spec) error {
+// AssignProperties_To_Registry_Spec populates the provided destination Registry_Spec from our Registry_Spec
+func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v20210901s.Registry_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminUserEnabled
-	if registries.AdminUserEnabled != nil {
-		adminUserEnabled := *registries.AdminUserEnabled
+	if registry.AdminUserEnabled != nil {
+		adminUserEnabled := *registry.AdminUserEnabled
 		destination.AdminUserEnabled = &adminUserEnabled
 	} else {
 		destination.AdminUserEnabled = nil
 	}
 
 	// AzureName
-	destination.AzureName = registries.AzureName
+	destination.AzureName = registry.AzureName
 
 	// DataEndpointEnabled
-	if registries.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *registries.DataEndpointEnabled
+	if registry.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registry.DataEndpointEnabled
 		destination.DataEndpointEnabled = &dataEndpointEnabled
 	} else {
 		destination.DataEndpointEnabled = nil
 	}
 
 	// Encryption
-	if registries.Encryption != nil {
+	if registry.Encryption != nil {
 		var encryption v20210901s.EncryptionProperty
-		err := registries.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
+		err := registry.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
 		}
@@ -834,9 +834,9 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Identity
-	if registries.Identity != nil {
+	if registry.Identity != nil {
 		var identity v20210901s.IdentityProperties
-		err := registries.Identity.AssignProperties_To_IdentityProperties(&identity)
+		err := registry.Identity.AssignProperties_To_IdentityProperties(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties() to populate field Identity")
 		}
@@ -846,20 +846,20 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(registries.Location)
+	destination.Location = genruntime.ClonePointerToString(registry.Location)
 
 	// NetworkRuleBypassOptions
-	if registries.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := string(*registries.NetworkRuleBypassOptions)
+	if registry.NetworkRuleBypassOptions != nil {
+		networkRuleBypassOption := string(*registry.NetworkRuleBypassOptions)
 		destination.NetworkRuleBypassOptions = &networkRuleBypassOption
 	} else {
 		destination.NetworkRuleBypassOptions = nil
 	}
 
 	// NetworkRuleSet
-	if registries.NetworkRuleSet != nil {
+	if registry.NetworkRuleSet != nil {
 		var networkRuleSet v20210901s.NetworkRuleSet
-		err := registries.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
+		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
@@ -869,20 +869,20 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = registries.OriginalVersion()
+	destination.OriginalVersion = registry.OriginalVersion()
 
 	// Owner
-	if registries.Owner != nil {
-		owner := registries.Owner.Copy()
+	if registry.Owner != nil {
+		owner := registry.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Policies
-	if registries.Policies != nil {
+	if registry.Policies != nil {
 		var policy v20210901s.Policies
-		err := registries.Policies.AssignProperties_To_Policies(&policy)
+		err := registry.Policies.AssignProperties_To_Policies(&policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Policies() to populate field Policies")
 		}
@@ -892,17 +892,17 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// PublicNetworkAccess
-	if registries.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*registries.PublicNetworkAccess)
+	if registry.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*registry.PublicNetworkAccess)
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
 	// Sku
-	if registries.Sku != nil {
+	if registry.Sku != nil {
 		var sku v20210901s.Sku
-		err := registries.Sku.AssignProperties_To_Sku(&sku)
+		err := registry.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
@@ -912,11 +912,11 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(registries.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(registry.Tags)
 
 	// ZoneRedundancy
-	if registries.ZoneRedundancy != nil {
-		zoneRedundancy := string(*registries.ZoneRedundancy)
+	if registry.ZoneRedundancy != nil {
+		zoneRedundancy := string(*registry.ZoneRedundancy)
 		destination.ZoneRedundancy = &zoneRedundancy
 	} else {
 		destination.ZoneRedundancy = nil
@@ -934,12 +934,12 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (registries *Registries_Spec) OriginalVersion() string {
+func (registry *Registry_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (registries *Registries_Spec) SetAzureName(azureName string) { registries.AzureName = azureName }
+func (registry *Registry_Spec) SetAzureName(azureName string) { registry.AzureName = azureName }
 
 type Registry_STATUS struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
@@ -3052,6 +3052,22 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AzureServices","None"}
+type RegistryProperties_NetworkRuleBypassOptions string
+
+const (
+	RegistryProperties_NetworkRuleBypassOptions_AzureServices = RegistryProperties_NetworkRuleBypassOptions("AzureServices")
+	RegistryProperties_NetworkRuleBypassOptions_None          = RegistryProperties_NetworkRuleBypassOptions("None")
+)
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RegistryProperties_PublicNetworkAccess string
+
+const (
+	RegistryProperties_PublicNetworkAccess_Disabled = RegistryProperties_PublicNetworkAccess("Disabled")
+	RegistryProperties_PublicNetworkAccess_Enabled  = RegistryProperties_PublicNetworkAccess("Enabled")
+)
+
 type RegistryProperties_STATUS_NetworkRuleBypassOptions string
 
 const (
@@ -3082,6 +3098,14 @@ type RegistryProperties_STATUS_ZoneRedundancy string
 const (
 	RegistryProperties_STATUS_ZoneRedundancy_Disabled = RegistryProperties_STATUS_ZoneRedundancy("Disabled")
 	RegistryProperties_STATUS_ZoneRedundancy_Enabled  = RegistryProperties_STATUS_ZoneRedundancy("Enabled")
+)
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RegistryProperties_ZoneRedundancy string
+
+const (
+	RegistryProperties_ZoneRedundancy_Disabled = RegistryProperties_ZoneRedundancy("Disabled")
+	RegistryProperties_ZoneRedundancy_Enabled  = RegistryProperties_ZoneRedundancy("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
@@ -3502,6 +3526,14 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	// No error
 	return nil
 }
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type EncryptionProperty_Status string
+
+const (
+	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("disabled")
+	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("enabled")
+)
 
 type EncryptionProperty_STATUS_Status string
 
@@ -4074,6 +4106,14 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	// No error
 	return nil
 }
+
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type NetworkRuleSet_DefaultAction string
+
+const (
+	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
+	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
+)
 
 type NetworkRuleSet_STATUS_DefaultAction string
 
@@ -4813,6 +4853,14 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentit
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type ExportPolicy_Status string
+
+const (
+	ExportPolicy_Status_Disabled = ExportPolicy_Status("disabled")
+	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
+)
+
 type ExportPolicy_STATUS_Status string
 
 const (
@@ -4820,9 +4868,22 @@ const (
 	ExportPolicy_STATUS_Status_Enabled  = ExportPolicy_STATUS_Status("enabled")
 )
 
+// +kubebuilder:validation:Enum={"Allow"}
+type IPRule_Action string
+
+const IPRule_Action_Allow = IPRule_Action("Allow")
+
 type IPRule_STATUS_Action string
 
 const IPRule_STATUS_Action_Allow = IPRule_STATUS_Action("Allow")
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type QuarantinePolicy_Status string
+
+const (
+	QuarantinePolicy_Status_Disabled = QuarantinePolicy_Status("disabled")
+	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
+)
 
 type QuarantinePolicy_STATUS_Status string
 
@@ -4831,11 +4892,27 @@ const (
 	QuarantinePolicy_STATUS_Status_Enabled  = QuarantinePolicy_STATUS_Status("enabled")
 )
 
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type RetentionPolicy_Status string
+
+const (
+	RetentionPolicy_Status_Disabled = RetentionPolicy_Status("disabled")
+	RetentionPolicy_Status_Enabled  = RetentionPolicy_Status("enabled")
+)
+
 type RetentionPolicy_STATUS_Status string
 
 const (
 	RetentionPolicy_STATUS_Status_Disabled = RetentionPolicy_STATUS_Status("disabled")
 	RetentionPolicy_STATUS_Status_Enabled  = RetentionPolicy_STATUS_Status("enabled")
+)
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type TrustPolicy_Status string
+
+const (
+	TrustPolicy_Status_Disabled = TrustPolicy_Status("disabled")
+	TrustPolicy_Status_Enabled  = TrustPolicy_Status("enabled")
 )
 
 type TrustPolicy_STATUS_Status string
@@ -4848,6 +4925,11 @@ const (
 type TrustPolicy_STATUS_Type string
 
 const TrustPolicy_STATUS_Type_Notary = TrustPolicy_STATUS_Type("Notary")
+
+// +kubebuilder:validation:Enum={"Notary"}
+type TrustPolicy_Type string
+
+const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

@@ -25,7 +25,7 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Registries_Spec `json:"spec,omitempty"`
+	Spec              Registry_Spec   `json:"spec,omitempty"`
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -136,10 +136,10 @@ func (registry *Registry) AssignProperties_From_Registry(source *v20210901s.Regi
 	registry.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Registries_Spec
-	err := spec.AssignProperties_From_Registries_Spec(&source.Spec)
+	var spec Registry_Spec
+	err := spec.AssignProperties_From_Registry_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Registries_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Registry_Spec() to populate field Spec")
 	}
 	registry.Spec = spec
 
@@ -162,10 +162,10 @@ func (registry *Registry) AssignProperties_To_Registry(destination *v20210901s.R
 	destination.ObjectMeta = *registry.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210901s.Registries_Spec
-	err := registry.Spec.AssignProperties_To_Registries_Spec(&spec)
+	var spec v20210901s.Registry_Spec
+	err := registry.Spec.AssignProperties_To_Registry_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Registries_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Registry_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -206,8 +206,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
-// Storage version of v1alpha1api20210901.Registries_Spec
-type Registries_Spec struct {
+// Storage version of v1alpha1api20210901.Registry_Spec
+type Registry_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
@@ -237,25 +237,25 @@ type Registries_Spec struct {
 	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Registries_Spec{}
+var _ genruntime.ConvertibleSpec = &Registry_Spec{}
 
-// ConvertSpecFrom populates our Registries_Spec from the provided source
-func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210901s.Registries_Spec)
+// ConvertSpecFrom populates our Registry_Spec from the provided source
+func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210901s.Registry_Spec)
 	if ok {
 		// Populate our instance from source
-		return registries.AssignProperties_From_Registries_Spec(src)
+		return registry.AssignProperties_From_Registry_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210901s.Registries_Spec{}
+	src = &v20210901s.Registry_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = registries.AssignProperties_From_Registries_Spec(src)
+	err = registry.AssignProperties_From_Registry_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -263,17 +263,17 @@ func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Registries_Spec
-func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210901s.Registries_Spec)
+// ConvertSpecTo populates the provided destination from our Registry_Spec
+func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210901s.Registry_Spec)
 	if ok {
 		// Populate destination from our instance
-		return registries.AssignProperties_To_Registries_Spec(dst)
+		return registry.AssignProperties_To_Registry_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210901s.Registries_Spec{}
-	err := registries.AssignProperties_To_Registries_Spec(dst)
+	dst = &v20210901s.Registry_Spec{}
+	err := registry.AssignProperties_To_Registry_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -287,28 +287,28 @@ func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Registries_Spec populates our Registries_Spec from the provided source Registries_Spec
-func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source *v20210901s.Registries_Spec) error {
+// AssignProperties_From_Registry_Spec populates our Registry_Spec from the provided source Registry_Spec
+func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v20210901s.Registry_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdminUserEnabled
 	if source.AdminUserEnabled != nil {
 		adminUserEnabled := *source.AdminUserEnabled
-		registries.AdminUserEnabled = &adminUserEnabled
+		registry.AdminUserEnabled = &adminUserEnabled
 	} else {
-		registries.AdminUserEnabled = nil
+		registry.AdminUserEnabled = nil
 	}
 
 	// AzureName
-	registries.AzureName = source.AzureName
+	registry.AzureName = source.AzureName
 
 	// DataEndpointEnabled
 	if source.DataEndpointEnabled != nil {
 		dataEndpointEnabled := *source.DataEndpointEnabled
-		registries.DataEndpointEnabled = &dataEndpointEnabled
+		registry.DataEndpointEnabled = &dataEndpointEnabled
 	} else {
-		registries.DataEndpointEnabled = nil
+		registry.DataEndpointEnabled = nil
 	}
 
 	// Encryption
@@ -318,9 +318,9 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperty() to populate field Encryption")
 		}
-		registries.Encryption = &encryption
+		registry.Encryption = &encryption
 	} else {
-		registries.Encryption = nil
+		registry.Encryption = nil
 	}
 
 	// Identity
@@ -330,16 +330,16 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_IdentityProperties() to populate field Identity")
 		}
-		registries.Identity = &identity
+		registry.Identity = &identity
 	} else {
-		registries.Identity = nil
+		registry.Identity = nil
 	}
 
 	// Location
-	registries.Location = genruntime.ClonePointerToString(source.Location)
+	registry.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkRuleBypassOptions
-	registries.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
+	registry.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
 
 	// NetworkRuleSet
 	if source.NetworkRuleSet != nil {
@@ -348,20 +348,20 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
-		registries.NetworkRuleSet = &networkRuleSet
+		registry.NetworkRuleSet = &networkRuleSet
 	} else {
-		registries.NetworkRuleSet = nil
+		registry.NetworkRuleSet = nil
 	}
 
 	// OriginalVersion
-	registries.OriginalVersion = source.OriginalVersion
+	registry.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		registries.Owner = &owner
+		registry.Owner = &owner
 	} else {
-		registries.Owner = nil
+		registry.Owner = nil
 	}
 
 	// Policies
@@ -371,13 +371,13 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Policies() to populate field Policies")
 		}
-		registries.Policies = &policy
+		registry.Policies = &policy
 	} else {
-		registries.Policies = nil
+		registry.Policies = nil
 	}
 
 	// PublicNetworkAccess
-	registries.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+	registry.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// Sku
 	if source.Sku != nil {
@@ -386,56 +386,56 @@ func (registries *Registries_Spec) AssignProperties_From_Registries_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
-		registries.Sku = &sku
+		registry.Sku = &sku
 	} else {
-		registries.Sku = nil
+		registry.Sku = nil
 	}
 
 	// Tags
-	registries.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// ZoneRedundancy
-	registries.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
+	registry.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		registries.PropertyBag = propertyBag
+		registry.PropertyBag = propertyBag
 	} else {
-		registries.PropertyBag = nil
+		registry.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Registries_Spec populates the provided destination Registries_Spec from our Registries_Spec
-func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destination *v20210901s.Registries_Spec) error {
+// AssignProperties_To_Registry_Spec populates the provided destination Registry_Spec from our Registry_Spec
+func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v20210901s.Registry_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(registries.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(registry.PropertyBag)
 
 	// AdminUserEnabled
-	if registries.AdminUserEnabled != nil {
-		adminUserEnabled := *registries.AdminUserEnabled
+	if registry.AdminUserEnabled != nil {
+		adminUserEnabled := *registry.AdminUserEnabled
 		destination.AdminUserEnabled = &adminUserEnabled
 	} else {
 		destination.AdminUserEnabled = nil
 	}
 
 	// AzureName
-	destination.AzureName = registries.AzureName
+	destination.AzureName = registry.AzureName
 
 	// DataEndpointEnabled
-	if registries.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *registries.DataEndpointEnabled
+	if registry.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registry.DataEndpointEnabled
 		destination.DataEndpointEnabled = &dataEndpointEnabled
 	} else {
 		destination.DataEndpointEnabled = nil
 	}
 
 	// Encryption
-	if registries.Encryption != nil {
+	if registry.Encryption != nil {
 		var encryption v20210901s.EncryptionProperty
-		err := registries.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
+		err := registry.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
 		}
@@ -445,9 +445,9 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Identity
-	if registries.Identity != nil {
+	if registry.Identity != nil {
 		var identity v20210901s.IdentityProperties
-		err := registries.Identity.AssignProperties_To_IdentityProperties(&identity)
+		err := registry.Identity.AssignProperties_To_IdentityProperties(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties() to populate field Identity")
 		}
@@ -457,15 +457,15 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(registries.Location)
+	destination.Location = genruntime.ClonePointerToString(registry.Location)
 
 	// NetworkRuleBypassOptions
-	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registries.NetworkRuleBypassOptions)
+	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registry.NetworkRuleBypassOptions)
 
 	// NetworkRuleSet
-	if registries.NetworkRuleSet != nil {
+	if registry.NetworkRuleSet != nil {
 		var networkRuleSet v20210901s.NetworkRuleSet
-		err := registries.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
+		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
 		}
@@ -475,20 +475,20 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = registries.OriginalVersion
+	destination.OriginalVersion = registry.OriginalVersion
 
 	// Owner
-	if registries.Owner != nil {
-		owner := registries.Owner.Copy()
+	if registry.Owner != nil {
+		owner := registry.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Policies
-	if registries.Policies != nil {
+	if registry.Policies != nil {
 		var policy v20210901s.Policies
-		err := registries.Policies.AssignProperties_To_Policies(&policy)
+		err := registry.Policies.AssignProperties_To_Policies(&policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Policies() to populate field Policies")
 		}
@@ -498,12 +498,12 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registries.PublicNetworkAccess)
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registry.PublicNetworkAccess)
 
 	// Sku
-	if registries.Sku != nil {
+	if registry.Sku != nil {
 		var sku v20210901s.Sku
-		err := registries.Sku.AssignProperties_To_Sku(&sku)
+		err := registry.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
@@ -513,10 +513,10 @@ func (registries *Registries_Spec) AssignProperties_To_Registries_Spec(destinati
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(registries.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(registry.Tags)
 
 	// ZoneRedundancy
-	destination.ZoneRedundancy = genruntime.ClonePointerToString(registries.ZoneRedundancy)
+	destination.ZoneRedundancy = genruntime.ClonePointerToString(registry.ZoneRedundancy)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
