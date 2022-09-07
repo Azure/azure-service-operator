@@ -36,7 +36,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedClusters_Spec{
+		Spec: aks.ManagedCluster_Spec{
 			Location:  region,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
@@ -117,7 +117,7 @@ func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluste
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClusters_AgentPools_Spec{
+		Spec: aks.ManagedClusters_AgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.IntPtr(1),
 			VmSize: to.StringPtr("Standard_DS2_v2"),

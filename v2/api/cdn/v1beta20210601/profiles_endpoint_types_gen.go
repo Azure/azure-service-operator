@@ -28,8 +28,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Endpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS         `json:"status,omitempty"`
+	Spec              Profiles_Endpoint_Spec `json:"spec,omitempty"`
+	Status            Endpoint_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -255,10 +255,10 @@ func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source 
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_Endpoints_Spec
-	err := spec.AssignProperties_From_Profiles_Endpoints_Spec(&source.Spec)
+	var spec Profiles_Endpoint_Spec
+	err := spec.AssignProperties_From_Profiles_Endpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
@@ -281,10 +281,10 @@ func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destinati
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Profiles_Endpoints_Spec
-	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoints_Spec(&spec)
+	var spec v20210601s.Profiles_Endpoint_Spec
+	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -1216,7 +1216,7 @@ func (endpoint *Endpoint_STATUS) AssignProperties_To_Endpoint_STATUS(destination
 	return nil
 }
 
-type Profiles_Endpoints_Spec struct {
+type Profiles_Endpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1252,10 +1252,10 @@ type Profiles_Endpoints_Spec struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *Profiles_Endpoints_Spec_Properties_OptimizationType `json:"optimizationType,omitempty"`
+	OptimizationType *Profiles_Endpoint_Spec_Properties_OptimizationType `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []Profiles_Endpoints_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
+	OriginGroups []Profiles_Endpoint_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -1269,7 +1269,7 @@ type Profiles_Endpoints_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Origins: The source of the content being delivered via CDN.
-	Origins []Profiles_Endpoints_Spec_Properties_Origins `json:"origins,omitempty"`
+	Origins []Profiles_Endpoint_Spec_Properties_Origins `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1285,7 +1285,7 @@ type Profiles_Endpoints_Spec struct {
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1297,18 +1297,18 @@ type Profiles_Endpoints_Spec struct {
 	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoint_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoints *Profiles_Endpoints_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if endpoints == nil {
+func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if endpoint == nil {
 		return nil, nil
 	}
-	result := &Profiles_Endpoints_SpecARM{}
+	result := &Profiles_Endpoint_SpecARM{}
 
 	// Set property ‘Location’:
-	if endpoints.Location != nil {
-		location := *endpoints.Location
+	if endpoint.Location != nil {
+		location := *endpoint.Location
 		result.Location = &location
 	}
 
@@ -1316,105 +1316,105 @@ func (endpoints *Profiles_Endpoints_Spec) ConvertToARM(resolved genruntime.Conve
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if endpoints.ContentTypesToCompress != nil ||
-		endpoints.DefaultOriginGroup != nil ||
-		endpoints.DeliveryPolicy != nil ||
-		endpoints.GeoFilters != nil ||
-		endpoints.IsCompressionEnabled != nil ||
-		endpoints.IsHttpAllowed != nil ||
-		endpoints.IsHttpsAllowed != nil ||
-		endpoints.OptimizationType != nil ||
-		endpoints.OriginGroups != nil ||
-		endpoints.OriginHostHeader != nil ||
-		endpoints.OriginPath != nil ||
-		endpoints.Origins != nil ||
-		endpoints.ProbePath != nil ||
-		endpoints.QueryStringCachingBehavior != nil ||
-		endpoints.UrlSigningKeys != nil ||
-		endpoints.WebApplicationFirewallPolicyLink != nil {
-		result.Properties = &Profiles_Endpoints_Spec_PropertiesARM{}
+	if endpoint.ContentTypesToCompress != nil ||
+		endpoint.DefaultOriginGroup != nil ||
+		endpoint.DeliveryPolicy != nil ||
+		endpoint.GeoFilters != nil ||
+		endpoint.IsCompressionEnabled != nil ||
+		endpoint.IsHttpAllowed != nil ||
+		endpoint.IsHttpsAllowed != nil ||
+		endpoint.OptimizationType != nil ||
+		endpoint.OriginGroups != nil ||
+		endpoint.OriginHostHeader != nil ||
+		endpoint.OriginPath != nil ||
+		endpoint.Origins != nil ||
+		endpoint.ProbePath != nil ||
+		endpoint.QueryStringCachingBehavior != nil ||
+		endpoint.UrlSigningKeys != nil ||
+		endpoint.WebApplicationFirewallPolicyLink != nil {
+		result.Properties = &Profiles_Endpoint_Spec_PropertiesARM{}
 	}
-	for _, item := range endpoints.ContentTypesToCompress {
+	for _, item := range endpoint.ContentTypesToCompress {
 		result.Properties.ContentTypesToCompress = append(result.Properties.ContentTypesToCompress, item)
 	}
-	if endpoints.DefaultOriginGroup != nil {
-		defaultOriginGroupARM, err := (*endpoints.DefaultOriginGroup).ConvertToARM(resolved)
+	if endpoint.DefaultOriginGroup != nil {
+		defaultOriginGroupARM, err := (*endpoint.DefaultOriginGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		defaultOriginGroup := *defaultOriginGroupARM.(*ResourceReferenceARM)
 		result.Properties.DefaultOriginGroup = &defaultOriginGroup
 	}
-	if endpoints.DeliveryPolicy != nil {
-		deliveryPolicyARM, err := (*endpoints.DeliveryPolicy).ConvertToARM(resolved)
+	if endpoint.DeliveryPolicy != nil {
+		deliveryPolicyARM, err := (*endpoint.DeliveryPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		deliveryPolicy := *deliveryPolicyARM.(*EndpointPropertiesUpdateParametersDeliveryPolicyARM)
 		result.Properties.DeliveryPolicy = &deliveryPolicy
 	}
-	for _, item := range endpoints.GeoFilters {
+	for _, item := range endpoint.GeoFilters {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.GeoFilters = append(result.Properties.GeoFilters, *itemARM.(*GeoFilterARM))
 	}
-	if endpoints.IsCompressionEnabled != nil {
-		isCompressionEnabled := *endpoints.IsCompressionEnabled
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
 		result.Properties.IsCompressionEnabled = &isCompressionEnabled
 	}
-	if endpoints.IsHttpAllowed != nil {
-		isHttpAllowed := *endpoints.IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
 		result.Properties.IsHttpAllowed = &isHttpAllowed
 	}
-	if endpoints.IsHttpsAllowed != nil {
-		isHttpsAllowed := *endpoints.IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
 		result.Properties.IsHttpsAllowed = &isHttpsAllowed
 	}
-	if endpoints.OptimizationType != nil {
-		optimizationType := *endpoints.OptimizationType
+	if endpoint.OptimizationType != nil {
+		optimizationType := *endpoint.OptimizationType
 		result.Properties.OptimizationType = &optimizationType
 	}
-	for _, item := range endpoints.OriginGroups {
+	for _, item := range endpoint.OriginGroups {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*Profiles_Endpoints_Spec_Properties_OriginGroupsARM))
+		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*Profiles_Endpoint_Spec_Properties_OriginGroupsARM))
 	}
-	if endpoints.OriginHostHeader != nil {
-		originHostHeader := *endpoints.OriginHostHeader
+	if endpoint.OriginHostHeader != nil {
+		originHostHeader := *endpoint.OriginHostHeader
 		result.Properties.OriginHostHeader = &originHostHeader
 	}
-	if endpoints.OriginPath != nil {
-		originPath := *endpoints.OriginPath
+	if endpoint.OriginPath != nil {
+		originPath := *endpoint.OriginPath
 		result.Properties.OriginPath = &originPath
 	}
-	for _, item := range endpoints.Origins {
+	for _, item := range endpoint.Origins {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*Profiles_Endpoints_Spec_Properties_OriginsARM))
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*Profiles_Endpoint_Spec_Properties_OriginsARM))
 	}
-	if endpoints.ProbePath != nil {
-		probePath := *endpoints.ProbePath
+	if endpoint.ProbePath != nil {
+		probePath := *endpoint.ProbePath
 		result.Properties.ProbePath = &probePath
 	}
-	if endpoints.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *endpoints.QueryStringCachingBehavior
+	if endpoint.QueryStringCachingBehavior != nil {
+		queryStringCachingBehavior := *endpoint.QueryStringCachingBehavior
 		result.Properties.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
-	for _, item := range endpoints.UrlSigningKeys {
+	for _, item := range endpoint.UrlSigningKeys {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.UrlSigningKeys = append(result.Properties.UrlSigningKeys, *itemARM.(*UrlSigningKeyARM))
 	}
-	if endpoints.WebApplicationFirewallPolicyLink != nil {
-		webApplicationFirewallPolicyLinkARM, err := (*endpoints.WebApplicationFirewallPolicyLink).ConvertToARM(resolved)
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
+		webApplicationFirewallPolicyLinkARM, err := (*endpoint.WebApplicationFirewallPolicyLink).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1423,9 +1423,9 @@ func (endpoints *Profiles_Endpoints_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Tags’:
-	if endpoints.Tags != nil {
-		result.Tags = make(map[string]string, len(endpoints.Tags))
-		for key, value := range endpoints.Tags {
+	if endpoint.Tags != nil {
+		result.Tags = make(map[string]string, len(endpoint.Tags))
+		for key, value := range endpoint.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -1433,25 +1433,25 @@ func (endpoints *Profiles_Endpoints_Spec) ConvertToARM(resolved genruntime.Conve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoints *Profiles_Endpoints_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Endpoints_SpecARM{}
+func (endpoint *Profiles_Endpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoint_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Endpoints_SpecARM)
+func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoint_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	endpoints.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘ContentTypesToCompress’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ContentTypesToCompress {
-			endpoints.ContentTypesToCompress = append(endpoints.ContentTypesToCompress, item)
+			endpoint.ContentTypesToCompress = append(endpoint.ContentTypesToCompress, item)
 		}
 	}
 
@@ -1465,7 +1465,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 				return err
 			}
 			defaultOriginGroup := defaultOriginGroup1
-			endpoints.DefaultOriginGroup = &defaultOriginGroup
+			endpoint.DefaultOriginGroup = &defaultOriginGroup
 		}
 	}
 
@@ -1479,7 +1479,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 				return err
 			}
 			deliveryPolicy := deliveryPolicy1
-			endpoints.DeliveryPolicy = &deliveryPolicy
+			endpoint.DeliveryPolicy = &deliveryPolicy
 		}
 	}
 
@@ -1492,7 +1492,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 			if err != nil {
 				return err
 			}
-			endpoints.GeoFilters = append(endpoints.GeoFilters, item1)
+			endpoint.GeoFilters = append(endpoint.GeoFilters, item1)
 		}
 	}
 
@@ -1501,7 +1501,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsCompressionEnabled != nil {
 			isCompressionEnabled := *typedInput.Properties.IsCompressionEnabled
-			endpoints.IsCompressionEnabled = &isCompressionEnabled
+			endpoint.IsCompressionEnabled = &isCompressionEnabled
 		}
 	}
 
@@ -1510,7 +1510,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpAllowed != nil {
 			isHttpAllowed := *typedInput.Properties.IsHttpAllowed
-			endpoints.IsHttpAllowed = &isHttpAllowed
+			endpoint.IsHttpAllowed = &isHttpAllowed
 		}
 	}
 
@@ -1519,14 +1519,14 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpsAllowed != nil {
 			isHttpsAllowed := *typedInput.Properties.IsHttpsAllowed
-			endpoints.IsHttpsAllowed = &isHttpsAllowed
+			endpoint.IsHttpsAllowed = &isHttpsAllowed
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		endpoints.Location = &location
+		endpoint.Location = &location
 	}
 
 	// Set property ‘OptimizationType’:
@@ -1534,7 +1534,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
 			optimizationType := *typedInput.Properties.OptimizationType
-			endpoints.OptimizationType = &optimizationType
+			endpoint.OptimizationType = &optimizationType
 		}
 	}
 
@@ -1542,12 +1542,12 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
-			var item1 Profiles_Endpoints_Spec_Properties_OriginGroups
+			var item1 Profiles_Endpoint_Spec_Properties_OriginGroups
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
-			endpoints.OriginGroups = append(endpoints.OriginGroups, item1)
+			endpoint.OriginGroups = append(endpoint.OriginGroups, item1)
 		}
 	}
 
@@ -1556,7 +1556,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
 			originHostHeader := *typedInput.Properties.OriginHostHeader
-			endpoints.OriginHostHeader = &originHostHeader
+			endpoint.OriginHostHeader = &originHostHeader
 		}
 	}
 
@@ -1565,7 +1565,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginPath != nil {
 			originPath := *typedInput.Properties.OriginPath
-			endpoints.OriginPath = &originPath
+			endpoint.OriginPath = &originPath
 		}
 	}
 
@@ -1573,17 +1573,17 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 Profiles_Endpoints_Spec_Properties_Origins
+			var item1 Profiles_Endpoint_Spec_Properties_Origins
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
-			endpoints.Origins = append(endpoints.Origins, item1)
+			endpoint.Origins = append(endpoint.Origins, item1)
 		}
 	}
 
 	// Set property ‘Owner’:
-	endpoints.Owner = &genruntime.KnownResourceReference{
+	endpoint.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1592,7 +1592,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProbePath != nil {
 			probePath := *typedInput.Properties.ProbePath
-			endpoints.ProbePath = &probePath
+			endpoint.ProbePath = &probePath
 		}
 	}
 
@@ -1601,15 +1601,15 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
 			queryStringCachingBehavior := *typedInput.Properties.QueryStringCachingBehavior
-			endpoints.QueryStringCachingBehavior = &queryStringCachingBehavior
+			endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		endpoints.Tags = make(map[string]string, len(typedInput.Tags))
+		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			endpoints.Tags[key] = value
+			endpoint.Tags[key] = value
 		}
 	}
 
@@ -1622,7 +1622,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 			if err != nil {
 				return err
 			}
-			endpoints.UrlSigningKeys = append(endpoints.UrlSigningKeys, item1)
+			endpoint.UrlSigningKeys = append(endpoint.UrlSigningKeys, item1)
 		}
 	}
 
@@ -1636,7 +1636,7 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 				return err
 			}
 			webApplicationFirewallPolicyLink := webApplicationFirewallPolicyLink1
-			endpoints.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+			endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 		}
 	}
 
@@ -1644,25 +1644,25 @@ func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Endpoints_Spec{}
+var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Endpoints_Spec from the provided source
-func (endpoints *Profiles_Endpoints_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Profiles_Endpoints_Spec)
+// ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoints.AssignProperties_From_Profiles_Endpoints_Spec(src)
+		return endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profiles_Endpoints_Spec{}
+	src = &v20210601s.Profiles_Endpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoints.AssignProperties_From_Profiles_Endpoints_Spec(src)
+	err = endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1670,17 +1670,17 @@ func (endpoints *Profiles_Endpoints_Spec) ConvertSpecFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Endpoints_Spec
-func (endpoints *Profiles_Endpoints_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Profiles_Endpoints_Spec)
+// ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoints.AssignProperties_To_Profiles_Endpoints_Spec(dst)
+		return endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profiles_Endpoints_Spec{}
-	err := endpoints.AssignProperties_To_Profiles_Endpoints_Spec(dst)
+	dst = &v20210601s.Profiles_Endpoint_Spec{}
+	err := endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1694,14 +1694,14 @@ func (endpoints *Profiles_Endpoints_Spec) ConvertSpecTo(destination genruntime.C
 	return nil
 }
 
-// AssignProperties_From_Profiles_Endpoints_Spec populates our Profiles_Endpoints_Spec from the provided source Profiles_Endpoints_Spec
-func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoints_Spec(source *v20210601s.Profiles_Endpoints_Spec) error {
+// AssignProperties_From_Profiles_Endpoint_Spec populates our Profiles_Endpoint_Spec from the provided source Profiles_Endpoint_Spec
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *v20210601s.Profiles_Endpoint_Spec) error {
 
 	// AzureName
-	endpoints.AzureName = source.AzureName
+	endpoint.AzureName = source.AzureName
 
 	// ContentTypesToCompress
-	endpoints.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
 
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
@@ -1710,9 +1710,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoin
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field DefaultOriginGroup")
 		}
-		endpoints.DefaultOriginGroup = &defaultOriginGroup
+		endpoint.DefaultOriginGroup = &defaultOriginGroup
 	} else {
-		endpoints.DefaultOriginGroup = nil
+		endpoint.DefaultOriginGroup = nil
 	}
 
 	// DeliveryPolicy
@@ -1722,9 +1722,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoin
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_EndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
 		}
-		endpoints.DeliveryPolicy = &deliveryPolicy
+		endpoint.DeliveryPolicy = &deliveryPolicy
 	} else {
-		endpoints.DeliveryPolicy = nil
+		endpoint.DeliveryPolicy = nil
 	}
 
 	// GeoFilters
@@ -1740,109 +1740,109 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoin
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
-		endpoints.GeoFilters = geoFilterList
+		endpoint.GeoFilters = geoFilterList
 	} else {
-		endpoints.GeoFilters = nil
+		endpoint.GeoFilters = nil
 	}
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
 		isCompressionEnabled := *source.IsCompressionEnabled
-		endpoints.IsCompressionEnabled = &isCompressionEnabled
+		endpoint.IsCompressionEnabled = &isCompressionEnabled
 	} else {
-		endpoints.IsCompressionEnabled = nil
+		endpoint.IsCompressionEnabled = nil
 	}
 
 	// IsHttpAllowed
 	if source.IsHttpAllowed != nil {
 		isHttpAllowed := *source.IsHttpAllowed
-		endpoints.IsHttpAllowed = &isHttpAllowed
+		endpoint.IsHttpAllowed = &isHttpAllowed
 	} else {
-		endpoints.IsHttpAllowed = nil
+		endpoint.IsHttpAllowed = nil
 	}
 
 	// IsHttpsAllowed
 	if source.IsHttpsAllowed != nil {
 		isHttpsAllowed := *source.IsHttpsAllowed
-		endpoints.IsHttpsAllowed = &isHttpsAllowed
+		endpoint.IsHttpsAllowed = &isHttpsAllowed
 	} else {
-		endpoints.IsHttpsAllowed = nil
+		endpoint.IsHttpsAllowed = nil
 	}
 
 	// Location
-	endpoints.Location = genruntime.ClonePointerToString(source.Location)
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := Profiles_Endpoints_Spec_Properties_OptimizationType(*source.OptimizationType)
-		endpoints.OptimizationType = &optimizationType
+		optimizationType := Profiles_Endpoint_Spec_Properties_OptimizationType(*source.OptimizationType)
+		endpoint.OptimizationType = &optimizationType
 	} else {
-		endpoints.OptimizationType = nil
+		endpoint.OptimizationType = nil
 	}
 
 	// OriginGroups
 	if source.OriginGroups != nil {
-		originGroupList := make([]Profiles_Endpoints_Spec_Properties_OriginGroups, len(source.OriginGroups))
+		originGroupList := make([]Profiles_Endpoint_Spec_Properties_OriginGroups, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup Profiles_Endpoints_Spec_Properties_OriginGroups
-			err := originGroup.AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups(&originGroupItem)
+			var originGroup Profiles_Endpoint_Spec_Properties_OriginGroups
+			err := originGroup.AssignProperties_From_Profiles_Endpoint_Spec_Properties_OriginGroups(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoint_Spec_Properties_OriginGroups() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
-		endpoints.OriginGroups = originGroupList
+		endpoint.OriginGroups = originGroupList
 	} else {
-		endpoints.OriginGroups = nil
+		endpoint.OriginGroups = nil
 	}
 
 	// OriginHostHeader
-	endpoints.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+	endpoint.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
 	// OriginPath
-	endpoints.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+	endpoint.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]Profiles_Endpoints_Spec_Properties_Origins, len(source.Origins))
+		originList := make([]Profiles_Endpoint_Spec_Properties_Origins, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin Profiles_Endpoints_Spec_Properties_Origins
-			err := origin.AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins(&originItem)
+			var origin Profiles_Endpoint_Spec_Properties_Origins
+			err := origin.AssignProperties_From_Profiles_Endpoint_Spec_Properties_Origins(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoint_Spec_Properties_Origins() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
-		endpoints.Origins = originList
+		endpoint.Origins = originList
 	} else {
-		endpoints.Origins = nil
+		endpoint.Origins = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		endpoints.Owner = &owner
+		endpoint.Owner = &owner
 	} else {
-		endpoints.Owner = nil
+		endpoint.Owner = nil
 	}
 
 	// ProbePath
-	endpoints.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		endpoints.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
-		endpoints.QueryStringCachingBehavior = nil
+		endpoint.QueryStringCachingBehavior = nil
 	}
 
 	// Tags
-	endpoints.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// UrlSigningKeys
 	if source.UrlSigningKeys != nil {
@@ -1857,9 +1857,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoin
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
-		endpoints.UrlSigningKeys = urlSigningKeyList
+		endpoint.UrlSigningKeys = urlSigningKeyList
 	} else {
-		endpoints.UrlSigningKeys = nil
+		endpoint.UrlSigningKeys = nil
 	}
 
 	// WebApplicationFirewallPolicyLink
@@ -1869,30 +1869,30 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoin
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
-		endpoints.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
-		endpoints.WebApplicationFirewallPolicyLink = nil
+		endpoint.WebApplicationFirewallPolicyLink = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Profiles_Endpoints_Spec populates the provided destination Profiles_Endpoints_Spec from our Profiles_Endpoints_Spec
-func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints_Spec(destination *v20210601s.Profiles_Endpoints_Spec) error {
+// AssignProperties_To_Profiles_Endpoint_Spec populates the provided destination Profiles_Endpoint_Spec from our Profiles_Endpoint_Spec
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *v20210601s.Profiles_Endpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = endpoints.AzureName
+	destination.AzureName = endpoint.AzureName
 
 	// ContentTypesToCompress
-	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoints.ContentTypesToCompress)
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoint.ContentTypesToCompress)
 
 	// DefaultOriginGroup
-	if endpoints.DefaultOriginGroup != nil {
+	if endpoint.DefaultOriginGroup != nil {
 		var defaultOriginGroup v20210601s.ResourceReference
-		err := endpoints.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
+		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field DefaultOriginGroup")
 		}
@@ -1902,9 +1902,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// DeliveryPolicy
-	if endpoints.DeliveryPolicy != nil {
+	if endpoint.DeliveryPolicy != nil {
 		var deliveryPolicy v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy
-		err := endpoints.DeliveryPolicy.AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy(&deliveryPolicy)
+		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy(&deliveryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
 		}
@@ -1914,9 +1914,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// GeoFilters
-	if endpoints.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter, len(endpoints.GeoFilters))
-		for geoFilterIndex, geoFilterItem := range endpoints.GeoFilters {
+	if endpoint.GeoFilters != nil {
+		geoFilterList := make([]v20210601s.GeoFilter, len(endpoint.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter v20210601s.GeoFilter
@@ -1932,50 +1932,50 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// IsCompressionEnabled
-	if endpoints.IsCompressionEnabled != nil {
-		isCompressionEnabled := *endpoints.IsCompressionEnabled
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
 		destination.IsCompressionEnabled = &isCompressionEnabled
 	} else {
 		destination.IsCompressionEnabled = nil
 	}
 
 	// IsHttpAllowed
-	if endpoints.IsHttpAllowed != nil {
-		isHttpAllowed := *endpoints.IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
 		destination.IsHttpAllowed = &isHttpAllowed
 	} else {
 		destination.IsHttpAllowed = nil
 	}
 
 	// IsHttpsAllowed
-	if endpoints.IsHttpsAllowed != nil {
-		isHttpsAllowed := *endpoints.IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
 		destination.IsHttpsAllowed = &isHttpsAllowed
 	} else {
 		destination.IsHttpsAllowed = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(endpoints.Location)
+	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
 
 	// OptimizationType
-	if endpoints.OptimizationType != nil {
-		optimizationType := string(*endpoints.OptimizationType)
+	if endpoint.OptimizationType != nil {
+		optimizationType := string(*endpoint.OptimizationType)
 		destination.OptimizationType = &optimizationType
 	} else {
 		destination.OptimizationType = nil
 	}
 
 	// OriginGroups
-	if endpoints.OriginGroups != nil {
-		originGroupList := make([]v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups, len(endpoints.OriginGroups))
-		for originGroupIndex, originGroupItem := range endpoints.OriginGroups {
+	if endpoint.OriginGroups != nil {
+		originGroupList := make([]v20210601s.Profiles_Endpoint_Spec_Properties_OriginGroups, len(endpoint.OriginGroups))
+		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups
-			err := originGroupItem.AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups(&originGroup)
+			var originGroup v20210601s.Profiles_Endpoint_Spec_Properties_OriginGroups
+			err := originGroupItem.AssignProperties_To_Profiles_Endpoint_Spec_Properties_OriginGroups(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec_Properties_OriginGroups() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1985,24 +1985,24 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// OriginHostHeader
-	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoints.OriginHostHeader)
+	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoint.OriginHostHeader)
 
 	// OriginPath
-	destination.OriginPath = genruntime.ClonePointerToString(endpoints.OriginPath)
+	destination.OriginPath = genruntime.ClonePointerToString(endpoint.OriginPath)
 
 	// OriginalVersion
-	destination.OriginalVersion = endpoints.OriginalVersion()
+	destination.OriginalVersion = endpoint.OriginalVersion()
 
 	// Origins
-	if endpoints.Origins != nil {
-		originList := make([]v20210601s.Profiles_Endpoints_Spec_Properties_Origins, len(endpoints.Origins))
-		for originIndex, originItem := range endpoints.Origins {
+	if endpoint.Origins != nil {
+		originList := make([]v20210601s.Profiles_Endpoint_Spec_Properties_Origins, len(endpoint.Origins))
+		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.Profiles_Endpoints_Spec_Properties_Origins
-			err := originItem.AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins(&origin)
+			var origin v20210601s.Profiles_Endpoint_Spec_Properties_Origins
+			err := originItem.AssignProperties_To_Profiles_Endpoint_Spec_Properties_Origins(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec_Properties_Origins() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2012,31 +2012,31 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// Owner
-	if endpoints.Owner != nil {
-		owner := endpoints.Owner.Copy()
+	if endpoint.Owner != nil {
+		owner := endpoint.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// ProbePath
-	destination.ProbePath = genruntime.ClonePointerToString(endpoints.ProbePath)
+	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
 
 	// QueryStringCachingBehavior
-	if endpoints.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := string(*endpoints.QueryStringCachingBehavior)
+	if endpoint.QueryStringCachingBehavior != nil {
+		queryStringCachingBehavior := string(*endpoint.QueryStringCachingBehavior)
 		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		destination.QueryStringCachingBehavior = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(endpoints.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
 
 	// UrlSigningKeys
-	if endpoints.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoints.UrlSigningKeys))
-		for urlSigningKeyIndex, urlSigningKeyItem := range endpoints.UrlSigningKeys {
+	if endpoint.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey v20210601s.UrlSigningKey
@@ -2052,9 +2052,9 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 	}
 
 	// WebApplicationFirewallPolicyLink
-	if endpoints.WebApplicationFirewallPolicyLink != nil {
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
 		var webApplicationFirewallPolicyLink v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-		err := endpoints.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
@@ -2075,13 +2075,13 @@ func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoints *Profiles_Endpoints_Spec) OriginalVersion() string {
+func (endpoint *Profiles_Endpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoints *Profiles_Endpoints_Spec) SetAzureName(azureName string) {
-	endpoints.AzureName = azureName
+func (endpoint *Profiles_Endpoint_Spec) SetAzureName(azureName string) {
+	endpoint.AzureName = azureName
 }
 
 type CustomDomain_STATUS_SubResourceEmbedded struct {
@@ -3298,17 +3298,17 @@ func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination
 }
 
 // +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
-type Profiles_Endpoints_Spec_Properties_OptimizationType string
+type Profiles_Endpoint_Spec_Properties_OptimizationType string
 
 const (
-	Profiles_Endpoints_Spec_Properties_OptimizationType_DynamicSiteAcceleration     = Profiles_Endpoints_Spec_Properties_OptimizationType("DynamicSiteAcceleration")
-	Profiles_Endpoints_Spec_Properties_OptimizationType_GeneralMediaStreaming       = Profiles_Endpoints_Spec_Properties_OptimizationType("GeneralMediaStreaming")
-	Profiles_Endpoints_Spec_Properties_OptimizationType_GeneralWebDelivery          = Profiles_Endpoints_Spec_Properties_OptimizationType("GeneralWebDelivery")
-	Profiles_Endpoints_Spec_Properties_OptimizationType_LargeFileDownload           = Profiles_Endpoints_Spec_Properties_OptimizationType("LargeFileDownload")
-	Profiles_Endpoints_Spec_Properties_OptimizationType_VideoOnDemandMediaStreaming = Profiles_Endpoints_Spec_Properties_OptimizationType("VideoOnDemandMediaStreaming")
+	Profiles_Endpoint_Spec_Properties_OptimizationType_DynamicSiteAcceleration     = Profiles_Endpoint_Spec_Properties_OptimizationType("DynamicSiteAcceleration")
+	Profiles_Endpoint_Spec_Properties_OptimizationType_GeneralMediaStreaming       = Profiles_Endpoint_Spec_Properties_OptimizationType("GeneralMediaStreaming")
+	Profiles_Endpoint_Spec_Properties_OptimizationType_GeneralWebDelivery          = Profiles_Endpoint_Spec_Properties_OptimizationType("GeneralWebDelivery")
+	Profiles_Endpoint_Spec_Properties_OptimizationType_LargeFileDownload           = Profiles_Endpoint_Spec_Properties_OptimizationType("LargeFileDownload")
+	Profiles_Endpoint_Spec_Properties_OptimizationType_VideoOnDemandMediaStreaming = Profiles_Endpoint_Spec_Properties_OptimizationType("VideoOnDemandMediaStreaming")
 )
 
-type Profiles_Endpoints_Spec_Properties_OriginGroups struct {
+type Profiles_Endpoint_Spec_Properties_OriginGroups struct {
 	// HealthProbeSettings: The JSON object that contains the properties to send health probes to origin.
 	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
 
@@ -3332,14 +3332,14 @@ type Profiles_Endpoints_Spec_Properties_OriginGroups struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec_Properties_OriginGroups{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoint_Spec_Properties_OriginGroups{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (groups *Profiles_Endpoint_Spec_Properties_OriginGroups) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if groups == nil {
 		return nil, nil
 	}
-	result := &Profiles_Endpoints_Spec_Properties_OriginGroupsARM{}
+	result := &Profiles_Endpoint_Spec_Properties_OriginGroupsARM{}
 
 	// Set property ‘Name’:
 	if groups.Name != nil {
@@ -3385,15 +3385,15 @@ func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) ConvertToARM(reso
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Endpoints_Spec_Properties_OriginGroupsARM{}
+func (groups *Profiles_Endpoint_Spec_Properties_OriginGroups) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoint_Spec_Properties_OriginGroupsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Endpoints_Spec_Properties_OriginGroupsARM)
+func (groups *Profiles_Endpoint_Spec_Properties_OriginGroups) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoint_Spec_Properties_OriginGroupsARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_Spec_Properties_OriginGroupsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_Spec_Properties_OriginGroupsARM, got %T", armInput)
 	}
 
 	// Set property ‘HealthProbeSettings’:
@@ -3456,8 +3456,8 @@ func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) PopulateFromARM(o
 	return nil
 }
 
-// AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups populates our Profiles_Endpoints_Spec_Properties_OriginGroups from the provided source Profiles_Endpoints_Spec_Properties_OriginGroups
-func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups(source *v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups) error {
+// AssignProperties_From_Profiles_Endpoint_Spec_Properties_OriginGroups populates our Profiles_Endpoint_Spec_Properties_OriginGroups from the provided source Profiles_Endpoint_Spec_Properties_OriginGroups
+func (groups *Profiles_Endpoint_Spec_Properties_OriginGroups) AssignProperties_From_Profiles_Endpoint_Spec_Properties_OriginGroups(source *v20210601s.Profiles_Endpoint_Spec_Properties_OriginGroups) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
@@ -3516,8 +3516,8 @@ func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_
 	return nil
 }
 
-// AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups populates the provided destination Profiles_Endpoints_Spec_Properties_OriginGroups from our Profiles_Endpoints_Spec_Properties_OriginGroups
-func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups(destination *v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups) error {
+// AssignProperties_To_Profiles_Endpoint_Spec_Properties_OriginGroups populates the provided destination Profiles_Endpoint_Spec_Properties_OriginGroups from our Profiles_Endpoint_Spec_Properties_OriginGroups
+func (groups *Profiles_Endpoint_Spec_Properties_OriginGroups) AssignProperties_To_Profiles_Endpoint_Spec_Properties_OriginGroups(destination *v20210601s.Profiles_Endpoint_Spec_Properties_OriginGroups) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3585,7 +3585,7 @@ func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_
 	return nil
 }
 
-type Profiles_Endpoints_Spec_Properties_Origins struct {
+type Profiles_Endpoint_Spec_Properties_Origins struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -3640,14 +3640,14 @@ type Profiles_Endpoints_Spec_Properties_Origins struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec_Properties_Origins{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoint_Spec_Properties_Origins{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (origins *Profiles_Endpoints_Spec_Properties_Origins) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (origins *Profiles_Endpoint_Spec_Properties_Origins) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if origins == nil {
 		return nil, nil
 	}
-	result := &Profiles_Endpoints_Spec_Properties_OriginsARM{}
+	result := &Profiles_Endpoint_Spec_Properties_OriginsARM{}
 
 	// Set property ‘Name’:
 	if origins.Name != nil {
@@ -3725,15 +3725,15 @@ func (origins *Profiles_Endpoints_Spec_Properties_Origins) ConvertToARM(resolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origins *Profiles_Endpoints_Spec_Properties_Origins) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Endpoints_Spec_Properties_OriginsARM{}
+func (origins *Profiles_Endpoint_Spec_Properties_Origins) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoint_Spec_Properties_OriginsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origins *Profiles_Endpoints_Spec_Properties_Origins) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Endpoints_Spec_Properties_OriginsARM)
+func (origins *Profiles_Endpoint_Spec_Properties_Origins) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoint_Spec_Properties_OriginsARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_Spec_Properties_OriginsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_Spec_Properties_OriginsARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -3831,8 +3831,8 @@ func (origins *Profiles_Endpoints_Spec_Properties_Origins) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins populates our Profiles_Endpoints_Spec_Properties_Origins from the provided source Profiles_Endpoints_Spec_Properties_Origins
-func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins(source *v20210601s.Profiles_Endpoints_Spec_Properties_Origins) error {
+// AssignProperties_From_Profiles_Endpoint_Spec_Properties_Origins populates our Profiles_Endpoint_Spec_Properties_Origins from the provided source Profiles_Endpoint_Spec_Properties_Origins
+func (origins *Profiles_Endpoint_Spec_Properties_Origins) AssignProperties_From_Profiles_Endpoint_Spec_Properties_Origins(source *v20210601s.Profiles_Endpoint_Spec_Properties_Origins) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -3909,8 +3909,8 @@ func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins populates the provided destination Profiles_Endpoints_Spec_Properties_Origins from our Profiles_Endpoints_Spec_Properties_Origins
-func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins(destination *v20210601s.Profiles_Endpoints_Spec_Properties_Origins) error {
+// AssignProperties_To_Profiles_Endpoint_Spec_Properties_Origins populates the provided destination Profiles_Endpoint_Spec_Properties_Origins from our Profiles_Endpoint_Spec_Properties_Origins
+func (origins *Profiles_Endpoint_Spec_Properties_Origins) AssignProperties_To_Profiles_Endpoint_Spec_Properties_Origins(destination *v20210601s.Profiles_Endpoint_Spec_Properties_Origins) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3997,13 +3997,13 @@ func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_To_P
 }
 
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
-type Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior string
+type Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior string
 
 const (
-	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_BypassCaching     = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("BypassCaching")
-	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_IgnoreQueryString = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("IgnoreQueryString")
-	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_NotSet            = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("NotSet")
-	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_UseQueryString    = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("UseQueryString")
+	Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior_BypassCaching     = Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior("BypassCaching")
+	Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior_IgnoreQueryString = Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior("IgnoreQueryString")
+	Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior_NotSet            = Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior("NotSet")
+	Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior_UseQueryString    = Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior("UseQueryString")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference

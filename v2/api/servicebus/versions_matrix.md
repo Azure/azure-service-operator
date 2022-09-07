@@ -15,12 +15,12 @@
 | KeyVaultProperties_STATUS                            | v1alpha1api20210101preview | v1beta20210101preview |
 | MessageCountDetails_STATUS                           | v1alpha1api20210101preview | v1beta20210101preview |
 | Namespace                                            | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespace_Spec                                       | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespace_Spec_Properties                            | v1alpha1api20210101preview | v1beta20210101preview |
 | NamespacesQueue                                      | v1alpha1api20210101preview | v1beta20210101preview |
 | NamespacesTopic                                      | v1alpha1api20210101preview | v1beta20210101preview |
-| Namespaces_Queues_Spec                               | v1alpha1api20210101preview | v1beta20210101preview |
-| Namespaces_Spec                                      | v1alpha1api20210101preview | v1beta20210101preview |
-| Namespaces_Spec_Properties                           | v1alpha1api20210101preview | v1beta20210101preview |
-| Namespaces_Topics_Spec                               | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespaces_Queue_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
+| Namespaces_Topic_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
 | PrivateEndpointConnection_STATUS_SubResourceEmbedded | v1alpha1api20210101preview | v1beta20210101preview |
 | SBNamespaceProperties_STATUS                         | v1alpha1api20210101preview | v1beta20210101preview |
 | SBNamespace_STATUS                                   | v1alpha1api20210101preview | v1beta20210101preview |

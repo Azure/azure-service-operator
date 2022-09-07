@@ -21,4 +21,4 @@
 | WorkspaceSku_STATUS_CapacityReservationLevel        | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceSku_STATUS_Name                            | v1alpha1api20210601 | v1beta20210601 |
 | Workspace_STATUS                                    | v1alpha1api20210601 | v1beta20210601 |
-| Workspaces_Spec                                     | v1alpha1api20210601 | v1beta20210601 |
+| Workspace_Spec                                      | v1alpha1api20210601 | v1beta20210601 |

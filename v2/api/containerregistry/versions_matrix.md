@@ -30,7 +30,6 @@
 | QuarantinePolicy_STATUS                              | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy_STATUS_Status                       | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy_Status                              | v1alpha1api20210901 | v1beta20210901 |
-| Registries_Spec                                      | v1alpha1api20210901 | v1beta20210901 |
 | Registry                                             | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties                                   | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_NetworkRuleBypassOptions          | v1alpha1api20210901 | v1beta20210901 |
@@ -42,6 +41,7 @@
 | RegistryProperties_STATUS_ZoneRedundancy             | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_ZoneRedundancy                    | v1alpha1api20210901 | v1beta20210901 |
 | Registry_STATUS                                      | v1alpha1api20210901 | v1beta20210901 |
+| Registry_Spec                                        | v1alpha1api20210901 | v1beta20210901 |
 | RetentionPolicy                                      | v1alpha1api20210901 | v1beta20210901 |
 | RetentionPolicy_STATUS                               | v1alpha1api20210901 | v1beta20210901 |
 | RetentionPolicy_STATUS_Status                        | v1alpha1api20210901 | v1beta20210901 |

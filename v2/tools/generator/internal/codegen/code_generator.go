@@ -99,6 +99,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
+		// Strip out redundant type aliases
+		pipeline.RemoveTypeAliases(),
+
+		// De-pluralize resource types
+		pipeline.ImproveResourcePluralization(idFactory),
+
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
 
@@ -106,6 +112,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration),
+
 		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
@@ -114,17 +121,13 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.UnrollRecursiveTypes(),
 
 		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration),
+		pipeline.DetermineResourceOwnership(configuration, idFactory),
 
-		// Strip out redundant type aliases:
+		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
 
 		// Collapse cross group references
 		pipeline.CollapseCrossGroupReferences(),
-
-		// De-pluralize resource types
-		// (Must come after type aliases are resolved)
-		pipeline.ImproveResourcePluralization(idFactory),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 

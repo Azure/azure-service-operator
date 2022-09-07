@@ -27,8 +27,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS        `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
+	Status            Server_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -136,8 +136,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-01")
 
-// Storage version of v1beta20210501.FlexibleServers_Spec
-type FlexibleServers_Spec struct {
+// Storage version of v1beta20210501.FlexibleServer_Spec
+type FlexibleServer_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
@@ -171,24 +171,24 @@ type FlexibleServers_Spec struct {
 	Version                *string                            `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Spec from the provided source
-func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == servers {
+// ConvertSpecFrom populates our FlexibleServer_Spec from the provided source
+func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(servers)
+	return source.ConvertSpecTo(server)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == servers {
+// ConvertSpecTo populates the provided destination from our FlexibleServer_Spec
+func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(servers)
+	return destination.ConvertSpecFrom(server)
 }
 
 // Storage version of v1beta20210501.Server_STATUS

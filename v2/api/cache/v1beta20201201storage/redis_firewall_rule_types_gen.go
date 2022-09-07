@@ -26,7 +26,7 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_FirewallRules_Spec `json:"spec,omitempty"`
+	Spec              Redis_FirewallRule_Spec  `json:"spec,omitempty"`
 	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
 }
 
@@ -129,8 +129,8 @@ type RedisFirewallRuleList struct {
 	Items           []RedisFirewallRule `json:"items"`
 }
 
-// Storage version of v1beta20201201.Redis_FirewallRules_Spec
-type Redis_FirewallRules_Spec struct {
+// Storage version of v1beta20201201.Redis_FirewallRule_Spec
+type Redis_FirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -148,24 +148,24 @@ type Redis_FirewallRules_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Redis_FirewallRules_Spec{}
+var _ genruntime.ConvertibleSpec = &Redis_FirewallRule_Spec{}
 
-// ConvertSpecFrom populates our Redis_FirewallRules_Spec from the provided source
-func (rules *Redis_FirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rules {
+// ConvertSpecFrom populates our Redis_FirewallRule_Spec from the provided source
+func (rule *Redis_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(rules)
+	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our Redis_FirewallRules_Spec
-func (rules *Redis_FirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rules {
+// ConvertSpecTo populates the provided destination from our Redis_FirewallRule_Spec
+func (rule *Redis_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(rules)
+	return destination.ConvertSpecFrom(rule)
 }
 
 // Storage version of v1beta20201201.RedisFirewallRule_STATUS

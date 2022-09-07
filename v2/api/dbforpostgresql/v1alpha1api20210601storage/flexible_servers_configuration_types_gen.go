@@ -25,8 +25,8 @@ import (
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Configurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS                `json:"status,omitempty"`
+	Spec              FlexibleServers_Configuration_Spec `json:"spec,omitempty"`
+	Status            Configuration_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -136,10 +136,10 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_From_Flexibl
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServers_Configurations_Spec
-	err := spec.AssignProperties_From_FlexibleServers_Configurations_Spec(&source.Spec)
+	var spec FlexibleServers_Configuration_Spec
+	err := spec.AssignProperties_From_FlexibleServers_Configuration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Configurations_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Configuration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
@@ -162,10 +162,10 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleS
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.FlexibleServers_Configurations_Spec
-	err := configuration.Spec.AssignProperties_To_FlexibleServers_Configurations_Spec(&spec)
+	var spec v20210601s.FlexibleServers_Configuration_Spec
+	err := configuration.Spec.AssignProperties_To_FlexibleServers_Configuration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configurations_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configuration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -447,8 +447,8 @@ func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STA
 	return nil
 }
 
-// Storage version of v1alpha1api20210601.FlexibleServers_Configurations_Spec
-type FlexibleServers_Configurations_Spec struct {
+// Storage version of v1alpha1api20210601.FlexibleServers_Configuration_Spec
+type FlexibleServers_Configuration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -466,25 +466,25 @@ type FlexibleServers_Configurations_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Configurations_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServers_Configuration_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Configurations_Spec from the provided source
-func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.FlexibleServers_Configurations_Spec)
+// ConvertSpecFrom populates our FlexibleServers_Configuration_Spec from the provided source
+func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.FlexibleServers_Configuration_Spec)
 	if ok {
 		// Populate our instance from source
-		return configurations.AssignProperties_From_FlexibleServers_Configurations_Spec(src)
+		return configuration.AssignProperties_From_FlexibleServers_Configuration_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.FlexibleServers_Configurations_Spec{}
+	src = &v20210601s.FlexibleServers_Configuration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = configurations.AssignProperties_From_FlexibleServers_Configurations_Spec(src)
+	err = configuration.AssignProperties_From_FlexibleServers_Configuration_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -492,17 +492,17 @@ func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecFrom(sourc
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Configurations_Spec
-func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.FlexibleServers_Configurations_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServers_Configuration_Spec
+func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.FlexibleServers_Configuration_Spec)
 	if ok {
 		// Populate destination from our instance
-		return configurations.AssignProperties_To_FlexibleServers_Configurations_Spec(dst)
+		return configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.FlexibleServers_Configurations_Spec{}
-	err := configurations.AssignProperties_To_FlexibleServers_Configurations_Spec(dst)
+	dst = &v20210601s.FlexibleServers_Configuration_Spec{}
+	err := configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -516,78 +516,78 @@ func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecTo(destina
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Configurations_Spec populates our FlexibleServers_Configurations_Spec from the provided source FlexibleServers_Configurations_Spec
-func (configurations *FlexibleServers_Configurations_Spec) AssignProperties_From_FlexibleServers_Configurations_Spec(source *v20210601s.FlexibleServers_Configurations_Spec) error {
+// AssignProperties_From_FlexibleServers_Configuration_Spec populates our FlexibleServers_Configuration_Spec from the provided source FlexibleServers_Configuration_Spec
+func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_FlexibleServers_Configuration_Spec(source *v20210601s.FlexibleServers_Configuration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	configurations.AzureName = source.AzureName
+	configuration.AzureName = source.AzureName
 
 	// Location
-	configurations.Location = genruntime.ClonePointerToString(source.Location)
+	configuration.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OriginalVersion
-	configurations.OriginalVersion = source.OriginalVersion
+	configuration.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		configurations.Owner = &owner
+		configuration.Owner = &owner
 	} else {
-		configurations.Owner = nil
+		configuration.Owner = nil
 	}
 
 	// Source
-	configurations.Source = genruntime.ClonePointerToString(source.Source)
+	configuration.Source = genruntime.ClonePointerToString(source.Source)
 
 	// Tags
-	configurations.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	configuration.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Value
-	configurations.Value = genruntime.ClonePointerToString(source.Value)
+	configuration.Value = genruntime.ClonePointerToString(source.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configurations.PropertyBag = propertyBag
+		configuration.PropertyBag = propertyBag
 	} else {
-		configurations.PropertyBag = nil
+		configuration.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Configurations_Spec populates the provided destination FlexibleServers_Configurations_Spec from our FlexibleServers_Configurations_Spec
-func (configurations *FlexibleServers_Configurations_Spec) AssignProperties_To_FlexibleServers_Configurations_Spec(destination *v20210601s.FlexibleServers_Configurations_Spec) error {
+// AssignProperties_To_FlexibleServers_Configuration_Spec populates the provided destination FlexibleServers_Configuration_Spec from our FlexibleServers_Configuration_Spec
+func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_FlexibleServers_Configuration_Spec(destination *v20210601s.FlexibleServers_Configuration_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configurations.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// AzureName
-	destination.AzureName = configurations.AzureName
+	destination.AzureName = configuration.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(configurations.Location)
+	destination.Location = genruntime.ClonePointerToString(configuration.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = configurations.OriginalVersion
+	destination.OriginalVersion = configuration.OriginalVersion
 
 	// Owner
-	if configurations.Owner != nil {
-		owner := configurations.Owner.Copy()
+	if configuration.Owner != nil {
+		owner := configuration.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Source
-	destination.Source = genruntime.ClonePointerToString(configurations.Source)
+	destination.Source = genruntime.ClonePointerToString(configuration.Source)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(configurations.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(configuration.Tags)
 
 	// Value
-	destination.Value = genruntime.ClonePointerToString(configurations.Value)
+	destination.Value = genruntime.ClonePointerToString(configuration.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

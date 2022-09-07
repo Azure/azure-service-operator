@@ -28,8 +28,8 @@ import (
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS        `json:"status,omitempty"`
+	Spec              Servers_Database_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -255,10 +255,10 @@ func (database *Database) AssignProperties_From_Database(source *v20180601s.Data
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Databases_Spec
-	err := spec.AssignProperties_From_Servers_Databases_Spec(&source.Spec)
+	var spec Servers_Database_Spec
+	err := spec.AssignProperties_From_Servers_Database_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Databases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Servers_Database_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
@@ -281,10 +281,10 @@ func (database *Database) AssignProperties_To_Database(destination *v20180601s.D
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180601s.Servers_Databases_Spec
-	err := database.Spec.AssignProperties_To_Servers_Databases_Spec(&spec)
+	var spec v20180601s.Servers_Database_Spec
+	err := database.Spec.AssignProperties_To_Servers_Database_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -503,7 +503,7 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	return nil
 }
 
-type Servers_Databases_Spec struct {
+type Servers_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -527,18 +527,18 @@ type Servers_Databases_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Databases_Spec{}
+var _ genruntime.ARMTransformer = &Servers_Database_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databases *Servers_Databases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if databases == nil {
+func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if database == nil {
 		return nil, nil
 	}
-	result := &Servers_Databases_SpecARM{}
+	result := &Servers_Database_SpecARM{}
 
 	// Set property ‘Location’:
-	if databases.Location != nil {
-		location := *databases.Location
+	if database.Location != nil {
+		location := *database.Location
 		result.Location = &location
 	}
 
@@ -546,22 +546,22 @@ func (databases *Servers_Databases_Spec) ConvertToARM(resolved genruntime.Conver
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if databases.Charset != nil || databases.Collation != nil {
+	if database.Charset != nil || database.Collation != nil {
 		result.Properties = &DatabasePropertiesARM{}
 	}
-	if databases.Charset != nil {
-		charset := *databases.Charset
+	if database.Charset != nil {
+		charset := *database.Charset
 		result.Properties.Charset = &charset
 	}
-	if databases.Collation != nil {
-		collation := *databases.Collation
+	if database.Collation != nil {
+		collation := *database.Collation
 		result.Properties.Collation = &collation
 	}
 
 	// Set property ‘Tags’:
-	if databases.Tags != nil {
-		result.Tags = make(map[string]string, len(databases.Tags))
-		for key, value := range databases.Tags {
+	if database.Tags != nil {
+		result.Tags = make(map[string]string, len(database.Tags))
+		for key, value := range database.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -569,26 +569,26 @@ func (databases *Servers_Databases_Spec) ConvertToARM(resolved genruntime.Conver
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databases *Servers_Databases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Databases_SpecARM{}
+func (database *Servers_Database_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Servers_Database_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databases *Servers_Databases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Databases_SpecARM)
+func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Servers_Database_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	databases.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Charset’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Charset != nil {
 			charset := *typedInput.Properties.Charset
-			databases.Charset = &charset
+			database.Charset = &charset
 		}
 	}
 
@@ -597,26 +597,26 @@ func (databases *Servers_Databases_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
 			collation := *typedInput.Properties.Collation
-			databases.Collation = &collation
+			database.Collation = &collation
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		databases.Location = &location
+		database.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	databases.Owner = &genruntime.KnownResourceReference{
+	database.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string, len(typedInput.Tags))
+		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			databases.Tags[key] = value
+			database.Tags[key] = value
 		}
 	}
 
@@ -624,25 +624,25 @@ func (databases *Servers_Databases_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_Spec{}
+var _ genruntime.ConvertibleSpec = &Servers_Database_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_Spec from the provided source
-func (databases *Servers_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180601s.Servers_Databases_Spec)
+// ConvertSpecFrom populates our Servers_Database_Spec from the provided source
+func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20180601s.Servers_Database_Spec)
 	if ok {
 		// Populate our instance from source
-		return databases.AssignProperties_From_Servers_Databases_Spec(src)
+		return database.AssignProperties_From_Servers_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180601s.Servers_Databases_Spec{}
+	src = &v20180601s.Servers_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = databases.AssignProperties_From_Servers_Databases_Spec(src)
+	err = database.AssignProperties_From_Servers_Database_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -650,17 +650,17 @@ func (databases *Servers_Databases_Spec) ConvertSpecFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_Spec
-func (databases *Servers_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180601s.Servers_Databases_Spec)
+// ConvertSpecTo populates the provided destination from our Servers_Database_Spec
+func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20180601s.Servers_Database_Spec)
 	if ok {
 		// Populate destination from our instance
-		return databases.AssignProperties_To_Servers_Databases_Spec(dst)
+		return database.AssignProperties_To_Servers_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180601s.Servers_Databases_Spec{}
-	err := databases.AssignProperties_To_Servers_Databases_Spec(dst)
+	dst = &v20180601s.Servers_Database_Spec{}
+	err := database.AssignProperties_To_Servers_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -674,66 +674,66 @@ func (databases *Servers_Databases_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignProperties_From_Servers_Databases_Spec populates our Servers_Databases_Spec from the provided source Servers_Databases_Spec
-func (databases *Servers_Databases_Spec) AssignProperties_From_Servers_Databases_Spec(source *v20180601s.Servers_Databases_Spec) error {
+// AssignProperties_From_Servers_Database_Spec populates our Servers_Database_Spec from the provided source Servers_Database_Spec
+func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *v20180601s.Servers_Database_Spec) error {
 
 	// AzureName
-	databases.AzureName = source.AzureName
+	database.AzureName = source.AzureName
 
 	// Charset
-	databases.Charset = genruntime.ClonePointerToString(source.Charset)
+	database.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	databases.Collation = genruntime.ClonePointerToString(source.Collation)
+	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// Location
-	databases.Location = genruntime.ClonePointerToString(source.Location)
+	database.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		databases.Owner = &owner
+		database.Owner = &owner
 	} else {
-		databases.Owner = nil
+		database.Owner = nil
 	}
 
 	// Tags
-	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Servers_Databases_Spec populates the provided destination Servers_Databases_Spec from our Servers_Databases_Spec
-func (databases *Servers_Databases_Spec) AssignProperties_To_Servers_Databases_Spec(destination *v20180601s.Servers_Databases_Spec) error {
+// AssignProperties_To_Servers_Database_Spec populates the provided destination Servers_Database_Spec from our Servers_Database_Spec
+func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *v20180601s.Servers_Database_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = databases.AzureName
+	destination.AzureName = database.AzureName
 
 	// Charset
-	destination.Charset = genruntime.ClonePointerToString(databases.Charset)
+	destination.Charset = genruntime.ClonePointerToString(database.Charset)
 
 	// Collation
-	destination.Collation = genruntime.ClonePointerToString(databases.Collation)
+	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(databases.Location)
+	destination.Location = genruntime.ClonePointerToString(database.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = databases.OriginalVersion()
+	destination.OriginalVersion = database.OriginalVersion()
 
 	// Owner
-	if databases.Owner != nil {
-		owner := databases.Owner.Copy()
+	if database.Owner != nil {
+		owner := database.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -747,14 +747,12 @@ func (databases *Servers_Databases_Spec) AssignProperties_To_Servers_Databases_S
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (databases *Servers_Databases_Spec) OriginalVersion() string {
+func (database *Servers_Database_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (databases *Servers_Databases_Spec) SetAzureName(azureName string) {
-	databases.AzureName = azureName
-}
+func (database *Servers_Database_Spec) SetAzureName(azureName string) { database.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&Database{}, &DatabaseList{})

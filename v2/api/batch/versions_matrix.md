@@ -15,7 +15,7 @@
 | BatchAccountProperties_STATUS                                | v1alpha1api20210101 | v1beta20210101 |
 | BatchAccountProperties_STATUS_ProvisioningState              | v1alpha1api20210101 | v1beta20210101 |
 | BatchAccount_STATUS                                          | v1alpha1api20210101 | v1beta20210101 |
-| BatchAccounts_Spec                                           | v1alpha1api20210101 | v1beta20210101 |
+| BatchAccount_Spec                                            | v1alpha1api20210101 | v1beta20210101 |
 | EncryptionProperties                                         | v1alpha1api20210101 | v1beta20210101 |
 | EncryptionProperties_KeySource                               | v1alpha1api20210101 | v1beta20210101 |
 | EncryptionProperties_STATUS                                  | v1alpha1api20210101 | v1beta20210101 |

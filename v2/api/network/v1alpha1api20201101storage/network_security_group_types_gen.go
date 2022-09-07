@@ -25,7 +25,7 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroups_Spec                                           `json:"spec,omitempty"`
+	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -136,10 +136,10 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec NetworkSecurityGroups_Spec
-	err := spec.AssignProperties_From_NetworkSecurityGroups_Spec(&source.Spec)
+	var spec NetworkSecurityGroup_Spec
+	err := spec.AssignProperties_From_NetworkSecurityGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroups_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -162,10 +162,10 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201101s.NetworkSecurityGroups_Spec
-	err := group.Spec.AssignProperties_To_NetworkSecurityGroups_Spec(&spec)
+	var spec v20201101s.NetworkSecurityGroup_Spec
+	err := group.Spec.AssignProperties_To_NetworkSecurityGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroups_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -197,6 +197,145 @@ type NetworkSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroup `json:"items"`
+}
+
+// Storage version of v1alpha1api20201101.NetworkSecurityGroup_Spec
+type NetworkSecurityGroup_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
+
+// ConvertSpecFrom populates our NetworkSecurityGroup_Spec from the provided source
+func (group *NetworkSecurityGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201101s.NetworkSecurityGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_NetworkSecurityGroup_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.NetworkSecurityGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_NetworkSecurityGroup_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201101s.NetworkSecurityGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_NetworkSecurityGroup_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.NetworkSecurityGroup_Spec{}
+	err := group.AssignProperties_To_NetworkSecurityGroup_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_NetworkSecurityGroup_Spec populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGroup_Spec(source *v20201101s.NetworkSecurityGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	group.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		group.Owner = &owner
+	} else {
+		group.Owner = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkSecurityGroup_Spec populates the provided destination NetworkSecurityGroup_Spec from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup_Spec(destination *v20201101s.NetworkSecurityGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion
+
+	// Owner
+	if group.Owner != nil {
+		owner := group.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1alpha1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
@@ -523,145 +662,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(embedded.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.NetworkSecurityGroups_Spec
-type NetworkSecurityGroups_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_Spec{}
-
-// ConvertSpecFrom populates our NetworkSecurityGroups_Spec from the provided source
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201101s.NetworkSecurityGroups_Spec)
-	if ok {
-		// Populate our instance from source
-		return groups.AssignProperties_From_NetworkSecurityGroups_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.NetworkSecurityGroups_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = groups.AssignProperties_From_NetworkSecurityGroups_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201101s.NetworkSecurityGroups_Spec)
-	if ok {
-		// Populate destination from our instance
-		return groups.AssignProperties_To_NetworkSecurityGroups_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.NetworkSecurityGroups_Spec{}
-	err := groups.AssignProperties_To_NetworkSecurityGroups_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_NetworkSecurityGroups_Spec populates our NetworkSecurityGroups_Spec from the provided source NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) AssignProperties_From_NetworkSecurityGroups_Spec(source *v20201101s.NetworkSecurityGroups_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	groups.AzureName = source.AzureName
-
-	// Location
-	groups.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginalVersion
-	groups.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		groups.Owner = &owner
-	} else {
-		groups.Owner = nil
-	}
-
-	// Tags
-	groups.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		groups.PropertyBag = propertyBag
-	} else {
-		groups.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NetworkSecurityGroups_Spec populates the provided destination NetworkSecurityGroups_Spec from our NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) AssignProperties_To_NetworkSecurityGroups_Spec(destination *v20201101s.NetworkSecurityGroups_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(groups.PropertyBag)
-
-	// AzureName
-	destination.AzureName = groups.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(groups.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = groups.OriginalVersion
-
-	// Owner
-	if groups.Owner != nil {
-		owner := groups.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(groups.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

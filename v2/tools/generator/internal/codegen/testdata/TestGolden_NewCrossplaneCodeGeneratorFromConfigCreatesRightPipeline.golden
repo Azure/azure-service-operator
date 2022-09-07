@@ -6,6 +6,8 @@ allof-anyof-objects                                Convert allOf and oneOf to ob
 flattenResources                                   Flatten nested resource types
 augmentSpecWithStatus                              Merge information from Status into Spec
 stripUnreferenced                                  Strip unreferenced types
+removeAliases                                      Remove type aliases
+pluralizeNames                                     Improve resource pluralization
 nameTypes                                          Name inner types for CRD
 propertyRewrites                                   Modify property types using configured transforms
 removeResourceScope                                Remove scope from all resources
@@ -16,7 +18,6 @@ unrollRecursiveTypes                               Unroll directly recursive typ
 determineResourceOwnership                         Determine ARM resource relationships
 removeAliases                                      Remove type aliases
 collapseCrossGroupReferences                       Find and remove cross group references
-pluralizeNames                                     Improve resource pluralization
 stripUnreferenced                                  Strip unreferenced types
 assertTypesStructureValid                          Verify that all local TypeNames refer to a type
 filterTypes                                        Apply export filters to reduce the number of generated types

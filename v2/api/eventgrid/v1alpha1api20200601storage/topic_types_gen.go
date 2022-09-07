@@ -25,7 +25,7 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Topics_Spec  `json:"spec,omitempty"`
+	Spec              Topic_Spec   `json:"spec,omitempty"`
 	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
@@ -136,10 +136,10 @@ func (topic *Topic) AssignProperties_From_Topic(source *v20200601s.Topic) error 
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Topics_Spec
-	err := spec.AssignProperties_From_Topics_Spec(&source.Spec)
+	var spec Topic_Spec
+	err := spec.AssignProperties_From_Topic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -162,10 +162,10 @@ func (topic *Topic) AssignProperties_To_Topic(destination *v20200601s.Topic) err
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.Topics_Spec
-	err := topic.Spec.AssignProperties_To_Topics_Spec(&spec)
+	var spec v20200601s.Topic_Spec
+	err := topic.Spec.AssignProperties_To_Topic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -197,6 +197,145 @@ type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
+}
+
+// Storage version of v1alpha1api20200601.Topic_Spec
+type Topic_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Topic_Spec{}
+
+// ConvertSpecFrom populates our Topic_Spec from the provided source
+func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200601s.Topic_Spec)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignProperties_From_Topic_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20200601s.Topic_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignProperties_From_Topic_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Topic_Spec
+func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200601s.Topic_Spec)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignProperties_To_Topic_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20200601s.Topic_Spec{}
+	err := topic.AssignProperties_To_Topic_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Topic_Spec populates our Topic_Spec from the provided source Topic_Spec
+func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Topic_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	topic.AzureName = source.AzureName
+
+	// Location
+	topic.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	topic.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topic.Owner = &owner
+	} else {
+		topic.Owner = nil
+	}
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topic.PropertyBag = propertyBag
+	} else {
+		topic.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Topic_Spec populates the provided destination Topic_Spec from our Topic_Spec
+func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.Topic_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
+
+	// AzureName
+	destination.AzureName = topic.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(topic.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = topic.OriginalVersion
+
+	// Owner
+	if topic.Owner != nil {
+		owner := topic.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1alpha1api20200601.Topic_STATUS
@@ -476,145 +615,6 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v202006
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(topic.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.Topics_Spec
-type Topics_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Topics_Spec{}
-
-// ConvertSpecFrom populates our Topics_Spec from the provided source
-func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.Topics_Spec)
-	if ok {
-		// Populate our instance from source
-		return topics.AssignProperties_From_Topics_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20200601s.Topics_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = topics.AssignProperties_From_Topics_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Topics_Spec
-func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.Topics_Spec)
-	if ok {
-		// Populate destination from our instance
-		return topics.AssignProperties_To_Topics_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20200601s.Topics_Spec{}
-	err := topics.AssignProperties_To_Topics_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Topics_Spec populates our Topics_Spec from the provided source Topics_Spec
-func (topics *Topics_Spec) AssignProperties_From_Topics_Spec(source *v20200601s.Topics_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	topics.AzureName = source.AzureName
-
-	// Location
-	topics.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginalVersion
-	topics.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		topics.Owner = &owner
-	} else {
-		topics.Owner = nil
-	}
-
-	// Tags
-	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		topics.PropertyBag = propertyBag
-	} else {
-		topics.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Topics_Spec populates the provided destination Topics_Spec from our Topics_Spec
-func (topics *Topics_Spec) AssignProperties_To_Topics_Spec(destination *v20200601s.Topics_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(topics.PropertyBag)
-
-	// AzureName
-	destination.AzureName = topics.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topics.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = topics.OriginalVersion
-
-	// Owner
-	if topics.Owner != nil {
-		owner := topics.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -26,8 +26,8 @@ import (
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateDnsZones_Spec `json:"spec,omitempty"`
-	Status            PrivateZone_STATUS   `json:"status,omitempty"`
+	Spec              PrivateDnsZone_Spec `json:"spec,omitempty"`
+	Status            PrivateZone_STATUS  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -135,8 +135,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-09-01")
 
-// Storage version of v1beta20180901.PrivateDnsZones_Spec
-type PrivateDnsZones_Spec struct {
+// Storage version of v1beta20180901.PrivateDnsZone_Spec
+type PrivateDnsZone_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -153,24 +153,24 @@ type PrivateDnsZones_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &PrivateDnsZones_Spec{}
+var _ genruntime.ConvertibleSpec = &PrivateDnsZone_Spec{}
 
-// ConvertSpecFrom populates our PrivateDnsZones_Spec from the provided source
-func (zones *PrivateDnsZones_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == zones {
+// ConvertSpecFrom populates our PrivateDnsZone_Spec from the provided source
+func (zone *PrivateDnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(zones)
+	return source.ConvertSpecTo(zone)
 }
 
-// ConvertSpecTo populates the provided destination from our PrivateDnsZones_Spec
-func (zones *PrivateDnsZones_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == zones {
+// ConvertSpecTo populates the provided destination from our PrivateDnsZone_Spec
+func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(zones)
+	return destination.ConvertSpecFrom(zone)
 }
 
 // Storage version of v1beta20180901.PrivateZone_STATUS

@@ -87,7 +87,7 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 
 	workspaces := &machinelearningservices.Workspace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("work")),
-		Spec: machinelearningservices.Workspaces_Spec{
+		Spec: machinelearningservices.Workspace_Spec{
 			Location: location,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
@@ -112,7 +112,7 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *mac
 
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
-		Spec: machinelearningservices.Workspaces_Connections_Spec{
+		Spec: machinelearningservices.Workspaces_Connection_Spec{
 			Owner:       testcommon.AsOwner(workspaces),
 			AuthType:    to.StringPtr("PAT"),
 			Category:    to.StringPtr("ACR"),
@@ -164,7 +164,7 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
-		Spec: machinelearningservices.Workspaces_Computes_Spec{
+		Spec: machinelearningservices.Workspaces_Compute_Spec{
 			Identity: &machinelearningservices.Identity{
 				Type: &identityType,
 			},
@@ -200,10 +200,10 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
-		Spec: network.NetworkInterfaces_Spec{
+		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaces_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.NetworkInterface_Spec_Properties_IpConfigurations{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
 				Subnet: &network.SubResource{
@@ -224,7 +224,7 @@ func newNetworkSecurityGroup(tc *testcommon.KubePerTestContext, owner *genruntim
 	// Network Security Group
 	return &network.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
-		Spec: network.NetworkSecurityGroups_Spec{
+		Spec: network.NetworkSecurityGroup_Spec{
 			Location: tc.AzureRegion,
 			Owner:    owner,
 		},
@@ -240,7 +240,7 @@ func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genru
 	// Network Security Group rule
 	return &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
 			Owner:                    owner,
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("*"),
