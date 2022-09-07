@@ -26,7 +26,7 @@ import (
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Images_Spec  `json:"spec,omitempty"`
+	Spec              Image_Spec   `json:"spec,omitempty"`
 	Status            Image_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,47 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
 
+// Storage version of v1beta20220301.Image_Spec
+type Image_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName        string            `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
+	Location         *string           `json:"location,omitempty"`
+	OriginalVersion  string            `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
+	Tags                 map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Image_Spec{}
+
+// ConvertSpecFrom populates our Image_Spec from the provided source
+func (image *Image_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == image {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(image)
+}
+
+// ConvertSpecTo populates the provided destination from our Image_Spec
+func (image *Image_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == image {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(image)
+}
+
 // Storage version of v1beta20220301.Image_STATUS
 type Image_STATUS struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
@@ -169,47 +210,6 @@ func (image *Image_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	}
 
 	return destination.ConvertStatusFrom(image)
-}
-
-// Storage version of v1beta20220301.Images_Spec
-type Images_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string            `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
-	Location         *string           `json:"location,omitempty"`
-	OriginalVersion  string            `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
-	Tags                 map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Images_Spec{}
-
-// ConvertSpecFrom populates our Images_Spec from the provided source
-func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == images {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(images)
-}
-
-// ConvertSpecTo populates the provided destination from our Images_Spec
-func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == images {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(images)
 }
 
 // Storage version of v1beta20220301.ExtendedLocation

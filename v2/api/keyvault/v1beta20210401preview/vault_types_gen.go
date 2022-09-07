@@ -28,7 +28,7 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Vaults_Spec  `json:"spec,omitempty"`
+	Spec              Vault_Spec   `json:"spec,omitempty"`
 	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (vault *Vault) AssignProperties_From_Vault(source *v20210401ps.Vault) error
 	vault.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Vaults_Spec
-	err := spec.AssignProperties_From_Vaults_Spec(&source.Spec)
+	var spec Vault_Spec
+	err := spec.AssignProperties_From_Vault_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Vaults_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Vault_Spec() to populate field Spec")
 	}
 	vault.Spec = spec
 
@@ -281,10 +281,10 @@ func (vault *Vault) AssignProperties_To_Vault(destination *v20210401ps.Vault) er
 	destination.ObjectMeta = *vault.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210401ps.Vaults_Spec
-	err := vault.Spec.AssignProperties_To_Vaults_Spec(&spec)
+	var spec v20210401ps.Vault_Spec
+	err := vault.Spec.AssignProperties_To_Vault_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Vaults_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Vault_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -321,6 +321,258 @@ type VaultList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01-preview")
+
+type Vault_Spec struct {
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: The supported Azure location where the key vault should be created.
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	// Properties: Properties of the vault
+	Properties *VaultProperties `json:"properties,omitempty"`
+
+	// Tags: The tags that will be assigned to the key vault.
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Vault_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if vault == nil {
+		return nil, nil
+	}
+	result := &Vault_SpecARM{}
+
+	// Set property ‘Location’:
+	if vault.Location != nil {
+		location := *vault.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if vault.Properties != nil {
+		propertiesARM, err := (*vault.Properties).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		properties := *propertiesARM.(*VaultPropertiesARM)
+		result.Properties = &properties
+	}
+
+	// Set property ‘Tags’:
+	if vault.Tags != nil {
+		result.Tags = make(map[string]string, len(vault.Tags))
+		for key, value := range vault.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vault *Vault_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Vault_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (vault *Vault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Vault_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Vault_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	vault.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		vault.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	vault.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Properties’:
+	if typedInput.Properties != nil {
+		var properties1 VaultProperties
+		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
+		if err != nil {
+			return err
+		}
+		properties := properties1
+		vault.Properties = &properties
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		vault.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			vault.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Vault_Spec{}
+
+// ConvertSpecFrom populates our Vault_Spec from the provided source
+func (vault *Vault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401ps.Vault_Spec)
+	if ok {
+		// Populate our instance from source
+		return vault.AssignProperties_From_Vault_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210401ps.Vault_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = vault.AssignProperties_From_Vault_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Vault_Spec
+func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401ps.Vault_Spec)
+	if ok {
+		// Populate destination from our instance
+		return vault.AssignProperties_To_Vault_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210401ps.Vault_Spec{}
+	err := vault.AssignProperties_To_Vault_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Vault_Spec populates our Vault_Spec from the provided source Vault_Spec
+func (vault *Vault_Spec) AssignProperties_From_Vault_Spec(source *v20210401ps.Vault_Spec) error {
+
+	// AzureName
+	vault.AzureName = source.AzureName
+
+	// Location
+	vault.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		vault.Owner = &owner
+	} else {
+		vault.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property VaultProperties
+		err := property.AssignProperties_From_VaultProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VaultProperties() to populate field Properties")
+		}
+		vault.Properties = &property
+	} else {
+		vault.Properties = nil
+	}
+
+	// Tags
+	vault.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Vault_Spec populates the provided destination Vault_Spec from our Vault_Spec
+func (vault *Vault_Spec) AssignProperties_To_Vault_Spec(destination *v20210401ps.Vault_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = vault.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(vault.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = vault.OriginalVersion()
+
+	// Owner
+	if vault.Owner != nil {
+		owner := vault.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if vault.Properties != nil {
+		var property v20210401ps.VaultProperties
+		err := vault.Properties.AssignProperties_To_VaultProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VaultProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(vault.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (vault *Vault_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (vault *Vault_Spec) SetAzureName(azureName string) { vault.AzureName = azureName }
 
 type Vault_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -578,258 +830,6 @@ func (vault *Vault_STATUS) AssignProperties_To_Vault_STATUS(destination *v202104
 	// No error
 	return nil
 }
-
-type Vaults_Spec struct {
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The supported Azure location where the key vault should be created.
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// +kubebuilder:validation:Required
-	// Properties: Properties of the vault
-	Properties *VaultProperties `json:"properties,omitempty"`
-
-	// Tags: The tags that will be assigned to the key vault.
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Vaults_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaults *Vaults_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if vaults == nil {
-		return nil, nil
-	}
-	result := &Vaults_SpecARM{}
-
-	// Set property ‘Location’:
-	if vaults.Location != nil {
-		location := *vaults.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if vaults.Properties != nil {
-		propertiesARM, err := (*vaults.Properties).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		properties := *propertiesARM.(*VaultPropertiesARM)
-		result.Properties = &properties
-	}
-
-	// Set property ‘Tags’:
-	if vaults.Tags != nil {
-		result.Tags = make(map[string]string, len(vaults.Tags))
-		for key, value := range vaults.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaults *Vaults_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Vaults_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaults *Vaults_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Vaults_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Vaults_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	vaults.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		vaults.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	vaults.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Properties’:
-	if typedInput.Properties != nil {
-		var properties1 VaultProperties
-		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
-		}
-		properties := properties1
-		vaults.Properties = &properties
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		vaults.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			vaults.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Vaults_Spec{}
-
-// ConvertSpecFrom populates our Vaults_Spec from the provided source
-func (vaults *Vaults_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210401ps.Vaults_Spec)
-	if ok {
-		// Populate our instance from source
-		return vaults.AssignProperties_From_Vaults_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210401ps.Vaults_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = vaults.AssignProperties_From_Vaults_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Vaults_Spec
-func (vaults *Vaults_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210401ps.Vaults_Spec)
-	if ok {
-		// Populate destination from our instance
-		return vaults.AssignProperties_To_Vaults_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210401ps.Vaults_Spec{}
-	err := vaults.AssignProperties_To_Vaults_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Vaults_Spec populates our Vaults_Spec from the provided source Vaults_Spec
-func (vaults *Vaults_Spec) AssignProperties_From_Vaults_Spec(source *v20210401ps.Vaults_Spec) error {
-
-	// AzureName
-	vaults.AzureName = source.AzureName
-
-	// Location
-	vaults.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		vaults.Owner = &owner
-	} else {
-		vaults.Owner = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property VaultProperties
-		err := property.AssignProperties_From_VaultProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VaultProperties() to populate field Properties")
-		}
-		vaults.Properties = &property
-	} else {
-		vaults.Properties = nil
-	}
-
-	// Tags
-	vaults.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Vaults_Spec populates the provided destination Vaults_Spec from our Vaults_Spec
-func (vaults *Vaults_Spec) AssignProperties_To_Vaults_Spec(destination *v20210401ps.Vaults_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = vaults.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(vaults.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = vaults.OriginalVersion()
-
-	// Owner
-	if vaults.Owner != nil {
-		owner := vaults.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Properties
-	if vaults.Properties != nil {
-		var property v20210401ps.VaultProperties
-		err := vaults.Properties.AssignProperties_To_VaultProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VaultProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(vaults.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (vaults *Vaults_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (vaults *Vaults_Spec) SetAzureName(azureName string) { vaults.AzureName = azureName }
 
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of the key vault resource creation (UTC).

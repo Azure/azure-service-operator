@@ -26,7 +26,7 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Registries_Spec `json:"spec,omitempty"`
+	Spec              Registry_Spec   `json:"spec,omitempty"`
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -135,8 +135,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
-// Storage version of v1beta20210901.Registries_Spec
-type Registries_Spec struct {
+// Storage version of v1beta20210901.Registry_Spec
+type Registry_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
@@ -166,24 +166,24 @@ type Registries_Spec struct {
 	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Registries_Spec{}
+var _ genruntime.ConvertibleSpec = &Registry_Spec{}
 
-// ConvertSpecFrom populates our Registries_Spec from the provided source
-func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == registries {
+// ConvertSpecFrom populates our Registry_Spec from the provided source
+func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == registry {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(registries)
+	return source.ConvertSpecTo(registry)
 }
 
-// ConvertSpecTo populates the provided destination from our Registries_Spec
-func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == registries {
+// ConvertSpecTo populates the provided destination from our Registry_Spec
+func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == registry {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(registries)
+	return destination.ConvertSpecFrom(registry)
 }
 
 // Storage version of v1beta20210901.Registry_STATUS

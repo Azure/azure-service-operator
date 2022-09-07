@@ -26,7 +26,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	// Network Security Group
 	nsg := &network.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
-		Spec: network.NetworkSecurityGroups_Spec{
+		Spec: network.NetworkSecurityGroup_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -70,7 +70,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	direction := network.SecurityRulePropertiesFormat_Direction_Inbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("23-45"),
@@ -87,7 +87,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	deny := network.SecurityRulePropertiesFormat_Access_Deny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
-		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
 			Owner:    testcommon.AsOwner(nsg),
 			Protocol: &protocol,
 			SourcePortRanges: []string{

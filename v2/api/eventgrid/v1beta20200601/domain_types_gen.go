@@ -28,7 +28,7 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Spec  `json:"spec,omitempty"`
+	Spec              Domain_Spec   `json:"spec,omitempty"`
 	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (domain *Domain) AssignProperties_From_Domain(source *v20200601s.Domain) er
 	domain.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Domains_Spec
-	err := spec.AssignProperties_From_Domains_Spec(&source.Spec)
+	var spec Domain_Spec
+	err := spec.AssignProperties_From_Domain_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Domains_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Domain_Spec() to populate field Spec")
 	}
 	domain.Spec = spec
 
@@ -281,10 +281,10 @@ func (domain *Domain) AssignProperties_To_Domain(destination *v20200601s.Domain)
 	destination.ObjectMeta = *domain.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.Domains_Spec
-	err := domain.Spec.AssignProperties_To_Domains_Spec(&spec)
+	var spec v20200601s.Domain_Spec
+	err := domain.Spec.AssignProperties_To_Domain_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Domains_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Domain_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -321,6 +321,393 @@ type DomainList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
+
+type Domain_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	// only if PublicNetworkAccess is enabled.
+	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
+
+	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
+	InputSchema *DomainProperties_InputSchema `json:"inputSchema,omitempty"`
+
+	// InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
+	// schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
+	// InputSchemaMapping is 'JsonInputSchemaMapping'.
+	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
+	// You can further restrict to specific IPs by configuring <seealso
+	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Domain_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if domain == nil {
+		return nil, nil
+	}
+	result := &Domain_SpecARM{}
+
+	// Set property ‘Location’:
+	if domain.Location != nil {
+		location := *domain.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if domain.InboundIpRules != nil ||
+		domain.InputSchema != nil ||
+		domain.InputSchemaMapping != nil ||
+		domain.PublicNetworkAccess != nil {
+		result.Properties = &DomainPropertiesARM{}
+	}
+	for _, item := range domain.InboundIpRules {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *itemARM.(*InboundIpRuleARM))
+	}
+	if domain.InputSchema != nil {
+		inputSchema := *domain.InputSchema
+		result.Properties.InputSchema = &inputSchema
+	}
+	if domain.InputSchemaMapping != nil {
+		inputSchemaMappingARM, err := (*domain.InputSchemaMapping).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		inputSchemaMapping := *inputSchemaMappingARM.(*JsonInputSchemaMappingARM)
+		result.Properties.InputSchemaMapping = &inputSchemaMapping
+	}
+	if domain.PublicNetworkAccess != nil {
+		publicNetworkAccess := *domain.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘Tags’:
+	if domain.Tags != nil {
+		result.Tags = make(map[string]string, len(domain.Tags))
+		for key, value := range domain.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (domain *Domain_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Domain_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Domain_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	domain.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘InboundIpRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundIpRules {
+			var item1 InboundIpRule
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			domain.InboundIpRules = append(domain.InboundIpRules, item1)
+		}
+	}
+
+	// Set property ‘InputSchema’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchema != nil {
+			inputSchema := *typedInput.Properties.InputSchema
+			domain.InputSchema = &inputSchema
+		}
+	}
+
+	// Set property ‘InputSchemaMapping’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchemaMapping != nil {
+			var inputSchemaMapping1 JsonInputSchemaMapping
+			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
+			if err != nil {
+				return err
+			}
+			inputSchemaMapping := inputSchemaMapping1
+			domain.InputSchemaMapping = &inputSchemaMapping
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		domain.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	domain.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			domain.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		domain.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			domain.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Domain_Spec{}
+
+// ConvertSpecFrom populates our Domain_Spec from the provided source
+func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200601s.Domain_Spec)
+	if ok {
+		// Populate our instance from source
+		return domain.AssignProperties_From_Domain_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20200601s.Domain_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = domain.AssignProperties_From_Domain_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Domain_Spec
+func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200601s.Domain_Spec)
+	if ok {
+		// Populate destination from our instance
+		return domain.AssignProperties_To_Domain_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20200601s.Domain_Spec{}
+	err := domain.AssignProperties_To_Domain_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Domain_Spec populates our Domain_Spec from the provided source Domain_Spec
+func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.Domain_Spec) error {
+
+	// AzureName
+	domain.AzureName = source.AzureName
+
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule InboundIpRule
+			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		domain.InboundIpRules = inboundIpRuleList
+	} else {
+		domain.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if source.InputSchema != nil {
+		inputSchema := DomainProperties_InputSchema(*source.InputSchema)
+		domain.InputSchema = &inputSchema
+	} else {
+		domain.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping JsonInputSchemaMapping
+		err := inputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.InputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		domain.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		domain.InputSchemaMapping = nil
+	}
+
+	// Location
+	domain.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		domain.Owner = &owner
+	} else {
+		domain.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := DomainProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		domain.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		domain.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	domain.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Domain_Spec populates the provided destination Domain_Spec from our Domain_Spec
+func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v20200601s.Domain_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = domain.AzureName
+
+	// InboundIpRules
+	if domain.InboundIpRules != nil {
+		inboundIpRuleList := make([]v20200601s.InboundIpRule, len(domain.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range domain.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule v20200601s.InboundIpRule
+			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if domain.InputSchema != nil {
+		inputSchema := string(*domain.InputSchema)
+		destination.InputSchema = &inputSchema
+	} else {
+		destination.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if domain.InputSchemaMapping != nil {
+		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
+		err := domain.InputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&inputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		destination.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		destination.InputSchemaMapping = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(domain.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = domain.OriginalVersion()
+
+	// Owner
+	if domain.Owner != nil {
+		owner := domain.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if domain.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*domain.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(domain.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (domain *Domain_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (domain *Domain_Spec) SetAzureName(azureName string) { domain.AzureName = azureName }
 
 type Domain_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -808,393 +1195,6 @@ func (domain *Domain_STATUS) AssignProperties_To_Domain_STATUS(destination *v202
 	// No error
 	return nil
 }
-
-type Domains_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
-
-	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainProperties_InputSchema `json:"inputSchema,omitempty"`
-
-	// InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-	// schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-	// InputSchemaMapping is 'JsonInputSchemaMapping'.
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	// You can further restrict to specific IPs by configuring <seealso
-	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
-	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Domains_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if domains == nil {
-		return nil, nil
-	}
-	result := &Domains_SpecARM{}
-
-	// Set property ‘Location’:
-	if domains.Location != nil {
-		location := *domains.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if domains.InboundIpRules != nil ||
-		domains.InputSchema != nil ||
-		domains.InputSchemaMapping != nil ||
-		domains.PublicNetworkAccess != nil {
-		result.Properties = &DomainPropertiesARM{}
-	}
-	for _, item := range domains.InboundIpRules {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *itemARM.(*InboundIpRuleARM))
-	}
-	if domains.InputSchema != nil {
-		inputSchema := *domains.InputSchema
-		result.Properties.InputSchema = &inputSchema
-	}
-	if domains.InputSchemaMapping != nil {
-		inputSchemaMappingARM, err := (*domains.InputSchemaMapping).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		inputSchemaMapping := *inputSchemaMappingARM.(*JsonInputSchemaMappingARM)
-		result.Properties.InputSchemaMapping = &inputSchemaMapping
-	}
-	if domains.PublicNetworkAccess != nil {
-		publicNetworkAccess := *domains.PublicNetworkAccess
-		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘Tags’:
-	if domains.Tags != nil {
-		result.Tags = make(map[string]string, len(domains.Tags))
-		for key, value := range domains.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domains *Domains_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domains_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domains *Domains_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domains_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	domains.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘InboundIpRules’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.InboundIpRules {
-			var item1 InboundIpRule
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			domains.InboundIpRules = append(domains.InboundIpRules, item1)
-		}
-	}
-
-	// Set property ‘InputSchema’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.InputSchema != nil {
-			inputSchema := *typedInput.Properties.InputSchema
-			domains.InputSchema = &inputSchema
-		}
-	}
-
-	// Set property ‘InputSchemaMapping’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.InputSchemaMapping != nil {
-			var inputSchemaMapping1 JsonInputSchemaMapping
-			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
-			if err != nil {
-				return err
-			}
-			inputSchemaMapping := inputSchemaMapping1
-			domains.InputSchemaMapping = &inputSchemaMapping
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		domains.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	domains.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			domains.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		domains.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			domains.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Domains_Spec{}
-
-// ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.Domains_Spec)
-	if ok {
-		// Populate our instance from source
-		return domains.AssignProperties_From_Domains_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20200601s.Domains_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = domains.AssignProperties_From_Domains_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.Domains_Spec)
-	if ok {
-		// Populate destination from our instance
-		return domains.AssignProperties_To_Domains_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20200601s.Domains_Spec{}
-	err := domains.AssignProperties_To_Domains_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Domains_Spec populates our Domains_Spec from the provided source Domains_Spec
-func (domains *Domains_Spec) AssignProperties_From_Domains_Spec(source *v20200601s.Domains_Spec) error {
-
-	// AzureName
-	domains.AzureName = source.AzureName
-
-	// InboundIpRules
-	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule InboundIpRule
-			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		domains.InboundIpRules = inboundIpRuleList
-	} else {
-		domains.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := DomainProperties_InputSchema(*source.InputSchema)
-		domains.InputSchema = &inputSchema
-	} else {
-		domains.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping JsonInputSchemaMapping
-		err := inputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.InputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field InputSchemaMapping")
-		}
-		domains.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		domains.InputSchemaMapping = nil
-	}
-
-	// Location
-	domains.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		domains.Owner = &owner
-	} else {
-		domains.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		domains.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		domains.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	domains.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Domains_Spec populates the provided destination Domains_Spec from our Domains_Spec
-func (domains *Domains_Spec) AssignProperties_To_Domains_Spec(destination *v20200601s.Domains_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = domains.AzureName
-
-	// InboundIpRules
-	if domains.InboundIpRules != nil {
-		inboundIpRuleList := make([]v20200601s.InboundIpRule, len(domains.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range domains.InboundIpRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule v20200601s.InboundIpRule
-			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		destination.InboundIpRules = inboundIpRuleList
-	} else {
-		destination.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if domains.InputSchema != nil {
-		inputSchema := string(*domains.InputSchema)
-		destination.InputSchema = &inputSchema
-	} else {
-		destination.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if domains.InputSchemaMapping != nil {
-		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
-		err := domains.InputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&inputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field InputSchemaMapping")
-		}
-		destination.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		destination.InputSchemaMapping = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(domains.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = domains.OriginalVersion()
-
-	// Owner
-	if domains.Owner != nil {
-		owner := domains.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if domains.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*domains.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(domains.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (domains *Domains_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (domains *Domains_Spec) SetAzureName(azureName string) { domains.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type DomainProperties_InputSchema string

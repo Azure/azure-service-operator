@@ -18,7 +18,7 @@ import (
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Spec  `json:"spec,omitempty"`
+	Spec              Server_Spec   `json:"spec,omitempty"`
 	Status            Server_STATUS `json:"status,omitempty"`
 }
 
@@ -35,14 +35,14 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-11-01-preview")
 
+type Server_Spec struct {
+	v1alpha1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider           ServerParameters `json:"forProvider,omitempty"`
+}
+
 type Server_STATUS struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
 	AtProvider              ServerObservation `json:"atProvider,omitempty"`
-}
-
-type Servers_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           ServersParameters `json:"forProvider,omitempty"`
 }
 
 type ServerObservation struct {
@@ -105,7 +105,7 @@ type ServerObservation struct {
 	WorkspaceFeature *ServerProperties_STATUS_WorkspaceFeature `json:"workspaceFeature,omitempty"`
 }
 
-type ServersParameters struct {
+type ServerParameters struct {
 	// AdministratorLogin: Administrator username for the server. Once created it cannot be changed.
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 

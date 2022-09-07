@@ -29,8 +29,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Computes_Spec `json:"spec,omitempty"`
-	Status            ComputeResource_STATUS   `json:"status,omitempty"`
+	Spec              Workspaces_Compute_Spec `json:"spec,omitempty"`
+	Status            ComputeResource_STATUS  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -256,10 +256,10 @@ func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source
 	compute.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Computes_Spec
-	err := spec.AssignProperties_From_Workspaces_Computes_Spec(&source.Spec)
+	var spec Workspaces_Compute_Spec
+	err := spec.AssignProperties_From_Workspaces_Compute_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Computes_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Compute_Spec() to populate field Spec")
 	}
 	compute.Spec = spec
 
@@ -282,10 +282,10 @@ func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destinat
 	destination.ObjectMeta = *compute.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210701s.Workspaces_Computes_Spec
-	err := compute.Spec.AssignProperties_To_Workspaces_Computes_Spec(&spec)
+	var spec v20210701s.Workspaces_Compute_Spec
+	err := compute.Spec.AssignProperties_To_Workspaces_Compute_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Computes_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -652,7 +652,7 @@ func (resource *ComputeResource_STATUS) AssignProperties_To_ComputeResource_STAT
 	return nil
 }
 
-type Workspaces_Computes_Spec struct {
+type Workspaces_Compute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -683,18 +683,18 @@ type Workspaces_Computes_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Workspaces_Computes_Spec{}
+var _ genruntime.ARMTransformer = &Workspaces_Compute_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if computes == nil {
+func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if compute == nil {
 		return nil, nil
 	}
-	result := &Workspaces_Computes_SpecARM{}
+	result := &Workspaces_Compute_SpecARM{}
 
 	// Set property ‘Identity’:
-	if computes.Identity != nil {
-		identityARM, err := (*computes.Identity).ConvertToARM(resolved)
+	if compute.Identity != nil {
+		identityARM, err := (*compute.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -703,8 +703,8 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Location’:
-	if computes.Location != nil {
-		location := *computes.Location
+	if compute.Location != nil {
+		location := *compute.Location
 		result.Location = &location
 	}
 
@@ -712,8 +712,8 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if computes.Properties != nil {
-		propertiesARM, err := (*computes.Properties).ConvertToARM(resolved)
+	if compute.Properties != nil {
+		propertiesARM, err := (*compute.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -722,8 +722,8 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Sku’:
-	if computes.Sku != nil {
-		skuARM, err := (*computes.Sku).ConvertToARM(resolved)
+	if compute.Sku != nil {
+		skuARM, err := (*compute.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -732,8 +732,8 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘SystemData’:
-	if computes.SystemData != nil {
-		systemDataARM, err := (*computes.SystemData).ConvertToARM(resolved)
+	if compute.SystemData != nil {
+		systemDataARM, err := (*compute.SystemData).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -742,9 +742,9 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 
 	// Set property ‘Tags’:
-	if computes.Tags != nil {
-		result.Tags = make(map[string]string, len(computes.Tags))
-		for key, value := range computes.Tags {
+	if compute.Tags != nil {
+		result.Tags = make(map[string]string, len(compute.Tags))
+		for key, value := range compute.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -752,19 +752,19 @@ func (computes *Workspaces_Computes_Spec) ConvertToARM(resolved genruntime.Conve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (computes *Workspaces_Computes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Computes_SpecARM{}
+func (compute *Workspaces_Compute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspaces_Compute_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Computes_SpecARM)
+func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspaces_Compute_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Computes_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Compute_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	computes.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	compute.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
@@ -774,17 +774,17 @@ func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.Arbit
 			return err
 		}
 		identity := identity1
-		computes.Identity = &identity
+		compute.Identity = &identity
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		computes.Location = &location
+		compute.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	computes.Owner = &genruntime.KnownResourceReference{
+	compute.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -796,7 +796,7 @@ func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.Arbit
 			return err
 		}
 		properties := properties1
-		computes.Properties = &properties
+		compute.Properties = &properties
 	}
 
 	// Set property ‘Sku’:
@@ -807,7 +807,7 @@ func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.Arbit
 			return err
 		}
 		sku := sku1
-		computes.Sku = &sku
+		compute.Sku = &sku
 	}
 
 	// Set property ‘SystemData’:
@@ -818,14 +818,14 @@ func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.Arbit
 			return err
 		}
 		systemData := systemData1
-		computes.SystemData = &systemData
+		compute.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		computes.Tags = make(map[string]string, len(typedInput.Tags))
+		compute.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			computes.Tags[key] = value
+			compute.Tags[key] = value
 		}
 	}
 
@@ -833,25 +833,25 @@ func (computes *Workspaces_Computes_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Computes_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_Compute_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Computes_Spec from the provided source
-func (computes *Workspaces_Computes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210701s.Workspaces_Computes_Spec)
+// ConvertSpecFrom populates our Workspaces_Compute_Spec from the provided source
+func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210701s.Workspaces_Compute_Spec)
 	if ok {
 		// Populate our instance from source
-		return computes.AssignProperties_From_Workspaces_Computes_Spec(src)
+		return compute.AssignProperties_From_Workspaces_Compute_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.Workspaces_Computes_Spec{}
+	src = &v20210701s.Workspaces_Compute_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = computes.AssignProperties_From_Workspaces_Computes_Spec(src)
+	err = compute.AssignProperties_From_Workspaces_Compute_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -859,17 +859,17 @@ func (computes *Workspaces_Computes_Spec) ConvertSpecFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Computes_Spec
-func (computes *Workspaces_Computes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210701s.Workspaces_Computes_Spec)
+// ConvertSpecTo populates the provided destination from our Workspaces_Compute_Spec
+func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210701s.Workspaces_Compute_Spec)
 	if ok {
 		// Populate destination from our instance
-		return computes.AssignProperties_To_Workspaces_Computes_Spec(dst)
+		return compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.Workspaces_Computes_Spec{}
-	err := computes.AssignProperties_To_Workspaces_Computes_Spec(dst)
+	dst = &v20210701s.Workspaces_Compute_Spec{}
+	err := compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -883,11 +883,11 @@ func (computes *Workspaces_Computes_Spec) ConvertSpecTo(destination genruntime.C
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Computes_Spec populates our Workspaces_Computes_Spec from the provided source Workspaces_Computes_Spec
-func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Computes_Spec(source *v20210701s.Workspaces_Computes_Spec) error {
+// AssignProperties_From_Workspaces_Compute_Spec populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_Spec
+func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute_Spec(source *v20210701s.Workspaces_Compute_Spec) error {
 
 	// AzureName
-	computes.AzureName = source.AzureName
+	compute.AzureName = source.AzureName
 
 	// Identity
 	if source.Identity != nil {
@@ -896,20 +896,20 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Compu
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
-		computes.Identity = &identity
+		compute.Identity = &identity
 	} else {
-		computes.Identity = nil
+		compute.Identity = nil
 	}
 
 	// Location
-	computes.Location = genruntime.ClonePointerToString(source.Location)
+	compute.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		computes.Owner = &owner
+		compute.Owner = &owner
 	} else {
-		computes.Owner = nil
+		compute.Owner = nil
 	}
 
 	// Properties
@@ -919,9 +919,9 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Compu
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Compute() to populate field Properties")
 		}
-		computes.Properties = &property
+		compute.Properties = &property
 	} else {
-		computes.Properties = nil
+		compute.Properties = nil
 	}
 
 	// Sku
@@ -931,9 +931,9 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Compu
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
-		computes.Sku = &sku
+		compute.Sku = &sku
 	} else {
-		computes.Sku = nil
+		compute.Sku = nil
 	}
 
 	// SystemData
@@ -943,30 +943,30 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_From_Workspaces_Compu
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
 		}
-		computes.SystemData = &systemDatum
+		compute.SystemData = &systemDatum
 	} else {
-		computes.SystemData = nil
+		compute.SystemData = nil
 	}
 
 	// Tags
-	computes.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	compute.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Computes_Spec populates the provided destination Workspaces_Computes_Spec from our Workspaces_Computes_Spec
-func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Computes_Spec(destination *v20210701s.Workspaces_Computes_Spec) error {
+// AssignProperties_To_Workspaces_Compute_Spec populates the provided destination Workspaces_Compute_Spec from our Workspaces_Compute_Spec
+func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_Spec(destination *v20210701s.Workspaces_Compute_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = computes.AzureName
+	destination.AzureName = compute.AzureName
 
 	// Identity
-	if computes.Identity != nil {
+	if compute.Identity != nil {
 		var identity v20210701s.Identity
-		err := computes.Identity.AssignProperties_To_Identity(&identity)
+		err := compute.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
@@ -976,23 +976,23 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Compute
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(computes.Location)
+	destination.Location = genruntime.ClonePointerToString(compute.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = computes.OriginalVersion()
+	destination.OriginalVersion = compute.OriginalVersion()
 
 	// Owner
-	if computes.Owner != nil {
-		owner := computes.Owner.Copy()
+	if compute.Owner != nil {
+		owner := compute.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Properties
-	if computes.Properties != nil {
+	if compute.Properties != nil {
 		var property v20210701s.Compute
-		err := computes.Properties.AssignProperties_To_Compute(&property)
+		err := compute.Properties.AssignProperties_To_Compute(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Compute() to populate field Properties")
 		}
@@ -1002,9 +1002,9 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Compute
 	}
 
 	// Sku
-	if computes.Sku != nil {
+	if compute.Sku != nil {
 		var sku v20210701s.Sku
-		err := computes.Sku.AssignProperties_To_Sku(&sku)
+		err := compute.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
@@ -1014,9 +1014,9 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Compute
 	}
 
 	// SystemData
-	if computes.SystemData != nil {
+	if compute.SystemData != nil {
 		var systemDatum v20210701s.SystemData
-		err := computes.SystemData.AssignProperties_To_SystemData(&systemDatum)
+		err := compute.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
 		}
@@ -1026,7 +1026,7 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Compute
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(computes.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(compute.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1040,14 +1040,12 @@ func (computes *Workspaces_Computes_Spec) AssignProperties_To_Workspaces_Compute
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (computes *Workspaces_Computes_Spec) OriginalVersion() string {
+func (compute *Workspaces_Compute_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (computes *Workspaces_Computes_Spec) SetAzureName(azureName string) {
-	computes.AzureName = azureName
-}
+func (compute *Workspaces_Compute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Compute
 type Compute struct {

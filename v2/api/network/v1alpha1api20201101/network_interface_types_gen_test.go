@@ -161,8 +161,132 @@ func NetworkInterfaceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNetworkInterface is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkInterface(gens map[string]gopter.Gen) {
-	gens["Spec"] = NetworkInterfaces_SpecGenerator()
+	gens["Spec"] = NetworkInterface_SpecGenerator()
 	gens["Status"] = NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()
+}
+
+func Test_NetworkInterface_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface_Spec to NetworkInterface_Spec via AssignProperties_To_NetworkInterface_Spec & AssignProperties_From_NetworkInterface_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_Spec, NetworkInterface_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterface_Spec tests if a specific instance of NetworkInterface_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterface_Spec(subject NetworkInterface_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201101s.NetworkInterface_Spec
+	err := copied.AssignProperties_To_NetworkInterface_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface_Spec
+	err = actual.AssignProperties_From_NetworkInterface_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkInterface_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkInterface_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterface_Spec, NetworkInterface_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkInterface_Spec runs a test to see if a specific instance of NetworkInterface_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterface_Spec(subject NetworkInterface_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkInterface_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkInterface_Spec instances for property testing - lazily instantiated by
+// NetworkInterface_SpecGenerator()
+var networkInterface_SpecGenerator gopter.Gen
+
+// NetworkInterface_SpecGenerator returns a generator of NetworkInterface_Spec instances for property testing.
+// We first initialize networkInterface_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NetworkInterface_SpecGenerator() gopter.Gen {
+	if networkInterface_SpecGenerator != nil {
+		return networkInterface_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterface_Spec(generators)
+	networkInterface_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterface_Spec(generators)
+	AddRelatedPropertyGeneratorsForNetworkInterface_Spec(generators)
+	networkInterface_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_Spec{}), generators)
+
+	return networkInterface_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkInterface_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterface_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
+	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNetworkInterface_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkInterface_Spec(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(NetworkInterfaceDnsSettingsGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(NetworkInterface_Spec_Properties_IpConfigurationsGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -313,32 +437,32 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_STATUS_NetworkInterface_Sub
 	gens["VirtualMachine"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
-func Test_NetworkInterfaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_NetworkInterface_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from NetworkInterfaces_Spec to NetworkInterfaces_Spec via AssignProperties_To_NetworkInterfaces_Spec & AssignProperties_From_NetworkInterfaces_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaces_Spec, NetworkInterfaces_SpecGenerator()))
+		"Round trip from NetworkInterface_Spec_Properties_IpConfigurations to NetworkInterface_Spec_Properties_IpConfigurations via AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations & AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_Spec_Properties_IpConfigurations, NetworkInterface_Spec_Properties_IpConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaces_Spec tests if a specific instance of NetworkInterfaces_Spec can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForNetworkInterfaces_Spec(subject NetworkInterfaces_Spec) string {
+// RunPropertyAssignmentTestForNetworkInterface_Spec_Properties_IpConfigurations tests if a specific instance of NetworkInterface_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterface_Spec_Properties_IpConfigurations(subject NetworkInterface_Spec_Properties_IpConfigurations) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201101s.NetworkInterfaces_Spec
-	err := copied.AssignProperties_To_NetworkInterfaces_Spec(&other)
+	var other alpha20201101s.NetworkInterface_Spec_Properties_IpConfigurations
+	err := copied.AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkInterfaces_Spec
-	err = actual.AssignProperties_From_NetworkInterfaces_Spec(&other)
+	var actual NetworkInterface_Spec_Properties_IpConfigurations
+	err = actual.AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -355,20 +479,20 @@ func RunPropertyAssignmentTestForNetworkInterfaces_Spec(subject NetworkInterface
 	return ""
 }
 
-func Test_NetworkInterfaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NetworkInterface_Spec_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NetworkInterfaces_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkInterfaces_Spec, NetworkInterfaces_SpecGenerator()))
+		"Round trip of NetworkInterface_Spec_Properties_IpConfigurations via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterface_Spec_Properties_IpConfigurations, NetworkInterface_Spec_Properties_IpConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkInterfaces_Spec runs a test to see if a specific instance of NetworkInterfaces_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInterfaces_Spec(subject NetworkInterfaces_Spec) string {
+// RunJSONSerializationTestForNetworkInterface_Spec_Properties_IpConfigurations runs a test to see if a specific instance of NetworkInterface_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterface_Spec_Properties_IpConfigurations(subject NetworkInterface_Spec_Properties_IpConfigurations) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -376,7 +500,7 @@ func RunJSONSerializationTestForNetworkInterfaces_Spec(subject NetworkInterfaces
 	}
 
 	// Deserialize back into memory
-	var actual NetworkInterfaces_Spec
+	var actual NetworkInterface_Spec_Properties_IpConfigurations
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -394,47 +518,50 @@ func RunJSONSerializationTestForNetworkInterfaces_Spec(subject NetworkInterfaces
 	return ""
 }
 
-// Generator of NetworkInterfaces_Spec instances for property testing - lazily instantiated by
-// NetworkInterfaces_SpecGenerator()
-var networkInterfaces_SpecGenerator gopter.Gen
+// Generator of NetworkInterface_Spec_Properties_IpConfigurations instances for property testing - lazily instantiated
+// by NetworkInterface_Spec_Properties_IpConfigurationsGenerator()
+var networkInterface_Spec_Properties_IpConfigurationsGenerator gopter.Gen
 
-// NetworkInterfaces_SpecGenerator returns a generator of NetworkInterfaces_Spec instances for property testing.
-// We first initialize networkInterfaces_SpecGenerator with a simplified generator based on the
+// NetworkInterface_Spec_Properties_IpConfigurationsGenerator returns a generator of NetworkInterface_Spec_Properties_IpConfigurations instances for property testing.
+// We first initialize networkInterface_Spec_Properties_IpConfigurationsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NetworkInterfaces_SpecGenerator() gopter.Gen {
-	if networkInterfaces_SpecGenerator != nil {
-		return networkInterfaces_SpecGenerator
+func NetworkInterface_Spec_Properties_IpConfigurationsGenerator() gopter.Gen {
+	if networkInterface_Spec_Properties_IpConfigurationsGenerator != nil {
+		return networkInterface_Spec_Properties_IpConfigurationsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(generators)
-	networkInterfaces_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations(generators)
+	networkInterface_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_Spec_Properties_IpConfigurations{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(generators)
-	AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec(generators)
-	networkInterfaces_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations(generators)
+	AddRelatedPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations(generators)
+	networkInterface_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_Spec_Properties_IpConfigurations{}), generators)
 
-	return networkInterfaces_SpecGenerator
+	return networkInterface_Spec_Properties_IpConfigurationsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
-	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+// AddIndependentPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv4, NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic, NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static))
 }
 
-// AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(NetworkInterfaceDnsSettingsGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
+// AddRelatedPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkInterface_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerInboundNatRules"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
+	gens["VirtualNetworkTaps"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -782,133 +909,6 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_Netwo
 	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["VirtualNetworkTaps"] = gen.SliceOf(VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
-}
-
-func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkInterfaces_Spec_Properties_IpConfigurations to NetworkInterfaces_Spec_Properties_IpConfigurations via AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations & AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations, NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations tests if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations
-	err := copied.AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkInterfaces_Spec_Properties_IpConfigurations
-	err = actual.AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkInterfaces_Spec_Properties_IpConfigurations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations, NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations runs a test to see if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NetworkInterfaces_Spec_Properties_IpConfigurations
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing - lazily instantiated
-// by NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()
-var networkInterfaces_Spec_Properties_IpConfigurationsGenerator gopter.Gen
-
-// NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator returns a generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing.
-// We first initialize networkInterfaces_Spec_Properties_IpConfigurationsGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator() gopter.Gen {
-	if networkInterfaces_Spec_Properties_IpConfigurationsGenerator != nil {
-		return networkInterfaces_Spec_Properties_IpConfigurationsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
-	networkInterfaces_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec_Properties_IpConfigurations{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
-	AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
-	networkInterfaces_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec_Properties_IpConfigurations{}), generators)
-
-	return networkInterfaces_Spec_Properties_IpConfigurationsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Primary"] = gen.PtrOf(gen.Bool())
-	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv4, NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic, NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static))
-}
-
-// AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
-	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
-	gens["LoadBalancerInboundNatRules"] = gen.SliceOf(SubResourceGenerator())
-	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
-	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
-	gens["VirtualNetworkTaps"] = gen.SliceOf(SubResourceGenerator())
 }
 
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

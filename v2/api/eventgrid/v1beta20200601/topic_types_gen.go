@@ -28,7 +28,7 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Topics_Spec  `json:"spec,omitempty"`
+	Spec              Topic_Spec   `json:"spec,omitempty"`
 	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (topic *Topic) AssignProperties_From_Topic(source *v20200601s.Topic) error 
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Topics_Spec
-	err := spec.AssignProperties_From_Topics_Spec(&source.Spec)
+	var spec Topic_Spec
+	err := spec.AssignProperties_From_Topic_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -281,10 +281,10 @@ func (topic *Topic) AssignProperties_To_Topic(destination *v20200601s.Topic) err
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.Topics_Spec
-	err := topic.Spec.AssignProperties_To_Topics_Spec(&spec)
+	var spec v20200601s.Topic_Spec
+	err := topic.Spec.AssignProperties_To_Topic_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Topics_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -316,6 +316,208 @@ type TopicList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
 }
+
+type Topic_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Topic_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if topic == nil {
+		return nil, nil
+	}
+	result := &Topic_SpecARM{}
+
+	// Set property ‘Location’:
+	if topic.Location != nil {
+		location := *topic.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Tags’:
+	if topic.Tags != nil {
+		result.Tags = make(map[string]string, len(topic.Tags))
+		for key, value := range topic.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (topic *Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Topic_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Topic_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		topic.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	topic.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		topic.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			topic.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Topic_Spec{}
+
+// ConvertSpecFrom populates our Topic_Spec from the provided source
+func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200601s.Topic_Spec)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignProperties_From_Topic_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20200601s.Topic_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignProperties_From_Topic_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Topic_Spec
+func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200601s.Topic_Spec)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignProperties_To_Topic_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20200601s.Topic_Spec{}
+	err := topic.AssignProperties_To_Topic_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Topic_Spec populates our Topic_Spec from the provided source Topic_Spec
+func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Topic_Spec) error {
+
+	// AzureName
+	topic.AzureName = source.AzureName
+
+	// Location
+	topic.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topic.Owner = &owner
+	} else {
+		topic.Owner = nil
+	}
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Topic_Spec populates the provided destination Topic_Spec from our Topic_Spec
+func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.Topic_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = topic.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(topic.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = topic.OriginalVersion()
+
+	// Owner
+	if topic.Owner != nil {
+		owner := topic.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (topic *Topic_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (topic *Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
 
 type Topic_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -802,208 +1004,6 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v202006
 	// No error
 	return nil
 }
-
-type Topics_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Topics_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (topics *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if topics == nil {
-		return nil, nil
-	}
-	result := &Topics_SpecARM{}
-
-	// Set property ‘Location’:
-	if topics.Location != nil {
-		location := *topics.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Tags’:
-	if topics.Tags != nil {
-		result.Tags = make(map[string]string, len(topics.Tags))
-		for key, value := range topics.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (topics *Topics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topics_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (topics *Topics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topics_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topics_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	topics.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		topics.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	topics.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		topics.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			topics.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Topics_Spec{}
-
-// ConvertSpecFrom populates our Topics_Spec from the provided source
-func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.Topics_Spec)
-	if ok {
-		// Populate our instance from source
-		return topics.AssignProperties_From_Topics_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20200601s.Topics_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = topics.AssignProperties_From_Topics_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Topics_Spec
-func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.Topics_Spec)
-	if ok {
-		// Populate destination from our instance
-		return topics.AssignProperties_To_Topics_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20200601s.Topics_Spec{}
-	err := topics.AssignProperties_To_Topics_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Topics_Spec populates our Topics_Spec from the provided source Topics_Spec
-func (topics *Topics_Spec) AssignProperties_From_Topics_Spec(source *v20200601s.Topics_Spec) error {
-
-	// AzureName
-	topics.AzureName = source.AzureName
-
-	// Location
-	topics.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		topics.Owner = &owner
-	} else {
-		topics.Owner = nil
-	}
-
-	// Tags
-	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Topics_Spec populates the provided destination Topics_Spec from our Topics_Spec
-func (topics *Topics_Spec) AssignProperties_To_Topics_Spec(destination *v20200601s.Topics_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = topics.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topics.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = topics.OriginalVersion()
-
-	// Owner
-	if topics.Owner != nil {
-		owner := topics.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (topics *Topics_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (topics *Topics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 	// Id: Fully qualified identifier of the resource.

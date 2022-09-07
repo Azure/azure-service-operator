@@ -74,8 +74,90 @@ func BatchAccountGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBatchAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccount(gens map[string]gopter.Gen) {
-	gens["Spec"] = BatchAccounts_SpecGenerator()
+	gens["Spec"] = BatchAccount_SpecGenerator()
 	gens["Status"] = BatchAccount_STATUSGenerator()
+}
+
+func Test_BatchAccount_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BatchAccount_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccount_Spec, BatchAccount_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBatchAccount_Spec runs a test to see if a specific instance of BatchAccount_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccount_Spec(subject BatchAccount_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BatchAccount_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BatchAccount_Spec instances for property testing - lazily instantiated by BatchAccount_SpecGenerator()
+var batchAccount_SpecGenerator gopter.Gen
+
+// BatchAccount_SpecGenerator returns a generator of BatchAccount_Spec instances for property testing.
+// We first initialize batchAccount_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BatchAccount_SpecGenerator() gopter.Gen {
+	if batchAccount_SpecGenerator != nil {
+		return batchAccount_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccount_Spec(generators)
+	batchAccount_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccount_Spec(generators)
+	AddRelatedPropertyGeneratorsForBatchAccount_Spec(generators)
+	batchAccount_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Spec{}), generators)
+
+	return batchAccount_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBatchAccount_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBatchAccount_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AutoStorage"] = gen.PtrOf(AutoStorageBasePropertiesGenerator())
+	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
+	gens["Identity"] = gen.PtrOf(BatchAccountIdentityGenerator())
+	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReferenceGenerator())
 }
 
 func Test_BatchAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -169,88 +251,6 @@ func AddRelatedPropertyGeneratorsForBatchAccount_STATUS(gens map[string]gopter.G
 	gens["Identity"] = gen.PtrOf(BatchAccountIdentity_STATUSGenerator())
 	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReference_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-}
-
-func Test_BatchAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BatchAccounts_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccounts_Spec, BatchAccounts_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBatchAccounts_Spec runs a test to see if a specific instance of BatchAccounts_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccounts_Spec(subject BatchAccounts_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BatchAccounts_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BatchAccounts_Spec instances for property testing - lazily instantiated by BatchAccounts_SpecGenerator()
-var batchAccounts_SpecGenerator gopter.Gen
-
-// BatchAccounts_SpecGenerator returns a generator of BatchAccounts_Spec instances for property testing.
-// We first initialize batchAccounts_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BatchAccounts_SpecGenerator() gopter.Gen {
-	if batchAccounts_SpecGenerator != nil {
-		return batchAccounts_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccounts_Spec(generators)
-	batchAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccounts_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccounts_Spec(generators)
-	AddRelatedPropertyGeneratorsForBatchAccounts_Spec(generators)
-	batchAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccounts_Spec{}), generators)
-
-	return batchAccounts_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBatchAccounts_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccounts_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBatchAccounts_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBatchAccounts_Spec(gens map[string]gopter.Gen) {
-	gens["AutoStorage"] = gen.PtrOf(AutoStorageBasePropertiesGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
-	gens["Identity"] = gen.PtrOf(BatchAccountIdentityGenerator())
-	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReferenceGenerator())
 }
 
 func Test_AutoStorageBaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

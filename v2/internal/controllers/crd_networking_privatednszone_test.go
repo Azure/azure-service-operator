@@ -25,7 +25,7 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	name := tc.Namer.GenerateName("pdz") + ".com"
 	zone := &network.PrivateDnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: network.PrivateDnsZones_Spec{
+		Spec: network.PrivateDnsZone_Spec{
 			Location: to.StringPtr("global"),
 			Owner:    testcommon.AsOwner(rg),
 		},

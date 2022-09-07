@@ -28,7 +28,7 @@ import (
 type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Spec  `json:"spec,omitempty"`
+	Spec              Profile_Spec   `json:"spec,omitempty"`
 	Status            Profile_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (profile *Profile) AssignProperties_From_Profile(source *v20210601s.Profile
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_Spec
-	err := spec.AssignProperties_From_Profiles_Spec(&source.Spec)
+	var spec Profile_Spec
+	err := spec.AssignProperties_From_Profile_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Profile_Spec() to populate field Spec")
 	}
 	profile.Spec = spec
 
@@ -281,10 +281,10 @@ func (profile *Profile) AssignProperties_To_Profile(destination *v20210601s.Prof
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Profiles_Spec
-	err := profile.Spec.AssignProperties_To_Profiles_Spec(&spec)
+	var spec v20210601s.Profile_Spec
+	err := profile.Spec.AssignProperties_To_Profile_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Profile_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -321,6 +321,313 @@ type ProfileList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
+
+type Profile_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Minimum=16
+	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
+	// request fails and returns.
+	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	// Sku: Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+	// Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
+	// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+	// Standard_Akamai = The SKU name for an Akamai CDN profile.
+	// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing
+	// model.
+	// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+	// Standard_AzureFrontDoor =  The SKU name for an Azure Front Door Standard profile.
+	// Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile.
+	// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5
+	// peak bandwidth billing model.
+	// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly
+	// average peak bandwidth billing model.
+	// StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model.
+	// StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth
+	// billing model.
+	// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak
+	// bandwidth billing model.
+	Sku *Sku `json:"sku,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Profile_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &Profile_SpecARM{}
+
+	// Set property ‘Location’:
+	if profile.Location != nil {
+		location := *profile.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if profile.OriginResponseTimeoutSeconds != nil {
+		result.Properties = &ProfilePropertiesARM{}
+	}
+	if profile.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSeconds := *profile.OriginResponseTimeoutSeconds
+		result.Properties.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
+	}
+
+	// Set property ‘Sku’:
+	if profile.Sku != nil {
+		skuARM, err := (*profile.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*SkuARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if profile.Tags != nil {
+		result.Tags = make(map[string]string, len(profile.Tags))
+		for key, value := range profile.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *Profile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profile_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *Profile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profile_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	profile.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		profile.Location = &location
+	}
+
+	// Set property ‘OriginResponseTimeoutSeconds’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OriginResponseTimeoutSeconds != nil {
+			originResponseTimeoutSeconds := *typedInput.Properties.OriginResponseTimeoutSeconds
+			profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
+		}
+	}
+
+	// Set property ‘Owner’:
+	profile.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		profile.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			profile.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Profile_Spec{}
+
+// ConvertSpecFrom populates our Profile_Spec from the provided source
+func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.Profile_Spec)
+	if ok {
+		// Populate our instance from source
+		return profile.AssignProperties_From_Profile_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210601s.Profile_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = profile.AssignProperties_From_Profile_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Profile_Spec
+func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.Profile_Spec)
+	if ok {
+		// Populate destination from our instance
+		return profile.AssignProperties_To_Profile_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210601s.Profile_Spec{}
+	err := profile.AssignProperties_To_Profile_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Profile_Spec populates our Profile_Spec from the provided source Profile_Spec
+func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *v20210601s.Profile_Spec) error {
+
+	// AzureName
+	profile.AzureName = source.AzureName
+
+	// Location
+	profile.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginResponseTimeoutSeconds
+	if source.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSecond := *source.OriginResponseTimeoutSeconds
+		profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
+	} else {
+		profile.OriginResponseTimeoutSeconds = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		profile.Owner = &owner
+	} else {
+		profile.Owner = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		profile.Sku = &sku
+	} else {
+		profile.Sku = nil
+	}
+
+	// Tags
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Profile_Spec populates the provided destination Profile_Spec from our Profile_Spec
+func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *v20210601s.Profile_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = profile.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
+
+	// OriginResponseTimeoutSeconds
+	if profile.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSecond := *profile.OriginResponseTimeoutSeconds
+		destination.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
+	} else {
+		destination.OriginResponseTimeoutSeconds = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = profile.OriginalVersion()
+
+	// Owner
+	if profile.Owner != nil {
+		owner := profile.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Sku
+	if profile.Sku != nil {
+		var sku v20210601s.Sku
+		err := profile.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (profile *Profile_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (profile *Profile_Spec) SetAzureName(azureName string) { profile.AzureName = azureName }
 
 type Profile_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -685,313 +992,6 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v
 	// No error
 	return nil
 }
-
-type Profiles_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Minimum=16
-	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
-	// request fails and returns.
-	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// +kubebuilder:validation:Required
-	// Sku: Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
-	// Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
-	// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
-	// Standard_Akamai = The SKU name for an Akamai CDN profile.
-	// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing
-	// model.
-	// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
-	// Standard_AzureFrontDoor =  The SKU name for an Azure Front Door Standard profile.
-	// Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile.
-	// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5
-	// peak bandwidth billing model.
-	// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly
-	// average peak bandwidth billing model.
-	// StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model.
-	// StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth
-	// billing model.
-	// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak
-	// bandwidth billing model.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Profiles_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profiles == nil {
-		return nil, nil
-	}
-	result := &Profiles_SpecARM{}
-
-	// Set property ‘Location’:
-	if profiles.Location != nil {
-		location := *profiles.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if profiles.OriginResponseTimeoutSeconds != nil {
-		result.Properties = &ProfilePropertiesARM{}
-	}
-	if profiles.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSeconds := *profiles.OriginResponseTimeoutSeconds
-		result.Properties.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
-	}
-
-	// Set property ‘Sku’:
-	if profiles.Sku != nil {
-		skuARM, err := (*profiles.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*SkuARM)
-		result.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if profiles.Tags != nil {
-		result.Tags = make(map[string]string, len(profiles.Tags))
-		for key, value := range profiles.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profiles *Profiles_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	profiles.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		profiles.Location = &location
-	}
-
-	// Set property ‘OriginResponseTimeoutSeconds’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OriginResponseTimeoutSeconds != nil {
-			originResponseTimeoutSeconds := *typedInput.Properties.OriginResponseTimeoutSeconds
-			profiles.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
-		}
-	}
-
-	// Set property ‘Owner’:
-	profiles.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		profiles.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		profiles.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			profiles.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Profiles_Spec{}
-
-// ConvertSpecFrom populates our Profiles_Spec from the provided source
-func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Profiles_Spec)
-	if ok {
-		// Populate our instance from source
-		return profiles.AssignProperties_From_Profiles_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210601s.Profiles_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = profiles.AssignProperties_From_Profiles_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Profiles_Spec
-func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Profiles_Spec)
-	if ok {
-		// Populate destination from our instance
-		return profiles.AssignProperties_To_Profiles_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210601s.Profiles_Spec{}
-	err := profiles.AssignProperties_To_Profiles_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Profiles_Spec populates our Profiles_Spec from the provided source Profiles_Spec
-func (profiles *Profiles_Spec) AssignProperties_From_Profiles_Spec(source *v20210601s.Profiles_Spec) error {
-
-	// AzureName
-	profiles.AzureName = source.AzureName
-
-	// Location
-	profiles.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginResponseTimeoutSeconds
-	if source.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSecond := *source.OriginResponseTimeoutSeconds
-		profiles.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
-	} else {
-		profiles.OriginResponseTimeoutSeconds = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		profiles.Owner = &owner
-	} else {
-		profiles.Owner = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignProperties_From_Sku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
-		}
-		profiles.Sku = &sku
-	} else {
-		profiles.Sku = nil
-	}
-
-	// Tags
-	profiles.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Profiles_Spec populates the provided destination Profiles_Spec from our Profiles_Spec
-func (profiles *Profiles_Spec) AssignProperties_To_Profiles_Spec(destination *v20210601s.Profiles_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = profiles.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(profiles.Location)
-
-	// OriginResponseTimeoutSeconds
-	if profiles.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSecond := *profiles.OriginResponseTimeoutSeconds
-		destination.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
-	} else {
-		destination.OriginResponseTimeoutSeconds = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = profiles.OriginalVersion()
-
-	// Owner
-	if profiles.Owner != nil {
-		owner := profiles.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Sku
-	if profiles.Sku != nil {
-		var sku v20210601s.Sku
-		err := profiles.Sku.AssignProperties_To_Sku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(profiles.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (profiles *Profiles_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (profiles *Profiles_Spec) SetAzureName(azureName string) { profiles.AzureName = azureName }
 
 type ProfileProperties_STATUS_ProvisioningState string
 

@@ -160,7 +160,7 @@ func NamespaceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespace is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespace(gens map[string]gopter.Gen) {
-	gens["Spec"] = Namespaces_SpecGenerator()
+	gens["Spec"] = Namespace_SpecGenerator()
 	gens["Status"] = EHNamespace_STATUSGenerator()
 }
 
@@ -301,32 +301,32 @@ func AddRelatedPropertyGeneratorsForEHNamespace_STATUS(gens map[string]gopter.Ge
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_Namespaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespace_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Namespaces_Spec to Namespaces_Spec via AssignProperties_To_Namespaces_Spec & AssignProperties_From_Namespaces_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Spec, Namespaces_SpecGenerator()))
+		"Round trip from Namespace_Spec to Namespace_Spec via AssignProperties_To_Namespace_Spec & AssignProperties_From_Namespace_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespace_Spec, Namespace_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Spec tests if a specific instance of Namespaces_Spec can be assigned to v1beta20211101storage and back losslessly
-func RunPropertyAssignmentTestForNamespaces_Spec(subject Namespaces_Spec) string {
+// RunPropertyAssignmentTestForNamespace_Spec tests if a specific instance of Namespace_Spec can be assigned to v1beta20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespace_Spec(subject Namespace_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Spec
-	err := copied.AssignProperties_To_Namespaces_Spec(&other)
+	var other v20211101s.Namespace_Spec
+	err := copied.AssignProperties_To_Namespace_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Namespaces_Spec
-	err = actual.AssignProperties_From_Namespaces_Spec(&other)
+	var actual Namespace_Spec
+	err = actual.AssignProperties_From_Namespace_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -343,20 +343,20 @@ func RunPropertyAssignmentTestForNamespaces_Spec(subject Namespaces_Spec) string
 	return ""
 }
 
-func Test_Namespaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespace_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Spec, Namespaces_SpecGenerator()))
+		"Round trip of Namespace_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Spec, Namespace_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Spec runs a test to see if a specific instance of Namespaces_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Spec(subject Namespaces_Spec) string {
+// RunJSONSerializationTestForNamespace_Spec runs a test to see if a specific instance of Namespace_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Spec(subject Namespace_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForNamespaces_Spec(subject Namespaces_Spec) string 
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Spec
+	var actual Namespace_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -382,33 +382,33 @@ func RunJSONSerializationTestForNamespaces_Spec(subject Namespaces_Spec) string 
 	return ""
 }
 
-// Generator of Namespaces_Spec instances for property testing - lazily instantiated by Namespaces_SpecGenerator()
-var namespaces_SpecGenerator gopter.Gen
+// Generator of Namespace_Spec instances for property testing - lazily instantiated by Namespace_SpecGenerator()
+var namespace_SpecGenerator gopter.Gen
 
-// Namespaces_SpecGenerator returns a generator of Namespaces_Spec instances for property testing.
-// We first initialize namespaces_SpecGenerator with a simplified generator based on the
+// Namespace_SpecGenerator returns a generator of Namespace_Spec instances for property testing.
+// We first initialize namespace_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_SpecGenerator() gopter.Gen {
-	if namespaces_SpecGenerator != nil {
-		return namespaces_SpecGenerator
+func Namespace_SpecGenerator() gopter.Gen {
+	if namespace_SpecGenerator != nil {
+		return namespace_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Spec(generators)
-	namespaces_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Spec(generators)
+	namespace_SpecGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Spec(generators)
-	namespaces_SpecGenerator = gen.Struct(reflect.TypeOf(Namespaces_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespace_Spec(generators)
+	namespace_SpecGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec{}), generators)
 
-	return namespaces_SpecGenerator
+	return namespace_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespace_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespace_Spec(gens map[string]gopter.Gen) {
 	gens["AlternateName"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
@@ -421,11 +421,11 @@ func AddIndependentPropertyGeneratorsForNamespaces_Spec(gens map[string]gopter.G
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespace_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
@@ -883,32 +883,32 @@ func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) 
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
 }
 
-func Test_Namespaces_Spec_Properties_PrivateEndpointConnections_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespace_Spec_Properties_PrivateEndpointConnections_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Namespaces_Spec_Properties_PrivateEndpointConnections to Namespaces_Spec_Properties_PrivateEndpointConnections via AssignProperties_To_Namespaces_Spec_Properties_PrivateEndpointConnections & AssignProperties_From_Namespaces_Spec_Properties_PrivateEndpointConnections returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Spec_Properties_PrivateEndpointConnections, Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator()))
+		"Round trip from Namespace_Spec_Properties_PrivateEndpointConnections to Namespace_Spec_Properties_PrivateEndpointConnections via AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections & AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespace_Spec_Properties_PrivateEndpointConnections, Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Spec_Properties_PrivateEndpointConnections tests if a specific instance of Namespaces_Spec_Properties_PrivateEndpointConnections can be assigned to v1beta20211101storage and back losslessly
-func RunPropertyAssignmentTestForNamespaces_Spec_Properties_PrivateEndpointConnections(subject Namespaces_Spec_Properties_PrivateEndpointConnections) string {
+// RunPropertyAssignmentTestForNamespace_Spec_Properties_PrivateEndpointConnections tests if a specific instance of Namespace_Spec_Properties_PrivateEndpointConnections can be assigned to v1beta20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespace_Spec_Properties_PrivateEndpointConnections(subject Namespace_Spec_Properties_PrivateEndpointConnections) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Spec_Properties_PrivateEndpointConnections
-	err := copied.AssignProperties_To_Namespaces_Spec_Properties_PrivateEndpointConnections(&other)
+	var other v20211101s.Namespace_Spec_Properties_PrivateEndpointConnections
+	err := copied.AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Namespaces_Spec_Properties_PrivateEndpointConnections
-	err = actual.AssignProperties_From_Namespaces_Spec_Properties_PrivateEndpointConnections(&other)
+	var actual Namespace_Spec_Properties_PrivateEndpointConnections
+	err = actual.AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -925,20 +925,20 @@ func RunPropertyAssignmentTestForNamespaces_Spec_Properties_PrivateEndpointConne
 	return ""
 }
 
-func Test_Namespaces_Spec_Properties_PrivateEndpointConnections_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespace_Spec_Properties_PrivateEndpointConnections_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Spec_Properties_PrivateEndpointConnections via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Spec_Properties_PrivateEndpointConnections, Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator()))
+		"Round trip of Namespace_Spec_Properties_PrivateEndpointConnections via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnections, Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Spec_Properties_PrivateEndpointConnections runs a test to see if a specific instance of Namespaces_Spec_Properties_PrivateEndpointConnections round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Spec_Properties_PrivateEndpointConnections(subject Namespaces_Spec_Properties_PrivateEndpointConnections) string {
+// RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnections runs a test to see if a specific instance of Namespace_Spec_Properties_PrivateEndpointConnections round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnections(subject Namespace_Spec_Properties_PrivateEndpointConnections) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -946,7 +946,7 @@ func RunJSONSerializationTestForNamespaces_Spec_Properties_PrivateEndpointConnec
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Spec_Properties_PrivateEndpointConnections
+	var actual Namespace_Spec_Properties_PrivateEndpointConnections
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -964,25 +964,25 @@ func RunJSONSerializationTestForNamespaces_Spec_Properties_PrivateEndpointConnec
 	return ""
 }
 
-// Generator of Namespaces_Spec_Properties_PrivateEndpointConnections instances for property testing - lazily
-// instantiated by Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator()
-var namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator gopter.Gen
+// Generator of Namespace_Spec_Properties_PrivateEndpointConnections instances for property testing - lazily
+// instantiated by Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator()
+var namespace_Spec_Properties_PrivateEndpointConnectionsGenerator gopter.Gen
 
-// Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator returns a generator of Namespaces_Spec_Properties_PrivateEndpointConnections instances for property testing.
-func Namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator() gopter.Gen {
-	if namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator != nil {
-		return namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator
+// Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator returns a generator of Namespace_Spec_Properties_PrivateEndpointConnections instances for property testing.
+func Namespace_Spec_Properties_PrivateEndpointConnectionsGenerator() gopter.Gen {
+	if namespace_Spec_Properties_PrivateEndpointConnectionsGenerator != nil {
+		return namespace_Spec_Properties_PrivateEndpointConnectionsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForNamespaces_Spec_Properties_PrivateEndpointConnections(generators)
-	namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator = gen.Struct(reflect.TypeOf(Namespaces_Spec_Properties_PrivateEndpointConnections{}), generators)
+	AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnections(generators)
+	namespace_Spec_Properties_PrivateEndpointConnectionsGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_Properties_PrivateEndpointConnections{}), generators)
 
-	return namespaces_Spec_Properties_PrivateEndpointConnectionsGenerator
+	return namespace_Spec_Properties_PrivateEndpointConnectionsGenerator
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_Spec_Properties_PrivateEndpointConnections is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Spec_Properties_PrivateEndpointConnections(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnections is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnections(gens map[string]gopter.Gen) {
 	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpointGenerator())
 }
 

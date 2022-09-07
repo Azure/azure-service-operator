@@ -25,7 +25,7 @@ import (
 func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetwork {
 	return &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -38,7 +38,7 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnets_Spec{
+		Spec: network.VirtualNetworks_Subnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
@@ -82,13 +82,13 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 
 	return &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
-		Spec: network.LoadBalancers_Spec{
+		Spec: network.LoadBalancer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
+			FrontendIPConfigurations: []network.LoadBalancer_Spec_Properties_FrontendIPConfigurations{
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
@@ -96,7 +96,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 					},
 				},
 			},
-			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
+			InboundNatPools: []network.LoadBalancer_Spec_Properties_InboundNatPools{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
@@ -133,7 +133,7 @@ func newVMSS20201201(
 
 	return &compute2020.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute2020.VirtualMachineScaleSets_Spec{
+		Spec: compute2020.VirtualMachineScaleSet_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2020.Sku{
@@ -145,7 +145,7 @@ func newVMSS20201201(
 			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile{
 				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2020.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -154,7 +154,7 @@ func newVMSS20201201(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2020.LinuxConfiguration{
@@ -169,12 +169,12 @@ func newVMSS20201201(
 						},
 					},
 				},
-				NetworkProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile{
+					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2020.ApiEntityReference{

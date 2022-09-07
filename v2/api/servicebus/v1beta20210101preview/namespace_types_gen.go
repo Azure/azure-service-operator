@@ -28,7 +28,7 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Spec    `json:"spec,omitempty"`
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
 	Status            SBNamespace_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (namespace *Namespace) AssignProperties_From_Namespace(source *v20210101ps.
 	namespace.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Spec
-	err := spec.AssignProperties_From_Namespaces_Spec(&source.Spec)
+	var spec Namespace_Spec
+	err := spec.AssignProperties_From_Namespace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespace_Spec() to populate field Spec")
 	}
 	namespace.Spec = spec
 
@@ -281,10 +281,10 @@ func (namespace *Namespace) AssignProperties_To_Namespace(destination *v20210101
 	destination.ObjectMeta = *namespace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210101ps.Namespaces_Spec
-	err := namespace.Spec.AssignProperties_To_Namespaces_Spec(&spec)
+	var spec v20210101ps.Namespace_Spec
+	err := namespace.Spec.AssignProperties_To_Namespace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -322,7 +322,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-01-01-preview")
 
-type Namespaces_Spec struct {
+type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -352,18 +352,18 @@ type Namespaces_Spec struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Namespaces_Spec{}
+var _ genruntime.ARMTransformer = &Namespace_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if namespaces == nil {
+func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if namespace == nil {
 		return nil, nil
 	}
-	result := &Namespaces_SpecARM{}
+	result := &Namespace_SpecARM{}
 
 	// Set property ‘Identity’:
-	if namespaces.Identity != nil {
-		identityARM, err := (*namespaces.Identity).ConvertToARM(resolved)
+	if namespace.Identity != nil {
+		identityARM, err := (*namespace.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -372,8 +372,8 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Location’:
-	if namespaces.Location != nil {
-		location := *namespaces.Location
+	if namespace.Location != nil {
+		location := *namespace.Location
 		result.Location = &location
 	}
 
@@ -381,25 +381,25 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if namespaces.Encryption != nil || namespaces.ZoneRedundant != nil {
-		result.Properties = &Namespaces_Spec_PropertiesARM{}
+	if namespace.Encryption != nil || namespace.ZoneRedundant != nil {
+		result.Properties = &Namespace_Spec_PropertiesARM{}
 	}
-	if namespaces.Encryption != nil {
-		encryptionARM, err := (*namespaces.Encryption).ConvertToARM(resolved)
+	if namespace.Encryption != nil {
+		encryptionARM, err := (*namespace.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
-	if namespaces.ZoneRedundant != nil {
-		zoneRedundant := *namespaces.ZoneRedundant
+	if namespace.ZoneRedundant != nil {
+		zoneRedundant := *namespace.ZoneRedundant
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
 	// Set property ‘Sku’:
-	if namespaces.Sku != nil {
-		skuARM, err := (*namespaces.Sku).ConvertToARM(resolved)
+	if namespace.Sku != nil {
+		skuARM, err := (*namespace.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -408,9 +408,9 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property ‘Tags’:
-	if namespaces.Tags != nil {
-		result.Tags = make(map[string]string, len(namespaces.Tags))
-		for key, value := range namespaces.Tags {
+	if namespace.Tags != nil {
+		result.Tags = make(map[string]string, len(namespace.Tags))
+		for key, value := range namespace.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -418,19 +418,19 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespaces *Namespaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_SpecARM{}
+func (namespace *Namespace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespace_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_SpecARM)
+func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespace_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespace_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	namespaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	namespace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
@@ -442,7 +442,7 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			encryption := encryption1
-			namespaces.Encryption = &encryption
+			namespace.Encryption = &encryption
 		}
 	}
 
@@ -454,17 +454,17 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		identity := identity1
-		namespaces.Identity = &identity
+		namespace.Identity = &identity
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		namespaces.Location = &location
+		namespace.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	namespaces.Owner = &genruntime.KnownResourceReference{
+	namespace.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -476,14 +476,14 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		sku := sku1
-		namespaces.Sku = &sku
+		namespace.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		namespaces.Tags = make(map[string]string, len(typedInput.Tags))
+		namespace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			namespaces.Tags[key] = value
+			namespace.Tags[key] = value
 		}
 	}
 
@@ -492,7 +492,7 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
 			zoneRedundant := *typedInput.Properties.ZoneRedundant
-			namespaces.ZoneRedundant = &zoneRedundant
+			namespace.ZoneRedundant = &zoneRedundant
 		}
 	}
 
@@ -500,25 +500,25 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Spec from the provided source
-func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210101ps.Namespaces_Spec)
+// ConvertSpecFrom populates our Namespace_Spec from the provided source
+func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210101ps.Namespace_Spec)
 	if ok {
 		// Populate our instance from source
-		return namespaces.AssignProperties_From_Namespaces_Spec(src)
+		return namespace.AssignProperties_From_Namespace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.Namespaces_Spec{}
+	src = &v20210101ps.Namespace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = namespaces.AssignProperties_From_Namespaces_Spec(src)
+	err = namespace.AssignProperties_From_Namespace_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -526,17 +526,17 @@ func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210101ps.Namespaces_Spec)
+// ConvertSpecTo populates the provided destination from our Namespace_Spec
+func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210101ps.Namespace_Spec)
 	if ok {
 		// Populate destination from our instance
-		return namespaces.AssignProperties_To_Namespaces_Spec(dst)
+		return namespace.AssignProperties_To_Namespace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.Namespaces_Spec{}
-	err := namespaces.AssignProperties_To_Namespaces_Spec(dst)
+	dst = &v20210101ps.Namespace_Spec{}
+	err := namespace.AssignProperties_To_Namespace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -550,11 +550,11 @@ func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Spec populates our Namespaces_Spec from the provided source Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignProperties_From_Namespaces_Spec(source *v20210101ps.Namespaces_Spec) error {
+// AssignProperties_From_Namespace_Spec populates our Namespace_Spec from the provided source Namespace_Spec
+func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v20210101ps.Namespace_Spec) error {
 
 	// AzureName
-	namespaces.AzureName = source.AzureName
+	namespace.AzureName = source.AzureName
 
 	// Encryption
 	if source.Encryption != nil {
@@ -563,9 +563,9 @@ func (namespaces *Namespaces_Spec) AssignProperties_From_Namespaces_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
 		}
-		namespaces.Encryption = &encryption
+		namespace.Encryption = &encryption
 	} else {
-		namespaces.Encryption = nil
+		namespace.Encryption = nil
 	}
 
 	// Identity
@@ -575,20 +575,20 @@ func (namespaces *Namespaces_Spec) AssignProperties_From_Namespaces_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
-		namespaces.Identity = &identity
+		namespace.Identity = &identity
 	} else {
-		namespaces.Identity = nil
+		namespace.Identity = nil
 	}
 
 	// Location
-	namespaces.Location = genruntime.ClonePointerToString(source.Location)
+	namespace.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		namespaces.Owner = &owner
+		namespace.Owner = &owner
 	} else {
-		namespaces.Owner = nil
+		namespace.Owner = nil
 	}
 
 	// Sku
@@ -598,38 +598,38 @@ func (namespaces *Namespaces_Spec) AssignProperties_From_Namespaces_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SBSku() to populate field Sku")
 		}
-		namespaces.Sku = &sku
+		namespace.Sku = &sku
 	} else {
-		namespaces.Sku = nil
+		namespace.Sku = nil
 	}
 
 	// Tags
-	namespaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
 		zoneRedundant := *source.ZoneRedundant
-		namespaces.ZoneRedundant = &zoneRedundant
+		namespace.ZoneRedundant = &zoneRedundant
 	} else {
-		namespaces.ZoneRedundant = nil
+		namespace.ZoneRedundant = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Spec populates the provided destination Namespaces_Spec from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destination *v20210101ps.Namespaces_Spec) error {
+// AssignProperties_To_Namespace_Spec populates the provided destination Namespace_Spec from our Namespace_Spec
+func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination *v20210101ps.Namespace_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = namespaces.AzureName
+	destination.AzureName = namespace.AzureName
 
 	// Encryption
-	if namespaces.Encryption != nil {
+	if namespace.Encryption != nil {
 		var encryption v20210101ps.Encryption
-		err := namespaces.Encryption.AssignProperties_To_Encryption(&encryption)
+		err := namespace.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
 		}
@@ -639,9 +639,9 @@ func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destinati
 	}
 
 	// Identity
-	if namespaces.Identity != nil {
+	if namespace.Identity != nil {
 		var identity v20210101ps.Identity
-		err := namespaces.Identity.AssignProperties_To_Identity(&identity)
+		err := namespace.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
@@ -651,23 +651,23 @@ func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destinati
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(namespaces.Location)
+	destination.Location = genruntime.ClonePointerToString(namespace.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = namespaces.OriginalVersion()
+	destination.OriginalVersion = namespace.OriginalVersion()
 
 	// Owner
-	if namespaces.Owner != nil {
-		owner := namespaces.Owner.Copy()
+	if namespace.Owner != nil {
+		owner := namespace.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Sku
-	if namespaces.Sku != nil {
+	if namespace.Sku != nil {
 		var sku v20210101ps.SBSku
-		err := namespaces.Sku.AssignProperties_To_SBSku(&sku)
+		err := namespace.Sku.AssignProperties_To_SBSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SBSku() to populate field Sku")
 		}
@@ -677,11 +677,11 @@ func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destinati
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(namespaces.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(namespace.Tags)
 
 	// ZoneRedundant
-	if namespaces.ZoneRedundant != nil {
-		zoneRedundant := *namespaces.ZoneRedundant
+	if namespace.ZoneRedundant != nil {
+		zoneRedundant := *namespace.ZoneRedundant
 		destination.ZoneRedundant = &zoneRedundant
 	} else {
 		destination.ZoneRedundant = nil
@@ -699,12 +699,12 @@ func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destinati
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (namespaces *Namespaces_Spec) OriginalVersion() string {
+func (namespace *Namespace_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (namespaces *Namespaces_Spec) SetAzureName(azureName string) { namespaces.AzureName = azureName }
+func (namespace *Namespace_Spec) SetAzureName(azureName string) { namespace.AzureName = azureName }
 
 type SBNamespace_STATUS struct {
 	// Conditions: The observed state of the resource
