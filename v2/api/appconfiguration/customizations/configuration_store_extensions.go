@@ -152,11 +152,11 @@ func secretsToWrite(obj *storage.ConfigurationStore, keys map[string]armappconfi
 		collector.AddSecretValue(operatorSpecSecrets.SecondaryKey, *secondary.Value)
 	}
 
-	SecondaryReadOnly, ok := keys["Secondary Read Only"]
+	secondaryReadOnly, ok := keys["Secondary Read Only"]
 	if ok {
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *SecondaryReadOnly.ConnectionString)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *SecondaryReadOnly.ID)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKey, *SecondaryReadOnly.Value)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *secondaryReadOnly.ConnectionString)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *secondaryReadOnly.ID)
+		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKey, *secondaryReadOnly.Value)
 	}
 
 	return collector.Secrets(), nil
