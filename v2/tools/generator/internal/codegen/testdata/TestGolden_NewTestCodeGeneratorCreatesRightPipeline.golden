@@ -16,6 +16,7 @@ removeStatusPropertyValidation                       Remove validation from all 
 transformValidatedFloats                             Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
 determineResourceOwnership                           Determine ARM resource relationships
+removeAliases                                        Remove type aliases
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
