@@ -19,7 +19,7 @@ func Test_Multitenant_ResourceCanBeCreated(t *testing.T) {
 
 	// The tenant operator has been set up to watch only two
 	// namespaces: t1-items and t1-more. Set the test context to
-	// create items in the items namespace.
+	// create items in the item's namespace.
 	tc.Namespace = "t1-items"
 	rg := tc.CreateTestResourceGroupAndWait()
 

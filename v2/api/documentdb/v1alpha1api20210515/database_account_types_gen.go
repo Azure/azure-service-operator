@@ -28,8 +28,13 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccount_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccount_Spec             `json:"spec,omitempty"`
+	Status            DatabaseAccountGetResults_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -363,6 +368,7 @@ type DatabaseAccount_Spec struct {
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
 
+<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
@@ -392,6 +398,40 @@ type DatabaseAccount_Spec struct {
 	Locations                   []Location        `json:"locations,omitempty"`
 	NetworkAclBypass            *NetworkAclBypass `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds []string          `json:"networkAclBypassResourceIds,omitempty"`
+=======
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName         string                                                `json:"azureName,omitempty"`
+	BackupPolicy      *BackupPolicy                                         `json:"backupPolicy,omitempty"`
+	Capabilities      []Capability                                          `json:"capabilities,omitempty"`
+	ConnectorOffer    *DatabaseAccountCreateUpdateProperties_ConnectorOffer `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy *ConsistencyPolicy                                    `json:"consistencyPolicy,omitempty"`
+	Cors              []CorsPolicy                                          `json:"cors,omitempty"`
+
+	// +kubebuilder:validation:Required
+	DatabaseAccountOfferType           *DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                         `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                           `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                                                           `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                           `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                           `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                           `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                           `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                           *ManagedServiceIdentity                                         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange                                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                           `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                         `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *DatabaseAccount_Spec_Kind                                      `json:"kind,omitempty"`
+	Location                           *string                                                         `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Locations                   []Location                                              `json:"locations,omitempty"`
+	NetworkAclBypass            *DatabaseAccountCreateUpdateProperties_NetworkAclBypass `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds []string                                                `json:"networkAclBypassResourceIds,omitempty"`
+>>>>>>> main
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -401,10 +441,17 @@ type DatabaseAccount_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
+<<<<<<< HEAD
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *PublicNetworkAccess               `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
+=======
+	Owner               *genruntime.KnownResourceReference                         `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PublicNetworkAccess *DatabaseAccountCreateUpdateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                                          `json:"tags,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule                                       `json:"virtualNetworkRules,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccount_Spec{}
@@ -416,9 +463,12 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &DatabaseAccount_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘Identity’:
 	if account.Identity != nil {
 		identityARM, err := (*account.Identity).ConvertToARM(resolved)
@@ -1018,7 +1068,11 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
+<<<<<<< HEAD
 		connectorOffer := ConnectorOffer(*source.ConnectorOffer)
+=======
+		connectorOffer := DatabaseAccountCreateUpdateProperties_ConnectorOffer(*source.ConnectorOffer)
+>>>>>>> main
 		account.ConnectorOffer = &connectorOffer
 	} else {
 		account.ConnectorOffer = nil
@@ -1056,7 +1110,11 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
+<<<<<<< HEAD
 		databaseAccountOfferType := DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+=======
+		databaseAccountOfferType := DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+>>>>>>> main
 		account.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		account.DatabaseAccountOfferType = nil
@@ -1185,7 +1243,11 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
+<<<<<<< HEAD
 		networkAclBypass := NetworkAclBypass(*source.NetworkAclBypass)
+=======
+		networkAclBypass := DatabaseAccountCreateUpdateProperties_NetworkAclBypass(*source.NetworkAclBypass)
+>>>>>>> main
 		account.NetworkAclBypass = &networkAclBypass
 	} else {
 		account.NetworkAclBypass = nil
@@ -1216,7 +1278,11 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
+<<<<<<< HEAD
 		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+=======
+		publicNetworkAccess := DatabaseAccountCreateUpdateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+>>>>>>> main
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -1558,14 +1624,20 @@ func (account *DatabaseAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *DatabaseAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
+<<<<<<< HEAD
 // Deprecated version of DatabaseAccount_STATUS. Use v1beta20210515.DatabaseAccount_STATUS instead
 type DatabaseAccount_STATUS struct {
+=======
+// Deprecated version of DatabaseAccountGetResults_STATUS. Use v1beta20210515.DatabaseAccountGetResults_STATUS instead
+type DatabaseAccountGetResults_STATUS struct {
+>>>>>>> main
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties_STATUS                  `json:"apiProperties,omitempty"`
 	BackupPolicy                   *BackupPolicy_STATUS                   `json:"backupPolicy,omitempty"`
 	Capabilities                   []Capability_STATUS                    `json:"capabilities,omitempty"`
 
 	// Conditions: The observed state of the resource
+<<<<<<< HEAD
 	Conditions                         []conditions.Condition             `json:"conditions,omitempty"`
 	ConnectorOffer                     *ConnectorOffer_STATUS             `json:"connectorOffer,omitempty"`
 	ConsistencyPolicy                  *ConsistencyPolicy_STATUS          `json:"consistencyPolicy,omitempty"`
@@ -1613,13 +1685,66 @@ func (account *DatabaseAccount_STATUS) ConvertStatusFrom(source genruntime.Conve
 
 	// Convert to an intermediate form
 	src = &alpha20210515s.DatabaseAccount_STATUS{}
+=======
+	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
+	ConnectorOffer                     *ConnectorOffer_STATUS                                 `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUS                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUS                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountOfferType_STATUS                       `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                  `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                  `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                  `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                  `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                  `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUS                                `json:"failoverPolicies,omitempty"`
+	Id                                 *string                                                `json:"id,omitempty"`
+	Identity                           *ManagedServiceIdentity_STATUS                         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUS                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *DatabaseAccountGetResults_STATUS_Kind                 `json:"kind,omitempty"`
+	Location                           *string                                                `json:"location,omitempty"`
+	Locations                          []Location_STATUS                                      `json:"locations,omitempty"`
+	Name                               *string                                                `json:"name,omitempty"`
+	NetworkAclBypass                   *NetworkAclBypass_STATUS                               `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *PublicNetworkAccess_STATUS                            `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUS                                      `json:"readLocations,omitempty"`
+	Tags                               map[string]string                                      `json:"tags,omitempty"`
+	Type                               *string                                                `json:"type,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUS                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUS                                      `json:"writeLocations,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountGetResults_STATUS from the provided source
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccountGetResults_STATUS)
+	if ok {
+		// Populate our instance from source
+		return results.AssignProperties_From_DatabaseAccountGetResults_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210515s.DatabaseAccountGetResults_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = account.AssignProperties_From_DatabaseAccount_STATUS(src)
+=======
+	err = results.AssignProperties_From_DatabaseAccountGetResults_STATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1627,6 +1752,7 @@ func (account *DatabaseAccount_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our DatabaseAccount_STATUS
 func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20210515s.DatabaseAccount_STATUS)
@@ -1638,6 +1764,19 @@ func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.Co
 	// Convert to an intermediate form
 	dst = &alpha20210515s.DatabaseAccount_STATUS{}
 	err := account.AssignProperties_To_DatabaseAccount_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_STATUS
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccountGetResults_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return results.AssignProperties_To_DatabaseAccountGetResults_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210515s.DatabaseAccountGetResults_STATUS{}
+	err := results.AssignProperties_To_DatabaseAccountGetResults_STATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1651,6 +1790,7 @@ func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &DatabaseAccount_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -1663,6 +1803,20 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	typedInput, ok := armInput.(DatabaseAccount_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccount_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &DatabaseAccountGetResults_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (results *DatabaseAccountGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountGetResults_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (results *DatabaseAccountGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountGetResults_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountGetResults_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘AnalyticalStorageConfiguration’:
@@ -1675,7 +1829,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 				return err
 			}
 			analyticalStorageConfiguration := analyticalStorageConfiguration1
+<<<<<<< HEAD
 			account.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+=======
+			results.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+>>>>>>> main
 		}
 	}
 
@@ -1689,7 +1847,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 				return err
 			}
 			apiProperties := apiProperties1
+<<<<<<< HEAD
 			account.ApiProperties = &apiProperties
+=======
+			results.ApiProperties = &apiProperties
+>>>>>>> main
 		}
 	}
 
@@ -1703,7 +1865,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 				return err
 			}
 			backupPolicy := backupPolicy1
+<<<<<<< HEAD
 			account.BackupPolicy = &backupPolicy
+=======
+			results.BackupPolicy = &backupPolicy
+>>>>>>> main
 		}
 	}
 
@@ -1716,7 +1882,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.Capabilities = append(account.Capabilities, item1)
+=======
+			results.Capabilities = append(results.Capabilities, item1)
+>>>>>>> main
 		}
 	}
 
@@ -1727,7 +1897,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectorOffer != nil {
 			connectorOffer := *typedInput.Properties.ConnectorOffer
+<<<<<<< HEAD
 			account.ConnectorOffer = &connectorOffer
+=======
+			results.ConnectorOffer = &connectorOffer
+>>>>>>> main
 		}
 	}
 
@@ -1741,7 +1915,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 				return err
 			}
 			consistencyPolicy := consistencyPolicy1
+<<<<<<< HEAD
 			account.ConsistencyPolicy = &consistencyPolicy
+=======
+			results.ConsistencyPolicy = &consistencyPolicy
+>>>>>>> main
 		}
 	}
 
@@ -1754,7 +1932,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.Cors = append(account.Cors, item1)
+=======
+			results.Cors = append(results.Cors, item1)
+>>>>>>> main
 		}
 	}
 
@@ -1763,7 +1945,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DatabaseAccountOfferType != nil {
 			databaseAccountOfferType := *typedInput.Properties.DatabaseAccountOfferType
+<<<<<<< HEAD
 			account.DatabaseAccountOfferType = &databaseAccountOfferType
+=======
+			results.DatabaseAccountOfferType = &databaseAccountOfferType
+>>>>>>> main
 		}
 	}
 
@@ -1772,7 +1958,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultIdentity != nil {
 			defaultIdentity := *typedInput.Properties.DefaultIdentity
+<<<<<<< HEAD
 			account.DefaultIdentity = &defaultIdentity
+=======
+			results.DefaultIdentity = &defaultIdentity
+>>>>>>> main
 		}
 	}
 
@@ -1781,7 +1971,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableKeyBasedMetadataWriteAccess != nil {
 			disableKeyBasedMetadataWriteAccess := *typedInput.Properties.DisableKeyBasedMetadataWriteAccess
+<<<<<<< HEAD
 			account.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+=======
+			results.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+>>>>>>> main
 		}
 	}
 
@@ -1790,7 +1984,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DocumentEndpoint != nil {
 			documentEndpoint := *typedInput.Properties.DocumentEndpoint
+<<<<<<< HEAD
 			account.DocumentEndpoint = &documentEndpoint
+=======
+			results.DocumentEndpoint = &documentEndpoint
+>>>>>>> main
 		}
 	}
 
@@ -1799,7 +1997,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAnalyticalStorage != nil {
 			enableAnalyticalStorage := *typedInput.Properties.EnableAnalyticalStorage
+<<<<<<< HEAD
 			account.EnableAnalyticalStorage = &enableAnalyticalStorage
+=======
+			results.EnableAnalyticalStorage = &enableAnalyticalStorage
+>>>>>>> main
 		}
 	}
 
@@ -1808,7 +2010,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAutomaticFailover != nil {
 			enableAutomaticFailover := *typedInput.Properties.EnableAutomaticFailover
+<<<<<<< HEAD
 			account.EnableAutomaticFailover = &enableAutomaticFailover
+=======
+			results.EnableAutomaticFailover = &enableAutomaticFailover
+>>>>>>> main
 		}
 	}
 
@@ -1817,7 +2023,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableCassandraConnector != nil {
 			enableCassandraConnector := *typedInput.Properties.EnableCassandraConnector
+<<<<<<< HEAD
 			account.EnableCassandraConnector = &enableCassandraConnector
+=======
+			results.EnableCassandraConnector = &enableCassandraConnector
+>>>>>>> main
 		}
 	}
 
@@ -1826,7 +2036,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFreeTier != nil {
 			enableFreeTier := *typedInput.Properties.EnableFreeTier
+<<<<<<< HEAD
 			account.EnableFreeTier = &enableFreeTier
+=======
+			results.EnableFreeTier = &enableFreeTier
+>>>>>>> main
 		}
 	}
 
@@ -1835,7 +2049,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableMultipleWriteLocations != nil {
 			enableMultipleWriteLocations := *typedInput.Properties.EnableMultipleWriteLocations
+<<<<<<< HEAD
 			account.EnableMultipleWriteLocations = &enableMultipleWriteLocations
+=======
+			results.EnableMultipleWriteLocations = &enableMultipleWriteLocations
+>>>>>>> main
 		}
 	}
 
@@ -1848,14 +2066,22 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.FailoverPolicies = append(account.FailoverPolicies, item1)
+=======
+			results.FailoverPolicies = append(results.FailoverPolicies, item1)
+>>>>>>> main
 		}
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
+<<<<<<< HEAD
 		account.Id = &id
+=======
+		results.Id = &id
+>>>>>>> main
 	}
 
 	// Set property ‘Identity’:
@@ -1866,7 +2092,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			return err
 		}
 		identity := identity1
+<<<<<<< HEAD
 		account.Identity = &identity
+=======
+		results.Identity = &identity
+>>>>>>> main
 	}
 
 	// Set property ‘IpRules’:
@@ -1878,7 +2108,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.IpRules = append(account.IpRules, item1)
+=======
+			results.IpRules = append(results.IpRules, item1)
+>>>>>>> main
 		}
 	}
 
@@ -1887,7 +2121,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsVirtualNetworkFilterEnabled != nil {
 			isVirtualNetworkFilterEnabled := *typedInput.Properties.IsVirtualNetworkFilterEnabled
+<<<<<<< HEAD
 			account.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+=======
+			results.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+>>>>>>> main
 		}
 	}
 
@@ -1896,20 +2134,32 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyVaultKeyUri != nil {
 			keyVaultKeyUri := *typedInput.Properties.KeyVaultKeyUri
+<<<<<<< HEAD
 			account.KeyVaultKeyUri = &keyVaultKeyUri
+=======
+			results.KeyVaultKeyUri = &keyVaultKeyUri
+>>>>>>> main
 		}
 	}
 
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
+<<<<<<< HEAD
 		account.Kind = &kind
+=======
+		results.Kind = &kind
+>>>>>>> main
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
+<<<<<<< HEAD
 		account.Location = &location
+=======
+		results.Location = &location
+>>>>>>> main
 	}
 
 	// Set property ‘Locations’:
@@ -1921,14 +2171,22 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.Locations = append(account.Locations, item1)
+=======
+			results.Locations = append(results.Locations, item1)
+>>>>>>> main
 		}
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
+<<<<<<< HEAD
 		account.Name = &name
+=======
+		results.Name = &name
+>>>>>>> main
 	}
 
 	// Set property ‘NetworkAclBypass’:
@@ -1936,7 +2194,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAclBypass != nil {
 			networkAclBypass := *typedInput.Properties.NetworkAclBypass
+<<<<<<< HEAD
 			account.NetworkAclBypass = &networkAclBypass
+=======
+			results.NetworkAclBypass = &networkAclBypass
+>>>>>>> main
 		}
 	}
 
@@ -1944,7 +2206,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NetworkAclBypassResourceIds {
+<<<<<<< HEAD
 			account.NetworkAclBypassResourceIds = append(account.NetworkAclBypassResourceIds, item)
+=======
+			results.NetworkAclBypassResourceIds = append(results.NetworkAclBypassResourceIds, item)
+>>>>>>> main
 		}
 	}
 
@@ -1952,12 +2218,20 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+<<<<<<< HEAD
 			var item1 PrivateEndpointConnection_STATUS
+=======
+			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
+>>>>>>> main
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.PrivateEndpointConnections = append(account.PrivateEndpointConnections, item1)
+=======
+			results.PrivateEndpointConnections = append(results.PrivateEndpointConnections, item1)
+>>>>>>> main
 		}
 	}
 
@@ -1966,7 +2240,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
 			provisioningState := *typedInput.Properties.ProvisioningState
+<<<<<<< HEAD
 			account.ProvisioningState = &provisioningState
+=======
+			results.ProvisioningState = &provisioningState
+>>>>>>> main
 		}
 	}
 
@@ -1975,7 +2253,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+<<<<<<< HEAD
 			account.PublicNetworkAccess = &publicNetworkAccess
+=======
+			results.PublicNetworkAccess = &publicNetworkAccess
+>>>>>>> main
 		}
 	}
 
@@ -1988,22 +2270,36 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.ReadLocations = append(account.ReadLocations, item1)
+=======
+			results.ReadLocations = append(results.ReadLocations, item1)
+>>>>>>> main
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
+<<<<<<< HEAD
 		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
+=======
+		results.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			results.Tags[key] = value
+>>>>>>> main
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
+<<<<<<< HEAD
 		account.Type = &typeVar
+=======
+		results.Type = &typeVar
+>>>>>>> main
 	}
 
 	// Set property ‘VirtualNetworkRules’:
@@ -2015,7 +2311,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.VirtualNetworkRules = append(account.VirtualNetworkRules, item1)
+=======
+			results.VirtualNetworkRules = append(results.VirtualNetworkRules, item1)
+>>>>>>> main
 		}
 	}
 
@@ -2028,7 +2328,11 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 			if err != nil {
 				return err
 			}
+<<<<<<< HEAD
 			account.WriteLocations = append(account.WriteLocations, item1)
+=======
+			results.WriteLocations = append(results.WriteLocations, item1)
+>>>>>>> main
 		}
 	}
 
@@ -2036,8 +2340,13 @@ func (account *DatabaseAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_From_DatabaseAccount_STATUS populates our DatabaseAccount_STATUS from the provided source DatabaseAccount_STATUS
 func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STATUS(source *alpha20210515s.DatabaseAccount_STATUS) error {
+=======
+// AssignProperties_From_DatabaseAccountGetResults_STATUS populates our DatabaseAccountGetResults_STATUS from the provided source DatabaseAccountGetResults_STATUS
+func (results *DatabaseAccountGetResults_STATUS) AssignProperties_From_DatabaseAccountGetResults_STATUS(source *alpha20210515s.DatabaseAccountGetResults_STATUS) error {
+>>>>>>> main
 
 	// AnalyticalStorageConfiguration
 	if source.AnalyticalStorageConfiguration != nil {
@@ -2046,9 +2355,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_AnalyticalStorageConfiguration_STATUS() to populate field AnalyticalStorageConfiguration")
 		}
+<<<<<<< HEAD
 		account.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	} else {
 		account.AnalyticalStorageConfiguration = nil
+=======
+		results.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		results.AnalyticalStorageConfiguration = nil
+>>>>>>> main
 	}
 
 	// ApiProperties
@@ -2058,9 +2373,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ApiProperties_STATUS() to populate field ApiProperties")
 		}
+<<<<<<< HEAD
 		account.ApiProperties = &apiProperty
 	} else {
 		account.ApiProperties = nil
+=======
+		results.ApiProperties = &apiProperty
+	} else {
+		results.ApiProperties = nil
+>>>>>>> main
 	}
 
 	// BackupPolicy
@@ -2070,9 +2391,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_BackupPolicy_STATUS() to populate field BackupPolicy")
 		}
+<<<<<<< HEAD
 		account.BackupPolicy = &backupPolicy
 	} else {
 		account.BackupPolicy = nil
+=======
+		results.BackupPolicy = &backupPolicy
+	} else {
+		results.BackupPolicy = nil
+>>>>>>> main
 	}
 
 	// Capabilities
@@ -2088,6 +2415,7 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			capabilityList[capabilityIndex] = capability
 		}
+<<<<<<< HEAD
 		account.Capabilities = capabilityList
 	} else {
 		account.Capabilities = nil
@@ -2095,13 +2423,28 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Conditions
 	account.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+=======
+		results.Capabilities = capabilityList
+	} else {
+		results.Capabilities = nil
+	}
+
+	// Conditions
+	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+>>>>>>> main
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
 		connectorOffer := ConnectorOffer_STATUS(*source.ConnectorOffer)
+<<<<<<< HEAD
 		account.ConnectorOffer = &connectorOffer
 	} else {
 		account.ConnectorOffer = nil
+=======
+		results.ConnectorOffer = &connectorOffer
+	} else {
+		results.ConnectorOffer = nil
+>>>>>>> main
 	}
 
 	// ConsistencyPolicy
@@ -2111,9 +2454,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ConsistencyPolicy_STATUS() to populate field ConsistencyPolicy")
 		}
+<<<<<<< HEAD
 		account.ConsistencyPolicy = &consistencyPolicy
 	} else {
 		account.ConsistencyPolicy = nil
+=======
+		results.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		results.ConsistencyPolicy = nil
+>>>>>>> main
 	}
 
 	// Cors
@@ -2129,14 +2478,21 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			corList[corIndex] = cor
 		}
+<<<<<<< HEAD
 		account.Cors = corList
 	} else {
 		account.Cors = nil
+=======
+		results.Cors = corList
+	} else {
+		results.Cors = nil
+>>>>>>> main
 	}
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := DatabaseAccountOfferType_STATUS(*source.DatabaseAccountOfferType)
+<<<<<<< HEAD
 		account.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		account.DatabaseAccountOfferType = nil
@@ -2144,10 +2500,20 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// DefaultIdentity
 	account.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+=======
+		results.DatabaseAccountOfferType = &databaseAccountOfferType
+	} else {
+		results.DatabaseAccountOfferType = nil
+	}
+
+	// DefaultIdentity
+	results.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+>>>>>>> main
 
 	// DisableKeyBasedMetadataWriteAccess
 	if source.DisableKeyBasedMetadataWriteAccess != nil {
 		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
+<<<<<<< HEAD
 		account.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
 		account.DisableKeyBasedMetadataWriteAccess = nil
@@ -2155,45 +2521,84 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// DocumentEndpoint
 	account.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
+=======
+		results.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		results.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// DocumentEndpoint
+	results.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
+>>>>>>> main
 
 	// EnableAnalyticalStorage
 	if source.EnableAnalyticalStorage != nil {
 		enableAnalyticalStorage := *source.EnableAnalyticalStorage
+<<<<<<< HEAD
 		account.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
 		account.EnableAnalyticalStorage = nil
+=======
+		results.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		results.EnableAnalyticalStorage = nil
+>>>>>>> main
 	}
 
 	// EnableAutomaticFailover
 	if source.EnableAutomaticFailover != nil {
 		enableAutomaticFailover := *source.EnableAutomaticFailover
+<<<<<<< HEAD
 		account.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
 		account.EnableAutomaticFailover = nil
+=======
+		results.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		results.EnableAutomaticFailover = nil
+>>>>>>> main
 	}
 
 	// EnableCassandraConnector
 	if source.EnableCassandraConnector != nil {
 		enableCassandraConnector := *source.EnableCassandraConnector
+<<<<<<< HEAD
 		account.EnableCassandraConnector = &enableCassandraConnector
 	} else {
 		account.EnableCassandraConnector = nil
+=======
+		results.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		results.EnableCassandraConnector = nil
+>>>>>>> main
 	}
 
 	// EnableFreeTier
 	if source.EnableFreeTier != nil {
 		enableFreeTier := *source.EnableFreeTier
+<<<<<<< HEAD
 		account.EnableFreeTier = &enableFreeTier
 	} else {
 		account.EnableFreeTier = nil
+=======
+		results.EnableFreeTier = &enableFreeTier
+	} else {
+		results.EnableFreeTier = nil
+>>>>>>> main
 	}
 
 	// EnableMultipleWriteLocations
 	if source.EnableMultipleWriteLocations != nil {
 		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
+<<<<<<< HEAD
 		account.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
 		account.EnableMultipleWriteLocations = nil
+=======
+		results.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		results.EnableMultipleWriteLocations = nil
+>>>>>>> main
 	}
 
 	// FailoverPolicies
@@ -2209,6 +2614,7 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			failoverPolicyList[failoverPolicyIndex] = failoverPolicy
 		}
+<<<<<<< HEAD
 		account.FailoverPolicies = failoverPolicyList
 	} else {
 		account.FailoverPolicies = nil
@@ -2216,6 +2622,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Id
 	account.Id = genruntime.ClonePointerToString(source.Id)
+=======
+		results.FailoverPolicies = failoverPolicyList
+	} else {
+		results.FailoverPolicies = nil
+	}
+
+	// Id
+	results.Id = genruntime.ClonePointerToString(source.Id)
+>>>>>>> main
 
 	// Identity
 	if source.Identity != nil {
@@ -2224,9 +2639,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
+<<<<<<< HEAD
 		account.Identity = &identity
 	} else {
 		account.Identity = nil
+=======
+		results.Identity = &identity
+	} else {
+		results.Identity = nil
+>>>>>>> main
 	}
 
 	// IpRules
@@ -2242,14 +2663,21 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
+<<<<<<< HEAD
 		account.IpRules = ipRuleList
 	} else {
 		account.IpRules = nil
+=======
+		results.IpRules = ipRuleList
+	} else {
+		results.IpRules = nil
+>>>>>>> main
 	}
 
 	// IsVirtualNetworkFilterEnabled
 	if source.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
+<<<<<<< HEAD
 		account.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
 		account.IsVirtualNetworkFilterEnabled = nil
@@ -2268,6 +2696,26 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Location
 	account.Location = genruntime.ClonePointerToString(source.Location)
+=======
+		results.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		results.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	results.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+
+	// Kind
+	if source.Kind != nil {
+		kind := DatabaseAccountGetResults_STATUS_Kind(*source.Kind)
+		results.Kind = &kind
+	} else {
+		results.Kind = nil
+	}
+
+	// Location
+	results.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// Locations
 	if source.Locations != nil {
@@ -2282,6 +2730,7 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			locationList[locationIndex] = location
 		}
+<<<<<<< HEAD
 		account.Locations = locationList
 	} else {
 		account.Locations = nil
@@ -2289,10 +2738,20 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Name
 	account.Name = genruntime.ClonePointerToString(source.Name)
+=======
+		results.Locations = locationList
+	} else {
+		results.Locations = nil
+	}
+
+	// Name
+	results.Name = genruntime.ClonePointerToString(source.Name)
+>>>>>>> main
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
 		networkAclBypass := NetworkAclBypass_STATUS(*source.NetworkAclBypass)
+<<<<<<< HEAD
 		account.NetworkAclBypass = &networkAclBypass
 	} else {
 		account.NetworkAclBypass = nil
@@ -2321,13 +2780,49 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// ProvisioningState
 	account.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+=======
+		results.NetworkAclBypass = &networkAclBypass
+	} else {
+		results.NetworkAclBypass = nil
+	}
+
+	// NetworkAclBypassResourceIds
+	results.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		results.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		results.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	results.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+>>>>>>> main
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
+<<<<<<< HEAD
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
+=======
+		results.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		results.PublicNetworkAccess = nil
+>>>>>>> main
 	}
 
 	// ReadLocations
@@ -2343,6 +2838,7 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			readLocationList[readLocationIndex] = readLocation
 		}
+<<<<<<< HEAD
 		account.ReadLocations = readLocationList
 	} else {
 		account.ReadLocations = nil
@@ -2353,6 +2849,18 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Type
 	account.Type = genruntime.ClonePointerToString(source.Type)
+=======
+		results.ReadLocations = readLocationList
+	} else {
+		results.ReadLocations = nil
+	}
+
+	// Tags
+	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	results.Type = genruntime.ClonePointerToString(source.Type)
+>>>>>>> main
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
@@ -2367,9 +2875,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
+<<<<<<< HEAD
 		account.VirtualNetworkRules = virtualNetworkRuleList
 	} else {
 		account.VirtualNetworkRules = nil
+=======
+		results.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		results.VirtualNetworkRules = nil
+>>>>>>> main
 	}
 
 	// WriteLocations
@@ -2385,24 +2899,41 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 			}
 			writeLocationList[writeLocationIndex] = writeLocation
 		}
+<<<<<<< HEAD
 		account.WriteLocations = writeLocationList
 	} else {
 		account.WriteLocations = nil
+=======
+		results.WriteLocations = writeLocationList
+	} else {
+		results.WriteLocations = nil
+>>>>>>> main
 	}
 
 	// No error
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_To_DatabaseAccount_STATUS populates the provided destination DatabaseAccount_STATUS from our DatabaseAccount_STATUS
 func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATUS(destination *alpha20210515s.DatabaseAccount_STATUS) error {
+=======
+// AssignProperties_To_DatabaseAccountGetResults_STATUS populates the provided destination DatabaseAccountGetResults_STATUS from our DatabaseAccountGetResults_STATUS
+func (results *DatabaseAccountGetResults_STATUS) AssignProperties_To_DatabaseAccountGetResults_STATUS(destination *alpha20210515s.DatabaseAccountGetResults_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AnalyticalStorageConfiguration
+<<<<<<< HEAD
 	if account.AnalyticalStorageConfiguration != nil {
 		var analyticalStorageConfiguration alpha20210515s.AnalyticalStorageConfiguration_STATUS
 		err := account.AnalyticalStorageConfiguration.AssignProperties_To_AnalyticalStorageConfiguration_STATUS(&analyticalStorageConfiguration)
+=======
+	if results.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration alpha20210515s.AnalyticalStorageConfiguration_STATUS
+		err := results.AnalyticalStorageConfiguration.AssignProperties_To_AnalyticalStorageConfiguration_STATUS(&analyticalStorageConfiguration)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AnalyticalStorageConfiguration_STATUS() to populate field AnalyticalStorageConfiguration")
 		}
@@ -2412,9 +2943,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// ApiProperties
+<<<<<<< HEAD
 	if account.ApiProperties != nil {
 		var apiProperty alpha20210515s.ApiProperties_STATUS
 		err := account.ApiProperties.AssignProperties_To_ApiProperties_STATUS(&apiProperty)
+=======
+	if results.ApiProperties != nil {
+		var apiProperty alpha20210515s.ApiProperties_STATUS
+		err := results.ApiProperties.AssignProperties_To_ApiProperties_STATUS(&apiProperty)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ApiProperties_STATUS() to populate field ApiProperties")
 		}
@@ -2424,9 +2961,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// BackupPolicy
+<<<<<<< HEAD
 	if account.BackupPolicy != nil {
 		var backupPolicy alpha20210515s.BackupPolicy_STATUS
 		err := account.BackupPolicy.AssignProperties_To_BackupPolicy_STATUS(&backupPolicy)
+=======
+	if results.BackupPolicy != nil {
+		var backupPolicy alpha20210515s.BackupPolicy_STATUS
+		err := results.BackupPolicy.AssignProperties_To_BackupPolicy_STATUS(&backupPolicy)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupPolicy_STATUS() to populate field BackupPolicy")
 		}
@@ -2436,9 +2979,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Capabilities
+<<<<<<< HEAD
 	if account.Capabilities != nil {
 		capabilityList := make([]alpha20210515s.Capability_STATUS, len(account.Capabilities))
 		for capabilityIndex, capabilityItem := range account.Capabilities {
+=======
+	if results.Capabilities != nil {
+		capabilityList := make([]alpha20210515s.Capability_STATUS, len(results.Capabilities))
+		for capabilityIndex, capabilityItem := range results.Capabilities {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability alpha20210515s.Capability_STATUS
@@ -2454,20 +3003,34 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Conditions
+<<<<<<< HEAD
 	destination.Conditions = genruntime.CloneSliceOfCondition(account.Conditions)
 
 	// ConnectorOffer
 	if account.ConnectorOffer != nil {
 		connectorOffer := string(*account.ConnectorOffer)
+=======
+	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+
+	// ConnectorOffer
+	if results.ConnectorOffer != nil {
+		connectorOffer := string(*results.ConnectorOffer)
+>>>>>>> main
 		destination.ConnectorOffer = &connectorOffer
 	} else {
 		destination.ConnectorOffer = nil
 	}
 
 	// ConsistencyPolicy
+<<<<<<< HEAD
 	if account.ConsistencyPolicy != nil {
 		var consistencyPolicy alpha20210515s.ConsistencyPolicy_STATUS
 		err := account.ConsistencyPolicy.AssignProperties_To_ConsistencyPolicy_STATUS(&consistencyPolicy)
+=======
+	if results.ConsistencyPolicy != nil {
+		var consistencyPolicy alpha20210515s.ConsistencyPolicy_STATUS
+		err := results.ConsistencyPolicy.AssignProperties_To_ConsistencyPolicy_STATUS(&consistencyPolicy)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ConsistencyPolicy_STATUS() to populate field ConsistencyPolicy")
 		}
@@ -2477,9 +3040,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Cors
+<<<<<<< HEAD
 	if account.Cors != nil {
 		corList := make([]alpha20210515s.CorsPolicy_STATUS, len(account.Cors))
 		for corIndex, corItem := range account.Cors {
+=======
+	if results.Cors != nil {
+		corList := make([]alpha20210515s.CorsPolicy_STATUS, len(results.Cors))
+		for corIndex, corItem := range results.Cors {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			corItem := corItem
 			var cor alpha20210515s.CorsPolicy_STATUS
@@ -2495,71 +3064,118 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// DatabaseAccountOfferType
+<<<<<<< HEAD
 	if account.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := string(*account.DatabaseAccountOfferType)
+=======
+	if results.DatabaseAccountOfferType != nil {
+		databaseAccountOfferType := string(*results.DatabaseAccountOfferType)
+>>>>>>> main
 		destination.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		destination.DatabaseAccountOfferType = nil
 	}
 
 	// DefaultIdentity
+<<<<<<< HEAD
 	destination.DefaultIdentity = genruntime.ClonePointerToString(account.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if account.DisableKeyBasedMetadataWriteAccess != nil {
 		disableKeyBasedMetadataWriteAccess := *account.DisableKeyBasedMetadataWriteAccess
+=======
+	destination.DefaultIdentity = genruntime.ClonePointerToString(results.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if results.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *results.DisableKeyBasedMetadataWriteAccess
+>>>>>>> main
 		destination.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
 		destination.DisableKeyBasedMetadataWriteAccess = nil
 	}
 
 	// DocumentEndpoint
+<<<<<<< HEAD
 	destination.DocumentEndpoint = genruntime.ClonePointerToString(account.DocumentEndpoint)
 
 	// EnableAnalyticalStorage
 	if account.EnableAnalyticalStorage != nil {
 		enableAnalyticalStorage := *account.EnableAnalyticalStorage
+=======
+	destination.DocumentEndpoint = genruntime.ClonePointerToString(results.DocumentEndpoint)
+
+	// EnableAnalyticalStorage
+	if results.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *results.EnableAnalyticalStorage
+>>>>>>> main
 		destination.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
 		destination.EnableAnalyticalStorage = nil
 	}
 
 	// EnableAutomaticFailover
+<<<<<<< HEAD
 	if account.EnableAutomaticFailover != nil {
 		enableAutomaticFailover := *account.EnableAutomaticFailover
+=======
+	if results.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *results.EnableAutomaticFailover
+>>>>>>> main
 		destination.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
 		destination.EnableAutomaticFailover = nil
 	}
 
 	// EnableCassandraConnector
+<<<<<<< HEAD
 	if account.EnableCassandraConnector != nil {
 		enableCassandraConnector := *account.EnableCassandraConnector
+=======
+	if results.EnableCassandraConnector != nil {
+		enableCassandraConnector := *results.EnableCassandraConnector
+>>>>>>> main
 		destination.EnableCassandraConnector = &enableCassandraConnector
 	} else {
 		destination.EnableCassandraConnector = nil
 	}
 
 	// EnableFreeTier
+<<<<<<< HEAD
 	if account.EnableFreeTier != nil {
 		enableFreeTier := *account.EnableFreeTier
+=======
+	if results.EnableFreeTier != nil {
+		enableFreeTier := *results.EnableFreeTier
+>>>>>>> main
 		destination.EnableFreeTier = &enableFreeTier
 	} else {
 		destination.EnableFreeTier = nil
 	}
 
 	// EnableMultipleWriteLocations
+<<<<<<< HEAD
 	if account.EnableMultipleWriteLocations != nil {
 		enableMultipleWriteLocation := *account.EnableMultipleWriteLocations
+=======
+	if results.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *results.EnableMultipleWriteLocations
+>>>>>>> main
 		destination.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
 		destination.EnableMultipleWriteLocations = nil
 	}
 
 	// FailoverPolicies
+<<<<<<< HEAD
 	if account.FailoverPolicies != nil {
 		failoverPolicyList := make([]alpha20210515s.FailoverPolicy_STATUS, len(account.FailoverPolicies))
 		for failoverPolicyIndex, failoverPolicyItem := range account.FailoverPolicies {
+=======
+	if results.FailoverPolicies != nil {
+		failoverPolicyList := make([]alpha20210515s.FailoverPolicy_STATUS, len(results.FailoverPolicies))
+		for failoverPolicyIndex, failoverPolicyItem := range results.FailoverPolicies {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			failoverPolicyItem := failoverPolicyItem
 			var failoverPolicy alpha20210515s.FailoverPolicy_STATUS
@@ -2575,12 +3191,21 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Id
+<<<<<<< HEAD
 	destination.Id = genruntime.ClonePointerToString(account.Id)
 
 	// Identity
 	if account.Identity != nil {
 		var identity alpha20210515s.ManagedServiceIdentity_STATUS
 		err := account.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
+=======
+	destination.Id = genruntime.ClonePointerToString(results.Id)
+
+	// Identity
+	if results.Identity != nil {
+		var identity alpha20210515s.ManagedServiceIdentity_STATUS
+		err := results.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
 		}
@@ -2590,9 +3215,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// IpRules
+<<<<<<< HEAD
 	if account.IpRules != nil {
 		ipRuleList := make([]alpha20210515s.IpAddressOrRange_STATUS, len(account.IpRules))
 		for ipRuleIndex, ipRuleItem := range account.IpRules {
+=======
+	if results.IpRules != nil {
+		ipRuleList := make([]alpha20210515s.IpAddressOrRange_STATUS, len(results.IpRules))
+		for ipRuleIndex, ipRuleItem := range results.IpRules {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule alpha20210515s.IpAddressOrRange_STATUS
@@ -2608,31 +3239,53 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// IsVirtualNetworkFilterEnabled
+<<<<<<< HEAD
 	if account.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *account.IsVirtualNetworkFilterEnabled
+=======
+	if results.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *results.IsVirtualNetworkFilterEnabled
+>>>>>>> main
 		destination.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
 		destination.IsVirtualNetworkFilterEnabled = nil
 	}
 
 	// KeyVaultKeyUri
+<<<<<<< HEAD
 	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(account.KeyVaultKeyUri)
 
 	// Kind
 	if account.Kind != nil {
 		kind := string(*account.Kind)
+=======
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(results.KeyVaultKeyUri)
+
+	// Kind
+	if results.Kind != nil {
+		kind := string(*results.Kind)
+>>>>>>> main
 		destination.Kind = &kind
 	} else {
 		destination.Kind = nil
 	}
 
 	// Location
+<<<<<<< HEAD
 	destination.Location = genruntime.ClonePointerToString(account.Location)
 
 	// Locations
 	if account.Locations != nil {
 		locationList := make([]alpha20210515s.Location_STATUS, len(account.Locations))
 		for locationIndex, locationItem := range account.Locations {
+=======
+	destination.Location = genruntime.ClonePointerToString(results.Location)
+
+	// Locations
+	if results.Locations != nil {
+		locationList := make([]alpha20210515s.Location_STATUS, len(results.Locations))
+		for locationIndex, locationItem := range results.Locations {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
 			var location alpha20210515s.Location_STATUS
@@ -2648,17 +3301,26 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Name
+<<<<<<< HEAD
 	destination.Name = genruntime.ClonePointerToString(account.Name)
 
 	// NetworkAclBypass
 	if account.NetworkAclBypass != nil {
 		networkAclBypass := string(*account.NetworkAclBypass)
+=======
+	destination.Name = genruntime.ClonePointerToString(results.Name)
+
+	// NetworkAclBypass
+	if results.NetworkAclBypass != nil {
+		networkAclBypass := string(*results.NetworkAclBypass)
+>>>>>>> main
 		destination.NetworkAclBypass = &networkAclBypass
 	} else {
 		destination.NetworkAclBypass = nil
 	}
 
 	// NetworkAclBypassResourceIds
+<<<<<<< HEAD
 	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(account.NetworkAclBypassResourceIds)
 
 	// PrivateEndpointConnections
@@ -2671,6 +3333,20 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+=======
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(results.NetworkAclBypassResourceIds)
+
+	// PrivateEndpointConnections
+	if results.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]alpha20210515s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(results.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range results.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection alpha20210515s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2680,20 +3356,34 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// ProvisioningState
+<<<<<<< HEAD
 	destination.ProvisioningState = genruntime.ClonePointerToString(account.ProvisioningState)
 
 	// PublicNetworkAccess
 	if account.PublicNetworkAccess != nil {
 		publicNetworkAccess := string(*account.PublicNetworkAccess)
+=======
+	destination.ProvisioningState = genruntime.ClonePointerToString(results.ProvisioningState)
+
+	// PublicNetworkAccess
+	if results.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*results.PublicNetworkAccess)
+>>>>>>> main
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
 	// ReadLocations
+<<<<<<< HEAD
 	if account.ReadLocations != nil {
 		readLocationList := make([]alpha20210515s.Location_STATUS, len(account.ReadLocations))
 		for readLocationIndex, readLocationItem := range account.ReadLocations {
+=======
+	if results.ReadLocations != nil {
+		readLocationList := make([]alpha20210515s.Location_STATUS, len(results.ReadLocations))
+		for readLocationIndex, readLocationItem := range results.ReadLocations {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			readLocationItem := readLocationItem
 			var readLocation alpha20210515s.Location_STATUS
@@ -2709,6 +3399,7 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// Tags
+<<<<<<< HEAD
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
 
 	// Type
@@ -2718,6 +3409,17 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	if account.VirtualNetworkRules != nil {
 		virtualNetworkRuleList := make([]alpha20210515s.VirtualNetworkRule_STATUS, len(account.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range account.VirtualNetworkRules {
+=======
+	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(results.Type)
+
+	// VirtualNetworkRules
+	if results.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]alpha20210515s.VirtualNetworkRule_STATUS, len(results.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range results.VirtualNetworkRules {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule alpha20210515s.VirtualNetworkRule_STATUS
@@ -2733,9 +3435,15 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	}
 
 	// WriteLocations
+<<<<<<< HEAD
 	if account.WriteLocations != nil {
 		writeLocationList := make([]alpha20210515s.Location_STATUS, len(account.WriteLocations))
 		for writeLocationIndex, writeLocationItem := range account.WriteLocations {
+=======
+	if results.WriteLocations != nil {
+		writeLocationList := make([]alpha20210515s.Location_STATUS, len(results.WriteLocations))
+		for writeLocationIndex, writeLocationItem := range results.WriteLocations {
+>>>>>>> main
 			// Shadow the loop variable to avoid aliasing
 			writeLocationItem := writeLocationItem
 			var writeLocation alpha20210515s.Location_STATUS

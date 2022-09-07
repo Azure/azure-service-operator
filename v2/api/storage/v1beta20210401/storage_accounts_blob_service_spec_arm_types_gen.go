@@ -6,8 +6,16 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_BlobService_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// Name: The name of the blob Service within the specified storage account. Blob Service Name must be 'default'
+	Name string `json:"name,omitempty"`
+>>>>>>> main
 
 	// Properties: The properties of a storage account’s Blob service.
 	Properties *StorageAccounts_BlobService_Spec_PropertiesARM `json:"properties,omitempty"`

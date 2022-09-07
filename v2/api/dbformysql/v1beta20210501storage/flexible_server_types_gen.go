@@ -29,8 +29,13 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
 	Status            FlexibleServer_STATUS `json:"status,omitempty"`
+=======
+	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
+	Status            Server_STATUS       `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}

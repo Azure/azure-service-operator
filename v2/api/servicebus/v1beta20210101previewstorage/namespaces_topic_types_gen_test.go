@@ -75,7 +75,11 @@ func NamespacesTopicGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topic_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Namespaces_Topic_STATUSGenerator()
+=======
+	gens["Status"] = SBTopic_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Namespaces_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

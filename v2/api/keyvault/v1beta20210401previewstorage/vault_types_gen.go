@@ -141,6 +141,10 @@ const APIVersion_Value = APIVersion("2021-04-01-preview")
 
 // Storage version of v1beta20210401preview.Vault_Spec
 type Vault_Spec struct {
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`

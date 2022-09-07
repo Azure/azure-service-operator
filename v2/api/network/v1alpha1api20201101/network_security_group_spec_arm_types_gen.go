@@ -7,12 +7,18 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                                                       `json:"azureName,omitempty"`
 	Id         *string                                                      `json:"id,omitempty"`
 	Location   *string                                                      `json:"location,omitempty"`
 	Name       string                                                       `json:"name,omitempty"`
 	Properties *NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
 	Tags       map[string]string                                            `json:"tags,omitempty"`
+=======
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_SpecARM{}
@@ -31,6 +37,7 @@ func (group *NetworkSecurityGroup_SpecARM) GetName() string {
 func (group *NetworkSecurityGroup_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
+<<<<<<< HEAD
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded instead
 type NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM struct {
@@ -41,3 +48,5 @@ type NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM struct {
 type SecurityRule_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
+=======
+>>>>>>> main

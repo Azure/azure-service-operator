@@ -28,8 +28,13 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespace_Spec   `json:"spec,omitempty"`
 	Status            Namespace_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
+	Status            EHNamespace_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -1553,6 +1558,606 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+type Namespace_Spec struct {
+	AlternateName *string `json:"alternateName,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=6
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName              string                        `json:"azureName,omitempty"`
+	ClusterArmReference    *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
+	DisableLocalAuth       *bool                         `json:"disableLocalAuth,omitempty"`
+	Encryption             *Encryption                   `json:"encryption,omitempty"`
+	Identity               *Identity                     `json:"identity,omitempty"`
+	IsAutoInflateEnabled   *bool                         `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled           *bool                         `json:"kafkaEnabled,omitempty"`
+	Location               *string                       `json:"location,omitempty"`
+	MaximumThroughputUnits *int                          `json:"maximumThroughputUnits,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []Namespace_Spec_Properties_PrivateEndpointConnections `json:"privateEndpointConnections,omitempty"`
+	Sku                        *Sku                                                   `json:"sku,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Namespace_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if namespace == nil {
+		return nil, nil
+	}
+	result := &Namespace_SpecARM{}
+
+	// Set property ‘Identity’:
+	if namespace.Identity != nil {
+		identityARM, err := (*namespace.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identityARM.(*IdentityARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if namespace.Location != nil {
+		location := *namespace.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if namespace.AlternateName != nil ||
+		namespace.ClusterArmReference != nil ||
+		namespace.DisableLocalAuth != nil ||
+		namespace.Encryption != nil ||
+		namespace.IsAutoInflateEnabled != nil ||
+		namespace.KafkaEnabled != nil ||
+		namespace.MaximumThroughputUnits != nil ||
+		namespace.PrivateEndpointConnections != nil ||
+		namespace.ZoneRedundant != nil {
+		result.Properties = &Namespace_Spec_PropertiesARM{}
+	}
+	if namespace.AlternateName != nil {
+		alternateName := *namespace.AlternateName
+		result.Properties.AlternateName = &alternateName
+	}
+	if namespace.ClusterArmReference != nil {
+		clusterArmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*namespace.ClusterArmReference)
+		if err != nil {
+			return nil, err
+		}
+		clusterArmId := clusterArmIdARMID
+		result.Properties.ClusterArmId = &clusterArmId
+	}
+	if namespace.DisableLocalAuth != nil {
+		disableLocalAuth := *namespace.DisableLocalAuth
+		result.Properties.DisableLocalAuth = &disableLocalAuth
+	}
+	if namespace.Encryption != nil {
+		encryptionARM, err := (*namespace.Encryption).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		encryption := *encryptionARM.(*EncryptionARM)
+		result.Properties.Encryption = &encryption
+	}
+	if namespace.IsAutoInflateEnabled != nil {
+		isAutoInflateEnabled := *namespace.IsAutoInflateEnabled
+		result.Properties.IsAutoInflateEnabled = &isAutoInflateEnabled
+	}
+	if namespace.KafkaEnabled != nil {
+		kafkaEnabled := *namespace.KafkaEnabled
+		result.Properties.KafkaEnabled = &kafkaEnabled
+	}
+	if namespace.MaximumThroughputUnits != nil {
+		maximumThroughputUnits := *namespace.MaximumThroughputUnits
+		result.Properties.MaximumThroughputUnits = &maximumThroughputUnits
+	}
+	for _, item := range namespace.PrivateEndpointConnections {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*Namespace_Spec_Properties_PrivateEndpointConnectionsARM))
+	}
+	if namespace.ZoneRedundant != nil {
+		zoneRedundant := *namespace.ZoneRedundant
+		result.Properties.ZoneRedundant = &zoneRedundant
+	}
+
+	// Set property ‘Sku’:
+	if namespace.Sku != nil {
+		skuARM, err := (*namespace.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*SkuARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if namespace.Tags != nil {
+		result.Tags = make(map[string]string, len(namespace.Tags))
+		for key, value := range namespace.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespace *Namespace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespace_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespace_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespace_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AlternateName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AlternateName != nil {
+			alternateName := *typedInput.Properties.AlternateName
+			namespace.AlternateName = &alternateName
+		}
+	}
+
+	// Set property ‘AzureName’:
+	namespace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property ‘ClusterArmReference’
+
+	// Set property ‘DisableLocalAuth’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAuth != nil {
+			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
+			namespace.DisableLocalAuth = &disableLocalAuth
+		}
+	}
+
+	// Set property ‘Encryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 Encryption
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			namespace.Encryption = &encryption
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		namespace.Identity = &identity
+	}
+
+	// Set property ‘IsAutoInflateEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsAutoInflateEnabled != nil {
+			isAutoInflateEnabled := *typedInput.Properties.IsAutoInflateEnabled
+			namespace.IsAutoInflateEnabled = &isAutoInflateEnabled
+		}
+	}
+
+	// Set property ‘KafkaEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KafkaEnabled != nil {
+			kafkaEnabled := *typedInput.Properties.KafkaEnabled
+			namespace.KafkaEnabled = &kafkaEnabled
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		namespace.Location = &location
+	}
+
+	// Set property ‘MaximumThroughputUnits’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaximumThroughputUnits != nil {
+			maximumThroughputUnits := *typedInput.Properties.MaximumThroughputUnits
+			namespace.MaximumThroughputUnits = &maximumThroughputUnits
+		}
+	}
+
+	// Set property ‘Owner’:
+	namespace.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PrivateEndpointConnections’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+			var item1 Namespace_Spec_Properties_PrivateEndpointConnections
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			namespace.PrivateEndpointConnections = append(namespace.PrivateEndpointConnections, item1)
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		namespace.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		namespace.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			namespace.Tags[key] = value
+		}
+	}
+
+	// Set property ‘ZoneRedundant’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundant != nil {
+			zoneRedundant := *typedInput.Properties.ZoneRedundant
+			namespace.ZoneRedundant = &zoneRedundant
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
+
+// ConvertSpecFrom populates our Namespace_Spec from the provided source
+func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20211101s.Namespace_Spec)
+	if ok {
+		// Populate our instance from source
+		return namespace.AssignProperties_From_Namespace_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20211101s.Namespace_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = namespace.AssignProperties_From_Namespace_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Namespace_Spec
+func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20211101s.Namespace_Spec)
+	if ok {
+		// Populate destination from our instance
+		return namespace.AssignProperties_To_Namespace_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20211101s.Namespace_Spec{}
+	err := namespace.AssignProperties_To_Namespace_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Namespace_Spec populates our Namespace_Spec from the provided source Namespace_Spec
+func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *alpha20211101s.Namespace_Spec) error {
+
+	// AlternateName
+	namespace.AlternateName = genruntime.ClonePointerToString(source.AlternateName)
+
+	// AzureName
+	namespace.AzureName = source.AzureName
+
+	// ClusterArmReference
+	if source.ClusterArmReference != nil {
+		clusterArmReference := source.ClusterArmReference.Copy()
+		namespace.ClusterArmReference = &clusterArmReference
+	} else {
+		namespace.ClusterArmReference = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		namespace.DisableLocalAuth = &disableLocalAuth
+	} else {
+		namespace.DisableLocalAuth = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption
+		err := encryption.AssignProperties_From_Encryption(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+		}
+		namespace.Encryption = &encryption
+	} else {
+		namespace.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity
+		err := identity.AssignProperties_From_Identity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+		}
+		namespace.Identity = &identity
+	} else {
+		namespace.Identity = nil
+	}
+
+	// IsAutoInflateEnabled
+	if source.IsAutoInflateEnabled != nil {
+		isAutoInflateEnabled := *source.IsAutoInflateEnabled
+		namespace.IsAutoInflateEnabled = &isAutoInflateEnabled
+	} else {
+		namespace.IsAutoInflateEnabled = nil
+	}
+
+	// KafkaEnabled
+	if source.KafkaEnabled != nil {
+		kafkaEnabled := *source.KafkaEnabled
+		namespace.KafkaEnabled = &kafkaEnabled
+	} else {
+		namespace.KafkaEnabled = nil
+	}
+
+	// Location
+	namespace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaximumThroughputUnits
+	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		namespace.Owner = &owner
+	} else {
+		namespace.Owner = nil
+	}
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]Namespace_Spec_Properties_PrivateEndpointConnections, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection Namespace_Spec_Properties_PrivateEndpointConnections
+			err := privateEndpointConnection.AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		namespace.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		namespace.PrivateEndpointConnections = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		namespace.Sku = &sku
+	} else {
+		namespace.Sku = nil
+	}
+
+	// Tags
+	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		namespace.ZoneRedundant = &zoneRedundant
+	} else {
+		namespace.ZoneRedundant = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Namespace_Spec populates the provided destination Namespace_Spec from our Namespace_Spec
+func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination *alpha20211101s.Namespace_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AlternateName
+	destination.AlternateName = genruntime.ClonePointerToString(namespace.AlternateName)
+
+	// AzureName
+	destination.AzureName = namespace.AzureName
+
+	// ClusterArmReference
+	if namespace.ClusterArmReference != nil {
+		clusterArmReference := namespace.ClusterArmReference.Copy()
+		destination.ClusterArmReference = &clusterArmReference
+	} else {
+		destination.ClusterArmReference = nil
+	}
+
+	// DisableLocalAuth
+	if namespace.DisableLocalAuth != nil {
+		disableLocalAuth := *namespace.DisableLocalAuth
+		destination.DisableLocalAuth = &disableLocalAuth
+	} else {
+		destination.DisableLocalAuth = nil
+	}
+
+	// Encryption
+	if namespace.Encryption != nil {
+		var encryption alpha20211101s.Encryption
+		err := namespace.Encryption.AssignProperties_To_Encryption(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// Identity
+	if namespace.Identity != nil {
+		var identity alpha20211101s.Identity
+		err := namespace.Identity.AssignProperties_To_Identity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IsAutoInflateEnabled
+	if namespace.IsAutoInflateEnabled != nil {
+		isAutoInflateEnabled := *namespace.IsAutoInflateEnabled
+		destination.IsAutoInflateEnabled = &isAutoInflateEnabled
+	} else {
+		destination.IsAutoInflateEnabled = nil
+	}
+
+	// KafkaEnabled
+	if namespace.KafkaEnabled != nil {
+		kafkaEnabled := *namespace.KafkaEnabled
+		destination.KafkaEnabled = &kafkaEnabled
+	} else {
+		destination.KafkaEnabled = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(namespace.Location)
+
+	// MaximumThroughputUnits
+	destination.MaximumThroughputUnits = genruntime.ClonePointerToInt(namespace.MaximumThroughputUnits)
+
+	// OriginalVersion
+	destination.OriginalVersion = namespace.OriginalVersion()
+
+	// Owner
+	if namespace.Owner != nil {
+		owner := namespace.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PrivateEndpointConnections
+	if namespace.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]alpha20211101s.Namespace_Spec_Properties_PrivateEndpointConnections, len(namespace.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection alpha20211101s.Namespace_Spec_Properties_PrivateEndpointConnections
+			err := privateEndpointConnectionItem.AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// Sku
+	if namespace.Sku != nil {
+		var sku alpha20211101s.Sku
+		err := namespace.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(namespace.Tags)
+
+	// ZoneRedundant
+	if namespace.ZoneRedundant != nil {
+		zoneRedundant := *namespace.ZoneRedundant
+		destination.ZoneRedundant = &zoneRedundant
+	} else {
+		destination.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (namespace *Namespace_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (namespace *Namespace_Spec) SetAzureName(azureName string) { namespace.AzureName = azureName }
+
+>>>>>>> main
 // Deprecated version of Encryption. Use v1beta20211101.Encryption instead
 type Encryption struct {
 	KeySource                       *Encryption_KeySource `json:"keySource,omitempty"`
@@ -2086,6 +2691,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of PrivateEndpointConnection. Use v1beta20211101.PrivateEndpointConnection instead
 type PrivateEndpointConnection struct {
 	PrivateEndpoint *PrivateEndpoint `json:"privateEndpoint,omitempty"`
@@ -2099,6 +2705,21 @@ func (connection *PrivateEndpointConnection) ConvertToARM(resolved genruntime.Co
 		return nil, nil
 	}
 	result := &PrivateEndpointConnectionARM{}
+=======
+// Deprecated version of Namespace_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespace_Spec_Properties_PrivateEndpointConnections instead
+type Namespace_Spec_Properties_PrivateEndpointConnections struct {
+	PrivateEndpoint *PrivateEndpoint `json:"privateEndpoint,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Namespace_Spec_Properties_PrivateEndpointConnections{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if connections == nil {
+		return nil, nil
+	}
+	result := &Namespace_Spec_Properties_PrivateEndpointConnectionsARM{}
+>>>>>>> main
 
 	// Set property ‘Properties’:
 	if connection.PrivateEndpoint != nil {
@@ -2116,6 +2737,7 @@ func (connection *PrivateEndpointConnection) ConvertToARM(resolved genruntime.Co
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+<<<<<<< HEAD
 func (connection *PrivateEndpointConnection) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateEndpointConnectionARM{}
 }
@@ -2125,6 +2747,17 @@ func (connection *PrivateEndpointConnection) PopulateFromARM(owner genruntime.Ar
 	typedInput, ok := armInput.(PrivateEndpointConnectionARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionARM, got %T", armInput)
+=======
+func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespace_Spec_Properties_PrivateEndpointConnectionsARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespace_Spec_Properties_PrivateEndpointConnectionsARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespace_Spec_Properties_PrivateEndpointConnectionsARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘PrivateEndpoint’:
@@ -2145,8 +2778,13 @@ func (connection *PrivateEndpointConnection) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_From_PrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
 func (connection *PrivateEndpointConnection) AssignProperties_From_PrivateEndpointConnection(source *alpha20211101s.PrivateEndpointConnection) error {
+=======
+// AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections populates our Namespace_Spec_Properties_PrivateEndpointConnections from the provided source Namespace_Spec_Properties_PrivateEndpointConnections
+func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections(source *alpha20211101s.Namespace_Spec_Properties_PrivateEndpointConnections) error {
+>>>>>>> main
 
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
@@ -2164,8 +2802,13 @@ func (connection *PrivateEndpointConnection) AssignProperties_From_PrivateEndpoi
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_To_PrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
 func (connection *PrivateEndpointConnection) AssignProperties_To_PrivateEndpointConnection(destination *alpha20211101s.PrivateEndpointConnection) error {
+=======
+// AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections populates the provided destination Namespace_Spec_Properties_PrivateEndpointConnections from our Namespace_Spec_Properties_PrivateEndpointConnections
+func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections(destination *alpha20211101s.Namespace_Spec_Properties_PrivateEndpointConnections) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

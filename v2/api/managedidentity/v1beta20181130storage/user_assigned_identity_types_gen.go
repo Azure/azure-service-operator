@@ -28,8 +28,13 @@ import (
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              UserAssignedIdentity_Spec   `json:"spec,omitempty"`
 	Status            UserAssignedIdentity_STATUS `json:"status,omitempty"`
+=======
+	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
+	Status            Identity_STATUS           `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -139,6 +144,43 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20181130.Identity_STATUS
+type Identity_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tags        map[string]string      `json:"tags,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
+
+// ConvertStatusFrom populates our Identity_STATUS from the provided source
+func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == identity {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(identity)
+}
+
+// ConvertStatusTo populates the provided destination from our Identity_STATUS
+func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == identity {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(identity)
+}
+
+>>>>>>> main
 // Storage version of v1beta20181130.UserAssignedIdentity_Spec
 type UserAssignedIdentity_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -174,6 +216,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 	}
 
 	return destination.ConvertSpecFrom(identity)
+<<<<<<< HEAD
 }
 
 // Storage version of v1beta20181130.UserAssignedIdentity_STATUS
@@ -208,6 +251,8 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	}
 
 	return destination.ConvertStatusFrom(identity)
+=======
+>>>>>>> main
 }
 
 func init() {

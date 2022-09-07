@@ -25,8 +25,13 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              StorageAccounts_BlobService_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_BlobService_STATUS `json:"status,omitempty"`
+=======
+	Spec              StorageAccounts_BlobService_Spec `json:"spec,omitempty"`
+	Status            BlobServiceProperties_STATUS     `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -835,7 +840,332 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 	}
 
 	// Type
+<<<<<<< HEAD
 	destination.Type = genruntime.ClonePointerToString(service.Type)
+=======
+	destination.Type = genruntime.ClonePointerToString(properties.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.StorageAccounts_BlobService_Spec
+type StorageAccounts_BlobService_Spec struct {
+	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	Location                       *string                       `json:"location,omitempty"`
+	OriginalVersion                string                        `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccount resource
+	Owner         *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobService_Spec{}
+
+// ConvertSpecFrom populates our StorageAccounts_BlobService_Spec from the provided source
+func (service *StorageAccounts_BlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401s.StorageAccounts_BlobService_Spec)
+	if ok {
+		// Populate our instance from source
+		return service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210401s.StorageAccounts_BlobService_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobService_Spec
+func (service *StorageAccounts_BlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401s.StorageAccounts_BlobService_Spec)
+	if ok {
+		// Populate destination from our instance
+		return service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210401s.StorageAccounts_BlobService_Spec{}
+	err := service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_BlobService_Spec populates our StorageAccounts_BlobService_Spec from the provided source StorageAccounts_BlobService_Spec
+func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAccounts_BlobService_Spec(source *v20210401s.StorageAccounts_BlobService_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if source.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *source.AutomaticSnapshotPolicyEnabled
+		service.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		service.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if source.ChangeFeed != nil {
+		var changeFeed ChangeFeed
+		err := changeFeed.AssignProperties_From_ChangeFeed(source.ChangeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ChangeFeed() to populate field ChangeFeed")
+		}
+		service.ChangeFeed = &changeFeed
+	} else {
+		service.ChangeFeed = nil
+	}
+
+	// ContainerDeleteRetentionPolicy
+	if source.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy DeleteRetentionPolicy
+		err := containerDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.ContainerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+		}
+		service.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		service.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules
+		err := cor.AssignProperties_From_CorsRules(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
+		}
+		service.Cors = &cor
+	} else {
+		service.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	service.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if source.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy DeleteRetentionPolicy
+		err := deleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.DeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+		}
+		service.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		service.DeleteRetentionPolicy = nil
+	}
+
+	// IsVersioningEnabled
+	if source.IsVersioningEnabled != nil {
+		isVersioningEnabled := *source.IsVersioningEnabled
+		service.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		service.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if source.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy
+		err := lastAccessTimeTrackingPolicy.AssignProperties_From_LastAccessTimeTrackingPolicy(source.LastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+		}
+		service.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		service.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Location
+	service.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	service.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		service.Owner = &owner
+	} else {
+		service.Owner = nil
+	}
+
+	// RestorePolicy
+	if source.RestorePolicy != nil {
+		var restorePolicy RestorePolicyProperties
+		err := restorePolicy.AssignProperties_From_RestorePolicyProperties(source.RestorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RestorePolicyProperties() to populate field RestorePolicy")
+		}
+		service.RestorePolicy = &restorePolicy
+	} else {
+		service.RestorePolicy = nil
+	}
+
+	// Tags
+	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		service.PropertyBag = propertyBag
+	} else {
+		service.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_BlobService_Spec populates the provided destination StorageAccounts_BlobService_Spec from our StorageAccounts_BlobService_Spec
+func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAccounts_BlobService_Spec(destination *v20210401s.StorageAccounts_BlobService_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
+
+	// AutomaticSnapshotPolicyEnabled
+	if service.AutomaticSnapshotPolicyEnabled != nil {
+		automaticSnapshotPolicyEnabled := *service.AutomaticSnapshotPolicyEnabled
+		destination.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
+	} else {
+		destination.AutomaticSnapshotPolicyEnabled = nil
+	}
+
+	// ChangeFeed
+	if service.ChangeFeed != nil {
+		var changeFeed v20210401s.ChangeFeed
+		err := service.ChangeFeed.AssignProperties_To_ChangeFeed(&changeFeed)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ChangeFeed() to populate field ChangeFeed")
+		}
+		destination.ChangeFeed = &changeFeed
+	} else {
+		destination.ChangeFeed = nil
+	}
+
+	// ContainerDeleteRetentionPolicy
+	if service.ContainerDeleteRetentionPolicy != nil {
+		var containerDeleteRetentionPolicy v20210401s.DeleteRetentionPolicy
+		err := service.ContainerDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&containerDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ContainerDeleteRetentionPolicy")
+		}
+		destination.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
+	} else {
+		destination.ContainerDeleteRetentionPolicy = nil
+	}
+
+	// Cors
+	if service.Cors != nil {
+		var cor v20210401s.CorsRules
+		err := service.Cors.AssignProperties_To_CorsRules(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// DefaultServiceVersion
+	destination.DefaultServiceVersion = genruntime.ClonePointerToString(service.DefaultServiceVersion)
+
+	// DeleteRetentionPolicy
+	if service.DeleteRetentionPolicy != nil {
+		var deleteRetentionPolicy v20210401s.DeleteRetentionPolicy
+		err := service.DeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&deleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field DeleteRetentionPolicy")
+		}
+		destination.DeleteRetentionPolicy = &deleteRetentionPolicy
+	} else {
+		destination.DeleteRetentionPolicy = nil
+	}
+
+	// IsVersioningEnabled
+	if service.IsVersioningEnabled != nil {
+		isVersioningEnabled := *service.IsVersioningEnabled
+		destination.IsVersioningEnabled = &isVersioningEnabled
+	} else {
+		destination.IsVersioningEnabled = nil
+	}
+
+	// LastAccessTimeTrackingPolicy
+	if service.LastAccessTimeTrackingPolicy != nil {
+		var lastAccessTimeTrackingPolicy v20210401s.LastAccessTimeTrackingPolicy
+		err := service.LastAccessTimeTrackingPolicy.AssignProperties_To_LastAccessTimeTrackingPolicy(&lastAccessTimeTrackingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LastAccessTimeTrackingPolicy() to populate field LastAccessTimeTrackingPolicy")
+		}
+		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
+	} else {
+		destination.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(service.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = service.OriginalVersion
+
+	// Owner
+	if service.Owner != nil {
+		owner := service.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RestorePolicy
+	if service.RestorePolicy != nil {
+		var restorePolicy v20210401s.RestorePolicyProperties
+		err := service.RestorePolicy.AssignProperties_To_RestorePolicyProperties(&restorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RestorePolicyProperties() to populate field RestorePolicy")
+		}
+		destination.RestorePolicy = &restorePolicy
+	} else {
+		destination.RestorePolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(service.Tags)
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

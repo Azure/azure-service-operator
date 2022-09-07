@@ -344,7 +344,10 @@ type Server_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+<<<<<<< HEAD
 	// +kubebuilder:validation:Required
+=======
+>>>>>>> main
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 
@@ -359,10 +362,17 @@ type Server_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
+<<<<<<< HEAD
 	// Properties: Properties of the server.
 	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
+=======
+	// Properties: The properties used to create a new server.
+	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
+
+	// Sku: Billing information related properties of a server.
+>>>>>>> main
 	Sku *Sku `json:"sku,omitempty"`
 
 	// Tags: Application-specific metadata in the form of key-value pairs.
@@ -378,9 +388,12 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Server_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘Location’:
 	if server.Location != nil {
 		location := *server.Location

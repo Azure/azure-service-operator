@@ -284,8 +284,13 @@ func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Ge
 		WorkspaceProperties_ProvisioningState_ProvisioningAccount,
 		WorkspaceProperties_ProvisioningState_Succeeded,
 		WorkspaceProperties_ProvisioningState_Updating))
+<<<<<<< HEAD
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+=======
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForIngestion_Disabled, WorkspaceProperties_PublicNetworkAccessForIngestion_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForQuery_Disabled, WorkspaceProperties_PublicNetworkAccessForQuery_Enabled))
+>>>>>>> main
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

@@ -25,8 +25,13 @@ import (
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NetworkSecurityGroups_SecurityRule_Spec   `json:"spec,omitempty"`
 	Status            NetworkSecurityGroups_SecurityRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              NetworkSecurityGroups_SecurityRule_Spec                                    `json:"spec,omitempty"`
+	Status            SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}
@@ -328,6 +333,12 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Direction
 	rule.Direction = genruntime.ClonePointerToString(source.Direction)
+<<<<<<< HEAD
+=======
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
@@ -345,6 +356,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Protocol
 	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
+<<<<<<< HEAD
 
 	// Reference
 	if source.Reference != nil {
@@ -353,6 +365,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 	} else {
 		rule.Reference = nil
 	}
+=======
+>>>>>>> main
 
 	// SourceAddressPrefix
 	rule.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
@@ -384,8 +398,13 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 	// SourcePortRanges
 	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
 
+<<<<<<< HEAD
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
+=======
+	// Tags
+	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -420,7 +439,11 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// DestinationApplicationSecurityGroups
 	if rule.DestinationApplicationSecurityGroups != nil {
+<<<<<<< HEAD
 		destinationApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec, len(rule.DestinationApplicationSecurityGroups))
+=======
+		destinationApplicationSecurityGroupList := make([]v20201101s.SubResource, len(rule.DestinationApplicationSecurityGroups))
+>>>>>>> main
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
@@ -444,6 +467,12 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// Direction
 	destination.Direction = genruntime.ClonePointerToString(rule.Direction)
+<<<<<<< HEAD
+=======
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
@@ -461,6 +490,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// Protocol
 	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
+<<<<<<< HEAD
 
 	// Reference
 	if rule.Reference != nil {
@@ -469,6 +499,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 	} else {
 		destination.Reference = nil
 	}
+=======
+>>>>>>> main
 
 	// SourceAddressPrefix
 	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rule.SourceAddressPrefix)
@@ -478,7 +510,11 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// SourceApplicationSecurityGroups
 	if rule.SourceApplicationSecurityGroups != nil {
+<<<<<<< HEAD
 		sourceApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec, len(rule.SourceApplicationSecurityGroups))
+=======
+		sourceApplicationSecurityGroupList := make([]v20201101s.SubResource, len(rule.SourceApplicationSecurityGroups))
+>>>>>>> main
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
@@ -500,8 +536,13 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 	// SourcePortRanges
 	destination.SourcePortRanges = genruntime.CloneSliceOfString(rule.SourcePortRanges)
 
+<<<<<<< HEAD
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

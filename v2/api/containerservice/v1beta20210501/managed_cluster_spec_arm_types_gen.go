@@ -9,9 +9,13 @@ import (
 )
 
 type ManagedCluster_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the Virtual Machine.
+=======
+	// ExtendedLocation: The complex type of the extended location.
+>>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the managed cluster, if configured.

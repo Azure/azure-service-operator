@@ -6,9 +6,13 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespace_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: Properties of BYOK Identity description
+=======
+	// Identity: Properties to configure User Assigned Identities for Bring your Own Keys
+>>>>>>> main
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	// Location: The Geo-location where the resource lives
@@ -16,7 +20,11 @@ type Namespace_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the namespace.
+<<<<<<< HEAD
 	Properties *SBNamespacePropertiesARM `json:"properties,omitempty"`
+=======
+	Properties *Namespace_Spec_PropertiesARM `json:"properties,omitempty"`
+>>>>>>> main
 
 	// Sku: Properties of SKU
 	Sku *SBSkuARM `json:"sku,omitempty"`
@@ -47,8 +55,13 @@ type IdentityARM struct {
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 type SBNamespacePropertiesARM struct {
 	// Encryption: Properties of BYOK Encryption description
+=======
+type Namespace_Spec_PropertiesARM struct {
+	// Encryption: Properties to configure Encryption
+>>>>>>> main
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.

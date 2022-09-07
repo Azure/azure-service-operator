@@ -337,6 +337,7 @@ type Snapshot_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
+<<<<<<< HEAD
 	CreationData                 *CreationData                        `json:"creationData,omitempty"`
 	DiskAccessReference          *genruntime.ResourceReference        `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
@@ -351,6 +352,20 @@ type Snapshot_Spec struct {
 	Location            *string                    `json:"location,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy       `json:"networkAccessPolicy,omitempty"`
 	OsType              *SnapshotProperties_OsType `json:"osType,omitempty"`
+=======
+	CreationData                 *CreationData                           `json:"creationData,omitempty"`
+	DiskAccessReference          *genruntime.ResourceReference           `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskSizeGB                   *int                                    `json:"diskSizeGB,omitempty"`
+	DiskState                    *SnapshotProperties_DiskState           `json:"diskState,omitempty"`
+	Encryption                   *Encryption                             `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection           `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation                       `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *SnapshotProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                   `json:"incremental,omitempty"`
+	Location                     *string                                 `json:"location,omitempty"`
+	NetworkAccessPolicy          *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	OsType                       *SnapshotProperties_OsType              `json:"osType,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -371,9 +386,12 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &Snapshot_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = snapshot.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if snapshot.ExtendedLocation != nil {
 		extendedLocationARM, err := (*snapshot.ExtendedLocation).ConvertToARM(resolved)
@@ -745,7 +763,11 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *alpha
 
 	// DiskState
 	if source.DiskState != nil {
+<<<<<<< HEAD
 		diskState := DiskState(*source.DiskState)
+=======
+		diskState := SnapshotProperties_DiskState(*source.DiskState)
+>>>>>>> main
 		snapshot.DiskState = &diskState
 	} else {
 		snapshot.DiskState = nil
@@ -808,7 +830,11 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *alpha
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
+<<<<<<< HEAD
 		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+=======
+		networkAccessPolicy := SnapshotProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+>>>>>>> main
 		snapshot.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		snapshot.NetworkAccessPolicy = nil
@@ -1667,7 +1693,11 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of DiskState. Use v1beta20200930.DiskState instead
+=======
+// Deprecated version of SnapshotProperties_DiskState. Use v1beta20200930.SnapshotProperties_DiskState instead
+>>>>>>> main
 // +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
 type DiskState string
 

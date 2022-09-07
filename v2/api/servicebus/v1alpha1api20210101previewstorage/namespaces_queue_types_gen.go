@@ -25,8 +25,13 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespaces_Queue_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Queue_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_Queue_Spec `json:"spec,omitempty"`
+	Status            SBQueue_STATUS        `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -333,6 +338,12 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 
 	// ForwardTo
 	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
+<<<<<<< HEAD
+=======
+
+	// Location
+	queue.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// LockDuration
 	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
@@ -370,6 +381,12 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 		queue.RequiresSession = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	queue.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		queue.PropertyBag = propertyBag
@@ -435,6 +452,12 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 
 	// ForwardTo
 	destination.ForwardTo = genruntime.ClonePointerToString(queue.ForwardTo)
+<<<<<<< HEAD
+=======
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(queue.Location)
+>>>>>>> main
 
 	// LockDuration
 	destination.LockDuration = genruntime.ClonePointerToString(queue.LockDuration)
@@ -472,6 +495,12 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 		destination.RequiresSession = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(queue.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

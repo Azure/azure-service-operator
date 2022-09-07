@@ -28,8 +28,13 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Redis_LinkedServer_Spec   `json:"spec,omitempty"`
 	Status            Redis_LinkedServer_STATUS `json:"status,omitempty"`
+=======
+	Spec              Redis_LinkedServer_Spec                `json:"spec,omitempty"`
+	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisLinkedServer{}
@@ -361,8 +366,16 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Redis_LinkedServer_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
+=======
+	// Set property ‘Location’:
+	if server.Location != nil {
+		location := *server.Location
+		result.Location = &location
+	}
+>>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -389,6 +402,17 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 		serverRole := *server.ServerRole
 		result.Properties.ServerRole = &serverRole
 	}
+<<<<<<< HEAD
+=======
+
+	// Set property ‘Tags’:
+	if server.Tags != nil {
+		result.Tags = make(map[string]string, len(server.Tags))
+		for key, value := range server.Tags {
+			result.Tags[key] = value
+		}
+	}
+>>>>>>> main
 	return result, nil
 }
 
@@ -418,6 +442,15 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// no assignment for property ‘LinkedRedisCacheReference’
 
+<<<<<<< HEAD
+=======
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		server.Location = &location
+	}
+
+>>>>>>> main
 	// Set property ‘Owner’:
 	server.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -429,6 +462,17 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		if typedInput.Properties.ServerRole != nil {
 			serverRole := *typedInput.Properties.ServerRole
 			server.ServerRole = &serverRole
+<<<<<<< HEAD
+=======
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		server.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			server.Tags[key] = value
+>>>>>>> main
 		}
 	}
 
@@ -503,6 +547,12 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 		server.LinkedRedisCacheReference = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Location
+	server.Location = genruntime.ClonePointerToString(source.Location)
+
+>>>>>>> main
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -519,6 +569,12 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 		server.ServerRole = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+>>>>>>> main
 	// No error
 	return nil
 }
@@ -542,6 +598,12 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.LinkedRedisCacheReference = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Location
+	destination.Location = genruntime.ClonePointerToString(server.Location)
+
+>>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = server.OriginalVersion()
 
@@ -561,6 +623,12 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.ServerRole = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

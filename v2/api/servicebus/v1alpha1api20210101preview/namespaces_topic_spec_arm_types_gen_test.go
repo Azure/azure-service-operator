@@ -84,7 +84,11 @@ func Namespaces_Topic_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_Topic_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Topic_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

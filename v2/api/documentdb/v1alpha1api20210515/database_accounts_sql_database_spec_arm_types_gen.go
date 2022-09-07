@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_SqlDatabase_Spec. Use v1beta20210515.DatabaseAccounts_SqlDatabase_Spec instead
 type DatabaseAccounts_SqlDatabase_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                                `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Location   *string                               `json:"location,omitempty"`
 	Name       string                                `json:"name,omitempty"`
 	Properties *SqlDatabaseCreateUpdatePropertiesARM `json:"properties,omitempty"`

@@ -28,8 +28,13 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccount_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccount_Spec             `json:"spec,omitempty"`
+	Status            DatabaseAccountGetResults_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -144,6 +149,12 @@ type DatabaseAccount_Spec struct {
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
 
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                          string                       `json:"azureName,omitempty"`
@@ -203,6 +214,7 @@ func (account *DatabaseAccount_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(account)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.DatabaseAccount_STATUS
 type DatabaseAccount_STATUS struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
@@ -263,6 +275,68 @@ func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.Co
 	}
 
 	return destination.ConvertStatusFrom(account)
+=======
+// Storage version of v1beta20210515.DatabaseAccountGetResults_STATUS
+type DatabaseAccountGetResults_STATUS struct {
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS                 `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_STATUS                                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_STATUS                                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_STATUS                                    `json:"capabilities,omitempty"`
+	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
+	ConnectorOffer                     *string                                                `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUS                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUS                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                                                `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                  `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                  `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                  `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                  `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                  `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUS                                `json:"failoverPolicies,omitempty"`
+	Id                                 *string                                                `json:"id,omitempty"`
+	Identity                           *ManagedServiceIdentity_STATUS                         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUS                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                                                `json:"kind,omitempty"`
+	Location                           *string                                                `json:"location,omitempty"`
+	Locations                          []Location_STATUS                                      `json:"locations,omitempty"`
+	Name                               *string                                                `json:"name,omitempty"`
+	NetworkAclBypass                   *string                                                `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                        genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *string                                                `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUS                                      `json:"readLocations,omitempty"`
+	Tags                               map[string]string                                      `json:"tags,omitempty"`
+	Type                               *string                                                `json:"type,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUS                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUS                                      `json:"writeLocations,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountGetResults_STATUS from the provided source
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(results)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_STATUS
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(results)
+>>>>>>> main
 }
 
 // Storage version of v1beta20210515.AnalyticalStorageConfiguration

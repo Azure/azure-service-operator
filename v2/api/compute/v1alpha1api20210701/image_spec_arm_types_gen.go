@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Image_Spec. Use v1beta20210701.Image_Spec instead
 type Image_SpecARM struct {
+<<<<<<< HEAD
 	AzureName        string               `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 	Location         *string              `json:"location,omitempty"`
 	Name             string               `json:"name,omitempty"`
@@ -34,12 +37,18 @@ func (image *Image_SpecARM) GetType() string {
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocationARM struct {
+<<<<<<< HEAD
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
+=======
+	Name *string                `json:"name,omitempty"`
+	Type *ExtendedLocation_Type `json:"type,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
 type ImagePropertiesARM struct {
+<<<<<<< HEAD
 	HyperVGeneration     *HyperVGenerationType   `json:"hyperVGeneration,omitempty"`
 	SourceVirtualMachine *SubResourceARM         `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfileARM `json:"storageProfile,omitempty"`
@@ -50,6 +59,18 @@ type ImagePropertiesARM struct {
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+=======
+	HyperVGeneration     *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	SourceVirtualMachine *SubResourceARM                   `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfileARM           `json:"storageProfile,omitempty"`
+}
+
+// Deprecated version of ExtendedLocation_Type. Use v1beta20210701.ExtendedLocation_Type instead
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocation_Type string
+
+const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+>>>>>>> main
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfileARM struct {
@@ -65,6 +86,7 @@ type SubResourceARM struct {
 
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDiskARM struct {
+<<<<<<< HEAD
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *ImageDataDisk_Caching `json:"caching,omitempty"`
 	DiskEncryptionSet  *SubResourceARM        `json:"diskEncryptionSet,omitempty"`
@@ -73,10 +95,21 @@ type ImageDataDiskARM struct {
 	ManagedDisk        *SubResourceARM        `json:"managedDisk,omitempty"`
 	Snapshot           *SubResourceARM        `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType    `json:"storageAccountType,omitempty"`
+=======
+	BlobUri            *string                           `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_Caching            `json:"caching,omitempty"`
+	DiskEncryptionSet  *DiskEncryptionSetParametersARM   `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                              `json:"diskSizeGB,omitempty"`
+	Lun                *int                              `json:"lun,omitempty"`
+	ManagedDisk        *SubResourceARM                   `json:"managedDisk,omitempty"`
+	Snapshot           *SubResourceARM                   `json:"snapshot,omitempty"`
+	StorageAccountType *ImageDataDisk_StorageAccountType `json:"storageAccountType,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDiskARM struct {
+<<<<<<< HEAD
 	BlobUri            *string              `json:"blobUri,omitempty"`
 	Caching            *ImageOSDisk_Caching `json:"caching,omitempty"`
 	DiskEncryptionSet  *SubResourceARM      `json:"diskEncryptionSet,omitempty"`
@@ -86,4 +119,20 @@ type ImageOSDiskARM struct {
 	OsType             *ImageOSDisk_OsType  `json:"osType,omitempty"`
 	Snapshot           *SubResourceARM      `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType  `json:"storageAccountType,omitempty"`
+=======
+	BlobUri            *string                         `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_Caching            `json:"caching,omitempty"`
+	DiskEncryptionSet  *DiskEncryptionSetParametersARM `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                            `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResourceARM                 `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_OsState            `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_OsType             `json:"osType,omitempty"`
+	Snapshot           *SubResourceARM                 `json:"snapshot,omitempty"`
+	StorageAccountType *ImageOSDisk_StorageAccountType `json:"storageAccountType,omitempty"`
+}
+
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+type DiskEncryptionSetParametersARM struct {
+	Id *string `json:"id,omitempty"`
+>>>>>>> main
 }

@@ -83,7 +83,10 @@ func Workspace_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspace_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspace_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+>>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -92,7 +95,11 @@ func AddIndependentPropertyGeneratorsForWorkspace_SpecARM(gens map[string]gopter
 // AddRelatedPropertyGeneratorsForWorkspace_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspace_SpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
+<<<<<<< HEAD
 	gens["Properties"] = gen.PtrOf(WorkspacePropertiesARMGenerator())
+=======
+	gens["Properties"] = gen.PtrOf(Workspace_Spec_PropertiesARMGenerator())
+>>>>>>> main
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
@@ -295,6 +302,7 @@ func AddIndependentPropertyGeneratorsForSystemDataARM(gens map[string]gopter.Gen
 		SystemData_LastModifiedByType_User))
 }
 
+<<<<<<< HEAD
 func Test_WorkspacePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -309,6 +317,22 @@ func Test_WorkspacePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 
 // RunJSONSerializationTestForWorkspacePropertiesARM runs a test to see if a specific instance of WorkspacePropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForWorkspacePropertiesARM(subject WorkspacePropertiesARM) string {
+=======
+func Test_Workspace_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Workspace_Spec_PropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspace_Spec_PropertiesARM, Workspace_Spec_PropertiesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspace_Spec_PropertiesARM runs a test to see if a specific instance of Workspace_Spec_PropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspace_Spec_PropertiesARM(subject Workspace_Spec_PropertiesARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -316,7 +340,11 @@ func RunJSONSerializationTestForWorkspacePropertiesARM(subject WorkspaceProperti
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual WorkspacePropertiesARM
+=======
+	var actual Workspace_Spec_PropertiesARM
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -334,6 +362,7 @@ func RunJSONSerializationTestForWorkspacePropertiesARM(subject WorkspaceProperti
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of WorkspacePropertiesARM instances for property testing - lazily instantiated by
 // WorkspacePropertiesARMGenerator()
 var workspacePropertiesARMGenerator gopter.Gen
@@ -362,6 +391,36 @@ func WorkspacePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspacePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspacePropertiesARM(gens map[string]gopter.Gen) {
+=======
+// Generator of Workspace_Spec_PropertiesARM instances for property testing - lazily instantiated by
+// Workspace_Spec_PropertiesARMGenerator()
+var workspace_Spec_PropertiesARMGenerator gopter.Gen
+
+// Workspace_Spec_PropertiesARMGenerator returns a generator of Workspace_Spec_PropertiesARM instances for property testing.
+// We first initialize workspace_Spec_PropertiesARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Workspace_Spec_PropertiesARMGenerator() gopter.Gen {
+	if workspace_Spec_PropertiesARMGenerator != nil {
+		return workspace_Spec_PropertiesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec_PropertiesARM(generators)
+	workspace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_PropertiesARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec_PropertiesARM(generators)
+	AddRelatedPropertyGeneratorsForWorkspace_Spec_PropertiesARM(generators)
+	workspace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_PropertiesARM{}), generators)
+
+	return workspace_Spec_PropertiesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWorkspace_Spec_PropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["AllowPublicAccessWhenBehindVnet"] = gen.PtrOf(gen.Bool())
 	gens["ApplicationInsights"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerRegistry"] = gen.PtrOf(gen.AlphaString())
@@ -372,6 +431,7 @@ func AddIndependentPropertyGeneratorsForWorkspacePropertiesARM(gens map[string]g
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVault"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 }
@@ -381,6 +441,17 @@ func AddRelatedPropertyGeneratorsForWorkspacePropertiesARM(gens map[string]gopte
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertyARMGenerator())
 	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettingsARMGenerator())
 	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResourceARMGenerator())
+=======
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(Workspace_Spec_Properties_PublicNetworkAccess_Disabled, Workspace_Spec_Properties_PublicNetworkAccess_Enabled))
+	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForWorkspace_Spec_PropertiesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
+	gens["Encryption"] = gen.PtrOf(EncryptionPropertyARMGenerator())
+	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettingsARMGenerator())
+	gens["SharedPrivateLinkResources"] = gen.SliceOf(Workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator())
+>>>>>>> main
 }
 
 func Test_EncryptionPropertyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -520,13 +591,18 @@ func AddRelatedPropertyGeneratorsForServiceManagedResourcesSettingsARM(gens map[
 	gens["CosmosDb"] = gen.PtrOf(CosmosDbSettingsARMGenerator())
 }
 
+<<<<<<< HEAD
 func Test_SharedPrivateLinkResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_Workspace_Spec_Properties_SharedPrivateLinkResourcesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of SharedPrivateLinkResourceARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForSharedPrivateLinkResourceARM, SharedPrivateLinkResourceARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -534,6 +610,15 @@ func Test_SharedPrivateLinkResourceARM_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForSharedPrivateLinkResourceARM runs a test to see if a specific instance of SharedPrivateLinkResourceARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSharedPrivateLinkResourceARM(subject SharedPrivateLinkResourceARM) string {
+=======
+		"Round trip of Workspace_Spec_Properties_SharedPrivateLinkResourcesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM, Workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM runs a test to see if a specific instance of Workspace_Spec_Properties_SharedPrivateLinkResourcesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(subject Workspace_Spec_Properties_SharedPrivateLinkResourcesARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -541,7 +626,11 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceARM(subject SharedPriva
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual SharedPrivateLinkResourceARM
+=======
+	var actual Workspace_Spec_Properties_SharedPrivateLinkResourcesARM
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -559,6 +648,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceARM(subject SharedPriva
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of SharedPrivateLinkResourceARM instances for property testing - lazily instantiated by
 // SharedPrivateLinkResourceARMGenerator()
 var sharedPrivateLinkResourceARMGenerator gopter.Gen
@@ -592,6 +682,41 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceARM(gens map[st
 
 // AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceARM(gens map[string]gopter.Gen) {
+=======
+// Generator of Workspace_Spec_Properties_SharedPrivateLinkResourcesARM instances for property testing - lazily
+// instantiated by Workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator()
+var workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator gopter.Gen
+
+// Workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator returns a generator of Workspace_Spec_Properties_SharedPrivateLinkResourcesARM instances for property testing.
+// We first initialize workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator() gopter.Gen {
+	if workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator != nil {
+		return workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(generators)
+	workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_Properties_SharedPrivateLinkResourcesARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(generators)
+	AddRelatedPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(generators)
+	workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_Properties_SharedPrivateLinkResourcesARM{}), generators)
+
+	return workspace_Spec_Properties_SharedPrivateLinkResourcesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResourcesARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Properties"] = gen.PtrOf(SharedPrivateLinkResourcePropertyARMGenerator())
 }
 

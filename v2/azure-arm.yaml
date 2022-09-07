@@ -273,11 +273,11 @@ typeTransformers:
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
 
   # TODO(donotmerge)
-  # - name: StorageAccounts_ManagementPolicies_Spec
-  #   group: storage
-  #   property: Location
-  #   remove: true
-  #   because: This property should be marked readonly
+ # - name: StorageAccounts_ManagementPolicy_Spec
+ #   group: storage
+ #   property: Location
+ #   remove: true
+ #   because: This property should be marked readonly
 
   - name: ManagedServiceIdentity
     group: documentdb
@@ -414,6 +414,11 @@ typeTransformers:
   #   because: This property should have been marked readonly but wasn't.
 
   - group: servicebus
+    name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
     property: Status
     remove: true
@@ -475,6 +480,17 @@ typeTransformers:
   #   property: Location
   #   remove: true
   #   because: Child resource cannot choose location
+  # Deal with service Swaggers that are just wrong
+  - group: insights
+    name: WebTest_Spec
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+  - group: insights
+    name: WebTest_Status
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
   ## Deal with service Swaggers that are just wrong
 
@@ -1187,7 +1203,7 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      WorkspaceProperties:
+      Workspace_Spec_Properties:
         ApplicationInsights:
           $armReference: true
         PrimaryUserAssignedIdentity:
@@ -1276,8 +1292,8 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddress:
-        $export: true
+      PublicIPAddresses:
+        $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       PublicIPAddressSpec_SubResourceEmbedded:
         Id:
@@ -1288,7 +1304,7 @@ objectModelConfiguration:
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTablePropertiesFormat:
+      RouteTable_Spec_Properties:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
@@ -1315,7 +1331,7 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkPropertiesFormat:
+      VirtualNetwork_Spec_Properties:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
@@ -1328,7 +1344,7 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGatewayPropertiesFormat:
+      VirtualNetworkGateway_Spec_Properties:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:

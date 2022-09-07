@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccount_Spec. Use v1beta20210401.StorageAccount_Spec instead
 type StorageAccount_SpecARM struct {
+<<<<<<< HEAD
 	AzureName        string                                       `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	ExtendedLocation *ExtendedLocationARM                         `json:"extendedLocation,omitempty"`
 	Identity         *IdentityARM                                 `json:"identity,omitempty"`
 	Kind             *StorageAccount_Spec_Kind                    `json:"kind,omitempty"`

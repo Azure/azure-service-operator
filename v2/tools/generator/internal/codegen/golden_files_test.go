@@ -200,7 +200,7 @@ func NewTestCodeGenerator(
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
-		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
+		codegen.InjectStageAfter(pipeline.DetermineResourceOwnershipStageId, injectEmbeddedStructType())
 	}
 
 	codegen.RemoveStages(

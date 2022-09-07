@@ -28,8 +28,13 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -135,9 +140,12 @@ type MongodbDatabaseThroughputSettingList struct {
 
 // Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
 type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
+<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -169,6 +177,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Convert
 	}
 
 	return destination.ConvertSpecFrom(setting)
+<<<<<<< HEAD
 }
 
 // Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
@@ -201,6 +210,8 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Conve
 	}
 
 	return destination.ConvertStatusFrom(setting)
+=======
+>>>>>>> main
 }
 
 func init() {

@@ -3,11 +3,21 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
+<<<<<<< HEAD
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Workspace_Spec. Use v1beta20210601.Workspace_Spec instead
 type Workspace_SpecARM struct {
 	AzureName  string                  `json:"azureName,omitempty"`
+=======
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
+
+// Deprecated version of Workspace_Spec. Use v1beta20210601.Workspace_Spec instead
+type Workspace_SpecARM struct {
+>>>>>>> main
 	Etag       *string                 `json:"etag,omitempty"`
 	Location   *string                 `json:"location,omitempty"`
 	Name       string                  `json:"name,omitempty"`
@@ -34,6 +44,7 @@ func (workspace *Workspace_SpecARM) GetType() string {
 
 // Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead
 type WorkspacePropertiesARM struct {
+<<<<<<< HEAD
 	Features                        *WorkspaceFeaturesARM                  `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                                  `json:"forceCmkForQuery,omitempty"`
 	ProvisioningState               *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
@@ -42,6 +53,16 @@ type WorkspacePropertiesARM struct {
 	RetentionInDays                 *int                                   `json:"retentionInDays,omitempty"`
 	Sku                             *WorkspaceSkuARM                       `json:"sku,omitempty"`
 	WorkspaceCapping                *WorkspaceCappingARM                   `json:"workspaceCapping,omitempty"`
+=======
+	Features                        *WorkspaceFeaturesARM                                `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                                                `json:"forceCmkForQuery,omitempty"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState               `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *WorkspaceProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                                 `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSkuARM                                     `json:"sku,omitempty"`
+	WorkspaceCapping                *WorkspaceCappingARM                                 `json:"workspaceCapping,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
@@ -51,15 +72,29 @@ type WorkspaceCappingARM struct {
 
 // Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeaturesARM struct {
+<<<<<<< HEAD
 	ClusterResourceId                           *string `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool   `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool   `json:"enableDataExport,omitempty"`
 	EnableLogAccessUsingOnlyResourcePermissions *bool   `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
 	ImmediatePurgeDataOn30Days                  *bool   `json:"immediatePurgeDataOn30Days,omitempty"`
+=======
+	AdditionalProperties                        map[string]v1.JSON `json:"additionalProperties,omitempty"`
+	ClusterResourceId                           *string            `json:"clusterResourceId,omitempty"`
+	DisableLocalAuth                            *bool              `json:"disableLocalAuth,omitempty"`
+	EnableDataExport                            *bool              `json:"enableDataExport,omitempty"`
+	EnableLogAccessUsingOnlyResourcePermissions *bool              `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
+	ImmediatePurgeDataOn30Days                  *bool              `json:"immediatePurgeDataOn30Days,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSkuARM struct {
+<<<<<<< HEAD
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 	Name                     *WorkspaceSku_Name                     `json:"name,omitempty"`
+=======
+	CapacityReservationLevel *int               `json:"capacityReservationLevel,omitempty"`
+	Name                     *WorkspaceSku_Name `json:"name,omitempty"`
+>>>>>>> main
 }

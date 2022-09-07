@@ -6,9 +6,13 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespace_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: Properties of BYOK Identity description
+=======
+	// Identity: Properties to configure Identity for Bring your Own Keys
+>>>>>>> main
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	// Location: Resource location.
@@ -69,7 +73,11 @@ type Namespace_Spec_PropertiesARM struct {
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
+<<<<<<< HEAD
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
+=======
+	PrivateEndpointConnections []Namespace_Spec_Properties_PrivateEndpointConnectionsARM `json:"privateEndpointConnections,omitempty"`
+>>>>>>> main
 
 	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
@@ -108,8 +116,13 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+<<<<<<< HEAD
 type PrivateEndpointConnectionARM struct {
 	// Properties: Properties of the PrivateEndpointConnection.
+=======
+type Namespace_Spec_Properties_PrivateEndpointConnectionsARM struct {
+	// Properties: Properties of the private endpoint connection resource.
+>>>>>>> main
 	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 

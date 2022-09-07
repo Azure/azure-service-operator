@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Registry_Spec. Use v1beta20210901.Registry_Spec instead
 type Registry_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                 `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Identity   *IdentityPropertiesARM `json:"identity,omitempty"`
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`

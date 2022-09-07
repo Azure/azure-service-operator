@@ -340,12 +340,19 @@ const APIVersion_Value = APIVersion("2021-07-01")
 type Image_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
+<<<<<<< HEAD
 	AzureName        string                `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation     `json:"extendedLocation,omitempty"`
 	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
+=======
+	AzureName        string                            `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation                 `json:"extendedLocation,omitempty"`
+	HyperVGeneration *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Location         *string                           `json:"location,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -366,9 +373,12 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Image_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = image.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if image.ExtendedLocation != nil {
 		extendedLocationARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
@@ -581,7 +591,11 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *alpha20210701s
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
+<<<<<<< HEAD
 		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
+=======
+		hyperVGeneration := ImageProperties_HyperVGeneration(*source.HyperVGeneration)
+>>>>>>> main
 		image.HyperVGeneration = &hyperVGeneration
 	} else {
 		image.HyperVGeneration = nil

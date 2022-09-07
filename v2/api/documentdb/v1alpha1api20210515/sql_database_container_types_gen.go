@@ -28,8 +28,13 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
+	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -357,9 +362,12 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertToARM(reso
 		return nil, nil
 	}
 	result := &DatabaseAccounts_SqlDatabases_Container_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = container.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Location’:
 	if container.Location != nil {

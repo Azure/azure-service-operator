@@ -30,8 +30,13 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              StorageAccounts_BlobServices_Container_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_BlobServices_Container_STATUS `json:"status,omitempty"`
+=======
+	Spec              StorageAccounts_BlobServices_Container_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_STATUS                        `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -1281,7 +1286,16 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 	return nil
 }
 
+<<<<<<< HEAD
 type ContainerProperties_LeaseDuration_STATUS string
+=======
+type StorageAccounts_BlobServices_Container_Spec struct {
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=3
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+>>>>>>> main
 
 const (
 	ContainerProperties_LeaseDuration_Fixed_STATUS    = ContainerProperties_LeaseDuration_STATUS("Fixed")
@@ -1300,10 +1314,369 @@ const (
 
 type ContainerProperties_LeaseStatus_STATUS string
 
+<<<<<<< HEAD
 const (
 	ContainerProperties_LeaseStatus_Locked_STATUS   = ContainerProperties_LeaseStatus_STATUS("Locked")
 	ContainerProperties_LeaseStatus_Unlocked_STATUS = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
+=======
+	// Metadata: A name-value pair to associate with the container as metadata.
+	Metadata map[string]string `json:"metadata,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsBlobService resource
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
+
+	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
+	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &StorageAccounts_BlobServices_Container_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if container == nil {
+		return nil, nil
+	}
+	result := &StorageAccounts_BlobServices_Container_SpecARM{}
+
+	// Set property ‘Location’:
+	if container.Location != nil {
+		location := *container.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if container.DefaultEncryptionScope != nil ||
+		container.DenyEncryptionScopeOverride != nil ||
+		container.ImmutableStorageWithVersioning != nil ||
+		container.Metadata != nil ||
+		container.PublicAccess != nil {
+		result.Properties = &ContainerPropertiesARM{}
+	}
+	if container.DefaultEncryptionScope != nil {
+		defaultEncryptionScope := *container.DefaultEncryptionScope
+		result.Properties.DefaultEncryptionScope = &defaultEncryptionScope
+	}
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
+		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	}
+	if container.ImmutableStorageWithVersioning != nil {
+		immutableStorageWithVersioningARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
+		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	}
+	if container.Metadata != nil {
+		result.Properties.Metadata = make(map[string]string, len(container.Metadata))
+		for key, value := range container.Metadata {
+			result.Properties.Metadata[key] = value
+		}
+	}
+	if container.PublicAccess != nil {
+		publicAccess := *container.PublicAccess
+		result.Properties.PublicAccess = &publicAccess
+	}
+
+	// Set property ‘Tags’:
+	if container.Tags != nil {
+		result.Tags = make(map[string]string, len(container.Tags))
+		for key, value := range container.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (container *StorageAccounts_BlobServices_Container_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccounts_BlobServices_Container_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccounts_BlobServices_Container_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DefaultEncryptionScope’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultEncryptionScope != nil {
+			defaultEncryptionScope := *typedInput.Properties.DefaultEncryptionScope
+			container.DefaultEncryptionScope = &defaultEncryptionScope
+		}
+	}
+
+	// Set property ‘DenyEncryptionScopeOverride’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DenyEncryptionScopeOverride != nil {
+			denyEncryptionScopeOverride := *typedInput.Properties.DenyEncryptionScopeOverride
+			container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+		}
+	}
+
+	// Set property ‘ImmutableStorageWithVersioning’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ImmutableStorageWithVersioning != nil {
+			var immutableStorageWithVersioning1 ImmutableStorageWithVersioning
+			err := immutableStorageWithVersioning1.PopulateFromARM(owner, *typedInput.Properties.ImmutableStorageWithVersioning)
+			if err != nil {
+				return err
+			}
+			immutableStorageWithVersioning := immutableStorageWithVersioning1
+			container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		container.Location = &location
+	}
+
+	// Set property ‘Metadata’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Metadata != nil {
+			container.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			for key, value := range typedInput.Properties.Metadata {
+				container.Metadata[key] = value
+			}
+		}
+	}
+
+	// Set property ‘Owner’:
+	container.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicAccess != nil {
+			publicAccess := *typedInput.Properties.PublicAccess
+			container.PublicAccess = &publicAccess
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		container.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			container.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobServices_Container_Spec{}
+
+// ConvertSpecFrom populates our StorageAccounts_BlobServices_Container_Spec from the provided source
+func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401s.StorageAccounts_BlobServices_Container_Spec)
+	if ok {
+		// Populate our instance from source
+		return container.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210401s.StorageAccounts_BlobServices_Container_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = container.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401s.StorageAccounts_BlobServices_Container_Spec)
+	if ok {
+		// Populate destination from our instance
+		return container.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210401s.StorageAccounts_BlobServices_Container_Spec{}
+	err := container.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_BlobServices_Container_Spec populates our StorageAccounts_BlobServices_Container_Spec from the provided source StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(source *v20210401s.StorageAccounts_BlobServices_Container_Spec) error {
+
+	// AzureName
+	container.AzureName = source.AzureName
+
+	// DefaultEncryptionScope
+	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+
+	// DenyEncryptionScopeOverride
+	if source.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
+		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		container.DenyEncryptionScopeOverride = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if source.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning ImmutableStorageWithVersioning
+		err := immutableStorageWithVersioning.AssignProperties_From_ImmutableStorageWithVersioning(source.ImmutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+		}
+		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		container.ImmutableStorageWithVersioning = nil
+	}
+
+	// Location
+	container.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Metadata
+	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		container.Owner = &owner
+	} else {
+		container.Owner = nil
+	}
+
+	// PublicAccess
+	if source.PublicAccess != nil {
+		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
+		container.PublicAccess = &publicAccess
+	} else {
+		container.PublicAccess = nil
+	}
+
+	// Tags
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_BlobServices_Container_Spec populates the provided destination StorageAccounts_BlobServices_Container_Spec from our StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(destination *v20210401s.StorageAccounts_BlobServices_Container_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = container.AzureName
+
+	// DefaultEncryptionScope
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(container.DefaultEncryptionScope)
+
+	// DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
+		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		destination.DenyEncryptionScopeOverride = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if container.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning v20210401s.ImmutableStorageWithVersioning
+		err := container.ImmutableStorageWithVersioning.AssignProperties_To_ImmutableStorageWithVersioning(&immutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+		}
+		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		destination.ImmutableStorageWithVersioning = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(container.Location)
+
+	// Metadata
+	destination.Metadata = genruntime.CloneMapOfStringToString(container.Metadata)
+
+	// OriginalVersion
+	destination.OriginalVersion = container.OriginalVersion()
+
+	// Owner
+	if container.Owner != nil {
+		owner := container.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicAccess
+	if container.PublicAccess != nil {
+		publicAccess := string(*container.PublicAccess)
+		destination.PublicAccess = &publicAccess
+	} else {
+		destination.PublicAccess = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (container *StorageAccounts_BlobServices_Container_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (container *StorageAccounts_BlobServices_Container_Spec) SetAzureName(azureName string) {
+	container.AzureName = azureName
+}
+>>>>>>> main
 
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
 type ContainerProperties_PublicAccess string

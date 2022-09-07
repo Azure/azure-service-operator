@@ -30,8 +30,13 @@ import (
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              PrivateDnsZone_Spec   `json:"spec,omitempty"`
 	Status            PrivateDnsZone_STATUS `json:"status,omitempty"`
+=======
+	Spec              PrivateDnsZone_Spec `json:"spec,omitempty"`
+	Status            PrivateZone_STATUS  `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -349,9 +354,12 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		return nil, nil
 	}
 	result := &PrivateDnsZone_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = zone.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Etag’:
 	if zone.Etag != nil {
@@ -359,8 +367,27 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Etag = &etag
 	}
 
+<<<<<<< HEAD
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+=======
+	// Set property ‘Location’:
+	if zone.Location != nil {
+		location := *zone.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Tags’:
+	if zone.Tags != nil {
+		result.Tags = make(map[string]string, len(zone.Tags))
+		for key, value := range zone.Tags {
+			result.Tags[key] = value
+		}
+	}
+>>>>>>> main
 	return result, nil
 }
 
@@ -383,6 +410,15 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zone.Etag = &etag
+<<<<<<< HEAD
+=======
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		zone.Location = &location
+>>>>>>> main
 	}
 
 	// Set property ‘Owner’:
@@ -390,6 +426,17 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		Name: owner.Name,
 	}
 
+<<<<<<< HEAD
+=======
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		zone.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			zone.Tags[key] = value
+		}
+	}
+
+>>>>>>> main
 	// No error
 	return nil
 }
@@ -452,6 +499,12 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 
 	// Etag
 	zone.Etag = genruntime.ClonePointerToString(source.Etag)
+<<<<<<< HEAD
+=======
+
+	// Location
+	zone.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// Owner
 	if source.Owner != nil {
@@ -461,6 +514,12 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 		zone.Owner = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	zone.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+>>>>>>> main
 	// No error
 	return nil
 }
@@ -475,6 +534,12 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
+<<<<<<< HEAD
+=======
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(zone.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = zone.OriginalVersion()
@@ -487,6 +552,12 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 		destination.Owner = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(zone.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

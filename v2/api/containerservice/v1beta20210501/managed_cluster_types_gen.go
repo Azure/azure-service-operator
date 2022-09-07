@@ -347,15 +347,24 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-05-01")
 
 type ManagedCluster_Spec struct {
+<<<<<<< HEAD
 	// AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
 	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
+=======
+	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
+
+	// AddonProfiles: The profile of managed cluster add-on.
+	AddonProfiles map[string]ManagedClusterAddonProfile `json:"addonProfiles,omitempty"`
+>>>>>>> main
 
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
 
+<<<<<<< HEAD
 	// ApiServerAccessProfile: The access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
 
@@ -365,6 +374,20 @@ type ManagedCluster_Spec struct {
 	// AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
 
+=======
+	// ApiServerAccessProfile: Access profile for managed cluster API server.
+	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
+
+	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
+	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
+
+	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
+	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -388,12 +411,17 @@ type ManagedCluster_Spec struct {
 	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
 
+<<<<<<< HEAD
 	// ExtendedLocation: The extended location of the Virtual Machine.
+=======
+	// ExtendedLocation: The complex type of the extended location.
+>>>>>>> main
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
+<<<<<<< HEAD
 	// HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
 
@@ -402,6 +430,16 @@ type ManagedCluster_Spec struct {
 
 	// IdentityProfile: Identities associated with the cluster.
 	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
+=======
+	// HttpProxyConfig: Cluster HTTP proxy configuration.
+	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
+
+	// Identity: Identity for the managed cluster.
+	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
+
+	// IdentityProfile: Identities associated with the cluster.
+	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
+>>>>>>> main
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -409,6 +447,7 @@ type ManagedCluster_Spec struct {
 	// cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
+<<<<<<< HEAD
 	// LinuxProfile: The profile for Linux VMs in the Managed Cluster.
 	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
 
@@ -417,6 +456,15 @@ type ManagedCluster_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// NetworkProfile: The network configuration profile.
+=======
+	// LinuxProfile: Profile for Linux VMs in the container service cluster.
+	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// NetworkProfile: Profile of network configuration.
+>>>>>>> main
 	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 
 	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
@@ -433,7 +481,11 @@ type ManagedCluster_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
+<<<<<<< HEAD
 	// details on AAD pod identity integration.
+=======
+	// details on pod identity integration.
+>>>>>>> main
 	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
 
 	// PrivateLinkResources: Private link resources associated with the cluster.
@@ -443,6 +495,7 @@ type ManagedCluster_Spec struct {
 	// APIs.
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 
+<<<<<<< HEAD
 	// Sku: The managed cluster SKU.
 	Sku *ManagedClusterSKU `json:"sku,omitempty"`
 
@@ -450,6 +503,15 @@ type ManagedCluster_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// WindowsProfile: The profile for Windows VMs in the Managed Cluster.
+=======
+	// Sku: The SKU of a Managed Cluster.
+	Sku *ManagedClusterSKU `json:"sku,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// WindowsProfile: Profile for Windows VMs in the managed cluster.
+>>>>>>> main
 	WindowsProfile *ManagedClusterWindowsProfile `json:"windowsProfile,omitempty"`
 }
 
@@ -462,9 +524,12 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &ManagedCluster_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = cluster.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if cluster.ExtendedLocation != nil {
 		extendedLocationARM, err := (*cluster.ExtendedLocation).ConvertToARM(resolved)
@@ -528,8 +593,19 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AadProfile = &aadProfile
 	}
 	if cluster.AddonProfiles != nil {
+<<<<<<< HEAD
 		addonProfiles := *(*cluster.AddonProfiles).DeepCopy()
 		result.Properties.AddonProfiles = &addonProfiles
+=======
+		result.Properties.AddonProfiles = make(map[string]ManagedClusterAddonProfileARM, len(cluster.AddonProfiles))
+		for key, value := range cluster.AddonProfiles {
+			valueARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.AddonProfiles[key] = *valueARM.(*ManagedClusterAddonProfileARM)
+		}
+>>>>>>> main
 	}
 	for _, item := range cluster.AgentPoolProfiles {
 		itemARM, err := item.ConvertToARM(resolved)
@@ -551,7 +627,11 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
+<<<<<<< HEAD
 		autoScalerProfile := *autoScalerProfileARM.(*ManagedClusterProperties_AutoScalerProfileARM)
+=======
+		autoScalerProfile := *autoScalerProfileARM.(*ManagedClusterPropertiesAutoScalerProfileARM)
+>>>>>>> main
 		result.Properties.AutoScalerProfile = &autoScalerProfile
 	}
 	if cluster.AutoUpgradeProfile != nil {
@@ -599,8 +679,19 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.HttpProxyConfig = &httpProxyConfig
 	}
 	if cluster.IdentityProfile != nil {
+<<<<<<< HEAD
 		identityProfile := *(*cluster.IdentityProfile).DeepCopy()
 		result.Properties.IdentityProfile = &identityProfile
+=======
+		result.Properties.IdentityProfile = make(map[string]Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM, len(cluster.IdentityProfile))
+		for key, value := range cluster.IdentityProfile {
+			valueARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.IdentityProfile[key] = *valueARM.(*Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
+		}
+>>>>>>> main
 	}
 	if cluster.KubernetesVersion != nil {
 		kubernetesVersion := *cluster.KubernetesVersion
@@ -708,8 +799,20 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
+<<<<<<< HEAD
 			addonProfiles := *(*typedInput.Properties.AddonProfiles).DeepCopy()
 			cluster.AddonProfiles = &addonProfiles
+=======
+			cluster.AddonProfiles = make(map[string]ManagedClusterAddonProfile, len(typedInput.Properties.AddonProfiles))
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.AddonProfiles[key] = value1
+			}
+>>>>>>> main
 		}
 	}
 
@@ -744,7 +847,11 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScalerProfile != nil {
+<<<<<<< HEAD
 			var autoScalerProfile1 ManagedClusterProperties_AutoScalerProfile
+=======
+			var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
+>>>>>>> main
 			err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
 			if err != nil {
 				return err
@@ -858,8 +965,20 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
+<<<<<<< HEAD
 			identityProfile := *(*typedInput.Properties.IdentityProfile).DeepCopy()
 			cluster.IdentityProfile = &identityProfile
+=======
+			cluster.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(typedInput.Properties.IdentityProfile))
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.IdentityProfile[key] = value1
+			}
+>>>>>>> main
 		}
 	}
 
@@ -1067,8 +1186,23 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// AddonProfiles
 	if source.AddonProfiles != nil {
+<<<<<<< HEAD
 		addonProfile := *source.AddonProfiles.DeepCopy()
 		cluster.AddonProfiles = &addonProfile
+=======
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile
+			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		cluster.AddonProfiles = addonProfileMap
+>>>>>>> main
 	} else {
 		cluster.AddonProfiles = nil
 	}
@@ -1105,10 +1239,17 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// AutoScalerProfile
 	if source.AutoScalerProfile != nil {
+<<<<<<< HEAD
 		var autoScalerProfile ManagedClusterProperties_AutoScalerProfile
 		err := autoScalerProfile.AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(source.AutoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterProperties_AutoScalerProfile() to populate field AutoScalerProfile")
+=======
+		var autoScalerProfile ManagedClusterPropertiesAutoScalerProfile
+		err := autoScalerProfile.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(source.AutoScalerProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+>>>>>>> main
 		}
 		cluster.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -1206,8 +1347,23 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// IdentityProfile
 	if source.IdentityProfile != nil {
+<<<<<<< HEAD
 		identityProfile := *source.IdentityProfile.DeepCopy()
 		cluster.IdentityProfile = &identityProfile
+=======
+		identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfile.AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		cluster.IdentityProfile = identityProfileMap
+>>>>>>> main
 	} else {
 		cluster.IdentityProfile = nil
 	}
@@ -1357,8 +1513,23 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
+<<<<<<< HEAD
 		addonProfile := *cluster.AddonProfiles.DeepCopy()
 		destination.AddonProfiles = &addonProfile
+=======
+		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile, len(cluster.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v20210501s.ManagedClusterAddonProfile
+			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		destination.AddonProfiles = addonProfileMap
+>>>>>>> main
 	} else {
 		destination.AddonProfiles = nil
 	}
@@ -1395,10 +1566,17 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
+<<<<<<< HEAD
 		var autoScalerProfile v20210501s.ManagedClusterProperties_AutoScalerProfile
 		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(&autoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_AutoScalerProfile() to populate field AutoScalerProfile")
+=======
+		var autoScalerProfile v20210501s.ManagedClusterPropertiesAutoScalerProfile
+		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(&autoScalerProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+>>>>>>> main
 		}
 		destination.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -1496,8 +1674,23 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
+<<<<<<< HEAD
 		identityProfile := *cluster.IdentityProfile.DeepCopy()
 		destination.IdentityProfile = &identityProfile
+=======
+		identityProfileMap := make(map[string]v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(cluster.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfileValue.AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		destination.IdentityProfile = identityProfileMap
+>>>>>>> main
 	} else {
 		destination.IdentityProfile = nil
 	}
@@ -2827,6 +3020,136 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceReference: The resource ID of the user assigned identity.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties == nil {
+		return nil, nil
+	}
+	result := &Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
+
+	// Set property ‘ClientId’:
+	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId != nil {
+		clientId := *etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId
+		result.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId != nil {
+		objectId := *etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId
+		result.ObjectId = &objectId
+	}
+
+	// Set property ‘ResourceId’:
+	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
+		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceReference := resourceReferenceARMID
+		result.ResourceId = &resourceReference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM, got %T", armInput)
+	}
+
+	// Set property ‘ClientId’:
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if typedInput.ObjectId != nil {
+		objectId := *typedInput.ObjectId
+		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = &objectId
+	}
+
+	// no assignment for property ‘ResourceReference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from the provided source Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
+
+	// ClientId
+	etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ObjectId
+	etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference = &resourceReference
+	} else {
+		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates the provided destination Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(destination *v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId)
+
+	// ResourceReference
+	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
+		resourceReference := etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
+>>>>>>> main
 type ContainerServiceLinuxProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[A-Za-z][-A-Za-z0-9_]*$"

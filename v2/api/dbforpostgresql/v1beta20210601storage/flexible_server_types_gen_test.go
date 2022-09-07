@@ -75,7 +75,11 @@ func FlexibleServerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFlexibleServer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServer(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServer_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = FlexibleServer_STATUSGenerator()
+=======
+	gens["Status"] = Server_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_FlexibleServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

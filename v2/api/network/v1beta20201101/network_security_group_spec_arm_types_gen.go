@@ -6,6 +6,7 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NetworkSecurityGroup_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string  `json:"azureName,omitempty"`
 	Id        *string `json:"id,omitempty"`
 
@@ -17,6 +18,15 @@ type NetworkSecurityGroup_SpecARM struct {
 	Properties *NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// Name: Name of the resource
+	Name string `json:"name,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+>>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,6 +46,7 @@ func (group *NetworkSecurityGroup_SpecARM) GetName() string {
 func (group *NetworkSecurityGroup_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
+<<<<<<< HEAD
 
 type NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM struct {
 	// SecurityRules: A collection of security rules of the network security group.
@@ -45,3 +56,5 @@ type NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM struct {
 type SecurityRule_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
+=======
+>>>>>>> main

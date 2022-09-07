@@ -84,7 +84,11 @@ func StorageAccounts_BlobServices_Container_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

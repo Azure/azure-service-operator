@@ -28,8 +28,13 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              StorageAccounts_BlobServices_Container_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_BlobServices_Container_STATUS `json:"status,omitempty"`
+=======
+	Spec              StorageAccounts_BlobServices_Container_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_STATUS                        `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -220,6 +225,53 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) ConvertStatusTo(
 	return destination.ConvertStatusFrom(container)
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20210401.StorageAccounts_BlobServices_Container_Spec
+type StorageAccounts_BlobServices_Container_Spec struct {
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=3
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                      string                          `json:"azureName,omitempty"`
+	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
+	Location                       *string                         `json:"location,omitempty"`
+	Metadata                       map[string]string               `json:"metadata,omitempty"`
+	OriginalVersion                string                          `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsBlobService resource
+	Owner        *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicAccess *string                            `json:"publicAccess,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobServices_Container_Spec{}
+
+// ConvertSpecFrom populates our StorageAccounts_BlobServices_Container_Spec from the provided source
+func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == container {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(container)
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == container {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(container)
+}
+
+>>>>>>> main
 // Storage version of v1beta20210401.ImmutabilityPolicyProperties_STATUS
 type ImmutabilityPolicyProperties_STATUS struct {
 	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`

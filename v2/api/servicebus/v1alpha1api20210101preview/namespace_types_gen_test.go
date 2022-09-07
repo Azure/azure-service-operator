@@ -162,7 +162,11 @@ func NamespaceGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespace is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespace(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespace_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Namespace_STATUSGenerator()
+=======
+	gens["Status"] = SBNamespace_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Namespace_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

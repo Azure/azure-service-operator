@@ -25,8 +25,13 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_MongodbDatabase_Spec `json:"spec,omitempty"`
+	Status            MongoDBDatabaseGetResults_STATUS      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}

@@ -83,7 +83,10 @@ func Namespace_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespace_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+>>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -92,7 +95,11 @@ func AddIndependentPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter
 // AddRelatedPropertyGeneratorsForNamespace_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
+<<<<<<< HEAD
 	gens["Properties"] = gen.PtrOf(SBNamespacePropertiesARMGenerator())
+=======
+	gens["Properties"] = gen.PtrOf(Namespace_Spec_PropertiesARMGenerator())
+>>>>>>> main
 	gens["Sku"] = gen.PtrOf(SBSkuARMGenerator())
 }
 
@@ -160,13 +167,18 @@ func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) 
 		Identity_Type_UserAssigned))
 }
 
+<<<<<<< HEAD
 func Test_SBNamespacePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_Namespace_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of SBNamespacePropertiesARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForSBNamespacePropertiesARM, SBNamespacePropertiesARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -174,6 +186,15 @@ func Test_SBNamespacePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 
 // RunJSONSerializationTestForSBNamespacePropertiesARM runs a test to see if a specific instance of SBNamespacePropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSBNamespacePropertiesARM(subject SBNamespacePropertiesARM) string {
+=======
+		"Round trip of Namespace_Spec_PropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Spec_PropertiesARM, Namespace_Spec_PropertiesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespace_Spec_PropertiesARM runs a test to see if a specific instance of Namespace_Spec_PropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Spec_PropertiesARM(subject Namespace_Spec_PropertiesARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -181,7 +202,11 @@ func RunJSONSerializationTestForSBNamespacePropertiesARM(subject SBNamespaceProp
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual SBNamespacePropertiesARM
+=======
+	var actual Namespace_Spec_PropertiesARM
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -199,6 +224,7 @@ func RunJSONSerializationTestForSBNamespacePropertiesARM(subject SBNamespaceProp
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of SBNamespacePropertiesARM instances for property testing - lazily instantiated by
 // SBNamespacePropertiesARMGenerator()
 var sbNamespacePropertiesARMGenerator gopter.Gen
@@ -232,6 +258,41 @@ func AddIndependentPropertyGeneratorsForSBNamespacePropertiesARM(gens map[string
 
 // AddRelatedPropertyGeneratorsForSBNamespacePropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSBNamespacePropertiesARM(gens map[string]gopter.Gen) {
+=======
+// Generator of Namespace_Spec_PropertiesARM instances for property testing - lazily instantiated by
+// Namespace_Spec_PropertiesARMGenerator()
+var namespace_Spec_PropertiesARMGenerator gopter.Gen
+
+// Namespace_Spec_PropertiesARMGenerator returns a generator of Namespace_Spec_PropertiesARM instances for property testing.
+// We first initialize namespace_Spec_PropertiesARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Namespace_Spec_PropertiesARMGenerator() gopter.Gen {
+	if namespace_Spec_PropertiesARMGenerator != nil {
+		return namespace_Spec_PropertiesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
+	namespace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_PropertiesARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
+	AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
+	namespace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_PropertiesARM{}), generators)
+
+	return namespace_Spec_PropertiesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
+	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Encryption"] = gen.PtrOf(EncryptionARMGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionARMGenerator())
 }

@@ -7,7 +7,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_QueueServices_Queue_Spec. Use v1beta20210401.StorageAccounts_QueueServices_Queue_Spec instead
 type StorageAccounts_QueueServices_Queue_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string              `json:"azureName,omitempty"`
+=======
+	Location   *string             `json:"location,omitempty"`
+>>>>>>> main
 	Name       string              `json:"name,omitempty"`
 	Properties *QueuePropertiesARM `json:"properties,omitempty"`
 }

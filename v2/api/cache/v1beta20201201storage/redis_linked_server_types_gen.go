@@ -28,8 +28,13 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Redis_LinkedServer_Spec   `json:"spec,omitempty"`
 	Status            Redis_LinkedServer_STATUS `json:"status,omitempty"`
+=======
+	Spec              Redis_LinkedServer_Spec                `json:"spec,omitempty"`
+	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisLinkedServer{}

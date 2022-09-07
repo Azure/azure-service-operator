@@ -162,7 +162,11 @@ func DomainsTopicGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForDomainsTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainsTopic(gens map[string]gopter.Gen) {
 	gens["Spec"] = Domains_Topic_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Domains_Topic_STATUSGenerator()
+=======
+	gens["Status"] = DomainTopic_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Domains_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

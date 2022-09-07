@@ -30,8 +30,13 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Eventhubs_AuthorizationRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_STATUS                    `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -322,6 +327,10 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 }
 
 type Namespaces_Eventhubs_AuthorizationRule_Spec struct {
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MinLength=1
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -346,19 +355,42 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) ConvertToARM(resolved g
 	}
 	result := &Namespaces_Eventhubs_AuthorizationRule_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
+=======
+	// Set property ‘Location’:
+	if rule.Location != nil {
+		location := *rule.Location
+		result.Location = &location
+	}
+>>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if rule.Rights != nil {
+<<<<<<< HEAD
 		result.Properties = &Namespaces_Eventhubs_AuthorizationRule_Spec_PropertiesARM{}
+=======
+		result.Properties = &AuthorizationRulePropertiesARM{}
+>>>>>>> main
 	}
 	for _, item := range rule.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
 	}
+<<<<<<< HEAD
+=======
+
+	// Set property ‘Tags’:
+	if rule.Tags != nil {
+		result.Tags = make(map[string]string, len(rule.Tags))
+		for key, value := range rule.Tags {
+			result.Tags[key] = value
+		}
+	}
+>>>>>>> main
 	return result, nil
 }
 
@@ -376,6 +408,15 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) PopulateFromARM(owner g
 
 	// Set property ‘AzureName’:
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+<<<<<<< HEAD
+=======
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		rule.Location = &location
+	}
+>>>>>>> main
 
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
@@ -387,6 +428,17 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Rights {
 			rule.Rights = append(rule.Rights, item)
+<<<<<<< HEAD
+=======
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		rule.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			rule.Tags[key] = value
+>>>>>>> main
 		}
 	}
 
@@ -449,6 +501,12 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 
 	// AzureName
 	rule.AzureName = source.AzureName
+<<<<<<< HEAD
+=======
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// Owner
 	if source.Owner != nil {
@@ -471,6 +529,12 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 		rule.Rights = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+>>>>>>> main
 	// No error
 	return nil
 }
@@ -482,6 +546,12 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 
 	// AzureName
 	destination.AzureName = rule.AzureName
+<<<<<<< HEAD
+=======
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
@@ -507,6 +577,12 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 		destination.Rights = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

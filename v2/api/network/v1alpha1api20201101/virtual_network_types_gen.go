@@ -332,6 +332,10 @@ type VirtualNetworkList struct {
 }
 
 type VirtualNetwork_Spec struct {
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:Required
+>>>>>>> main
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -350,9 +354,14 @@ type VirtualNetwork_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
+<<<<<<< HEAD
 	Owner     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Reference *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	Tags      map[string]string                  `json:"tags,omitempty"`
+=======
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetwork_Spec{}
@@ -364,9 +373,12 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualNetwork_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = network.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if network.ExtendedLocation != nil {
 		extendedLocationARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
@@ -377,6 +389,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
+<<<<<<< HEAD
 	// Set property ‘Id’:
 	if network.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.Reference)
@@ -387,6 +400,8 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Id = &reference
 	}
 
+=======
+>>>>>>> main
 	// Set property ‘Location’:
 	if network.Location != nil {
 		location := *network.Location
@@ -404,7 +419,11 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil {
+<<<<<<< HEAD
 		result.Properties = &VirtualNetworkPropertiesFormatARM{}
+=======
+		result.Properties = &VirtualNetwork_Spec_PropertiesARM{}
+>>>>>>> main
 	}
 	if network.AddressSpace != nil {
 		addressSpaceARM, err := (*network.AddressSpace).ConvertToARM(resolved)
@@ -588,8 +607,11 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		Name: owner.Name,
 	}
 
+<<<<<<< HEAD
 	// no assignment for property ‘Reference’
 
+=======
+>>>>>>> main
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
@@ -763,6 +785,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Owner = nil
 	}
 
+<<<<<<< HEAD
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -771,6 +794,8 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Reference = nil
 	}
 
+=======
+>>>>>>> main
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -894,6 +919,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Owner = nil
 	}
 
+<<<<<<< HEAD
 	// Reference
 	if network.Reference != nil {
 		reference := network.Reference.Copy()
@@ -902,6 +928,8 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Reference = nil
 	}
 
+=======
+>>>>>>> main
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(network.Tags)
 

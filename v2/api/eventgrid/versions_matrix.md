@@ -22,8 +22,15 @@
 | Domain_STATUS                                               | v1alpha1api20200601 | v1beta20200601 |
 | Domain_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
 | DomainsTopic                                                | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
 | Domains_Topic_STATUS                                        | v1alpha1api20200601 | v1beta20200601 |
 | Domains_Topic_Spec                                          | v1alpha1api20200601 | v1beta20200601 |
+=======
+| Domains_Topic_Spec                                          | v1alpha1api20200601 | v1beta20200601 |
+| EventHubEventSubscriptionDestination                        | v1alpha1api20200601 | v1beta20200601 |
+| EventHubEventSubscriptionDestinationProperties              | v1alpha1api20200601 | v1beta20200601 |
+| EventHubEventSubscriptionDestination_EndpointType           | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main
 | EventSubscription                                           | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination                                | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination_EndpointType                   | v1alpha1api20200601 | v1beta20200601 |
@@ -38,6 +45,12 @@
 | EventSubscriptionProperties_STATUS                          | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription_STATUS                                    | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription_Spec                                      | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
+=======
+| HybridConnectionEventSubscriptionDestination                | v1alpha1api20200601 | v1beta20200601 |
+| HybridConnectionEventSubscriptionDestinationProperties      | v1alpha1api20200601 | v1beta20200601 |
+| HybridConnectionEventSubscriptionDestination_EndpointType   | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main
 | InboundIpRule                                               | v1alpha1api20200601 | v1beta20200601 |
 | InboundIpRule_Action                                        | v1alpha1api20200601 | v1beta20200601 |
 | InboundIpRule_Action_STATUS                                 | v1alpha1api20200601 | v1beta20200601 |
@@ -60,3 +73,9 @@
 | TopicProperties_STATUS                                      | v1alpha1api20200601 | v1beta20200601 |
 | Topic_STATUS                                                | v1alpha1api20200601 | v1beta20200601 |
 | Topic_Spec                                                  | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
+=======
+| WebHookEventSubscriptionDestination                         | v1alpha1api20200601 | v1beta20200601 |
+| WebHookEventSubscriptionDestinationProperties               | v1alpha1api20200601 | v1beta20200601 |
+| WebHookEventSubscriptionDestination_EndpointType            | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main

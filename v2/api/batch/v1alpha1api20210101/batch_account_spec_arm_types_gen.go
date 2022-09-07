@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of BatchAccount_Spec. Use v1beta20210101.BatchAccount_Spec instead
 type BatchAccount_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                           `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Identity   *BatchAccountIdentityARM         `json:"identity,omitempty"`
 	Location   *string                          `json:"location,omitempty"`
 	Name       string                           `json:"name,omitempty"`

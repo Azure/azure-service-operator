@@ -30,8 +30,13 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              VirtualNetworks_Subnet_Spec   `json:"spec,omitempty"`
 	Status            VirtualNetworks_Subnet_STATUS `json:"status,omitempty"`
+=======
+	Spec              VirtualNetworks_Subnet_Spec                              `json:"spec,omitempty"`
+	Status            Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
@@ -2043,13 +2048,21 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks
 	return nil
 }
 
+<<<<<<< HEAD
 type ApplicationGatewayIPConfiguration struct {
 	// Name: Name of the IP configuration that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
+=======
+type VirtualNetworks_Subnet_Spec struct {
+	// +kubebuilder:validation:Required
+	// AddressPrefix: The address prefix for the subnet.
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
+>>>>>>> main
 
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
+<<<<<<< HEAD
 	// Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.
 	Subnet *SubResource `json:"subnet,omitempty"`
 }
@@ -2072,6 +2085,54 @@ func (configuration *ApplicationGatewayIPConfiguration) ConvertToARM(resolved ge
 		reference := referenceARMID
 		result.Id = &reference
 	}
+=======
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Delegations: An array of references to the delegations on the subnet.
+	Delegations []VirtualNetworks_Subnet_Spec_Properties_Delegations `json:"delegations,omitempty"`
+
+	// IpAllocations: Array of IpAllocation which reference this subnet.
+	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
+
+	// NatGateway: Nat gateway associated with this subnet.
+	NatGateway *SubResource `json:"natGateway,omitempty"`
+
+	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
+	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/VirtualNetwork resource
+	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+
+	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
+	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
+
+	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
+	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
+
+	// RouteTable: The reference to the RouteTable resource.
+	RouteTable *SubResource `json:"routeTable,omitempty"`
+
+	// ServiceEndpointPolicies: An array of service endpoint policies.
+	ServiceEndpointPolicies []SubResource `json:"serviceEndpointPolicies,omitempty"`
+
+	// ServiceEndpoints: An array of service endpoints.
+	ServiceEndpoints []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualNetworks_Subnet_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if subnet == nil {
+		return nil, nil
+	}
+	result := &VirtualNetworks_Subnet_SpecARM{}
+>>>>>>> main
 
 	// Set property ‘Name’:
 	if configuration.Name != nil {
@@ -2080,6 +2141,7 @@ func (configuration *ApplicationGatewayIPConfiguration) ConvertToARM(resolved ge
 	}
 
 	// Set property ‘Properties’:
+<<<<<<< HEAD
 	if configuration.Subnet != nil {
 		result.Properties = &ApplicationGatewayIPConfigurationPropertiesFormatARM{}
 	}
@@ -2090,11 +2152,93 @@ func (configuration *ApplicationGatewayIPConfiguration) ConvertToARM(resolved ge
 		}
 		subnet := *subnetARM.(*SubResourceARM)
 		result.Properties.Subnet = &subnet
+=======
+	if subnet.AddressPrefix != nil ||
+		subnet.AddressPrefixes != nil ||
+		subnet.Delegations != nil ||
+		subnet.IpAllocations != nil ||
+		subnet.NatGateway != nil ||
+		subnet.NetworkSecurityGroup != nil ||
+		subnet.PrivateEndpointNetworkPolicies != nil ||
+		subnet.PrivateLinkServiceNetworkPolicies != nil ||
+		subnet.RouteTable != nil ||
+		subnet.ServiceEndpointPolicies != nil ||
+		subnet.ServiceEndpoints != nil {
+		result.Properties = &VirtualNetworks_Subnet_Spec_PropertiesARM{}
+	}
+	if subnet.AddressPrefix != nil {
+		addressPrefix := *subnet.AddressPrefix
+		result.Properties.AddressPrefix = &addressPrefix
+	}
+	for _, item := range subnet.AddressPrefixes {
+		result.Properties.AddressPrefixes = append(result.Properties.AddressPrefixes, item)
+	}
+	for _, item := range subnet.Delegations {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.Delegations = append(result.Properties.Delegations, *itemARM.(*VirtualNetworks_Subnet_Spec_Properties_DelegationsARM))
+	}
+	for _, item := range subnet.IpAllocations {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
+	}
+	if subnet.NatGateway != nil {
+		natGatewayARM, err := (*subnet.NatGateway).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		natGateway := *natGatewayARM.(*SubResourceARM)
+		result.Properties.NatGateway = &natGateway
+	}
+	if subnet.NetworkSecurityGroup != nil {
+		networkSecurityGroupARM, err := (*subnet.NetworkSecurityGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
+		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
+	}
+	if subnet.PrivateEndpointNetworkPolicies != nil {
+		privateEndpointNetworkPolicies := *subnet.PrivateEndpointNetworkPolicies
+		result.Properties.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicies
+	}
+	if subnet.PrivateLinkServiceNetworkPolicies != nil {
+		privateLinkServiceNetworkPolicies := *subnet.PrivateLinkServiceNetworkPolicies
+		result.Properties.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
+	}
+	if subnet.RouteTable != nil {
+		routeTableARM, err := (*subnet.RouteTable).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		routeTable := *routeTableARM.(*SubResourceARM)
+		result.Properties.RouteTable = &routeTable
+	}
+	for _, item := range subnet.ServiceEndpointPolicies {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, *itemARM.(*SubResourceARM))
+	}
+	for _, item := range subnet.ServiceEndpoints {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, *itemARM.(*ServiceEndpointPropertiesFormatARM))
+>>>>>>> main
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+<<<<<<< HEAD
 func (configuration *ApplicationGatewayIPConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ApplicationGatewayIPConfigurationARM{}
 }
@@ -2110,6 +2254,26 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
+=======
+func (subnet *VirtualNetworks_Subnet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworks_Subnet_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualNetworks_Subnet_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AddressPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AddressPrefix != nil {
+			addressPrefix := *typedInput.Properties.AddressPrefix
+			subnet.AddressPrefix = &addressPrefix
+		}
+>>>>>>> main
 	}
 
 	// no assignment for property ‘Reference’
@@ -2117,6 +2281,7 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 	// Set property ‘Subnet’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
+<<<<<<< HEAD
 		if typedInput.Properties.Subnet != nil {
 			var subnet1 SubResource
 			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
@@ -2125,6 +2290,130 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 			}
 			subnet := subnet1
 			configuration.Subnet = &subnet
+=======
+		for _, item := range typedInput.Properties.AddressPrefixes {
+			subnet.AddressPrefixes = append(subnet.AddressPrefixes, item)
+		}
+	}
+
+	// Set property ‘AzureName’:
+	subnet.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Delegations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Delegations {
+			var item1 VirtualNetworks_Subnet_Spec_Properties_Delegations
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			subnet.Delegations = append(subnet.Delegations, item1)
+		}
+	}
+
+	// Set property ‘IpAllocations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpAllocations {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			subnet.IpAllocations = append(subnet.IpAllocations, item1)
+		}
+	}
+
+	// Set property ‘NatGateway’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NatGateway != nil {
+			var natGateway1 SubResource
+			err := natGateway1.PopulateFromARM(owner, *typedInput.Properties.NatGateway)
+			if err != nil {
+				return err
+			}
+			natGateway := natGateway1
+			subnet.NatGateway = &natGateway
+		}
+	}
+
+	// Set property ‘NetworkSecurityGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkSecurityGroup != nil {
+			var networkSecurityGroup1 SubResource
+			err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
+			if err != nil {
+				return err
+			}
+			networkSecurityGroup := networkSecurityGroup1
+			subnet.NetworkSecurityGroup = &networkSecurityGroup
+		}
+	}
+
+	// Set property ‘Owner’:
+	subnet.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PrivateEndpointNetworkPolicies’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateEndpointNetworkPolicies != nil {
+			privateEndpointNetworkPolicies := *typedInput.Properties.PrivateEndpointNetworkPolicies
+			subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicies
+		}
+	}
+
+	// Set property ‘PrivateLinkServiceNetworkPolicies’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateLinkServiceNetworkPolicies != nil {
+			privateLinkServiceNetworkPolicies := *typedInput.Properties.PrivateLinkServiceNetworkPolicies
+			subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
+		}
+	}
+
+	// Set property ‘RouteTable’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RouteTable != nil {
+			var routeTable1 SubResource
+			err := routeTable1.PopulateFromARM(owner, *typedInput.Properties.RouteTable)
+			if err != nil {
+				return err
+			}
+			routeTable := routeTable1
+			subnet.RouteTable = &routeTable
+		}
+	}
+
+	// Set property ‘ServiceEndpointPolicies’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ServiceEndpointPolicies {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			subnet.ServiceEndpointPolicies = append(subnet.ServiceEndpointPolicies, item1)
+		}
+	}
+
+	// Set property ‘ServiceEndpoints’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ServiceEndpoints {
+			var item1 ServiceEndpointPropertiesFormat
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			subnet.ServiceEndpoints = append(subnet.ServiceEndpoints, item1)
+>>>>>>> main
 		}
 	}
 
@@ -2132,6 +2421,7 @@ func (configuration *ApplicationGatewayIPConfiguration) PopulateFromARM(owner ge
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_From_ApplicationGatewayIPConfiguration populates our ApplicationGatewayIPConfiguration from the provided source ApplicationGatewayIPConfiguration
 func (configuration *ApplicationGatewayIPConfiguration) AssignProperties_From_ApplicationGatewayIPConfiguration(source *v20201101s.ApplicationGatewayIPConfiguration) error {
 
@@ -2150,18 +2440,203 @@ func (configuration *ApplicationGatewayIPConfiguration) AssignProperties_From_Ap
 	if source.Subnet != nil {
 		var subnet SubResource
 		err := subnet.AssignProperties_From_SubResource(source.Subnet)
+=======
+var _ genruntime.ConvertibleSpec = &VirtualNetworks_Subnet_Spec{}
+
+// ConvertSpecFrom populates our VirtualNetworks_Subnet_Spec from the provided source
+func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201101s.VirtualNetworks_Subnet_Spec)
+	if ok {
+		// Populate our instance from source
+		return subnet.AssignProperties_From_VirtualNetworks_Subnet_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.VirtualNetworks_Subnet_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = subnet.AssignProperties_From_VirtualNetworks_Subnet_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualNetworks_Subnet_Spec
+func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201101s.VirtualNetworks_Subnet_Spec)
+	if ok {
+		// Populate destination from our instance
+		return subnet.AssignProperties_To_VirtualNetworks_Subnet_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.VirtualNetworks_Subnet_Spec{}
+	err := subnet.AssignProperties_To_VirtualNetworks_Subnet_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_VirtualNetworks_Subnet_Spec populates our VirtualNetworks_Subnet_Spec from the provided source VirtualNetworks_Subnet_Spec
+func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks_Subnet_Spec(source *v20201101s.VirtualNetworks_Subnet_Spec) error {
+
+	// AddressPrefix
+	subnet.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
+
+	// AddressPrefixes
+	subnet.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
+
+	// AzureName
+	subnet.AzureName = source.AzureName
+
+	// Delegations
+	if source.Delegations != nil {
+		delegationList := make([]VirtualNetworks_Subnet_Spec_Properties_Delegations, len(source.Delegations))
+		for delegationIndex, delegationItem := range source.Delegations {
+			// Shadow the loop variable to avoid aliasing
+			delegationItem := delegationItem
+			var delegation VirtualNetworks_Subnet_Spec_Properties_Delegations
+			err := delegation.AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations(&delegationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations() to populate field Delegations")
+			}
+			delegationList[delegationIndex] = delegation
+		}
+		subnet.Delegations = delegationList
+	} else {
+		subnet.Delegations = nil
+	}
+
+	// IpAllocations
+	if source.IpAllocations != nil {
+		ipAllocationList := make([]SubResource, len(source.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation SubResource
+			err := ipAllocation.AssignProperties_From_SubResource(&ipAllocationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field IpAllocations")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
+		}
+		subnet.IpAllocations = ipAllocationList
+	} else {
+		subnet.IpAllocations = nil
+	}
+
+	// NatGateway
+	if source.NatGateway != nil {
+		var natGateway SubResource
+		err := natGateway.AssignProperties_From_SubResource(source.NatGateway)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
+<<<<<<< HEAD
 		configuration.Subnet = &subnet
 	} else {
 		configuration.Subnet = nil
+=======
+		subnet.NatGateway = &natGateway
+	} else {
+		subnet.NatGateway = nil
+	}
+
+	// NetworkSecurityGroup
+	if source.NetworkSecurityGroup != nil {
+		var networkSecurityGroup SubResource
+		err := networkSecurityGroup.AssignProperties_From_SubResource(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field NetworkSecurityGroup")
+		}
+		subnet.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		subnet.NetworkSecurityGroup = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		subnet.Owner = &owner
+	} else {
+		subnet.Owner = nil
+	}
+
+	// PrivateEndpointNetworkPolicies
+	subnet.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(source.PrivateEndpointNetworkPolicies)
+
+	// PrivateLinkServiceNetworkPolicies
+	subnet.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(source.PrivateLinkServiceNetworkPolicies)
+
+	// RouteTable
+	if source.RouteTable != nil {
+		var routeTable SubResource
+		err := routeTable.AssignProperties_From_SubResource(source.RouteTable)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RouteTable")
+		}
+		subnet.RouteTable = &routeTable
+	} else {
+		subnet.RouteTable = nil
+	}
+
+	// ServiceEndpointPolicies
+	if source.ServiceEndpointPolicies != nil {
+		serviceEndpointPolicyList := make([]SubResource, len(source.ServiceEndpointPolicies))
+		for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range source.ServiceEndpointPolicies {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointPolicyItem := serviceEndpointPolicyItem
+			var serviceEndpointPolicy SubResource
+			err := serviceEndpointPolicy.AssignProperties_From_SubResource(&serviceEndpointPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ServiceEndpointPolicies")
+			}
+			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
+		}
+		subnet.ServiceEndpointPolicies = serviceEndpointPolicyList
+	} else {
+		subnet.ServiceEndpointPolicies = nil
+	}
+
+	// ServiceEndpoints
+	if source.ServiceEndpoints != nil {
+		serviceEndpointList := make([]ServiceEndpointPropertiesFormat, len(source.ServiceEndpoints))
+		for serviceEndpointIndex, serviceEndpointItem := range source.ServiceEndpoints {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointItem := serviceEndpointItem
+			var serviceEndpoint ServiceEndpointPropertiesFormat
+			err := serviceEndpoint.AssignProperties_From_ServiceEndpointPropertiesFormat(&serviceEndpointItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ServiceEndpointPropertiesFormat() to populate field ServiceEndpoints")
+			}
+			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
+		}
+		subnet.ServiceEndpoints = serviceEndpointList
+	} else {
+		subnet.ServiceEndpoints = nil
+>>>>>>> main
 	}
 
 	// No error
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_To_ApplicationGatewayIPConfiguration populates the provided destination ApplicationGatewayIPConfiguration from our ApplicationGatewayIPConfiguration
 func (configuration *ApplicationGatewayIPConfiguration) AssignProperties_To_ApplicationGatewayIPConfiguration(destination *v20201101s.ApplicationGatewayIPConfiguration) error {
 	// Create a new property bag
@@ -2174,20 +2649,156 @@ func (configuration *ApplicationGatewayIPConfiguration) AssignProperties_To_Appl
 	if configuration.Reference != nil {
 		reference := configuration.Reference.Copy()
 		destination.Reference = &reference
+=======
+// AssignProperties_To_VirtualNetworks_Subnet_Spec populates the provided destination VirtualNetworks_Subnet_Spec from our VirtualNetworks_Subnet_Spec
+func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_Subnet_Spec(destination *v20201101s.VirtualNetworks_Subnet_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AddressPrefix
+	destination.AddressPrefix = genruntime.ClonePointerToString(subnet.AddressPrefix)
+
+	// AddressPrefixes
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(subnet.AddressPrefixes)
+
+	// AzureName
+	destination.AzureName = subnet.AzureName
+
+	// Delegations
+	if subnet.Delegations != nil {
+		delegationList := make([]v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations, len(subnet.Delegations))
+		for delegationIndex, delegationItem := range subnet.Delegations {
+			// Shadow the loop variable to avoid aliasing
+			delegationItem := delegationItem
+			var delegation v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations
+			err := delegationItem.AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations(&delegation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations() to populate field Delegations")
+			}
+			delegationList[delegationIndex] = delegation
+		}
+		destination.Delegations = delegationList
+>>>>>>> main
 	} else {
 		destination.Reference = nil
 	}
 
+<<<<<<< HEAD
 	// Subnet
 	if configuration.Subnet != nil {
 		var subnet v20201101s.SubResource
 		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
+=======
+	// IpAllocations
+	if subnet.IpAllocations != nil {
+		ipAllocationList := make([]v20201101s.SubResource, len(subnet.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range subnet.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation v20201101s.SubResource
+			err := ipAllocationItem.AssignProperties_To_SubResource(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field IpAllocations")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
+		}
+		destination.IpAllocations = ipAllocationList
+	} else {
+		destination.IpAllocations = nil
+	}
+
+	// NatGateway
+	if subnet.NatGateway != nil {
+		var natGateway v20201101s.SubResource
+		err := subnet.NatGateway.AssignProperties_To_SubResource(&natGateway)
+>>>>>>> main
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
+<<<<<<< HEAD
 		destination.Subnet = nil
+=======
+		destination.NatGateway = nil
+	}
+
+	// NetworkSecurityGroup
+	if subnet.NetworkSecurityGroup != nil {
+		var networkSecurityGroup v20201101s.SubResource
+		err := subnet.NetworkSecurityGroup.AssignProperties_To_SubResource(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field NetworkSecurityGroup")
+		}
+		destination.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		destination.NetworkSecurityGroup = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = subnet.OriginalVersion()
+
+	// Owner
+	if subnet.Owner != nil {
+		owner := subnet.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PrivateEndpointNetworkPolicies
+	destination.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(subnet.PrivateEndpointNetworkPolicies)
+
+	// PrivateLinkServiceNetworkPolicies
+	destination.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(subnet.PrivateLinkServiceNetworkPolicies)
+
+	// RouteTable
+	if subnet.RouteTable != nil {
+		var routeTable v20201101s.SubResource
+		err := subnet.RouteTable.AssignProperties_To_SubResource(&routeTable)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RouteTable")
+		}
+		destination.RouteTable = &routeTable
+	} else {
+		destination.RouteTable = nil
+	}
+
+	// ServiceEndpointPolicies
+	if subnet.ServiceEndpointPolicies != nil {
+		serviceEndpointPolicyList := make([]v20201101s.SubResource, len(subnet.ServiceEndpointPolicies))
+		for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range subnet.ServiceEndpointPolicies {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointPolicyItem := serviceEndpointPolicyItem
+			var serviceEndpointPolicy v20201101s.SubResource
+			err := serviceEndpointPolicyItem.AssignProperties_To_SubResource(&serviceEndpointPolicy)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ServiceEndpointPolicies")
+			}
+			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
+		}
+		destination.ServiceEndpointPolicies = serviceEndpointPolicyList
+	} else {
+		destination.ServiceEndpointPolicies = nil
+	}
+
+	// ServiceEndpoints
+	if subnet.ServiceEndpoints != nil {
+		serviceEndpointList := make([]v20201101s.ServiceEndpointPropertiesFormat, len(subnet.ServiceEndpoints))
+		for serviceEndpointIndex, serviceEndpointItem := range subnet.ServiceEndpoints {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointItem := serviceEndpointItem
+			var serviceEndpoint v20201101s.ServiceEndpointPropertiesFormat
+			err := serviceEndpointItem.AssignProperties_To_ServiceEndpointPropertiesFormat(&serviceEndpoint)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ServiceEndpointPropertiesFormat() to populate field ServiceEndpoints")
+			}
+			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
+		}
+		destination.ServiceEndpoints = serviceEndpointList
+	} else {
+		destination.ServiceEndpoints = nil
+>>>>>>> main
 	}
 
 	// Update the property bag
@@ -2201,6 +2812,19 @@ func (configuration *ApplicationGatewayIPConfiguration) AssignProperties_To_Appl
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// OriginalVersion returns the original API version used to create the resource.
+func (subnet *VirtualNetworks_Subnet_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (subnet *VirtualNetworks_Subnet_Spec) SetAzureName(azureName string) {
+	subnet.AzureName = azureName
+}
+
+>>>>>>> main
 type ApplicationGatewayIPConfiguration_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -4334,6 +4958,7 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_To_Servic
 	return nil
 }
 
+<<<<<<< HEAD
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies string
 
@@ -4369,6 +4994,11 @@ type ServiceEndpointPolicyDefinition struct {
 	Description *string `json:"description,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+=======
+type VirtualNetworks_Subnet_Spec_Properties_Delegations struct {
+	// +kubebuilder:validation:Required
+	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
+>>>>>>> main
 	Name *string `json:"name,omitempty"`
 
 	// Reference: Resource ID.
@@ -4381,6 +5011,7 @@ type ServiceEndpointPolicyDefinition struct {
 	ServiceResources []string `json:"serviceResources,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ARMTransformer = &ServiceEndpointPolicyDefinition{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
@@ -4399,6 +5030,16 @@ func (definition *ServiceEndpointPolicyDefinition) ConvertToARM(resolved genrunt
 		reference := referenceARMID
 		result.Id = &reference
 	}
+=======
+var _ genruntime.ARMTransformer = &VirtualNetworks_Subnet_Spec_Properties_Delegations{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if delegations == nil {
+		return nil, nil
+	}
+	result := &VirtualNetworks_Subnet_Spec_Properties_DelegationsARM{}
+>>>>>>> main
 
 	// Set property ‘Name’:
 	if definition.Name != nil {
@@ -4427,6 +5068,7 @@ func (definition *ServiceEndpointPolicyDefinition) ConvertToARM(resolved genrunt
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+<<<<<<< HEAD
 func (definition *ServiceEndpointPolicyDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ServiceEndpointPolicyDefinitionARM{}
 }
@@ -4445,6 +5087,17 @@ func (definition *ServiceEndpointPolicyDefinition) PopulateFromARM(owner genrunt
 			description := *typedInput.Properties.Description
 			definition.Description = &description
 		}
+=======
+func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworks_Subnet_Spec_Properties_DelegationsARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualNetworks_Subnet_Spec_Properties_DelegationsARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_Spec_Properties_DelegationsARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘Name’:
@@ -4476,11 +5129,16 @@ func (definition *ServiceEndpointPolicyDefinition) PopulateFromARM(owner genrunt
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_From_ServiceEndpointPolicyDefinition populates our ServiceEndpointPolicyDefinition from the provided source ServiceEndpointPolicyDefinition
 func (definition *ServiceEndpointPolicyDefinition) AssignProperties_From_ServiceEndpointPolicyDefinition(source *v20201101s.ServiceEndpointPolicyDefinition) error {
 
 	// Description
 	definition.Description = genruntime.ClonePointerToString(source.Description)
+=======
+// AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations populates our VirtualNetworks_Subnet_Spec_Properties_Delegations from the provided source VirtualNetworks_Subnet_Spec_Properties_Delegations
+func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations(source *v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations) error {
+>>>>>>> main
 
 	// Name
 	definition.Name = genruntime.ClonePointerToString(source.Name)
@@ -4503,8 +5161,13 @@ func (definition *ServiceEndpointPolicyDefinition) AssignProperties_From_Service
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignProperties_To_ServiceEndpointPolicyDefinition populates the provided destination ServiceEndpointPolicyDefinition from our ServiceEndpointPolicyDefinition
 func (definition *ServiceEndpointPolicyDefinition) AssignProperties_To_ServiceEndpointPolicyDefinition(destination *v20201101s.ServiceEndpointPolicyDefinition) error {
+=======
+// AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations populates the provided destination VirtualNetworks_Subnet_Spec_Properties_Delegations from our VirtualNetworks_Subnet_Spec_Properties_Delegations
+func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations(destination *v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -7,7 +7,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of RedisEnterprise_Database_Spec. Use v1beta20210301.RedisEnterprise_Database_Spec instead
 type RedisEnterprise_Database_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                 `json:"azureName,omitempty"`
+=======
+	Location   *string                `json:"location,omitempty"`
+>>>>>>> main
 	Name       string                 `json:"name,omitempty"`
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
 }

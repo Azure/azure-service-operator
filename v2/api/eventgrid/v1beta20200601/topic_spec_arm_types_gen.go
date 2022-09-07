@@ -6,9 +6,13 @@ package v1beta20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Topic_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: Location of the resource.
+=======
+	// Location: Location to deploy resource to
+>>>>>>> main
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 

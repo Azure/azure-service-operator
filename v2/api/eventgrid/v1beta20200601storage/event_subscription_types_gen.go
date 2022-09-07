@@ -136,6 +136,7 @@ type EventSubscriptionList struct {
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
+<<<<<<< HEAD
 	AzureName             string                        `json:"azureName,omitempty"`
 	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
@@ -144,6 +145,17 @@ type EventSubscription_Spec struct {
 	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
 	Labels                []string                      `json:"labels,omitempty"`
 	OriginalVersion       string                        `json:"originalVersion,omitempty"`
+=======
+	AzureName             string                            `json:"azureName,omitempty"`
+	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
+	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
+	Labels                []string                          `json:"labels,omitempty"`
+	Location              *string                           `json:"location,omitempty"`
+	OriginalVersion       string                            `json:"originalVersion,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -152,6 +164,10 @@ type EventSubscription_Spec struct {
 	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
+<<<<<<< HEAD
+=======
+	Tags        map[string]string                   `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
@@ -213,12 +229,15 @@ func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(subscription)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20200601.DeadLetterDestination
 type DeadLetterDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
 type DeadLetterDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`

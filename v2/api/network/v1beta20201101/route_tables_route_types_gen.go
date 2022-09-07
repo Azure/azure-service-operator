@@ -30,8 +30,13 @@ import (
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RouteTables_Route_Spec   `json:"spec,omitempty"`
 	Status            RouteTables_Route_STATUS `json:"status,omitempty"`
+=======
+	Spec              RouteTables_Route_Spec `json:"spec,omitempty"`
+	Status            Route_STATUS           `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -935,6 +940,7 @@ func (route *RouteTables_Route_STATUS) AssignProperties_To_RouteTables_Route_STA
 	return nil
 }
 
+<<<<<<< HEAD
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
 type RouteNextHopType string
 
@@ -945,6 +951,282 @@ const (
 	RouteNextHopType_VirtualNetworkGateway = RouteNextHopType("VirtualNetworkGateway")
 	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
+=======
+type RouteTables_Route_Spec struct {
+	// +kubebuilder:validation:Required
+	// AddressPrefix: The destination CIDR to which the route applies.
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
+	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
+
+	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
+	// next hop type is VirtualAppliance.
+	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// NextHopType: The type of Azure hop the packet should be sent to.
+	NextHopType *RoutePropertiesFormat_NextHopType `json:"nextHopType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/RouteTable resource
+	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"RouteTable"`
+}
+
+var _ genruntime.ARMTransformer = &RouteTables_Route_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if route == nil {
+		return nil, nil
+	}
+	result := &RouteTables_Route_SpecARM{}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if route.AddressPrefix != nil ||
+		route.HasBgpOverride != nil ||
+		route.NextHopIpAddress != nil ||
+		route.NextHopType != nil {
+		result.Properties = &RoutePropertiesFormatARM{}
+	}
+	if route.AddressPrefix != nil {
+		addressPrefix := *route.AddressPrefix
+		result.Properties.AddressPrefix = &addressPrefix
+	}
+	if route.HasBgpOverride != nil {
+		hasBgpOverride := *route.HasBgpOverride
+		result.Properties.HasBgpOverride = &hasBgpOverride
+	}
+	if route.NextHopIpAddress != nil {
+		nextHopIpAddress := *route.NextHopIpAddress
+		result.Properties.NextHopIpAddress = &nextHopIpAddress
+	}
+	if route.NextHopType != nil {
+		nextHopType := *route.NextHopType
+		result.Properties.NextHopType = &nextHopType
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (route *RouteTables_Route_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTables_Route_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTables_Route_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AddressPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AddressPrefix != nil {
+			addressPrefix := *typedInput.Properties.AddressPrefix
+			route.AddressPrefix = &addressPrefix
+		}
+	}
+
+	// Set property ‘AzureName’:
+	route.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘HasBgpOverride’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HasBgpOverride != nil {
+			hasBgpOverride := *typedInput.Properties.HasBgpOverride
+			route.HasBgpOverride = &hasBgpOverride
+		}
+	}
+
+	// Set property ‘NextHopIpAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NextHopIpAddress != nil {
+			nextHopIpAddress := *typedInput.Properties.NextHopIpAddress
+			route.NextHopIpAddress = &nextHopIpAddress
+		}
+	}
+
+	// Set property ‘NextHopType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NextHopType != nil {
+			nextHopType := *typedInput.Properties.NextHopType
+			route.NextHopType = &nextHopType
+		}
+	}
+
+	// Set property ‘Owner’:
+	route.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &RouteTables_Route_Spec{}
+
+// ConvertSpecFrom populates our RouteTables_Route_Spec from the provided source
+func (route *RouteTables_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201101s.RouteTables_Route_Spec)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_RouteTables_Route_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.RouteTables_Route_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_RouteTables_Route_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201101s.RouteTables_Route_Spec)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_RouteTables_Route_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.RouteTables_Route_Spec{}
+	err := route.AssignProperties_To_RouteTables_Route_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RouteTables_Route_Spec populates our RouteTables_Route_Spec from the provided source RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) AssignProperties_From_RouteTables_Route_Spec(source *v20201101s.RouteTables_Route_Spec) error {
+
+	// AddressPrefix
+	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
+
+	// AzureName
+	route.AzureName = source.AzureName
+
+	// HasBgpOverride
+	if source.HasBgpOverride != nil {
+		hasBgpOverride := *source.HasBgpOverride
+		route.HasBgpOverride = &hasBgpOverride
+	} else {
+		route.HasBgpOverride = nil
+	}
+
+	// NextHopIpAddress
+	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
+
+	// NextHopType
+	if source.NextHopType != nil {
+		nextHopType := RoutePropertiesFormat_NextHopType(*source.NextHopType)
+		route.NextHopType = &nextHopType
+	} else {
+		route.NextHopType = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		route.Owner = &owner
+	} else {
+		route.Owner = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTables_Route_Spec populates the provided destination RouteTables_Route_Spec from our RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) AssignProperties_To_RouteTables_Route_Spec(destination *v20201101s.RouteTables_Route_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AddressPrefix
+	destination.AddressPrefix = genruntime.ClonePointerToString(route.AddressPrefix)
+
+	// AzureName
+	destination.AzureName = route.AzureName
+
+	// HasBgpOverride
+	if route.HasBgpOverride != nil {
+		hasBgpOverride := *route.HasBgpOverride
+		destination.HasBgpOverride = &hasBgpOverride
+	} else {
+		destination.HasBgpOverride = nil
+	}
+
+	// NextHopIpAddress
+	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
+
+	// NextHopType
+	if route.NextHopType != nil {
+		nextHopType := string(*route.NextHopType)
+		destination.NextHopType = &nextHopType
+	} else {
+		destination.NextHopType = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = route.OriginalVersion()
+
+	// Owner
+	if route.Owner != nil {
+		owner := route.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (route *RouteTables_Route_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (route *RouteTables_Route_Spec) SetAzureName(azureName string) { route.AzureName = azureName }
+>>>>>>> main
 
 type RouteNextHopType_STATUS string
 

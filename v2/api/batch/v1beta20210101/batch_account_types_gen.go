@@ -330,6 +330,12 @@ type BatchAccount_Spec struct {
 	// AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
 
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -338,6 +344,7 @@ type BatchAccount_Spec struct {
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
 	Encryption *EncryptionProperties `json:"encryption,omitempty"`
 
+<<<<<<< HEAD
 	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity `json:"identity,omitempty"`
 
@@ -345,6 +352,15 @@ type BatchAccount_Spec struct {
 	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
 
 	// +kubebuilder:validation:Required
+=======
+	// Identity: The identity of the Batch account, if configured. This is only used when the user specifies
+	// 'Microsoft.KeyVault' as their Batch account encryption configuration.
+	Identity *BatchAccountIdentity `json:"identity,omitempty"`
+
+	// KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
+	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
+
+>>>>>>> main
 	// Location: The region in which to create the account.
 	Location *string `json:"location,omitempty"`
 
@@ -357,10 +373,17 @@ type BatchAccount_Spec struct {
 	// PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
 	// mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
 	// UserSubscription, clients must use Azure Active Directory. The default is BatchService.
+<<<<<<< HEAD
 	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
+=======
+	PoolAllocationMode *BatchAccountCreateProperties_PoolAllocationMode `json:"poolAllocationMode,omitempty"`
+
+	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
+	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+>>>>>>> main
 
 	// Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -375,9 +398,12 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &BatchAccount_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘Identity’:
 	if account.Identity != nil {
 		identityARM, err := (*account.Identity).ConvertToARM(resolved)
@@ -674,7 +700,11 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
+<<<<<<< HEAD
 		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
+=======
+		poolAllocationMode := BatchAccountCreateProperties_PoolAllocationMode(*source.PoolAllocationMode)
+>>>>>>> main
 		account.PoolAllocationMode = &poolAllocationMode
 	} else {
 		account.PoolAllocationMode = nil
@@ -682,7 +712,11 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
+<<<<<<< HEAD
 		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
+=======
+		publicNetworkAccess := BatchAccountCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+>>>>>>> main
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -1450,6 +1484,10 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
+>>>>>>> main
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
 	// StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.

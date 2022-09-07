@@ -61,9 +61,12 @@ func RunJSONSerializationTestForNetworkSecurityGroup_SpecARM(subject NetworkSecu
 var networkSecurityGroup_SpecARMGenerator gopter.Gen
 
 // NetworkSecurityGroup_SpecARMGenerator returns a generator of NetworkSecurityGroup_SpecARM instances for property testing.
+<<<<<<< HEAD
 // We first initialize networkSecurityGroup_SpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
+=======
+>>>>>>> main
 func NetworkSecurityGroup_SpecARMGenerator() gopter.Gen {
 	if networkSecurityGroup_SpecARMGenerator != nil {
 		return networkSecurityGroup_SpecARMGenerator
@@ -73,23 +76,30 @@ func NetworkSecurityGroup_SpecARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_SpecARM(generators)
 	networkSecurityGroup_SpecARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_SpecARM{}), generators)
 
+<<<<<<< HEAD
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForNetworkSecurityGroup_SpecARM(generators)
 	AddRelatedPropertyGeneratorsForNetworkSecurityGroup_SpecARM(generators)
 	networkSecurityGroup_SpecARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_SpecARM{}), generators)
 
+=======
+>>>>>>> main
 	return networkSecurityGroup_SpecARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroup_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+=======
+>>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
+<<<<<<< HEAD
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroup_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_SpecARM(gens map[string]gopter.Gen) {
@@ -217,3 +227,5 @@ func SecurityRule_SubResourceEmbeddedARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSecurityRule_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
+=======
+>>>>>>> main

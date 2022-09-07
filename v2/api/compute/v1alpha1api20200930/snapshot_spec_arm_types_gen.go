@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Snapshot_Spec. Use v1beta20200930.Snapshot_Spec instead
 type Snapshot_SpecARM struct {
+<<<<<<< HEAD
 	AzureName        string                 `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
 	Location         *string                `json:"location,omitempty"`
 	Name             string                 `json:"name,omitempty"`

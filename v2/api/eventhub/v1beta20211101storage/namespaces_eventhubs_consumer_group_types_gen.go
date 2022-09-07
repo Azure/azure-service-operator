@@ -28,8 +28,13 @@ import (
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespaces_Eventhubs_Consumergroup_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Eventhubs_Consumergroup_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_Eventhubs_Consumergroup_Spec `json:"spec,omitempty"`
+	Status            ConsumerGroup_STATUS                    `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -200,7 +205,51 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) ConvertStatusTo(
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
+<<<<<<< HEAD
 	return destination.ConvertStatusFrom(consumergroup)
+=======
+	return destination.ConvertStatusFrom(group)
+}
+
+// Storage version of v1beta20211101.Namespaces_Eventhubs_Consumergroup_Spec
+type Namespaces_Eventhubs_Consumergroup_Spec struct {
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=1
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/NamespacesEventhub resource
+	Owner        *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	UserMetadata *string                            `json:"userMetadata,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_Consumergroup_Spec{}
+
+// ConvertSpecFrom populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(consumergroup)
+}
+
+// ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_Consumergroup_Spec
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(consumergroup)
+>>>>>>> main
 }
 
 func init() {

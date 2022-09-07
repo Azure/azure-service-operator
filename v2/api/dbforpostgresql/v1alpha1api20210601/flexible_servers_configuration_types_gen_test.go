@@ -163,7 +163,11 @@ func FlexibleServersConfigurationGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFlexibleServersConfiguration is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersConfiguration(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServers_Configuration_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = FlexibleServers_Configuration_STATUSGenerator()
+=======
+	gens["Status"] = Configuration_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_FlexibleServers_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -404,3 +408,113 @@ func AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_STATUS(gen
 func AddRelatedPropertyGeneratorsForFlexibleServers_Configuration_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
+<<<<<<< HEAD
+=======
+
+func Test_FlexibleServers_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_Configuration_Spec to FlexibleServers_Configuration_Spec via AssignProperties_To_FlexibleServers_Configuration_Spec & AssignProperties_From_FlexibleServers_Configuration_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec, FlexibleServers_Configuration_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec tests if a specific instance of FlexibleServers_Configuration_Spec can be assigned to v1alpha1api20210601storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec(subject FlexibleServers_Configuration_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210601s.FlexibleServers_Configuration_Spec
+	err := copied.AssignProperties_To_FlexibleServers_Configuration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_Configuration_Spec
+	err = actual.AssignProperties_From_FlexibleServers_Configuration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServers_Configuration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServers_Configuration_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServers_Configuration_Spec, FlexibleServers_Configuration_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServers_Configuration_Spec runs a test to see if a specific instance of FlexibleServers_Configuration_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServers_Configuration_Spec(subject FlexibleServers_Configuration_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServers_Configuration_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServers_Configuration_Spec instances for property testing - lazily instantiated by
+// FlexibleServers_Configuration_SpecGenerator()
+var flexibleServers_Configuration_SpecGenerator gopter.Gen
+
+// FlexibleServers_Configuration_SpecGenerator returns a generator of FlexibleServers_Configuration_Spec instances for property testing.
+func FlexibleServers_Configuration_SpecGenerator() gopter.Gen {
+	if flexibleServers_Configuration_SpecGenerator != nil {
+		return flexibleServers_Configuration_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec(generators)
+	flexibleServers_Configuration_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Configuration_Spec{}), generators)
+
+	return flexibleServers_Configuration_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Source"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+>>>>>>> main

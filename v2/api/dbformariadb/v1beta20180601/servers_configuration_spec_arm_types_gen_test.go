@@ -84,7 +84,11 @@ func Servers_Configuration_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServers_Configuration_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServers_Configuration_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

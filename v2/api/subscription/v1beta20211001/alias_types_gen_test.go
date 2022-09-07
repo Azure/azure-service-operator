@@ -161,7 +161,11 @@ func AliasGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAlias is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 	gens["Spec"] = Alias_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Alias_STATUSGenerator()
+=======
+	gens["Status"] = SubscriptionAliasResponse_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -9,12 +9,16 @@ import (
 )
 
 type Webtest_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Kind: The kind of WebTest that this web test watches. Choices are ping and multistep.
 	Kind *Webtest_Spec_Kind `json:"kind,omitempty"`
 
 	// Location: Resource location
+=======
+	// Location: Location to deploy resource to
+>>>>>>> main
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 

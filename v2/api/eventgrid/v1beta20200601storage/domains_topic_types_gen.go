@@ -28,8 +28,13 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Domains_Topic_Spec   `json:"spec,omitempty"`
 	Status            Domains_Topic_STATUS `json:"status,omitempty"`
+=======
+	Spec              Domains_Topic_Spec `json:"spec,omitempty"`
+	Status            DomainTopic_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}

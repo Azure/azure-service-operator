@@ -369,6 +369,11 @@ type StorageAccount_Spec struct {
 	AllowSharedKeyAccess                  *bool                                                `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication               `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string            `json:"azureName,omitempty"`
@@ -383,11 +388,17 @@ type StorageAccount_Spec struct {
 	// +kubebuilder:validation:Required
 	Kind                 *StorageAccount_Spec_Kind                                      `json:"kind,omitempty"`
 	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
+<<<<<<< HEAD
 
 	// +kubebuilder:validation:Required
 	Location          *string                                                     `json:"location,omitempty"`
 	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 	NetworkAcls       *NetworkRuleSet                                             `json:"networkAcls,omitempty"`
+=======
+	Location             *string                                                        `json:"location,omitempty"`
+	MinimumTlsVersion    *StorageAccountPropertiesCreateParameters_MinimumTlsVersion    `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls          *NetworkRuleSet                                                `json:"networkAcls,omitempty"`
+>>>>>>> main
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -416,9 +427,12 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &StorageAccount_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if account.ExtendedLocation != nil {
 		extendedLocationARM, err := (*account.ExtendedLocation).ConvertToARM(resolved)

@@ -4,6 +4,8 @@ loadTestSchema                                       Load and walk schema (test)
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
 stripUnused                                          Strip unused types for test
+removeAliases                                        Remove type aliases
+pluralizeNames                                       Improve resource pluralization
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
 add-api-version-enums                                Add enums for API Versions in each package

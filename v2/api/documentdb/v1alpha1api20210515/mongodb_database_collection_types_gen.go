@@ -28,8 +28,13 @@ import (
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabases_Collection_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabases_Collection_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_MongodbDatabases_Collection_Spec `json:"spec,omitempty"`
+	Status            MongoDBCollectionGetResults_STATUS                `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -357,9 +362,12 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 		return nil, nil
 	}
 	result := &DatabaseAccounts_MongodbDatabases_Collection_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = collection.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Location’:
 	if collection.Location != nil {

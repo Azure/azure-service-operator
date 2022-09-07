@@ -6,8 +6,13 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Queue_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+>>>>>>> main
 
 	// Properties: Queue Properties
 	Properties *SBQueuePropertiesARM `json:"properties,omitempty"`

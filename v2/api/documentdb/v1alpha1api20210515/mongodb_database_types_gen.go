@@ -28,8 +28,13 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_MongodbDatabase_Spec `json:"spec,omitempty"`
+	Status            MongoDBDatabaseGetResults_STATUS      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -357,9 +362,12 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 		return nil, nil
 	}
 	result := &DatabaseAccounts_MongodbDatabase_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Location’:
 	if database.Location != nil {

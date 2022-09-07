@@ -161,7 +161,11 @@ func PrivateDnsZoneGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForPrivateDnsZone is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrivateDnsZone_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = PrivateDnsZone_STATUSGenerator()
+=======
+	gens["Status"] = PrivateZone_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_PrivateDnsZone_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

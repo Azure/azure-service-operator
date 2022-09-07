@@ -275,6 +275,7 @@ func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen
 	gens["AzureName"] = gen.AlphaString()
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
+<<<<<<< HEAD
 		DiskState_ActiveSAS,
 		DiskState_ActiveUpload,
 		DiskState_Attached,
@@ -285,6 +286,18 @@ func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
+=======
+		SnapshotProperties_DiskState_ActiveSAS,
+		SnapshotProperties_DiskState_ActiveUpload,
+		SnapshotProperties_DiskState_Attached,
+		SnapshotProperties_DiskState_ReadyToUpload,
+		SnapshotProperties_DiskState_Reserved,
+		SnapshotProperties_DiskState_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
+	gens["Incremental"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_NetworkAccessPolicy_AllowAll, SnapshotProperties_NetworkAccessPolicy_AllowPrivate, SnapshotProperties_NetworkAccessPolicy_DenyAll))
+>>>>>>> main
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

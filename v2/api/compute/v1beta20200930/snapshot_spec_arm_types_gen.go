@@ -6,9 +6,13 @@ package v1beta20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Snapshot_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
+=======
+	// ExtendedLocation: The complex type of the extended location.
+>>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Location: Resource location

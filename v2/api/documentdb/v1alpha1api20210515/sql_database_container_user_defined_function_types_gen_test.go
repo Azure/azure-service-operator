@@ -163,7 +163,11 @@ func SqlDatabaseContainerUserDefinedFunctionGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUSGenerator()
+=======
+	gens["Status"] = SqlUserDefinedFunctionGetResults_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

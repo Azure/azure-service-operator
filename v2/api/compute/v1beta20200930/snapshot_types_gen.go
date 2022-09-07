@@ -327,7 +327,11 @@ type Snapshot_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
+<<<<<<< HEAD
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
+=======
+	// CreationData: Data used when creating a disk.
+>>>>>>> main
 	CreationData *CreationData `json:"creationData,omitempty"`
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
@@ -339,6 +343,7 @@ type Snapshot_Spec struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
+<<<<<<< HEAD
 	DiskState *DiskState `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
@@ -349,6 +354,17 @@ type Snapshot_Spec struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
+=======
+	DiskState *SnapshotProperties_DiskState `json:"diskState,omitempty"`
+
+	// Encryption: Encryption at rest settings for disk or snapshot
+	Encryption *Encryption `json:"encryption,omitempty"`
+
+	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+>>>>>>> main
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
@@ -358,10 +374,16 @@ type Snapshot_Spec struct {
 	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
+<<<<<<< HEAD
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location            *string              `json:"location,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location            *string                                 `json:"location,omitempty"`
+	NetworkAccessPolicy *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+>>>>>>> main
 
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
@@ -372,11 +394,22 @@ type Snapshot_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
+<<<<<<< HEAD
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 	Sku          *SnapshotSku  `json:"sku,omitempty"`
 
 	// Tags: Resource tags
+=======
+	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
+
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	Sku *SnapshotSku `json:"sku,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+>>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -389,9 +422,12 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &Snapshot_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = snapshot.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if snapshot.ExtendedLocation != nil {
 		extendedLocationARM, err := (*snapshot.ExtendedLocation).ConvertToARM(resolved)
@@ -763,7 +799,11 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// DiskState
 	if source.DiskState != nil {
+<<<<<<< HEAD
 		diskState := DiskState(*source.DiskState)
+=======
+		diskState := SnapshotProperties_DiskState(*source.DiskState)
+>>>>>>> main
 		snapshot.DiskState = &diskState
 	} else {
 		snapshot.DiskState = nil
@@ -826,7 +866,11 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
+<<<<<<< HEAD
 		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+=======
+		networkAccessPolicy := SnapshotProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+>>>>>>> main
 		snapshot.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		snapshot.NetworkAccessPolicy = nil

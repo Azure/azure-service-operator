@@ -6,8 +6,13 @@ package v1beta20210301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisEnterprise_Database_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+>>>>>>> main
 
 	// Properties: Other properties of the database.
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`

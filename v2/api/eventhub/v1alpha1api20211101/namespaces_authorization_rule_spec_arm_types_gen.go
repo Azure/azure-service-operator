@@ -7,9 +7,16 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_AuthorizationRule_Spec. Use v1beta20211101.Namespaces_AuthorizationRule_Spec instead
 type Namespaces_AuthorizationRule_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                                           `json:"azureName,omitempty"`
 	Name       string                                           `json:"name,omitempty"`
 	Properties *Namespaces_AuthorizationRule_Spec_PropertiesARM `json:"properties,omitempty"`
+=======
+	Location   *string                         `json:"location,omitempty"`
+	Name       string                          `json:"name,omitempty"`
+	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_AuthorizationRule_SpecARM{}
@@ -29,7 +36,13 @@ func (rule *Namespaces_AuthorizationRule_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
+<<<<<<< HEAD
 // Deprecated version of Namespaces_AuthorizationRule_Spec_Properties. Use v1beta20211101.Namespaces_AuthorizationRule_Spec_Properties instead
 type Namespaces_AuthorizationRule_Spec_PropertiesARM struct {
 	Rights []Namespaces_AuthorizationRule_Spec_Properties_Rights `json:"rights,omitempty"`
+=======
+// Deprecated version of AuthorizationRuleProperties. Use v1beta20211101.AuthorizationRuleProperties instead
+type AuthorizationRulePropertiesARM struct {
+	Rights []AuthorizationRuleProperties_Rights `json:"rights,omitempty"`
+>>>>>>> main
 }

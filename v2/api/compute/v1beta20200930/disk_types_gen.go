@@ -336,7 +336,11 @@ type Disk_Spec struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
+<<<<<<< HEAD
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
+=======
+	// CreationData: Data used when creating a disk.
+>>>>>>> main
 	CreationData *CreationData `json:"creationData,omitempty"`
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
@@ -363,6 +367,7 @@ type Disk_Spec struct {
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
+<<<<<<< HEAD
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption `json:"encryption,omitempty"`
 
@@ -371,19 +376,37 @@ type Disk_Spec struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
+=======
+	// Encryption: Encryption at rest settings for disk or snapshot
+	Encryption *Encryption `json:"encryption,omitempty"`
+
+	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+>>>>>>> main
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
+<<<<<<< HEAD
 	// +kubebuilder:validation:Required
 	// Location: Resource location
+=======
+	// Location: Location to deploy resource to
+>>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
+<<<<<<< HEAD
 	MaxShares           *int                 `json:"maxShares,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+=======
+	MaxShares           *int                                `json:"maxShares,omitempty"`
+	NetworkAccessPolicy *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+>>>>>>> main
 
 	// OsType: The Operating System type.
 	OsType *DiskProperties_OsType `json:"osType,omitempty"`
@@ -394,12 +417,22 @@ type Disk_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
+<<<<<<< HEAD
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 	Sku          *DiskSku      `json:"sku,omitempty"`
 
 	// Tags: Resource tags
+=======
+	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
+
+	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+	Sku *DiskSku `json:"sku,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+>>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
@@ -419,9 +452,12 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &Disk_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = disk.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if disk.ExtendedLocation != nil {
 		extendedLocationARM, err := (*disk.ExtendedLocation).ConvertToARM(resolved)
@@ -943,7 +979,11 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20200930s.Disk_S
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
+<<<<<<< HEAD
 		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+=======
+		networkAccessPolicy := DiskProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+>>>>>>> main
 		disk.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		disk.NetworkAccessPolicy = nil
@@ -2063,6 +2103,10 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20200930s
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
+>>>>>>> main
 type CreationData struct {
 	// +kubebuilder:validation:Required
 	// CreateOption: This enumerates the possible sources of a disk's creation.

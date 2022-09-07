@@ -83,7 +83,10 @@ func Namespace_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespace_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+>>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -239,7 +242,11 @@ func AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[st
 // AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionARMGenerator())
+<<<<<<< HEAD
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionARMGenerator())
+=======
+	gens["PrivateEndpointConnections"] = gen.SliceOf(Namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator())
+>>>>>>> main
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -379,13 +386,18 @@ func AddRelatedPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
 	gens["KeyVaultProperties"] = gen.SliceOf(KeyVaultPropertiesARMGenerator())
 }
 
+<<<<<<< HEAD
 func Test_PrivateEndpointConnectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_Namespace_Spec_Properties_PrivateEndpointConnectionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of PrivateEndpointConnectionARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionARM, PrivateEndpointConnectionARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -393,6 +405,15 @@ func Test_PrivateEndpointConnectionARM_WhenSerializedToJson_DeserializesAsEqual(
 
 // RunJSONSerializationTestForPrivateEndpointConnectionARM runs a test to see if a specific instance of PrivateEndpointConnectionARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndpointConnectionARM) string {
+=======
+		"Round trip of Namespace_Spec_Properties_PrivateEndpointConnectionsARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnectionsARM, Namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnectionsARM runs a test to see if a specific instance of Namespace_Spec_Properties_PrivateEndpointConnectionsARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Spec_Properties_PrivateEndpointConnectionsARM(subject Namespace_Spec_Properties_PrivateEndpointConnectionsARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -400,7 +421,11 @@ func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndp
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual PrivateEndpointConnectionARM
+=======
+	var actual Namespace_Spec_Properties_PrivateEndpointConnectionsARM
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -418,6 +443,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndp
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of PrivateEndpointConnectionARM instances for property testing - lazily instantiated by
 // PrivateEndpointConnectionARMGenerator()
 var privateEndpointConnectionARMGenerator gopter.Gen
@@ -437,6 +463,27 @@ func PrivateEndpointConnectionARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnectionARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionARM(gens map[string]gopter.Gen) {
+=======
+// Generator of Namespace_Spec_Properties_PrivateEndpointConnectionsARM instances for property testing - lazily
+// instantiated by Namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator()
+var namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator gopter.Gen
+
+// Namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator returns a generator of Namespace_Spec_Properties_PrivateEndpointConnectionsARM instances for property testing.
+func Namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator() gopter.Gen {
+	if namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator != nil {
+		return namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnectionsARM(generators)
+	namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_Properties_PrivateEndpointConnectionsARM{}), generators)
+
+	return namespace_Spec_Properties_PrivateEndpointConnectionsARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnectionsARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Spec_Properties_PrivateEndpointConnectionsARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Properties"] = gen.PtrOf(PrivateEndpointConnectionPropertiesARMGenerator())
 }
 

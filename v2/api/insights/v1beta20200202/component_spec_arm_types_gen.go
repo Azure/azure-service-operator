@@ -11,6 +11,10 @@ import (
 type Component_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
+<<<<<<< HEAD
+=======
+type Component_SpecARM struct {
+>>>>>>> main
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 

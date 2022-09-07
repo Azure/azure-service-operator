@@ -25,8 +25,13 @@ import (
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -201,9 +206,12 @@ type MongodbDatabaseThroughputSettingList struct {
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec
 type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
+<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -319,9 +327,12 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec(destination *v20210515s.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+<<<<<<< HEAD
 
 	// AzureName
 	destination.AzureName = setting.AzureName
+=======
+>>>>>>> main
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -351,6 +362,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
+<<<<<<< HEAD
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -506,6 +518,8 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(setting.Type)
+=======
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

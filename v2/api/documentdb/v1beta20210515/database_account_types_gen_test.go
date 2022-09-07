@@ -161,7 +161,13 @@ func DatabaseAccountGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForDatabaseAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccount(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccount_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = DatabaseAccount_STATUSGenerator()
+}
+
+func Test_DatabaseAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+=======
+	gens["Status"] = DatabaseAccountGetResults_STATUSGenerator()
 }
 
 func Test_DatabaseAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -271,6 +277,152 @@ func DatabaseAccount_SpecGenerator() gopter.Gen {
 	return databaseAccount_SpecGenerator
 }
 
+// AddIndependentPropertyGeneratorsForDatabaseAccount_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_ConnectorOffer_Small))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard))
+	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
+	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
+	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
+	gens["EnableAutomaticFailover"] = gen.PtrOf(gen.Bool())
+	gens["EnableCassandraConnector"] = gen.PtrOf(gen.Bool())
+	gens["EnableFreeTier"] = gen.PtrOf(gen.Bool())
+	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
+	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
+	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Spec_Kind_GlobalDocumentDB, DatabaseAccount_Spec_Kind_MongoDB, DatabaseAccount_Spec_Kind_Parse))
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_NetworkAclBypass_AzureServices, DatabaseAccountCreateUpdateProperties_NetworkAclBypass_None))
+	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_PublicNetworkAccess_Disabled, DatabaseAccountCreateUpdateProperties_PublicNetworkAccess_Enabled))
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDatabaseAccount_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AnalyticalStorageConfiguration"] = gen.PtrOf(AnalyticalStorageConfigurationGenerator())
+	gens["ApiProperties"] = gen.PtrOf(ApiPropertiesGenerator())
+	gens["BackupPolicy"] = gen.PtrOf(BackupPolicyGenerator())
+	gens["Capabilities"] = gen.SliceOf(CapabilityGenerator())
+	gens["ConsistencyPolicy"] = gen.PtrOf(ConsistencyPolicyGenerator())
+	gens["Cors"] = gen.SliceOf(CorsPolicyGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
+	gens["IpRules"] = gen.SliceOf(IpAddressOrRangeGenerator())
+	gens["Locations"] = gen.SliceOf(LocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DatabaseAccountOperatorSpecGenerator())
+	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRuleGenerator())
+}
+
+func Test_DatabaseAccountGetResults_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+>>>>>>> main
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccount_Spec to DatabaseAccount_Spec via AssignProperties_To_DatabaseAccount_Spec & AssignProperties_From_DatabaseAccount_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccount_Spec, DatabaseAccount_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccount_Spec tests if a specific instance of DatabaseAccount_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccount_Spec(subject DatabaseAccount_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210515s.DatabaseAccount_Spec
+	err := copied.AssignProperties_To_DatabaseAccount_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccount_Spec
+	err = actual.AssignProperties_From_DatabaseAccount_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DatabaseAccount_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseAccount_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccount_Spec, DatabaseAccount_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseAccount_Spec runs a test to see if a specific instance of DatabaseAccount_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccount_Spec(subject DatabaseAccount_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseAccount_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseAccount_Spec instances for property testing - lazily instantiated by
+// DatabaseAccount_SpecGenerator()
+var databaseAccount_SpecGenerator gopter.Gen
+
+// DatabaseAccount_SpecGenerator returns a generator of DatabaseAccount_Spec instances for property testing.
+// We first initialize databaseAccount_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DatabaseAccount_SpecGenerator() gopter.Gen {
+	if databaseAccount_SpecGenerator != nil {
+		return databaseAccount_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(generators)
+	databaseAccount_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccount_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccount_Spec(generators)
+	databaseAccount_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccount_Spec{}), generators)
+
+	return databaseAccount_SpecGenerator
+}
+
+<<<<<<< HEAD
 // AddIndependentPropertyGeneratorsForDatabaseAccount_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
@@ -419,6 +571,12 @@ func DatabaseAccount_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS(gens map[string]gopter.Gen) {
 	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_Small_STATUS))
 	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_Standard_STATUS))
+=======
+// AddIndependentPropertyGeneratorsForDatabaseAccountGetResults_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountGetResults_STATUS(gens map[string]gopter.Gen) {
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_STATUS_Small))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_STATUS_Standard))
+>>>>>>> main
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["DocumentEndpoint"] = gen.PtrOf(gen.AlphaString())
@@ -430,6 +588,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS(gens map[string]g
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_GlobalDocumentDB_STATUS, DatabaseAccount_Kind_MongoDB_STATUS, DatabaseAccount_Kind_Parse_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -437,12 +596,26 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS(gens map[string]g
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled_STATUS, PublicNetworkAccess_Enabled_STATUS))
+=======
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountGetResults_STATUS_Kind_GlobalDocumentDB, DatabaseAccountGetResults_STATUS_Kind_MongoDB, DatabaseAccountGetResults_STATUS_Kind_Parse))
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_STATUS_AzureServices, NetworkAclBypass_STATUS_None))
+	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
+>>>>>>> main
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForDatabaseAccount_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccount_STATUS(gens map[string]gopter.Gen) {
+=======
+// AddRelatedPropertyGeneratorsForDatabaseAccountGetResults_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountGetResults_STATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["AnalyticalStorageConfiguration"] = gen.PtrOf(AnalyticalStorageConfiguration_STATUSGenerator())
 	gens["ApiProperties"] = gen.PtrOf(ApiProperties_STATUSGenerator())
 	gens["BackupPolicy"] = gen.PtrOf(BackupPolicy_STATUSGenerator())
@@ -453,7 +626,11 @@ func AddRelatedPropertyGeneratorsForDatabaseAccount_STATUS(gens map[string]gopte
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
 	gens["IpRules"] = gen.SliceOf(IpAddressOrRange_STATUSGenerator())
 	gens["Locations"] = gen.SliceOf(Location_STATUSGenerator())
+<<<<<<< HEAD
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+=======
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator())
+>>>>>>> main
 	gens["ReadLocations"] = gen.SliceOf(Location_STATUSGenerator())
 	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRule_STATUSGenerator())
 	gens["WriteLocations"] = gen.SliceOf(Location_STATUSGenerator())

@@ -163,7 +163,11 @@ func StorageAccountsBlobServicesContainerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccounts_BlobServices_Container_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = StorageAccounts_BlobServices_Container_STATUSGenerator()
+=======
+	gens["Status"] = BlobContainer_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_StorageAccounts_BlobServices_Container_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -428,6 +432,132 @@ func AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_STATU
 	gens["LegalHold"] = gen.PtrOf(LegalHoldProperties_STATUSGenerator())
 }
 
+<<<<<<< HEAD
+=======
+func Test_StorageAccounts_BlobServices_Container_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_BlobServices_Container_Spec to StorageAccounts_BlobServices_Container_Spec via AssignProperties_To_StorageAccounts_BlobServices_Container_Spec & AssignProperties_From_StorageAccounts_BlobServices_Container_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec, StorageAccounts_BlobServices_Container_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec tests if a specific instance of StorageAccounts_BlobServices_Container_Spec can be assigned to v1alpha1api20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec(subject StorageAccounts_BlobServices_Container_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210401s.StorageAccounts_BlobServices_Container_Spec
+	err := copied.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_BlobServices_Container_Spec
+	err = actual.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccounts_BlobServices_Container_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccounts_BlobServices_Container_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec, StorageAccounts_BlobServices_Container_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec runs a test to see if a specific instance of StorageAccounts_BlobServices_Container_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec(subject StorageAccounts_BlobServices_Container_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccounts_BlobServices_Container_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccounts_BlobServices_Container_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_BlobServices_Container_SpecGenerator()
+var storageAccounts_BlobServices_Container_SpecGenerator gopter.Gen
+
+// StorageAccounts_BlobServices_Container_SpecGenerator returns a generator of StorageAccounts_BlobServices_Container_Spec instances for property testing.
+// We first initialize storageAccounts_BlobServices_Container_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_BlobServices_Container_SpecGenerator() gopter.Gen {
+	if storageAccounts_BlobServices_Container_SpecGenerator != nil {
+		return storageAccounts_BlobServices_Container_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec(generators)
+	storageAccounts_BlobServices_Container_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobServices_Container_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec(generators)
+	storageAccounts_BlobServices_Container_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobServices_Container_Spec{}), generators)
+
+	return storageAccounts_BlobServices_Container_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DefaultEncryptionScope"] = gen.PtrOf(gen.AlphaString())
+	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec(gens map[string]gopter.Gen) {
+	gens["ImmutableStorageWithVersioning"] = gen.PtrOf(ImmutableStorageWithVersioningGenerator())
+}
+
+>>>>>>> main
 func Test_ImmutabilityPolicyProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

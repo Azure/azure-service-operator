@@ -163,7 +163,11 @@ func NetworkSecurityGroupsSecurityRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = NetworkSecurityGroups_SecurityRule_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = NetworkSecurityGroups_SecurityRule_STATUSGenerator()
+=======
+	gens["Status"] = SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedGenerator()
+>>>>>>> main
 }
 
 func Test_NetworkSecurityGroups_SecurityRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -275,7 +279,11 @@ func NetworkSecurityGroups_SecurityRule_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow, SecurityRuleAccess_Deny))
+=======
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormat_Access_Allow, SecurityRulePropertiesFormat_Access_Deny))
+>>>>>>> main
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
@@ -300,8 +308,13 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec(
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
 	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
+=======
+	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+>>>>>>> main
 }
 
 func Test_NetworkSecurityGroups_SecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

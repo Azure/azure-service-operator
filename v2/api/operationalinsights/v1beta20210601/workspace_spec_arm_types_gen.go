@@ -8,6 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Workspace_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
+<<<<<<< HEAD
+=======
+type Workspace_SpecARM struct {
+>>>>>>> main
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
 

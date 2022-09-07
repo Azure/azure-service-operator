@@ -274,8 +274,13 @@ func BatchAccount_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+=======
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreateProperties_PoolAllocationMode_BatchService, BatchAccountCreateProperties_PoolAllocationMode_UserSubscription))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreateProperties_PublicNetworkAccess_Disabled, BatchAccountCreateProperties_PublicNetworkAccess_Enabled))
+>>>>>>> main
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 

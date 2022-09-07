@@ -338,20 +338,31 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-06-01")
 
 type Workspace_Spec struct {
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=4
+	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
 	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+<<<<<<< HEAD
 
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
+=======
+	Location         *string            `json:"location,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
+<<<<<<< HEAD
 	Owner                           *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	ProvisioningState               *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType               `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -360,6 +371,16 @@ type Workspace_Spec struct {
 	Sku                             *WorkspaceSku                          `json:"sku,omitempty"`
 	Tags                            map[string]string                      `json:"tags,omitempty"`
 	WorkspaceCapping                *WorkspaceCapping                      `json:"workspaceCapping,omitempty"`
+=======
+	Owner                           *genruntime.KnownResourceReference                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState               `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *WorkspaceProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                                 `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                                        `json:"sku,omitempty"`
+	Tags                            map[string]string                                    `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                                    `json:"workspaceCapping,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &Workspace_Spec{}
@@ -371,9 +392,12 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_SpecARM{}
 
+<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = workspace.AzureName
 
+=======
+>>>>>>> main
 	// Set property ‘Etag’:
 	if workspace.Etag != nil {
 		etag := *workspace.Etag
@@ -686,7 +710,11 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *al
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
+<<<<<<< HEAD
 		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+=======
+		publicNetworkAccessForIngestion := WorkspaceProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
+>>>>>>> main
 		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
@@ -694,7 +722,11 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *al
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
+<<<<<<< HEAD
 		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+=======
+		publicNetworkAccessForQuery := WorkspaceProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
+>>>>>>> main
 		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil

@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec. Use v1beta20210515.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec instead
 type DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                                 `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
 	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`

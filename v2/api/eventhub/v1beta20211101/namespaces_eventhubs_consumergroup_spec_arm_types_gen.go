@@ -6,8 +6,16 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhubs_Consumergroup_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// Name: The consumer group name
+	Name string `json:"name,omitempty"`
+>>>>>>> main
 
 	// Properties: Single item in List or Get Consumer group operation
 	Properties *Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM `json:"properties,omitempty"`

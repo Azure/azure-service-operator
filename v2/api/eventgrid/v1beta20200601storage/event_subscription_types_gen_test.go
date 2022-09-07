@@ -149,12 +149,22 @@ func AddIndependentPropertyGeneratorsForEventSubscription_Spec(gens map[string]g
 	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["OriginalVersion"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForEventSubscription_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscription_Spec(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["DeadLetterDestination"] = gen.PtrOf(DeadLetterDestinationGenerator())
+=======
+	gens["DeadLetterDestination"] = gen.PtrOf(StorageBlobDeadLetterDestinationGenerator())
+>>>>>>> main
 	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
 	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
 	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
@@ -246,6 +256,7 @@ func AddRelatedPropertyGeneratorsForEventSubscription_STATUS(gens map[string]gop
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+<<<<<<< HEAD
 func Test_DeadLetterDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -307,6 +318,8 @@ func AddIndependentPropertyGeneratorsForDeadLetterDestination(gens map[string]go
 	gens["EndpointType"] = gen.PtrOf(gen.AlphaString())
 }
 
+=======
+>>>>>>> main
 func Test_DeadLetterDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

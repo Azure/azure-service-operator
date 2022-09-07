@@ -84,7 +84,11 @@ func RoleAssignment_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleAssignment_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignment_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

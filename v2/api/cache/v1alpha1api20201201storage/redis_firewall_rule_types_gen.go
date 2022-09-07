@@ -25,8 +25,13 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Redis_FirewallRule_Spec   `json:"spec,omitempty"`
 	Status            Redis_FirewallRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              Redis_FirewallRule_Spec  `json:"spec,omitempty"`
+	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisFirewallRule{}
@@ -276,6 +281,12 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 
 	// EndIP
 	rule.EndIP = genruntime.ClonePointerToString(source.EndIP)
+<<<<<<< HEAD
+=======
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
@@ -290,6 +301,12 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
+<<<<<<< HEAD
+=======
+
+	// Tags
+	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -312,6 +329,12 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 
 	// EndIP
 	destination.EndIP = genruntime.ClonePointerToString(rule.EndIP)
+<<<<<<< HEAD
+=======
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
+>>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
@@ -326,6 +349,12 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
+<<<<<<< HEAD
+=======
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
+>>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

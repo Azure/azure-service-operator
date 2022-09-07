@@ -30,8 +30,13 @@ import (
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Alias_Spec   `json:"spec,omitempty"`
 	Status            Alias_STATUS `json:"status,omitempty"`
+=======
+	Spec              Alias_Spec                       `json:"spec,omitempty"`
+	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &Alias{}
@@ -333,9 +338,12 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		return nil, nil
 	}
 	result := &Alias_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = alias.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name

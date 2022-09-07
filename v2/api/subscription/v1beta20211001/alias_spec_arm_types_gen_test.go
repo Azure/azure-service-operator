@@ -83,7 +83,10 @@ func Alias_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAlias_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAlias_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

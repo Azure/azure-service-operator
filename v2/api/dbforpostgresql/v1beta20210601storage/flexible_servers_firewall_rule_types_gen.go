@@ -28,8 +28,13 @@ import (
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              FlexibleServers_FirewallRule_Spec   `json:"spec,omitempty"`
 	Status            FlexibleServers_FirewallRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              FlexibleServers_FirewallRule_Spec `json:"spec,omitempty"`
+	Status            FirewallRule_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &FlexibleServersFirewallRule{}
@@ -202,6 +207,48 @@ func (rule *FlexibleServers_FirewallRule_STATUS) ConvertStatusTo(destination gen
 	return destination.ConvertStatusFrom(rule)
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20210601.FlexibleServers_FirewallRule_Spec
+type FlexibleServers_FirewallRule_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	EndIpAddress    *string `json:"endIpAddress,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
+	Owner          *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	StartIpAddress *string                            `json:"startIpAddress,omitempty"`
+	Tags           map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &FlexibleServers_FirewallRule_Spec{}
+
+// ConvertSpecFrom populates our FlexibleServers_FirewallRule_Spec from the provided source
+func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(rule)
+}
+
+// ConvertSpecTo populates the provided destination from our FlexibleServers_FirewallRule_Spec
+func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(rule)
+}
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&FlexibleServersFirewallRule{}, &FlexibleServersFirewallRuleList{})
 }

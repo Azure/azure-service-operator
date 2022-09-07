@@ -165,7 +165,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobServices_Spec{
+		Spec: storage.StorageAccounts_BlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: parentName,
 			},

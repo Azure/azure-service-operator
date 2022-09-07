@@ -7,7 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccount_Spec. Use v1beta20210515.DatabaseAccount_Spec instead
 type DatabaseAccount_SpecARM struct {
+<<<<<<< HEAD
 	AzureName  string                                    `json:"azureName,omitempty"`
+=======
+>>>>>>> main
 	Identity   *ManagedServiceIdentityARM                `json:"identity,omitempty"`
 	Kind       *DatabaseAccount_Spec_Kind                `json:"kind,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
@@ -45,6 +48,7 @@ const (
 
 // Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead
 type DatabaseAccountCreateUpdatePropertiesARM struct {
+<<<<<<< HEAD
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiPropertiesARM                  `json:"apiProperties,omitempty"`
 	BackupPolicy                       *BackupPolicyARM                   `json:"backupPolicy,omitempty"`
@@ -68,6 +72,31 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	NetworkAclBypassResourceIds        []string                           `json:"networkAclBypassResourceIds,omitempty"`
 	PublicNetworkAccess                *PublicNetworkAccess               `json:"publicNetworkAccess,omitempty"`
 	VirtualNetworkRules                []VirtualNetworkRuleARM            `json:"virtualNetworkRules,omitempty"`
+=======
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfigurationARM                              `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiPropertiesARM                                               `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicyARM                                                `json:"backupPolicy,omitempty"`
+	Capabilities                       []CapabilityARM                                                 `json:"capabilities,omitempty"`
+	ConnectorOffer                     *DatabaseAccountCreateUpdateProperties_ConnectorOffer           `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicyARM                                           `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicyARM                                                 `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                         `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                           `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                                                           `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                           `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                           `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                           `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                           `json:"enableMultipleWriteLocations,omitempty"`
+	IpRules                            []IpAddressOrRangeARM                                           `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                           `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                         `json:"keyVaultKeyUri,omitempty"`
+	Locations                          []LocationARM                                                   `json:"locations,omitempty"`
+	NetworkAclBypass                   *DatabaseAccountCreateUpdateProperties_NetworkAclBypass         `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                                        `json:"networkAclBypassResourceIds,omitempty"`
+	PublicNetworkAccess                *DatabaseAccountCreateUpdateProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRuleARM                                         `json:"virtualNetworkRules,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead

@@ -28,8 +28,13 @@ import (
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              PrivateDnsZone_Spec   `json:"spec,omitempty"`
 	Status            PrivateDnsZone_STATUS `json:"status,omitempty"`
+=======
+	Spec              PrivateDnsZone_Spec `json:"spec,omitempty"`
+	Status            PrivateZone_STATUS  `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}

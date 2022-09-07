@@ -202,6 +202,7 @@ type EventSubscriptionList struct {
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
+<<<<<<< HEAD
 	AzureName             string                        `json:"azureName,omitempty"`
 	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
@@ -210,6 +211,17 @@ type EventSubscription_Spec struct {
 	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
 	Labels                []string                      `json:"labels,omitempty"`
 	OriginalVersion       string                        `json:"originalVersion,omitempty"`
+=======
+	AzureName             string                            `json:"azureName,omitempty"`
+	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
+	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
+	Labels                []string                          `json:"labels,omitempty"`
+	Location              *string                           `json:"location,omitempty"`
+	OriginalVersion       string                            `json:"originalVersion,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -218,6 +230,10 @@ type EventSubscription_Spec struct {
 	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
+<<<<<<< HEAD
+=======
+	Tags        map[string]string                   `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
@@ -280,10 +296,17 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
+<<<<<<< HEAD
 		var deadLetterDestination DeadLetterDestination
 		err := deadLetterDestination.AssignProperties_From_DeadLetterDestination(source.DeadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DeadLetterDestination() to populate field DeadLetterDestination")
+=======
+		var deadLetterDestination StorageBlobDeadLetterDestination
+		err := deadLetterDestination.AssignProperties_From_StorageBlobDeadLetterDestination(source.DeadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+>>>>>>> main
 		}
 		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -323,6 +346,12 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 	// Labels
 	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
+<<<<<<< HEAD
+=======
+	// Location
+	subscription.Location = genruntime.ClonePointerToString(source.Location)
+
+>>>>>>> main
 	// OriginalVersion
 	subscription.OriginalVersion = source.OriginalVersion
 
@@ -346,6 +375,12 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 		subscription.RetryPolicy = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	subscription.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		subscription.PropertyBag = propertyBag
@@ -367,10 +402,17 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
+<<<<<<< HEAD
 		var deadLetterDestination v20200601s.DeadLetterDestination
 		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination(&deadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination() to populate field DeadLetterDestination")
+=======
+		var deadLetterDestination v20200601s.StorageBlobDeadLetterDestination
+		err := subscription.DeadLetterDestination.AssignProperties_To_StorageBlobDeadLetterDestination(&deadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+>>>>>>> main
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -410,6 +452,12 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 	// Labels
 	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
 
+<<<<<<< HEAD
+=======
+	// Location
+	destination.Location = genruntime.ClonePointerToString(subscription.Location)
+
+>>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = subscription.OriginalVersion
 
@@ -433,6 +481,12 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 		destination.RetryPolicy = nil
 	}
 
+<<<<<<< HEAD
+=======
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(subscription.Tags)
+
+>>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -720,6 +774,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 	return nil
 }
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20200601.DeadLetterDestination
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
 type DeadLetterDestination struct {
@@ -765,6 +820,8 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 	return nil
 }
 
+=======
+>>>>>>> main
 // Storage version of v1alpha1api20200601.DeadLetterDestination_STATUS
 // Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {

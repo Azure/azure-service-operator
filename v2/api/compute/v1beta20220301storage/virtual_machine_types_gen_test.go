@@ -171,8 +171,13 @@ func AddRelatedPropertyGeneratorsForVirtualMachine_Spec(gens map[string]gopter.G
 	gens["Host"] = gen.PtrOf(SubResourceGenerator())
 	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineIdentityGenerator())
+<<<<<<< HEAD
 	gens["NetworkProfile"] = gen.PtrOf(NetworkProfileGenerator())
 	gens["OsProfile"] = gen.PtrOf(OSProfileGenerator())
+=======
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachine_Spec_Properties_NetworkProfileGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachine_Spec_Properties_OsProfileGenerator())
+>>>>>>> main
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfileGenerator())
@@ -1882,6 +1887,253 @@ func AddRelatedPropertyGeneratorsForStorageProfile_STATUS(gens map[string]gopter
 	gens["OsDisk"] = gen.PtrOf(OSDisk_STATUSGenerator())
 }
 
+<<<<<<< HEAD
+=======
+func Test_VirtualMachine_Spec_Properties_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile, VirtualMachine_Spec_Properties_NetworkProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile(subject VirtualMachine_Spec_Properties_NetworkProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachine_Spec_Properties_NetworkProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachine_Spec_Properties_NetworkProfile instances for property testing - lazily instantiated by
+// VirtualMachine_Spec_Properties_NetworkProfileGenerator()
+var virtualMachine_Spec_Properties_NetworkProfileGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_NetworkProfileGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile instances for property testing.
+// We first initialize virtualMachine_Spec_Properties_NetworkProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachine_Spec_Properties_NetworkProfileGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_NetworkProfileGenerator != nil {
+		return virtualMachine_Spec_Properties_NetworkProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(generators)
+	virtualMachine_Spec_Properties_NetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(generators)
+	virtualMachine_Spec_Properties_NetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile{}), generators)
+
+	return virtualMachine_Spec_Properties_NetworkProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(gens map[string]gopter.Gen) {
+	gens["NetworkApiVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(gens map[string]gopter.Gen) {
+	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator())
+	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator())
+}
+
+func Test_VirtualMachine_Spec_Properties_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_OsProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile, VirtualMachine_Spec_Properties_OsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile runs a test to see if a specific instance of VirtualMachine_Spec_Properties_OsProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile(subject VirtualMachine_Spec_Properties_OsProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachine_Spec_Properties_OsProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachine_Spec_Properties_OsProfile instances for property testing - lazily instantiated by
+// VirtualMachine_Spec_Properties_OsProfileGenerator()
+var virtualMachine_Spec_Properties_OsProfileGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_OsProfileGenerator returns a generator of VirtualMachine_Spec_Properties_OsProfile instances for property testing.
+// We first initialize virtualMachine_Spec_Properties_OsProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachine_Spec_Properties_OsProfileGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_OsProfileGenerator != nil {
+		return virtualMachine_Spec_Properties_OsProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
+	virtualMachine_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_OsProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
+	virtualMachine_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_OsProfile{}), generators)
+
+	return virtualMachine_Spec_Properties_OsProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
+	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
+	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
+	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
+}
+
+func Test_VirtualMachineExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineExtension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineExtension_STATUS, VirtualMachineExtension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineExtension_STATUS runs a test to see if a specific instance of VirtualMachineExtension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineExtension_STATUS(subject VirtualMachineExtension_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineExtension_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineExtension_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineExtension_STATUSGenerator()
+var virtualMachineExtension_STATUSGenerator gopter.Gen
+
+// VirtualMachineExtension_STATUSGenerator returns a generator of VirtualMachineExtension_STATUS instances for property testing.
+// We first initialize virtualMachineExtension_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineExtension_STATUSGenerator() gopter.Gen {
+	if virtualMachineExtension_STATUSGenerator != nil {
+		return virtualMachineExtension_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	virtualMachineExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtension_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	virtualMachineExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtension_STATUS{}), generators)
+
+	return virtualMachineExtension_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(gens map[string]gopter.Gen) {
+	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
+	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
+	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS(gens map[string]gopter.Gen) {
+	gens["InstanceView"] = gen.PtrOf(VirtualMachineExtensionInstanceView_STATUSGenerator())
+}
+
+>>>>>>> main
 func Test_VirtualMachineIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3618,6 +3870,151 @@ func VaultSecretGroup_STATUSGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForVaultSecretGroup_STATUS(gens map[string]gopter.Gen) {
 	gens["SourceVault"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["VaultCertificates"] = gen.SliceOf(VaultCertificate_STATUSGenerator())
+}
+
+func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations instances for property
+// testing - lazily instantiated by VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator()
+var virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations instances for property testing.
+// We first initialize virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator != nil {
+		return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations{}), generators)
+
+	return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(gens map[string]gopter.Gen) {
+	gens["DeleteOption"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
+	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
+	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineNetworkInterfaceDnsSettingsConfigurationGenerator())
+	gens["DscpConfiguration"] = gen.PtrOf(SubResourceGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
+}
+
+func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing - lazily
+// instantiated by VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()
+var virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing.
+func VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator != nil {
+		return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces{}), generators)
+
+	return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(gens map[string]gopter.Gen) {
+	gens["DeleteOption"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_VirtualMachineAgentInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5866,6 +6263,88 @@ func AddIndependentPropertyGeneratorsForVirtualHardDisk_STATUS(gens map[string]g
 	gens["Uri"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+// instances for property testing - lazily instantiated by
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator()
+var virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instances for property testing.
+// We first initialize virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator != nil {
+		return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}), generators)
+
+	return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
+}
+
 func Test_VirtualMachineExtensionHandlerInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -6908,6 +7387,7 @@ func AddIndependentPropertyGeneratorsForSshPublicKey_STATUS(gens map[string]gopt
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
 func Test_SshPublicKeySpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -6922,6 +7402,22 @@ func Test_SshPublicKeySpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 
 // RunJSONSerializationTestForSshPublicKeySpec runs a test to see if a specific instance of SshPublicKeySpec round trips to JSON and back losslessly
 func RunJSONSerializationTestForSshPublicKeySpec(subject SshPublicKeySpec) string {
+=======
+func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -6929,7 +7425,11 @@ func RunJSONSerializationTestForSshPublicKeySpec(subject SshPublicKeySpec) strin
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual SshPublicKeySpec
+=======
+	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -6947,6 +7447,7 @@ func RunJSONSerializationTestForSshPublicKeySpec(subject SshPublicKeySpec) strin
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of SshPublicKeySpec instances for property testing - lazily instantiated by SshPublicKeySpecGenerator()
 var sshPublicKeySpecGenerator gopter.Gen
 
@@ -7036,6 +7537,38 @@ func VirtualMachinePublicIPAddressConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachinePublicIPAddressConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachinePublicIPAddressConfiguration(gens map[string]gopter.Gen) {
+=======
+// Generator of
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+// instances for property testing - lazily instantiated by
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator()
+var virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator gopter.Gen
+
+// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instances for property testing.
+// We first initialize virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator() gopter.Gen {
+	if virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator != nil {
+		return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(generators)
+	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}), generators)
+
+	return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["DeleteOption"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -7043,8 +7576,13 @@ func AddIndependentPropertyGeneratorsForVirtualMachinePublicIPAddressConfigurati
 	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForVirtualMachinePublicIPAddressConfiguration is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachinePublicIPAddressConfiguration(gens map[string]gopter.Gen) {
+=======
+// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["DnsSettings"] = gen.PtrOf(VirtualMachinePublicIPAddressDnsSettingsConfigurationGenerator())
 	gens["IpTags"] = gen.SliceOf(VirtualMachineIpTagGenerator())
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())

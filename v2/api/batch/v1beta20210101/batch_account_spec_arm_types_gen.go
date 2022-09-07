@@ -6,9 +6,14 @@ package v1beta20210101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type BatchAccount_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the Batch account.
+=======
+	// Identity: The identity of the Batch account, if configured. This is only used when the user specifies
+	// 'Microsoft.KeyVault' as their Batch account encryption configuration.
+>>>>>>> main
 	Identity *BatchAccountIdentityARM `json:"identity,omitempty"`
 
 	// Location: The region in which to create the account.

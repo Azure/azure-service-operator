@@ -30,8 +30,13 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespace_Spec   `json:"spec,omitempty"`
 	Status            Namespace_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
+	Status            SBNamespace_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -368,9 +373,12 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		return nil, nil
 	}
 	result := &Namespace_SpecARM{}
+<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = namespace.AzureName
+=======
+>>>>>>> main
 
 	// Set property ‘Identity’:
 	if namespace.Identity != nil {
@@ -392,10 +400,15 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
+<<<<<<< HEAD
 	if namespace.Encryption != nil ||
 		namespace.PrivateEndpointConnections != nil ||
 		namespace.ZoneRedundant != nil {
 		result.Properties = &SBNamespacePropertiesARM{}
+=======
+	if namespace.Encryption != nil || namespace.ZoneRedundant != nil {
+		result.Properties = &Namespace_Spec_PropertiesARM{}
+>>>>>>> main
 	}
 	if namespace.Encryption != nil {
 		encryptionARM, err := (*namespace.Encryption).ConvertToARM(resolved)
@@ -405,6 +418,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
+<<<<<<< HEAD
 	for _, item := range namespace.PrivateEndpointConnections {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -412,6 +426,8 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		}
 		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnectionARM))
 	}
+=======
+>>>>>>> main
 	if namespace.ZoneRedundant != nil {
 		zoneRedundant := *namespace.ZoneRedundant
 		result.Properties.ZoneRedundant = &zoneRedundant
@@ -622,6 +638,7 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.Owner = &owner
 	} else {
 		namespace.Owner = nil
+<<<<<<< HEAD
 	}
 
 	// PrivateEndpointConnections
@@ -640,6 +657,8 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.PrivateEndpointConnections = privateEndpointConnectionList
 	} else {
 		namespace.PrivateEndpointConnections = nil
+=======
+>>>>>>> main
 	}
 
 	// Sku

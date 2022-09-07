@@ -161,7 +161,11 @@ func RedisLinkedServerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisLinkedServer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisLinkedServer(gens map[string]gopter.Gen) {
 	gens["Spec"] = Redis_LinkedServer_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Redis_LinkedServer_STATUSGenerator()
+=======
+	gens["Status"] = RedisLinkedServerWithProperties_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Redis_LinkedServer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

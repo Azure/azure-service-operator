@@ -84,13 +84,21 @@ func StorageAccounts_BlobService_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Properties"] = gen.PtrOf(StorageAccounts_BlobService_Spec_PropertiesARMGenerator())
+=======
+	gens["Properties"] = gen.PtrOf(BlobServicePropertiesPropertiesARMGenerator())
+>>>>>>> main
 }
 
 func Test_StorageAccounts_BlobService_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

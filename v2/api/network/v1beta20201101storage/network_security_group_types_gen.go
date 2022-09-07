@@ -28,8 +28,13 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NetworkSecurityGroup_Spec                       `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_STATUS_SubResourceEmbedded `json:"status,omitempty"`
+=======
+	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
+	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroup{}
@@ -147,11 +152,15 @@ type NetworkSecurityGroup_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+<<<<<<< HEAD
 
 	// Reference: Resource ID.
 	Reference     *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	SecurityRules []SecurityRule_SubResourceEmbedded `json:"securityRules,omitempty"`
 	Tags          map[string]string                  `json:"tags,omitempty"`
+=======
+	Tags        map[string]string                  `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
@@ -174,10 +183,17 @@ func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(group)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_SubResourceEmbedded
 type NetworkSecurityGroup_STATUS_SubResourceEmbedded struct {
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
 	DefaultSecurityRules []SecurityRule_STATUS_SubResourceEmbedded                          `json:"defaultSecurityRules,omitempty"`
+=======
+// Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
+	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
+>>>>>>> main
 	Etag                 *string                                                            `json:"etag,omitempty"`
 	FlowLogs             []FlowLog_STATUS_SubResourceEmbedded                               `json:"flowLogs,omitempty"`
 	Id                   *string                                                            `json:"id,omitempty"`
@@ -187,16 +203,27 @@ type NetworkSecurityGroup_STATUS_SubResourceEmbedded struct {
 	PropertyBag          genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
 	ProvisioningState    *string                                                            `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
+<<<<<<< HEAD
 	SecurityRules        []SecurityRule_STATUS_SubResourceEmbedded                          `json:"securityRules,omitempty"`
+=======
+	SecurityRules        []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"securityRules,omitempty"`
+>>>>>>> main
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_STATUS_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our NetworkSecurityGroup_STATUS_SubResourceEmbedded from the provided source
 func (embedded *NetworkSecurityGroup_STATUS_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+=======
+var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+
+// ConvertStatusFrom populates our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -204,8 +231,13 @@ func (embedded *NetworkSecurityGroup_STATUS_SubResourceEmbedded) ConvertStatusFr
 	return source.ConvertStatusTo(embedded)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_STATUS_SubResourceEmbedded
 func (embedded *NetworkSecurityGroup_STATUS_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+=======
+// ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -6,7 +6,12 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworkGateway_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+>>>>>>> main
 
 	// ExtendedLocation: The extended location of type local virtual network gateway.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
@@ -17,7 +22,11 @@ type VirtualNetworkGateway_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network gateway.
+<<<<<<< HEAD
 	Properties *VirtualNetworkGatewayPropertiesFormatARM `json:"properties,omitempty"`
+=======
+	Properties *VirtualNetworkGateway_Spec_PropertiesARM `json:"properties,omitempty"`
+>>>>>>> main
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -40,7 +49,11 @@ func (gateway *VirtualNetworkGateway_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
+<<<<<<< HEAD
 type VirtualNetworkGatewayPropertiesFormatARM struct {
+=======
+type VirtualNetworkGateway_Spec_PropertiesARM struct {
+>>>>>>> main
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
@@ -65,10 +78,17 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 	GatewayDefaultSite *SubResourceARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
+<<<<<<< HEAD
 	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType `json:"gatewayType,omitempty"`
 
 	// IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGatewayIPConfigurationARM `json:"ipConfigurations,omitempty"`
+=======
+	GatewayType *VirtualNetworkGateway_Spec_Properties_GatewayType `json:"gatewayType,omitempty"`
+
+	// IpConfigurations: IP configurations for virtual network gateway.
+	IpConfigurations []VirtualNetworkGateway_Spec_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
+>>>>>>> main
 
 	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
 	// gateway.
@@ -77,6 +97,7 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 
 	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
 	// configurations.
+<<<<<<< HEAD
 	VpnClientConfiguration *VpnClientConfigurationARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
@@ -84,6 +105,15 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 
 	// VpnType: The type of this virtual network gateway.
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType `json:"vpnType,omitempty"`
+=======
+	VpnClientConfiguration *VirtualNetworkGateway_Spec_Properties_VpnClientConfigurationARM `json:"vpnClientConfiguration,omitempty"`
+
+	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
+	VpnGatewayGeneration *VirtualNetworkGateway_Spec_Properties_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+
+	// VpnType: The type of this virtual network gateway.
+	VpnType *VirtualNetworkGateway_Spec_Properties_VpnType `json:"vpnType,omitempty"`
+>>>>>>> main
 }
 
 type AddressSpaceARM struct {
@@ -105,9 +135,13 @@ type BgpSettingsARM struct {
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
+<<<<<<< HEAD
 type VirtualNetworkGatewayIPConfigurationARM struct {
 	Id *string `json:"id,omitempty"`
 
+=======
+type VirtualNetworkGateway_Spec_Properties_IpConfigurationsARM struct {
+>>>>>>> main
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
@@ -115,6 +149,7 @@ type VirtualNetworkGatewayIPConfigurationARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
 }
 
+<<<<<<< HEAD
 type VirtualNetworkGatewaySkuARM struct {
 	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
@@ -124,6 +159,9 @@ type VirtualNetworkGatewaySkuARM struct {
 }
 
 type VpnClientConfigurationARM struct {
+=======
+type VirtualNetworkGateway_Spec_Properties_VpnClientConfigurationARM struct {
+>>>>>>> main
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
 	AadAudience *string `json:"aadAudience,omitempty"`
@@ -146,7 +184,11 @@ type VpnClientConfigurationARM struct {
 	RadiusServers []RadiusServerARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
+<<<<<<< HEAD
 	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+=======
+	VpnAuthenticationTypes []VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+>>>>>>> main
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpaceARM `json:"vpnClientAddressPool,omitempty"`
@@ -155,6 +197,7 @@ type VpnClientConfigurationARM struct {
 	VpnClientIpsecPolicies []IpsecPolicyARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
+<<<<<<< HEAD
 	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
@@ -162,6 +205,15 @@ type VpnClientConfigurationARM struct {
 
 	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
 	VpnClientRootCertificates []VpnClientRootCertificateARM `json:"vpnClientRootCertificates,omitempty"`
+=======
+	VpnClientProtocols []VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
+
+	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
+	VpnClientRevokedCertificates []VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM `json:"vpnClientRevokedCertificates,omitempty"`
+
+	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
+	VpnClientRootCertificates []VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM `json:"vpnClientRootCertificates,omitempty"`
+>>>>>>> main
 }
 
 type IPConfigurationBgpPeeringAddressARM struct {
@@ -211,6 +263,26 @@ type RadiusServerARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+type VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM struct {
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the vpn client revoked certificate.
+	Properties *VpnClientRevokedCertificatePropertiesFormatARM `json:"properties,omitempty"`
+}
+
+type VirtualNetworkGateway_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM struct {
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the vpn client root certificate.
+	Properties *VpnClientRootCertificatePropertiesFormatARM `json:"properties,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewayIPConfigurationPropertiesFormat
+>>>>>>> main
 type VirtualNetworkGatewayIPConfigurationPropertiesFormatARM struct {
 	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
@@ -222,6 +294,7 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormatARM struct {
 	Subnet *SubResourceARM `json:"subnet,omitempty"`
 }
 
+<<<<<<< HEAD
 type VpnClientRevokedCertificateARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -242,6 +315,9 @@ type VpnClientRootCertificateARM struct {
 	Properties *VpnClientRootCertificatePropertiesFormatARM `json:"properties,omitempty"`
 }
 
+=======
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRevokedCertificatePropertiesFormat
+>>>>>>> main
 type VpnClientRevokedCertificatePropertiesFormatARM struct {
 	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`

@@ -162,7 +162,11 @@ func NamespacesQueueGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Queue_SpecGenerator()
+<<<<<<< HEAD
 	gens["Status"] = Namespaces_Queue_STATUSGenerator()
+=======
+	gens["Status"] = SBQueue_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Namespaces_Queue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

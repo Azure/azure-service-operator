@@ -28,8 +28,13 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Eventhubs_AuthorizationRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_STATUS                    `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -135,6 +140,10 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 
 // Storage version of v1beta20211101.Namespaces_Eventhubs_AuthorizationRule_Spec
 type Namespaces_Eventhubs_AuthorizationRule_Spec struct {
+<<<<<<< HEAD
+=======
+	// +kubebuilder:validation:MinLength=1
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -167,6 +176,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) ConvertSpecTo(destinati
 	}
 
 	return destination.ConvertSpecFrom(rule)
+<<<<<<< HEAD
 }
 
 // Storage version of v1beta20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS
@@ -199,6 +209,8 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) ConvertStatusTo(desti
 	}
 
 	return destination.ConvertStatusFrom(rule)
+=======
+>>>>>>> main
 }
 
 func init() {

@@ -161,13 +161,24 @@ func AddIndependentPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForManagedCluster_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopter.Gen) {
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfileGenerator())
+<<<<<<< HEAD
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfileGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfileGenerator())
 	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_AutoScalerProfileGenerator())
+=======
+	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfileGenerator())
+	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfileGenerator())
+	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfileGenerator())
+	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterPropertiesAutoScalerProfileGenerator())
+>>>>>>> main
 	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfileGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfigGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedClusterIdentityGenerator())
+<<<<<<< HEAD
+=======
+	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator())
+>>>>>>> main
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(ManagedClusterOperatorSpecGenerator())
@@ -285,6 +296,72 @@ func AddRelatedPropertyGeneratorsForManagedCluster_STATUS(gens map[string]gopter
 	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfile_STATUSGenerator())
 }
 
+<<<<<<< HEAD
+=======
+func Test_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties runs a test to see if a specific instance of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(subject Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances
+// for property testing - lazily instantiated by
+// Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()
+var componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator gopter.Gen
+
+// Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator returns a generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances for property testing.
+func Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator() gopter.Gen {
+	if componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator != nil {
+		return componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(generators)
+	componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator = gen.Struct(reflect.TypeOf(Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties{}), generators)
+
+	return componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
+}
+
+>>>>>>> main
 func Test_ContainerServiceLinuxProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

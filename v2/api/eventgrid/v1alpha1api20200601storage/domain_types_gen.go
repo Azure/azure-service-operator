@@ -210,12 +210,21 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
+<<<<<<< HEAD
 	AzureName          string              `json:"azureName,omitempty"`
 	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
+=======
+	AzureName          string                  `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
+	InputSchema        *string                 `json:"inputSchema,omitempty"`
+	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string                 `json:"location,omitempty"`
+	OriginalVersion    string                  `json:"originalVersion,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -308,10 +317,17 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
+<<<<<<< HEAD
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
+=======
+		var inputSchemaMapping JsonInputSchemaMapping
+		err := inputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.InputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+>>>>>>> main
 		}
 		domain.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -380,10 +396,17 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v2020060
 
 	// InputSchemaMapping
 	if domain.InputSchemaMapping != nil {
+<<<<<<< HEAD
 		var inputSchemaMapping v20200601s.InputSchemaMapping
 		err := domain.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
+=======
+		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
+		err := domain.InputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&inputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+>>>>>>> main
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {

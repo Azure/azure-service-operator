@@ -84,7 +84,11 @@ func Redis_FirewallRule_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_FirewallRule_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_FirewallRule_SpecARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
+=======
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

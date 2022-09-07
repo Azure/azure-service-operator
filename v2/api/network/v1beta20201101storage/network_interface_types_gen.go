@@ -28,8 +28,13 @@ import (
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NetworkInterface_Spec   `json:"spec,omitempty"`
 	Status            NetworkInterface_STATUS `json:"status,omitempty"`
+=======
+	Spec              NetworkInterface_Spec                                        `json:"spec,omitempty"`
+	Status            NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkInterface{}
@@ -137,6 +142,7 @@ type NetworkInterfaceList struct {
 type NetworkInterface_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
+<<<<<<< HEAD
 	AzureName                   string                            `json:"azureName,omitempty"`
 	DnsSettings                 *NetworkInterfaceDnsSettings      `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                             `json:"enableAcceleratedNetworking,omitempty"`
@@ -148,11 +154,23 @@ type NetworkInterface_Spec struct {
 	NetworkSecurityGroup        *NetworkSecurityGroupSpec         `json:"networkSecurityGroup,omitempty"`
 	NicType                     *string                           `json:"nicType,omitempty"`
 	OriginalVersion             string                            `json:"originalVersion,omitempty"`
+=======
+	AzureName                   string                                              `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings                        `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                               `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                               `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation                                   `json:"extendedLocation,omitempty"`
+	IpConfigurations            []NetworkInterface_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
+	Location                    *string                                             `json:"location,omitempty"`
+	NetworkSecurityGroup        *SubResource                                        `json:"networkSecurityGroup,omitempty"`
+	OriginalVersion             string                                              `json:"originalVersion,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
+<<<<<<< HEAD
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateLinkService *PrivateLinkServiceSpec            `json:"privateLinkService,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -160,6 +178,11 @@ type NetworkInterface_Spec struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	Tags      map[string]string             `json:"tags,omitempty"`
+=======
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkInterface_Spec{}
@@ -182,6 +205,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(networkInterface)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.NetworkInterface_STATUS
 type NetworkInterface_STATUS struct {
 	Conditions                  []conditions.Condition                    `json:"conditions,omitempty"`
@@ -230,6 +254,73 @@ func (networkInterface *NetworkInterface_STATUS) ConvertStatusTo(destination gen
 	}
 
 	return destination.ConvertStatusFrom(networkInterface)
+=======
+// Storage version of v1beta20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Conditions                  []conditions.Condition                                                         `json:"conditions,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS                                            `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_STATUS                                                            `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                          `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                          `json:"enableIPForwarding,omitempty"`
+	Etag                        *string                                                                        `json:"etag,omitempty"`
+	ExtendedLocation            *ExtendedLocation_STATUS                                                       `json:"extendedLocation,omitempty"`
+	HostedWorkloads             []string                                                                       `json:"hostedWorkloads,omitempty"`
+	Id                          *string                                                                        `json:"id,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded  `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                        `json:"location,omitempty"`
+	MacAddress                  *string                                                                        `json:"macAddress,omitempty"`
+	MigrationPhase              *string                                                                        `json:"migrationPhase,omitempty"`
+	Name                        *string                                                                        `json:"name,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *string                                                                        `json:"nicType,omitempty"`
+	Primary                     *bool                                                                          `json:"primary,omitempty"`
+	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                `json:"privateLinkService,omitempty"`
+	PropertyBag                 genruntime.PropertyBag                                                         `json:"$propertyBag,omitempty"`
+	ProvisioningState           *string                                                                        `json:"provisioningState,omitempty"`
+	ResourceGuid                *string                                                                        `json:"resourceGuid,omitempty"`
+	Tags                        map[string]string                                                              `json:"tags,omitempty"`
+	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"tapConfigurations,omitempty"`
+	Type                        *string                                                                        `json:"type,omitempty"`
+	VirtualMachine              *SubResource_STATUS                                                            `json:"virtualMachine,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
+
+// ConvertStatusFrom populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(embedded)
+}
+
+// ConvertStatusTo populates the provided destination from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(embedded)
+}
+
+// Storage version of v1beta20201101.NetworkInterface_Spec_Properties_IpConfigurations
+type NetworkInterface_Spec_Properties_IpConfigurations struct {
+	ApplicationGatewayBackendAddressPools []SubResource          `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource          `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource          `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []SubResource          `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                `json:"name,omitempty"`
+	Primary                               *bool                  `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPAddress                       *SubResource           `json:"publicIPAddress,omitempty"`
+	Subnet                                *SubResource           `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []SubResource          `json:"virtualNetworkTaps,omitempty"`
+>>>>>>> main
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceDnsSettings
@@ -263,6 +354,41 @@ type NetworkInterfaceIPConfiguration struct {
 	PropertyBag                           genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	PublicIPAddress                       *PublicIPAddressSpec                   `json:"publicIPAddress,omitempty"`
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
+	Id               *string                  `json:"id,omitempty"`
+	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
+	Id               *string                  `json:"id,omitempty"`
+	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.SubResource
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
+type SubResource struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// +kubebuilder:validation:Required
+>>>>>>> main
 	// Reference: Resource ID.
 	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	Subnet             *Subnet                       `json:"subnet,omitempty"`

@@ -6,11 +6,25 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_AuthorizationRule_SpecARM struct {
+<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
 	Properties *Namespaces_AuthorizationRule_Spec_PropertiesARM `json:"properties,omitempty"`
+=======
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// Name: The authorization rule name.
+	Name string `json:"name,omitempty"`
+
+	// Properties: Properties supplied to create or update AuthorizationRule
+	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_AuthorizationRule_SpecARM{}
@@ -30,7 +44,14 @@ func (rule *Namespaces_AuthorizationRule_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
+<<<<<<< HEAD
 type Namespaces_AuthorizationRule_Spec_PropertiesARM struct {
 	// Rights: The rights associated with the rule.
 	Rights []Namespaces_AuthorizationRule_Spec_Properties_Rights `json:"rights,omitempty"`
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/AuthorizationRuleProperties
+type AuthorizationRulePropertiesARM struct {
+	// Rights: The rights associated with the rule.
+	Rights []AuthorizationRuleProperties_Rights `json:"rights,omitempty"`
+>>>>>>> main
 }

@@ -3,7 +3,10 @@
 | APIVersion                                                   | v1beta20211001 |
 | AcceptOwnershipState_STATUS                                  | v1beta20211001 |
 | Alias                                                        | v1beta20211001 |
+<<<<<<< HEAD
 | Alias_STATUS                                                 | v1beta20211001 |
+=======
+>>>>>>> main
 | Alias_Spec                                                   | v1beta20211001 |
 | PutAliasRequestAdditionalProperties                          | v1beta20211001 |
 | PutAliasRequestProperties                                    | v1beta20211001 |
