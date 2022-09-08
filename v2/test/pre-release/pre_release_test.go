@@ -40,7 +40,7 @@ func Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade(t *testing.T) {
 func newVnet(tc *testcommon.KubePerTestContext, name string) *network.VirtualNetwork {
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: getLiveTestResourceName(resourceGroupName),
 			},
