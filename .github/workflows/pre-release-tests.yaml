@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   # no content, allows manual triggering
 
+  schedule:
+    # 5:30 pm every Sunday (UTC)
+    - cron: '30 17 * * 0'
+
 jobs:
   generate:
     runs-on: ubuntu-latest
