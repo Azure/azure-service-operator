@@ -296,6 +296,11 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - group: appconfiguration
+    name: ResourceIdentity
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
@@ -671,7 +676,25 @@ status:
 #     These resources are embedded resources which are overwritten when their parent resource
 #     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
 #
-objectModelConfiguration: 
+objectModelConfiguration:
+  appconfiguration:
+    2022-05-01:
+      ConfigurationStore:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+        $azureGeneratedSecrets:
+          - PrimaryKeyID
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKeyID
+          - SecondaryKey
+          - SecondaryConnectionString
+          - PrimaryReadOnlyKeyID
+          - PrimaryReadOnlyKey
+          - PrimaryReadOnlyConnectionString
+          - SecondaryReadOnlyKeyID
+          - SecondaryReadOnlyKey
+          - SecondaryReadOnlyConnectionString
   authorization:
     2020-08-01-preview:
       RoleAssignment:
