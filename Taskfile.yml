@@ -530,8 +530,10 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
     - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
       asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"

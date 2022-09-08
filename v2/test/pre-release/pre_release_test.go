@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package multitenant_test
 
 import (
-	"fmt"
 	"testing"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
@@ -25,24 +24,27 @@ const (
 func Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+	newNamer := tc.Namer.WithNumRandomChars(0)
+	rgName := newNamer.GenerateName(resourceGroupName)
+
 	tc.Namespace = preReleaseNamespace
 
 	rg := tc.NewTestResourceGroup()
-	rg.Name = getLiveTestResourceName(resourceGroupName)
+	rg.Name = rgName
 
-	vnet := newVnet(tc, getLiveTestResourceName(vnetBeforeUpgradeName))
+	vnet := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)
 	// We want to use 'CreateResourceAndWaitWithoutCleanup' here as we don't want the resource cleanup for this test. We will be checking the
 	// backward compatibility for these resources after we upgrade the controller.
 	tc.CreateResourceAndWaitWithoutCleanup(rg)
 	tc.CreateResourceAndWaitWithoutCleanup(vnet)
 }
 
-func newVnet(tc *testcommon.KubePerTestContext, name string) *network.VirtualNetwork {
+func newVnet(tc *testcommon.KubePerTestContext, name string, rgName string) *network.VirtualNetwork {
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: network.VirtualNetwork_Spec{
 			Owner: &genruntime.KnownResourceReference{
-				Name: getLiveTestResourceName(resourceGroupName),
+				Name: rgName,
 			},
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -58,13 +60,15 @@ func Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	tc.Namespace = preReleaseNamespace
+	newNamer := tc.Namer.WithNumRandomChars(0)
+	rgName := newNamer.GenerateName(resourceGroupName)
 
 	// This resource already will exist in kind as will be created without cleanup in test 'Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade'.
-	vnetBeforeUpgrade := newVnet(tc, getLiveTestResourceName(vnetBeforeUpgradeName))
+	vnetBeforeUpgrade := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)
 	defer tc.DeleteResourceAndWait(vnetBeforeUpgrade)
 
 	// TODO: Will have to change the version here when we go from beta to stable
-	vnetAfterUpgrade := newVnet(tc, tc.Namer.GenerateName("vn"))
+	vnetAfterUpgrade := newVnet(tc, tc.Namer.GenerateName("vn"), rgName)
 	tc.CreateResourceAndWait(vnetAfterUpgrade)
 	tc.DeleteResourcesAndWait(vnetAfterUpgrade)
 
@@ -75,8 +79,4 @@ func Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade(t *testing.T) {
 	tc.Eventually(vnetBeforeUpgrade).Should(tc.Match.BeProvisioned(1))
 	tc.GetResource(types.NamespacedName{Name: vnetBeforeUpgrade.Name, Namespace: vnetBeforeUpgrade.Namespace}, vnetBeforeUpgrade)
 	tc.Expect(vnetBeforeUpgrade.Status.Tags).To(gomega.HaveKey("newTag"))
-}
-
-func getLiveTestResourceName(name string) string {
-	return fmt.Sprintf("%s-%s", testcommon.LiveResourcePrefix, name)
 }
