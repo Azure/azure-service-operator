@@ -160,8 +160,136 @@ func ConfigurationStoreGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForConfigurationStore is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForConfigurationStore(gens map[string]gopter.Gen) {
-	gens["Spec"] = ConfigurationStores_SpecGenerator()
+	gens["Spec"] = ConfigurationStore_SpecGenerator()
 	gens["Status"] = ConfigurationStore_STATUSGenerator()
+}
+
+func Test_ConfigurationStore_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ConfigurationStore_Spec to ConfigurationStore_Spec via AssignProperties_To_ConfigurationStore_Spec & AssignProperties_From_ConfigurationStore_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConfigurationStore_Spec, ConfigurationStore_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForConfigurationStore_Spec tests if a specific instance of ConfigurationStore_Spec can be assigned to v1beta20220501storage and back losslessly
+func RunPropertyAssignmentTestForConfigurationStore_Spec(subject ConfigurationStore_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220501s.ConfigurationStore_Spec
+	err := copied.AssignProperties_To_ConfigurationStore_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ConfigurationStore_Spec
+	err = actual.AssignProperties_From_ConfigurationStore_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ConfigurationStore_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ConfigurationStore_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStore_Spec, ConfigurationStore_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForConfigurationStore_Spec runs a test to see if a specific instance of ConfigurationStore_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStore_Spec(subject ConfigurationStore_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ConfigurationStore_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ConfigurationStore_Spec instances for property testing - lazily instantiated by
+// ConfigurationStore_SpecGenerator()
+var configurationStore_SpecGenerator gopter.Gen
+
+// ConfigurationStore_SpecGenerator returns a generator of ConfigurationStore_Spec instances for property testing.
+// We first initialize configurationStore_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ConfigurationStore_SpecGenerator() gopter.Gen {
+	if configurationStore_SpecGenerator != nil {
+		return configurationStore_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
+	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForConfigurationStore_Spec(generators)
+	AddRelatedPropertyGeneratorsForConfigurationStore_Spec(generators)
+	configurationStore_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_Spec{}), generators)
+
+	return configurationStore_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_Default, ConfigurationStoreProperties_CreateMode_Recover))
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_Enabled))
+	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfigurationStore_Spec(gens map[string]gopter.Gen) {
+	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
+	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_ConfigurationStore_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -301,134 +429,6 @@ func AddRelatedPropertyGeneratorsForConfigurationStore_STATUS(gens map[string]go
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionReference_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_ConfigurationStores_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ConfigurationStores_Spec to ConfigurationStores_Spec via AssignProperties_To_ConfigurationStores_Spec & AssignProperties_From_ConfigurationStores_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfigurationStores_Spec, ConfigurationStores_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForConfigurationStores_Spec tests if a specific instance of ConfigurationStores_Spec can be assigned to v1beta20220501storage and back losslessly
-func RunPropertyAssignmentTestForConfigurationStores_Spec(subject ConfigurationStores_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220501s.ConfigurationStores_Spec
-	err := copied.AssignProperties_To_ConfigurationStores_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ConfigurationStores_Spec
-	err = actual.AssignProperties_From_ConfigurationStores_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ConfigurationStores_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ConfigurationStores_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStores_Spec, ConfigurationStores_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForConfigurationStores_Spec runs a test to see if a specific instance of ConfigurationStores_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStores_Spec(subject ConfigurationStores_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ConfigurationStores_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ConfigurationStores_Spec instances for property testing - lazily instantiated by
-// ConfigurationStores_SpecGenerator()
-var configurationStores_SpecGenerator gopter.Gen
-
-// ConfigurationStores_SpecGenerator returns a generator of ConfigurationStores_Spec instances for property testing.
-// We first initialize configurationStores_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ConfigurationStores_SpecGenerator() gopter.Gen {
-	if configurationStores_SpecGenerator != nil {
-		return configurationStores_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStores_Spec(generators)
-	configurationStores_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStores_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStores_Spec(generators)
-	AddRelatedPropertyGeneratorsForConfigurationStores_Spec(generators)
-	configurationStores_SpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationStores_Spec{}), generators)
-
-	return configurationStores_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConfigurationStores_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationStores_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_Default, ConfigurationStoreProperties_CreateMode_Recover))
-	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_Enabled))
-	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForConfigurationStores_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfigurationStores_Spec(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
-	gens["Identity"] = gen.PtrOf(ResourceIdentityGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(ConfigurationStoreOperatorSpecGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_ConfigurationStoreOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

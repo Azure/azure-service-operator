@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_ConfigurationStores_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConfigurationStore_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConfigurationStores_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStores_SpecARM, ConfigurationStores_SpecARMGenerator()))
+		"Round trip of ConfigurationStore_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationStore_SpecARM, ConfigurationStore_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationStores_SpecARM runs a test to see if a specific instance of ConfigurationStores_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStores_SpecARM(subject ConfigurationStores_SpecARM) string {
+// RunJSONSerializationTestForConfigurationStore_SpecARM runs a test to see if a specific instance of ConfigurationStore_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationStore_SpecARM(subject ConfigurationStore_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForConfigurationStores_SpecARM(subject Configuratio
 	}
 
 	// Deserialize back into memory
-	var actual ConfigurationStores_SpecARM
+	var actual ConfigurationStore_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,41 +56,41 @@ func RunJSONSerializationTestForConfigurationStores_SpecARM(subject Configuratio
 	return ""
 }
 
-// Generator of ConfigurationStores_SpecARM instances for property testing - lazily instantiated by
-// ConfigurationStores_SpecARMGenerator()
-var configurationStores_SpecARMGenerator gopter.Gen
+// Generator of ConfigurationStore_SpecARM instances for property testing - lazily instantiated by
+// ConfigurationStore_SpecARMGenerator()
+var configurationStore_SpecARMGenerator gopter.Gen
 
-// ConfigurationStores_SpecARMGenerator returns a generator of ConfigurationStores_SpecARM instances for property testing.
-// We first initialize configurationStores_SpecARMGenerator with a simplified generator based on the
+// ConfigurationStore_SpecARMGenerator returns a generator of ConfigurationStore_SpecARM instances for property testing.
+// We first initialize configurationStore_SpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ConfigurationStores_SpecARMGenerator() gopter.Gen {
-	if configurationStores_SpecARMGenerator != nil {
-		return configurationStores_SpecARMGenerator
+func ConfigurationStore_SpecARMGenerator() gopter.Gen {
+	if configurationStore_SpecARMGenerator != nil {
+		return configurationStore_SpecARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStores_SpecARM(generators)
-	configurationStores_SpecARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationStores_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForConfigurationStore_SpecARM(generators)
+	configurationStore_SpecARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStores_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForConfigurationStores_SpecARM(generators)
-	configurationStores_SpecARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationStores_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForConfigurationStore_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForConfigurationStore_SpecARM(generators)
+	configurationStore_SpecARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationStore_SpecARM{}), generators)
 
-	return configurationStores_SpecARMGenerator
+	return configurationStore_SpecARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfigurationStores_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationStores_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConfigurationStore_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfigurationStore_SpecARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForConfigurationStores_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfigurationStores_SpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForConfigurationStore_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfigurationStore_SpecARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ResourceIdentityARMGenerator())
 	gens["Properties"] = gen.PtrOf(ConfigurationStorePropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())

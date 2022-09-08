@@ -26,7 +26,7 @@ import (
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConfigurationStores_Spec  `json:"spec,omitempty"`
+	Spec              ConfigurationStore_Spec   `json:"spec,omitempty"`
 	Status            ConfigurationStore_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,56 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-05-01")
 
+// Storage version of v1beta20220501.ConfigurationStore_Spec
+type ConfigurationStore_Spec struct {
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=5
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName             string                          `json:"azureName,omitempty"`
+	CreateMode            *string                         `json:"createMode,omitempty"`
+	DisableLocalAuth      *bool                           `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection *bool                           `json:"enablePurgeProtection,omitempty"`
+	Encryption            *EncryptionProperties           `json:"encryption,omitempty"`
+	Identity              *ResourceIdentity               `json:"identity,omitempty"`
+	Location              *string                         `json:"location,omitempty"`
+	OperatorSpec          *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion       string                          `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess       *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                       *Sku                               `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays *int                               `json:"softDeleteRetentionInDays,omitempty"`
+	SystemData                *SystemData                        `json:"systemData,omitempty"`
+	Tags                      map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &ConfigurationStore_Spec{}
+
+// ConvertSpecFrom populates our ConfigurationStore_Spec from the provided source
+func (store *ConfigurationStore_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == store {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(store)
+}
+
+// ConvertSpecTo populates the provided destination from our ConfigurationStore_Spec
+func (store *ConfigurationStore_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == store {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(store)
+}
+
 // Storage version of v1beta20220501.ConfigurationStore_STATUS
 type ConfigurationStore_STATUS struct {
 	Conditions                 []conditions.Condition                      `json:"conditions,omitempty"`
@@ -177,56 +227,6 @@ func (store *ConfigurationStore_STATUS) ConvertStatusTo(destination genruntime.C
 	}
 
 	return destination.ConvertStatusFrom(store)
-}
-
-// Storage version of v1beta20220501.ConfigurationStores_Spec
-type ConfigurationStores_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=5
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName             string                          `json:"azureName,omitempty"`
-	CreateMode            *string                         `json:"createMode,omitempty"`
-	DisableLocalAuth      *bool                           `json:"disableLocalAuth,omitempty"`
-	EnablePurgeProtection *bool                           `json:"enablePurgeProtection,omitempty"`
-	Encryption            *EncryptionProperties           `json:"encryption,omitempty"`
-	Identity              *ResourceIdentity               `json:"identity,omitempty"`
-	Location              *string                         `json:"location,omitempty"`
-	OperatorSpec          *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion       string                          `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess       *string                            `json:"publicNetworkAccess,omitempty"`
-	Sku                       *Sku                               `json:"sku,omitempty"`
-	SoftDeleteRetentionInDays *int                               `json:"softDeleteRetentionInDays,omitempty"`
-	SystemData                *SystemData                        `json:"systemData,omitempty"`
-	Tags                      map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &ConfigurationStores_Spec{}
-
-// ConvertSpecFrom populates our ConfigurationStores_Spec from the provided source
-func (stores *ConfigurationStores_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == stores {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(stores)
-}
-
-// ConvertSpecTo populates the provided destination from our ConfigurationStores_Spec
-func (stores *ConfigurationStores_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == stores {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(stores)
 }
 
 // Storage version of v1beta20220501.ConfigurationStoreOperatorSpec

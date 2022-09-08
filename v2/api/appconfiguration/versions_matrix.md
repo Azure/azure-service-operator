@@ -10,7 +10,7 @@
 | ConfigurationStoreProperties_STATUS_ProvisioningState   | v1beta20220501 |
 | ConfigurationStoreProperties_STATUS_PublicNetworkAccess | v1beta20220501 |
 | ConfigurationStore_STATUS                               | v1beta20220501 |
-| ConfigurationStores_Spec                                | v1beta20220501 |
+| ConfigurationStore_Spec                                 | v1beta20220501 |
 | EncryptionProperties                                    | v1beta20220501 |
 | EncryptionProperties_STATUS                             | v1beta20220501 |
 | KeyVaultProperties                                      | v1beta20220501 |

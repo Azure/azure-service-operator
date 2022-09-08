@@ -28,11 +28,10 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-
 	cs := &appconfig.ConfigurationStore{
 		TypeMeta:   metav1.TypeMeta{},
 		ObjectMeta: tc.MakeObjectMeta("confstore"),
-		Spec: appconfig.ConfigurationStores_Spec{
+		Spec: appconfig.ConfigurationStore_Spec{
 			CreateMode: &createModeDefault,
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),

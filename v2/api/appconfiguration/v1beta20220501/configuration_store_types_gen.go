@@ -28,7 +28,7 @@ import (
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConfigurationStores_Spec  `json:"spec,omitempty"`
+	Spec              ConfigurationStore_Spec   `json:"spec,omitempty"`
 	Status            ConfigurationStore_STATUS `json:"status,omitempty"`
 }
 
@@ -284,10 +284,10 @@ func (store *ConfigurationStore) AssignProperties_From_ConfigurationStore(source
 	store.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ConfigurationStores_Spec
-	err := spec.AssignProperties_From_ConfigurationStores_Spec(&source.Spec)
+	var spec ConfigurationStore_Spec
+	err := spec.AssignProperties_From_ConfigurationStore_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStores_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStore_Spec() to populate field Spec")
 	}
 	store.Spec = spec
 
@@ -310,10 +310,10 @@ func (store *ConfigurationStore) AssignProperties_To_ConfigurationStore(destinat
 	destination.ObjectMeta = *store.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220501s.ConfigurationStores_Spec
-	err := store.Spec.AssignProperties_To_ConfigurationStores_Spec(&spec)
+	var spec v20220501s.ConfigurationStore_Spec
+	err := store.Spec.AssignProperties_To_ConfigurationStore_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStores_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStore_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -350,6 +350,597 @@ type ConfigurationStoreList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-05-01")
+
+type ConfigurationStore_Spec struct {
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=5
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// CreateMode: Indicates whether the configuration store need to be recovered.
+	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
+
+	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
+	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
+
+	// Encryption: The encryption settings for a configuration store.
+	Encryption *EncryptionProperties `json:"encryption,omitempty"`
+
+	// Identity: An identity that can be associated with a resource.
+	Identity *ResourceIdentity `json:"identity,omitempty"`
+
+	// Location: The geo-location where the resource lives
+	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
+	// enabled.
+	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Sku: Describes a configuration store SKU.
+	Sku *Sku `json:"sku,omitempty"`
+
+	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
+	// deleted.
+	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
+
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	SystemData *SystemData `json:"systemData,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ConfigurationStore_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if store == nil {
+		return nil, nil
+	}
+	result := &ConfigurationStore_SpecARM{}
+
+	// Set property ‘Identity’:
+	if store.Identity != nil {
+		identityARM, err := (*store.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identityARM.(*ResourceIdentityARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if store.Location != nil {
+		location := *store.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if store.CreateMode != nil ||
+		store.DisableLocalAuth != nil ||
+		store.EnablePurgeProtection != nil ||
+		store.Encryption != nil ||
+		store.PublicNetworkAccess != nil ||
+		store.SoftDeleteRetentionInDays != nil {
+		result.Properties = &ConfigurationStorePropertiesARM{}
+	}
+	if store.CreateMode != nil {
+		createMode := *store.CreateMode
+		result.Properties.CreateMode = &createMode
+	}
+	if store.DisableLocalAuth != nil {
+		disableLocalAuth := *store.DisableLocalAuth
+		result.Properties.DisableLocalAuth = &disableLocalAuth
+	}
+	if store.EnablePurgeProtection != nil {
+		enablePurgeProtection := *store.EnablePurgeProtection
+		result.Properties.EnablePurgeProtection = &enablePurgeProtection
+	}
+	if store.Encryption != nil {
+		encryptionARM, err := (*store.Encryption).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		encryption := *encryptionARM.(*EncryptionPropertiesARM)
+		result.Properties.Encryption = &encryption
+	}
+	if store.PublicNetworkAccess != nil {
+		publicNetworkAccess := *store.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
+	if store.SoftDeleteRetentionInDays != nil {
+		softDeleteRetentionInDays := *store.SoftDeleteRetentionInDays
+		result.Properties.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
+	}
+
+	// Set property ‘Sku’:
+	if store.Sku != nil {
+		skuARM, err := (*store.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*SkuARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘SystemData’:
+	if store.SystemData != nil {
+		systemDataARM, err := (*store.SystemData).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		systemData := *systemDataARM.(*SystemDataARM)
+		result.SystemData = &systemData
+	}
+
+	// Set property ‘Tags’:
+	if store.Tags != nil {
+		result.Tags = make(map[string]string, len(store.Tags))
+		for key, value := range store.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (store *ConfigurationStore_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConfigurationStore_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (store *ConfigurationStore_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ConfigurationStore_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConfigurationStore_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	store.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘CreateMode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreateMode != nil {
+			createMode := *typedInput.Properties.CreateMode
+			store.CreateMode = &createMode
+		}
+	}
+
+	// Set property ‘DisableLocalAuth’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAuth != nil {
+			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
+			store.DisableLocalAuth = &disableLocalAuth
+		}
+	}
+
+	// Set property ‘EnablePurgeProtection’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePurgeProtection != nil {
+			enablePurgeProtection := *typedInput.Properties.EnablePurgeProtection
+			store.EnablePurgeProtection = &enablePurgeProtection
+		}
+	}
+
+	// Set property ‘Encryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 EncryptionProperties
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			store.Encryption = &encryption
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 ResourceIdentity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		store.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		store.Location = &location
+	}
+
+	// no assignment for property ‘OperatorSpec’
+
+	// Set property ‘Owner’:
+	store.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			store.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		store.Sku = &sku
+	}
+
+	// Set property ‘SoftDeleteRetentionInDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SoftDeleteRetentionInDays != nil {
+			softDeleteRetentionInDays := *typedInput.Properties.SoftDeleteRetentionInDays
+			store.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		store.SystemData = &systemData
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		store.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			store.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &ConfigurationStore_Spec{}
+
+// ConvertSpecFrom populates our ConfigurationStore_Spec from the provided source
+func (store *ConfigurationStore_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20220501s.ConfigurationStore_Spec)
+	if ok {
+		// Populate our instance from source
+		return store.AssignProperties_From_ConfigurationStore_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20220501s.ConfigurationStore_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = store.AssignProperties_From_ConfigurationStore_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our ConfigurationStore_Spec
+func (store *ConfigurationStore_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20220501s.ConfigurationStore_Spec)
+	if ok {
+		// Populate destination from our instance
+		return store.AssignProperties_To_ConfigurationStore_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20220501s.ConfigurationStore_Spec{}
+	err := store.AssignProperties_To_ConfigurationStore_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ConfigurationStore_Spec populates our ConfigurationStore_Spec from the provided source ConfigurationStore_Spec
+func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_Spec(source *v20220501s.ConfigurationStore_Spec) error {
+
+	// AzureName
+	store.AzureName = source.AzureName
+
+	// CreateMode
+	if source.CreateMode != nil {
+		createMode := ConfigurationStoreProperties_CreateMode(*source.CreateMode)
+		store.CreateMode = &createMode
+	} else {
+		store.CreateMode = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		store.DisableLocalAuth = &disableLocalAuth
+	} else {
+		store.DisableLocalAuth = nil
+	}
+
+	// EnablePurgeProtection
+	if source.EnablePurgeProtection != nil {
+		enablePurgeProtection := *source.EnablePurgeProtection
+		store.EnablePurgeProtection = &enablePurgeProtection
+	} else {
+		store.EnablePurgeProtection = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperties
+		err := encryption.AssignProperties_From_EncryptionProperties(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties() to populate field Encryption")
+		}
+		store.Encryption = &encryption
+	} else {
+		store.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ResourceIdentity
+		err := identity.AssignProperties_From_ResourceIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceIdentity() to populate field Identity")
+		}
+		store.Identity = &identity
+	} else {
+		store.Identity = nil
+	}
+
+	// Location
+	store.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ConfigurationStoreOperatorSpec
+		err := operatorSpec.AssignProperties_From_ConfigurationStoreOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
+		}
+		store.OperatorSpec = &operatorSpec
+	} else {
+		store.OperatorSpec = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		store.Owner = &owner
+	} else {
+		store.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		store.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		store.PublicNetworkAccess = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		store.Sku = &sku
+	} else {
+		store.Sku = nil
+	}
+
+	// SoftDeleteRetentionInDays
+	store.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
+		}
+		store.SystemData = &systemDatum
+	} else {
+		store.SystemData = nil
+	}
+
+	// Tags
+	store.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ConfigurationStore_Spec populates the provided destination ConfigurationStore_Spec from our ConfigurationStore_Spec
+func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spec(destination *v20220501s.ConfigurationStore_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = store.AzureName
+
+	// CreateMode
+	if store.CreateMode != nil {
+		createMode := string(*store.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
+
+	// DisableLocalAuth
+	if store.DisableLocalAuth != nil {
+		disableLocalAuth := *store.DisableLocalAuth
+		destination.DisableLocalAuth = &disableLocalAuth
+	} else {
+		destination.DisableLocalAuth = nil
+	}
+
+	// EnablePurgeProtection
+	if store.EnablePurgeProtection != nil {
+		enablePurgeProtection := *store.EnablePurgeProtection
+		destination.EnablePurgeProtection = &enablePurgeProtection
+	} else {
+		destination.EnablePurgeProtection = nil
+	}
+
+	// Encryption
+	if store.Encryption != nil {
+		var encryption v20220501s.EncryptionProperties
+		err := store.Encryption.AssignProperties_To_EncryptionProperties(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// Identity
+	if store.Identity != nil {
+		var identity v20220501s.ResourceIdentity
+		err := store.Identity.AssignProperties_To_ResourceIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(store.Location)
+
+	// OperatorSpec
+	if store.OperatorSpec != nil {
+		var operatorSpec v20220501s.ConfigurationStoreOperatorSpec
+		err := store.OperatorSpec.AssignProperties_To_ConfigurationStoreOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = store.OriginalVersion()
+
+	// Owner
+	if store.Owner != nil {
+		owner := store.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if store.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*store.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// Sku
+	if store.Sku != nil {
+		var sku v20220501s.Sku
+		err := store.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SoftDeleteRetentionInDays
+	destination.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(store.SoftDeleteRetentionInDays)
+
+	// SystemData
+	if store.SystemData != nil {
+		var systemDatum v20220501s.SystemData
+		err := store.SystemData.AssignProperties_To_SystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(store.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (store *ConfigurationStore_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (store *ConfigurationStore_Spec) SetAzureName(azureName string) { store.AzureName = azureName }
 
 type ConfigurationStore_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -935,597 +1526,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_To_ConfigurationStore_S
 	// No error
 	return nil
 }
-
-type ConfigurationStores_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=5
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
-
-	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// Encryption: The encryption settings for a configuration store.
-	Encryption *EncryptionProperties `json:"encryption,omitempty"`
-
-	// Identity: An identity that can be associated with a resource.
-	Identity *ResourceIdentity `json:"identity,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	// passed directly to Azure
-	OperatorSpec *ConfigurationStoreOperatorSpec `json:"operatorSpec,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Sku: Describes a configuration store SKU.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-	// deleted.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ConfigurationStores_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (stores *ConfigurationStores_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if stores == nil {
-		return nil, nil
-	}
-	result := &ConfigurationStores_SpecARM{}
-
-	// Set property ‘Identity’:
-	if stores.Identity != nil {
-		identityARM, err := (*stores.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*ResourceIdentityARM)
-		result.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if stores.Location != nil {
-		location := *stores.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if stores.CreateMode != nil ||
-		stores.DisableLocalAuth != nil ||
-		stores.EnablePurgeProtection != nil ||
-		stores.Encryption != nil ||
-		stores.PublicNetworkAccess != nil ||
-		stores.SoftDeleteRetentionInDays != nil {
-		result.Properties = &ConfigurationStorePropertiesARM{}
-	}
-	if stores.CreateMode != nil {
-		createMode := *stores.CreateMode
-		result.Properties.CreateMode = &createMode
-	}
-	if stores.DisableLocalAuth != nil {
-		disableLocalAuth := *stores.DisableLocalAuth
-		result.Properties.DisableLocalAuth = &disableLocalAuth
-	}
-	if stores.EnablePurgeProtection != nil {
-		enablePurgeProtection := *stores.EnablePurgeProtection
-		result.Properties.EnablePurgeProtection = &enablePurgeProtection
-	}
-	if stores.Encryption != nil {
-		encryptionARM, err := (*stores.Encryption).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		encryption := *encryptionARM.(*EncryptionPropertiesARM)
-		result.Properties.Encryption = &encryption
-	}
-	if stores.PublicNetworkAccess != nil {
-		publicNetworkAccess := *stores.PublicNetworkAccess
-		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-	if stores.SoftDeleteRetentionInDays != nil {
-		softDeleteRetentionInDays := *stores.SoftDeleteRetentionInDays
-		result.Properties.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
-	}
-
-	// Set property ‘Sku’:
-	if stores.Sku != nil {
-		skuARM, err := (*stores.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*SkuARM)
-		result.Sku = &sku
-	}
-
-	// Set property ‘SystemData’:
-	if stores.SystemData != nil {
-		systemDataARM, err := (*stores.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Tags’:
-	if stores.Tags != nil {
-		result.Tags = make(map[string]string, len(stores.Tags))
-		for key, value := range stores.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (stores *ConfigurationStores_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConfigurationStores_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (stores *ConfigurationStores_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConfigurationStores_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConfigurationStores_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	stores.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘CreateMode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
-			stores.CreateMode = &createMode
-		}
-	}
-
-	// Set property ‘DisableLocalAuth’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableLocalAuth != nil {
-			disableLocalAuth := *typedInput.Properties.DisableLocalAuth
-			stores.DisableLocalAuth = &disableLocalAuth
-		}
-	}
-
-	// Set property ‘EnablePurgeProtection’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnablePurgeProtection != nil {
-			enablePurgeProtection := *typedInput.Properties.EnablePurgeProtection
-			stores.EnablePurgeProtection = &enablePurgeProtection
-		}
-	}
-
-	// Set property ‘Encryption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Encryption != nil {
-			var encryption1 EncryptionProperties
-			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-			if err != nil {
-				return err
-			}
-			encryption := encryption1
-			stores.Encryption = &encryption
-		}
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 ResourceIdentity
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		stores.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		stores.Location = &location
-	}
-
-	// no assignment for property ‘OperatorSpec’
-
-	// Set property ‘Owner’:
-	stores.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			stores.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		stores.Sku = &sku
-	}
-
-	// Set property ‘SoftDeleteRetentionInDays’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SoftDeleteRetentionInDays != nil {
-			softDeleteRetentionInDays := *typedInput.Properties.SoftDeleteRetentionInDays
-			stores.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		stores.SystemData = &systemData
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		stores.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			stores.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &ConfigurationStores_Spec{}
-
-// ConvertSpecFrom populates our ConfigurationStores_Spec from the provided source
-func (stores *ConfigurationStores_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220501s.ConfigurationStores_Spec)
-	if ok {
-		// Populate our instance from source
-		return stores.AssignProperties_From_ConfigurationStores_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20220501s.ConfigurationStores_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = stores.AssignProperties_From_ConfigurationStores_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our ConfigurationStores_Spec
-func (stores *ConfigurationStores_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220501s.ConfigurationStores_Spec)
-	if ok {
-		// Populate destination from our instance
-		return stores.AssignProperties_To_ConfigurationStores_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20220501s.ConfigurationStores_Spec{}
-	err := stores.AssignProperties_To_ConfigurationStores_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_ConfigurationStores_Spec populates our ConfigurationStores_Spec from the provided source ConfigurationStores_Spec
-func (stores *ConfigurationStores_Spec) AssignProperties_From_ConfigurationStores_Spec(source *v20220501s.ConfigurationStores_Spec) error {
-
-	// AzureName
-	stores.AzureName = source.AzureName
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := ConfigurationStoreProperties_CreateMode(*source.CreateMode)
-		stores.CreateMode = &createMode
-	} else {
-		stores.CreateMode = nil
-	}
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		stores.DisableLocalAuth = &disableLocalAuth
-	} else {
-		stores.DisableLocalAuth = nil
-	}
-
-	// EnablePurgeProtection
-	if source.EnablePurgeProtection != nil {
-		enablePurgeProtection := *source.EnablePurgeProtection
-		stores.EnablePurgeProtection = &enablePurgeProtection
-	} else {
-		stores.EnablePurgeProtection = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperties
-		err := encryption.AssignProperties_From_EncryptionProperties(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionProperties() to populate field Encryption")
-		}
-		stores.Encryption = &encryption
-	} else {
-		stores.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ResourceIdentity
-		err := identity.AssignProperties_From_ResourceIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceIdentity() to populate field Identity")
-		}
-		stores.Identity = &identity
-	} else {
-		stores.Identity = nil
-	}
-
-	// Location
-	stores.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec ConfigurationStoreOperatorSpec
-		err := operatorSpec.AssignProperties_From_ConfigurationStoreOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
-		}
-		stores.OperatorSpec = &operatorSpec
-	} else {
-		stores.OperatorSpec = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		stores.Owner = &owner
-	} else {
-		stores.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		stores.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		stores.PublicNetworkAccess = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignProperties_From_Sku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
-		}
-		stores.Sku = &sku
-	} else {
-		stores.Sku = nil
-	}
-
-	// SoftDeleteRetentionInDays
-	stores.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
-		}
-		stores.SystemData = &systemDatum
-	} else {
-		stores.SystemData = nil
-	}
-
-	// Tags
-	stores.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ConfigurationStores_Spec populates the provided destination ConfigurationStores_Spec from our ConfigurationStores_Spec
-func (stores *ConfigurationStores_Spec) AssignProperties_To_ConfigurationStores_Spec(destination *v20220501s.ConfigurationStores_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = stores.AzureName
-
-	// CreateMode
-	if stores.CreateMode != nil {
-		createMode := string(*stores.CreateMode)
-		destination.CreateMode = &createMode
-	} else {
-		destination.CreateMode = nil
-	}
-
-	// DisableLocalAuth
-	if stores.DisableLocalAuth != nil {
-		disableLocalAuth := *stores.DisableLocalAuth
-		destination.DisableLocalAuth = &disableLocalAuth
-	} else {
-		destination.DisableLocalAuth = nil
-	}
-
-	// EnablePurgeProtection
-	if stores.EnablePurgeProtection != nil {
-		enablePurgeProtection := *stores.EnablePurgeProtection
-		destination.EnablePurgeProtection = &enablePurgeProtection
-	} else {
-		destination.EnablePurgeProtection = nil
-	}
-
-	// Encryption
-	if stores.Encryption != nil {
-		var encryption v20220501s.EncryptionProperties
-		err := stores.Encryption.AssignProperties_To_EncryptionProperties(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field Encryption")
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// Identity
-	if stores.Identity != nil {
-		var identity v20220501s.ResourceIdentity
-		err := stores.Identity.AssignProperties_To_ResourceIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(stores.Location)
-
-	// OperatorSpec
-	if stores.OperatorSpec != nil {
-		var operatorSpec v20220501s.ConfigurationStoreOperatorSpec
-		err := stores.OperatorSpec.AssignProperties_To_ConfigurationStoreOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ConfigurationStoreOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = stores.OriginalVersion()
-
-	// Owner
-	if stores.Owner != nil {
-		owner := stores.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if stores.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*stores.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
-
-	// Sku
-	if stores.Sku != nil {
-		var sku v20220501s.Sku
-		err := stores.Sku.AssignProperties_To_Sku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// SoftDeleteRetentionInDays
-	destination.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(stores.SoftDeleteRetentionInDays)
-
-	// SystemData
-	if stores.SystemData != nil {
-		var systemDatum v20220501s.SystemData
-		err := stores.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(stores.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (stores *ConfigurationStores_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (stores *ConfigurationStores_Spec) SetAzureName(azureName string) { stores.AzureName = azureName }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ConfigurationStoreOperatorSpec struct {

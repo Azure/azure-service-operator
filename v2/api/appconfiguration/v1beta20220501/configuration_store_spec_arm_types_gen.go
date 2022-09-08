@@ -5,7 +5,7 @@ package v1beta20220501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ConfigurationStores_SpecARM struct {
+type ConfigurationStore_SpecARM struct {
 	// Identity: An identity that can be associated with a resource.
 	Identity *ResourceIdentityARM `json:"identity,omitempty"`
 
@@ -28,20 +28,20 @@ type ConfigurationStores_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ConfigurationStores_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ConfigurationStore_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-05-01"
-func (stores ConfigurationStores_SpecARM) GetAPIVersion() string {
+func (store ConfigurationStore_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (stores *ConfigurationStores_SpecARM) GetName() string {
-	return stores.Name
+func (store *ConfigurationStore_SpecARM) GetName() string {
+	return store.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.AppConfiguration/configurationStores"
-func (stores *ConfigurationStores_SpecARM) GetType() string {
+func (store *ConfigurationStore_SpecARM) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"
 }
 
