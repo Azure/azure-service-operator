@@ -133,6 +133,11 @@ typeFilters:
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
+  - action: prune
+    group: securityinsights
+    name: Workspaces_Providers*
+    because: Resource ownership is malformed
+
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
 # weird json or by handling them differently in the generator.
