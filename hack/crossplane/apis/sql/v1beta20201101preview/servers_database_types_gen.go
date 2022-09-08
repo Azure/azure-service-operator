@@ -20,13 +20,8 @@ import (
 type Servers_Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Servers_Database_Spec   `json:"spec,omitempty"`
 	Status            Servers_Database_STATUS `json:"status,omitempty"`
-=======
-	Spec              Servers_Database_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS       `json:"status,omitempty"`
->>>>>>> main
 }
 
 // +kubebuilder:object:root=true
@@ -39,14 +34,6 @@ type Servers_DatabaseList struct {
 	Items           []Servers_Database `json:"items"`
 }
 
-<<<<<<< HEAD
-=======
-type Database_STATUS struct {
-	v1alpha1.ResourceStatus `json:",inline,omitempty"`
-	AtProvider              DatabaseObservation `json:"atProvider,omitempty"`
-}
-
->>>>>>> main
 type Servers_Database_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider           Servers_DatabaseParameters `json:"forProvider,omitempty"`
