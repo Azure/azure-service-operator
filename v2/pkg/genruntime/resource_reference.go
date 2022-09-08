@@ -63,15 +63,7 @@ type ResourceReference struct {
 	// Note: Version is not required here because references are all about linking one Kubernetes
 	// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 	// name - the versions are just giving a different view on the same resource
-
-	// TODO: The below regex may be overly restrictive
-
-	// Here are some test patterns for it:
-	// /providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635
-	// /subscriptions/00000000-0000-0000-0000-000000000000
-	// /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/abcd
-	// /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635
-	// /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/abcd/providers/Microsoft.Compute/snapshots/snapshot
+	// Here are some test patterns for it: https://regex101.com/r/K7l3sv/1
 
 	// +kubebuilder:validation:Pattern="(?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
