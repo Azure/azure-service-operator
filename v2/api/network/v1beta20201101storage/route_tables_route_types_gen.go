@@ -26,8 +26,8 @@ import (
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTables_Routes_Spec `json:"spec,omitempty"`
-	Status            Route_STATUS            `json:"status,omitempty"`
+	Spec              RouteTables_Route_Spec `json:"spec,omitempty"`
+	Status            Route_STATUS           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -164,8 +164,8 @@ func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(route)
 }
 
-// Storage version of v1beta20201101.RouteTables_Routes_Spec
-type RouteTables_Routes_Spec struct {
+// Storage version of v1beta20201101.RouteTables_Route_Spec
+type RouteTables_Route_Spec struct {
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -184,24 +184,24 @@ type RouteTables_Routes_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RouteTables_Routes_Spec{}
+var _ genruntime.ConvertibleSpec = &RouteTables_Route_Spec{}
 
-// ConvertSpecFrom populates our RouteTables_Routes_Spec from the provided source
-func (routes *RouteTables_Routes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == routes {
+// ConvertSpecFrom populates our RouteTables_Route_Spec from the provided source
+func (route *RouteTables_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == route {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(routes)
+	return source.ConvertSpecTo(route)
 }
 
-// ConvertSpecTo populates the provided destination from our RouteTables_Routes_Spec
-func (routes *RouteTables_Routes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == routes {
+// ConvertSpecTo populates the provided destination from our RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == route {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(routes)
+	return destination.ConvertSpecFrom(route)
 }
 
 func init() {

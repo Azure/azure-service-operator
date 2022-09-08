@@ -28,7 +28,7 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroups_Spec                                           `json:"spec,omitempty"`
+	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -269,10 +269,10 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec NetworkSecurityGroups_Spec
-	err := spec.AssignProperties_From_NetworkSecurityGroups_Spec(&source.Spec)
+	var spec NetworkSecurityGroup_Spec
+	err := spec.AssignProperties_From_NetworkSecurityGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroups_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
@@ -295,10 +295,10 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20201101s.NetworkSecurityGroups_Spec
-	err := group.Spec.AssignProperties_To_NetworkSecurityGroups_Spec(&spec)
+	var spec alpha20201101s.NetworkSecurityGroup_Spec
+	err := group.Spec.AssignProperties_To_NetworkSecurityGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroups_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -330,6 +330,204 @@ type NetworkSecurityGroupList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroup `json:"items"`
 }
+
+type NetworkSecurityGroup_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NetworkSecurityGroup_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if group == nil {
+		return nil, nil
+	}
+	result := &NetworkSecurityGroup_SpecARM{}
+
+	// Set property ‘Location’:
+	if group.Location != nil {
+		location := *group.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Tags’:
+	if group.Tags != nil {
+		result.Tags = make(map[string]string, len(group.Tags))
+		for key, value := range group.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (group *NetworkSecurityGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroup_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkSecurityGroup_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		group.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	group.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		group.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			group.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
+
+// ConvertSpecFrom populates our NetworkSecurityGroup_Spec from the provided source
+func (group *NetworkSecurityGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20201101s.NetworkSecurityGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_NetworkSecurityGroup_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20201101s.NetworkSecurityGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_NetworkSecurityGroup_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_NetworkSecurityGroup_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20201101s.NetworkSecurityGroup_Spec{}
+	err := group.AssignProperties_To_NetworkSecurityGroup_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_NetworkSecurityGroup_Spec populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGroup_Spec(source *alpha20201101s.NetworkSecurityGroup_Spec) error {
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		group.Owner = &owner
+	} else {
+		group.Owner = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkSecurityGroup_Spec populates the provided destination NetworkSecurityGroup_Spec from our NetworkSecurityGroup_Spec
+func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup_Spec(destination *alpha20201101s.NetworkSecurityGroup_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion()
+
+	// Owner
+	if group.Owner != nil {
+		owner := group.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (group *NetworkSecurityGroup_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (group *NetworkSecurityGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
 // Deprecated version of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
@@ -806,206 +1004,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// No error
 	return nil
-}
-
-type NetworkSecurityGroups_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string  `json:"azureName,omitempty"`
-	Location  *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Tags  map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &NetworkSecurityGroups_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if groups == nil {
-		return nil, nil
-	}
-	result := &NetworkSecurityGroups_SpecARM{}
-
-	// Set property ‘Location’:
-	if groups.Location != nil {
-		location := *groups.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Tags’:
-	if groups.Tags != nil {
-		result.Tags = make(map[string]string, len(groups.Tags))
-		for key, value := range groups.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (groups *NetworkSecurityGroups_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroups_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (groups *NetworkSecurityGroups_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroups_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	groups.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		groups.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	groups.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		groups.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			groups.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_Spec{}
-
-// ConvertSpecFrom populates our NetworkSecurityGroups_Spec from the provided source
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20201101s.NetworkSecurityGroups_Spec)
-	if ok {
-		// Populate our instance from source
-		return groups.AssignProperties_From_NetworkSecurityGroups_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20201101s.NetworkSecurityGroups_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = groups.AssignProperties_From_NetworkSecurityGroups_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroups_Spec)
-	if ok {
-		// Populate destination from our instance
-		return groups.AssignProperties_To_NetworkSecurityGroups_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20201101s.NetworkSecurityGroups_Spec{}
-	err := groups.AssignProperties_To_NetworkSecurityGroups_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_NetworkSecurityGroups_Spec populates our NetworkSecurityGroups_Spec from the provided source NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) AssignProperties_From_NetworkSecurityGroups_Spec(source *alpha20201101s.NetworkSecurityGroups_Spec) error {
-
-	// AzureName
-	groups.AzureName = source.AzureName
-
-	// Location
-	groups.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		groups.Owner = &owner
-	} else {
-		groups.Owner = nil
-	}
-
-	// Tags
-	groups.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NetworkSecurityGroups_Spec populates the provided destination NetworkSecurityGroups_Spec from our NetworkSecurityGroups_Spec
-func (groups *NetworkSecurityGroups_Spec) AssignProperties_To_NetworkSecurityGroups_Spec(destination *alpha20201101s.NetworkSecurityGroups_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = groups.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(groups.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = groups.OriginalVersion()
-
-	// Owner
-	if groups.Owner != nil {
-		owner := groups.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(groups.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (groups *NetworkSecurityGroups_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (groups *NetworkSecurityGroups_Spec) SetAzureName(azureName string) {
-	groups.AzureName = azureName
 }
 
 // Deprecated version of FlowLog_STATUS_SubResourceEmbedded. Use v1beta20201101.FlowLog_STATUS_SubResourceEmbedded instead

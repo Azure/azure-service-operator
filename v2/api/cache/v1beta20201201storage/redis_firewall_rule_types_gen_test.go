@@ -74,24 +74,24 @@ func RedisFirewallRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisFirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisFirewallRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Redis_FirewallRules_SpecGenerator()
+	gens["Spec"] = Redis_FirewallRule_SpecGenerator()
 	gens["Status"] = RedisFirewallRule_STATUSGenerator()
 }
 
-func Test_Redis_FirewallRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Redis_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Redis_FirewallRules_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedis_FirewallRules_Spec, Redis_FirewallRules_SpecGenerator()))
+		"Round trip of Redis_FirewallRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_FirewallRule_Spec, Redis_FirewallRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedis_FirewallRules_Spec runs a test to see if a specific instance of Redis_FirewallRules_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedis_FirewallRules_Spec(subject Redis_FirewallRules_Spec) string {
+// RunJSONSerializationTestForRedis_FirewallRule_Spec runs a test to see if a specific instance of Redis_FirewallRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_FirewallRule_Spec(subject Redis_FirewallRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForRedis_FirewallRules_Spec(subject Redis_FirewallR
 	}
 
 	// Deserialize back into memory
-	var actual Redis_FirewallRules_Spec
+	var actual Redis_FirewallRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForRedis_FirewallRules_Spec(subject Redis_FirewallR
 	return ""
 }
 
-// Generator of Redis_FirewallRules_Spec instances for property testing - lazily instantiated by
-// Redis_FirewallRules_SpecGenerator()
-var redis_FirewallRules_SpecGenerator gopter.Gen
+// Generator of Redis_FirewallRule_Spec instances for property testing - lazily instantiated by
+// Redis_FirewallRule_SpecGenerator()
+var redis_FirewallRule_SpecGenerator gopter.Gen
 
-// Redis_FirewallRules_SpecGenerator returns a generator of Redis_FirewallRules_Spec instances for property testing.
-func Redis_FirewallRules_SpecGenerator() gopter.Gen {
-	if redis_FirewallRules_SpecGenerator != nil {
-		return redis_FirewallRules_SpecGenerator
+// Redis_FirewallRule_SpecGenerator returns a generator of Redis_FirewallRule_Spec instances for property testing.
+func Redis_FirewallRule_SpecGenerator() gopter.Gen {
+	if redis_FirewallRule_SpecGenerator != nil {
+		return redis_FirewallRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_FirewallRules_Spec(generators)
-	redis_FirewallRules_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_FirewallRules_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_FirewallRule_Spec(generators)
+	redis_FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_FirewallRule_Spec{}), generators)
 
-	return redis_FirewallRules_SpecGenerator
+	return redis_FirewallRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedis_FirewallRules_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedis_FirewallRules_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedis_FirewallRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_FirewallRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndIP"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

@@ -25,8 +25,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS        `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
+	Status            Server_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -136,10 +136,10 @@ func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *v2021
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServers_Spec
-	err := spec.AssignProperties_From_FlexibleServers_Spec(&source.Spec)
+	var spec FlexibleServer_Spec
+	err := spec.AssignProperties_From_FlexibleServer_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServer_Spec() to populate field Spec")
 	}
 	server.Spec = spec
 
@@ -162,10 +162,10 @@ func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *v2
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.FlexibleServers_Spec
-	err := server.Spec.AssignProperties_To_FlexibleServers_Spec(&spec)
+	var spec v20210601s.FlexibleServer_Spec
+	err := server.Spec.AssignProperties_To_FlexibleServer_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServer_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -206,8 +206,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
 
-// Storage version of v1alpha1api20210601.FlexibleServers_Spec
-type FlexibleServers_Spec struct {
+// Storage version of v1alpha1api20210601.FlexibleServer_Spec
+type FlexibleServer_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
@@ -238,25 +238,25 @@ type FlexibleServers_Spec struct {
 	Version                       *string                            `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServer_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Spec from the provided source
-func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.FlexibleServers_Spec)
+// ConvertSpecFrom populates our FlexibleServer_Spec from the provided source
+func (server *FlexibleServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.FlexibleServer_Spec)
 	if ok {
 		// Populate our instance from source
-		return servers.AssignProperties_From_FlexibleServers_Spec(src)
+		return server.AssignProperties_From_FlexibleServer_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.FlexibleServers_Spec{}
+	src = &v20210601s.FlexibleServer_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = servers.AssignProperties_From_FlexibleServers_Spec(src)
+	err = server.AssignProperties_From_FlexibleServer_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -264,17 +264,17 @@ func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.FlexibleServers_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServer_Spec
+func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.FlexibleServer_Spec)
 	if ok {
 		// Populate destination from our instance
-		return servers.AssignProperties_To_FlexibleServers_Spec(dst)
+		return server.AssignProperties_To_FlexibleServer_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.FlexibleServers_Spec{}
-	err := servers.AssignProperties_To_FlexibleServers_Spec(dst)
+	dst = &v20210601s.FlexibleServer_Spec{}
+	err := server.AssignProperties_To_FlexibleServer_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -288,27 +288,27 @@ func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Spec populates our FlexibleServers_Spec from the provided source FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(source *v20210601s.FlexibleServers_Spec) error {
+// AssignProperties_From_FlexibleServer_Spec populates our FlexibleServer_Spec from the provided source FlexibleServer_Spec
+func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(source *v20210601s.FlexibleServer_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdministratorLogin
-	servers.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
+	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
 	// AdministratorLoginPassword
 	if source.AdministratorLoginPassword != nil {
 		administratorLoginPassword := source.AdministratorLoginPassword.Copy()
-		servers.AdministratorLoginPassword = &administratorLoginPassword
+		server.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
-		servers.AdministratorLoginPassword = nil
+		server.AdministratorLoginPassword = nil
 	}
 
 	// AvailabilityZone
-	servers.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
+	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
 	// AzureName
-	servers.AzureName = source.AzureName
+	server.AzureName = source.AzureName
 
 	// Backup
 	if source.Backup != nil {
@@ -317,13 +317,13 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Backup() to populate field Backup")
 		}
-		servers.Backup = &backup
+		server.Backup = &backup
 	} else {
-		servers.Backup = nil
+		server.Backup = nil
 	}
 
 	// CreateMode
-	servers.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
+	server.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
 	// HighAvailability
 	if source.HighAvailability != nil {
@@ -332,13 +332,13 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_HighAvailability() to populate field HighAvailability")
 		}
-		servers.HighAvailability = &highAvailability
+		server.HighAvailability = &highAvailability
 	} else {
-		servers.HighAvailability = nil
+		server.HighAvailability = nil
 	}
 
 	// Location
-	servers.Location = genruntime.ClonePointerToString(source.Location)
+	server.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -347,9 +347,9 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_MaintenanceWindow() to populate field MaintenanceWindow")
 		}
-		servers.MaintenanceWindow = &maintenanceWindow
+		server.MaintenanceWindow = &maintenanceWindow
 	} else {
-		servers.MaintenanceWindow = nil
+		server.MaintenanceWindow = nil
 	}
 
 	// Network
@@ -359,9 +359,9 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Network() to populate field Network")
 		}
-		servers.Network = &network
+		server.Network = &network
 	} else {
-		servers.Network = nil
+		server.Network = nil
 	}
 
 	// OperatorSpec
@@ -371,24 +371,24 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServerOperatorSpec() to populate field OperatorSpec")
 		}
-		servers.OperatorSpec = &operatorSpec
+		server.OperatorSpec = &operatorSpec
 	} else {
-		servers.OperatorSpec = nil
+		server.OperatorSpec = nil
 	}
 
 	// OriginalVersion
-	servers.OriginalVersion = source.OriginalVersion
+	server.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		servers.Owner = &owner
+		server.Owner = &owner
 	} else {
-		servers.Owner = nil
+		server.Owner = nil
 	}
 
 	// PointInTimeUTC
-	servers.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
+	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
 	// Sku
 	if source.Sku != nil {
@@ -397,17 +397,17 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
-		servers.Sku = &sku
+		server.Sku = &sku
 	} else {
-		servers.Sku = nil
+		server.Sku = nil
 	}
 
 	// SourceServerResourceReference
 	if source.SourceServerResourceReference != nil {
 		sourceServerResourceReference := source.SourceServerResourceReference.Copy()
-		servers.SourceServerResourceReference = &sourceServerResourceReference
+		server.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
-		servers.SourceServerResourceReference = nil
+		server.SourceServerResourceReference = nil
 	}
 
 	// Storage
@@ -417,54 +417,54 @@ func (servers *FlexibleServers_Spec) AssignProperties_From_FlexibleServers_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Storage() to populate field Storage")
 		}
-		servers.Storage = &storage
+		server.Storage = &storage
 	} else {
-		servers.Storage = nil
+		server.Storage = nil
 	}
 
 	// Tags
-	servers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
-	servers.Version = genruntime.ClonePointerToString(source.Version)
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		servers.PropertyBag = propertyBag
+		server.PropertyBag = propertyBag
 	} else {
-		servers.PropertyBag = nil
+		server.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Spec populates the provided destination FlexibleServers_Spec from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(destination *v20210601s.FlexibleServers_Spec) error {
+// AssignProperties_To_FlexibleServer_Spec populates the provided destination FlexibleServer_Spec from our FlexibleServer_Spec
+func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(destination *v20210601s.FlexibleServer_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(servers.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(server.PropertyBag)
 
 	// AdministratorLogin
-	destination.AdministratorLogin = genruntime.ClonePointerToString(servers.AdministratorLogin)
+	destination.AdministratorLogin = genruntime.ClonePointerToString(server.AdministratorLogin)
 
 	// AdministratorLoginPassword
-	if servers.AdministratorLoginPassword != nil {
-		administratorLoginPassword := servers.AdministratorLoginPassword.Copy()
+	if server.AdministratorLoginPassword != nil {
+		administratorLoginPassword := server.AdministratorLoginPassword.Copy()
 		destination.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
 		destination.AdministratorLoginPassword = nil
 	}
 
 	// AvailabilityZone
-	destination.AvailabilityZone = genruntime.ClonePointerToString(servers.AvailabilityZone)
+	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)
 
 	// AzureName
-	destination.AzureName = servers.AzureName
+	destination.AzureName = server.AzureName
 
 	// Backup
-	if servers.Backup != nil {
+	if server.Backup != nil {
 		var backup v20210601s.Backup
-		err := servers.Backup.AssignProperties_To_Backup(&backup)
+		err := server.Backup.AssignProperties_To_Backup(&backup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Backup() to populate field Backup")
 		}
@@ -474,12 +474,12 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// CreateMode
-	destination.CreateMode = genruntime.ClonePointerToString(servers.CreateMode)
+	destination.CreateMode = genruntime.ClonePointerToString(server.CreateMode)
 
 	// HighAvailability
-	if servers.HighAvailability != nil {
+	if server.HighAvailability != nil {
 		var highAvailability v20210601s.HighAvailability
-		err := servers.HighAvailability.AssignProperties_To_HighAvailability(&highAvailability)
+		err := server.HighAvailability.AssignProperties_To_HighAvailability(&highAvailability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HighAvailability() to populate field HighAvailability")
 		}
@@ -489,12 +489,12 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(servers.Location)
+	destination.Location = genruntime.ClonePointerToString(server.Location)
 
 	// MaintenanceWindow
-	if servers.MaintenanceWindow != nil {
+	if server.MaintenanceWindow != nil {
 		var maintenanceWindow v20210601s.MaintenanceWindow
-		err := servers.MaintenanceWindow.AssignProperties_To_MaintenanceWindow(&maintenanceWindow)
+		err := server.MaintenanceWindow.AssignProperties_To_MaintenanceWindow(&maintenanceWindow)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MaintenanceWindow() to populate field MaintenanceWindow")
 		}
@@ -504,9 +504,9 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// Network
-	if servers.Network != nil {
+	if server.Network != nil {
 		var network v20210601s.Network
-		err := servers.Network.AssignProperties_To_Network(&network)
+		err := server.Network.AssignProperties_To_Network(&network)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Network() to populate field Network")
 		}
@@ -516,9 +516,9 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// OperatorSpec
-	if servers.OperatorSpec != nil {
+	if server.OperatorSpec != nil {
 		var operatorSpec v20210601s.FlexibleServerOperatorSpec
-		err := servers.OperatorSpec.AssignProperties_To_FlexibleServerOperatorSpec(&operatorSpec)
+		err := server.OperatorSpec.AssignProperties_To_FlexibleServerOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorSpec() to populate field OperatorSpec")
 		}
@@ -528,23 +528,23 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = servers.OriginalVersion
+	destination.OriginalVersion = server.OriginalVersion
 
 	// Owner
-	if servers.Owner != nil {
-		owner := servers.Owner.Copy()
+	if server.Owner != nil {
+		owner := server.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PointInTimeUTC
-	destination.PointInTimeUTC = genruntime.ClonePointerToString(servers.PointInTimeUTC)
+	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
 
 	// Sku
-	if servers.Sku != nil {
+	if server.Sku != nil {
 		var sku v20210601s.Sku
-		err := servers.Sku.AssignProperties_To_Sku(&sku)
+		err := server.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
@@ -554,17 +554,17 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// SourceServerResourceReference
-	if servers.SourceServerResourceReference != nil {
-		sourceServerResourceReference := servers.SourceServerResourceReference.Copy()
+	if server.SourceServerResourceReference != nil {
+		sourceServerResourceReference := server.SourceServerResourceReference.Copy()
 		destination.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
 		destination.SourceServerResourceReference = nil
 	}
 
 	// Storage
-	if servers.Storage != nil {
+	if server.Storage != nil {
 		var storage v20210601s.Storage
-		err := servers.Storage.AssignProperties_To_Storage(&storage)
+		err := server.Storage.AssignProperties_To_Storage(&storage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Storage() to populate field Storage")
 		}
@@ -574,10 +574,10 @@ func (servers *FlexibleServers_Spec) AssignProperties_To_FlexibleServers_Spec(de
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(servers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
 
 	// Version
-	destination.Version = genruntime.ClonePointerToString(servers.Version)
+	destination.Version = genruntime.ClonePointerToString(server.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

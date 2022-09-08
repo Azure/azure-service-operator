@@ -29,7 +29,7 @@ import (
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClusters_Spec  `json:"spec,omitempty"`
+	Spec              ManagedCluster_Spec   `json:"spec,omitempty"`
 	Status            ManagedCluster_STATUS `json:"status,omitempty"`
 }
 
@@ -275,10 +275,10 @@ func (cluster *ManagedCluster) AssignProperties_From_ManagedCluster(source *v202
 	cluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ManagedClusters_Spec
-	err := spec.AssignProperties_From_ManagedClusters_Spec(&source.Spec)
+	var spec ManagedCluster_Spec
+	err := spec.AssignProperties_From_ManagedCluster_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ManagedCluster_Spec() to populate field Spec")
 	}
 	cluster.Spec = spec
 
@@ -301,10 +301,10 @@ func (cluster *ManagedCluster) AssignProperties_To_ManagedCluster(destination *v
 	destination.ObjectMeta = *cluster.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210501s.ManagedClusters_Spec
-	err := cluster.Spec.AssignProperties_To_ManagedClusters_Spec(&spec)
+	var spec v20210501s.ManagedCluster_Spec
+	err := cluster.Spec.AssignProperties_To_ManagedCluster_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ManagedCluster_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -341,6 +341,1371 @@ type ManagedClusterList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-01")
+
+type ManagedCluster_Spec struct {
+	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
+
+	// AddonProfiles: The profile of managed cluster add-on.
+	AddonProfiles map[string]ManagedClusterAddonProfile `json:"addonProfiles,omitempty"`
+
+	// AgentPoolProfiles: The agent pool properties.
+	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
+
+	// ApiServerAccessProfile: Access profile for managed cluster API server.
+	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
+
+	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
+	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
+
+	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
+	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
+	// used on Managed Clusters that are AAD enabled. For more details see [disable local
+	// accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
+	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
+
+	// DiskEncryptionSetIDReference: This is of the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
+	DiskEncryptionSetIDReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
+
+	// DnsPrefix: This cannot be updated once the Managed Cluster has been created.
+	DnsPrefix *string `json:"dnsPrefix,omitempty"`
+
+	// EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set
+	// for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
+	EnablePodSecurityPolicy *bool `json:"enablePodSecurityPolicy,omitempty"`
+
+	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
+	EnableRBAC *bool `json:"enableRBAC,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+
+	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
+	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
+
+	// HttpProxyConfig: Cluster HTTP proxy configuration.
+	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
+
+	// Identity: Identity for the managed cluster.
+	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
+
+	// IdentityProfile: Identities associated with the cluster.
+	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
+
+	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
+	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
+	// 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS
+	// cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details.
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
+
+	// LinuxProfile: Profile for Linux VMs in the container service cluster.
+	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// NetworkProfile: Profile of network configuration.
+	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
+
+	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
+	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ManagedClusterOperatorSpec `json:"operatorSpec,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
+	// details on pod identity integration.
+	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
+
+	// PrivateLinkResources: Private link resources associated with the cluster.
+	PrivateLinkResources []PrivateLinkResource `json:"privateLinkResources,omitempty"`
+
+	// ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
+	// APIs.
+	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
+
+	// Sku: The SKU of a Managed Cluster.
+	Sku *ManagedClusterSKU `json:"sku,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// WindowsProfile: Profile for Windows VMs in the managed cluster.
+	WindowsProfile *ManagedClusterWindowsProfile `json:"windowsProfile,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedCluster_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if cluster == nil {
+		return nil, nil
+	}
+	result := &ManagedCluster_SpecARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if cluster.ExtendedLocation != nil {
+		extendedLocationARM, err := (*cluster.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Identity’:
+	if cluster.Identity != nil {
+		identityARM, err := (*cluster.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identityARM.(*ManagedClusterIdentityARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if cluster.Location != nil {
+		location := *cluster.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if cluster.AadProfile != nil ||
+		cluster.AddonProfiles != nil ||
+		cluster.AgentPoolProfiles != nil ||
+		cluster.ApiServerAccessProfile != nil ||
+		cluster.AutoScalerProfile != nil ||
+		cluster.AutoUpgradeProfile != nil ||
+		cluster.DisableLocalAccounts != nil ||
+		cluster.DiskEncryptionSetIDReference != nil ||
+		cluster.DnsPrefix != nil ||
+		cluster.EnablePodSecurityPolicy != nil ||
+		cluster.EnableRBAC != nil ||
+		cluster.FqdnSubdomain != nil ||
+		cluster.HttpProxyConfig != nil ||
+		cluster.IdentityProfile != nil ||
+		cluster.KubernetesVersion != nil ||
+		cluster.LinuxProfile != nil ||
+		cluster.NetworkProfile != nil ||
+		cluster.NodeResourceGroup != nil ||
+		cluster.PodIdentityProfile != nil ||
+		cluster.PrivateLinkResources != nil ||
+		cluster.ServicePrincipalProfile != nil ||
+		cluster.WindowsProfile != nil {
+		result.Properties = &ManagedClusterPropertiesARM{}
+	}
+	if cluster.AadProfile != nil {
+		aadProfileARM, err := (*cluster.AadProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		aadProfile := *aadProfileARM.(*ManagedClusterAADProfileARM)
+		result.Properties.AadProfile = &aadProfile
+	}
+	if cluster.AddonProfiles != nil {
+		result.Properties.AddonProfiles = make(map[string]ManagedClusterAddonProfileARM, len(cluster.AddonProfiles))
+		for key, value := range cluster.AddonProfiles {
+			valueARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.AddonProfiles[key] = *valueARM.(*ManagedClusterAddonProfileARM)
+		}
+	}
+	for _, item := range cluster.AgentPoolProfiles {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, *itemARM.(*ManagedClusterAgentPoolProfileARM))
+	}
+	if cluster.ApiServerAccessProfile != nil {
+		apiServerAccessProfileARM, err := (*cluster.ApiServerAccessProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		apiServerAccessProfile := *apiServerAccessProfileARM.(*ManagedClusterAPIServerAccessProfileARM)
+		result.Properties.ApiServerAccessProfile = &apiServerAccessProfile
+	}
+	if cluster.AutoScalerProfile != nil {
+		autoScalerProfileARM, err := (*cluster.AutoScalerProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		autoScalerProfile := *autoScalerProfileARM.(*ManagedClusterPropertiesAutoScalerProfileARM)
+		result.Properties.AutoScalerProfile = &autoScalerProfile
+	}
+	if cluster.AutoUpgradeProfile != nil {
+		autoUpgradeProfileARM, err := (*cluster.AutoUpgradeProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		autoUpgradeProfile := *autoUpgradeProfileARM.(*ManagedClusterAutoUpgradeProfileARM)
+		result.Properties.AutoUpgradeProfile = &autoUpgradeProfile
+	}
+	if cluster.DisableLocalAccounts != nil {
+		disableLocalAccounts := *cluster.DisableLocalAccounts
+		result.Properties.DisableLocalAccounts = &disableLocalAccounts
+	}
+	if cluster.DiskEncryptionSetIDReference != nil {
+		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*cluster.DiskEncryptionSetIDReference)
+		if err != nil {
+			return nil, err
+		}
+		diskEncryptionSetID := diskEncryptionSetIDARMID
+		result.Properties.DiskEncryptionSetID = &diskEncryptionSetID
+	}
+	if cluster.DnsPrefix != nil {
+		dnsPrefix := *cluster.DnsPrefix
+		result.Properties.DnsPrefix = &dnsPrefix
+	}
+	if cluster.EnablePodSecurityPolicy != nil {
+		enablePodSecurityPolicy := *cluster.EnablePodSecurityPolicy
+		result.Properties.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+	}
+	if cluster.EnableRBAC != nil {
+		enableRBAC := *cluster.EnableRBAC
+		result.Properties.EnableRBAC = &enableRBAC
+	}
+	if cluster.FqdnSubdomain != nil {
+		fqdnSubdomain := *cluster.FqdnSubdomain
+		result.Properties.FqdnSubdomain = &fqdnSubdomain
+	}
+	if cluster.HttpProxyConfig != nil {
+		httpProxyConfigARM, err := (*cluster.HttpProxyConfig).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		httpProxyConfig := *httpProxyConfigARM.(*ManagedClusterHTTPProxyConfigARM)
+		result.Properties.HttpProxyConfig = &httpProxyConfig
+	}
+	if cluster.IdentityProfile != nil {
+		result.Properties.IdentityProfile = make(map[string]Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM, len(cluster.IdentityProfile))
+		for key, value := range cluster.IdentityProfile {
+			valueARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.IdentityProfile[key] = *valueARM.(*Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
+		}
+	}
+	if cluster.KubernetesVersion != nil {
+		kubernetesVersion := *cluster.KubernetesVersion
+		result.Properties.KubernetesVersion = &kubernetesVersion
+	}
+	if cluster.LinuxProfile != nil {
+		linuxProfileARM, err := (*cluster.LinuxProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxProfile := *linuxProfileARM.(*ContainerServiceLinuxProfileARM)
+		result.Properties.LinuxProfile = &linuxProfile
+	}
+	if cluster.NetworkProfile != nil {
+		networkProfileARM, err := (*cluster.NetworkProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkProfile := *networkProfileARM.(*ContainerServiceNetworkProfileARM)
+		result.Properties.NetworkProfile = &networkProfile
+	}
+	if cluster.NodeResourceGroup != nil {
+		nodeResourceGroup := *cluster.NodeResourceGroup
+		result.Properties.NodeResourceGroup = &nodeResourceGroup
+	}
+	if cluster.PodIdentityProfile != nil {
+		podIdentityProfileARM, err := (*cluster.PodIdentityProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		podIdentityProfile := *podIdentityProfileARM.(*ManagedClusterPodIdentityProfileARM)
+		result.Properties.PodIdentityProfile = &podIdentityProfile
+	}
+	for _, item := range cluster.PrivateLinkResources {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, *itemARM.(*PrivateLinkResourceARM))
+	}
+	if cluster.ServicePrincipalProfile != nil {
+		servicePrincipalProfileARM, err := (*cluster.ServicePrincipalProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		servicePrincipalProfile := *servicePrincipalProfileARM.(*ManagedClusterServicePrincipalProfileARM)
+		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
+	}
+	if cluster.WindowsProfile != nil {
+		windowsProfileARM, err := (*cluster.WindowsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		windowsProfile := *windowsProfileARM.(*ManagedClusterWindowsProfileARM)
+		result.Properties.WindowsProfile = &windowsProfile
+	}
+
+	// Set property ‘Sku’:
+	if cluster.Sku != nil {
+		skuARM, err := (*cluster.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*ManagedClusterSKUARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if cluster.Tags != nil {
+		result.Tags = make(map[string]string, len(cluster.Tags))
+		for key, value := range cluster.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (cluster *ManagedCluster_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedCluster_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedCluster_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedCluster_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AadProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AadProfile != nil {
+			var aadProfile1 ManagedClusterAADProfile
+			err := aadProfile1.PopulateFromARM(owner, *typedInput.Properties.AadProfile)
+			if err != nil {
+				return err
+			}
+			aadProfile := aadProfile1
+			cluster.AadProfile = &aadProfile
+		}
+	}
+
+	// Set property ‘AddonProfiles’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AddonProfiles != nil {
+			cluster.AddonProfiles = make(map[string]ManagedClusterAddonProfile, len(typedInput.Properties.AddonProfiles))
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.AddonProfiles[key] = value1
+			}
+		}
+	}
+
+	// Set property ‘AgentPoolProfiles’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.AgentPoolProfiles {
+			var item1 ManagedClusterAgentPoolProfile
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			cluster.AgentPoolProfiles = append(cluster.AgentPoolProfiles, item1)
+		}
+	}
+
+	// Set property ‘ApiServerAccessProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ApiServerAccessProfile != nil {
+			var apiServerAccessProfile1 ManagedClusterAPIServerAccessProfile
+			err := apiServerAccessProfile1.PopulateFromARM(owner, *typedInput.Properties.ApiServerAccessProfile)
+			if err != nil {
+				return err
+			}
+			apiServerAccessProfile := apiServerAccessProfile1
+			cluster.ApiServerAccessProfile = &apiServerAccessProfile
+		}
+	}
+
+	// Set property ‘AutoScalerProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoScalerProfile != nil {
+			var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
+			err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
+			if err != nil {
+				return err
+			}
+			autoScalerProfile := autoScalerProfile1
+			cluster.AutoScalerProfile = &autoScalerProfile
+		}
+	}
+
+	// Set property ‘AutoUpgradeProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoUpgradeProfile != nil {
+			var autoUpgradeProfile1 ManagedClusterAutoUpgradeProfile
+			err := autoUpgradeProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoUpgradeProfile)
+			if err != nil {
+				return err
+			}
+			autoUpgradeProfile := autoUpgradeProfile1
+			cluster.AutoUpgradeProfile = &autoUpgradeProfile
+		}
+	}
+
+	// Set property ‘AzureName’:
+	cluster.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DisableLocalAccounts’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableLocalAccounts != nil {
+			disableLocalAccounts := *typedInput.Properties.DisableLocalAccounts
+			cluster.DisableLocalAccounts = &disableLocalAccounts
+		}
+	}
+
+	// no assignment for property ‘DiskEncryptionSetIDReference’
+
+	// Set property ‘DnsPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsPrefix != nil {
+			dnsPrefix := *typedInput.Properties.DnsPrefix
+			cluster.DnsPrefix = &dnsPrefix
+		}
+	}
+
+	// Set property ‘EnablePodSecurityPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePodSecurityPolicy != nil {
+			enablePodSecurityPolicy := *typedInput.Properties.EnablePodSecurityPolicy
+			cluster.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+		}
+	}
+
+	// Set property ‘EnableRBAC’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableRBAC != nil {
+			enableRBAC := *typedInput.Properties.EnableRBAC
+			cluster.EnableRBAC = &enableRBAC
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		cluster.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘FqdnSubdomain’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FqdnSubdomain != nil {
+			fqdnSubdomain := *typedInput.Properties.FqdnSubdomain
+			cluster.FqdnSubdomain = &fqdnSubdomain
+		}
+	}
+
+	// Set property ‘HttpProxyConfig’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HttpProxyConfig != nil {
+			var httpProxyConfig1 ManagedClusterHTTPProxyConfig
+			err := httpProxyConfig1.PopulateFromARM(owner, *typedInput.Properties.HttpProxyConfig)
+			if err != nil {
+				return err
+			}
+			httpProxyConfig := httpProxyConfig1
+			cluster.HttpProxyConfig = &httpProxyConfig
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 ManagedClusterIdentity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		cluster.Identity = &identity
+	}
+
+	// Set property ‘IdentityProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdentityProfile != nil {
+			cluster.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(typedInput.Properties.IdentityProfile))
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.IdentityProfile[key] = value1
+			}
+		}
+	}
+
+	// Set property ‘KubernetesVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubernetesVersion != nil {
+			kubernetesVersion := *typedInput.Properties.KubernetesVersion
+			cluster.KubernetesVersion = &kubernetesVersion
+		}
+	}
+
+	// Set property ‘LinuxProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LinuxProfile != nil {
+			var linuxProfile1 ContainerServiceLinuxProfile
+			err := linuxProfile1.PopulateFromARM(owner, *typedInput.Properties.LinuxProfile)
+			if err != nil {
+				return err
+			}
+			linuxProfile := linuxProfile1
+			cluster.LinuxProfile = &linuxProfile
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		cluster.Location = &location
+	}
+
+	// Set property ‘NetworkProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkProfile != nil {
+			var networkProfile1 ContainerServiceNetworkProfile
+			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
+			if err != nil {
+				return err
+			}
+			networkProfile := networkProfile1
+			cluster.NetworkProfile = &networkProfile
+		}
+	}
+
+	// Set property ‘NodeResourceGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodeResourceGroup != nil {
+			nodeResourceGroup := *typedInput.Properties.NodeResourceGroup
+			cluster.NodeResourceGroup = &nodeResourceGroup
+		}
+	}
+
+	// no assignment for property ‘OperatorSpec’
+
+	// Set property ‘Owner’:
+	cluster.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PodIdentityProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PodIdentityProfile != nil {
+			var podIdentityProfile1 ManagedClusterPodIdentityProfile
+			err := podIdentityProfile1.PopulateFromARM(owner, *typedInput.Properties.PodIdentityProfile)
+			if err != nil {
+				return err
+			}
+			podIdentityProfile := podIdentityProfile1
+			cluster.PodIdentityProfile = &podIdentityProfile
+		}
+	}
+
+	// Set property ‘PrivateLinkResources’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateLinkResources {
+			var item1 PrivateLinkResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			cluster.PrivateLinkResources = append(cluster.PrivateLinkResources, item1)
+		}
+	}
+
+	// Set property ‘ServicePrincipalProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServicePrincipalProfile != nil {
+			var servicePrincipalProfile1 ManagedClusterServicePrincipalProfile
+			err := servicePrincipalProfile1.PopulateFromARM(owner, *typedInput.Properties.ServicePrincipalProfile)
+			if err != nil {
+				return err
+			}
+			servicePrincipalProfile := servicePrincipalProfile1
+			cluster.ServicePrincipalProfile = &servicePrincipalProfile
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 ManagedClusterSKU
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		cluster.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		cluster.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			cluster.Tags[key] = value
+		}
+	}
+
+	// Set property ‘WindowsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WindowsProfile != nil {
+			var windowsProfile1 ManagedClusterWindowsProfile
+			err := windowsProfile1.PopulateFromARM(owner, *typedInput.Properties.WindowsProfile)
+			if err != nil {
+				return err
+			}
+			windowsProfile := windowsProfile1
+			cluster.WindowsProfile = &windowsProfile
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &ManagedCluster_Spec{}
+
+// ConvertSpecFrom populates our ManagedCluster_Spec from the provided source
+func (cluster *ManagedCluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210501s.ManagedCluster_Spec)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignProperties_From_ManagedCluster_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210501s.ManagedCluster_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = cluster.AssignProperties_From_ManagedCluster_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our ManagedCluster_Spec
+func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210501s.ManagedCluster_Spec)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignProperties_To_ManagedCluster_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210501s.ManagedCluster_Spec{}
+	err := cluster.AssignProperties_To_ManagedCluster_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ManagedCluster_Spec populates our ManagedCluster_Spec from the provided source ManagedCluster_Spec
+func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(source *v20210501s.ManagedCluster_Spec) error {
+
+	// AadProfile
+	if source.AadProfile != nil {
+		var aadProfile ManagedClusterAADProfile
+		err := aadProfile.AssignProperties_From_ManagedClusterAADProfile(source.AadProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAADProfile() to populate field AadProfile")
+		}
+		cluster.AadProfile = &aadProfile
+	} else {
+		cluster.AadProfile = nil
+	}
+
+	// AddonProfiles
+	if source.AddonProfiles != nil {
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile
+			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		cluster.AddonProfiles = addonProfileMap
+	} else {
+		cluster.AddonProfiles = nil
+	}
+
+	// AgentPoolProfiles
+	if source.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]ManagedClusterAgentPoolProfile, len(source.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile ManagedClusterAgentPoolProfile
+			err := agentPoolProfile.AssignProperties_From_ManagedClusterAgentPoolProfile(&agentPoolProfileItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		}
+		cluster.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		cluster.AgentPoolProfiles = nil
+	}
+
+	// ApiServerAccessProfile
+	if source.ApiServerAccessProfile != nil {
+		var apiServerAccessProfile ManagedClusterAPIServerAccessProfile
+		err := apiServerAccessProfile.AssignProperties_From_ManagedClusterAPIServerAccessProfile(source.ApiServerAccessProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
+		}
+		cluster.ApiServerAccessProfile = &apiServerAccessProfile
+	} else {
+		cluster.ApiServerAccessProfile = nil
+	}
+
+	// AutoScalerProfile
+	if source.AutoScalerProfile != nil {
+		var autoScalerProfile ManagedClusterPropertiesAutoScalerProfile
+		err := autoScalerProfile.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(source.AutoScalerProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+		}
+		cluster.AutoScalerProfile = &autoScalerProfile
+	} else {
+		cluster.AutoScalerProfile = nil
+	}
+
+	// AutoUpgradeProfile
+	if source.AutoUpgradeProfile != nil {
+		var autoUpgradeProfile ManagedClusterAutoUpgradeProfile
+		err := autoUpgradeProfile.AssignProperties_From_ManagedClusterAutoUpgradeProfile(source.AutoUpgradeProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
+		}
+		cluster.AutoUpgradeProfile = &autoUpgradeProfile
+	} else {
+		cluster.AutoUpgradeProfile = nil
+	}
+
+	// AzureName
+	cluster.AzureName = source.AzureName
+
+	// DisableLocalAccounts
+	if source.DisableLocalAccounts != nil {
+		disableLocalAccount := *source.DisableLocalAccounts
+		cluster.DisableLocalAccounts = &disableLocalAccount
+	} else {
+		cluster.DisableLocalAccounts = nil
+	}
+
+	// DiskEncryptionSetIDReference
+	if source.DiskEncryptionSetIDReference != nil {
+		diskEncryptionSetIDReference := source.DiskEncryptionSetIDReference.Copy()
+		cluster.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
+	} else {
+		cluster.DiskEncryptionSetIDReference = nil
+	}
+
+	// DnsPrefix
+	cluster.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
+
+	// EnablePodSecurityPolicy
+	if source.EnablePodSecurityPolicy != nil {
+		enablePodSecurityPolicy := *source.EnablePodSecurityPolicy
+		cluster.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+	} else {
+		cluster.EnablePodSecurityPolicy = nil
+	}
+
+	// EnableRBAC
+	if source.EnableRBAC != nil {
+		enableRBAC := *source.EnableRBAC
+		cluster.EnableRBAC = &enableRBAC
+	} else {
+		cluster.EnableRBAC = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		cluster.ExtendedLocation = &extendedLocation
+	} else {
+		cluster.ExtendedLocation = nil
+	}
+
+	// FqdnSubdomain
+	cluster.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
+
+	// HttpProxyConfig
+	if source.HttpProxyConfig != nil {
+		var httpProxyConfig ManagedClusterHTTPProxyConfig
+		err := httpProxyConfig.AssignProperties_From_ManagedClusterHTTPProxyConfig(source.HttpProxyConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
+		}
+		cluster.HttpProxyConfig = &httpProxyConfig
+	} else {
+		cluster.HttpProxyConfig = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedClusterIdentity
+		err := identity.AssignProperties_From_ManagedClusterIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterIdentity() to populate field Identity")
+		}
+		cluster.Identity = &identity
+	} else {
+		cluster.Identity = nil
+	}
+
+	// IdentityProfile
+	if source.IdentityProfile != nil {
+		identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfile.AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		cluster.IdentityProfile = identityProfileMap
+	} else {
+		cluster.IdentityProfile = nil
+	}
+
+	// KubernetesVersion
+	cluster.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
+
+	// LinuxProfile
+	if source.LinuxProfile != nil {
+		var linuxProfile ContainerServiceLinuxProfile
+		err := linuxProfile.AssignProperties_From_ContainerServiceLinuxProfile(source.LinuxProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerServiceLinuxProfile() to populate field LinuxProfile")
+		}
+		cluster.LinuxProfile = &linuxProfile
+	} else {
+		cluster.LinuxProfile = nil
+	}
+
+	// Location
+	cluster.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkProfile
+	if source.NetworkProfile != nil {
+		var networkProfile ContainerServiceNetworkProfile
+		err := networkProfile.AssignProperties_From_ContainerServiceNetworkProfile(source.NetworkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerServiceNetworkProfile() to populate field NetworkProfile")
+		}
+		cluster.NetworkProfile = &networkProfile
+	} else {
+		cluster.NetworkProfile = nil
+	}
+
+	// NodeResourceGroup
+	cluster.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ManagedClusterOperatorSpec
+		err := operatorSpec.AssignProperties_From_ManagedClusterOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		cluster.OperatorSpec = &operatorSpec
+	} else {
+		cluster.OperatorSpec = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		cluster.Owner = &owner
+	} else {
+		cluster.Owner = nil
+	}
+
+	// PodIdentityProfile
+	if source.PodIdentityProfile != nil {
+		var podIdentityProfile ManagedClusterPodIdentityProfile
+		err := podIdentityProfile.AssignProperties_From_ManagedClusterPodIdentityProfile(source.PodIdentityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
+		}
+		cluster.PodIdentityProfile = &podIdentityProfile
+	} else {
+		cluster.PodIdentityProfile = nil
+	}
+
+	// PrivateLinkResources
+	if source.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource PrivateLinkResource
+			err := privateLinkResource.AssignProperties_From_PrivateLinkResource(&privateLinkResourceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkResource() to populate field PrivateLinkResources")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		}
+		cluster.PrivateLinkResources = privateLinkResourceList
+	} else {
+		cluster.PrivateLinkResources = nil
+	}
+
+	// ServicePrincipalProfile
+	if source.ServicePrincipalProfile != nil {
+		var servicePrincipalProfile ManagedClusterServicePrincipalProfile
+		err := servicePrincipalProfile.AssignProperties_From_ManagedClusterServicePrincipalProfile(source.ServicePrincipalProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
+		}
+		cluster.ServicePrincipalProfile = &servicePrincipalProfile
+	} else {
+		cluster.ServicePrincipalProfile = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku ManagedClusterSKU
+		err := sku.AssignProperties_From_ManagedClusterSKU(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterSKU() to populate field Sku")
+		}
+		cluster.Sku = &sku
+	} else {
+		cluster.Sku = nil
+	}
+
+	// Tags
+	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// WindowsProfile
+	if source.WindowsProfile != nil {
+		var windowsProfile ManagedClusterWindowsProfile
+		err := windowsProfile.AssignProperties_From_ManagedClusterWindowsProfile(source.WindowsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterWindowsProfile() to populate field WindowsProfile")
+		}
+		cluster.WindowsProfile = &windowsProfile
+	} else {
+		cluster.WindowsProfile = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedCluster_Spec populates the provided destination ManagedCluster_Spec from our ManagedCluster_Spec
+func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(destination *v20210501s.ManagedCluster_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AadProfile
+	if cluster.AadProfile != nil {
+		var aadProfile v20210501s.ManagedClusterAADProfile
+		err := cluster.AadProfile.AssignProperties_To_ManagedClusterAADProfile(&aadProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAADProfile() to populate field AadProfile")
+		}
+		destination.AadProfile = &aadProfile
+	} else {
+		destination.AadProfile = nil
+	}
+
+	// AddonProfiles
+	if cluster.AddonProfiles != nil {
+		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile, len(cluster.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v20210501s.ManagedClusterAddonProfile
+			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		destination.AddonProfiles = addonProfileMap
+	} else {
+		destination.AddonProfiles = nil
+	}
+
+	// AgentPoolProfiles
+	if cluster.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]v20210501s.ManagedClusterAgentPoolProfile, len(cluster.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range cluster.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile v20210501s.ManagedClusterAgentPoolProfile
+			err := agentPoolProfileItem.AssignProperties_To_ManagedClusterAgentPoolProfile(&agentPoolProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		}
+		destination.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		destination.AgentPoolProfiles = nil
+	}
+
+	// ApiServerAccessProfile
+	if cluster.ApiServerAccessProfile != nil {
+		var apiServerAccessProfile v20210501s.ManagedClusterAPIServerAccessProfile
+		err := cluster.ApiServerAccessProfile.AssignProperties_To_ManagedClusterAPIServerAccessProfile(&apiServerAccessProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
+		}
+		destination.ApiServerAccessProfile = &apiServerAccessProfile
+	} else {
+		destination.ApiServerAccessProfile = nil
+	}
+
+	// AutoScalerProfile
+	if cluster.AutoScalerProfile != nil {
+		var autoScalerProfile v20210501s.ManagedClusterPropertiesAutoScalerProfile
+		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(&autoScalerProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+		}
+		destination.AutoScalerProfile = &autoScalerProfile
+	} else {
+		destination.AutoScalerProfile = nil
+	}
+
+	// AutoUpgradeProfile
+	if cluster.AutoUpgradeProfile != nil {
+		var autoUpgradeProfile v20210501s.ManagedClusterAutoUpgradeProfile
+		err := cluster.AutoUpgradeProfile.AssignProperties_To_ManagedClusterAutoUpgradeProfile(&autoUpgradeProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
+		}
+		destination.AutoUpgradeProfile = &autoUpgradeProfile
+	} else {
+		destination.AutoUpgradeProfile = nil
+	}
+
+	// AzureName
+	destination.AzureName = cluster.AzureName
+
+	// DisableLocalAccounts
+	if cluster.DisableLocalAccounts != nil {
+		disableLocalAccount := *cluster.DisableLocalAccounts
+		destination.DisableLocalAccounts = &disableLocalAccount
+	} else {
+		destination.DisableLocalAccounts = nil
+	}
+
+	// DiskEncryptionSetIDReference
+	if cluster.DiskEncryptionSetIDReference != nil {
+		diskEncryptionSetIDReference := cluster.DiskEncryptionSetIDReference.Copy()
+		destination.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
+	} else {
+		destination.DiskEncryptionSetIDReference = nil
+	}
+
+	// DnsPrefix
+	destination.DnsPrefix = genruntime.ClonePointerToString(cluster.DnsPrefix)
+
+	// EnablePodSecurityPolicy
+	if cluster.EnablePodSecurityPolicy != nil {
+		enablePodSecurityPolicy := *cluster.EnablePodSecurityPolicy
+		destination.EnablePodSecurityPolicy = &enablePodSecurityPolicy
+	} else {
+		destination.EnablePodSecurityPolicy = nil
+	}
+
+	// EnableRBAC
+	if cluster.EnableRBAC != nil {
+		enableRBAC := *cluster.EnableRBAC
+		destination.EnableRBAC = &enableRBAC
+	} else {
+		destination.EnableRBAC = nil
+	}
+
+	// ExtendedLocation
+	if cluster.ExtendedLocation != nil {
+		var extendedLocation v20210501s.ExtendedLocation
+		err := cluster.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// FqdnSubdomain
+	destination.FqdnSubdomain = genruntime.ClonePointerToString(cluster.FqdnSubdomain)
+
+	// HttpProxyConfig
+	if cluster.HttpProxyConfig != nil {
+		var httpProxyConfig v20210501s.ManagedClusterHTTPProxyConfig
+		err := cluster.HttpProxyConfig.AssignProperties_To_ManagedClusterHTTPProxyConfig(&httpProxyConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
+		}
+		destination.HttpProxyConfig = &httpProxyConfig
+	} else {
+		destination.HttpProxyConfig = nil
+	}
+
+	// Identity
+	if cluster.Identity != nil {
+		var identity v20210501s.ManagedClusterIdentity
+		err := cluster.Identity.AssignProperties_To_ManagedClusterIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IdentityProfile
+	if cluster.IdentityProfile != nil {
+		identityProfileMap := make(map[string]v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(cluster.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfileValue.AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		destination.IdentityProfile = identityProfileMap
+	} else {
+		destination.IdentityProfile = nil
+	}
+
+	// KubernetesVersion
+	destination.KubernetesVersion = genruntime.ClonePointerToString(cluster.KubernetesVersion)
+
+	// LinuxProfile
+	if cluster.LinuxProfile != nil {
+		var linuxProfile v20210501s.ContainerServiceLinuxProfile
+		err := cluster.LinuxProfile.AssignProperties_To_ContainerServiceLinuxProfile(&linuxProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceLinuxProfile() to populate field LinuxProfile")
+		}
+		destination.LinuxProfile = &linuxProfile
+	} else {
+		destination.LinuxProfile = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(cluster.Location)
+
+	// NetworkProfile
+	if cluster.NetworkProfile != nil {
+		var networkProfile v20210501s.ContainerServiceNetworkProfile
+		err := cluster.NetworkProfile.AssignProperties_To_ContainerServiceNetworkProfile(&networkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile() to populate field NetworkProfile")
+		}
+		destination.NetworkProfile = &networkProfile
+	} else {
+		destination.NetworkProfile = nil
+	}
+
+	// NodeResourceGroup
+	destination.NodeResourceGroup = genruntime.ClonePointerToString(cluster.NodeResourceGroup)
+
+	// OperatorSpec
+	if cluster.OperatorSpec != nil {
+		var operatorSpec v20210501s.ManagedClusterOperatorSpec
+		err := cluster.OperatorSpec.AssignProperties_To_ManagedClusterOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = cluster.OriginalVersion()
+
+	// Owner
+	if cluster.Owner != nil {
+		owner := cluster.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PodIdentityProfile
+	if cluster.PodIdentityProfile != nil {
+		var podIdentityProfile v20210501s.ManagedClusterPodIdentityProfile
+		err := cluster.PodIdentityProfile.AssignProperties_To_ManagedClusterPodIdentityProfile(&podIdentityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
+		}
+		destination.PodIdentityProfile = &podIdentityProfile
+	} else {
+		destination.PodIdentityProfile = nil
+	}
+
+	// PrivateLinkResources
+	if cluster.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]v20210501s.PrivateLinkResource, len(cluster.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range cluster.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource v20210501s.PrivateLinkResource
+			err := privateLinkResourceItem.AssignProperties_To_PrivateLinkResource(&privateLinkResource)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkResource() to populate field PrivateLinkResources")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		}
+		destination.PrivateLinkResources = privateLinkResourceList
+	} else {
+		destination.PrivateLinkResources = nil
+	}
+
+	// ServicePrincipalProfile
+	if cluster.ServicePrincipalProfile != nil {
+		var servicePrincipalProfile v20210501s.ManagedClusterServicePrincipalProfile
+		err := cluster.ServicePrincipalProfile.AssignProperties_To_ManagedClusterServicePrincipalProfile(&servicePrincipalProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
+		}
+		destination.ServicePrincipalProfile = &servicePrincipalProfile
+	} else {
+		destination.ServicePrincipalProfile = nil
+	}
+
+	// Sku
+	if cluster.Sku != nil {
+		var sku v20210501s.ManagedClusterSKU
+		err := cluster.Sku.AssignProperties_To_ManagedClusterSKU(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSKU() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
+
+	// WindowsProfile
+	if cluster.WindowsProfile != nil {
+		var windowsProfile v20210501s.ManagedClusterWindowsProfile
+		err := cluster.WindowsProfile.AssignProperties_To_ManagedClusterWindowsProfile(&windowsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWindowsProfile() to populate field WindowsProfile")
+		}
+		destination.WindowsProfile = &windowsProfile
+	} else {
+		destination.WindowsProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (cluster *ManagedCluster_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (cluster *ManagedCluster_Spec) SetAzureName(azureName string) { cluster.AzureName = azureName }
 
 type ManagedCluster_STATUS struct {
 	// AadProfile: The Azure Active Directory configuration.
@@ -1522,1371 +2887,6 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 	// No error
 	return nil
 }
-
-type ManagedClusters_Spec struct {
-	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
-	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
-
-	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles map[string]ManagedClusterAddonProfile `json:"addonProfiles,omitempty"`
-
-	// AgentPoolProfiles: The agent pool properties.
-	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
-
-	// ApiServerAccessProfile: Access profile for managed cluster API server.
-	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
-
-	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
-	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
-
-	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
-	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
-	// used on Managed Clusters that are AAD enabled. For more details see [disable local
-	// accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
-	DisableLocalAccounts *bool `json:"disableLocalAccounts,omitempty"`
-
-	// DiskEncryptionSetIDReference: This is of the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
-	DiskEncryptionSetIDReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
-
-	// DnsPrefix: This cannot be updated once the Managed Cluster has been created.
-	DnsPrefix *string `json:"dnsPrefix,omitempty"`
-
-	// EnablePodSecurityPolicy: (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set
-	// for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
-	EnablePodSecurityPolicy *bool `json:"enablePodSecurityPolicy,omitempty"`
-
-	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
-	EnableRBAC *bool `json:"enableRBAC,omitempty"`
-
-	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
-	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
-
-	// HttpProxyConfig: Cluster HTTP proxy configuration.
-	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
-
-	// Identity: Identity for the managed cluster.
-	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
-
-	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
-
-	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
-	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
-	// 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS
-	// cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details.
-	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
-
-	// LinuxProfile: Profile for Linux VMs in the container service cluster.
-	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// NetworkProfile: Profile of network configuration.
-	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
-
-	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
-	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
-
-	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	// passed directly to Azure
-	OperatorSpec *ManagedClusterOperatorSpec `json:"operatorSpec,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
-	// details on pod identity integration.
-	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
-
-	// PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResource `json:"privateLinkResources,omitempty"`
-
-	// ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
-	// APIs.
-	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
-
-	// Sku: The SKU of a Managed Cluster.
-	Sku *ManagedClusterSKU `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// WindowsProfile: Profile for Windows VMs in the managed cluster.
-	WindowsProfile *ManagedClusterWindowsProfile `json:"windowsProfile,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusters_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if clusters == nil {
-		return nil, nil
-	}
-	result := &ManagedClusters_SpecARM{}
-
-	// Set property ‘ExtendedLocation’:
-	if clusters.ExtendedLocation != nil {
-		extendedLocationARM, err := (*clusters.ExtendedLocation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
-		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Identity’:
-	if clusters.Identity != nil {
-		identityARM, err := (*clusters.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*ManagedClusterIdentityARM)
-		result.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if clusters.Location != nil {
-		location := *clusters.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if clusters.AadProfile != nil ||
-		clusters.AddonProfiles != nil ||
-		clusters.AgentPoolProfiles != nil ||
-		clusters.ApiServerAccessProfile != nil ||
-		clusters.AutoScalerProfile != nil ||
-		clusters.AutoUpgradeProfile != nil ||
-		clusters.DisableLocalAccounts != nil ||
-		clusters.DiskEncryptionSetIDReference != nil ||
-		clusters.DnsPrefix != nil ||
-		clusters.EnablePodSecurityPolicy != nil ||
-		clusters.EnableRBAC != nil ||
-		clusters.FqdnSubdomain != nil ||
-		clusters.HttpProxyConfig != nil ||
-		clusters.IdentityProfile != nil ||
-		clusters.KubernetesVersion != nil ||
-		clusters.LinuxProfile != nil ||
-		clusters.NetworkProfile != nil ||
-		clusters.NodeResourceGroup != nil ||
-		clusters.PodIdentityProfile != nil ||
-		clusters.PrivateLinkResources != nil ||
-		clusters.ServicePrincipalProfile != nil ||
-		clusters.WindowsProfile != nil {
-		result.Properties = &ManagedClusterPropertiesARM{}
-	}
-	if clusters.AadProfile != nil {
-		aadProfileARM, err := (*clusters.AadProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		aadProfile := *aadProfileARM.(*ManagedClusterAADProfileARM)
-		result.Properties.AadProfile = &aadProfile
-	}
-	if clusters.AddonProfiles != nil {
-		result.Properties.AddonProfiles = make(map[string]ManagedClusterAddonProfileARM, len(clusters.AddonProfiles))
-		for key, value := range clusters.AddonProfiles {
-			valueARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.Properties.AddonProfiles[key] = *valueARM.(*ManagedClusterAddonProfileARM)
-		}
-	}
-	for _, item := range clusters.AgentPoolProfiles {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, *itemARM.(*ManagedClusterAgentPoolProfileARM))
-	}
-	if clusters.ApiServerAccessProfile != nil {
-		apiServerAccessProfileARM, err := (*clusters.ApiServerAccessProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		apiServerAccessProfile := *apiServerAccessProfileARM.(*ManagedClusterAPIServerAccessProfileARM)
-		result.Properties.ApiServerAccessProfile = &apiServerAccessProfile
-	}
-	if clusters.AutoScalerProfile != nil {
-		autoScalerProfileARM, err := (*clusters.AutoScalerProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		autoScalerProfile := *autoScalerProfileARM.(*ManagedClusterPropertiesAutoScalerProfileARM)
-		result.Properties.AutoScalerProfile = &autoScalerProfile
-	}
-	if clusters.AutoUpgradeProfile != nil {
-		autoUpgradeProfileARM, err := (*clusters.AutoUpgradeProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		autoUpgradeProfile := *autoUpgradeProfileARM.(*ManagedClusterAutoUpgradeProfileARM)
-		result.Properties.AutoUpgradeProfile = &autoUpgradeProfile
-	}
-	if clusters.DisableLocalAccounts != nil {
-		disableLocalAccounts := *clusters.DisableLocalAccounts
-		result.Properties.DisableLocalAccounts = &disableLocalAccounts
-	}
-	if clusters.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*clusters.DiskEncryptionSetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		diskEncryptionSetID := diskEncryptionSetIDARMID
-		result.Properties.DiskEncryptionSetID = &diskEncryptionSetID
-	}
-	if clusters.DnsPrefix != nil {
-		dnsPrefix := *clusters.DnsPrefix
-		result.Properties.DnsPrefix = &dnsPrefix
-	}
-	if clusters.EnablePodSecurityPolicy != nil {
-		enablePodSecurityPolicy := *clusters.EnablePodSecurityPolicy
-		result.Properties.EnablePodSecurityPolicy = &enablePodSecurityPolicy
-	}
-	if clusters.EnableRBAC != nil {
-		enableRBAC := *clusters.EnableRBAC
-		result.Properties.EnableRBAC = &enableRBAC
-	}
-	if clusters.FqdnSubdomain != nil {
-		fqdnSubdomain := *clusters.FqdnSubdomain
-		result.Properties.FqdnSubdomain = &fqdnSubdomain
-	}
-	if clusters.HttpProxyConfig != nil {
-		httpProxyConfigARM, err := (*clusters.HttpProxyConfig).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		httpProxyConfig := *httpProxyConfigARM.(*ManagedClusterHTTPProxyConfigARM)
-		result.Properties.HttpProxyConfig = &httpProxyConfig
-	}
-	if clusters.IdentityProfile != nil {
-		result.Properties.IdentityProfile = make(map[string]Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM, len(clusters.IdentityProfile))
-		for key, value := range clusters.IdentityProfile {
-			valueARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.Properties.IdentityProfile[key] = *valueARM.(*Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
-		}
-	}
-	if clusters.KubernetesVersion != nil {
-		kubernetesVersion := *clusters.KubernetesVersion
-		result.Properties.KubernetesVersion = &kubernetesVersion
-	}
-	if clusters.LinuxProfile != nil {
-		linuxProfileARM, err := (*clusters.LinuxProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxProfile := *linuxProfileARM.(*ContainerServiceLinuxProfileARM)
-		result.Properties.LinuxProfile = &linuxProfile
-	}
-	if clusters.NetworkProfile != nil {
-		networkProfileARM, err := (*clusters.NetworkProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		networkProfile := *networkProfileARM.(*ContainerServiceNetworkProfileARM)
-		result.Properties.NetworkProfile = &networkProfile
-	}
-	if clusters.NodeResourceGroup != nil {
-		nodeResourceGroup := *clusters.NodeResourceGroup
-		result.Properties.NodeResourceGroup = &nodeResourceGroup
-	}
-	if clusters.PodIdentityProfile != nil {
-		podIdentityProfileARM, err := (*clusters.PodIdentityProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		podIdentityProfile := *podIdentityProfileARM.(*ManagedClusterPodIdentityProfileARM)
-		result.Properties.PodIdentityProfile = &podIdentityProfile
-	}
-	for _, item := range clusters.PrivateLinkResources {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, *itemARM.(*PrivateLinkResourceARM))
-	}
-	if clusters.ServicePrincipalProfile != nil {
-		servicePrincipalProfileARM, err := (*clusters.ServicePrincipalProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		servicePrincipalProfile := *servicePrincipalProfileARM.(*ManagedClusterServicePrincipalProfileARM)
-		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
-	}
-	if clusters.WindowsProfile != nil {
-		windowsProfileARM, err := (*clusters.WindowsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		windowsProfile := *windowsProfileARM.(*ManagedClusterWindowsProfileARM)
-		result.Properties.WindowsProfile = &windowsProfile
-	}
-
-	// Set property ‘Sku’:
-	if clusters.Sku != nil {
-		skuARM, err := (*clusters.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*ManagedClusterSKUARM)
-		result.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if clusters.Tags != nil {
-		result.Tags = make(map[string]string, len(clusters.Tags))
-		for key, value := range clusters.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (clusters *ManagedClusters_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusters_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusters_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AadProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AadProfile != nil {
-			var aadProfile1 ManagedClusterAADProfile
-			err := aadProfile1.PopulateFromARM(owner, *typedInput.Properties.AadProfile)
-			if err != nil {
-				return err
-			}
-			aadProfile := aadProfile1
-			clusters.AadProfile = &aadProfile
-		}
-	}
-
-	// Set property ‘AddonProfiles’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AddonProfiles != nil {
-			clusters.AddonProfiles = make(map[string]ManagedClusterAddonProfile, len(typedInput.Properties.AddonProfiles))
-			for key, value := range typedInput.Properties.AddonProfiles {
-				var value1 ManagedClusterAddonProfile
-				err := value1.PopulateFromARM(owner, value)
-				if err != nil {
-					return err
-				}
-				clusters.AddonProfiles[key] = value1
-			}
-		}
-	}
-
-	// Set property ‘AgentPoolProfiles’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.AgentPoolProfiles {
-			var item1 ManagedClusterAgentPoolProfile
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			clusters.AgentPoolProfiles = append(clusters.AgentPoolProfiles, item1)
-		}
-	}
-
-	// Set property ‘ApiServerAccessProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApiServerAccessProfile != nil {
-			var apiServerAccessProfile1 ManagedClusterAPIServerAccessProfile
-			err := apiServerAccessProfile1.PopulateFromARM(owner, *typedInput.Properties.ApiServerAccessProfile)
-			if err != nil {
-				return err
-			}
-			apiServerAccessProfile := apiServerAccessProfile1
-			clusters.ApiServerAccessProfile = &apiServerAccessProfile
-		}
-	}
-
-	// Set property ‘AutoScalerProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AutoScalerProfile != nil {
-			var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
-			err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
-			if err != nil {
-				return err
-			}
-			autoScalerProfile := autoScalerProfile1
-			clusters.AutoScalerProfile = &autoScalerProfile
-		}
-	}
-
-	// Set property ‘AutoUpgradeProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AutoUpgradeProfile != nil {
-			var autoUpgradeProfile1 ManagedClusterAutoUpgradeProfile
-			err := autoUpgradeProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoUpgradeProfile)
-			if err != nil {
-				return err
-			}
-			autoUpgradeProfile := autoUpgradeProfile1
-			clusters.AutoUpgradeProfile = &autoUpgradeProfile
-		}
-	}
-
-	// Set property ‘AzureName’:
-	clusters.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘DisableLocalAccounts’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableLocalAccounts != nil {
-			disableLocalAccounts := *typedInput.Properties.DisableLocalAccounts
-			clusters.DisableLocalAccounts = &disableLocalAccounts
-		}
-	}
-
-	// no assignment for property ‘DiskEncryptionSetIDReference’
-
-	// Set property ‘DnsPrefix’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DnsPrefix != nil {
-			dnsPrefix := *typedInput.Properties.DnsPrefix
-			clusters.DnsPrefix = &dnsPrefix
-		}
-	}
-
-	// Set property ‘EnablePodSecurityPolicy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnablePodSecurityPolicy != nil {
-			enablePodSecurityPolicy := *typedInput.Properties.EnablePodSecurityPolicy
-			clusters.EnablePodSecurityPolicy = &enablePodSecurityPolicy
-		}
-	}
-
-	// Set property ‘EnableRBAC’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableRBAC != nil {
-			enableRBAC := *typedInput.Properties.EnableRBAC
-			clusters.EnableRBAC = &enableRBAC
-		}
-	}
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		clusters.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘FqdnSubdomain’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FqdnSubdomain != nil {
-			fqdnSubdomain := *typedInput.Properties.FqdnSubdomain
-			clusters.FqdnSubdomain = &fqdnSubdomain
-		}
-	}
-
-	// Set property ‘HttpProxyConfig’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HttpProxyConfig != nil {
-			var httpProxyConfig1 ManagedClusterHTTPProxyConfig
-			err := httpProxyConfig1.PopulateFromARM(owner, *typedInput.Properties.HttpProxyConfig)
-			if err != nil {
-				return err
-			}
-			httpProxyConfig := httpProxyConfig1
-			clusters.HttpProxyConfig = &httpProxyConfig
-		}
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 ManagedClusterIdentity
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		clusters.Identity = &identity
-	}
-
-	// Set property ‘IdentityProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IdentityProfile != nil {
-			clusters.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(typedInput.Properties.IdentityProfile))
-			for key, value := range typedInput.Properties.IdentityProfile {
-				var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-				err := value1.PopulateFromARM(owner, value)
-				if err != nil {
-					return err
-				}
-				clusters.IdentityProfile[key] = value1
-			}
-		}
-	}
-
-	// Set property ‘KubernetesVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KubernetesVersion != nil {
-			kubernetesVersion := *typedInput.Properties.KubernetesVersion
-			clusters.KubernetesVersion = &kubernetesVersion
-		}
-	}
-
-	// Set property ‘LinuxProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LinuxProfile != nil {
-			var linuxProfile1 ContainerServiceLinuxProfile
-			err := linuxProfile1.PopulateFromARM(owner, *typedInput.Properties.LinuxProfile)
-			if err != nil {
-				return err
-			}
-			linuxProfile := linuxProfile1
-			clusters.LinuxProfile = &linuxProfile
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		clusters.Location = &location
-	}
-
-	// Set property ‘NetworkProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NetworkProfile != nil {
-			var networkProfile1 ContainerServiceNetworkProfile
-			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
-			if err != nil {
-				return err
-			}
-			networkProfile := networkProfile1
-			clusters.NetworkProfile = &networkProfile
-		}
-	}
-
-	// Set property ‘NodeResourceGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NodeResourceGroup != nil {
-			nodeResourceGroup := *typedInput.Properties.NodeResourceGroup
-			clusters.NodeResourceGroup = &nodeResourceGroup
-		}
-	}
-
-	// no assignment for property ‘OperatorSpec’
-
-	// Set property ‘Owner’:
-	clusters.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘PodIdentityProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PodIdentityProfile != nil {
-			var podIdentityProfile1 ManagedClusterPodIdentityProfile
-			err := podIdentityProfile1.PopulateFromARM(owner, *typedInput.Properties.PodIdentityProfile)
-			if err != nil {
-				return err
-			}
-			podIdentityProfile := podIdentityProfile1
-			clusters.PodIdentityProfile = &podIdentityProfile
-		}
-	}
-
-	// Set property ‘PrivateLinkResources’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateLinkResources {
-			var item1 PrivateLinkResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			clusters.PrivateLinkResources = append(clusters.PrivateLinkResources, item1)
-		}
-	}
-
-	// Set property ‘ServicePrincipalProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServicePrincipalProfile != nil {
-			var servicePrincipalProfile1 ManagedClusterServicePrincipalProfile
-			err := servicePrincipalProfile1.PopulateFromARM(owner, *typedInput.Properties.ServicePrincipalProfile)
-			if err != nil {
-				return err
-			}
-			servicePrincipalProfile := servicePrincipalProfile1
-			clusters.ServicePrincipalProfile = &servicePrincipalProfile
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 ManagedClusterSKU
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		clusters.Sku = &sku
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		clusters.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			clusters.Tags[key] = value
-		}
-	}
-
-	// Set property ‘WindowsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.WindowsProfile != nil {
-			var windowsProfile1 ManagedClusterWindowsProfile
-			err := windowsProfile1.PopulateFromARM(owner, *typedInput.Properties.WindowsProfile)
-			if err != nil {
-				return err
-			}
-			windowsProfile := windowsProfile1
-			clusters.WindowsProfile = &windowsProfile
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &ManagedClusters_Spec{}
-
-// ConvertSpecFrom populates our ManagedClusters_Spec from the provided source
-func (clusters *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210501s.ManagedClusters_Spec)
-	if ok {
-		// Populate our instance from source
-		return clusters.AssignProperties_From_ManagedClusters_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210501s.ManagedClusters_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = clusters.AssignProperties_From_ManagedClusters_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our ManagedClusters_Spec
-func (clusters *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210501s.ManagedClusters_Spec)
-	if ok {
-		// Populate destination from our instance
-		return clusters.AssignProperties_To_ManagedClusters_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.ManagedClusters_Spec{}
-	err := clusters.AssignProperties_To_ManagedClusters_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_ManagedClusters_Spec populates our ManagedClusters_Spec from the provided source ManagedClusters_Spec
-func (clusters *ManagedClusters_Spec) AssignProperties_From_ManagedClusters_Spec(source *v20210501s.ManagedClusters_Spec) error {
-
-	// AadProfile
-	if source.AadProfile != nil {
-		var aadProfile ManagedClusterAADProfile
-		err := aadProfile.AssignProperties_From_ManagedClusterAADProfile(source.AadProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAADProfile() to populate field AadProfile")
-		}
-		clusters.AadProfile = &aadProfile
-	} else {
-		clusters.AadProfile = nil
-	}
-
-	// AddonProfiles
-	if source.AddonProfiles != nil {
-		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
-		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
-			// Shadow the loop variable to avoid aliasing
-			addonProfileValue := addonProfileValue
-			var addonProfile ManagedClusterAddonProfile
-			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile(&addonProfileValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile() to populate field AddonProfiles")
-			}
-			addonProfileMap[addonProfileKey] = addonProfile
-		}
-		clusters.AddonProfiles = addonProfileMap
-	} else {
-		clusters.AddonProfiles = nil
-	}
-
-	// AgentPoolProfiles
-	if source.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]ManagedClusterAgentPoolProfile, len(source.AgentPoolProfiles))
-		for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
-			// Shadow the loop variable to avoid aliasing
-			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile ManagedClusterAgentPoolProfile
-			err := agentPoolProfile.AssignProperties_From_ManagedClusterAgentPoolProfile(&agentPoolProfileItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
-			}
-			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
-		}
-		clusters.AgentPoolProfiles = agentPoolProfileList
-	} else {
-		clusters.AgentPoolProfiles = nil
-	}
-
-	// ApiServerAccessProfile
-	if source.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile ManagedClusterAPIServerAccessProfile
-		err := apiServerAccessProfile.AssignProperties_From_ManagedClusterAPIServerAccessProfile(source.ApiServerAccessProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
-		}
-		clusters.ApiServerAccessProfile = &apiServerAccessProfile
-	} else {
-		clusters.ApiServerAccessProfile = nil
-	}
-
-	// AutoScalerProfile
-	if source.AutoScalerProfile != nil {
-		var autoScalerProfile ManagedClusterPropertiesAutoScalerProfile
-		err := autoScalerProfile.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(source.AutoScalerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
-		}
-		clusters.AutoScalerProfile = &autoScalerProfile
-	} else {
-		clusters.AutoScalerProfile = nil
-	}
-
-	// AutoUpgradeProfile
-	if source.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile ManagedClusterAutoUpgradeProfile
-		err := autoUpgradeProfile.AssignProperties_From_ManagedClusterAutoUpgradeProfile(source.AutoUpgradeProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
-		}
-		clusters.AutoUpgradeProfile = &autoUpgradeProfile
-	} else {
-		clusters.AutoUpgradeProfile = nil
-	}
-
-	// AzureName
-	clusters.AzureName = source.AzureName
-
-	// DisableLocalAccounts
-	if source.DisableLocalAccounts != nil {
-		disableLocalAccount := *source.DisableLocalAccounts
-		clusters.DisableLocalAccounts = &disableLocalAccount
-	} else {
-		clusters.DisableLocalAccounts = nil
-	}
-
-	// DiskEncryptionSetIDReference
-	if source.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDReference := source.DiskEncryptionSetIDReference.Copy()
-		clusters.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
-	} else {
-		clusters.DiskEncryptionSetIDReference = nil
-	}
-
-	// DnsPrefix
-	clusters.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
-
-	// EnablePodSecurityPolicy
-	if source.EnablePodSecurityPolicy != nil {
-		enablePodSecurityPolicy := *source.EnablePodSecurityPolicy
-		clusters.EnablePodSecurityPolicy = &enablePodSecurityPolicy
-	} else {
-		clusters.EnablePodSecurityPolicy = nil
-	}
-
-	// EnableRBAC
-	if source.EnableRBAC != nil {
-		enableRBAC := *source.EnableRBAC
-		clusters.EnableRBAC = &enableRBAC
-	} else {
-		clusters.EnableRBAC = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		clusters.ExtendedLocation = &extendedLocation
-	} else {
-		clusters.ExtendedLocation = nil
-	}
-
-	// FqdnSubdomain
-	clusters.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
-
-	// HttpProxyConfig
-	if source.HttpProxyConfig != nil {
-		var httpProxyConfig ManagedClusterHTTPProxyConfig
-		err := httpProxyConfig.AssignProperties_From_ManagedClusterHTTPProxyConfig(source.HttpProxyConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
-		}
-		clusters.HttpProxyConfig = &httpProxyConfig
-	} else {
-		clusters.HttpProxyConfig = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedClusterIdentity
-		err := identity.AssignProperties_From_ManagedClusterIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterIdentity() to populate field Identity")
-		}
-		clusters.Identity = &identity
-	} else {
-		clusters.Identity = nil
-	}
-
-	// IdentityProfile
-	if source.IdentityProfile != nil {
-		identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(source.IdentityProfile))
-		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
-			// Shadow the loop variable to avoid aliasing
-			identityProfileValue := identityProfileValue
-			var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-			err := identityProfile.AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
-			}
-			identityProfileMap[identityProfileKey] = identityProfile
-		}
-		clusters.IdentityProfile = identityProfileMap
-	} else {
-		clusters.IdentityProfile = nil
-	}
-
-	// KubernetesVersion
-	clusters.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
-
-	// LinuxProfile
-	if source.LinuxProfile != nil {
-		var linuxProfile ContainerServiceLinuxProfile
-		err := linuxProfile.AssignProperties_From_ContainerServiceLinuxProfile(source.LinuxProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerServiceLinuxProfile() to populate field LinuxProfile")
-		}
-		clusters.LinuxProfile = &linuxProfile
-	} else {
-		clusters.LinuxProfile = nil
-	}
-
-	// Location
-	clusters.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile ContainerServiceNetworkProfile
-		err := networkProfile.AssignProperties_From_ContainerServiceNetworkProfile(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerServiceNetworkProfile() to populate field NetworkProfile")
-		}
-		clusters.NetworkProfile = &networkProfile
-	} else {
-		clusters.NetworkProfile = nil
-	}
-
-	// NodeResourceGroup
-	clusters.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec ManagedClusterOperatorSpec
-		err := operatorSpec.AssignProperties_From_ManagedClusterOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterOperatorSpec() to populate field OperatorSpec")
-		}
-		clusters.OperatorSpec = &operatorSpec
-	} else {
-		clusters.OperatorSpec = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		clusters.Owner = &owner
-	} else {
-		clusters.Owner = nil
-	}
-
-	// PodIdentityProfile
-	if source.PodIdentityProfile != nil {
-		var podIdentityProfile ManagedClusterPodIdentityProfile
-		err := podIdentityProfile.AssignProperties_From_ManagedClusterPodIdentityProfile(source.PodIdentityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
-		}
-		clusters.PodIdentityProfile = &podIdentityProfile
-	} else {
-		clusters.PodIdentityProfile = nil
-	}
-
-	// PrivateLinkResources
-	if source.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
-		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource PrivateLinkResource
-			err := privateLinkResource.AssignProperties_From_PrivateLinkResource(&privateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkResource() to populate field PrivateLinkResources")
-			}
-			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
-		}
-		clusters.PrivateLinkResources = privateLinkResourceList
-	} else {
-		clusters.PrivateLinkResources = nil
-	}
-
-	// ServicePrincipalProfile
-	if source.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile ManagedClusterServicePrincipalProfile
-		err := servicePrincipalProfile.AssignProperties_From_ManagedClusterServicePrincipalProfile(source.ServicePrincipalProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
-		}
-		clusters.ServicePrincipalProfile = &servicePrincipalProfile
-	} else {
-		clusters.ServicePrincipalProfile = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku ManagedClusterSKU
-		err := sku.AssignProperties_From_ManagedClusterSKU(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterSKU() to populate field Sku")
-		}
-		clusters.Sku = &sku
-	} else {
-		clusters.Sku = nil
-	}
-
-	// Tags
-	clusters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// WindowsProfile
-	if source.WindowsProfile != nil {
-		var windowsProfile ManagedClusterWindowsProfile
-		err := windowsProfile.AssignProperties_From_ManagedClusterWindowsProfile(source.WindowsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterWindowsProfile() to populate field WindowsProfile")
-		}
-		clusters.WindowsProfile = &windowsProfile
-	} else {
-		clusters.WindowsProfile = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusters_Spec populates the provided destination ManagedClusters_Spec from our ManagedClusters_Spec
-func (clusters *ManagedClusters_Spec) AssignProperties_To_ManagedClusters_Spec(destination *v20210501s.ManagedClusters_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AadProfile
-	if clusters.AadProfile != nil {
-		var aadProfile v20210501s.ManagedClusterAADProfile
-		err := clusters.AadProfile.AssignProperties_To_ManagedClusterAADProfile(&aadProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAADProfile() to populate field AadProfile")
-		}
-		destination.AadProfile = &aadProfile
-	} else {
-		destination.AadProfile = nil
-	}
-
-	// AddonProfiles
-	if clusters.AddonProfiles != nil {
-		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile, len(clusters.AddonProfiles))
-		for addonProfileKey, addonProfileValue := range clusters.AddonProfiles {
-			// Shadow the loop variable to avoid aliasing
-			addonProfileValue := addonProfileValue
-			var addonProfile v20210501s.ManagedClusterAddonProfile
-			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile(&addonProfile)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile() to populate field AddonProfiles")
-			}
-			addonProfileMap[addonProfileKey] = addonProfile
-		}
-		destination.AddonProfiles = addonProfileMap
-	} else {
-		destination.AddonProfiles = nil
-	}
-
-	// AgentPoolProfiles
-	if clusters.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]v20210501s.ManagedClusterAgentPoolProfile, len(clusters.AgentPoolProfiles))
-		for agentPoolProfileIndex, agentPoolProfileItem := range clusters.AgentPoolProfiles {
-			// Shadow the loop variable to avoid aliasing
-			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile v20210501s.ManagedClusterAgentPoolProfile
-			err := agentPoolProfileItem.AssignProperties_To_ManagedClusterAgentPoolProfile(&agentPoolProfile)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
-			}
-			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
-		}
-		destination.AgentPoolProfiles = agentPoolProfileList
-	} else {
-		destination.AgentPoolProfiles = nil
-	}
-
-	// ApiServerAccessProfile
-	if clusters.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile v20210501s.ManagedClusterAPIServerAccessProfile
-		err := clusters.ApiServerAccessProfile.AssignProperties_To_ManagedClusterAPIServerAccessProfile(&apiServerAccessProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
-		}
-		destination.ApiServerAccessProfile = &apiServerAccessProfile
-	} else {
-		destination.ApiServerAccessProfile = nil
-	}
-
-	// AutoScalerProfile
-	if clusters.AutoScalerProfile != nil {
-		var autoScalerProfile v20210501s.ManagedClusterPropertiesAutoScalerProfile
-		err := clusters.AutoScalerProfile.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(&autoScalerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
-		}
-		destination.AutoScalerProfile = &autoScalerProfile
-	} else {
-		destination.AutoScalerProfile = nil
-	}
-
-	// AutoUpgradeProfile
-	if clusters.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile v20210501s.ManagedClusterAutoUpgradeProfile
-		err := clusters.AutoUpgradeProfile.AssignProperties_To_ManagedClusterAutoUpgradeProfile(&autoUpgradeProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
-		}
-		destination.AutoUpgradeProfile = &autoUpgradeProfile
-	} else {
-		destination.AutoUpgradeProfile = nil
-	}
-
-	// AzureName
-	destination.AzureName = clusters.AzureName
-
-	// DisableLocalAccounts
-	if clusters.DisableLocalAccounts != nil {
-		disableLocalAccount := *clusters.DisableLocalAccounts
-		destination.DisableLocalAccounts = &disableLocalAccount
-	} else {
-		destination.DisableLocalAccounts = nil
-	}
-
-	// DiskEncryptionSetIDReference
-	if clusters.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDReference := clusters.DiskEncryptionSetIDReference.Copy()
-		destination.DiskEncryptionSetIDReference = &diskEncryptionSetIDReference
-	} else {
-		destination.DiskEncryptionSetIDReference = nil
-	}
-
-	// DnsPrefix
-	destination.DnsPrefix = genruntime.ClonePointerToString(clusters.DnsPrefix)
-
-	// EnablePodSecurityPolicy
-	if clusters.EnablePodSecurityPolicy != nil {
-		enablePodSecurityPolicy := *clusters.EnablePodSecurityPolicy
-		destination.EnablePodSecurityPolicy = &enablePodSecurityPolicy
-	} else {
-		destination.EnablePodSecurityPolicy = nil
-	}
-
-	// EnableRBAC
-	if clusters.EnableRBAC != nil {
-		enableRBAC := *clusters.EnableRBAC
-		destination.EnableRBAC = &enableRBAC
-	} else {
-		destination.EnableRBAC = nil
-	}
-
-	// ExtendedLocation
-	if clusters.ExtendedLocation != nil {
-		var extendedLocation v20210501s.ExtendedLocation
-		err := clusters.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// FqdnSubdomain
-	destination.FqdnSubdomain = genruntime.ClonePointerToString(clusters.FqdnSubdomain)
-
-	// HttpProxyConfig
-	if clusters.HttpProxyConfig != nil {
-		var httpProxyConfig v20210501s.ManagedClusterHTTPProxyConfig
-		err := clusters.HttpProxyConfig.AssignProperties_To_ManagedClusterHTTPProxyConfig(&httpProxyConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
-		}
-		destination.HttpProxyConfig = &httpProxyConfig
-	} else {
-		destination.HttpProxyConfig = nil
-	}
-
-	// Identity
-	if clusters.Identity != nil {
-		var identity v20210501s.ManagedClusterIdentity
-		err := clusters.Identity.AssignProperties_To_ManagedClusterIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// IdentityProfile
-	if clusters.IdentityProfile != nil {
-		identityProfileMap := make(map[string]v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(clusters.IdentityProfile))
-		for identityProfileKey, identityProfileValue := range clusters.IdentityProfile {
-			// Shadow the loop variable to avoid aliasing
-			identityProfileValue := identityProfileValue
-			var identityProfile v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-			err := identityProfileValue.AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
-			}
-			identityProfileMap[identityProfileKey] = identityProfile
-		}
-		destination.IdentityProfile = identityProfileMap
-	} else {
-		destination.IdentityProfile = nil
-	}
-
-	// KubernetesVersion
-	destination.KubernetesVersion = genruntime.ClonePointerToString(clusters.KubernetesVersion)
-
-	// LinuxProfile
-	if clusters.LinuxProfile != nil {
-		var linuxProfile v20210501s.ContainerServiceLinuxProfile
-		err := clusters.LinuxProfile.AssignProperties_To_ContainerServiceLinuxProfile(&linuxProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceLinuxProfile() to populate field LinuxProfile")
-		}
-		destination.LinuxProfile = &linuxProfile
-	} else {
-		destination.LinuxProfile = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(clusters.Location)
-
-	// NetworkProfile
-	if clusters.NetworkProfile != nil {
-		var networkProfile v20210501s.ContainerServiceNetworkProfile
-		err := clusters.NetworkProfile.AssignProperties_To_ContainerServiceNetworkProfile(&networkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerServiceNetworkProfile() to populate field NetworkProfile")
-		}
-		destination.NetworkProfile = &networkProfile
-	} else {
-		destination.NetworkProfile = nil
-	}
-
-	// NodeResourceGroup
-	destination.NodeResourceGroup = genruntime.ClonePointerToString(clusters.NodeResourceGroup)
-
-	// OperatorSpec
-	if clusters.OperatorSpec != nil {
-		var operatorSpec v20210501s.ManagedClusterOperatorSpec
-		err := clusters.OperatorSpec.AssignProperties_To_ManagedClusterOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = clusters.OriginalVersion()
-
-	// Owner
-	if clusters.Owner != nil {
-		owner := clusters.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PodIdentityProfile
-	if clusters.PodIdentityProfile != nil {
-		var podIdentityProfile v20210501s.ManagedClusterPodIdentityProfile
-		err := clusters.PodIdentityProfile.AssignProperties_To_ManagedClusterPodIdentityProfile(&podIdentityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
-		}
-		destination.PodIdentityProfile = &podIdentityProfile
-	} else {
-		destination.PodIdentityProfile = nil
-	}
-
-	// PrivateLinkResources
-	if clusters.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]v20210501s.PrivateLinkResource, len(clusters.PrivateLinkResources))
-		for privateLinkResourceIndex, privateLinkResourceItem := range clusters.PrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource v20210501s.PrivateLinkResource
-			err := privateLinkResourceItem.AssignProperties_To_PrivateLinkResource(&privateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkResource() to populate field PrivateLinkResources")
-			}
-			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
-		}
-		destination.PrivateLinkResources = privateLinkResourceList
-	} else {
-		destination.PrivateLinkResources = nil
-	}
-
-	// ServicePrincipalProfile
-	if clusters.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile v20210501s.ManagedClusterServicePrincipalProfile
-		err := clusters.ServicePrincipalProfile.AssignProperties_To_ManagedClusterServicePrincipalProfile(&servicePrincipalProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
-		}
-		destination.ServicePrincipalProfile = &servicePrincipalProfile
-	} else {
-		destination.ServicePrincipalProfile = nil
-	}
-
-	// Sku
-	if clusters.Sku != nil {
-		var sku v20210501s.ManagedClusterSKU
-		err := clusters.Sku.AssignProperties_To_ManagedClusterSKU(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterSKU() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(clusters.Tags)
-
-	// WindowsProfile
-	if clusters.WindowsProfile != nil {
-		var windowsProfile v20210501s.ManagedClusterWindowsProfile
-		err := clusters.WindowsProfile.AssignProperties_To_ManagedClusterWindowsProfile(&windowsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterWindowsProfile() to populate field WindowsProfile")
-		}
-		destination.WindowsProfile = &windowsProfile
-	} else {
-		destination.WindowsProfile = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (clusters *ManagedClusters_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (clusters *ManagedClusters_Spec) SetAzureName(azureName string) { clusters.AzureName = azureName }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {

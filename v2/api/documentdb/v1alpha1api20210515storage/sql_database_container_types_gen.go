@@ -25,8 +25,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                 `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
+	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -136,10 +136,10 @@ func (container *SqlDatabaseContainer) AssignProperties_From_SqlDatabaseContaine
 	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(&source.Spec)
+	var spec DatabaseAccounts_SqlDatabases_Container_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec() to populate field Spec")
 	}
 	container.Spec = spec
 
@@ -162,10 +162,10 @@ func (container *SqlDatabaseContainer) AssignProperties_To_SqlDatabaseContainer(
 	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec
-	err := container.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(&spec)
+	var spec v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec
+	err := container.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -199,8 +199,8 @@ type SqlDatabaseContainerList struct {
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_Spec
-type DatabaseAccounts_SqlDatabases_Containers_Spec struct {
+// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Container_Spec
+type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -218,25 +218,25 @@ type DatabaseAccounts_SqlDatabases_Containers_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Container_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Spec from the provided source
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec)
 	if ok {
 		// Populate our instance from source
-		return containers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(src)
+		return container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = containers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(src)
+	err = container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -244,17 +244,17 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecFrom
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec)
 	if ok {
 		// Populate destination from our instance
-		return containers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(dst)
+		return container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec{}
-	err := containers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec{}
+	err := container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -268,16 +268,16 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecTo(d
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec populates our DatabaseAccounts_SqlDatabases_Containers_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	containers.AzureName = source.AzureName
+	container.AzureName = source.AzureName
 
 	// Location
-	containers.Location = genruntime.ClonePointerToString(source.Location)
+	container.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -286,20 +286,20 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
-		containers.Options = &option
+		container.Options = &option
 	} else {
-		containers.Options = nil
+		container.Options = nil
 	}
 
 	// OriginalVersion
-	containers.OriginalVersion = source.OriginalVersion
+	container.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		containers.Owner = &owner
+		container.Owner = &owner
 	} else {
-		containers.Owner = nil
+		container.Owner = nil
 	}
 
 	// Resource
@@ -309,40 +309,40 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerResource() to populate field Resource")
 		}
-		containers.Resource = &resource
+		container.Resource = &resource
 	} else {
-		containers.Resource = nil
+		container.Resource = nil
 	}
 
 	// Tags
-	containers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		containers.PropertyBag = propertyBag
+		container.PropertyBag = propertyBag
 	} else {
-		containers.PropertyBag = nil
+		container.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Spec from our DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Container_Spec from our DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(containers.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(container.PropertyBag)
 
 	// AzureName
-	destination.AzureName = containers.AzureName
+	destination.AzureName = container.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(containers.Location)
+	destination.Location = genruntime.ClonePointerToString(container.Location)
 
 	// Options
-	if containers.Options != nil {
+	if container.Options != nil {
 		var option v20210515s.CreateUpdateOptions
-		err := containers.Options.AssignProperties_To_CreateUpdateOptions(&option)
+		err := container.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
@@ -352,20 +352,20 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = containers.OriginalVersion
+	destination.OriginalVersion = container.OriginalVersion
 
 	// Owner
-	if containers.Owner != nil {
-		owner := containers.Owner.Copy()
+	if container.Owner != nil {
+		owner := container.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Resource
-	if containers.Resource != nil {
+	if container.Resource != nil {
 		var resource v20210515s.SqlContainerResource
-		err := containers.Resource.AssignProperties_To_SqlContainerResource(&resource)
+		err := container.Resource.AssignProperties_To_SqlContainerResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerResource() to populate field Resource")
 		}
@@ -375,7 +375,7 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

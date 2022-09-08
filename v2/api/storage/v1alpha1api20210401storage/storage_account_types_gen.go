@@ -25,7 +25,7 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_Spec  `json:"spec,omitempty"`
+	Spec              StorageAccount_Spec   `json:"spec,omitempty"`
 	Status            StorageAccount_STATUS `json:"status,omitempty"`
 }
 
@@ -136,10 +136,10 @@ func (account *StorageAccount) AssignProperties_From_StorageAccount(source *v202
 	account.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_Spec
-	err := spec.AssignProperties_From_StorageAccounts_Spec(&source.Spec)
+	var spec StorageAccount_Spec
+	err := spec.AssignProperties_From_StorageAccount_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccount_Spec() to populate field Spec")
 	}
 	account.Spec = spec
 
@@ -162,10 +162,10 @@ func (account *StorageAccount) AssignProperties_To_StorageAccount(destination *v
 	destination.ObjectMeta = *account.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210401s.StorageAccounts_Spec
-	err := account.Spec.AssignProperties_To_StorageAccounts_Spec(&spec)
+	var spec v20210401s.StorageAccount_Spec
+	err := account.Spec.AssignProperties_To_StorageAccount_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccount_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -205,6 +205,553 @@ type StorageAccountList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01")
+
+// Storage version of v1alpha1api20210401.StorageAccount_Spec
+type StorageAccount_Spec struct {
+	AccessTier                            *string                                `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                  `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                  `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName            string                      `json:"azureName,omitempty"`
+	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
+	Encryption           *Encryption                 `json:"encryption,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	Identity             *Identity                   `json:"identity,omitempty"`
+	IsHnsEnabled         *bool                       `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled       *bool                       `json:"isNfsV3Enabled,omitempty"`
+	KeyPolicy            *KeyPolicy                  `json:"keyPolicy,omitempty"`
+	Kind                 *string                     `json:"kind,omitempty"`
+	LargeFileSharesState *string                     `json:"largeFileSharesState,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
+	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RoutingPreference        *RoutingPreference                 `json:"routingPreference,omitempty"`
+	SasPolicy                *SasPolicy                         `json:"sasPolicy,omitempty"`
+	Sku                      *Sku                               `json:"sku,omitempty"`
+	SupportsHttpsTrafficOnly *bool                              `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccount_Spec{}
+
+// ConvertSpecFrom populates our StorageAccount_Spec from the provided source
+func (account *StorageAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401s.StorageAccount_Spec)
+	if ok {
+		// Populate our instance from source
+		return account.AssignProperties_From_StorageAccount_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210401s.StorageAccount_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = account.AssignProperties_From_StorageAccount_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccount_Spec
+func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401s.StorageAccount_Spec)
+	if ok {
+		// Populate destination from our instance
+		return account.AssignProperties_To_StorageAccount_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210401s.StorageAccount_Spec{}
+	err := account.AssignProperties_To_StorageAccount_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccount_Spec populates our StorageAccount_Spec from the provided source StorageAccount_Spec
+func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(source *v20210401s.StorageAccount_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AccessTier
+	account.AccessTier = genruntime.ClonePointerToString(source.AccessTier)
+
+	// AllowBlobPublicAccess
+	if source.AllowBlobPublicAccess != nil {
+		allowBlobPublicAccess := *source.AllowBlobPublicAccess
+		account.AllowBlobPublicAccess = &allowBlobPublicAccess
+	} else {
+		account.AllowBlobPublicAccess = nil
+	}
+
+	// AllowCrossTenantReplication
+	if source.AllowCrossTenantReplication != nil {
+		allowCrossTenantReplication := *source.AllowCrossTenantReplication
+		account.AllowCrossTenantReplication = &allowCrossTenantReplication
+	} else {
+		account.AllowCrossTenantReplication = nil
+	}
+
+	// AllowSharedKeyAccess
+	if source.AllowSharedKeyAccess != nil {
+		allowSharedKeyAccess := *source.AllowSharedKeyAccess
+		account.AllowSharedKeyAccess = &allowSharedKeyAccess
+	} else {
+		account.AllowSharedKeyAccess = nil
+	}
+
+	// AzureFilesIdentityBasedAuthentication
+	if source.AzureFilesIdentityBasedAuthentication != nil {
+		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication
+		err := azureFilesIdentityBasedAuthentication.AssignProperties_From_AzureFilesIdentityBasedAuthentication(source.AzureFilesIdentityBasedAuthentication)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
+		}
+		account.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
+	} else {
+		account.AzureFilesIdentityBasedAuthentication = nil
+	}
+
+	// AzureName
+	account.AzureName = source.AzureName
+
+	// CustomDomain
+	if source.CustomDomain != nil {
+		var customDomain CustomDomain
+		err := customDomain.AssignProperties_From_CustomDomain(source.CustomDomain)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CustomDomain() to populate field CustomDomain")
+		}
+		account.CustomDomain = &customDomain
+	} else {
+		account.CustomDomain = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption
+		err := encryption.AssignProperties_From_Encryption(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+		}
+		account.Encryption = &encryption
+	} else {
+		account.Encryption = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		account.ExtendedLocation = &extendedLocation
+	} else {
+		account.ExtendedLocation = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity
+		err := identity.AssignProperties_From_Identity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+		}
+		account.Identity = &identity
+	} else {
+		account.Identity = nil
+	}
+
+	// IsHnsEnabled
+	if source.IsHnsEnabled != nil {
+		isHnsEnabled := *source.IsHnsEnabled
+		account.IsHnsEnabled = &isHnsEnabled
+	} else {
+		account.IsHnsEnabled = nil
+	}
+
+	// IsNfsV3Enabled
+	if source.IsNfsV3Enabled != nil {
+		isNfsV3Enabled := *source.IsNfsV3Enabled
+		account.IsNfsV3Enabled = &isNfsV3Enabled
+	} else {
+		account.IsNfsV3Enabled = nil
+	}
+
+	// KeyPolicy
+	if source.KeyPolicy != nil {
+		var keyPolicy KeyPolicy
+		err := keyPolicy.AssignProperties_From_KeyPolicy(source.KeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KeyPolicy() to populate field KeyPolicy")
+		}
+		account.KeyPolicy = &keyPolicy
+	} else {
+		account.KeyPolicy = nil
+	}
+
+	// Kind
+	account.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// LargeFileSharesState
+	account.LargeFileSharesState = genruntime.ClonePointerToString(source.LargeFileSharesState)
+
+	// Location
+	account.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MinimumTlsVersion
+	account.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
+
+	// NetworkAcls
+	if source.NetworkAcls != nil {
+		var networkAcl NetworkRuleSet
+		err := networkAcl.AssignProperties_From_NetworkRuleSet(source.NetworkAcls)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkAcls")
+		}
+		account.NetworkAcls = &networkAcl
+	} else {
+		account.NetworkAcls = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec StorageAccountOperatorSpec
+		err := operatorSpec.AssignProperties_From_StorageAccountOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		account.OperatorSpec = &operatorSpec
+	} else {
+		account.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	account.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		account.Owner = &owner
+	} else {
+		account.Owner = nil
+	}
+
+	// RoutingPreference
+	if source.RoutingPreference != nil {
+		var routingPreference RoutingPreference
+		err := routingPreference.AssignProperties_From_RoutingPreference(source.RoutingPreference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RoutingPreference() to populate field RoutingPreference")
+		}
+		account.RoutingPreference = &routingPreference
+	} else {
+		account.RoutingPreference = nil
+	}
+
+	// SasPolicy
+	if source.SasPolicy != nil {
+		var sasPolicy SasPolicy
+		err := sasPolicy.AssignProperties_From_SasPolicy(source.SasPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SasPolicy() to populate field SasPolicy")
+		}
+		account.SasPolicy = &sasPolicy
+	} else {
+		account.SasPolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		account.Sku = &sku
+	} else {
+		account.Sku = nil
+	}
+
+	// SupportsHttpsTrafficOnly
+	if source.SupportsHttpsTrafficOnly != nil {
+		supportsHttpsTrafficOnly := *source.SupportsHttpsTrafficOnly
+		account.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
+	} else {
+		account.SupportsHttpsTrafficOnly = nil
+	}
+
+	// Tags
+	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		account.PropertyBag = propertyBag
+	} else {
+		account.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccount_Spec populates the provided destination StorageAccount_Spec from our StorageAccount_Spec
+func (account *StorageAccount_Spec) AssignProperties_To_StorageAccount_Spec(destination *v20210401s.StorageAccount_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(account.PropertyBag)
+
+	// AccessTier
+	destination.AccessTier = genruntime.ClonePointerToString(account.AccessTier)
+
+	// AllowBlobPublicAccess
+	if account.AllowBlobPublicAccess != nil {
+		allowBlobPublicAccess := *account.AllowBlobPublicAccess
+		destination.AllowBlobPublicAccess = &allowBlobPublicAccess
+	} else {
+		destination.AllowBlobPublicAccess = nil
+	}
+
+	// AllowCrossTenantReplication
+	if account.AllowCrossTenantReplication != nil {
+		allowCrossTenantReplication := *account.AllowCrossTenantReplication
+		destination.AllowCrossTenantReplication = &allowCrossTenantReplication
+	} else {
+		destination.AllowCrossTenantReplication = nil
+	}
+
+	// AllowSharedKeyAccess
+	if account.AllowSharedKeyAccess != nil {
+		allowSharedKeyAccess := *account.AllowSharedKeyAccess
+		destination.AllowSharedKeyAccess = &allowSharedKeyAccess
+	} else {
+		destination.AllowSharedKeyAccess = nil
+	}
+
+	// AzureFilesIdentityBasedAuthentication
+	if account.AzureFilesIdentityBasedAuthentication != nil {
+		var azureFilesIdentityBasedAuthentication v20210401s.AzureFilesIdentityBasedAuthentication
+		err := account.AzureFilesIdentityBasedAuthentication.AssignProperties_To_AzureFilesIdentityBasedAuthentication(&azureFilesIdentityBasedAuthentication)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
+		}
+		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
+	} else {
+		destination.AzureFilesIdentityBasedAuthentication = nil
+	}
+
+	// AzureName
+	destination.AzureName = account.AzureName
+
+	// CustomDomain
+	if account.CustomDomain != nil {
+		var customDomain v20210401s.CustomDomain
+		err := account.CustomDomain.AssignProperties_To_CustomDomain(&customDomain)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CustomDomain() to populate field CustomDomain")
+		}
+		destination.CustomDomain = &customDomain
+	} else {
+		destination.CustomDomain = nil
+	}
+
+	// Encryption
+	if account.Encryption != nil {
+		var encryption v20210401s.Encryption
+		err := account.Encryption.AssignProperties_To_Encryption(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// ExtendedLocation
+	if account.ExtendedLocation != nil {
+		var extendedLocation v20210401s.ExtendedLocation
+		err := account.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// Identity
+	if account.Identity != nil {
+		var identity v20210401s.Identity
+		err := account.Identity.AssignProperties_To_Identity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IsHnsEnabled
+	if account.IsHnsEnabled != nil {
+		isHnsEnabled := *account.IsHnsEnabled
+		destination.IsHnsEnabled = &isHnsEnabled
+	} else {
+		destination.IsHnsEnabled = nil
+	}
+
+	// IsNfsV3Enabled
+	if account.IsNfsV3Enabled != nil {
+		isNfsV3Enabled := *account.IsNfsV3Enabled
+		destination.IsNfsV3Enabled = &isNfsV3Enabled
+	} else {
+		destination.IsNfsV3Enabled = nil
+	}
+
+	// KeyPolicy
+	if account.KeyPolicy != nil {
+		var keyPolicy v20210401s.KeyPolicy
+		err := account.KeyPolicy.AssignProperties_To_KeyPolicy(&keyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KeyPolicy() to populate field KeyPolicy")
+		}
+		destination.KeyPolicy = &keyPolicy
+	} else {
+		destination.KeyPolicy = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(account.Kind)
+
+	// LargeFileSharesState
+	destination.LargeFileSharesState = genruntime.ClonePointerToString(account.LargeFileSharesState)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(account.Location)
+
+	// MinimumTlsVersion
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(account.MinimumTlsVersion)
+
+	// NetworkAcls
+	if account.NetworkAcls != nil {
+		var networkAcl v20210401s.NetworkRuleSet
+		err := account.NetworkAcls.AssignProperties_To_NetworkRuleSet(&networkAcl)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkAcls")
+		}
+		destination.NetworkAcls = &networkAcl
+	} else {
+		destination.NetworkAcls = nil
+	}
+
+	// OperatorSpec
+	if account.OperatorSpec != nil {
+		var operatorSpec v20210401s.StorageAccountOperatorSpec
+		err := account.OperatorSpec.AssignProperties_To_StorageAccountOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = account.OriginalVersion
+
+	// Owner
+	if account.Owner != nil {
+		owner := account.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RoutingPreference
+	if account.RoutingPreference != nil {
+		var routingPreference v20210401s.RoutingPreference
+		err := account.RoutingPreference.AssignProperties_To_RoutingPreference(&routingPreference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RoutingPreference() to populate field RoutingPreference")
+		}
+		destination.RoutingPreference = &routingPreference
+	} else {
+		destination.RoutingPreference = nil
+	}
+
+	// SasPolicy
+	if account.SasPolicy != nil {
+		var sasPolicy v20210401s.SasPolicy
+		err := account.SasPolicy.AssignProperties_To_SasPolicy(&sasPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SasPolicy() to populate field SasPolicy")
+		}
+		destination.SasPolicy = &sasPolicy
+	} else {
+		destination.SasPolicy = nil
+	}
+
+	// Sku
+	if account.Sku != nil {
+		var sku v20210401s.Sku
+		err := account.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SupportsHttpsTrafficOnly
+	if account.SupportsHttpsTrafficOnly != nil {
+		supportsHttpsTrafficOnly := *account.SupportsHttpsTrafficOnly
+		destination.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
+	} else {
+		destination.SupportsHttpsTrafficOnly = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Storage version of v1alpha1api20210401.StorageAccount_STATUS
 // Deprecated version of StorageAccount_STATUS. Use v1beta20210401.StorageAccount_STATUS instead
@@ -932,553 +1479,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(account.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210401.StorageAccounts_Spec
-type StorageAccounts_Spec struct {
-	AccessTier                            *string                                `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                  `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                  `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName            string                      `json:"azureName,omitempty"`
-	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
-	Encryption           *Encryption                 `json:"encryption,omitempty"`
-	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
-	Identity             *Identity                   `json:"identity,omitempty"`
-	IsHnsEnabled         *bool                       `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled       *bool                       `json:"isNfsV3Enabled,omitempty"`
-	KeyPolicy            *KeyPolicy                  `json:"keyPolicy,omitempty"`
-	Kind                 *string                     `json:"kind,omitempty"`
-	LargeFileSharesState *string                     `json:"largeFileSharesState,omitempty"`
-	Location             *string                     `json:"location,omitempty"`
-	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
-	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion      string                      `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	RoutingPreference        *RoutingPreference                 `json:"routingPreference,omitempty"`
-	SasPolicy                *SasPolicy                         `json:"sasPolicy,omitempty"`
-	Sku                      *Sku                               `json:"sku,omitempty"`
-	SupportsHttpsTrafficOnly *bool                              `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                     map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &StorageAccounts_Spec{}
-
-// ConvertSpecFrom populates our StorageAccounts_Spec from the provided source
-func (accounts *StorageAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210401s.StorageAccounts_Spec)
-	if ok {
-		// Populate our instance from source
-		return accounts.AssignProperties_From_StorageAccounts_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210401s.StorageAccounts_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = accounts.AssignProperties_From_StorageAccounts_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our StorageAccounts_Spec
-func (accounts *StorageAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210401s.StorageAccounts_Spec)
-	if ok {
-		// Populate destination from our instance
-		return accounts.AssignProperties_To_StorageAccounts_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210401s.StorageAccounts_Spec{}
-	err := accounts.AssignProperties_To_StorageAccounts_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_StorageAccounts_Spec populates our StorageAccounts_Spec from the provided source StorageAccounts_Spec
-func (accounts *StorageAccounts_Spec) AssignProperties_From_StorageAccounts_Spec(source *v20210401s.StorageAccounts_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AccessTier
-	accounts.AccessTier = genruntime.ClonePointerToString(source.AccessTier)
-
-	// AllowBlobPublicAccess
-	if source.AllowBlobPublicAccess != nil {
-		allowBlobPublicAccess := *source.AllowBlobPublicAccess
-		accounts.AllowBlobPublicAccess = &allowBlobPublicAccess
-	} else {
-		accounts.AllowBlobPublicAccess = nil
-	}
-
-	// AllowCrossTenantReplication
-	if source.AllowCrossTenantReplication != nil {
-		allowCrossTenantReplication := *source.AllowCrossTenantReplication
-		accounts.AllowCrossTenantReplication = &allowCrossTenantReplication
-	} else {
-		accounts.AllowCrossTenantReplication = nil
-	}
-
-	// AllowSharedKeyAccess
-	if source.AllowSharedKeyAccess != nil {
-		allowSharedKeyAccess := *source.AllowSharedKeyAccess
-		accounts.AllowSharedKeyAccess = &allowSharedKeyAccess
-	} else {
-		accounts.AllowSharedKeyAccess = nil
-	}
-
-	// AzureFilesIdentityBasedAuthentication
-	if source.AzureFilesIdentityBasedAuthentication != nil {
-		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication
-		err := azureFilesIdentityBasedAuthentication.AssignProperties_From_AzureFilesIdentityBasedAuthentication(source.AzureFilesIdentityBasedAuthentication)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
-		}
-		accounts.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
-	} else {
-		accounts.AzureFilesIdentityBasedAuthentication = nil
-	}
-
-	// AzureName
-	accounts.AzureName = source.AzureName
-
-	// CustomDomain
-	if source.CustomDomain != nil {
-		var customDomain CustomDomain
-		err := customDomain.AssignProperties_From_CustomDomain(source.CustomDomain)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CustomDomain() to populate field CustomDomain")
-		}
-		accounts.CustomDomain = &customDomain
-	} else {
-		accounts.CustomDomain = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.AssignProperties_From_Encryption(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
-		}
-		accounts.Encryption = &encryption
-	} else {
-		accounts.Encryption = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		accounts.ExtendedLocation = &extendedLocation
-	} else {
-		accounts.ExtendedLocation = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.AssignProperties_From_Identity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
-		}
-		accounts.Identity = &identity
-	} else {
-		accounts.Identity = nil
-	}
-
-	// IsHnsEnabled
-	if source.IsHnsEnabled != nil {
-		isHnsEnabled := *source.IsHnsEnabled
-		accounts.IsHnsEnabled = &isHnsEnabled
-	} else {
-		accounts.IsHnsEnabled = nil
-	}
-
-	// IsNfsV3Enabled
-	if source.IsNfsV3Enabled != nil {
-		isNfsV3Enabled := *source.IsNfsV3Enabled
-		accounts.IsNfsV3Enabled = &isNfsV3Enabled
-	} else {
-		accounts.IsNfsV3Enabled = nil
-	}
-
-	// KeyPolicy
-	if source.KeyPolicy != nil {
-		var keyPolicy KeyPolicy
-		err := keyPolicy.AssignProperties_From_KeyPolicy(source.KeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KeyPolicy() to populate field KeyPolicy")
-		}
-		accounts.KeyPolicy = &keyPolicy
-	} else {
-		accounts.KeyPolicy = nil
-	}
-
-	// Kind
-	accounts.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// LargeFileSharesState
-	accounts.LargeFileSharesState = genruntime.ClonePointerToString(source.LargeFileSharesState)
-
-	// Location
-	accounts.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	accounts.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
-
-	// NetworkAcls
-	if source.NetworkAcls != nil {
-		var networkAcl NetworkRuleSet
-		err := networkAcl.AssignProperties_From_NetworkRuleSet(source.NetworkAcls)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkRuleSet() to populate field NetworkAcls")
-		}
-		accounts.NetworkAcls = &networkAcl
-	} else {
-		accounts.NetworkAcls = nil
-	}
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec StorageAccountOperatorSpec
-		err := operatorSpec.AssignProperties_From_StorageAccountOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountOperatorSpec() to populate field OperatorSpec")
-		}
-		accounts.OperatorSpec = &operatorSpec
-	} else {
-		accounts.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	accounts.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		accounts.Owner = &owner
-	} else {
-		accounts.Owner = nil
-	}
-
-	// RoutingPreference
-	if source.RoutingPreference != nil {
-		var routingPreference RoutingPreference
-		err := routingPreference.AssignProperties_From_RoutingPreference(source.RoutingPreference)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RoutingPreference() to populate field RoutingPreference")
-		}
-		accounts.RoutingPreference = &routingPreference
-	} else {
-		accounts.RoutingPreference = nil
-	}
-
-	// SasPolicy
-	if source.SasPolicy != nil {
-		var sasPolicy SasPolicy
-		err := sasPolicy.AssignProperties_From_SasPolicy(source.SasPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SasPolicy() to populate field SasPolicy")
-		}
-		accounts.SasPolicy = &sasPolicy
-	} else {
-		accounts.SasPolicy = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignProperties_From_Sku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
-		}
-		accounts.Sku = &sku
-	} else {
-		accounts.Sku = nil
-	}
-
-	// SupportsHttpsTrafficOnly
-	if source.SupportsHttpsTrafficOnly != nil {
-		supportsHttpsTrafficOnly := *source.SupportsHttpsTrafficOnly
-		accounts.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
-	} else {
-		accounts.SupportsHttpsTrafficOnly = nil
-	}
-
-	// Tags
-	accounts.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		accounts.PropertyBag = propertyBag
-	} else {
-		accounts.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_StorageAccounts_Spec populates the provided destination StorageAccounts_Spec from our StorageAccounts_Spec
-func (accounts *StorageAccounts_Spec) AssignProperties_To_StorageAccounts_Spec(destination *v20210401s.StorageAccounts_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(accounts.PropertyBag)
-
-	// AccessTier
-	destination.AccessTier = genruntime.ClonePointerToString(accounts.AccessTier)
-
-	// AllowBlobPublicAccess
-	if accounts.AllowBlobPublicAccess != nil {
-		allowBlobPublicAccess := *accounts.AllowBlobPublicAccess
-		destination.AllowBlobPublicAccess = &allowBlobPublicAccess
-	} else {
-		destination.AllowBlobPublicAccess = nil
-	}
-
-	// AllowCrossTenantReplication
-	if accounts.AllowCrossTenantReplication != nil {
-		allowCrossTenantReplication := *accounts.AllowCrossTenantReplication
-		destination.AllowCrossTenantReplication = &allowCrossTenantReplication
-	} else {
-		destination.AllowCrossTenantReplication = nil
-	}
-
-	// AllowSharedKeyAccess
-	if accounts.AllowSharedKeyAccess != nil {
-		allowSharedKeyAccess := *accounts.AllowSharedKeyAccess
-		destination.AllowSharedKeyAccess = &allowSharedKeyAccess
-	} else {
-		destination.AllowSharedKeyAccess = nil
-	}
-
-	// AzureFilesIdentityBasedAuthentication
-	if accounts.AzureFilesIdentityBasedAuthentication != nil {
-		var azureFilesIdentityBasedAuthentication v20210401s.AzureFilesIdentityBasedAuthentication
-		err := accounts.AzureFilesIdentityBasedAuthentication.AssignProperties_To_AzureFilesIdentityBasedAuthentication(&azureFilesIdentityBasedAuthentication)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
-		}
-		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
-	} else {
-		destination.AzureFilesIdentityBasedAuthentication = nil
-	}
-
-	// AzureName
-	destination.AzureName = accounts.AzureName
-
-	// CustomDomain
-	if accounts.CustomDomain != nil {
-		var customDomain v20210401s.CustomDomain
-		err := accounts.CustomDomain.AssignProperties_To_CustomDomain(&customDomain)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CustomDomain() to populate field CustomDomain")
-		}
-		destination.CustomDomain = &customDomain
-	} else {
-		destination.CustomDomain = nil
-	}
-
-	// Encryption
-	if accounts.Encryption != nil {
-		var encryption v20210401s.Encryption
-		err := accounts.Encryption.AssignProperties_To_Encryption(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// ExtendedLocation
-	if accounts.ExtendedLocation != nil {
-		var extendedLocation v20210401s.ExtendedLocation
-		err := accounts.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// Identity
-	if accounts.Identity != nil {
-		var identity v20210401s.Identity
-		err := accounts.Identity.AssignProperties_To_Identity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// IsHnsEnabled
-	if accounts.IsHnsEnabled != nil {
-		isHnsEnabled := *accounts.IsHnsEnabled
-		destination.IsHnsEnabled = &isHnsEnabled
-	} else {
-		destination.IsHnsEnabled = nil
-	}
-
-	// IsNfsV3Enabled
-	if accounts.IsNfsV3Enabled != nil {
-		isNfsV3Enabled := *accounts.IsNfsV3Enabled
-		destination.IsNfsV3Enabled = &isNfsV3Enabled
-	} else {
-		destination.IsNfsV3Enabled = nil
-	}
-
-	// KeyPolicy
-	if accounts.KeyPolicy != nil {
-		var keyPolicy v20210401s.KeyPolicy
-		err := accounts.KeyPolicy.AssignProperties_To_KeyPolicy(&keyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KeyPolicy() to populate field KeyPolicy")
-		}
-		destination.KeyPolicy = &keyPolicy
-	} else {
-		destination.KeyPolicy = nil
-	}
-
-	// Kind
-	destination.Kind = genruntime.ClonePointerToString(accounts.Kind)
-
-	// LargeFileSharesState
-	destination.LargeFileSharesState = genruntime.ClonePointerToString(accounts.LargeFileSharesState)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(accounts.Location)
-
-	// MinimumTlsVersion
-	destination.MinimumTlsVersion = genruntime.ClonePointerToString(accounts.MinimumTlsVersion)
-
-	// NetworkAcls
-	if accounts.NetworkAcls != nil {
-		var networkAcl v20210401s.NetworkRuleSet
-		err := accounts.NetworkAcls.AssignProperties_To_NetworkRuleSet(&networkAcl)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkAcls")
-		}
-		destination.NetworkAcls = &networkAcl
-	} else {
-		destination.NetworkAcls = nil
-	}
-
-	// OperatorSpec
-	if accounts.OperatorSpec != nil {
-		var operatorSpec v20210401s.StorageAccountOperatorSpec
-		err := accounts.OperatorSpec.AssignProperties_To_StorageAccountOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = accounts.OriginalVersion
-
-	// Owner
-	if accounts.Owner != nil {
-		owner := accounts.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// RoutingPreference
-	if accounts.RoutingPreference != nil {
-		var routingPreference v20210401s.RoutingPreference
-		err := accounts.RoutingPreference.AssignProperties_To_RoutingPreference(&routingPreference)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RoutingPreference() to populate field RoutingPreference")
-		}
-		destination.RoutingPreference = &routingPreference
-	} else {
-		destination.RoutingPreference = nil
-	}
-
-	// SasPolicy
-	if accounts.SasPolicy != nil {
-		var sasPolicy v20210401s.SasPolicy
-		err := accounts.SasPolicy.AssignProperties_To_SasPolicy(&sasPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SasPolicy() to populate field SasPolicy")
-		}
-		destination.SasPolicy = &sasPolicy
-	} else {
-		destination.SasPolicy = nil
-	}
-
-	// Sku
-	if accounts.Sku != nil {
-		var sku v20210401s.Sku
-		err := accounts.Sku.AssignProperties_To_Sku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// SupportsHttpsTrafficOnly
-	if accounts.SupportsHttpsTrafficOnly != nil {
-		supportsHttpsTrafficOnly := *accounts.SupportsHttpsTrafficOnly
-		destination.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
-	} else {
-		destination.SupportsHttpsTrafficOnly = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(accounts.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

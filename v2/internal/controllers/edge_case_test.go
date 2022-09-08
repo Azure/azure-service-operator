@@ -63,7 +63,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -74,7 +74,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnets_Spec{
+		Spec: network.VirtualNetworks_Subnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},

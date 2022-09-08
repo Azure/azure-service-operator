@@ -26,7 +26,7 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Vaults_Spec  `json:"spec,omitempty"`
+	Spec              Vault_Spec   `json:"spec,omitempty"`
 	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,45 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01-preview")
 
+// Storage version of v1beta20210401preview.Vault_Spec
+type Vault_Spec struct {
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties  *VaultProperties                   `json:"properties,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Vault_Spec{}
+
+// ConvertSpecFrom populates our Vault_Spec from the provided source
+func (vault *Vault_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == vault {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(vault)
+}
+
+// ConvertSpecTo populates the provided destination from our Vault_Spec
+func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == vault {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(vault)
+}
+
 // Storage version of v1beta20210401preview.Vault_STATUS
 type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
@@ -166,45 +205,6 @@ func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	}
 
 	return destination.ConvertStatusFrom(vault)
-}
-
-// Storage version of v1beta20210401preview.Vaults_Spec
-type Vaults_Spec struct {
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Properties  *VaultProperties                   `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Vaults_Spec{}
-
-// ConvertSpecFrom populates our Vaults_Spec from the provided source
-func (vaults *Vaults_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == vaults {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(vaults)
-}
-
-// ConvertSpecTo populates the provided destination from our Vaults_Spec
-func (vaults *Vaults_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == vaults {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(vaults)
 }
 
 // Storage version of v1beta20210401preview.SystemData_STATUS

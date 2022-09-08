@@ -161,36 +161,36 @@ func MongodbDatabaseCollectionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator()
+	gens["Spec"] = DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator()
 	gens["Status"] = MongoDBCollectionGetResults_STATUSGenerator()
 }
 
-func Test_DatabaseAccounts_MongodbDatabases_Collections_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_Collection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseAccounts_MongodbDatabases_Collections_Spec to DatabaseAccounts_MongodbDatabases_Collections_Spec via AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec & AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_Spec, DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator()))
+		"Round trip from DatabaseAccounts_MongodbDatabases_Collection_Spec to DatabaseAccounts_MongodbDatabases_Collection_Spec via AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_Spec & AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec, DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_Spec can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_Spec(subject DatabaseAccounts_MongodbDatabases_Collections_Spec) string {
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec(subject DatabaseAccounts_MongodbDatabases_Collection_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccounts_MongodbDatabases_Collections_Spec
-	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_Spec(&other)
+	var other v20210515s.DatabaseAccounts_MongodbDatabases_Collection_Spec
+	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccounts_MongodbDatabases_Collections_Spec
-	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_Spec(&other)
+	var actual DatabaseAccounts_MongodbDatabases_Collection_Spec
+	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_S
 	return ""
 }
 
-func Test_DatabaseAccounts_MongodbDatabases_Collections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_Collection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccounts_MongodbDatabases_Collections_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_Spec, DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator()))
+		"Round trip of DatabaseAccounts_MongodbDatabases_Collection_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_Spec, DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_Spec runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_Spec(subject DatabaseAccounts_MongodbDatabases_Collections_Spec) string {
+// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_Spec runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_Spec(subject DatabaseAccounts_MongodbDatabases_Collection_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_Sp
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccounts_MongodbDatabases_Collections_Spec
+	var actual DatabaseAccounts_MongodbDatabases_Collection_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,41 +246,41 @@ func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_Sp
 	return ""
 }
 
-// Generator of DatabaseAccounts_MongodbDatabases_Collections_Spec instances for property testing - lazily instantiated
-// by DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator()
-var databaseAccounts_MongodbDatabases_Collections_SpecGenerator gopter.Gen
+// Generator of DatabaseAccounts_MongodbDatabases_Collection_Spec instances for property testing - lazily instantiated
+// by DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator()
+var databaseAccounts_MongodbDatabases_Collection_SpecGenerator gopter.Gen
 
-// DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator returns a generator of DatabaseAccounts_MongodbDatabases_Collections_Spec instances for property testing.
-// We first initialize databaseAccounts_MongodbDatabases_Collections_SpecGenerator with a simplified generator based on the
+// DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator returns a generator of DatabaseAccounts_MongodbDatabases_Collection_Spec instances for property testing.
+// We first initialize databaseAccounts_MongodbDatabases_Collection_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccounts_MongodbDatabases_Collections_SpecGenerator() gopter.Gen {
-	if databaseAccounts_MongodbDatabases_Collections_SpecGenerator != nil {
-		return databaseAccounts_MongodbDatabases_Collections_SpecGenerator
+func DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator() gopter.Gen {
+	if databaseAccounts_MongodbDatabases_Collection_SpecGenerator != nil {
+		return databaseAccounts_MongodbDatabases_Collection_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec(generators)
-	databaseAccounts_MongodbDatabases_Collections_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collections_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec(generators)
+	databaseAccounts_MongodbDatabases_Collection_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collection_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec(generators)
-	databaseAccounts_MongodbDatabases_Collections_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collections_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec(generators)
+	databaseAccounts_MongodbDatabases_Collection_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collection_Spec{}), generators)
 
-	return databaseAccounts_MongodbDatabases_Collections_SpecGenerator
+	return databaseAccounts_MongodbDatabases_Collection_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResourceGenerator())
 }

@@ -29,7 +29,7 @@ import (
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualMachines_Spec  `json:"spec,omitempty"`
+	Spec              VirtualMachine_Spec   `json:"spec,omitempty"`
 	Status            VirtualMachine_STATUS `json:"status,omitempty"`
 }
 
@@ -270,10 +270,10 @@ func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v202
 	machine.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec VirtualMachines_Spec
-	err := spec.AssignProperties_From_VirtualMachines_Spec(&source.Spec)
+	var spec VirtualMachine_Spec
+	err := spec.AssignProperties_From_VirtualMachine_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec() to populate field Spec")
 	}
 	machine.Spec = spec
 
@@ -296,10 +296,10 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 	destination.ObjectMeta = *machine.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201201s.VirtualMachines_Spec
-	err := machine.Spec.AssignProperties_To_VirtualMachines_Spec(&spec)
+	var spec v20201201s.VirtualMachine_Spec
+	err := machine.Spec.AssignProperties_To_VirtualMachine_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -336,6 +336,1180 @@ type VirtualMachineList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-12-01")
+
+type VirtualMachine_Spec struct {
+	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
+	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
+	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
+	// Minimum api-version: 2019-03-01.
+	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
+
+	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
+	// Minimum api-version: 2015-06-15.
+	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
+
+	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
+	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
+	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
+	// 2017-10-30-preview.
+	EvictionPolicy *VirtualMachine_Spec_Properties_EvictionPolicy `json:"evictionPolicy,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+
+	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
+	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
+	// (PT1H30M).
+	// Minimum api-version: 2020-06-01
+	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+
+	// HardwareProfile: Specifies the hardware settings for the virtual machine.
+	HardwareProfile *HardwareProfile `json:"hardwareProfile,omitempty"`
+	Host            *SubResource     `json:"host,omitempty"`
+	HostGroup       *SubResource     `json:"hostGroup,omitempty"`
+
+	// Identity: Identity for the virtual machine.
+	Identity *VirtualMachineIdentity `json:"identity,omitempty"`
+
+	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
+	// Possible values for Windows Server operating system are:
+	// Windows_Client
+	// Windows_Server
+	// Possible values for Linux Server operating system are:
+	// RHEL_BYOS (for RHEL)
+	// SLES_BYOS (for SUSE)
+	// For more information, see [Azure Hybrid Use Benefit for Windows
+	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
+	// [Azure Hybrid Use Benefit for Linux
+	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
+	// Minimum api-version: 2015-06-15
+	LicenseType *string `json:"licenseType,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// NetworkProfile: Specifies the network interfaces of the virtual machine.
+	NetworkProfile *VirtualMachine_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
+
+	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
+	// VM is provisioned.
+	OsProfile *VirtualMachine_Spec_Properties_OsProfile `json:"osProfile,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
+	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
+	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
+	// programmatically, Get Started ->. Enter any required information and then click Save.
+	Plan *Plan `json:"plan,omitempty"`
+
+	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
+	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
+	// available fault domains.
+	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
+	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
+	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
+	// Minimum api‐version: 2020‐12‐01
+	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
+
+	// Priority: Specifies the priority for the virtual machine.
+	// Minimum api-version: 2019-03-01.
+	Priority                *VirtualMachine_Spec_Properties_Priority `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource                             `json:"proximityPlacementGroup,omitempty"`
+
+	// SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
+
+	// StorageProfile: Specifies the storage settings for the virtual machine disks.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags                   map[string]string `json:"tags,omitempty"`
+	VirtualMachineScaleSet *SubResource      `json:"virtualMachineScaleSet,omitempty"`
+
+	// Zones: The virtual machine zones.
+	Zones []string `json:"zones,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if machine == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_SpecARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if machine.ExtendedLocation != nil {
+		extendedLocationARM, err := (*machine.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Identity’:
+	if machine.Identity != nil {
+		identityARM, err := (*machine.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identityARM.(*VirtualMachineIdentityARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if machine.Location != nil {
+		location := *machine.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Plan’:
+	if machine.Plan != nil {
+		planARM, err := (*machine.Plan).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		plan := *planARM.(*PlanARM)
+		result.Plan = &plan
+	}
+
+	// Set property ‘Properties’:
+	if machine.AdditionalCapabilities != nil ||
+		machine.AvailabilitySet != nil ||
+		machine.BillingProfile != nil ||
+		machine.DiagnosticsProfile != nil ||
+		machine.EvictionPolicy != nil ||
+		machine.ExtensionsTimeBudget != nil ||
+		machine.HardwareProfile != nil ||
+		machine.Host != nil ||
+		machine.HostGroup != nil ||
+		machine.LicenseType != nil ||
+		machine.NetworkProfile != nil ||
+		machine.OsProfile != nil ||
+		machine.PlatformFaultDomain != nil ||
+		machine.Priority != nil ||
+		machine.ProximityPlacementGroup != nil ||
+		machine.SecurityProfile != nil ||
+		machine.StorageProfile != nil ||
+		machine.VirtualMachineScaleSet != nil {
+		result.Properties = &VirtualMachine_Spec_PropertiesARM{}
+	}
+	if machine.AdditionalCapabilities != nil {
+		additionalCapabilitiesARM, err := (*machine.AdditionalCapabilities).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
+		result.Properties.AdditionalCapabilities = &additionalCapabilities
+	}
+	if machine.AvailabilitySet != nil {
+		availabilitySetARM, err := (*machine.AvailabilitySet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		availabilitySet := *availabilitySetARM.(*SubResourceARM)
+		result.Properties.AvailabilitySet = &availabilitySet
+	}
+	if machine.BillingProfile != nil {
+		billingProfileARM, err := (*machine.BillingProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		billingProfile := *billingProfileARM.(*BillingProfileARM)
+		result.Properties.BillingProfile = &billingProfile
+	}
+	if machine.DiagnosticsProfile != nil {
+		diagnosticsProfileARM, err := (*machine.DiagnosticsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
+		result.Properties.DiagnosticsProfile = &diagnosticsProfile
+	}
+	if machine.EvictionPolicy != nil {
+		evictionPolicy := *machine.EvictionPolicy
+		result.Properties.EvictionPolicy = &evictionPolicy
+	}
+	if machine.ExtensionsTimeBudget != nil {
+		extensionsTimeBudget := *machine.ExtensionsTimeBudget
+		result.Properties.ExtensionsTimeBudget = &extensionsTimeBudget
+	}
+	if machine.HardwareProfile != nil {
+		hardwareProfileARM, err := (*machine.HardwareProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		hardwareProfile := *hardwareProfileARM.(*HardwareProfileARM)
+		result.Properties.HardwareProfile = &hardwareProfile
+	}
+	if machine.Host != nil {
+		hostARM, err := (*machine.Host).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		host := *hostARM.(*SubResourceARM)
+		result.Properties.Host = &host
+	}
+	if machine.HostGroup != nil {
+		hostGroupARM, err := (*machine.HostGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		hostGroup := *hostGroupARM.(*SubResourceARM)
+		result.Properties.HostGroup = &hostGroup
+	}
+	if machine.LicenseType != nil {
+		licenseType := *machine.LicenseType
+		result.Properties.LicenseType = &licenseType
+	}
+	if machine.NetworkProfile != nil {
+		networkProfileARM, err := (*machine.NetworkProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkProfile := *networkProfileARM.(*VirtualMachine_Spec_Properties_NetworkProfileARM)
+		result.Properties.NetworkProfile = &networkProfile
+	}
+	if machine.OsProfile != nil {
+		osProfileARM, err := (*machine.OsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		osProfile := *osProfileARM.(*VirtualMachine_Spec_Properties_OsProfileARM)
+		result.Properties.OsProfile = &osProfile
+	}
+	if machine.PlatformFaultDomain != nil {
+		platformFaultDomain := *machine.PlatformFaultDomain
+		result.Properties.PlatformFaultDomain = &platformFaultDomain
+	}
+	if machine.Priority != nil {
+		priority := *machine.Priority
+		result.Properties.Priority = &priority
+	}
+	if machine.ProximityPlacementGroup != nil {
+		proximityPlacementGroupARM, err := (*machine.ProximityPlacementGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
+		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
+	}
+	if machine.SecurityProfile != nil {
+		securityProfileARM, err := (*machine.SecurityProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		securityProfile := *securityProfileARM.(*SecurityProfileARM)
+		result.Properties.SecurityProfile = &securityProfile
+	}
+	if machine.StorageProfile != nil {
+		storageProfileARM, err := (*machine.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfileARM.(*StorageProfileARM)
+		result.Properties.StorageProfile = &storageProfile
+	}
+	if machine.VirtualMachineScaleSet != nil {
+		virtualMachineScaleSetARM, err := (*machine.VirtualMachineScaleSet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		virtualMachineScaleSet := *virtualMachineScaleSetARM.(*SubResourceARM)
+		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
+	}
+
+	// Set property ‘Tags’:
+	if machine.Tags != nil {
+		result.Tags = make(map[string]string, len(machine.Tags))
+		for key, value := range machine.Tags {
+			result.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range machine.Zones {
+		result.Zones = append(result.Zones, item)
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (machine *VirtualMachine_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AdditionalCapabilities’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdditionalCapabilities != nil {
+			var additionalCapabilities1 AdditionalCapabilities
+			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
+			if err != nil {
+				return err
+			}
+			additionalCapabilities := additionalCapabilities1
+			machine.AdditionalCapabilities = &additionalCapabilities
+		}
+	}
+
+	// Set property ‘AvailabilitySet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilitySet != nil {
+			var availabilitySet1 SubResource
+			err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
+			if err != nil {
+				return err
+			}
+			availabilitySet := availabilitySet1
+			machine.AvailabilitySet = &availabilitySet
+		}
+	}
+
+	// Set property ‘AzureName’:
+	machine.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘BillingProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BillingProfile != nil {
+			var billingProfile1 BillingProfile
+			err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
+			if err != nil {
+				return err
+			}
+			billingProfile := billingProfile1
+			machine.BillingProfile = &billingProfile
+		}
+	}
+
+	// Set property ‘DiagnosticsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiagnosticsProfile != nil {
+			var diagnosticsProfile1 DiagnosticsProfile
+			err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
+			if err != nil {
+				return err
+			}
+			diagnosticsProfile := diagnosticsProfile1
+			machine.DiagnosticsProfile = &diagnosticsProfile
+		}
+	}
+
+	// Set property ‘EvictionPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EvictionPolicy != nil {
+			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			machine.EvictionPolicy = &evictionPolicy
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		machine.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘ExtensionsTimeBudget’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ExtensionsTimeBudget != nil {
+			extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
+			machine.ExtensionsTimeBudget = &extensionsTimeBudget
+		}
+	}
+
+	// Set property ‘HardwareProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HardwareProfile != nil {
+			var hardwareProfile1 HardwareProfile
+			err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
+			if err != nil {
+				return err
+			}
+			hardwareProfile := hardwareProfile1
+			machine.HardwareProfile = &hardwareProfile
+		}
+	}
+
+	// Set property ‘Host’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Host != nil {
+			var host1 SubResource
+			err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
+			if err != nil {
+				return err
+			}
+			host := host1
+			machine.Host = &host
+		}
+	}
+
+	// Set property ‘HostGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostGroup != nil {
+			var hostGroup1 SubResource
+			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
+			if err != nil {
+				return err
+			}
+			hostGroup := hostGroup1
+			machine.HostGroup = &hostGroup
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 VirtualMachineIdentity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		machine.Identity = &identity
+	}
+
+	// Set property ‘LicenseType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LicenseType != nil {
+			licenseType := *typedInput.Properties.LicenseType
+			machine.LicenseType = &licenseType
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		machine.Location = &location
+	}
+
+	// Set property ‘NetworkProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkProfile != nil {
+			var networkProfile1 VirtualMachine_Spec_Properties_NetworkProfile
+			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
+			if err != nil {
+				return err
+			}
+			networkProfile := networkProfile1
+			machine.NetworkProfile = &networkProfile
+		}
+	}
+
+	// Set property ‘OsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsProfile != nil {
+			var osProfile1 VirtualMachine_Spec_Properties_OsProfile
+			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
+			if err != nil {
+				return err
+			}
+			osProfile := osProfile1
+			machine.OsProfile = &osProfile
+		}
+	}
+
+	// Set property ‘Owner’:
+	machine.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Plan’:
+	if typedInput.Plan != nil {
+		var plan1 Plan
+		err := plan1.PopulateFromARM(owner, *typedInput.Plan)
+		if err != nil {
+			return err
+		}
+		plan := plan1
+		machine.Plan = &plan
+	}
+
+	// Set property ‘PlatformFaultDomain’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PlatformFaultDomain != nil {
+			platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
+			machine.PlatformFaultDomain = &platformFaultDomain
+		}
+	}
+
+	// Set property ‘Priority’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			machine.Priority = &priority
+		}
+	}
+
+	// Set property ‘ProximityPlacementGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroup != nil {
+			var proximityPlacementGroup1 SubResource
+			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
+			if err != nil {
+				return err
+			}
+			proximityPlacementGroup := proximityPlacementGroup1
+			machine.ProximityPlacementGroup = &proximityPlacementGroup
+		}
+	}
+
+	// Set property ‘SecurityProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SecurityProfile != nil {
+			var securityProfile1 SecurityProfile
+			err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
+			if err != nil {
+				return err
+			}
+			securityProfile := securityProfile1
+			machine.SecurityProfile = &securityProfile
+		}
+	}
+
+	// Set property ‘StorageProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageProfile != nil {
+			var storageProfile1 StorageProfile
+			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
+			if err != nil {
+				return err
+			}
+			storageProfile := storageProfile1
+			machine.StorageProfile = &storageProfile
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		machine.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			machine.Tags[key] = value
+		}
+	}
+
+	// Set property ‘VirtualMachineScaleSet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualMachineScaleSet != nil {
+			var virtualMachineScaleSet1 SubResource
+			err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
+			if err != nil {
+				return err
+			}
+			virtualMachineScaleSet := virtualMachineScaleSet1
+			machine.VirtualMachineScaleSet = &virtualMachineScaleSet
+		}
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range typedInput.Zones {
+		machine.Zones = append(machine.Zones, item)
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &VirtualMachine_Spec{}
+
+// ConvertSpecFrom populates our VirtualMachine_Spec from the provided source
+func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201201s.VirtualMachine_Spec)
+	if ok {
+		// Populate our instance from source
+		return machine.AssignProperties_From_VirtualMachine_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201201s.VirtualMachine_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = machine.AssignProperties_From_VirtualMachine_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201201s.VirtualMachine_Spec)
+	if ok {
+		// Populate destination from our instance
+		return machine.AssignProperties_To_VirtualMachine_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201201s.VirtualMachine_Spec{}
+	err := machine.AssignProperties_To_VirtualMachine_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Spec populates our VirtualMachine_Spec from the provided source VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(source *v20201201s.VirtualMachine_Spec) error {
+
+	// AdditionalCapabilities
+	if source.AdditionalCapabilities != nil {
+		var additionalCapability AdditionalCapabilities
+		err := additionalCapability.AssignProperties_From_AdditionalCapabilities(source.AdditionalCapabilities)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		machine.AdditionalCapabilities = &additionalCapability
+	} else {
+		machine.AdditionalCapabilities = nil
+	}
+
+	// AvailabilitySet
+	if source.AvailabilitySet != nil {
+		var availabilitySet SubResource
+		err := availabilitySet.AssignProperties_From_SubResource(source.AvailabilitySet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AvailabilitySet")
+		}
+		machine.AvailabilitySet = &availabilitySet
+	} else {
+		machine.AvailabilitySet = nil
+	}
+
+	// AzureName
+	machine.AzureName = source.AzureName
+
+	// BillingProfile
+	if source.BillingProfile != nil {
+		var billingProfile BillingProfile
+		err := billingProfile.AssignProperties_From_BillingProfile(source.BillingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile() to populate field BillingProfile")
+		}
+		machine.BillingProfile = &billingProfile
+	} else {
+		machine.BillingProfile = nil
+	}
+
+	// DiagnosticsProfile
+	if source.DiagnosticsProfile != nil {
+		var diagnosticsProfile DiagnosticsProfile
+		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile(source.DiagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		machine.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		machine.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	if source.EvictionPolicy != nil {
+		evictionPolicy := VirtualMachine_Spec_Properties_EvictionPolicy(*source.EvictionPolicy)
+		machine.EvictionPolicy = &evictionPolicy
+	} else {
+		machine.EvictionPolicy = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		machine.ExtendedLocation = &extendedLocation
+	} else {
+		machine.ExtendedLocation = nil
+	}
+
+	// ExtensionsTimeBudget
+	machine.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
+
+	// HardwareProfile
+	if source.HardwareProfile != nil {
+		var hardwareProfile HardwareProfile
+		err := hardwareProfile.AssignProperties_From_HardwareProfile(source.HardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile() to populate field HardwareProfile")
+		}
+		machine.HardwareProfile = &hardwareProfile
+	} else {
+		machine.HardwareProfile = nil
+	}
+
+	// Host
+	if source.Host != nil {
+		var host SubResource
+		err := host.AssignProperties_From_SubResource(source.Host)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Host")
+		}
+		machine.Host = &host
+	} else {
+		machine.Host = nil
+	}
+
+	// HostGroup
+	if source.HostGroup != nil {
+		var hostGroup SubResource
+		err := hostGroup.AssignProperties_From_SubResource(source.HostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HostGroup")
+		}
+		machine.HostGroup = &hostGroup
+	} else {
+		machine.HostGroup = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity VirtualMachineIdentity
+		err := identity.AssignProperties_From_VirtualMachineIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity() to populate field Identity")
+		}
+		machine.Identity = &identity
+	} else {
+		machine.Identity = nil
+	}
+
+	// LicenseType
+	machine.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// Location
+	machine.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkProfile
+	if source.NetworkProfile != nil {
+		var networkProfile VirtualMachine_Spec_Properties_NetworkProfile
+		err := networkProfile.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile(source.NetworkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
+		}
+		machine.NetworkProfile = &networkProfile
+	} else {
+		machine.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if source.OsProfile != nil {
+		var osProfile VirtualMachine_Spec_Properties_OsProfile
+		err := osProfile.AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile(source.OsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile() to populate field OsProfile")
+		}
+		machine.OsProfile = &osProfile
+	} else {
+		machine.OsProfile = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		machine.Owner = &owner
+	} else {
+		machine.Owner = nil
+	}
+
+	// Plan
+	if source.Plan != nil {
+		var plan Plan
+		err := plan.AssignProperties_From_Plan(source.Plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
+		}
+		machine.Plan = &plan
+	} else {
+		machine.Plan = nil
+	}
+
+	// PlatformFaultDomain
+	machine.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
+
+	// Priority
+	if source.Priority != nil {
+		priority := VirtualMachine_Spec_Properties_Priority(*source.Priority)
+		machine.Priority = &priority
+	} else {
+		machine.Priority = nil
+	}
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup SubResource
+		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
+		}
+		machine.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		machine.ProximityPlacementGroup = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		var securityProfile SecurityProfile
+		err := securityProfile.AssignProperties_From_SecurityProfile(source.SecurityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile() to populate field SecurityProfile")
+		}
+		machine.SecurityProfile = &securityProfile
+	} else {
+		machine.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		machine.StorageProfile = &storageProfile
+	} else {
+		machine.StorageProfile = nil
+	}
+
+	// Tags
+	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualMachineScaleSet
+	if source.VirtualMachineScaleSet != nil {
+		var virtualMachineScaleSet SubResource
+		err := virtualMachineScaleSet.AssignProperties_From_SubResource(source.VirtualMachineScaleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachineScaleSet")
+		}
+		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
+	} else {
+		machine.VirtualMachineScaleSet = nil
+	}
+
+	// Zones
+	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Spec populates the provided destination VirtualMachine_Spec from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(destination *v20201201s.VirtualMachine_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdditionalCapabilities
+	if machine.AdditionalCapabilities != nil {
+		var additionalCapability v20201201s.AdditionalCapabilities
+		err := machine.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities(&additionalCapability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		destination.AdditionalCapabilities = &additionalCapability
+	} else {
+		destination.AdditionalCapabilities = nil
+	}
+
+	// AvailabilitySet
+	if machine.AvailabilitySet != nil {
+		var availabilitySet v20201201s.SubResource
+		err := machine.AvailabilitySet.AssignProperties_To_SubResource(&availabilitySet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AvailabilitySet")
+		}
+		destination.AvailabilitySet = &availabilitySet
+	} else {
+		destination.AvailabilitySet = nil
+	}
+
+	// AzureName
+	destination.AzureName = machine.AzureName
+
+	// BillingProfile
+	if machine.BillingProfile != nil {
+		var billingProfile v20201201s.BillingProfile
+		err := machine.BillingProfile.AssignProperties_To_BillingProfile(&billingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile() to populate field BillingProfile")
+		}
+		destination.BillingProfile = &billingProfile
+	} else {
+		destination.BillingProfile = nil
+	}
+
+	// DiagnosticsProfile
+	if machine.DiagnosticsProfile != nil {
+		var diagnosticsProfile v20201201s.DiagnosticsProfile
+		err := machine.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile(&diagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		destination.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		destination.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	if machine.EvictionPolicy != nil {
+		evictionPolicy := string(*machine.EvictionPolicy)
+		destination.EvictionPolicy = &evictionPolicy
+	} else {
+		destination.EvictionPolicy = nil
+	}
+
+	// ExtendedLocation
+	if machine.ExtendedLocation != nil {
+		var extendedLocation v20201201s.ExtendedLocation
+		err := machine.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// ExtensionsTimeBudget
+	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machine.ExtensionsTimeBudget)
+
+	// HardwareProfile
+	if machine.HardwareProfile != nil {
+		var hardwareProfile v20201201s.HardwareProfile
+		err := machine.HardwareProfile.AssignProperties_To_HardwareProfile(&hardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile() to populate field HardwareProfile")
+		}
+		destination.HardwareProfile = &hardwareProfile
+	} else {
+		destination.HardwareProfile = nil
+	}
+
+	// Host
+	if machine.Host != nil {
+		var host v20201201s.SubResource
+		err := machine.Host.AssignProperties_To_SubResource(&host)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Host")
+		}
+		destination.Host = &host
+	} else {
+		destination.Host = nil
+	}
+
+	// HostGroup
+	if machine.HostGroup != nil {
+		var hostGroup v20201201s.SubResource
+		err := machine.HostGroup.AssignProperties_To_SubResource(&hostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HostGroup")
+		}
+		destination.HostGroup = &hostGroup
+	} else {
+		destination.HostGroup = nil
+	}
+
+	// Identity
+	if machine.Identity != nil {
+		var identity v20201201s.VirtualMachineIdentity
+		err := machine.Identity.AssignProperties_To_VirtualMachineIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(machine.LicenseType)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(machine.Location)
+
+	// NetworkProfile
+	if machine.NetworkProfile != nil {
+		var networkProfile v20201201s.VirtualMachine_Spec_Properties_NetworkProfile
+		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile(&networkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
+		}
+		destination.NetworkProfile = &networkProfile
+	} else {
+		destination.NetworkProfile = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = machine.OriginalVersion()
+
+	// OsProfile
+	if machine.OsProfile != nil {
+		var osProfile v20201201s.VirtualMachine_Spec_Properties_OsProfile
+		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile(&osProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile() to populate field OsProfile")
+		}
+		destination.OsProfile = &osProfile
+	} else {
+		destination.OsProfile = nil
+	}
+
+	// Owner
+	if machine.Owner != nil {
+		owner := machine.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Plan
+	if machine.Plan != nil {
+		var plan v20201201s.Plan
+		err := machine.Plan.AssignProperties_To_Plan(&plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
+		}
+		destination.Plan = &plan
+	} else {
+		destination.Plan = nil
+	}
+
+	// PlatformFaultDomain
+	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machine.PlatformFaultDomain)
+
+	// Priority
+	if machine.Priority != nil {
+		priority := string(*machine.Priority)
+		destination.Priority = &priority
+	} else {
+		destination.Priority = nil
+	}
+
+	// ProximityPlacementGroup
+	if machine.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup v20201201s.SubResource
+		err := machine.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// SecurityProfile
+	if machine.SecurityProfile != nil {
+		var securityProfile v20201201s.SecurityProfile
+		err := machine.SecurityProfile.AssignProperties_To_SecurityProfile(&securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if machine.StorageProfile != nil {
+		var storageProfile v20201201s.StorageProfile
+		err := machine.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(machine.Tags)
+
+	// VirtualMachineScaleSet
+	if machine.VirtualMachineScaleSet != nil {
+		var virtualMachineScaleSet v20201201s.SubResource
+		err := machine.VirtualMachineScaleSet.AssignProperties_To_SubResource(&virtualMachineScaleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachineScaleSet")
+		}
+		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
+	} else {
+		destination.VirtualMachineScaleSet = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(machine.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (machine *VirtualMachine_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (machine *VirtualMachine_Spec) SetAzureName(azureName string) { machine.AzureName = azureName }
 
 type VirtualMachine_STATUS struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
@@ -1464,1180 +2638,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	// No error
 	return nil
 }
-
-type VirtualMachines_Spec struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
-	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
-	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
-	// Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
-
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
-
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	// 2017-10-30-preview.
-	EvictionPolicy *VirtualMachines_Spec_Properties_EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	// (PT1H30M).
-	// Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
-
-	// HardwareProfile: Specifies the hardware settings for the virtual machine.
-	HardwareProfile *HardwareProfile `json:"hardwareProfile,omitempty"`
-	Host            *SubResource     `json:"host,omitempty"`
-	HostGroup       *SubResource     `json:"hostGroup,omitempty"`
-
-	// Identity: Identity for the virtual machine.
-	Identity *VirtualMachineIdentity `json:"identity,omitempty"`
-
-	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	// Possible values for Windows Server operating system are:
-	// Windows_Client
-	// Windows_Server
-	// Possible values for Linux Server operating system are:
-	// RHEL_BYOS (for RHEL)
-	// SLES_BYOS (for SUSE)
-	// For more information, see [Azure Hybrid Use Benefit for Windows
-	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	// [Azure Hybrid Use Benefit for Linux
-	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	// Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// NetworkProfile: Specifies the network interfaces of the virtual machine.
-	NetworkProfile *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
-
-	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
-	// VM is provisioned.
-	OsProfile *VirtualMachines_Spec_Properties_OsProfile `json:"osProfile,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan `json:"plan,omitempty"`
-
-	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
-	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
-	// available fault domains.
-	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
-	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
-	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
-	// Minimum api‐version: 2020‐12‐01
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// Priority: Specifies the priority for the virtual machine.
-	// Minimum api-version: 2019-03-01.
-	Priority                *VirtualMachines_Spec_Properties_Priority `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource                              `json:"proximityPlacementGroup,omitempty"`
-
-	// SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
-	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags                   map[string]string `json:"tags,omitempty"`
-	VirtualMachineScaleSet *SubResource      `json:"virtualMachineScaleSet,omitempty"`
-
-	// Zones: The virtual machine zones.
-	Zones []string `json:"zones,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if machines == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_SpecARM{}
-
-	// Set property ‘ExtendedLocation’:
-	if machines.ExtendedLocation != nil {
-		extendedLocationARM, err := (*machines.ExtendedLocation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
-		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Identity’:
-	if machines.Identity != nil {
-		identityARM, err := (*machines.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*VirtualMachineIdentityARM)
-		result.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if machines.Location != nil {
-		location := *machines.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Plan’:
-	if machines.Plan != nil {
-		planARM, err := (*machines.Plan).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		plan := *planARM.(*PlanARM)
-		result.Plan = &plan
-	}
-
-	// Set property ‘Properties’:
-	if machines.AdditionalCapabilities != nil ||
-		machines.AvailabilitySet != nil ||
-		machines.BillingProfile != nil ||
-		machines.DiagnosticsProfile != nil ||
-		machines.EvictionPolicy != nil ||
-		machines.ExtensionsTimeBudget != nil ||
-		machines.HardwareProfile != nil ||
-		machines.Host != nil ||
-		machines.HostGroup != nil ||
-		machines.LicenseType != nil ||
-		machines.NetworkProfile != nil ||
-		machines.OsProfile != nil ||
-		machines.PlatformFaultDomain != nil ||
-		machines.Priority != nil ||
-		machines.ProximityPlacementGroup != nil ||
-		machines.SecurityProfile != nil ||
-		machines.StorageProfile != nil ||
-		machines.VirtualMachineScaleSet != nil {
-		result.Properties = &VirtualMachines_Spec_PropertiesARM{}
-	}
-	if machines.AdditionalCapabilities != nil {
-		additionalCapabilitiesARM, err := (*machines.AdditionalCapabilities).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
-		result.Properties.AdditionalCapabilities = &additionalCapabilities
-	}
-	if machines.AvailabilitySet != nil {
-		availabilitySetARM, err := (*machines.AvailabilitySet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		availabilitySet := *availabilitySetARM.(*SubResourceARM)
-		result.Properties.AvailabilitySet = &availabilitySet
-	}
-	if machines.BillingProfile != nil {
-		billingProfileARM, err := (*machines.BillingProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		billingProfile := *billingProfileARM.(*BillingProfileARM)
-		result.Properties.BillingProfile = &billingProfile
-	}
-	if machines.DiagnosticsProfile != nil {
-		diagnosticsProfileARM, err := (*machines.DiagnosticsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
-		result.Properties.DiagnosticsProfile = &diagnosticsProfile
-	}
-	if machines.EvictionPolicy != nil {
-		evictionPolicy := *machines.EvictionPolicy
-		result.Properties.EvictionPolicy = &evictionPolicy
-	}
-	if machines.ExtensionsTimeBudget != nil {
-		extensionsTimeBudget := *machines.ExtensionsTimeBudget
-		result.Properties.ExtensionsTimeBudget = &extensionsTimeBudget
-	}
-	if machines.HardwareProfile != nil {
-		hardwareProfileARM, err := (*machines.HardwareProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		hardwareProfile := *hardwareProfileARM.(*HardwareProfileARM)
-		result.Properties.HardwareProfile = &hardwareProfile
-	}
-	if machines.Host != nil {
-		hostARM, err := (*machines.Host).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		host := *hostARM.(*SubResourceARM)
-		result.Properties.Host = &host
-	}
-	if machines.HostGroup != nil {
-		hostGroupARM, err := (*machines.HostGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		hostGroup := *hostGroupARM.(*SubResourceARM)
-		result.Properties.HostGroup = &hostGroup
-	}
-	if machines.LicenseType != nil {
-		licenseType := *machines.LicenseType
-		result.Properties.LicenseType = &licenseType
-	}
-	if machines.NetworkProfile != nil {
-		networkProfileARM, err := (*machines.NetworkProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		networkProfile := *networkProfileARM.(*VirtualMachines_Spec_Properties_NetworkProfileARM)
-		result.Properties.NetworkProfile = &networkProfile
-	}
-	if machines.OsProfile != nil {
-		osProfileARM, err := (*machines.OsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		osProfile := *osProfileARM.(*VirtualMachines_Spec_Properties_OsProfileARM)
-		result.Properties.OsProfile = &osProfile
-	}
-	if machines.PlatformFaultDomain != nil {
-		platformFaultDomain := *machines.PlatformFaultDomain
-		result.Properties.PlatformFaultDomain = &platformFaultDomain
-	}
-	if machines.Priority != nil {
-		priority := *machines.Priority
-		result.Properties.Priority = &priority
-	}
-	if machines.ProximityPlacementGroup != nil {
-		proximityPlacementGroupARM, err := (*machines.ProximityPlacementGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
-		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
-	}
-	if machines.SecurityProfile != nil {
-		securityProfileARM, err := (*machines.SecurityProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		securityProfile := *securityProfileARM.(*SecurityProfileARM)
-		result.Properties.SecurityProfile = &securityProfile
-	}
-	if machines.StorageProfile != nil {
-		storageProfileARM, err := (*machines.StorageProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		storageProfile := *storageProfileARM.(*StorageProfileARM)
-		result.Properties.StorageProfile = &storageProfile
-	}
-	if machines.VirtualMachineScaleSet != nil {
-		virtualMachineScaleSetARM, err := (*machines.VirtualMachineScaleSet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		virtualMachineScaleSet := *virtualMachineScaleSetARM.(*SubResourceARM)
-		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
-	}
-
-	// Set property ‘Tags’:
-	if machines.Tags != nil {
-		result.Tags = make(map[string]string, len(machines.Tags))
-		for key, value := range machines.Tags {
-			result.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range machines.Zones {
-		result.Zones = append(result.Zones, item)
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (machines *VirtualMachines_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AdditionalCapabilities’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AdditionalCapabilities != nil {
-			var additionalCapabilities1 AdditionalCapabilities
-			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
-			if err != nil {
-				return err
-			}
-			additionalCapabilities := additionalCapabilities1
-			machines.AdditionalCapabilities = &additionalCapabilities
-		}
-	}
-
-	// Set property ‘AvailabilitySet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AvailabilitySet != nil {
-			var availabilitySet1 SubResource
-			err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
-			if err != nil {
-				return err
-			}
-			availabilitySet := availabilitySet1
-			machines.AvailabilitySet = &availabilitySet
-		}
-	}
-
-	// Set property ‘AzureName’:
-	machines.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘BillingProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BillingProfile != nil {
-			var billingProfile1 BillingProfile
-			err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
-			if err != nil {
-				return err
-			}
-			billingProfile := billingProfile1
-			machines.BillingProfile = &billingProfile
-		}
-	}
-
-	// Set property ‘DiagnosticsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiagnosticsProfile != nil {
-			var diagnosticsProfile1 DiagnosticsProfile
-			err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
-			if err != nil {
-				return err
-			}
-			diagnosticsProfile := diagnosticsProfile1
-			machines.DiagnosticsProfile = &diagnosticsProfile
-		}
-	}
-
-	// Set property ‘EvictionPolicy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
-			machines.EvictionPolicy = &evictionPolicy
-		}
-	}
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		machines.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘ExtensionsTimeBudget’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ExtensionsTimeBudget != nil {
-			extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
-			machines.ExtensionsTimeBudget = &extensionsTimeBudget
-		}
-	}
-
-	// Set property ‘HardwareProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HardwareProfile != nil {
-			var hardwareProfile1 HardwareProfile
-			err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
-			if err != nil {
-				return err
-			}
-			hardwareProfile := hardwareProfile1
-			machines.HardwareProfile = &hardwareProfile
-		}
-	}
-
-	// Set property ‘Host’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Host != nil {
-			var host1 SubResource
-			err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
-			if err != nil {
-				return err
-			}
-			host := host1
-			machines.Host = &host
-		}
-	}
-
-	// Set property ‘HostGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostGroup != nil {
-			var hostGroup1 SubResource
-			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
-			if err != nil {
-				return err
-			}
-			hostGroup := hostGroup1
-			machines.HostGroup = &hostGroup
-		}
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 VirtualMachineIdentity
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		machines.Identity = &identity
-	}
-
-	// Set property ‘LicenseType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
-			machines.LicenseType = &licenseType
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		machines.Location = &location
-	}
-
-	// Set property ‘NetworkProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NetworkProfile != nil {
-			var networkProfile1 VirtualMachines_Spec_Properties_NetworkProfile
-			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
-			if err != nil {
-				return err
-			}
-			networkProfile := networkProfile1
-			machines.NetworkProfile = &networkProfile
-		}
-	}
-
-	// Set property ‘OsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsProfile != nil {
-			var osProfile1 VirtualMachines_Spec_Properties_OsProfile
-			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
-			if err != nil {
-				return err
-			}
-			osProfile := osProfile1
-			machines.OsProfile = &osProfile
-		}
-	}
-
-	// Set property ‘Owner’:
-	machines.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Plan’:
-	if typedInput.Plan != nil {
-		var plan1 Plan
-		err := plan1.PopulateFromARM(owner, *typedInput.Plan)
-		if err != nil {
-			return err
-		}
-		plan := plan1
-		machines.Plan = &plan
-	}
-
-	// Set property ‘PlatformFaultDomain’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PlatformFaultDomain != nil {
-			platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
-			machines.PlatformFaultDomain = &platformFaultDomain
-		}
-	}
-
-	// Set property ‘Priority’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Priority != nil {
-			priority := *typedInput.Properties.Priority
-			machines.Priority = &priority
-		}
-	}
-
-	// Set property ‘ProximityPlacementGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProximityPlacementGroup != nil {
-			var proximityPlacementGroup1 SubResource
-			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
-			if err != nil {
-				return err
-			}
-			proximityPlacementGroup := proximityPlacementGroup1
-			machines.ProximityPlacementGroup = &proximityPlacementGroup
-		}
-	}
-
-	// Set property ‘SecurityProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SecurityProfile != nil {
-			var securityProfile1 SecurityProfile
-			err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
-			if err != nil {
-				return err
-			}
-			securityProfile := securityProfile1
-			machines.SecurityProfile = &securityProfile
-		}
-	}
-
-	// Set property ‘StorageProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageProfile != nil {
-			var storageProfile1 StorageProfile
-			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
-			if err != nil {
-				return err
-			}
-			storageProfile := storageProfile1
-			machines.StorageProfile = &storageProfile
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		machines.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			machines.Tags[key] = value
-		}
-	}
-
-	// Set property ‘VirtualMachineScaleSet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VirtualMachineScaleSet != nil {
-			var virtualMachineScaleSet1 SubResource
-			err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
-			if err != nil {
-				return err
-			}
-			virtualMachineScaleSet := virtualMachineScaleSet1
-			machines.VirtualMachineScaleSet = &virtualMachineScaleSet
-		}
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range typedInput.Zones {
-		machines.Zones = append(machines.Zones, item)
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}
-
-// ConvertSpecFrom populates our VirtualMachines_Spec from the provided source
-func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201201s.VirtualMachines_Spec)
-	if ok {
-		// Populate our instance from source
-		return machines.AssignProperties_From_VirtualMachines_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20201201s.VirtualMachines_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = machines.AssignProperties_From_VirtualMachines_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201201s.VirtualMachines_Spec)
-	if ok {
-		// Populate destination from our instance
-		return machines.AssignProperties_To_VirtualMachines_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201201s.VirtualMachines_Spec{}
-	err := machines.AssignProperties_To_VirtualMachines_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec populates our VirtualMachines_Spec from the provided source VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignProperties_From_VirtualMachines_Spec(source *v20201201s.VirtualMachines_Spec) error {
-
-	// AdditionalCapabilities
-	if source.AdditionalCapabilities != nil {
-		var additionalCapability AdditionalCapabilities
-		err := additionalCapability.AssignProperties_From_AdditionalCapabilities(source.AdditionalCapabilities)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities() to populate field AdditionalCapabilities")
-		}
-		machines.AdditionalCapabilities = &additionalCapability
-	} else {
-		machines.AdditionalCapabilities = nil
-	}
-
-	// AvailabilitySet
-	if source.AvailabilitySet != nil {
-		var availabilitySet SubResource
-		err := availabilitySet.AssignProperties_From_SubResource(source.AvailabilitySet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AvailabilitySet")
-		}
-		machines.AvailabilitySet = &availabilitySet
-	} else {
-		machines.AvailabilitySet = nil
-	}
-
-	// AzureName
-	machines.AzureName = source.AzureName
-
-	// BillingProfile
-	if source.BillingProfile != nil {
-		var billingProfile BillingProfile
-		err := billingProfile.AssignProperties_From_BillingProfile(source.BillingProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile() to populate field BillingProfile")
-		}
-		machines.BillingProfile = &billingProfile
-	} else {
-		machines.BillingProfile = nil
-	}
-
-	// DiagnosticsProfile
-	if source.DiagnosticsProfile != nil {
-		var diagnosticsProfile DiagnosticsProfile
-		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile(source.DiagnosticsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile() to populate field DiagnosticsProfile")
-		}
-		machines.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		machines.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := VirtualMachines_Spec_Properties_EvictionPolicy(*source.EvictionPolicy)
-		machines.EvictionPolicy = &evictionPolicy
-	} else {
-		machines.EvictionPolicy = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		machines.ExtendedLocation = &extendedLocation
-	} else {
-		machines.ExtendedLocation = nil
-	}
-
-	// ExtensionsTimeBudget
-	machines.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
-
-	// HardwareProfile
-	if source.HardwareProfile != nil {
-		var hardwareProfile HardwareProfile
-		err := hardwareProfile.AssignProperties_From_HardwareProfile(source.HardwareProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile() to populate field HardwareProfile")
-		}
-		machines.HardwareProfile = &hardwareProfile
-	} else {
-		machines.HardwareProfile = nil
-	}
-
-	// Host
-	if source.Host != nil {
-		var host SubResource
-		err := host.AssignProperties_From_SubResource(source.Host)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Host")
-		}
-		machines.Host = &host
-	} else {
-		machines.Host = nil
-	}
-
-	// HostGroup
-	if source.HostGroup != nil {
-		var hostGroup SubResource
-		err := hostGroup.AssignProperties_From_SubResource(source.HostGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HostGroup")
-		}
-		machines.HostGroup = &hostGroup
-	} else {
-		machines.HostGroup = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity VirtualMachineIdentity
-		err := identity.AssignProperties_From_VirtualMachineIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity() to populate field Identity")
-		}
-		machines.Identity = &identity
-	} else {
-		machines.Identity = nil
-	}
-
-	// LicenseType
-	machines.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
-
-	// Location
-	machines.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachines_Spec_Properties_NetworkProfile
-		err := networkProfile.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
-		}
-		machines.NetworkProfile = &networkProfile
-	} else {
-		machines.NetworkProfile = nil
-	}
-
-	// OsProfile
-	if source.OsProfile != nil {
-		var osProfile VirtualMachines_Spec_Properties_OsProfile
-		err := osProfile.AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source.OsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
-		}
-		machines.OsProfile = &osProfile
-	} else {
-		machines.OsProfile = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		machines.Owner = &owner
-	} else {
-		machines.Owner = nil
-	}
-
-	// Plan
-	if source.Plan != nil {
-		var plan Plan
-		err := plan.AssignProperties_From_Plan(source.Plan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
-		}
-		machines.Plan = &plan
-	} else {
-		machines.Plan = nil
-	}
-
-	// PlatformFaultDomain
-	machines.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
-
-	// Priority
-	if source.Priority != nil {
-		priority := VirtualMachines_Spec_Properties_Priority(*source.Priority)
-		machines.Priority = &priority
-	} else {
-		machines.Priority = nil
-	}
-
-	// ProximityPlacementGroup
-	if source.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
-		}
-		machines.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		machines.ProximityPlacementGroup = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile SecurityProfile
-		err := securityProfile.AssignProperties_From_SecurityProfile(source.SecurityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile() to populate field SecurityProfile")
-		}
-		machines.SecurityProfile = &securityProfile
-	} else {
-		machines.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile StorageProfile
-		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
-		}
-		machines.StorageProfile = &storageProfile
-	} else {
-		machines.StorageProfile = nil
-	}
-
-	// Tags
-	machines.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualMachineScaleSet
-	if source.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet SubResource
-		err := virtualMachineScaleSet.AssignProperties_From_SubResource(source.VirtualMachineScaleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachineScaleSet")
-		}
-		machines.VirtualMachineScaleSet = &virtualMachineScaleSet
-	} else {
-		machines.VirtualMachineScaleSet = nil
-	}
-
-	// Zones
-	machines.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec populates the provided destination VirtualMachines_Spec from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignProperties_To_VirtualMachines_Spec(destination *v20201201s.VirtualMachines_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalCapabilities
-	if machines.AdditionalCapabilities != nil {
-		var additionalCapability v20201201s.AdditionalCapabilities
-		err := machines.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities(&additionalCapability)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities() to populate field AdditionalCapabilities")
-		}
-		destination.AdditionalCapabilities = &additionalCapability
-	} else {
-		destination.AdditionalCapabilities = nil
-	}
-
-	// AvailabilitySet
-	if machines.AvailabilitySet != nil {
-		var availabilitySet v20201201s.SubResource
-		err := machines.AvailabilitySet.AssignProperties_To_SubResource(&availabilitySet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AvailabilitySet")
-		}
-		destination.AvailabilitySet = &availabilitySet
-	} else {
-		destination.AvailabilitySet = nil
-	}
-
-	// AzureName
-	destination.AzureName = machines.AzureName
-
-	// BillingProfile
-	if machines.BillingProfile != nil {
-		var billingProfile v20201201s.BillingProfile
-		err := machines.BillingProfile.AssignProperties_To_BillingProfile(&billingProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile() to populate field BillingProfile")
-		}
-		destination.BillingProfile = &billingProfile
-	} else {
-		destination.BillingProfile = nil
-	}
-
-	// DiagnosticsProfile
-	if machines.DiagnosticsProfile != nil {
-		var diagnosticsProfile v20201201s.DiagnosticsProfile
-		err := machines.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile(&diagnosticsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile() to populate field DiagnosticsProfile")
-		}
-		destination.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		destination.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if machines.EvictionPolicy != nil {
-		evictionPolicy := string(*machines.EvictionPolicy)
-		destination.EvictionPolicy = &evictionPolicy
-	} else {
-		destination.EvictionPolicy = nil
-	}
-
-	// ExtendedLocation
-	if machines.ExtendedLocation != nil {
-		var extendedLocation v20201201s.ExtendedLocation
-		err := machines.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// ExtensionsTimeBudget
-	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machines.ExtensionsTimeBudget)
-
-	// HardwareProfile
-	if machines.HardwareProfile != nil {
-		var hardwareProfile v20201201s.HardwareProfile
-		err := machines.HardwareProfile.AssignProperties_To_HardwareProfile(&hardwareProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile() to populate field HardwareProfile")
-		}
-		destination.HardwareProfile = &hardwareProfile
-	} else {
-		destination.HardwareProfile = nil
-	}
-
-	// Host
-	if machines.Host != nil {
-		var host v20201201s.SubResource
-		err := machines.Host.AssignProperties_To_SubResource(&host)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Host")
-		}
-		destination.Host = &host
-	} else {
-		destination.Host = nil
-	}
-
-	// HostGroup
-	if machines.HostGroup != nil {
-		var hostGroup v20201201s.SubResource
-		err := machines.HostGroup.AssignProperties_To_SubResource(&hostGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HostGroup")
-		}
-		destination.HostGroup = &hostGroup
-	} else {
-		destination.HostGroup = nil
-	}
-
-	// Identity
-	if machines.Identity != nil {
-		var identity v20201201s.VirtualMachineIdentity
-		err := machines.Identity.AssignProperties_To_VirtualMachineIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// LicenseType
-	destination.LicenseType = genruntime.ClonePointerToString(machines.LicenseType)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(machines.Location)
-
-	// NetworkProfile
-	if machines.NetworkProfile != nil {
-		var networkProfile v20201201s.VirtualMachines_Spec_Properties_NetworkProfile
-		err := machines.NetworkProfile.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(&networkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
-		}
-		destination.NetworkProfile = &networkProfile
-	} else {
-		destination.NetworkProfile = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = machines.OriginalVersion()
-
-	// OsProfile
-	if machines.OsProfile != nil {
-		var osProfile v20201201s.VirtualMachines_Spec_Properties_OsProfile
-		err := machines.OsProfile.AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(&osProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
-		}
-		destination.OsProfile = &osProfile
-	} else {
-		destination.OsProfile = nil
-	}
-
-	// Owner
-	if machines.Owner != nil {
-		owner := machines.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Plan
-	if machines.Plan != nil {
-		var plan v20201201s.Plan
-		err := machines.Plan.AssignProperties_To_Plan(&plan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
-		}
-		destination.Plan = &plan
-	} else {
-		destination.Plan = nil
-	}
-
-	// PlatformFaultDomain
-	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machines.PlatformFaultDomain)
-
-	// Priority
-	if machines.Priority != nil {
-		priority := string(*machines.Priority)
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
-
-	// ProximityPlacementGroup
-	if machines.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup v20201201s.SubResource
-		err := machines.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
-		}
-		destination.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		destination.ProximityPlacementGroup = nil
-	}
-
-	// SecurityProfile
-	if machines.SecurityProfile != nil {
-		var securityProfile v20201201s.SecurityProfile
-		err := machines.SecurityProfile.AssignProperties_To_SecurityProfile(&securityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile() to populate field SecurityProfile")
-		}
-		destination.SecurityProfile = &securityProfile
-	} else {
-		destination.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if machines.StorageProfile != nil {
-		var storageProfile v20201201s.StorageProfile
-		err := machines.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
-		}
-		destination.StorageProfile = &storageProfile
-	} else {
-		destination.StorageProfile = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(machines.Tags)
-
-	// VirtualMachineScaleSet
-	if machines.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet v20201201s.SubResource
-		err := machines.VirtualMachineScaleSet.AssignProperties_To_SubResource(&virtualMachineScaleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachineScaleSet")
-		}
-		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
-	} else {
-		destination.VirtualMachineScaleSet = nil
-	}
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(machines.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (machines *VirtualMachines_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (machines *VirtualMachines_Spec) SetAzureName(azureName string) { machines.AzureName = azureName }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
 type AdditionalCapabilities struct {
@@ -4994,6 +4994,541 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type VirtualMachine_Spec_Properties_EvictionPolicy string
+
+const (
+	VirtualMachine_Spec_Properties_EvictionPolicy_Deallocate = VirtualMachine_Spec_Properties_EvictionPolicy("Deallocate")
+	VirtualMachine_Spec_Properties_EvictionPolicy_Delete     = VirtualMachine_Spec_Properties_EvictionPolicy("Delete")
+)
+
+type VirtualMachine_Spec_Properties_NetworkProfile struct {
+	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
+	NetworkInterfaces []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Spec_Properties_NetworkProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *VirtualMachine_Spec_Properties_NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Spec_Properties_NetworkProfileARM{}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range profile.NetworkInterfaces {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.NetworkInterfaces = append(result.NetworkInterfaces, *itemARM.(*VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *VirtualMachine_Spec_Properties_NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Spec_Properties_NetworkProfileARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *VirtualMachine_Spec_Properties_NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Spec_Properties_NetworkProfileARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Spec_Properties_NetworkProfileARM, got %T", armInput)
+	}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range typedInput.NetworkInterfaces {
+		var item1 VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile populates our VirtualMachine_Spec_Properties_NetworkProfile from the provided source VirtualMachine_Spec_Properties_NetworkProfile
+func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile(source *v20201201s.VirtualMachine_Spec_Properties_NetworkProfile) error {
+
+	// NetworkInterfaces
+	if source.NetworkInterfaces != nil {
+		networkInterfaceList := make([]VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, len(source.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+			err := networkInterface.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterfaceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		profile.NetworkInterfaces = networkInterfaceList
+	} else {
+		profile.NetworkInterfaces = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile populates the provided destination VirtualMachine_Spec_Properties_NetworkProfile from our VirtualMachine_Spec_Properties_NetworkProfile
+func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile(destination *v20201201s.VirtualMachine_Spec_Properties_NetworkProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// NetworkInterfaces
+	if profile.NetworkInterfaces != nil {
+		networkInterfaceList := make([]v20201201s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, len(profile.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface v20201201s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterface)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		destination.NetworkInterfaces = networkInterfaceList
+	} else {
+		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type VirtualMachine_Spec_Properties_OsProfile struct {
+	// AdminPassword: Specifies the password of the administrator account.
+	// Minimum-length (Windows): 8 characters
+	// Minimum-length (Linux): 6 characters
+	// Max-length (Windows): 123 characters
+	// Max-length (Linux): 72 characters
+	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
+	// Has lower characters
+	// Has upper characters
+	// Has a digit
+	// Has a special character (Regex match [\W_])
+	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
+	// "Password22", "iloveyou!"
+	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
+	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
+	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
+
+	// AdminUsername: Specifies the name of the administrator account.
+	// This property cannot be updated after the VM is created.
+	// Windows-only restriction: Cannot end in "."
+	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
+	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
+	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
+	// Minimum-length (Linux): 1  character
+	// Max-length (Linux): 64 characters
+	// Max-length (Windows): 20 characters
+	// <li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
+	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	// <li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
+	// Linux on
+	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	AdminUsername *string `json:"adminUsername,omitempty"`
+
+	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
+	// This may only be set to False when no extensions are present on the virtual machine.
+	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
+
+	// ComputerName: Specifies the host OS name of the virtual machine.
+	// This name cannot be updated after the VM is created.
+	// Max-length (Windows): 15 characters
+	// Max-length (Linux): 64 characters.
+	// For naming conventions and restrictions see [Azure infrastructure services implementation
+	// guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+	ComputerName *string `json:"computerName,omitempty"`
+
+	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
+	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
+	// Note: Do not pass any secrets or passwords in customData property
+	// This property cannot be updated after the VM is created.
+	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
+	// VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
+	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
+	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	CustomData *string `json:"customData,omitempty"`
+
+	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
+	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
+	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	// For running non-endorsed distributions, see [Information for Non-Endorsed
+	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
+
+	// RequireGuestProvisionSignal: Specifies whether the guest provision signal is required to infer provision success of the
+	// virtual machine.  Note: This property is for private testing only, and all customers must not set the property to false.
+	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
+
+	// Secrets: Specifies set of certificates that should be installed onto the virtual machine.
+	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
+
+	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
+	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Spec_Properties_OsProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *VirtualMachine_Spec_Properties_OsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Spec_Properties_OsProfileARM{}
+
+	// Set property ‘AdminPassword’:
+	if profile.AdminPassword != nil {
+		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
+		}
+		adminPassword := adminPasswordSecret
+		result.AdminPassword = &adminPassword
+	}
+
+	// Set property ‘AdminUsername’:
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperations := *profile.AllowExtensionOperations
+		result.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if profile.ComputerName != nil {
+		computerName := *profile.ComputerName
+		result.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if profile.CustomData != nil {
+		customData := *profile.CustomData
+		result.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if profile.LinuxConfiguration != nil {
+		linuxConfigurationARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
+		result.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range profile.Secrets {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if profile.WindowsConfiguration != nil {
+		windowsConfigurationARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
+		result.WindowsConfiguration = &windowsConfiguration
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *VirtualMachine_Spec_Properties_OsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Spec_Properties_OsProfileARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *VirtualMachine_Spec_Properties_OsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Spec_Properties_OsProfileARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Spec_Properties_OsProfileARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AdminPassword’
+
+	// Set property ‘AdminUsername’:
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if typedInput.AllowExtensionOperations != nil {
+		allowExtensionOperations := *typedInput.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if typedInput.ComputerName != nil {
+		computerName := *typedInput.ComputerName
+		profile.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if typedInput.CustomData != nil {
+		customData := *typedInput.CustomData
+		profile.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if typedInput.LinuxConfiguration != nil {
+		var linuxConfiguration1 LinuxConfiguration
+		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
+		if err != nil {
+			return err
+		}
+		linuxConfiguration := linuxConfiguration1
+		profile.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if typedInput.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range typedInput.Secrets {
+		var item1 VaultSecretGroup
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.Secrets = append(profile.Secrets, item1)
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if typedInput.WindowsConfiguration != nil {
+		var windowsConfiguration1 WindowsConfiguration
+		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
+		if err != nil {
+			return err
+		}
+		windowsConfiguration := windowsConfiguration1
+		profile.WindowsConfiguration = &windowsConfiguration
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile populates our VirtualMachine_Spec_Properties_OsProfile from the provided source VirtualMachine_Spec_Properties_OsProfile
+func (profile *VirtualMachine_Spec_Properties_OsProfile) AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile(source *v20201201s.VirtualMachine_Spec_Properties_OsProfile) error {
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		allowExtensionOperation := *source.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		profile.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if source.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		profile.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile populates the provided destination VirtualMachine_Spec_Properties_OsProfile from our VirtualMachine_Spec_Properties_OsProfile
+func (profile *VirtualMachine_Spec_Properties_OsProfile) AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile(destination *v20201201s.VirtualMachine_Spec_Properties_OsProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperation := *profile.AllowExtensionOperations
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20201201s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		destination.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20201201s.VaultSecretGroup
+			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20201201s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
+type VirtualMachine_Spec_Properties_Priority string
+
+const (
+	VirtualMachine_Spec_Properties_Priority_Low     = VirtualMachine_Spec_Properties_Priority("Low")
+	VirtualMachine_Spec_Properties_Priority_Regular = VirtualMachine_Spec_Properties_Priority("Regular")
+	VirtualMachine_Spec_Properties_Priority_Spot    = VirtualMachine_Spec_Properties_Priority("Spot")
+)
+
 type VirtualMachineExtension_STATUS struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -6087,541 +6622,6 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachin
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type VirtualMachines_Spec_Properties_EvictionPolicy string
-
-const (
-	VirtualMachines_Spec_Properties_EvictionPolicy_Deallocate = VirtualMachines_Spec_Properties_EvictionPolicy("Deallocate")
-	VirtualMachines_Spec_Properties_EvictionPolicy_Delete     = VirtualMachines_Spec_Properties_EvictionPolicy("Delete")
-)
-
-type VirtualMachines_Spec_Properties_NetworkProfile struct {
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfileARM{}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range profile.NetworkInterfaces {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.NetworkInterfaces = append(result.NetworkInterfaces, *itemARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfileARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfileARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfileARM, got %T", armInput)
-	}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range typedInput.NetworkInterfaces {
-		var item1 VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile populates our VirtualMachines_Spec_Properties_NetworkProfile from the provided source VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterface.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		profile.NetworkInterfaces = networkInterfaceList
-	} else {
-		profile.NetworkInterfaces = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile from our VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(destination *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// NetworkInterfaces
-	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(profile.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterfaceItem.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type VirtualMachines_Spec_Properties_OsProfile struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
-
-	// AdminUsername: Specifies the name of the administrator account.
-	// This property cannot be updated after the VM is created.
-	// Windows-only restriction: Cannot end in "."
-	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	// Minimum-length (Linux): 1  character
-	// Max-length (Linux): 64 characters
-	// Max-length (Windows): 20 characters
-	// <li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// <li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
-	// Linux on
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
-	// This may only be set to False when no extensions are present on the virtual machine.
-	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
-
-	// ComputerName: Specifies the host OS name of the virtual machine.
-	// This name cannot be updated after the VM is created.
-	// Max-length (Windows): 15 characters
-	// Max-length (Linux): 64 characters.
-	// For naming conventions and restrictions see [Azure infrastructure services implementation
-	// guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// Note: Do not pass any secrets or passwords in customData property
-	// This property cannot be updated after the VM is created.
-	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
-	// VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
-	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	CustomData *string `json:"customData,omitempty"`
-
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// For running non-endorsed distributions, see [Information for Non-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
-
-	// RequireGuestProvisionSignal: Specifies whether the guest provision signal is required to infer provision success of the
-	// virtual machine.  Note: This property is for private testing only, and all customers must not set the property to false.
-	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
-
-	// Secrets: Specifies set of certificates that should be installed onto the virtual machine.
-	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
-
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_OsProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_OsProfileARM{}
-
-	// Set property ‘AdminPassword’:
-	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
-		}
-		adminPassword := adminPasswordSecret
-		result.AdminPassword = &adminPassword
-	}
-
-	// Set property ‘AdminUsername’:
-	if profile.AdminUsername != nil {
-		adminUsername := *profile.AdminUsername
-		result.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperations := *profile.AllowExtensionOperations
-		result.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if profile.ComputerName != nil {
-		computerName := *profile.ComputerName
-		result.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if profile.CustomData != nil {
-		customData := *profile.CustomData
-		result.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if profile.LinuxConfiguration != nil {
-		linuxConfigurationARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
-		result.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range profile.Secrets {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if profile.WindowsConfiguration != nil {
-		windowsConfigurationARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
-		result.WindowsConfiguration = &windowsConfiguration
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachines_Spec_Properties_OsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_OsProfileARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachines_Spec_Properties_OsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_OsProfileARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_OsProfileARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AdminPassword’
-
-	// Set property ‘AdminUsername’:
-	if typedInput.AdminUsername != nil {
-		adminUsername := *typedInput.AdminUsername
-		profile.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if typedInput.AllowExtensionOperations != nil {
-		allowExtensionOperations := *typedInput.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if typedInput.ComputerName != nil {
-		computerName := *typedInput.ComputerName
-		profile.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if typedInput.CustomData != nil {
-		customData := *typedInput.CustomData
-		profile.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if typedInput.LinuxConfiguration != nil {
-		var linuxConfiguration1 LinuxConfiguration
-		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
-		if err != nil {
-			return err
-		}
-		linuxConfiguration := linuxConfiguration1
-		profile.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if typedInput.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range typedInput.Secrets {
-		var item1 VaultSecretGroup
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.Secrets = append(profile.Secrets, item1)
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if typedInput.WindowsConfiguration != nil {
-		var windowsConfiguration1 WindowsConfiguration
-		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
-		if err != nil {
-			return err
-		}
-		windowsConfiguration := windowsConfiguration1
-		profile.WindowsConfiguration = &windowsConfiguration
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile populates our VirtualMachines_Spec_Properties_OsProfile from the provided source VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source *v20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile populates the provided destination VirtualMachines_Spec_Properties_OsProfile from our VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(destination *v20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// AllowExtensionOperations
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperation := *profile.AllowExtensionOperations
-		destination.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		destination.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
-
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20201201s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		destination.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret v20201201s.VaultSecretGroup
-			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		destination.Secrets = secretList
-	} else {
-		destination.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20201201s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		destination.WindowsConfiguration = &windowsConfiguration
-	} else {
-		destination.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
-type VirtualMachines_Spec_Properties_Priority string
-
-const (
-	VirtualMachines_Spec_Properties_Priority_Low     = VirtualMachines_Spec_Properties_Priority("Low")
-	VirtualMachines_Spec_Properties_Priority_Regular = VirtualMachines_Spec_Properties_Priority("Regular")
-	VirtualMachines_Spec_Properties_Priority_Spot    = VirtualMachines_Spec_Properties_Priority("Spot")
-)
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics
 type BootDiagnostics struct {
@@ -10686,6 +10686,126 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
+type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
+	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+	Primary *bool `json:"primary,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if interfaces == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
+
+	// Set property ‘Id’:
+	if interfaces.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*interfaces.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+
+	// Set property ‘Properties’:
+	if interfaces.Primary != nil {
+		result.Properties = &NetworkInterfaceReferencePropertiesARM{}
+	}
+	if interfaces.Primary != nil {
+		primary := *interfaces.Primary
+		result.Properties.Primary = &primary
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM, got %T", armInput)
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			interfaces.Primary = &primary
+		}
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces populates our VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(source *v20201201s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		interfaces.Primary = &primary
+	} else {
+		interfaces.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		interfaces.Reference = &reference
+	} else {
+		interfaces.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces populates the provided destination VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(destination *v20201201s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Primary
+	if interfaces.Primary != nil {
+		primary := *interfaces.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Reference
+	if interfaces.Reference != nil {
+		reference := interfaces.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type VirtualMachineAgentInstanceView_STATUS struct {
 	// ExtensionHandlers: The virtual machine extension handler instance view.
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
@@ -11271,126 +11391,6 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
 	} else {
 		destination.LastPatchInstallationSummary = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if interfaces == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
-
-	// Set property ‘Id’:
-	if interfaces.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*interfaces.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property ‘Properties’:
-	if interfaces.Primary != nil {
-		result.Properties = &NetworkInterfaceReferencePropertiesARM{}
-	}
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		result.Properties.Primary = &primary
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM, got %T", armInput)
-	}
-
-	// Set property ‘Primary’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Primary != nil {
-			primary := *typedInput.Properties.Primary
-			interfaces.Primary = &primary
-		}
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(source *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		interfaces.Primary = &primary
-	} else {
-		interfaces.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		interfaces.Reference = &reference
-	} else {
-		interfaces.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(destination *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Primary
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// Reference
-	if interfaces.Reference != nil {
-		reference := interfaces.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag

@@ -27,7 +27,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	skuName := eventhub.Sku_Name_Standard
 	namespace := &eventhub.Namespace{
 		ObjectMeta: tc.MakeObjectMeta("namespace"),
-		Spec: eventhub.Namespaces_Spec{
+		Spec: eventhub.Namespace_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &eventhub.Sku{
@@ -76,7 +76,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	eh := &eventhub.NamespacesEventhub{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhubs_Spec{
+		Spec: eventhub.Namespaces_Eventhub_Spec{
 			Owner:                  testcommon.AsOwner(namespace),
 			MessageRetentionInDays: to.IntPtr(7),
 			PartitionCount:         to.IntPtr(1),
@@ -118,7 +118,7 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	rule := &eventhub.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_AuthorizationRules_Spec{
+		Spec: eventhub.Namespaces_AuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(namespace),
 			Rights: []eventhub.AuthorizationRuleProperties_Rights{
 				eventhub.AuthorizationRuleProperties_Rights_Listen,
@@ -139,7 +139,7 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
 	rule := &eventhub.NamespacesEventhubsAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhubs_AuthorizationRules_Spec{
+		Spec: eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(eh),
 			Rights: []eventhub.AuthorizationRuleProperties_Rights{
 				eventhub.AuthorizationRuleProperties_Rights_Listen,
@@ -161,7 +161,7 @@ func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Ob
 	userMetadata := to.StringPtr("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhubs_Consumergroups_Spec{
+		Spec: eventhub.Namespaces_Eventhubs_Consumergroup_Spec{
 			Owner:        testcommon.AsOwner(eh),
 			UserMetadata: to.StringPtr("This is some fun metadata"),
 		},

@@ -26,7 +26,7 @@ import (
 type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Spec  `json:"spec,omitempty"`
+	Spec              Profile_Spec   `json:"spec,omitempty"`
 	Status            Profile_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,45 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
 
+// Storage version of v1beta20210601.Profile_Spec
+type Profile_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                    string  `json:"azureName,omitempty"`
+	Location                     *string `json:"location,omitempty"`
+	OriginResponseTimeoutSeconds *int    `json:"originResponseTimeoutSeconds,omitempty"`
+	OriginalVersion              string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku         *Sku                               `json:"sku,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Profile_Spec{}
+
+// ConvertSpecFrom populates our Profile_Spec from the provided source
+func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == profile {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(profile)
+}
+
+// ConvertSpecTo populates the provided destination from our Profile_Spec
+func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == profile {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(profile)
+}
+
 // Storage version of v1beta20210601.Profile_STATUS
 type Profile_STATUS struct {
 	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
@@ -171,45 +210,6 @@ func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	}
 
 	return destination.ConvertStatusFrom(profile)
-}
-
-// Storage version of v1beta20210601.Profiles_Spec
-type Profiles_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                    string  `json:"azureName,omitempty"`
-	Location                     *string `json:"location,omitempty"`
-	OriginResponseTimeoutSeconds *int    `json:"originResponseTimeoutSeconds,omitempty"`
-	OriginalVersion              string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Sku         *Sku                               `json:"sku,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Profiles_Spec{}
-
-// ConvertSpecFrom populates our Profiles_Spec from the provided source
-func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == profiles {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(profiles)
-}
-
-// ConvertSpecTo populates the provided destination from our Profiles_Spec
-func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == profiles {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(profiles)
 }
 
 // Storage version of v1beta20210601.Sku

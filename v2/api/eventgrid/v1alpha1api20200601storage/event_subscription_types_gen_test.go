@@ -160,8 +160,134 @@ func EventSubscriptionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForEventSubscription is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscription(gens map[string]gopter.Gen) {
-	gens["Spec"] = EventSubscriptions_SpecGenerator()
+	gens["Spec"] = EventSubscription_SpecGenerator()
 	gens["Status"] = EventSubscription_STATUSGenerator()
+}
+
+func Test_EventSubscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from EventSubscription_Spec to EventSubscription_Spec via AssignProperties_To_EventSubscription_Spec & AssignProperties_From_EventSubscription_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscription_Spec, EventSubscription_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForEventSubscription_Spec tests if a specific instance of EventSubscription_Spec can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscription_Spec(subject EventSubscription_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20200601s.EventSubscription_Spec
+	err := copied.AssignProperties_To_EventSubscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual EventSubscription_Spec
+	err = actual.AssignProperties_From_EventSubscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_EventSubscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EventSubscription_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventSubscription_Spec, EventSubscription_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEventSubscription_Spec runs a test to see if a specific instance of EventSubscription_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscription_Spec(subject EventSubscription_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EventSubscription_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EventSubscription_Spec instances for property testing - lazily instantiated by
+// EventSubscription_SpecGenerator()
+var eventSubscription_SpecGenerator gopter.Gen
+
+// EventSubscription_SpecGenerator returns a generator of EventSubscription_Spec instances for property testing.
+// We first initialize eventSubscription_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func EventSubscription_SpecGenerator() gopter.Gen {
+	if eventSubscription_SpecGenerator != nil {
+		return eventSubscription_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEventSubscription_Spec(generators)
+	eventSubscription_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscription_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEventSubscription_Spec(generators)
+	AddRelatedPropertyGeneratorsForEventSubscription_Spec(generators)
+	eventSubscription_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscription_Spec{}), generators)
+
+	return eventSubscription_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEventSubscription_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscription_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
+	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
+	gens["Labels"] = gen.SliceOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForEventSubscription_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscription_Spec(gens map[string]gopter.Gen) {
+	gens["DeadLetterDestination"] = gen.PtrOf(StorageBlobDeadLetterDestinationGenerator())
+	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
+	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
+	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
 }
 
 func Test_EventSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -290,132 +416,6 @@ func AddRelatedPropertyGeneratorsForEventSubscription_STATUS(gens map[string]gop
 	gens["Filter"] = gen.PtrOf(EventSubscriptionFilter_STATUSGenerator())
 	gens["RetryPolicy"] = gen.PtrOf(RetryPolicy_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_EventSubscriptions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from EventSubscriptions_Spec to EventSubscriptions_Spec via AssignProperties_To_EventSubscriptions_Spec & AssignProperties_From_EventSubscriptions_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptions_Spec, EventSubscriptions_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForEventSubscriptions_Spec tests if a specific instance of EventSubscriptions_Spec can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptions_Spec(subject EventSubscriptions_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.EventSubscriptions_Spec
-	err := copied.AssignProperties_To_EventSubscriptions_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventSubscriptions_Spec
-	err = actual.AssignProperties_From_EventSubscriptions_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_EventSubscriptions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventSubscriptions_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptions_Spec, EventSubscriptions_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEventSubscriptions_Spec runs a test to see if a specific instance of EventSubscriptions_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptions_Spec(subject EventSubscriptions_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual EventSubscriptions_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of EventSubscriptions_Spec instances for property testing - lazily instantiated by
-// EventSubscriptions_SpecGenerator()
-var eventSubscriptions_SpecGenerator gopter.Gen
-
-// EventSubscriptions_SpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
-// We first initialize eventSubscriptions_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func EventSubscriptions_SpecGenerator() gopter.Gen {
-	if eventSubscriptions_SpecGenerator != nil {
-		return eventSubscriptions_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(generators)
-	eventSubscriptions_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptions_Spec(generators)
-	eventSubscriptions_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
-
-	return eventSubscriptions_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventSubscriptions_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
-	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
-	gens["Labels"] = gen.SliceOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForEventSubscriptions_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptions_Spec(gens map[string]gopter.Gen) {
-	gens["DeadLetterDestination"] = gen.PtrOf(StorageBlobDeadLetterDestinationGenerator())
-	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
-	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
-	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
 }
 
 func Test_DeadLetterDestination_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -16,6 +16,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -106,7 +107,7 @@ func createSubscription(name string) *subscription.Alias {
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: subscription.Aliases_Spec{
+		Spec: subscription.Alias_Spec{
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
 	}
@@ -124,7 +125,7 @@ func createResourceGroupRootedResource(rgName string, name string) (genruntime.A
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: batch.BatchAccounts_Spec{
+		Spec: batch.BatchAccount_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: rgName,
 			},
@@ -147,7 +148,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 			Name:      parentName,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: rgName,
 			},
@@ -164,7 +165,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobServices_Spec{
+		Spec: storage.StorageAccounts_BlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: parentName,
 			},

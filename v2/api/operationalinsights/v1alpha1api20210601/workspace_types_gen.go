@@ -29,7 +29,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
+	Spec              Workspace_Spec   `json:"spec,omitempty"`
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -270,10 +270,10 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *alpha2021060
 	workspace.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Spec
-	err := spec.AssignProperties_From_Workspaces_Spec(&source.Spec)
+	var spec Workspace_Spec
+	err := spec.AssignProperties_From_Workspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Workspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -296,10 +296,10 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *alpha2021
 	destination.ObjectMeta = *workspace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20210601s.Workspaces_Spec
-	err := workspace.Spec.AssignProperties_To_Workspaces_Spec(&spec)
+	var spec alpha20210601s.Workspace_Spec
+	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -337,6 +337,519 @@ type WorkspaceList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
+
+type Workspace_Spec struct {
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=4
+	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName        string             `json:"azureName,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
+	Features         *WorkspaceFeatures `json:"features,omitempty"`
+	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+	Location         *string            `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                           *genruntime.KnownResourceReference                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState               `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *WorkspaceProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                                 `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                                        `json:"sku,omitempty"`
+	Tags                            map[string]string                                    `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                                    `json:"workspaceCapping,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Workspace_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if workspace == nil {
+		return nil, nil
+	}
+	result := &Workspace_SpecARM{}
+
+	// Set property ‘Etag’:
+	if workspace.Etag != nil {
+		etag := *workspace.Etag
+		result.Etag = &etag
+	}
+
+	// Set property ‘Location’:
+	if workspace.Location != nil {
+		location := *workspace.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if workspace.Features != nil ||
+		workspace.ForceCmkForQuery != nil ||
+		workspace.ProvisioningState != nil ||
+		workspace.PublicNetworkAccessForIngestion != nil ||
+		workspace.PublicNetworkAccessForQuery != nil ||
+		workspace.RetentionInDays != nil ||
+		workspace.Sku != nil ||
+		workspace.WorkspaceCapping != nil {
+		result.Properties = &WorkspacePropertiesARM{}
+	}
+	if workspace.Features != nil {
+		featuresARM, err := (*workspace.Features).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		features := *featuresARM.(*WorkspaceFeaturesARM)
+		result.Properties.Features = &features
+	}
+	if workspace.ForceCmkForQuery != nil {
+		forceCmkForQuery := *workspace.ForceCmkForQuery
+		result.Properties.ForceCmkForQuery = &forceCmkForQuery
+	}
+	if workspace.ProvisioningState != nil {
+		provisioningState := *workspace.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	if workspace.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := *workspace.PublicNetworkAccessForIngestion
+		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	}
+	if workspace.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := *workspace.PublicNetworkAccessForQuery
+		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	}
+	if workspace.RetentionInDays != nil {
+		retentionInDays := *workspace.RetentionInDays
+		result.Properties.RetentionInDays = &retentionInDays
+	}
+	if workspace.Sku != nil {
+		skuARM, err := (*workspace.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*WorkspaceSkuARM)
+		result.Properties.Sku = &sku
+	}
+	if workspace.WorkspaceCapping != nil {
+		workspaceCappingARM, err := (*workspace.WorkspaceCapping).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		workspaceCapping := *workspaceCappingARM.(*WorkspaceCappingARM)
+		result.Properties.WorkspaceCapping = &workspaceCapping
+	}
+
+	// Set property ‘Tags’:
+	if workspace.Tags != nil {
+		result.Tags = make(map[string]string, len(workspace.Tags))
+		for key, value := range workspace.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (workspace *Workspace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspace_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspace_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	workspace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		workspace.Etag = &etag
+	}
+
+	// Set property ‘Features’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Features != nil {
+			var features1 WorkspaceFeatures
+			err := features1.PopulateFromARM(owner, *typedInput.Properties.Features)
+			if err != nil {
+				return err
+			}
+			features := features1
+			workspace.Features = &features
+		}
+	}
+
+	// Set property ‘ForceCmkForQuery’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceCmkForQuery != nil {
+			forceCmkForQuery := *typedInput.Properties.ForceCmkForQuery
+			workspace.ForceCmkForQuery = &forceCmkForQuery
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		workspace.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	workspace.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			workspace.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘PublicNetworkAccessForIngestion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
+			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		}
+	}
+
+	// Set property ‘PublicNetworkAccessForQuery’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
+			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		}
+	}
+
+	// Set property ‘RetentionInDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RetentionInDays != nil {
+			retentionInDays := *typedInput.Properties.RetentionInDays
+			workspace.RetentionInDays = &retentionInDays
+		}
+	}
+
+	// Set property ‘Sku’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Sku != nil {
+			var sku1 WorkspaceSku
+			err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
+			if err != nil {
+				return err
+			}
+			sku := sku1
+			workspace.Sku = &sku
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			workspace.Tags[key] = value
+		}
+	}
+
+	// Set property ‘WorkspaceCapping’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WorkspaceCapping != nil {
+			var workspaceCapping1 WorkspaceCapping
+			err := workspaceCapping1.PopulateFromARM(owner, *typedInput.Properties.WorkspaceCapping)
+			if err != nil {
+				return err
+			}
+			workspaceCapping := workspaceCapping1
+			workspace.WorkspaceCapping = &workspaceCapping
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
+
+// ConvertSpecFrom populates our Workspace_Spec from the provided source
+func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210601s.Workspace_Spec)
+	if ok {
+		// Populate our instance from source
+		return workspace.AssignProperties_From_Workspace_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210601s.Workspace_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = workspace.AssignProperties_From_Workspace_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Workspace_Spec
+func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210601s.Workspace_Spec)
+	if ok {
+		// Populate destination from our instance
+		return workspace.AssignProperties_To_Workspace_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210601s.Workspace_Spec{}
+	err := workspace.AssignProperties_To_Workspace_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Workspace_Spec populates our Workspace_Spec from the provided source Workspace_Spec
+func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *alpha20210601s.Workspace_Spec) error {
+
+	// AzureName
+	workspace.AzureName = source.AzureName
+
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Features
+	if source.Features != nil {
+		var feature WorkspaceFeatures
+		err := feature.AssignProperties_From_WorkspaceFeatures(source.Features)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
+		}
+		workspace.Features = &feature
+	} else {
+		workspace.Features = nil
+	}
+
+	// ForceCmkForQuery
+	if source.ForceCmkForQuery != nil {
+		forceCmkForQuery := *source.ForceCmkForQuery
+		workspace.ForceCmkForQuery = &forceCmkForQuery
+	} else {
+		workspace.ForceCmkForQuery = nil
+	}
+
+	// Location
+	workspace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		workspace.Owner = &owner
+	} else {
+		workspace.Owner = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := WorkspaceProperties_ProvisioningState(*source.ProvisioningState)
+		workspace.ProvisioningState = &provisioningState
+	} else {
+		workspace.ProvisioningState = nil
+	}
+
+	// PublicNetworkAccessForIngestion
+	if source.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := WorkspaceProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
+		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	} else {
+		workspace.PublicNetworkAccessForIngestion = nil
+	}
+
+	// PublicNetworkAccessForQuery
+	if source.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := WorkspaceProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
+		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	} else {
+		workspace.PublicNetworkAccessForQuery = nil
+	}
+
+	// RetentionInDays
+	workspace.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// Sku
+	if source.Sku != nil {
+		var sku WorkspaceSku
+		err := sku.AssignProperties_From_WorkspaceSku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
+		}
+		workspace.Sku = &sku
+	} else {
+		workspace.Sku = nil
+	}
+
+	// Tags
+	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// WorkspaceCapping
+	if source.WorkspaceCapping != nil {
+		var workspaceCapping WorkspaceCapping
+		err := workspaceCapping.AssignProperties_From_WorkspaceCapping(source.WorkspaceCapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
+		}
+		workspace.WorkspaceCapping = &workspaceCapping
+	} else {
+		workspace.WorkspaceCapping = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Workspace_Spec populates the provided destination Workspace_Spec from our Workspace_Spec
+func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *alpha20210601s.Workspace_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = workspace.AzureName
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
+
+	// Features
+	if workspace.Features != nil {
+		var feature alpha20210601s.WorkspaceFeatures
+		err := workspace.Features.AssignProperties_To_WorkspaceFeatures(&feature)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
+		}
+		destination.Features = &feature
+	} else {
+		destination.Features = nil
+	}
+
+	// ForceCmkForQuery
+	if workspace.ForceCmkForQuery != nil {
+		forceCmkForQuery := *workspace.ForceCmkForQuery
+		destination.ForceCmkForQuery = &forceCmkForQuery
+	} else {
+		destination.ForceCmkForQuery = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(workspace.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = workspace.OriginalVersion()
+
+	// Owner
+	if workspace.Owner != nil {
+		owner := workspace.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ProvisioningState
+	if workspace.ProvisioningState != nil {
+		provisioningState := string(*workspace.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// PublicNetworkAccessForIngestion
+	if workspace.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := string(*workspace.PublicNetworkAccessForIngestion)
+		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	} else {
+		destination.PublicNetworkAccessForIngestion = nil
+	}
+
+	// PublicNetworkAccessForQuery
+	if workspace.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := string(*workspace.PublicNetworkAccessForQuery)
+		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	} else {
+		destination.PublicNetworkAccessForQuery = nil
+	}
+
+	// RetentionInDays
+	destination.RetentionInDays = genruntime.ClonePointerToInt(workspace.RetentionInDays)
+
+	// Sku
+	if workspace.Sku != nil {
+		var sku alpha20210601s.WorkspaceSku
+		err := workspace.Sku.AssignProperties_To_WorkspaceSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
+
+	// WorkspaceCapping
+	if workspace.WorkspaceCapping != nil {
+		var workspaceCapping alpha20210601s.WorkspaceCapping
+		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
+		}
+		destination.WorkspaceCapping = &workspaceCapping
+	} else {
+		destination.WorkspaceCapping = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (workspace *Workspace_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (workspace *Workspace_Spec) SetAzureName(azureName string) { workspace.AzureName = azureName }
 
 // Deprecated version of Workspace_STATUS. Use v1beta20210601.Workspace_STATUS instead
 type Workspace_STATUS struct {
@@ -857,519 +1370,6 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	// No error
 	return nil
 }
-
-type Workspaces_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=4
-	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string             `json:"azureName,omitempty"`
-	Etag             *string            `json:"etag,omitempty"`
-	Features         *WorkspaceFeatures `json:"features,omitempty"`
-	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Location         *string            `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                           *genruntime.KnownResourceReference                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	ProvisioningState               *WorkspaceProperties_ProvisioningState               `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *WorkspaceProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                                                 `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku                                        `json:"sku,omitempty"`
-	Tags                            map[string]string                                    `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping                                    `json:"workspaceCapping,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Workspaces_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if workspaces == nil {
-		return nil, nil
-	}
-	result := &Workspaces_SpecARM{}
-
-	// Set property ‘Etag’:
-	if workspaces.Etag != nil {
-		etag := *workspaces.Etag
-		result.Etag = &etag
-	}
-
-	// Set property ‘Location’:
-	if workspaces.Location != nil {
-		location := *workspaces.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if workspaces.Features != nil ||
-		workspaces.ForceCmkForQuery != nil ||
-		workspaces.ProvisioningState != nil ||
-		workspaces.PublicNetworkAccessForIngestion != nil ||
-		workspaces.PublicNetworkAccessForQuery != nil ||
-		workspaces.RetentionInDays != nil ||
-		workspaces.Sku != nil ||
-		workspaces.WorkspaceCapping != nil {
-		result.Properties = &WorkspacePropertiesARM{}
-	}
-	if workspaces.Features != nil {
-		featuresARM, err := (*workspaces.Features).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		features := *featuresARM.(*WorkspaceFeaturesARM)
-		result.Properties.Features = &features
-	}
-	if workspaces.ForceCmkForQuery != nil {
-		forceCmkForQuery := *workspaces.ForceCmkForQuery
-		result.Properties.ForceCmkForQuery = &forceCmkForQuery
-	}
-	if workspaces.ProvisioningState != nil {
-		provisioningState := *workspaces.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if workspaces.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *workspaces.PublicNetworkAccessForIngestion
-		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	}
-	if workspaces.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *workspaces.PublicNetworkAccessForQuery
-		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	}
-	if workspaces.RetentionInDays != nil {
-		retentionInDays := *workspaces.RetentionInDays
-		result.Properties.RetentionInDays = &retentionInDays
-	}
-	if workspaces.Sku != nil {
-		skuARM, err := (*workspaces.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*WorkspaceSkuARM)
-		result.Properties.Sku = &sku
-	}
-	if workspaces.WorkspaceCapping != nil {
-		workspaceCappingARM, err := (*workspaces.WorkspaceCapping).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		workspaceCapping := *workspaceCappingARM.(*WorkspaceCappingARM)
-		result.Properties.WorkspaceCapping = &workspaceCapping
-	}
-
-	// Set property ‘Tags’:
-	if workspaces.Tags != nil {
-		result.Tags = make(map[string]string, len(workspaces.Tags))
-		for key, value := range workspaces.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (workspaces *Workspaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	workspaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		workspaces.Etag = &etag
-	}
-
-	// Set property ‘Features’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Features != nil {
-			var features1 WorkspaceFeatures
-			err := features1.PopulateFromARM(owner, *typedInput.Properties.Features)
-			if err != nil {
-				return err
-			}
-			features := features1
-			workspaces.Features = &features
-		}
-	}
-
-	// Set property ‘ForceCmkForQuery’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ForceCmkForQuery != nil {
-			forceCmkForQuery := *typedInput.Properties.ForceCmkForQuery
-			workspaces.ForceCmkForQuery = &forceCmkForQuery
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		workspaces.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	workspaces.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			workspaces.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘PublicNetworkAccessForIngestion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
-			workspaces.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-		}
-	}
-
-	// Set property ‘PublicNetworkAccessForQuery’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
-			workspaces.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-		}
-	}
-
-	// Set property ‘RetentionInDays’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RetentionInDays != nil {
-			retentionInDays := *typedInput.Properties.RetentionInDays
-			workspaces.RetentionInDays = &retentionInDays
-		}
-	}
-
-	// Set property ‘Sku’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Sku != nil {
-			var sku1 WorkspaceSku
-			err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
-			if err != nil {
-				return err
-			}
-			sku := sku1
-			workspaces.Sku = &sku
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		workspaces.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			workspaces.Tags[key] = value
-		}
-	}
-
-	// Set property ‘WorkspaceCapping’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.WorkspaceCapping != nil {
-			var workspaceCapping1 WorkspaceCapping
-			err := workspaceCapping1.PopulateFromARM(owner, *typedInput.Properties.WorkspaceCapping)
-			if err != nil {
-				return err
-			}
-			workspaceCapping := workspaceCapping1
-			workspaces.WorkspaceCapping = &workspaceCapping
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
-
-// ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210601s.Workspaces_Spec)
-	if ok {
-		// Populate our instance from source
-		return workspaces.AssignProperties_From_Workspaces_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210601s.Workspaces_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = workspaces.AssignProperties_From_Workspaces_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210601s.Workspaces_Spec)
-	if ok {
-		// Populate destination from our instance
-		return workspaces.AssignProperties_To_Workspaces_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210601s.Workspaces_Spec{}
-	err := workspaces.AssignProperties_To_Workspaces_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Workspaces_Spec populates our Workspaces_Spec from the provided source Workspaces_Spec
-func (workspaces *Workspaces_Spec) AssignProperties_From_Workspaces_Spec(source *alpha20210601s.Workspaces_Spec) error {
-
-	// AzureName
-	workspaces.AzureName = source.AzureName
-
-	// Etag
-	workspaces.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Features
-	if source.Features != nil {
-		var feature WorkspaceFeatures
-		err := feature.AssignProperties_From_WorkspaceFeatures(source.Features)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceFeatures() to populate field Features")
-		}
-		workspaces.Features = &feature
-	} else {
-		workspaces.Features = nil
-	}
-
-	// ForceCmkForQuery
-	if source.ForceCmkForQuery != nil {
-		forceCmkForQuery := *source.ForceCmkForQuery
-		workspaces.ForceCmkForQuery = &forceCmkForQuery
-	} else {
-		workspaces.ForceCmkForQuery = nil
-	}
-
-	// Location
-	workspaces.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		workspaces.Owner = &owner
-	} else {
-		workspaces.Owner = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_ProvisioningState(*source.ProvisioningState)
-		workspaces.ProvisioningState = &provisioningState
-	} else {
-		workspaces.ProvisioningState = nil
-	}
-
-	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := WorkspaceProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
-		workspaces.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		workspaces.PublicNetworkAccessForIngestion = nil
-	}
-
-	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := WorkspaceProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
-		workspaces.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		workspaces.PublicNetworkAccessForQuery = nil
-	}
-
-	// RetentionInDays
-	workspaces.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
-
-	// Sku
-	if source.Sku != nil {
-		var sku WorkspaceSku
-		err := sku.AssignProperties_From_WorkspaceSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceSku() to populate field Sku")
-		}
-		workspaces.Sku = &sku
-	} else {
-		workspaces.Sku = nil
-	}
-
-	// Tags
-	workspaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// WorkspaceCapping
-	if source.WorkspaceCapping != nil {
-		var workspaceCapping WorkspaceCapping
-		err := workspaceCapping.AssignProperties_From_WorkspaceCapping(source.WorkspaceCapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceCapping() to populate field WorkspaceCapping")
-		}
-		workspaces.WorkspaceCapping = &workspaceCapping
-	} else {
-		workspaces.WorkspaceCapping = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Workspaces_Spec populates the provided destination Workspaces_Spec from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) AssignProperties_To_Workspaces_Spec(destination *alpha20210601s.Workspaces_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = workspaces.AzureName
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(workspaces.Etag)
-
-	// Features
-	if workspaces.Features != nil {
-		var feature alpha20210601s.WorkspaceFeatures
-		err := workspaces.Features.AssignProperties_To_WorkspaceFeatures(&feature)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
-		}
-		destination.Features = &feature
-	} else {
-		destination.Features = nil
-	}
-
-	// ForceCmkForQuery
-	if workspaces.ForceCmkForQuery != nil {
-		forceCmkForQuery := *workspaces.ForceCmkForQuery
-		destination.ForceCmkForQuery = &forceCmkForQuery
-	} else {
-		destination.ForceCmkForQuery = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(workspaces.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = workspaces.OriginalVersion()
-
-	// Owner
-	if workspaces.Owner != nil {
-		owner := workspaces.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// ProvisioningState
-	if workspaces.ProvisioningState != nil {
-		provisioningState := string(*workspaces.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// PublicNetworkAccessForIngestion
-	if workspaces.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := string(*workspaces.PublicNetworkAccessForIngestion)
-		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		destination.PublicNetworkAccessForIngestion = nil
-	}
-
-	// PublicNetworkAccessForQuery
-	if workspaces.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := string(*workspaces.PublicNetworkAccessForQuery)
-		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		destination.PublicNetworkAccessForQuery = nil
-	}
-
-	// RetentionInDays
-	destination.RetentionInDays = genruntime.ClonePointerToInt(workspaces.RetentionInDays)
-
-	// Sku
-	if workspaces.Sku != nil {
-		var sku alpha20210601s.WorkspaceSku
-		err := workspaces.Sku.AssignProperties_To_WorkspaceSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(workspaces.Tags)
-
-	// WorkspaceCapping
-	if workspaces.WorkspaceCapping != nil {
-		var workspaceCapping alpha20210601s.WorkspaceCapping
-		err := workspaces.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
-		}
-		destination.WorkspaceCapping = &workspaceCapping
-	} else {
-		destination.WorkspaceCapping = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (workspaces *Workspaces_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (workspaces *Workspaces_Spec) SetAzureName(azureName string) { workspaces.AzureName = azureName }
 
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20210601.PrivateLinkScopedResource_STATUS instead
 type PrivateLinkScopedResource_STATUS struct {

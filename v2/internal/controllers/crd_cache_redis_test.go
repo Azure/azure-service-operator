@@ -110,7 +110,7 @@ func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, _ *resources.Res
 	serverRole := cache.RedisLinkedServerCreateProperties_ServerRole_Secondary
 	linkedServer := cache.RedisLinkedServer{
 		ObjectMeta: tc.MakeObjectMetaWithName(redis2.ObjectMeta.Name),
-		Spec: cache.Redis_LinkedServers_Spec{
+		Spec: cache.Redis_LinkedServer_Spec{
 			Owner:                     testcommon.AsOwner(redis1),
 			LinkedRedisCacheLocation:  tc.AzureRegion,
 			LinkedRedisCacheReference: tc.MakeReferenceFromResource(redis2),
@@ -129,7 +129,7 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 	monday := cache.ScheduleEntry_DayOfWeek_Monday
 	schedule := cache.RedisPatchSchedule{
 		ObjectMeta: tc.MakeObjectMeta("patchsched"),
-		Spec: cache.Redis_PatchSchedules_Spec{
+		Spec: cache.Redis_PatchSchedule_Spec{
 			Owner: testcommon.AsOwner(redis),
 			ScheduleEntries: []cache.ScheduleEntry{{
 				DayOfWeek:         &monday,
@@ -168,7 +168,7 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	// The RP doesn't like rules with hyphens in the name.
 	rule := cache.RedisFirewallRule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
-		Spec: cache.Redis_FirewallRules_Spec{
+		Spec: cache.Redis_FirewallRule_Spec{
 			Owner:   testcommon.AsOwner(redis),
 			StartIP: to.StringPtr("1.2.3.4"),
 			EndIP:   to.StringPtr("1.2.3.4"),

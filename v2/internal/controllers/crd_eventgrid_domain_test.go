@@ -27,7 +27,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 	// Create a domain
 	domain := &eventgrid.Domain{
 		ObjectMeta: tc.MakeObjectMeta("domain"),
-		Spec: eventgrid.Domains_Spec{
+		Spec: eventgrid.Domain_Spec{
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
 			PublicNetworkAccess: &publicNetworkAccess,
@@ -36,12 +36,12 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// Create a storage account to use as destination
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccounts_Spec_Kind_StorageV2
+	kind := storage.StorageAccount_Spec_Kind_StorageV2
 	sku := storage.Sku_Name_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
@@ -55,7 +55,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queueServices := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("dest-queues"),
-		Spec: storage.StorageAccounts_QueueServices_Spec{
+		Spec: storage.StorageAccounts_QueueService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
@@ -64,7 +64,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("dest-queue"),
-		Spec: storage.StorageAccounts_QueueServices_Queues_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Queue_Spec{
 			Owner: testcommon.AsOwner(queueServices),
 		},
 	}

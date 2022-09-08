@@ -75,7 +75,7 @@ func ManagedClustersAgentPoolGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPool is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClusters_AgentPools_SpecGenerator()
+	gens["Spec"] = ManagedClusters_AgentPool_SpecGenerator()
 	gens["Status"] = AgentPool_STATUSGenerator()
 }
 
@@ -190,20 +190,20 @@ func AddRelatedPropertyGeneratorsForAgentPool_STATUS(gens map[string]gopter.Gen)
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
 }
 
-func Test_ManagedClusters_AgentPools_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusters_AgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusters_AgentPools_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPools_Spec, ManagedClusters_AgentPools_SpecGenerator()))
+		"Round trip of ManagedClusters_AgentPool_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusters_AgentPools_Spec runs a test to see if a specific instance of ManagedClusters_AgentPools_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusters_AgentPools_Spec(subject ManagedClusters_AgentPools_Spec) string {
+// RunJSONSerializationTestForManagedClusters_AgentPool_Spec runs a test to see if a specific instance of ManagedClusters_AgentPool_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -211,7 +211,7 @@ func RunJSONSerializationTestForManagedClusters_AgentPools_Spec(subject ManagedC
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusters_AgentPools_Spec
+	var actual ManagedClusters_AgentPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -229,34 +229,34 @@ func RunJSONSerializationTestForManagedClusters_AgentPools_Spec(subject ManagedC
 	return ""
 }
 
-// Generator of ManagedClusters_AgentPools_Spec instances for property testing - lazily instantiated by
-// ManagedClusters_AgentPools_SpecGenerator()
-var managedClusters_AgentPools_SpecGenerator gopter.Gen
+// Generator of ManagedClusters_AgentPool_Spec instances for property testing - lazily instantiated by
+// ManagedClusters_AgentPool_SpecGenerator()
+var managedClusters_AgentPool_SpecGenerator gopter.Gen
 
-// ManagedClusters_AgentPools_SpecGenerator returns a generator of ManagedClusters_AgentPools_Spec instances for property testing.
-// We first initialize managedClusters_AgentPools_SpecGenerator with a simplified generator based on the
+// ManagedClusters_AgentPool_SpecGenerator returns a generator of ManagedClusters_AgentPool_Spec instances for property testing.
+// We first initialize managedClusters_AgentPool_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClusters_AgentPools_SpecGenerator() gopter.Gen {
-	if managedClusters_AgentPools_SpecGenerator != nil {
-		return managedClusters_AgentPools_SpecGenerator
+func ManagedClusters_AgentPool_SpecGenerator() gopter.Gen {
+	if managedClusters_AgentPool_SpecGenerator != nil {
+		return managedClusters_AgentPool_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusters_AgentPools_Spec(generators)
-	managedClusters_AgentPools_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPools_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
+	managedClusters_AgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusters_AgentPools_Spec(generators)
-	AddRelatedPropertyGeneratorsForManagedClusters_AgentPools_Spec(generators)
-	managedClusters_AgentPools_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPools_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
+	AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(generators)
+	managedClusters_AgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_AgentPool_Spec{}), generators)
 
-	return managedClusters_AgentPools_SpecGenerator
+	return managedClusters_AgentPool_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusters_AgentPools_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusters_AgentPools_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Count"] = gen.PtrOf(gen.Int())
@@ -289,8 +289,8 @@ func AddIndependentPropertyGeneratorsForManagedClusters_AgentPools_Spec(gens map
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusters_AgentPools_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusters_AgentPools_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[string]gopter.Gen) {
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
