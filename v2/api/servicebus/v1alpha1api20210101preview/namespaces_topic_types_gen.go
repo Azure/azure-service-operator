@@ -28,13 +28,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Namespaces_Topic_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Topic_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Topic_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS        `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -367,16 +362,8 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &Namespaces_Topic_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
-=======
-	// Set property ‘Location’:
-	if topic.Location != nil {
-		location := *topic.Location
-		result.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -429,17 +416,6 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		supportOrdering := *topic.SupportOrdering
 		result.Properties.SupportOrdering = &supportOrdering
 	}
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Tags’:
-	if topic.Tags != nil {
-		result.Tags = make(map[string]string, len(topic.Tags))
-		for key, value := range topic.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -512,15 +488,6 @@ func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		topic.Location = &location
-	}
-
->>>>>>> main
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -550,17 +517,6 @@ func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.SupportOrdering != nil {
 			supportOrdering := *typedInput.Properties.SupportOrdering
 			topic.SupportOrdering = &supportOrdering
-<<<<<<< HEAD
-=======
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			topic.Tags[key] = value
->>>>>>> main
 		}
 	}
 
@@ -672,12 +628,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.EnablePartitioning = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -705,12 +655,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.SupportOrdering = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -771,12 +715,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.EnablePartitioning = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topic.Location)
-
->>>>>>> main
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
@@ -807,12 +745,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.SupportOrdering = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

@@ -84,11 +84,7 @@ func Namespaces_Queue_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_Queue_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Queue_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
->>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

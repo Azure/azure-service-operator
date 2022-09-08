@@ -28,13 +28,8 @@ import (
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RedisEnterprise_Database_Spec   `json:"spec,omitempty"`
 	Status            RedisEnterprise_Database_STATUS `json:"status,omitempty"`
-=======
-	Spec              RedisEnterprise_Database_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS               `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -216,52 +211,6 @@ func (database *RedisEnterprise_Database_STATUS) ConvertStatusTo(destination gen
 	return destination.ConvertStatusFrom(database)
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20210301.RedisEnterprise_Database_Spec
-type RedisEnterprise_Database_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string   `json:"azureName,omitempty"`
-	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
-	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy   *string  `json:"evictionPolicy,omitempty"`
-	Location         *string  `json:"location,omitempty"`
-	Modules          []Module `json:"modules,omitempty"`
-	OriginalVersion  string   `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cache.azure.com/RedisEnterprise resource
-	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
-	Persistence *Persistence                       `json:"persistence,omitempty"`
-	Port        *int                               `json:"port,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &RedisEnterprise_Database_Spec{}
-
-// ConvertSpecFrom populates our RedisEnterprise_Database_Spec from the provided source
-func (database *RedisEnterprise_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(database)
-}
-
-// ConvertSpecTo populates the provided destination from our RedisEnterprise_Database_Spec
-func (database *RedisEnterprise_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(database)
-}
-
->>>>>>> main
 // Storage version of v1beta20210301.Module
 type Module struct {
 	Args        *string                `json:"args,omitempty"`

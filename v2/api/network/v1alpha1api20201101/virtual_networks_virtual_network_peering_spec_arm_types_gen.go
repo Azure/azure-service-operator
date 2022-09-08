@@ -7,12 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetworks_VirtualNetworkPeering_Spec. Use v1beta20201101.VirtualNetworks_VirtualNetworkPeering_Spec instead
 type VirtualNetworks_VirtualNetworkPeering_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                                    `json:"azureName,omitempty"`
 	Id         *string                                   `json:"id,omitempty"`
-=======
-	Location   *string                                   `json:"location,omitempty"`
->>>>>>> main
 	Name       string                                    `json:"name,omitempty"`
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 	Type       *string                                   `json:"type,omitempty"`

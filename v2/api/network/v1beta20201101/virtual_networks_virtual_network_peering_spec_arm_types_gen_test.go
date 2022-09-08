@@ -84,12 +84,8 @@ func VirtualNetworks_VirtualNetworkPeering_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
->>>>>>> main
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

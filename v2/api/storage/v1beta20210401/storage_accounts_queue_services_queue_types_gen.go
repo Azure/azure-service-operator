@@ -30,13 +30,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              StorageAccounts_QueueServices_Queue_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_QueueServices_Queue_STATUS `json:"status,omitempty"`
-=======
-	Spec              StorageAccounts_QueueServices_Queue_Spec `json:"spec,omitempty"`
-	Status            StorageQueue_STATUS                      `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -327,11 +322,6 @@ type StorageAccountsQueueServicesQueueList struct {
 }
 
 type StorageAccounts_QueueServices_Queue_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -355,16 +345,8 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 	}
 	result := &StorageAccounts_QueueServices_Queue_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = queue.AzureName
-=======
-	// Set property ‘Location’:
-	if queue.Location != nil {
-		location := *queue.Location
-		result.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -379,17 +361,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 			result.Properties.Metadata[key] = value
 		}
 	}
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Tags’:
-	if queue.Tags != nil {
-		result.Tags = make(map[string]string, len(queue.Tags))
-		for key, value := range queue.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -407,15 +378,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner gen
 
 	// Set property ‘AzureName’:
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		queue.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Metadata’:
 	// copying flattened property:
@@ -433,17 +395,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner gen
 		Name: owner.Name,
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		queue.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			queue.Tags[key] = value
-		}
-	}
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -503,12 +454,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_From_Sto
 
 	// AzureName
 	queue.AzureName = source.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	queue.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// Metadata
 	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
@@ -521,12 +466,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_From_Sto
 		queue.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	queue.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -538,12 +477,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_To_Stora
 
 	// AzureName
 	destination.AzureName = queue.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(queue.Location)
->>>>>>> main
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
@@ -559,12 +492,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_To_Stora
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(queue.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

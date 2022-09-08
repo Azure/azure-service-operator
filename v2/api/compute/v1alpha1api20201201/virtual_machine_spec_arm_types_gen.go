@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualMachine_Spec. Use v1beta20201201.VirtualMachine_Spec instead
 type VirtualMachine_SpecARM struct {
-<<<<<<< HEAD
 	AzureName        string                       `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM         `json:"extendedLocation,omitempty"`
 	Identity         *VirtualMachineIdentityARM   `json:"identity,omitempty"`
@@ -17,16 +16,6 @@ type VirtualMachine_SpecARM struct {
 	Properties       *VirtualMachinePropertiesARM `json:"properties,omitempty"`
 	Tags             map[string]string            `json:"tags,omitempty"`
 	Zones            []string                     `json:"zones,omitempty"`
-=======
-	ExtendedLocation *ExtendedLocationARM               `json:"extendedLocation,omitempty"`
-	Identity         *VirtualMachineIdentityARM         `json:"identity,omitempty"`
-	Location         *string                            `json:"location,omitempty"`
-	Name             string                             `json:"name,omitempty"`
-	Plan             *PlanARM                           `json:"plan,omitempty"`
-	Properties       *VirtualMachine_Spec_PropertiesARM `json:"properties,omitempty"`
-	Tags             map[string]string                  `json:"tags,omitempty"`
-	Zones            []string                           `json:"zones,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualMachine_SpecARM{}
@@ -46,34 +35,11 @@ func (machine *VirtualMachine_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
-// Deprecated version of VirtualMachine_Spec_Properties. Use v1beta20201201.VirtualMachine_Spec_Properties instead
-type VirtualMachine_Spec_PropertiesARM struct {
-	AdditionalCapabilities  *AdditionalCapabilitiesARM                        `json:"additionalCapabilities,omitempty"`
-	AvailabilitySet         *SubResourceARM                                   `json:"availabilitySet,omitempty"`
-	BillingProfile          *BillingProfileARM                                `json:"billingProfile,omitempty"`
-	DiagnosticsProfile      *DiagnosticsProfileARM                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy          *VirtualMachine_Spec_Properties_EvictionPolicy    `json:"evictionPolicy,omitempty"`
-	ExtensionsTimeBudget    *string                                           `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile         *HardwareProfileARM                               `json:"hardwareProfile,omitempty"`
-	Host                    *SubResourceARM                                   `json:"host,omitempty"`
-	HostGroup               *SubResourceARM                                   `json:"hostGroup,omitempty"`
-	LicenseType             *string                                           `json:"licenseType,omitempty"`
-	NetworkProfile          *VirtualMachine_Spec_Properties_NetworkProfileARM `json:"networkProfile,omitempty"`
-	OsProfile               *VirtualMachine_Spec_Properties_OsProfileARM      `json:"osProfile,omitempty"`
-	PlatformFaultDomain     *int                                              `json:"platformFaultDomain,omitempty"`
-	Priority                *VirtualMachine_Spec_Properties_Priority          `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResourceARM                                   `json:"proximityPlacementGroup,omitempty"`
-	SecurityProfile         *SecurityProfileARM                               `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfileARM                                `json:"storageProfile,omitempty"`
-	VirtualMachineScaleSet  *SubResourceARM                                   `json:"virtualMachineScaleSet,omitempty"`
-}
-
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentityARM struct {
 	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineProperties. Use v1beta20201201.VirtualMachineProperties instead
 type VirtualMachinePropertiesARM struct {
 	AdditionalCapabilities  *AdditionalCapabilitiesARM `json:"additionalCapabilities,omitempty"`
@@ -96,8 +62,6 @@ type VirtualMachinePropertiesARM struct {
 	VirtualMachineScaleSet  *SubResourceARM            `json:"virtualMachineScaleSet,omitempty"`
 }
 
-=======
->>>>>>> main
 // Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
 type BillingProfileARM struct {
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
@@ -145,27 +109,6 @@ type StorageProfileARM struct {
 	OsDisk         *OSDiskARM         `json:"osDisk,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Deprecated version of VirtualMachine_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachine_Spec_Properties_NetworkProfile instead
-type VirtualMachine_Spec_Properties_NetworkProfileARM struct {
-	NetworkInterfaces []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
-}
-
-// Deprecated version of VirtualMachine_Spec_Properties_OsProfile. Use v1beta20201201.VirtualMachine_Spec_Properties_OsProfile instead
-type VirtualMachine_Spec_Properties_OsProfileARM struct {
-	AdminPassword               *string                  `json:"adminPassword,omitempty"`
-	AdminUsername               *string                  `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                    `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                  `json:"computerName,omitempty"`
-	CustomData                  *string                  `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
-	RequireGuestProvisionSignal *bool                    `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroupARM    `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
-}
-
->>>>>>> main
 // Deprecated version of VirtualMachineIdentity_Type. Use v1beta20201201.VirtualMachineIdentity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineIdentity_Type string
@@ -248,15 +191,6 @@ type VaultSecretGroupARM struct {
 	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Deprecated version of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces instead
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
-	Id         *string                                 `json:"id,omitempty"`
-	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
-}
-
->>>>>>> main
 // Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
 type WindowsConfigurationARM struct {
 	AdditionalUnattendContent []AdditionalUnattendContentARM `json:"additionalUnattendContent,omitempty"`

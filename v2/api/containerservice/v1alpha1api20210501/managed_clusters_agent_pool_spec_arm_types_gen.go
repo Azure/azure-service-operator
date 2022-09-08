@@ -7,11 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of ManagedClusters_AgentPool_Spec. Use v1beta20210501.ManagedClusters_AgentPool_Spec instead
 type ManagedClusters_AgentPool_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                                       `json:"azureName,omitempty"`
-=======
-	Location   *string                                      `json:"location,omitempty"`
->>>>>>> main
 	Name       string                                       `json:"name,omitempty"`
 	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
 }

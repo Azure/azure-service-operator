@@ -384,12 +384,9 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		return nil, nil
 	}
 	result := &Registry_SpecARM{}
-<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = registry.AzureName
-=======
->>>>>>> main
 
 	// Set property ‘Identity’:
 	if registry.Identity != nil {
@@ -3061,24 +3058,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type RegistryProperties_NetworkRuleBypassOptions string
-<<<<<<< HEAD
-=======
-
-const (
-	RegistryProperties_NetworkRuleBypassOptions_AzureServices = RegistryProperties_NetworkRuleBypassOptions("AzureServices")
-	RegistryProperties_NetworkRuleBypassOptions_None          = RegistryProperties_NetworkRuleBypassOptions("None")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RegistryProperties_PublicNetworkAccess string
-
-const (
-	RegistryProperties_PublicNetworkAccess_Disabled = RegistryProperties_PublicNetworkAccess("Disabled")
-	RegistryProperties_PublicNetworkAccess_Enabled  = RegistryProperties_PublicNetworkAccess("Enabled")
-)
-
-type RegistryProperties_STATUS_NetworkRuleBypassOptions string
->>>>>>> main
 
 const (
 	RegistryProperties_NetworkRuleBypassOptions_AzureServices = RegistryProperties_NetworkRuleBypassOptions("AzureServices")
@@ -3133,18 +3112,6 @@ const (
 	RegistryProperties_ZoneRedundancy_Enabled_STATUS  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
 )
 
-<<<<<<< HEAD
-=======
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RegistryProperties_ZoneRedundancy string
-
-const (
-	RegistryProperties_ZoneRedundancy_Disabled = RegistryProperties_ZoneRedundancy("Disabled")
-	RegistryProperties_ZoneRedundancy_Enabled  = RegistryProperties_ZoneRedundancy("Enabled")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
->>>>>>> main
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The SKU name of the container registry. Required for registry creation.
@@ -3565,16 +3532,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type EncryptionProperty_Status string
-<<<<<<< HEAD
-=======
-
-const (
-	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("disabled")
-	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("enabled")
-)
-
-type EncryptionProperty_STATUS_Status string
->>>>>>> main
 
 const (
 	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("disabled")
@@ -4152,16 +4109,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
-<<<<<<< HEAD
-=======
-
-const (
-	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
-	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
-)
-
-type NetworkRuleSet_STATUS_DefaultAction string
->>>>>>> main
 
 const (
 	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
@@ -4904,51 +4851,19 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentit
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type ExportPolicy_Status string
-<<<<<<< HEAD
-=======
 
 const (
 	ExportPolicy_Status_Disabled = ExportPolicy_Status("disabled")
 	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
 )
 
-type ExportPolicy_STATUS_Status string
->>>>>>> main
-
-const (
-	ExportPolicy_Status_Disabled = ExportPolicy_Status("disabled")
-	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
-)
-
-<<<<<<< HEAD
 type ExportPolicy_Status_STATUS string
-=======
-// +kubebuilder:validation:Enum={"Allow"}
-type IPRule_Action string
-
-const IPRule_Action_Allow = IPRule_Action("Allow")
-
-type IPRule_STATUS_Action string
-
-const IPRule_STATUS_Action_Allow = IPRule_STATUS_Action("Allow")
-
-// +kubebuilder:validation:Enum={"disabled","enabled"}
-type QuarantinePolicy_Status string
-
-const (
-	QuarantinePolicy_Status_Disabled = QuarantinePolicy_Status("disabled")
-	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
-)
-
-type QuarantinePolicy_STATUS_Status string
->>>>>>> main
 
 const (
 	ExportPolicy_Status_Disabled_STATUS = ExportPolicy_Status_STATUS("disabled")
 	ExportPolicy_Status_Enabled_STATUS  = ExportPolicy_Status_STATUS("enabled")
 )
 
-<<<<<<< HEAD
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRule_Action string
 
@@ -4960,36 +4875,13 @@ const IPRule_Action_Allow_STATUS = IPRule_Action_STATUS("Allow")
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicy_Status string
-=======
-// +kubebuilder:validation:Enum={"disabled","enabled"}
-type RetentionPolicy_Status string
-
-const (
-	RetentionPolicy_Status_Disabled = RetentionPolicy_Status("disabled")
-	RetentionPolicy_Status_Enabled  = RetentionPolicy_Status("enabled")
-)
-
-type RetentionPolicy_STATUS_Status string
->>>>>>> main
 
 const (
 	QuarantinePolicy_Status_Disabled = QuarantinePolicy_Status("disabled")
 	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
 )
 
-<<<<<<< HEAD
 type QuarantinePolicy_Status_STATUS string
-=======
-// +kubebuilder:validation:Enum={"disabled","enabled"}
-type TrustPolicy_Status string
-
-const (
-	TrustPolicy_Status_Disabled = TrustPolicy_Status("disabled")
-	TrustPolicy_Status_Enabled  = TrustPolicy_Status("enabled")
-)
-
-type TrustPolicy_STATUS_Status string
->>>>>>> main
 
 const (
 	QuarantinePolicy_Status_Disabled_STATUS = QuarantinePolicy_Status_STATUS("disabled")
@@ -5034,11 +4926,6 @@ const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 type TrustPolicy_Type_STATUS string
 
 const TrustPolicy_Type_Notary_STATUS = TrustPolicy_Type_STATUS("Notary")
-
-// +kubebuilder:validation:Enum={"Notary"}
-type TrustPolicy_Type string
-
-const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

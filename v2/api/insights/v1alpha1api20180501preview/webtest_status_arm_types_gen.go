@@ -8,21 +8,12 @@ import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 // Deprecated version of Webtest_STATUS. Use v1beta20180501preview.Webtest_STATUS instead
 type Webtest_STATUSARM struct {
 	Id         *string                      `json:"id,omitempty"`
-	Kind       *Webtest_Kind_STATUS         `json:"kind,omitempty"`
 	Location   *string                      `json:"location,omitempty"`
 	Name       *string                      `json:"name,omitempty"`
 	Properties *WebTestProperties_STATUSARM `json:"properties,omitempty"`
 	Tags       *v1.JSON                     `json:"tags,omitempty"`
 	Type       *string                      `json:"type,omitempty"`
 }
-
-// Deprecated version of Webtest_Kind_STATUS. Use v1beta20180501preview.Webtest_Kind_STATUS instead
-type Webtest_Kind_STATUS string
-
-const (
-	Webtest_Kind_Multistep_STATUS = Webtest_Kind_STATUS("multistep")
-	Webtest_Kind_Ping_STATUS      = Webtest_Kind_STATUS("ping")
-)
 
 // Deprecated version of WebTestProperties_STATUS. Use v1beta20180501preview.WebTestProperties_STATUS instead
 type WebTestProperties_STATUSARM struct {

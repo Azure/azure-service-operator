@@ -6,13 +6,9 @@ package v1beta20210901
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Registry_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the container registry.
-=======
-	// Identity: Managed identity for the resource.
->>>>>>> main
 	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
 
 	// Location: The location of the resource. This cannot be changed after the resource is created.
@@ -152,10 +148,6 @@ type UserIdentityPropertiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
->>>>>>> main
 type ExportPolicyARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
@@ -177,10 +169,6 @@ type KeyVaultPropertiesARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
->>>>>>> main
 type QuarantinePolicyARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`

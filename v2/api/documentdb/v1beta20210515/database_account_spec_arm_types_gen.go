@@ -6,13 +6,8 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccount_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string                     `json:"azureName,omitempty"`
 	Identity  *ManagedServiceIdentityARM `json:"identity,omitempty"`
-=======
-	// Identity: Identity for the resource.
-	Identity *ManagedServiceIdentityARM `json:"identity,omitempty"`
->>>>>>> main
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
 	Kind *DatabaseAccount_Spec_Kind `json:"kind,omitempty"`
@@ -50,10 +45,6 @@ const (
 	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
 )
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/DatabaseAccountCreateUpdateProperties
->>>>>>> main
 type DatabaseAccountCreateUpdatePropertiesARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -129,10 +120,6 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
->>>>>>> main
 type ManagedServiceIdentityARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.

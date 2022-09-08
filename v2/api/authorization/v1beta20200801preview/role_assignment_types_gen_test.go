@@ -269,20 +269,12 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
->>>>>>> main
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
 		RoleAssignmentProperties_PrincipalType_ForeignGroup,
 		RoleAssignmentProperties_PrincipalType_Group,
 		RoleAssignmentProperties_PrincipalType_ServicePrincipal,
 		RoleAssignmentProperties_PrincipalType_User))
-<<<<<<< HEAD
-=======
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
->>>>>>> main
 }
 
 func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

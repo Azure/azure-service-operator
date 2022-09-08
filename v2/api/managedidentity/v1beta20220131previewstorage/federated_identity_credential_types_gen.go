@@ -28,13 +28,8 @@ import (
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec   `json:"spec,omitempty"`
 	Status            UserAssignedIdentities_FederatedIdentityCredential_STATUS `json:"status,omitempty"`
-=======
-	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec `json:"spec,omitempty"`
-	Status            FederatedIdentityCredential_STATUS                      `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &FederatedIdentityCredential{}
@@ -144,41 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-31-preview")
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20220131preview.FederatedIdentityCredential_STATUS
-type FederatedIdentityCredential_STATUS struct {
-	Audiences   []string               `json:"audiences,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Issuer      *string                `json:"issuer,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *string                `json:"subject,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &FederatedIdentityCredential_STATUS{}
-
-// ConvertStatusFrom populates our FederatedIdentityCredential_STATUS from the provided source
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(credential)
-}
-
-// ConvertStatusTo populates the provided destination from our FederatedIdentityCredential_STATUS
-func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(credential)
-}
-
->>>>>>> main
 // Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec
 type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	Audiences []string `json:"audiences,omitempty"`
@@ -216,7 +176,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	}
 
 	return destination.ConvertSpecFrom(credential)
-<<<<<<< HEAD
 }
 
 // Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS
@@ -249,8 +208,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Con
 	}
 
 	return destination.ConvertStatusFrom(credential)
-=======
->>>>>>> main
 }
 
 func init() {

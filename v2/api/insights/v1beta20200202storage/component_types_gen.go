@@ -29,13 +29,8 @@ import (
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Component_Spec   `json:"spec,omitempty"`
 	Status            Component_STATUS `json:"status,omitempty"`
-=======
-	Spec              Component_Spec                      `json:"spec,omitempty"`
-	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Component{}
@@ -260,66 +255,6 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(component)
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20200202.Component_Spec
-type Component_Spec struct {
-	Application_Type *string `json:"Application_Type,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                       string  `json:"azureName,omitempty"`
-	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
-	Etag                            *string `json:"etag,omitempty"`
-	Flow_Type                       *string `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *string `json:"IngestionMode,omitempty"`
-	Kind                            *string `json:"kind,omitempty"`
-	Location                        *string `json:"location,omitempty"`
-	OriginalVersion                 string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	Request_Source                  *string                            `json:"Request_Source,omitempty"`
-	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
-	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
-	Tags                            map[string]string                  `json:"tags,omitempty"`
-
-	// WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
-	// is required to create an application with this API version. Applications from older versions will not have this property.
-	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Component_Spec{}
-
-// ConvertSpecFrom populates our Component_Spec from the provided source
-func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == component {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(component)
-}
-
-// ConvertSpecTo populates the provided destination from our Component_Spec
-func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == component {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(component)
-}
-
->>>>>>> main
 // Storage version of v1beta20200202.PrivateLinkScopedResource_STATUS
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -368,22 +368,13 @@ type StorageAccount_Spec struct {
 	// Active Directory (Azure AD). The default value is null, which is equivalent to true.
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
-<<<<<<< HEAD
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
-=======
-	// AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-<<<<<<< HEAD
 	// CustomDomain: User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported
 	// per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name
 	// property.
@@ -397,18 +388,6 @@ type StorageAccount_Spec struct {
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the resource.
-=======
-	// CustomDomain: The custom domain assigned to this storage account. This can be set via Update.
-	CustomDomain *CustomDomain `json:"customDomain,omitempty"`
-
-	// Encryption: The encryption settings on the storage account.
-	Encryption *Encryption `json:"encryption,omitempty"`
-
-	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// Identity: Identity for the resource.
->>>>>>> main
 	Identity *Identity `json:"identity,omitempty"`
 
 	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
@@ -427,10 +406,7 @@ type StorageAccount_Spec struct {
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
 	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
-<<<<<<< HEAD
 	// +kubebuilder:validation:Required
-=======
->>>>>>> main
 	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
 	// Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
 	// created, but if an identical geo region is specified on update, the request will succeed.
@@ -453,23 +429,14 @@ type StorageAccount_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-<<<<<<< HEAD
 	// RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer
-=======
-	// RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
-	// deliver the user data, the default option is microsoft routing
->>>>>>> main
 	RoutingPreference *RoutingPreference `json:"routingPreference,omitempty"`
 
 	// SasPolicy: SasPolicy assigned to the storage account.
 	SasPolicy *SasPolicy `json:"sasPolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-<<<<<<< HEAD
 	// Sku: Required. Gets or sets the SKU name.
-=======
-	// Sku: The SKU of the storage account.
->>>>>>> main
 	Sku *Sku `json:"sku,omitempty"`
 
 	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
@@ -491,12 +458,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &StorageAccount_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if account.ExtendedLocation != nil {
 		extendedLocationARM, err := (*account.ExtendedLocation).ConvertToARM(resolved)
@@ -2777,10 +2741,6 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
->>>>>>> main
 type AzureFilesIdentityBasedAuthentication struct {
 	// ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`

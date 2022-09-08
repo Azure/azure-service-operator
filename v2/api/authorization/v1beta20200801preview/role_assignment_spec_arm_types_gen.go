@@ -6,16 +6,8 @@ package v1beta20200801preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RoleAssignment_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the role assignment. It can be any valid GUID.
-	Name string `json:"name,omitempty"`
->>>>>>> main
 
 	// Properties: Role assignment properties.
 	Properties *RoleAssignmentPropertiesARM `json:"properties,omitempty"`

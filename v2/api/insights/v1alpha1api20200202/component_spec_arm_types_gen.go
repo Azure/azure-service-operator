@@ -10,10 +10,7 @@ import (
 
 // Deprecated version of Component_Spec. Use v1beta20200202.Component_Spec instead
 type Component_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                                     `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	Etag       *string                                    `json:"etag,omitempty"`
 	Kind       *string                                    `json:"kind,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`

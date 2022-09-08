@@ -327,18 +327,11 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-04-01-preview")
 
 type Vault_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-<<<<<<< HEAD
 	// +kubebuilder:validation:Required
-=======
->>>>>>> main
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
 
@@ -365,12 +358,9 @@ func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Vault_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = vault.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if vault.Location != nil {
 		location := *vault.Location

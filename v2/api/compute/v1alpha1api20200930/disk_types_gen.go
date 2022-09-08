@@ -344,7 +344,6 @@ type Disk_Spec struct {
 	BurstingEnabled *bool  `json:"burstingEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-<<<<<<< HEAD
 	CreationData                 *CreationData                    `json:"creationData,omitempty"`
 	DiskAccessReference          *genruntime.ResourceReference    `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 	DiskIOPSReadOnly             *int                             `json:"diskIOPSReadOnly,omitempty"`
@@ -362,23 +361,6 @@ type Disk_Spec struct {
 	MaxShares           *int                   `json:"maxShares,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy   `json:"networkAccessPolicy,omitempty"`
 	OsType              *DiskProperties_OsType `json:"osType,omitempty"`
-=======
-	CreationData                 *CreationData                       `json:"creationData,omitempty"`
-	DiskAccessReference          *genruntime.ResourceReference       `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskIOPSReadOnly             *int                                `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                                `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                                `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                                `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeGB                   *int                                `json:"diskSizeGB,omitempty"`
-	Encryption                   *Encryption                         `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection       `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation                   `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *DiskProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
-	Location                     *string                             `json:"location,omitempty"`
-	MaxShares                    *int                                `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskProperties_OsType              `json:"osType,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -401,12 +383,9 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &Disk_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = disk.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if disk.ExtendedLocation != nil {
 		extendedLocationARM, err := (*disk.ExtendedLocation).ConvertToARM(resolved)
@@ -928,11 +907,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *alpha20200930s.Di
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-<<<<<<< HEAD
 		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
-=======
-		networkAccessPolicy := DiskProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
->>>>>>> main
 		disk.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		disk.NetworkAccessPolicy = nil

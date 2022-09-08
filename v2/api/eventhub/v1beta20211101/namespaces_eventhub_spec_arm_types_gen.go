@@ -6,25 +6,11 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhub_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
 	Properties *Namespaces_Eventhub_Spec_PropertiesARM `json:"properties,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties *Namespaces_Eventhub_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_SpecARM{}
@@ -45,13 +31,8 @@ func (eventhub *Namespaces_Eventhub_SpecARM) GetType() string {
 }
 
 type Namespaces_Eventhub_Spec_PropertiesARM struct {
-<<<<<<< HEAD
 	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescriptionARM `json:"captureDescription,omitempty"`
-=======
-	// CaptureDescription: Properties to configure capture description for eventhub
-	CaptureDescription *Namespaces_Eventhub_Spec_Properties_CaptureDescriptionARM `json:"captureDescription,omitempty"`
->>>>>>> main
 
 	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
@@ -60,27 +41,16 @@ type Namespaces_Eventhub_Spec_PropertiesARM struct {
 	PartitionCount *int `json:"partitionCount,omitempty"`
 }
 
-<<<<<<< HEAD
 type CaptureDescriptionARM struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *DestinationARM `json:"destination,omitempty"`
-=======
-type Namespaces_Eventhub_Spec_Properties_CaptureDescriptionARM struct {
-	// Destination: Capture storage details for capture description
-	Destination *Namespaces_Eventhub_Spec_Properties_CaptureDescription_DestinationARM `json:"destination,omitempty"`
->>>>>>> main
 
 	// Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-<<<<<<< HEAD
 	// deprecated in New API Version
 	Encoding *CaptureDescription_Encoding `json:"encoding,omitempty"`
-=======
-	// deprecated in New API Version.
-	Encoding *Namespaces_Eventhub_Spec_Properties_CaptureDescription_Encoding `json:"encoding,omitempty"`
->>>>>>> main
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -94,11 +64,7 @@ type Namespaces_Eventhub_Spec_Properties_CaptureDescriptionARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
-<<<<<<< HEAD
 type DestinationARM struct {
-=======
-type Namespaces_Eventhub_Spec_Properties_CaptureDescription_DestinationARM struct {
->>>>>>> main
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 

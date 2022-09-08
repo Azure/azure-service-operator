@@ -7,10 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Disk_Spec. Use v1beta20200930.Disk_Spec instead
 type Disk_SpecARM struct {
-<<<<<<< HEAD
 	AzureName        string               `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 	Location         *string              `json:"location,omitempty"`
 	Name             string               `json:"name,omitempty"`

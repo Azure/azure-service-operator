@@ -28,13 +28,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Namespaces_Queue_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Queue_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Queue_Spec `json:"spec,omitempty"`
-	Status            SBQueue_STATUS        `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}

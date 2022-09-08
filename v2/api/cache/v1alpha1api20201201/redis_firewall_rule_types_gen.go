@@ -28,13 +28,8 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Redis_FirewallRule_Spec   `json:"spec,omitempty"`
 	Status            Redis_FirewallRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              Redis_FirewallRule_Spec  `json:"spec,omitempty"`
-	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisFirewallRule{}
@@ -363,16 +358,8 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &Redis_FirewallRule_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
-=======
-	// Set property ‘Location’:
-	if rule.Location != nil {
-		location := *rule.Location
-		result.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -389,17 +376,6 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		startIP := *rule.StartIP
 		result.Properties.StartIP = &startIP
 	}
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Tags’:
-	if rule.Tags != nil {
-		result.Tags = make(map[string]string, len(rule.Tags))
-		for key, value := range rule.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -427,15 +403,6 @@ func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rule.Location = &location
-	}
-
->>>>>>> main
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -447,17 +414,6 @@ func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		if typedInput.Properties.StartIP != nil {
 			startIP := *typedInput.Properties.StartIP
 			rule.StartIP = &startIP
-<<<<<<< HEAD
-=======
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		rule.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			rule.Tags[key] = value
->>>>>>> main
 		}
 	}
 
@@ -523,12 +479,6 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 
 	// EndIP
 	rule.EndIP = genruntime.ClonePointerToString(source.EndIP)
-<<<<<<< HEAD
-=======
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// Owner
 	if source.Owner != nil {
@@ -540,12 +490,6 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
-<<<<<<< HEAD
-=======
-
-	// Tags
-	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
->>>>>>> main
 
 	// No error
 	return nil
@@ -561,12 +505,6 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 
 	// EndIP
 	destination.EndIP = genruntime.ClonePointerToString(rule.EndIP)
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
->>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
@@ -581,12 +519,6 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
-<<<<<<< HEAD
-=======
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

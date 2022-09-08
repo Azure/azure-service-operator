@@ -340,41 +340,24 @@ const APIVersion_Value = APIVersion("2021-01-01")
 type BatchAccount_Spec struct {
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
 
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string                `json:"azureName,omitempty"`
 	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
 	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
 	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
-<<<<<<< HEAD
 
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
-=======
-	Location          *string               `json:"location,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-<<<<<<< HEAD
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PoolAllocationMode  *PoolAllocationMode                `json:"poolAllocationMode,omitempty"`
 	PublicNetworkAccess *PublicNetworkAccessType           `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
-=======
-	Owner               *genruntime.KnownResourceReference                `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PoolAllocationMode  *BatchAccountCreateProperties_PoolAllocationMode  `json:"poolAllocationMode,omitempty"`
-	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                                 `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &BatchAccount_Spec{}
@@ -386,12 +369,9 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &BatchAccount_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Identity’:
 	if account.Identity != nil {
 		identityARM, err := (*account.Identity).ConvertToARM(resolved)
@@ -688,11 +668,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
-<<<<<<< HEAD
 		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
-=======
-		poolAllocationMode := BatchAccountCreateProperties_PoolAllocationMode(*source.PoolAllocationMode)
->>>>>>> main
 		account.PoolAllocationMode = &poolAllocationMode
 	} else {
 		account.PoolAllocationMode = nil
@@ -700,11 +676,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-<<<<<<< HEAD
 		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
-=======
-		publicNetworkAccess := BatchAccountCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
->>>>>>> main
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil

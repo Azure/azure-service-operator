@@ -29,13 +29,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Workspaces_Compute_Spec   `json:"spec,omitempty"`
 	Status            Workspaces_Compute_STATUS `json:"status,omitempty"`
-=======
-	Spec              Workspaces_Compute_Spec `json:"spec,omitempty"`
-	Status            ComputeResource_STATUS  `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -139,44 +134,6 @@ type WorkspacesComputeList struct {
 	Items           []WorkspacesCompute `json:"items"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20210701.ComputeResource_STATUS
-type ComputeResource_STATUS struct {
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Identity    *Identity_STATUS       `json:"identity,omitempty"`
-	Location    *string                `json:"location,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	Properties  *Compute_STATUS        `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sku         *Sku_STATUS            `json:"sku,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
-	Tags        map[string]string      `json:"tags,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &ComputeResource_STATUS{}
-
-// ConvertStatusFrom populates our ComputeResource_STATUS from the provided source
-func (resource *ComputeResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(resource)
-}
-
-// ConvertStatusTo populates the provided destination from our ComputeResource_STATUS
-func (resource *ComputeResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(resource)
-}
-
->>>>>>> main
 // Storage version of v1beta20210701.Workspaces_Compute_Spec
 type Workspaces_Compute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -216,7 +173,6 @@ func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.Con
 	}
 
 	return destination.ConvertSpecFrom(compute)
-<<<<<<< HEAD
 }
 
 // Storage version of v1beta20210701.Workspaces_Compute_STATUS
@@ -252,8 +208,6 @@ func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime
 	}
 
 	return destination.ConvertStatusFrom(compute)
-=======
->>>>>>> main
 }
 
 // Storage version of v1beta20210701.Compute

@@ -25,13 +25,8 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Eventhubs_AuthorizationRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Eventhubs_AuthorizationRule_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_STATUS                    `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -206,10 +201,6 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 
 // Storage version of v1alpha1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec
 type Namespaces_Eventhubs_AuthorizationRule_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MinLength=1
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -281,12 +272,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 
 	// AzureName
 	rule.AzureName = source.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
@@ -301,12 +286,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 
 	// Rights
 	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
-<<<<<<< HEAD
-=======
-
-	// Tags
-	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -326,12 +305,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 
 	// AzureName
 	destination.AzureName = rule.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
->>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
@@ -347,7 +320,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 	// Rights
 	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
 
-<<<<<<< HEAD
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -502,10 +474,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_To_N
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

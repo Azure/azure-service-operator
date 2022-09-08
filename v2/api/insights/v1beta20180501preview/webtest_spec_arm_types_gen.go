@@ -9,16 +9,9 @@ import (
 )
 
 type Webtest_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
-	// Kind: The kind of WebTest that this web test watches. Choices are ping and multistep.
-	Kind *Webtest_Spec_Kind `json:"kind,omitempty"`
-
 	// Location: Resource location
-=======
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -45,14 +38,6 @@ func (webtest *Webtest_SpecARM) GetName() string {
 func (webtest *Webtest_SpecARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
-
-// +kubebuilder:validation:Enum={"multistep","ping"}
-type Webtest_Spec_Kind string
-
-const (
-	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
-	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
-)
 
 type WebTestPropertiesARM struct {
 	// Configuration: An XML configuration specification for a WebTest.

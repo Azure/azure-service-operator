@@ -28,13 +28,8 @@ import (
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              NetworkSecurityGroups_SecurityRule_Spec   `json:"spec,omitempty"`
 	Status            NetworkSecurityGroups_SecurityRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              NetworkSecurityGroups_SecurityRule_Spec                                    `json:"spec,omitempty"`
-	Status            SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}

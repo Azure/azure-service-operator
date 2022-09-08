@@ -9,13 +9,9 @@ import (
 )
 
 type ContainerGroup_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the container group, if configured.
-=======
-	// Identity: Identity for the container group.
->>>>>>> main
 	Identity *ContainerGroupIdentityARM `json:"identity,omitempty"`
 
 	// Location: The resource location.
@@ -51,11 +47,7 @@ func (group *ContainerGroup_SpecARM) GetType() string {
 
 type ContainerGroup_Spec_PropertiesARM struct {
 	// Containers: The containers within the container group.
-<<<<<<< HEAD
 	Containers []ContainerARM `json:"containers,omitempty"`
-=======
-	Containers []ContainerGroup_Spec_Properties_ContainersARM `json:"containers,omitempty"`
->>>>>>> main
 
 	// Diagnostics: The diagnostic information for a container group.
 	Diagnostics *ContainerGroupDiagnosticsARM `json:"diagnostics,omitempty"`
@@ -67,17 +59,10 @@ type ContainerGroup_Spec_PropertiesARM struct {
 	EncryptionProperties *EncryptionPropertiesARM `json:"encryptionProperties,omitempty"`
 
 	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-<<<<<<< HEAD
 	ImageRegistryCredentials []ImageRegistryCredentialARM `json:"imageRegistryCredentials,omitempty"`
 
 	// InitContainers: The init containers for a container group.
 	InitContainers []InitContainerDefinitionARM `json:"initContainers,omitempty"`
-=======
-	ImageRegistryCredentials []ContainerGroup_Spec_Properties_ImageRegistryCredentialsARM `json:"imageRegistryCredentials,omitempty"`
-
-	// InitContainers: The init containers for a container group.
-	InitContainers []ContainerGroup_Spec_Properties_InitContainersARM `json:"initContainers,omitempty"`
->>>>>>> main
 
 	// IpAddress: The IP address type of the container group.
 	IpAddress *IpAddressARM `json:"ipAddress,omitempty"`
@@ -89,18 +74,10 @@ type ContainerGroup_Spec_PropertiesARM struct {
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-<<<<<<< HEAD
 	RestartPolicy *ContainerGroup_Spec_Properties_RestartPolicy `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
 	Sku *ContainerGroupSku `json:"sku,omitempty"`
-=======
-	// .
-	RestartPolicy *ContainerGroup_Spec_Properties_RestartPolicy `json:"restartPolicy,omitempty"`
-
-	// Sku: The SKU for a container group.
-	Sku *ContainerGroup_Spec_Properties_Sku `json:"sku,omitempty"`
->>>>>>> main
 
 	// SubnetIds: The subnet resource IDs for a container group.
 	SubnetIds []ContainerGroupSubnetIdARM `json:"subnetIds,omitempty"`
@@ -109,10 +86,6 @@ type ContainerGroup_Spec_PropertiesARM struct {
 	Volumes []VolumeARM `json:"volumes,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupIdentity
->>>>>>> main
 type ContainerGroupIdentityARM struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
@@ -120,7 +93,6 @@ type ContainerGroupIdentityARM struct {
 	Type *ContainerGroupIdentity_Type `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 type ContainerARM struct {
 	// Name: The user-provided name of the container instance.
 	Name *string `json:"name,omitempty"`
@@ -129,42 +101,6 @@ type ContainerARM struct {
 	Properties *ContainerPropertiesARM `json:"properties,omitempty"`
 }
 
-=======
-type ContainerGroup_Spec_Properties_ContainersARM struct {
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The container instance properties.
-	Properties *ContainerPropertiesARM `json:"properties,omitempty"`
-}
-
-type ContainerGroup_Spec_Properties_ImageRegistryCredentialsARM struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
-	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *string `json:"password,omitempty"`
-
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
-}
-
-type ContainerGroup_Spec_Properties_InitContainersARM struct {
-	// Name: The name for the init container.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The init container definition properties.
-	Properties *InitContainerPropertiesDefinitionARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupDiagnostics
->>>>>>> main
 type ContainerGroupDiagnosticsARM struct {
 	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalyticsARM `json:"logAnalytics,omitempty"`
@@ -180,10 +116,6 @@ const (
 	ContainerGroupIdentity_Type_UserAssigned               = ContainerGroupIdentity_Type("UserAssigned")
 )
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
->>>>>>> main
 type ContainerGroupSubnetIdARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -191,10 +123,6 @@ type ContainerGroupSubnetIdARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration
->>>>>>> main
 type DnsConfigurationARM struct {
 	// NameServers: The DNS servers for the container group.
 	NameServers []string `json:"nameServers,omitempty"`
@@ -206,10 +134,6 @@ type DnsConfigurationARM struct {
 	SearchDomains *string `json:"searchDomains,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EncryptionProperties
->>>>>>> main
 type EncryptionPropertiesARM struct {
 	// KeyName: The encryption key name.
 	KeyName *string `json:"keyName,omitempty"`
@@ -221,7 +145,6 @@ type EncryptionPropertiesARM struct {
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
-<<<<<<< HEAD
 type ImageRegistryCredentialARM struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
@@ -247,9 +170,6 @@ type InitContainerDefinitionARM struct {
 	Properties *InitContainerPropertiesDefinitionARM `json:"properties,omitempty"`
 }
 
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress
->>>>>>> main
 type IpAddressARM struct {
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`

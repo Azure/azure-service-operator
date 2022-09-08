@@ -334,15 +334,10 @@ type TopicList struct {
 type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
-=======
-	AzureName string  `json:"azureName,omitempty"`
-	Location  *string `json:"location,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -361,12 +356,9 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Topic_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if topic.Location != nil {
 		location := *topic.Location

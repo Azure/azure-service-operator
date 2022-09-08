@@ -6,13 +6,9 @@ package v1beta20210701
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Image_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the Image.
-=======
-	// ExtendedLocation: The complex type of the extended location.
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Location: Resource location

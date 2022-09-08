@@ -75,11 +75,7 @@ func RedisFirewallRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisFirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisFirewallRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Redis_FirewallRule_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = Redis_FirewallRule_STATUSGenerator()
-=======
-	gens["Status"] = RedisFirewallRule_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Redis_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

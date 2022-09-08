@@ -140,10 +140,6 @@
 | StorageAccountProperties_StatusOfSecondary_STATUS                    | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount_Kind_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount_STATUS                                                | v1alpha1api20210401 | v1beta20210401 |
-<<<<<<< HEAD
-=======
-| StorageAccount_STATUS_Kind                                           | v1alpha1api20210401 | v1beta20210401 |
->>>>>>> main
 | StorageAccount_Spec                                                  | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount_Spec_Kind                                             | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService                                           | v1alpha1api20210401 | v1beta20210401 |
@@ -151,7 +147,6 @@
 | StorageAccountsManagementPolicy                                      | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueService                                          | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue                                    | v1alpha1api20210401 | v1beta20210401 |
-<<<<<<< HEAD
 | StorageAccounts_BlobService_Properties_STATUS                        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_STATUS                                   | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_Spec                                     | v1alpha1api20210401 | v1beta20210401 |
@@ -166,14 +161,6 @@
 | StorageAccounts_QueueService_Spec_Properties                         | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_QueueServices_Queue_STATUS                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_QueueServices_Queue_Spec                             | v1alpha1api20210401 | v1beta20210401 |
-=======
-| StorageAccounts_BlobService_Spec                                     | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccounts_BlobServices_Container_Spec                          | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccounts_ManagementPolicy_Spec                                | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccounts_QueueService_Spec                                    | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccounts_QueueServices_Queue_Spec                             | v1alpha1api20210401 | v1beta20210401 |
-| StorageQueue_STATUS                                                  | v1alpha1api20210401 | v1beta20210401 |
->>>>>>> main
 | TagFilter                                                            | v1alpha1api20210401 | v1beta20210401 |
 | TagFilter_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
 | TagProperty_STATUS                                                   | v1alpha1api20210401 | v1beta20210401 |

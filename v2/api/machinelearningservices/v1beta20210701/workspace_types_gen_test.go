@@ -280,11 +280,7 @@ func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Ge
 	gens["HbiWorkspace"] = gen.PtrOf(gen.Bool())
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))
-=======
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(Workspace_Spec_Properties_PublicNetworkAccess_Disabled, Workspace_Spec_Properties_PublicNetworkAccess_Enabled))
->>>>>>> main
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -294,11 +290,7 @@ func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(WorkspaceOperatorSpecGenerator())
 	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettingsGenerator())
-<<<<<<< HEAD
 	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResourceGenerator())
-=======
-	gens["SharedPrivateLinkResources"] = gen.SliceOf(Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator())
->>>>>>> main
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
@@ -2019,117 +2011,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 		SystemData_LastModifiedByType_Key_STATUS,
 		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
 		SystemData_LastModifiedByType_User_STATUS))
-}
-
-func Test_Workspace_Spec_Properties_SharedPrivateLinkResources_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Workspace_Spec_Properties_SharedPrivateLinkResources to Workspace_Spec_Properties_SharedPrivateLinkResources via AssignProperties_To_Workspace_Spec_Properties_SharedPrivateLinkResources & AssignProperties_From_Workspace_Spec_Properties_SharedPrivateLinkResources returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspace_Spec_Properties_SharedPrivateLinkResources, Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWorkspace_Spec_Properties_SharedPrivateLinkResources tests if a specific instance of Workspace_Spec_Properties_SharedPrivateLinkResources can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspace_Spec_Properties_SharedPrivateLinkResources(subject Workspace_Spec_Properties_SharedPrivateLinkResources) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspace_Spec_Properties_SharedPrivateLinkResources
-	err := copied.AssignProperties_To_Workspace_Spec_Properties_SharedPrivateLinkResources(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspace_Spec_Properties_SharedPrivateLinkResources
-	err = actual.AssignProperties_From_Workspace_Spec_Properties_SharedPrivateLinkResources(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Workspace_Spec_Properties_SharedPrivateLinkResources_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspace_Spec_Properties_SharedPrivateLinkResources via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources, Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources runs a test to see if a specific instance of Workspace_Spec_Properties_SharedPrivateLinkResources round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources(subject Workspace_Spec_Properties_SharedPrivateLinkResources) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspace_Spec_Properties_SharedPrivateLinkResources
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspace_Spec_Properties_SharedPrivateLinkResources instances for property testing - lazily
-// instantiated by Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator()
-var workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator gopter.Gen
-
-// Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator returns a generator of Workspace_Spec_Properties_SharedPrivateLinkResources instances for property testing.
-func Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator() gopter.Gen {
-	if workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator != nil {
-		return workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources(generators)
-	workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_Properties_SharedPrivateLinkResources{}), generators)
-
-	return workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourceProperty_Status_Approved,
-		SharedPrivateLinkResourceProperty_Status_Disconnected,
-		SharedPrivateLinkResourceProperty_Status_Pending,
-		SharedPrivateLinkResourceProperty_Status_Rejected,
-		SharedPrivateLinkResourceProperty_Status_Timeout))
 }
 
 func Test_WorkspaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -6,14 +6,10 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTables_Route_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string  `json:"azureName,omitempty"`
 	Id        *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-=======
-	// Name: Name of the resource
->>>>>>> main
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the route.

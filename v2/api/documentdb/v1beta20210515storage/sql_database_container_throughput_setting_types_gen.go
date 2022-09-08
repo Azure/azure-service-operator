@@ -28,13 +28,8 @@ import (
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                             `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -140,12 +135,9 @@ type SqlDatabaseContainerThroughputSettingList struct {
 
 // Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
 type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
-<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -177,7 +169,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 	}
 
 	return destination.ConvertSpecFrom(setting)
-<<<<<<< HEAD
 }
 
 // Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
@@ -210,8 +201,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 	}
 
 	return destination.ConvertStatusFrom(setting)
-=======
->>>>>>> main
 }
 
 func init() {

@@ -6,16 +6,8 @@ package v1beta20180601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Servers_Database_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the database.
-	Name string `json:"name,omitempty"`
->>>>>>> main
 
 	// Properties: The properties of a database.
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`

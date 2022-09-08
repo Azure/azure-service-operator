@@ -25,13 +25,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}

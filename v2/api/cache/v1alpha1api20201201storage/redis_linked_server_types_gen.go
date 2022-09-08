@@ -25,13 +25,8 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Redis_LinkedServer_Spec   `json:"spec,omitempty"`
 	Status            Redis_LinkedServer_STATUS `json:"status,omitempty"`
-=======
-	Spec              Redis_LinkedServer_Spec                `json:"spec,omitempty"`
-	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisLinkedServer{}
@@ -293,12 +288,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 		server.LinkedRedisCacheReference = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// OriginalVersion
 	server.OriginalVersion = source.OriginalVersion
 
@@ -312,12 +301,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 
 	// ServerRole
 	server.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
-<<<<<<< HEAD
-=======
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -349,12 +332,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.LinkedRedisCacheReference = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(server.Location)
-
->>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = server.OriginalVersion
 
@@ -368,12 +345,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 
 	// ServerRole
 	destination.ServerRole = genruntime.ClonePointerToString(server.ServerRole)
-<<<<<<< HEAD
-=======
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

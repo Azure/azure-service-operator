@@ -10,10 +10,7 @@ import (
 
 // Deprecated version of ManagedCluster_Spec. Use v1beta20210501.ManagedCluster_Spec instead
 type ManagedCluster_SpecARM struct {
-<<<<<<< HEAD
 	AzureName        string                       `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM         `json:"extendedLocation,omitempty"`
 	Identity         *ManagedClusterIdentityARM   `json:"identity,omitempty"`
 	Location         *string                      `json:"location,omitempty"`

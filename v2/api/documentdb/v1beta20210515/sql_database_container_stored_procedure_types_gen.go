@@ -30,13 +30,8 @@ import (
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureGetResults_STATUS                           `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -358,12 +353,9 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		return nil, nil
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM{}
-<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = procedure.AzureName
-=======
->>>>>>> main
 
 	// Set property ‘Location’:
 	if procedure.Location != nil {

@@ -84,11 +84,8 @@ func RouteTables_Route_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRouteTables_Route_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteTables_Route_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-=======
->>>>>>> main
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

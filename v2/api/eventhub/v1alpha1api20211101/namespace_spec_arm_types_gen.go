@@ -7,10 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespace_Spec. Use v1beta20211101.Namespace_Spec instead
 type Namespace_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                        `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	Identity   *IdentityARM                  `json:"identity,omitempty"`
 	Location   *string                       `json:"location,omitempty"`
 	Name       string                        `json:"name,omitempty"`
@@ -43,7 +40,6 @@ type IdentityARM struct {
 
 // Deprecated version of Namespace_Spec_Properties. Use v1beta20211101.Namespace_Spec_Properties instead
 type Namespace_Spec_PropertiesARM struct {
-<<<<<<< HEAD
 	AlternateName              *string                        `json:"alternateName,omitempty"`
 	ClusterArmId               *string                        `json:"clusterArmId,omitempty"`
 	DisableLocalAuth           *bool                          `json:"disableLocalAuth,omitempty"`
@@ -53,17 +49,6 @@ type Namespace_Spec_PropertiesARM struct {
 	MaximumThroughputUnits     *int                           `json:"maximumThroughputUnits,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
 	ZoneRedundant              *bool                          `json:"zoneRedundant,omitempty"`
-=======
-	AlternateName              *string                                                   `json:"alternateName,omitempty"`
-	ClusterArmId               *string                                                   `json:"clusterArmId,omitempty"`
-	DisableLocalAuth           *bool                                                     `json:"disableLocalAuth,omitempty"`
-	Encryption                 *EncryptionARM                                            `json:"encryption,omitempty"`
-	IsAutoInflateEnabled       *bool                                                     `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled               *bool                                                     `json:"kafkaEnabled,omitempty"`
-	MaximumThroughputUnits     *int                                                      `json:"maximumThroughputUnits,omitempty"`
-	PrivateEndpointConnections []Namespace_Spec_Properties_PrivateEndpointConnectionsARM `json:"privateEndpointConnections,omitempty"`
-	ZoneRedundant              *bool                                                     `json:"zoneRedundant,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of Sku. Use v1beta20211101.Sku instead
@@ -91,13 +76,8 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-<<<<<<< HEAD
 // Deprecated version of PrivateEndpointConnection. Use v1beta20211101.PrivateEndpointConnection instead
 type PrivateEndpointConnectionARM struct {
-=======
-// Deprecated version of Namespace_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespace_Spec_Properties_PrivateEndpointConnections instead
-type Namespace_Spec_Properties_PrivateEndpointConnectionsARM struct {
->>>>>>> main
 	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 

@@ -30,13 +30,8 @@ import (
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                                  `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -327,13 +322,10 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 }
 
 type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec struct {
-<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-=======
->>>>>>> main
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -357,12 +349,9 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		return nil, nil
 	}
 	result := &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM{}
-<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = setting.AzureName
-=======
->>>>>>> main
 
 	// Set property ‘Location’:
 	if setting.Location != nil {
@@ -500,12 +489,9 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 
 // AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
 func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(source *v20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error {
-<<<<<<< HEAD
 
 	// AzureName
 	setting.AzureName = source.AzureName
-=======
->>>>>>> main
 
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)

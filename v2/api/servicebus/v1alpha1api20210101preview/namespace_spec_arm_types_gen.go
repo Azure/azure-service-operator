@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespace_Spec. Use v1beta20210101preview.Namespace_Spec instead
 type Namespace_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                    `json:"azureName,omitempty"`
 	Identity   *IdentityARM              `json:"identity,omitempty"`
 	Location   *string                   `json:"location,omitempty"`
@@ -15,14 +14,6 @@ type Namespace_SpecARM struct {
 	Properties *SBNamespacePropertiesARM `json:"properties,omitempty"`
 	Sku        *SBSkuARM                 `json:"sku,omitempty"`
 	Tags       map[string]string         `json:"tags,omitempty"`
-=======
-	Identity   *IdentityARM                  `json:"identity,omitempty"`
-	Location   *string                       `json:"location,omitempty"`
-	Name       string                        `json:"name,omitempty"`
-	Properties *Namespace_Spec_PropertiesARM `json:"properties,omitempty"`
-	Sku        *SBSkuARM                     `json:"sku,omitempty"`
-	Tags       map[string]string             `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
@@ -47,18 +38,11 @@ type IdentityARM struct {
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of SBNamespaceProperties. Use v1beta20210101preview.SBNamespaceProperties instead
 type SBNamespacePropertiesARM struct {
 	Encryption                 *EncryptionARM                 `json:"encryption,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
 	ZoneRedundant              *bool                          `json:"zoneRedundant,omitempty"`
-=======
-// Deprecated version of Namespace_Spec_Properties. Use v1beta20210101preview.Namespace_Spec_Properties instead
-type Namespace_Spec_PropertiesARM struct {
-	Encryption    *EncryptionARM `json:"encryption,omitempty"`
-	ZoneRedundant *bool          `json:"zoneRedundant,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead

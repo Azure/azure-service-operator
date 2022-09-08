@@ -161,11 +161,7 @@ func WorkspacesComputeGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForWorkspacesCompute is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesCompute(gens map[string]gopter.Gen) {
 	gens["Spec"] = Workspaces_Compute_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = Workspaces_Compute_STATUSGenerator()
-=======
-	gens["Status"] = ComputeResource_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Workspaces_Compute_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -414,131 +410,6 @@ func AddRelatedPropertyGeneratorsForWorkspaces_Compute_STATUS(gens map[string]go
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-<<<<<<< HEAD
-=======
-func Test_Workspaces_Compute_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Workspaces_Compute_Spec to Workspaces_Compute_Spec via AssignProperties_To_Workspaces_Compute_Spec & AssignProperties_From_Workspaces_Compute_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Compute_Spec, Workspaces_Compute_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWorkspaces_Compute_Spec tests if a specific instance of Workspaces_Compute_Spec can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_Compute_Spec(subject Workspaces_Compute_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Compute_Spec
-	err := copied.AssignProperties_To_Workspaces_Compute_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_Compute_Spec
-	err = actual.AssignProperties_From_Workspaces_Compute_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Workspaces_Compute_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspaces_Compute_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_Compute_Spec, Workspaces_Compute_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaces_Compute_Spec runs a test to see if a specific instance of Workspaces_Compute_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_Compute_Spec(subject Workspaces_Compute_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspaces_Compute_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspaces_Compute_Spec instances for property testing - lazily instantiated by
-// Workspaces_Compute_SpecGenerator()
-var workspaces_Compute_SpecGenerator gopter.Gen
-
-// Workspaces_Compute_SpecGenerator returns a generator of Workspaces_Compute_Spec instances for property testing.
-// We first initialize workspaces_Compute_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Workspaces_Compute_SpecGenerator() gopter.Gen {
-	if workspaces_Compute_SpecGenerator != nil {
-		return workspaces_Compute_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec(generators)
-	workspaces_Compute_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Compute_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_Compute_Spec(generators)
-	workspaces_Compute_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Compute_Spec{}), generators)
-
-	return workspaces_Compute_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspaces_Compute_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_Compute_Spec(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(IdentityGenerator())
-	gens["Properties"] = gen.PtrOf(ComputeGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
-}
-
->>>>>>> main
 func Test_Compute_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

@@ -83,11 +83,7 @@ func Webtest_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebtest_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebtest_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Spec_Kind_Multistep, Webtest_Spec_Kind_Ping))
-=======
->>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }

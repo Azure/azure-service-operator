@@ -76,11 +76,7 @@ func NetworkSecurityGroupsSecurityRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = NetworkSecurityGroups_SecurityRule_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = NetworkSecurityGroups_SecurityRule_STATUSGenerator()
-=======
-	gens["Status"] = SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedGenerator()
->>>>>>> main
 }
 
 func Test_NetworkSecurityGroups_SecurityRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -170,13 +166,8 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec(
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
 	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
-=======
-	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
-	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
->>>>>>> main
 }
 
 func Test_NetworkSecurityGroups_SecurityRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

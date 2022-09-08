@@ -84,10 +84,7 @@ func DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARMGenerator() gopter.G
 
 // AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
->>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

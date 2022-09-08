@@ -84,7 +84,6 @@ func Webtest_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWebtest_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebtest_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Kind_Multistep_STATUS, Webtest_Kind_Ping_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

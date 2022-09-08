@@ -9,9 +9,6 @@ type Webtest_STATUSARM struct {
 	// Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
 
-	// Kind: The kind of WebTest that this web test watches. Choices are ping and multistep.
-	Kind *Webtest_Kind_STATUS `json:"kind,omitempty"`
-
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
@@ -27,13 +24,6 @@ type Webtest_STATUSARM struct {
 	// Type: Azure resource type
 	Type *string `json:"type,omitempty"`
 }
-
-type Webtest_Kind_STATUS string
-
-const (
-	Webtest_Kind_Multistep_STATUS = Webtest_Kind_STATUS("multistep")
-	Webtest_Kind_Ping_STATUS      = Webtest_Kind_STATUS("ping")
-)
 
 type WebTestProperties_STATUSARM struct {
 	// Configuration: An XML configuration specification for a WebTest.

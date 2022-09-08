@@ -322,10 +322,6 @@ type VirtualNetworkList struct {
 }
 
 type VirtualNetwork_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:Required
->>>>>>> main
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
@@ -355,11 +351,7 @@ type VirtualNetwork_Spec struct {
 	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
-<<<<<<< HEAD
 	// Location: Resource location.
-=======
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -368,14 +360,10 @@ type VirtualNetwork_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-<<<<<<< HEAD
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// Tags: Resource tags.
-=======
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -388,12 +376,9 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualNetwork_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = network.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if network.ExtendedLocation != nil {
 		extendedLocationARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
@@ -404,7 +389,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
-<<<<<<< HEAD
 	// Set property ‘Id’:
 	if network.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.Reference)
@@ -415,8 +399,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Id = &reference
 	}
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if network.Location != nil {
 		location := *network.Location
@@ -434,11 +416,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil {
-<<<<<<< HEAD
 		result.Properties = &VirtualNetworkPropertiesFormatARM{}
-=======
-		result.Properties = &VirtualNetwork_Spec_PropertiesARM{}
->>>>>>> main
 	}
 	if network.AddressSpace != nil {
 		addressSpaceARM, err := (*network.AddressSpace).ConvertToARM(resolved)
@@ -622,11 +600,8 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		Name: owner.Name,
 	}
 
-<<<<<<< HEAD
 	// no assignment for property ‘Reference’
 
-=======
->>>>>>> main
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
@@ -800,7 +775,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -809,8 +783,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Reference = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -934,7 +906,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if network.Reference != nil {
 		reference := network.Reference.Copy()
@@ -943,8 +914,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Reference = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(network.Tags)
 
@@ -1520,10 +1489,6 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
->>>>>>> main
 type AddressSpace struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`

@@ -30,13 +30,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
 	Status            FlexibleServer_STATUS `json:"status,omitempty"`
-=======
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -422,12 +417,9 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		return nil, nil
 	}
 	result := &FlexibleServer_SpecARM{}
-<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
-=======
->>>>>>> main
 
 	// Set property ‘Location’:
 	if server.Location != nil {
@@ -914,11 +906,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// Version
 	if source.Version != nil {
-<<<<<<< HEAD
 		version := ServerVersion(*source.Version)
-=======
-		version := ServerProperties_Version(*source.Version)
->>>>>>> main
 		server.Version = &version
 	} else {
 		server.Version = nil

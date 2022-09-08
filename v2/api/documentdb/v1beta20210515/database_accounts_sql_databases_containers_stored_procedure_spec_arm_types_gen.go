@@ -6,7 +6,6 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
@@ -16,23 +15,6 @@ type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM struct {
 	// Properties: Properties to create and update Azure Cosmos DB storedProcedure.
 	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                            `json:"tags,omitempty"`
-=======
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Cosmos DB storedProcedure name.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB storedProcedure.
-	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM{}
@@ -52,7 +34,6 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecAR
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
-<<<<<<< HEAD
 type SqlStoredProcedureCreateUpdatePropertiesARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -62,19 +43,6 @@ type SqlStoredProcedureCreateUpdatePropertiesARM struct {
 	Resource *SqlStoredProcedureResourceARM `json:"resource,omitempty"`
 }
 
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureCreateUpdateProperties
-type SqlStoredProcedureCreateUpdatePropertiesARM struct {
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	// Resource: Cosmos DB SQL storedProcedure resource object
-	Resource *SqlStoredProcedureResourceARM `json:"resource,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
->>>>>>> main
 type SqlStoredProcedureResourceARM struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`

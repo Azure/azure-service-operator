@@ -6,14 +6,10 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccount_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: Optional. Set the extended location of the resource. If not set, the storage account will be created
 	// in Azure main region. Otherwise it will be created in the specified extended location
-=======
-	// ExtendedLocation: The complex type of the extended location.
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the resource.
@@ -86,10 +82,6 @@ const (
 	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
 )
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/StorageAccountPropertiesCreateParameters
->>>>>>> main
 type StorageAccountPropertiesCreateParametersARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
@@ -148,10 +140,6 @@ type StorageAccountPropertiesCreateParametersARM struct {
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
->>>>>>> main
 type AzureFilesIdentityBasedAuthenticationARM struct {
 	// ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryPropertiesARM `json:"activeDirectoryProperties,omitempty"`

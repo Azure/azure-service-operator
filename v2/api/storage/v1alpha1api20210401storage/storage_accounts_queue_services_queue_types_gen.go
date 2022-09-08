@@ -25,13 +25,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              StorageAccounts_QueueServices_Queue_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_QueueServices_Queue_STATUS `json:"status,omitempty"`
-=======
-	Spec              StorageAccounts_QueueServices_Queue_Spec `json:"spec,omitempty"`
-	Status            StorageQueue_STATUS                      `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -206,11 +201,6 @@ type StorageAccountsQueueServicesQueueList struct {
 
 // Storage version of v1alpha1api20210401.StorageAccounts_QueueServices_Queue_Spec
 type StorageAccounts_QueueServices_Queue_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`
@@ -282,12 +272,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_From_Sto
 
 	// AzureName
 	queue.AzureName = source.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	queue.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// Metadata
 	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
@@ -303,12 +287,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_From_Sto
 		queue.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	queue.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		queue.PropertyBag = propertyBag
@@ -327,12 +305,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_To_Stora
 
 	// AzureName
 	destination.AzureName = queue.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(queue.Location)
->>>>>>> main
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
@@ -348,12 +320,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_To_Stora
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(queue.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

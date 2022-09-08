@@ -6,7 +6,6 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetwork_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the virtual network.
@@ -21,21 +20,6 @@ type VirtualNetwork_SpecARM struct {
 	Properties *VirtualNetworkPropertiesFormatARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
-=======
-	// ExtendedLocation: The extended location of the virtual network.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of the virtual network.
-	Properties *VirtualNetwork_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -56,11 +40,7 @@ func (network *VirtualNetwork_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
-<<<<<<< HEAD
 type VirtualNetworkPropertiesFormatARM struct {
-=======
-type VirtualNetwork_Spec_PropertiesARM struct {
->>>>>>> main
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpaceARM `json:"addressSpace,omitempty"`
 
@@ -84,39 +64,24 @@ type VirtualNetwork_Spec_PropertiesARM struct {
 	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
 
 	// Subnets: A list of subnets in a Virtual Network.
-<<<<<<< HEAD
 	Subnets []SubnetARM `json:"subnets,omitempty"`
 
 	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
 	VirtualNetworkPeerings []VirtualNetworkPeeringARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
-=======
-	Subnets []VirtualNetwork_Spec_Properties_SubnetsARM `json:"subnets,omitempty"`
-
-	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings []VirtualNetwork_Spec_Properties_VirtualNetworkPeeringsARM `json:"virtualNetworkPeerings,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
->>>>>>> main
 type DhcpOptionsARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-<<<<<<< HEAD
 type SubnetARM struct {
 	Id *string `json:"id,omitempty"`
 
-=======
-type VirtualNetwork_Spec_Properties_SubnetsARM struct {
->>>>>>> main
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the subnet.
-<<<<<<< HEAD
 	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
@@ -131,70 +96,12 @@ type VirtualNetworkBgpCommunitiesARM struct {
 type VirtualNetworkPeeringARM struct {
 	Id *string `json:"id,omitempty"`
 
-=======
-	Properties *VirtualNetwork_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
-}
-
-type VirtualNetwork_Spec_Properties_VirtualNetworkPeeringsARM struct {
->>>>>>> main
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
-<<<<<<< HEAD
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
-=======
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
-type VirtualNetworkBgpCommunitiesARM struct {
-	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
-	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
-}
-
-type VirtualNetwork_Spec_Properties_Subnets_PropertiesARM struct {
-	// AddressPrefix: The address prefix for the subnet.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	// AddressPrefixes: List of address prefixes for the subnet.
-	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-
-	// Delegations: An array of references to the delegations on the subnet.
-	Delegations []VirtualNetwork_Spec_Properties_Subnets_Properties_DelegationsARM `json:"delegations,omitempty"`
-
-	// IpAllocations: Array of IpAllocation which reference this subnet.
-	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
-
-	// NatGateway: Nat gateway associated with this subnet.
-	NatGateway *SubResourceARM `json:"natGateway,omitempty"`
-
-	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
-
-	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
-
-	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
-
-	// RouteTable: The reference to the RouteTable resource.
-	RouteTable *SubResourceARM `json:"routeTable,omitempty"`
-
-	// ServiceEndpointPolicies: An array of service endpoint policies.
-	ServiceEndpointPolicies []SubResourceARM `json:"serviceEndpointPolicies,omitempty"`
-
-	// ServiceEndpoints: An array of service endpoints.
-	ServiceEndpoints []ServiceEndpointPropertiesFormatARM `json:"serviceEndpoints,omitempty"`
-}
-
-type VirtualNetwork_Spec_Properties_Subnets_Properties_DelegationsARM struct {
-	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the subnet.
-	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
->>>>>>> main
 }

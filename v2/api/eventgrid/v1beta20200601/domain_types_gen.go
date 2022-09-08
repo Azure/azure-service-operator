@@ -338,20 +338,11 @@ type Domain_Spec struct {
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainProperties_InputSchema `json:"inputSchema,omitempty"`
 
-<<<<<<< HEAD
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: Location of the resource.
-=======
-	// InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-	// schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-	// InputSchemaMapping is 'JsonInputSchemaMapping'.
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -362,17 +353,10 @@ type Domain_Spec struct {
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
-<<<<<<< HEAD
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// Tags: Tags of the resource.
-=======
-	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
-	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -385,12 +369,9 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Domain_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = domain.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if domain.Location != nil {
 		location := *domain.Location
@@ -423,11 +404,7 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-<<<<<<< HEAD
 		inputSchemaMapping := *inputSchemaMappingARM.(*InputSchemaMappingARM)
-=======
-		inputSchemaMapping := *inputSchemaMappingARM.(*JsonInputSchemaMappingARM)
->>>>>>> main
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if domain.PublicNetworkAccess != nil {
@@ -486,11 +463,7 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchemaMapping != nil {
-<<<<<<< HEAD
 			var inputSchemaMapping1 InputSchemaMapping
-=======
-			var inputSchemaMapping1 JsonInputSchemaMapping
->>>>>>> main
 			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
 			if err != nil {
 				return err
@@ -616,17 +589,10 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
-<<<<<<< HEAD
 		var inputSchemaMapping InputSchemaMapping
 		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
-=======
-		var inputSchemaMapping JsonInputSchemaMapping
-		err := inputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.InputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field InputSchemaMapping")
->>>>>>> main
 		}
 		domain.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -695,17 +661,10 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v2020060
 
 	// InputSchemaMapping
 	if domain.InputSchemaMapping != nil {
-<<<<<<< HEAD
 		var inputSchemaMapping v20200601s.InputSchemaMapping
 		err := domain.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
-=======
-		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
-		err := domain.InputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&inputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field InputSchemaMapping")
->>>>>>> main
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {

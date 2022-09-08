@@ -7,16 +7,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetworks_Subnet_Spec. Use v1beta20201101.VirtualNetworks_Subnet_Spec instead
 type VirtualNetworks_Subnet_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                     `json:"azureName,omitempty"`
 	Id         *string                    `json:"id,omitempty"`
 	Name       string                     `json:"name,omitempty"`
 	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
 	Type       *string                    `json:"type,omitempty"`
-=======
-	Name       string                                     `json:"name,omitempty"`
-	Properties *VirtualNetworks_Subnet_Spec_PropertiesARM `json:"properties,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworks_Subnet_SpecARM{}
@@ -36,7 +31,6 @@ func (subnet *VirtualNetworks_Subnet_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
-<<<<<<< HEAD
 // Deprecated version of SubnetPropertiesFormat. Use v1beta20201101.SubnetPropertiesFormat instead
 type SubnetPropertiesFormatARM struct {
 	AddressPrefix                      *string                                                   `json:"addressPrefix,omitempty"`
@@ -82,21 +76,6 @@ type ServiceEndpointPolicySpecARM struct {
 	Location   *string                                   `json:"location,omitempty"`
 	Properties *ServiceEndpointPolicyPropertiesFormatARM `json:"properties,omitempty"`
 	Tags       map[string]string                         `json:"tags,omitempty"`
-=======
-// Deprecated version of VirtualNetworks_Subnet_Spec_Properties. Use v1beta20201101.VirtualNetworks_Subnet_Spec_Properties instead
-type VirtualNetworks_Subnet_Spec_PropertiesARM struct {
-	AddressPrefix                     *string                                                 `json:"addressPrefix,omitempty"`
-	AddressPrefixes                   []string                                                `json:"addressPrefixes,omitempty"`
-	Delegations                       []VirtualNetworks_Subnet_Spec_Properties_DelegationsARM `json:"delegations,omitempty"`
-	IpAllocations                     []SubResourceARM                                        `json:"ipAllocations,omitempty"`
-	NatGateway                        *SubResourceARM                                         `json:"natGateway,omitempty"`
-	NetworkSecurityGroup              *SubResourceARM                                         `json:"networkSecurityGroup,omitempty"`
-	PrivateEndpointNetworkPolicies    *string                                                 `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateLinkServiceNetworkPolicies *string                                                 `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	RouteTable                        *SubResourceARM                                         `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies           []SubResourceARM                                        `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                    `json:"serviceEndpoints,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
@@ -105,7 +84,6 @@ type ServiceEndpointPropertiesFormatARM struct {
 	Service   *string  `json:"service,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of ApplicationGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.ApplicationGatewayIPConfigurationPropertiesFormat instead
 type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
 	Subnet *SubResourceARM `json:"subnet,omitempty"`
@@ -115,19 +93,12 @@ type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
 type RouteTablePropertiesFormatARM struct {
 	DisableBgpRoutePropagation *bool      `json:"disableBgpRoutePropagation,omitempty"`
 	Routes                     []RouteARM `json:"routes,omitempty"`
-=======
-// Deprecated version of VirtualNetworks_Subnet_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Subnet_Spec_Properties_Delegations instead
-type VirtualNetworks_Subnet_Spec_Properties_DelegationsARM struct {
-	Name       *string                               `json:"name,omitempty"`
-	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
 type ServiceDelegationPropertiesFormatARM struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 }
-<<<<<<< HEAD
 
 // Deprecated version of ServiceEndpointPolicyPropertiesFormat. Use v1beta20201101.ServiceEndpointPolicyPropertiesFormat instead
 type ServiceEndpointPolicyPropertiesFormatARM struct {
@@ -175,5 +146,3 @@ const (
 	RouteNextHopType_VirtualNetworkGateway = RouteNextHopType("VirtualNetworkGateway")
 	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
-=======
->>>>>>> main

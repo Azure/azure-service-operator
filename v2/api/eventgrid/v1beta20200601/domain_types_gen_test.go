@@ -282,11 +282,7 @@ func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) 
 // AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
-<<<<<<< HEAD
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
-=======
-	gens["InputSchemaMapping"] = gen.PtrOf(JsonInputSchemaMappingGenerator())
->>>>>>> main
 }
 
 func Test_Domain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

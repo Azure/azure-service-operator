@@ -28,13 +28,8 @@ import (
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              NetworkSecurityGroup_Spec                       `json:"spec,omitempty"`
 	Status            NetworkSecurityGroup_STATUS_SubResourceEmbedded `json:"status,omitempty"`
-=======
-	Spec              NetworkSecurityGroup_Spec                                            `json:"spec,omitempty"`
-	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroup{}
@@ -346,15 +341,10 @@ type NetworkSecurityGroup_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-<<<<<<< HEAD
 	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Reference     *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	SecurityRules []SecurityRule_SubResourceEmbedded `json:"securityRules,omitempty"`
 	Tags          map[string]string                  `json:"tags,omitempty"`
-=======
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Tags  map[string]string                  `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &NetworkSecurityGroup_Spec{}
@@ -366,7 +356,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &NetworkSecurityGroup_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = group.AzureName
 
@@ -380,8 +369,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Id = &reference
 	}
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if group.Location != nil {
 		location := *group.Location
@@ -391,7 +378,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
-<<<<<<< HEAD
 	// Set property ‘Properties’:
 	if group.SecurityRules != nil {
 		result.Properties = &NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM{}
@@ -404,8 +390,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.SecurityRules = append(result.Properties.SecurityRules, *itemARM.(*SecurityRule_SubResourceEmbeddedARM))
 	}
 
-=======
->>>>>>> main
 	// Set property ‘Tags’:
 	if group.Tags != nil {
 		result.Tags = make(map[string]string, len(group.Tags))
@@ -442,7 +426,6 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 		Name: owner.Name,
 	}
 
-<<<<<<< HEAD
 	// no assignment for property ‘Reference’
 
 	// Set property ‘SecurityRules’:
@@ -458,8 +441,6 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-=======
->>>>>>> main
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
@@ -539,7 +520,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -566,8 +546,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.SecurityRules = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -597,7 +575,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if group.Reference != nil {
 		reference := group.Reference.Copy()
@@ -624,8 +601,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.SecurityRules = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
 
@@ -648,13 +623,8 @@ func (group *NetworkSecurityGroup_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (group *NetworkSecurityGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
-<<<<<<< HEAD
 // Deprecated version of NetworkSecurityGroup_STATUS_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_SubResourceEmbedded instead
 type NetworkSecurityGroup_STATUS_SubResourceEmbedded struct {
-=======
-// Deprecated version of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
-type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
->>>>>>> main
 	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
 	DefaultSecurityRules []SecurityRule_STATUS_SubResourceEmbedded                          `json:"defaultSecurityRules,omitempty"`

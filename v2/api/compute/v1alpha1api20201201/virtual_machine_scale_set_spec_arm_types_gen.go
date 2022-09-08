@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-<<<<<<< HEAD
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualMachineScaleSet_Spec. Use v1beta20201201.VirtualMachineScaleSet_Spec instead
@@ -18,24 +17,6 @@ type VirtualMachineScaleSet_SpecARM struct {
 	Sku              *SkuARM                              `json:"sku,omitempty"`
 	Tags             map[string]string                    `json:"tags,omitempty"`
 	Zones            []string                             `json:"zones,omitempty"`
-=======
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
-
-// Deprecated version of VirtualMachineScaleSet_Spec. Use v1beta20201201.VirtualMachineScaleSet_Spec instead
-type VirtualMachineScaleSet_SpecARM struct {
-	ExtendedLocation *ExtendedLocationARM                       `json:"extendedLocation,omitempty"`
-	Identity         *VirtualMachineScaleSetIdentityARM         `json:"identity,omitempty"`
-	Location         *string                                    `json:"location,omitempty"`
-	Name             string                                     `json:"name,omitempty"`
-	Plan             *PlanARM                                   `json:"plan,omitempty"`
-	Properties       *VirtualMachineScaleSet_Spec_PropertiesARM `json:"properties,omitempty"`
-	Sku              *SkuARM                                    `json:"sku,omitempty"`
-	Tags             map[string]string                          `json:"tags,omitempty"`
-	Zones            []string                                   `json:"zones,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSet_SpecARM{}
@@ -57,13 +38,8 @@ func (scaleSet *VirtualMachineScaleSet_SpecARM) GetType() string {
 
 // Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
 type ExtendedLocationARM struct {
-<<<<<<< HEAD
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
-=======
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of Plan. Use v1beta20201201.Plan instead
@@ -81,32 +57,11 @@ type SkuARM struct {
 	Tier     *string `json:"tier,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties instead
-type VirtualMachineScaleSet_Spec_PropertiesARM struct {
-	AdditionalCapabilities                 *AdditionalCapabilitiesARM                                       `json:"additionalCapabilities,omitempty"`
-	AutomaticRepairsPolicy                 *AutomaticRepairsPolicyARM                                       `json:"automaticRepairsPolicy,omitempty"`
-	DoNotRunExtensionsOnOverprovisionedVMs *bool                                                            `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-	HostGroup                              *SubResourceARM                                                  `json:"hostGroup,omitempty"`
-	OrchestrationMode                      *VirtualMachineScaleSet_Spec_Properties_OrchestrationMode        `json:"orchestrationMode,omitempty"`
-	Overprovision                          *bool                                                            `json:"overprovision,omitempty"`
-	PlatformFaultDomainCount               *int                                                             `json:"platformFaultDomainCount,omitempty"`
-	ProximityPlacementGroup                *SubResourceARM                                                  `json:"proximityPlacementGroup,omitempty"`
-	ScaleInPolicy                          *ScaleInPolicyARM                                                `json:"scaleInPolicy,omitempty"`
-	SinglePlacementGroup                   *bool                                                            `json:"singlePlacementGroup,omitempty"`
-	UpgradePolicy                          *UpgradePolicyARM                                                `json:"upgradePolicy,omitempty"`
-	VirtualMachineProfile                  *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM `json:"virtualMachineProfile,omitempty"`
-	ZoneBalance                            *bool                                                            `json:"zoneBalance,omitempty"`
-}
-
->>>>>>> main
 // Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentityARM struct {
 	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetProperties. Use v1beta20201201.VirtualMachineScaleSetProperties instead
 type VirtualMachineScaleSetPropertiesARM struct {
 	AdditionalCapabilities                 *AdditionalCapabilitiesARM          `json:"additionalCapabilities,omitempty"`
@@ -124,8 +79,6 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	ZoneBalance                            *bool                               `json:"zoneBalance,omitempty"`
 }
 
-=======
->>>>>>> main
 // Deprecated version of AdditionalCapabilities. Use v1beta20201201.AdditionalCapabilities instead
 type AdditionalCapabilitiesARM struct {
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
@@ -137,19 +90,11 @@ type AutomaticRepairsPolicyARM struct {
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of ExtendedLocationType. Use v1beta20201201.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
-=======
-// Deprecated version of ExtendedLocation_Type. Use v1beta20201201.ExtendedLocation_Type instead
-// +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
-
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
->>>>>>> main
 
 // Deprecated version of ScaleInPolicy. Use v1beta20201201.ScaleInPolicy instead
 type ScaleInPolicyARM struct {
@@ -168,24 +113,6 @@ type UpgradePolicyARM struct {
 	RollingUpgradePolicy     *RollingUpgradePolicyARM     `json:"rollingUpgradePolicy,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
-	BillingProfile         *BillingProfileARM                                                                `json:"billingProfile,omitempty"`
-	DiagnosticsProfile     *DiagnosticsProfileARM                                                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy         *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_EvictionPolicy      `json:"evictionPolicy,omitempty"`
-	ExtensionProfile       *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM `json:"extensionProfile,omitempty"`
-	LicenseType            *string                                                                           `json:"licenseType,omitempty"`
-	NetworkProfile         *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfileARM   `json:"networkProfile,omitempty"`
-	OsProfile              *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfileARM        `json:"osProfile,omitempty"`
-	Priority               *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_Priority            `json:"priority,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfileARM                                                        `json:"scheduledEventsProfile,omitempty"`
-	SecurityProfile        *SecurityProfileARM                                                               `json:"securityProfile,omitempty"`
-	StorageProfile         *VirtualMachineScaleSetStorageProfileARM                                          `json:"storageProfile,omitempty"`
-}
-
->>>>>>> main
 // Deprecated version of VirtualMachineScaleSetIdentity_Type. Use v1beta20201201.VirtualMachineScaleSetIdentity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineScaleSetIdentity_Type string
@@ -197,7 +124,6 @@ const (
 	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
 )
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetVMProfile. Use v1beta20201201.VirtualMachineScaleSetVMProfile instead
 type VirtualMachineScaleSetVMProfileARM struct {
 	BillingProfile         *BillingProfileARM                         `json:"billingProfile,omitempty"`
@@ -213,8 +139,6 @@ type VirtualMachineScaleSetVMProfileARM struct {
 	StorageProfile         *VirtualMachineScaleSetStorageProfileARM   `json:"storageProfile,omitempty"`
 }
 
-=======
->>>>>>> main
 // Deprecated version of AutomaticOSUpgradePolicy. Use v1beta20201201.AutomaticOSUpgradePolicy instead
 type AutomaticOSUpgradePolicyARM struct {
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
@@ -236,7 +160,6 @@ type ScheduledEventsProfileARM struct {
 	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfileARM struct {
 	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
@@ -250,22 +173,6 @@ type VirtualMachineScaleSetNetworkProfileARM struct {
 
 // Deprecated version of VirtualMachineScaleSetOSProfile. Use v1beta20201201.VirtualMachineScaleSetOSProfile instead
 type VirtualMachineScaleSetOSProfileARM struct {
-=======
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
-	Extensions           []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                                                       `json:"extensionsTimeBudget,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
-	HealthProbe                    *ApiEntityReferenceARM                                                                                          `json:"healthProbe,omitempty"`
-	NetworkInterfaceConfigurations []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfile. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfile instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfileARM struct {
->>>>>>> main
 	AdminPassword        *string                  `json:"adminPassword,omitempty"`
 	AdminUsername        *string                  `json:"adminUsername,omitempty"`
 	ComputerNamePrefix   *string                  `json:"computerNamePrefix,omitempty"`
@@ -293,30 +200,10 @@ type TerminateNotificationProfileARM struct {
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetDataDisk. Use v1beta20201201.VirtualMachineScaleSetDataDisk instead
 type VirtualMachineScaleSetDataDiskARM struct {
 	Caching                 *Caching                                        `json:"caching,omitempty"`
 	CreateOption            *CreateOption                                   `json:"createOption,omitempty"`
-=======
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM struct {
-	Name       *string              `json:"name,omitempty"`
-	Properties *GenericExtensionARM `json:"properties,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
-	Id         *string                                                                                                                   `json:"id,omitempty"`
-	Name       *string                                                                                                                   `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSetDataDisk. Use v1beta20201201.VirtualMachineScaleSetDataDisk instead
-type VirtualMachineScaleSetDataDiskARM struct {
-	Caching                 *VirtualMachineScaleSetDataDisk_Caching         `json:"caching,omitempty"`
-	CreateOption            *VirtualMachineScaleSetDataDisk_CreateOption    `json:"createOption,omitempty"`
->>>>>>> main
 	DiskIOPSReadWrite       *int                                            `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadWrite       *int                                            `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                                            `json:"diskSizeGB,omitempty"`
@@ -326,7 +213,6 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	WriteAcceleratorEnabled *bool                                           `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetNetworkConfiguration. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration instead
 type VirtualMachineScaleSetNetworkConfigurationARM struct {
 	Id         *string                                                  `json:"id,omitempty"`
@@ -338,12 +224,6 @@ type VirtualMachineScaleSetNetworkConfigurationARM struct {
 type VirtualMachineScaleSetOSDiskARM struct {
 	Caching                 *Caching                                        `json:"caching,omitempty"`
 	CreateOption            *CreateOption                                   `json:"createOption,omitempty"`
-=======
-// Deprecated version of VirtualMachineScaleSetOSDisk. Use v1beta20201201.VirtualMachineScaleSetOSDisk instead
-type VirtualMachineScaleSetOSDiskARM struct {
-	Caching                 *VirtualMachineScaleSetOSDisk_Caching           `json:"caching,omitempty"`
-	CreateOption            *VirtualMachineScaleSetOSDisk_CreateOption      `json:"createOption,omitempty"`
->>>>>>> main
 	DiffDiskSettings        *DiffDiskSettingsARM                            `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                                            `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDiskARM                             `json:"image,omitempty"`
@@ -354,7 +234,6 @@ type VirtualMachineScaleSetOSDiskARM struct {
 	WriteAcceleratorEnabled *bool                                           `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead
 type VirtualMachineScaleSetManagedDiskParametersARM struct {
 	DiskEncryptionSet  *SubResourceARM     `json:"diskEncryptionSet,omitempty"`
@@ -377,38 +256,6 @@ type VirtualMachineScaleSetIPConfigurationARM struct {
 	Id         *string                                             `json:"id,omitempty"`
 	Name       *string                                             `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetIPConfigurationPropertiesARM `json:"properties,omitempty"`
-=======
-// Deprecated version of GenericExtension. Use v1beta20201201.GenericExtension instead
-type GenericExtensionARM struct {
-	Publisher          *string            `json:"publisher,omitempty"`
-	Settings           map[string]v1.JSON `json:"settings,omitempty"`
-	Type               *string            `json:"type,omitempty"`
-	TypeHandlerVersion *string            `json:"typeHandlerVersion,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM struct {
-	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM                                                                                   `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                                                                                                                                       `json:"enableAcceleratedNetworking,omitempty"`
-	EnableFpga                  *bool                                                                                                                                       `json:"enableFpga,omitempty"`
-	EnableIPForwarding          *bool                                                                                                                                       `json:"enableIPForwarding,omitempty"`
-	IpConfigurations            []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
-	NetworkSecurityGroup        *SubResourceARM                                                                                                                             `json:"networkSecurityGroup,omitempty"`
-	Primary                     *bool                                                                                                                                       `json:"primary,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead
-type VirtualMachineScaleSetManagedDiskParametersARM struct {
-	DiskEncryptionSet  *DiskEncryptionSetParametersARM                                 `json:"diskEncryptionSet,omitempty"`
-	StorageAccountType *VirtualMachineScaleSetManagedDiskParameters_StorageAccountType `json:"storageAccountType,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
-	Id         *string                                                                                                                                               `json:"id,omitempty"`
-	Name       *string                                                                                                                                               `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings instead
@@ -416,7 +263,6 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of VirtualMachineScaleSetIPConfigurationProperties. Use v1beta20201201.VirtualMachineScaleSetIPConfigurationProperties instead
 type VirtualMachineScaleSetIPConfigurationPropertiesARM struct {
 	ApplicationGatewayBackendAddressPools []SubResourceARM                                                         `json:"applicationGatewayBackendAddressPools,omitempty"`
@@ -431,22 +277,6 @@ type VirtualMachineScaleSetIPConfigurationPropertiesARM struct {
 
 // Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationARM struct {
-=======
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM struct {
-	ApplicationGatewayBackendAddressPools []SubResourceARM                                                                                                                                                                   `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResourceARM                                                                                                                                                                   `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResourceARM                                                                                                                                                                   `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatPools           []SubResourceARM                                                                                                                                                                   `json:"loadBalancerInboundNatPools,omitempty"`
-	Primary                               *bool                                                                                                                                                                              `json:"primary,omitempty"`
-	PrivateIPAddressVersion               *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion         `json:"privateIPAddressVersion,omitempty"`
-	PublicIPAddressConfiguration          *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                                *ApiEntityReferenceARM                                                                                                                                                             `json:"subnet,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration. Use v1beta20201201.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instead
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM struct {
->>>>>>> main
 	Name       *string                                                          `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM `json:"properties,omitempty"`
 }

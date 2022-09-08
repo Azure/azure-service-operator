@@ -327,12 +327,6 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-06-01")
 
 type Workspace_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=4
-	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -346,10 +340,7 @@ type Workspace_Spec struct {
 	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
-<<<<<<< HEAD
 	// +kubebuilder:validation:Required
-=======
->>>>>>> main
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -363,33 +354,19 @@ type Workspace_Spec struct {
 	ProvisioningState *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-<<<<<<< HEAD
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
-=======
-	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *WorkspaceProperties_PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
->>>>>>> main
 
 	// RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
 	// documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
-<<<<<<< HEAD
 	// Sku: The SKU of the workspace.
 	Sku *WorkspaceSku `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
-=======
-	// Sku: The SKU (tier) of a workspace.
-	Sku *WorkspaceSku `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// WorkspaceCapping: The daily volume cap for ingestion.
@@ -405,12 +382,9 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = workspace.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Etag’:
 	if workspace.Etag != nil {
 		etag := *workspace.Etag
@@ -723,11 +697,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-<<<<<<< HEAD
 		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
-=======
-		publicNetworkAccessForIngestion := WorkspaceProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
->>>>>>> main
 		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
@@ -735,11 +705,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-<<<<<<< HEAD
 		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
-=======
-		publicNetworkAccessForQuery := WorkspaceProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
->>>>>>> main
 		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil

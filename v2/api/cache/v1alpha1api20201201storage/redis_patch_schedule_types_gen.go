@@ -25,13 +25,8 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Redis_PatchSchedule_Spec   `json:"spec,omitempty"`
 	Status            Redis_PatchSchedule_STATUS `json:"status,omitempty"`
-=======
-	Spec              Redis_PatchSchedule_Spec  `json:"spec,omitempty"`
-	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisPatchSchedule{}
@@ -206,15 +201,10 @@ type RedisPatchScheduleList struct {
 
 // Storage version of v1alpha1api20201201.Redis_PatchSchedule_Spec
 type Redis_PatchSchedule_Spec struct {
-<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
 	OriginalVersion string `json:"originalVersion,omitempty"`
-=======
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -280,13 +270,8 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSched
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-<<<<<<< HEAD
 	// AzureName
 	schedule.AzureName = source.AzureName
-=======
-	// Location
-	schedule.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// OriginalVersion
 	schedule.OriginalVersion = source.OriginalVersion
@@ -317,12 +302,6 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSched
 		schedule.ScheduleEntries = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	schedule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		schedule.PropertyBag = propertyBag
@@ -339,13 +318,8 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
-<<<<<<< HEAD
 	// AzureName
 	destination.AzureName = schedule.AzureName
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(schedule.Location)
->>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = schedule.OriginalVersion
@@ -376,12 +350,6 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 		destination.ScheduleEntries = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(schedule.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

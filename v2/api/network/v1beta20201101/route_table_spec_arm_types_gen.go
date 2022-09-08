@@ -6,24 +6,15 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTable_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string  `json:"azureName,omitempty"`
 	Id        *string `json:"id,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
->>>>>>> main
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the route table.
-<<<<<<< HEAD
 	Properties *RouteTablePropertiesFormatARM `json:"properties,omitempty"`
-=======
-	Properties *RouteTable_Spec_PropertiesARM `json:"properties,omitempty"`
->>>>>>> main
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -46,28 +37,17 @@ func (table *RouteTable_SpecARM) GetType() string {
 	return "Microsoft.Network/routeTables"
 }
 
-<<<<<<< HEAD
 type RouteTablePropertiesFormatARM struct {
-=======
-type RouteTable_Spec_PropertiesARM struct {
->>>>>>> main
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
 	// Routes: Collection of routes contained within a route table.
-<<<<<<< HEAD
 	Routes []RouteARM `json:"routes,omitempty"`
 }
 
 type RouteARM struct {
 	Id *string `json:"id,omitempty"`
 
-=======
-	Routes []RouteTable_Spec_Properties_RoutesARM `json:"routes,omitempty"`
-}
-
-type RouteTable_Spec_Properties_RoutesARM struct {
->>>>>>> main
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 

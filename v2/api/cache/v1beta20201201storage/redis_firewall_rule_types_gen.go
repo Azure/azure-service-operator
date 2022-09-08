@@ -28,13 +28,8 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Redis_FirewallRule_Spec   `json:"spec,omitempty"`
 	Status            Redis_FirewallRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              Redis_FirewallRule_Spec  `json:"spec,omitempty"`
-	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisFirewallRule{}

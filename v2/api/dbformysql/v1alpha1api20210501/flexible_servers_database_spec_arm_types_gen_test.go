@@ -84,11 +84,7 @@ func FlexibleServers_Database_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlexibleServers_Database_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServers_Database_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
->>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

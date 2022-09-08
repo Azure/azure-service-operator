@@ -163,11 +163,7 @@ func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(WorkspaceOperatorSpecGenerator())
 	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettingsGenerator())
-<<<<<<< HEAD
 	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResourceGenerator())
-=======
-	gens["SharedPrivateLinkResources"] = gen.SliceOf(Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator())
->>>>>>> main
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
@@ -1217,70 +1213,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Workspace_Spec_Properties_SharedPrivateLinkResources_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspace_Spec_Properties_SharedPrivateLinkResources via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources, Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources runs a test to see if a specific instance of Workspace_Spec_Properties_SharedPrivateLinkResources round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspace_Spec_Properties_SharedPrivateLinkResources(subject Workspace_Spec_Properties_SharedPrivateLinkResources) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspace_Spec_Properties_SharedPrivateLinkResources
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspace_Spec_Properties_SharedPrivateLinkResources instances for property testing - lazily
-// instantiated by Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator()
-var workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator gopter.Gen
-
-// Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator returns a generator of Workspace_Spec_Properties_SharedPrivateLinkResources instances for property testing.
-func Workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator() gopter.Gen {
-	if workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator != nil {
-		return workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources(generators)
-	workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator = gen.Struct(reflect.TypeOf(Workspace_Spec_Properties_SharedPrivateLinkResources{}), generators)
-
-	return workspace_Spec_Properties_SharedPrivateLinkResourcesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspace_Spec_Properties_SharedPrivateLinkResources(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

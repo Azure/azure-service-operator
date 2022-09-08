@@ -84,10 +84,7 @@ func DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARMGenerator()
 
 // AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
->>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

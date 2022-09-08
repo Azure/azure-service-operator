@@ -28,13 +28,8 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              StorageAccounts_BlobService_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_BlobService_STATUS `json:"status,omitempty"`
-=======
-	Spec              StorageAccounts_BlobService_Spec `json:"spec,omitempty"`
-	Status            BlobServiceProperties_STATUS     `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -219,54 +214,7 @@ func (service *StorageAccounts_BlobService_STATUS) ConvertStatusTo(destination g
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-<<<<<<< HEAD
 	return destination.ConvertStatusFrom(service)
-=======
-	return destination.ConvertStatusFrom(properties)
-}
-
-// Storage version of v1beta20210401.StorageAccounts_BlobService_Spec
-type StorageAccounts_BlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	Location                       *string                       `json:"location,omitempty"`
-	OriginalVersion                string                        `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccount resource
-	Owner         *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
-	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
-	Tags          map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobService_Spec{}
-
-// ConvertSpecFrom populates our StorageAccounts_BlobService_Spec from the provided source
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(service)
-}
-
-// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(service)
->>>>>>> main
 }
 
 // Storage version of v1beta20210401.ChangeFeed

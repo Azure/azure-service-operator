@@ -6,13 +6,8 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_LinkedServer_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
->>>>>>> main
 
 	// Properties: Properties required to create a linked server.
 	Properties *RedisLinkedServerCreatePropertiesARM `json:"properties,omitempty"`

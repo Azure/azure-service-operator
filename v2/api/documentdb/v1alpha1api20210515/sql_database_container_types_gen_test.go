@@ -163,11 +163,7 @@ func SqlDatabaseContainerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainer(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_Container_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = DatabaseAccounts_SqlDatabases_Container_STATUSGenerator()
-=======
-	gens["Status"] = SqlContainerGetResults_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_DatabaseAccounts_SqlDatabases_Container_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

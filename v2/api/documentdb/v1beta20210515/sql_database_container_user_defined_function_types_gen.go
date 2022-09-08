@@ -30,13 +30,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_STATUS                           `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -358,12 +353,9 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		return nil, nil
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM{}
-<<<<<<< HEAD
 
 	// Set property ‘AzureName’:
 	result.AzureName = function.AzureName
-=======
->>>>>>> main
 
 	// Set property ‘Location’:
 	if function.Location != nil {

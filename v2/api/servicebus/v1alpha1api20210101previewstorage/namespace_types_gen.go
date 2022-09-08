@@ -25,13 +25,8 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Namespace_Spec   `json:"spec,omitempty"`
 	Status            Namespace_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespace_Spec     `json:"spec,omitempty"`
-	Status            SBNamespace_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -327,7 +322,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.Owner = &owner
 	} else {
 		namespace.Owner = nil
-<<<<<<< HEAD
 	}
 
 	// PrivateEndpointConnections
@@ -346,8 +340,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.PrivateEndpointConnections = privateEndpointConnectionList
 	} else {
 		namespace.PrivateEndpointConnections = nil
-=======
->>>>>>> main
 	}
 
 	// Sku

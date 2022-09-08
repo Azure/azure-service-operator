@@ -334,20 +334,12 @@ type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName             string                                           `json:"azureName,omitempty"`
-<<<<<<< HEAD
 	DeadLetterDestination *DeadLetterDestination                           `json:"deadLetterDestination,omitempty"`
-=======
-	DeadLetterDestination *StorageBlobDeadLetterDestination                `json:"deadLetterDestination,omitempty"`
->>>>>>> main
 	Destination           *EventSubscriptionDestination                    `json:"destination,omitempty"`
 	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
 	Filter                *EventSubscriptionFilter                         `json:"filter,omitempty"`
 	Labels                []string                                         `json:"labels,omitempty"`
-<<<<<<< HEAD
-=======
-	Location              *string                                          `json:"location,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -355,10 +347,6 @@ type EventSubscription_Spec struct {
 	// extension resource, which means that any other Azure resource can be its owner.
 	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
-<<<<<<< HEAD
-=======
-	Tags        map[string]string                   `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &EventSubscription_Spec{}
@@ -370,16 +358,8 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &EventSubscription_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = subscription.AzureName
-=======
-	// Set property ‘Location’:
-	if subscription.Location != nil {
-		location := *subscription.Location
-		result.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -399,11 +379,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-<<<<<<< HEAD
 		deadLetterDestination := *deadLetterDestinationARM.(*DeadLetterDestinationARM)
-=======
-		deadLetterDestination := *deadLetterDestinationARM.(*StorageBlobDeadLetterDestinationARM)
->>>>>>> main
 		result.Properties.DeadLetterDestination = &deadLetterDestination
 	}
 	if subscription.Destination != nil {
@@ -441,17 +417,6 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
 		result.Properties.RetryPolicy = &retryPolicy
 	}
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Tags’:
-	if subscription.Tags != nil {
-		result.Tags = make(map[string]string, len(subscription.Tags))
-		for key, value := range subscription.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -474,11 +439,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
-<<<<<<< HEAD
 			var deadLetterDestination1 DeadLetterDestination
-=======
-			var deadLetterDestination1 StorageBlobDeadLetterDestination
->>>>>>> main
 			err := deadLetterDestination1.PopulateFromARM(owner, *typedInput.Properties.DeadLetterDestination)
 			if err != nil {
 				return err
@@ -542,15 +503,6 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		subscription.Location = &location
-	}
-
->>>>>>> main
 	// Set property ‘Owner’:
 	subscription.Owner = &owner
 
@@ -568,17 +520,6 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		subscription.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			subscription.Tags[key] = value
-		}
-	}
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -641,17 +582,10 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
-<<<<<<< HEAD
 		var deadLetterDestination DeadLetterDestination
 		err := deadLetterDestination.AssignProperties_From_DeadLetterDestination(source.DeadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DeadLetterDestination() to populate field DeadLetterDestination")
-=======
-		var deadLetterDestination StorageBlobDeadLetterDestination
-		err := deadLetterDestination.AssignProperties_From_StorageBlobDeadLetterDestination(source.DeadLetterDestination)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
->>>>>>> main
 		}
 		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -701,12 +635,6 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 	// Labels
 	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
-<<<<<<< HEAD
-=======
-	// Location
-	subscription.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -727,12 +655,6 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 		subscription.RetryPolicy = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	subscription.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -747,17 +669,10 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-<<<<<<< HEAD
 		var deadLetterDestination alpha20200601s.DeadLetterDestination
 		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination(&deadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination() to populate field DeadLetterDestination")
-=======
-		var deadLetterDestination alpha20200601s.StorageBlobDeadLetterDestination
-		err := subscription.DeadLetterDestination.AssignProperties_To_StorageBlobDeadLetterDestination(&deadLetterDestination)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
->>>>>>> main
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -807,12 +722,6 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 	// Labels
 	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(subscription.Location)
-
->>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = subscription.OriginalVersion()
 
@@ -836,12 +745,6 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 		destination.RetryPolicy = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(subscription.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1298,7 +1201,6 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 	return nil
 }
 
-<<<<<<< HEAD
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
 type DeadLetterDestination struct {
 	// +kubebuilder:validation:Required
@@ -1383,8 +1285,6 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 	return nil
 }
 
-=======
->>>>>>> main
 // Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {
 	EndpointType *DeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`

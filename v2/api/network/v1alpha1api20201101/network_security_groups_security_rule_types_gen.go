@@ -28,13 +28,8 @@ import (
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              NetworkSecurityGroups_SecurityRule_Spec   `json:"spec,omitempty"`
 	Status            NetworkSecurityGroups_SecurityRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              NetworkSecurityGroups_SecurityRule_Spec                                    `json:"spec,omitempty"`
-	Status            SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}
@@ -380,7 +375,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 	}
 	result := &NetworkSecurityGroups_SecurityRule_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
 
@@ -392,12 +386,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		}
 		reference := referenceARMID
 		result.Id = &reference
-=======
-	// Set property ‘Location’:
-	if rule.Location != nil {
-		location := *rule.Location
-		result.Location = &location
->>>>>>> main
 	}
 
 	// Set property ‘Name’:
@@ -484,19 +472,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties.SourcePortRanges = append(result.Properties.SourcePortRanges, item)
 	}
 
-<<<<<<< HEAD
 	// Set property ‘Type’:
 	if rule.Type != nil {
 		typeVar := *rule.Type
 		result.Type = &typeVar
-=======
-	// Set property ‘Tags’:
-	if rule.Tags != nil {
-		result.Tags = make(map[string]string, len(rule.Tags))
-		for key, value := range rule.Tags {
-			result.Tags[key] = value
-		}
->>>>>>> main
 	}
 	return result, nil
 }
@@ -590,15 +569,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rule.Location = &location
-	}
-
->>>>>>> main
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -671,19 +641,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-<<<<<<< HEAD
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
-=======
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		rule.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			rule.Tags[key] = value
-		}
->>>>>>> main
 	}
 
 	// No error
@@ -745,11 +706,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Access
 	if source.Access != nil {
-<<<<<<< HEAD
 		access := SecurityRuleAccess(*source.Access)
-=======
-		access := SecurityRulePropertiesFormat_Access(*source.Access)
->>>>>>> main
 		rule.Access = &access
 	} else {
 		rule.Access = nil
@@ -793,22 +750,12 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Direction
 	if source.Direction != nil {
-<<<<<<< HEAD
 		direction := SecurityRuleDirection(*source.Direction)
-=======
-		direction := SecurityRulePropertiesFormat_Direction(*source.Direction)
->>>>>>> main
 		rule.Direction = &direction
 	} else {
 		rule.Direction = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -826,7 +773,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 		rule.Protocol = &protocol
 	} else {
 		rule.Protocol = nil
-<<<<<<< HEAD
 	}
 
 	// Reference
@@ -835,8 +781,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 		rule.Reference = &reference
 	} else {
 		rule.Reference = nil
-=======
->>>>>>> main
 	}
 
 	// SourceAddressPrefix
@@ -869,13 +813,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 	// SourcePortRanges
 	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
 
-<<<<<<< HEAD
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
-=======
-	// Tags
-	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
->>>>>>> main
 
 	// No error
 	return nil
@@ -908,11 +847,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// DestinationApplicationSecurityGroups
 	if rule.DestinationApplicationSecurityGroups != nil {
-<<<<<<< HEAD
 		destinationApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroupSpec, len(rule.DestinationApplicationSecurityGroups))
-=======
-		destinationApplicationSecurityGroupList := make([]alpha20201101s.SubResource, len(rule.DestinationApplicationSecurityGroups))
->>>>>>> main
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
@@ -942,12 +877,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 		destination.Direction = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
-
->>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -986,11 +915,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 
 	// SourceApplicationSecurityGroups
 	if rule.SourceApplicationSecurityGroups != nil {
-<<<<<<< HEAD
 		sourceApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroupSpec, len(rule.SourceApplicationSecurityGroups))
-=======
-		sourceApplicationSecurityGroupList := make([]alpha20201101s.SubResource, len(rule.SourceApplicationSecurityGroups))
->>>>>>> main
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
@@ -1012,13 +937,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 	// SourcePortRanges
 	destination.SourcePortRanges = genruntime.CloneSliceOfString(rule.SourcePortRanges)
 
-<<<<<<< HEAD
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -25,13 +25,8 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Domains_Topic_Spec   `json:"spec,omitempty"`
 	Status            Domains_Topic_STATUS `json:"status,omitempty"`
-=======
-	Spec              Domains_Topic_Spec `json:"spec,omitempty"`
-	Status            DomainTopic_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -276,12 +271,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 
 	// AzureName
 	topic.AzureName = source.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// OriginalVersion
 	topic.OriginalVersion = source.OriginalVersion
@@ -294,12 +283,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 		topic.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		topic.PropertyBag = propertyBag
@@ -318,12 +301,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 
 	// AzureName
 	destination.AzureName = topic.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topic.Location)
->>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion
@@ -336,12 +313,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

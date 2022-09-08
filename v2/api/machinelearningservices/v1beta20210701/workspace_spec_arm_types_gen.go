@@ -3,19 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the resource.
-=======
-	// Identity: Identity for the resource.
->>>>>>> main
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
@@ -25,14 +18,7 @@ type Workspace_SpecARM struct {
 	// Properties: The properties of the machine learning workspace.
 	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
 
-<<<<<<< HEAD
 	// Sku: The sku of the workspace.
-=======
-	// Properties: The properties of a machine learning workspace.
-	Properties *Workspace_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Sku: Sku of the resource
->>>>>>> main
 	Sku *SkuARM `json:"sku,omitempty"`
 
 	// SystemData: System data
@@ -59,24 +45,11 @@ func (workspace *Workspace_SpecARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"
 }
 
-<<<<<<< HEAD
 type IdentityARM struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Identity
-type IdentityARM struct {
-	// Type: The identity type.
-	Type *Identity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: dictionary containing all the user assigned identities, with resourceId of the UAI as key.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Sku
->>>>>>> main
 type SkuARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -85,10 +58,6 @@ type SkuARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SystemData
->>>>>>> main
 type SystemDataARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -109,11 +78,7 @@ type SystemDataARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-<<<<<<< HEAD
 type WorkspacePropertiesARM struct {
-=======
-type Workspace_Spec_PropertiesARM struct {
->>>>>>> main
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 	ApplicationInsights             *string `json:"applicationInsights,omitempty"`
@@ -140,7 +105,6 @@ type Workspace_Spec_PropertiesARM struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-<<<<<<< HEAD
 	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
@@ -149,14 +113,6 @@ type Workspace_Spec_PropertiesARM struct {
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
 	SharedPrivateLinkResources []SharedPrivateLinkResourceARM `json:"sharedPrivateLinkResources,omitempty"`
 	StorageAccount             *string                        `json:"storageAccount,omitempty"`
-=======
-	PublicNetworkAccess             *Workspace_Spec_Properties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettingsARM            `json:"serviceManagedResourcesSettings,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []Workspace_Spec_Properties_SharedPrivateLinkResourcesARM `json:"sharedPrivateLinkResources,omitempty"`
-	StorageAccount             *string                                                   `json:"storageAccount,omitempty"`
->>>>>>> main
 }
 
 type EncryptionPropertyARM struct {
@@ -180,40 +136,12 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ServiceManagedResourcesSettings
->>>>>>> main
 type ServiceManagedResourcesSettingsARM struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettingsARM `json:"cosmosDb,omitempty"`
 }
 
-<<<<<<< HEAD
 type SharedPrivateLinkResourceARM struct {
-=======
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
-type Workspace_Spec_Properties_SharedPrivateLinkResourcesARM struct {
->>>>>>> main
 	// Name: Unique name of the private link.
 	Name *string `json:"name,omitempty"`
 

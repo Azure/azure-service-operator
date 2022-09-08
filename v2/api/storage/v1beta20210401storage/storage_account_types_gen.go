@@ -147,11 +147,6 @@ type StorageAccount_Spec struct {
 	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                      `json:"azureName,omitempty"`
@@ -205,7 +200,6 @@ func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.Convert
 
 // Storage version of v1beta20210401.StorageAccount_STATUS
 type StorageAccount_STATUS struct {
-<<<<<<< HEAD
 	AccessTier                            *string                                       `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
@@ -247,49 +241,6 @@ type StorageAccount_STATUS struct {
 	SupportsHttpsTrafficOnly              *bool                                         `json:"supportsHttpsTrafficOnly,omitempty"`
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
 	Type                                  *string                                       `json:"type,omitempty"`
-=======
-	AccessTier                            *string                                                `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                                  `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                                  `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                                  `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS          `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                              `json:"blobRestoreStatus,omitempty"`
-	Conditions                            []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationTime                          *string                                                `json:"creationTime,omitempty"`
-	CustomDomain                          *CustomDomain_STATUS                                   `json:"customDomain,omitempty"`
-	Encryption                            *Encryption_STATUS                                     `json:"encryption,omitempty"`
-	ExtendedLocation                      *ExtendedLocation_STATUS                               `json:"extendedLocation,omitempty"`
-	FailoverInProgress                    *bool                                                  `json:"failoverInProgress,omitempty"`
-	GeoReplicationStats                   *GeoReplicationStats_STATUS                            `json:"geoReplicationStats,omitempty"`
-	Id                                    *string                                                `json:"id,omitempty"`
-	Identity                              *Identity_STATUS                                       `json:"identity,omitempty"`
-	IsHnsEnabled                          *bool                                                  `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled                        *bool                                                  `json:"isNfsV3Enabled,omitempty"`
-	KeyCreationTime                       *KeyCreationTime_STATUS                                `json:"keyCreationTime,omitempty"`
-	KeyPolicy                             *KeyPolicy_STATUS                                      `json:"keyPolicy,omitempty"`
-	Kind                                  *string                                                `json:"kind,omitempty"`
-	LargeFileSharesState                  *string                                                `json:"largeFileSharesState,omitempty"`
-	LastGeoFailoverTime                   *string                                                `json:"lastGeoFailoverTime,omitempty"`
-	Location                              *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion                     *string                                                `json:"minimumTlsVersion,omitempty"`
-	Name                                  *string                                                `json:"name,omitempty"`
-	NetworkAcls                           *NetworkRuleSet_STATUS                                 `json:"networkAcls,omitempty"`
-	PrimaryEndpoints                      *Endpoints_STATUS                                      `json:"primaryEndpoints,omitempty"`
-	PrimaryLocation                       *string                                                `json:"primaryLocation,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState                     *string                                                `json:"provisioningState,omitempty"`
-	RoutingPreference                     *RoutingPreference_STATUS                              `json:"routingPreference,omitempty"`
-	SasPolicy                             *SasPolicy_STATUS                                      `json:"sasPolicy,omitempty"`
-	SecondaryEndpoints                    *Endpoints_STATUS                                      `json:"secondaryEndpoints,omitempty"`
-	SecondaryLocation                     *string                                                `json:"secondaryLocation,omitempty"`
-	Sku                                   *Sku_STATUS                                            `json:"sku,omitempty"`
-	StatusOfPrimary                       *string                                                `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary                     *string                                                `json:"statusOfSecondary,omitempty"`
-	SupportsHttpsTrafficOnly              *bool                                                  `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                                  map[string]string                                      `json:"tags,omitempty"`
-	Type                                  *string                                                `json:"type,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}

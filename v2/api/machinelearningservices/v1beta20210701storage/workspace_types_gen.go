@@ -176,21 +176,12 @@ type Workspace_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PrimaryUserAssignedIdentityReference: The user assigned identity resource id that represents the workspace identity.
-<<<<<<< HEAD
 	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference    `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
 	PropertyBag                          genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess                  *string                          `json:"publicNetworkAccess,omitempty"`
 	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings `json:"serviceManagedResourcesSettings,omitempty"`
 	SharedPrivateLinkResources           []SharedPrivateLinkResource      `json:"sharedPrivateLinkResources,omitempty"`
 	Sku                                  *Sku                             `json:"sku,omitempty"`
-=======
-	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference                          `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
-	PropertyBag                          genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess                  *string                                                `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings                       `json:"serviceManagedResourcesSettings,omitempty"`
-	SharedPrivateLinkResources           []Workspace_Spec_Properties_SharedPrivateLinkResources `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                                  *Sku                                                   `json:"sku,omitempty"`
->>>>>>> main
 
 	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
 	// workspace has been created
@@ -221,7 +212,6 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 
 // Storage version of v1beta20210701.Workspace_STATUS
 type Workspace_STATUS struct {
-<<<<<<< HEAD
 	AllowPublicAccessWhenBehindVnet *bool                                   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 	ApplicationInsights             *string                                 `json:"applicationInsights,omitempty"`
 	Conditions                      []conditions.Condition                  `json:"conditions,omitempty"`
@@ -256,42 +246,6 @@ type Workspace_STATUS struct {
 	TenantId                        *string                                 `json:"tenantId,omitempty"`
 	Type                            *string                                 `json:"type,omitempty"`
 	WorkspaceId                     *string                                 `json:"workspaceId,omitempty"`
-=======
-	AllowPublicAccessWhenBehindVnet *bool                                                  `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-	ApplicationInsights             *string                                                `json:"applicationInsights,omitempty"`
-	Conditions                      []conditions.Condition                                 `json:"conditions,omitempty"`
-	ContainerRegistry               *string                                                `json:"containerRegistry,omitempty"`
-	Description                     *string                                                `json:"description,omitempty"`
-	DiscoveryUrl                    *string                                                `json:"discoveryUrl,omitempty"`
-	Encryption                      *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
-	FriendlyName                    *string                                                `json:"friendlyName,omitempty"`
-	HbiWorkspace                    *bool                                                  `json:"hbiWorkspace,omitempty"`
-	Id                              *string                                                `json:"id,omitempty"`
-	Identity                        *Identity_STATUS                                       `json:"identity,omitempty"`
-	ImageBuildCompute               *string                                                `json:"imageBuildCompute,omitempty"`
-	KeyVault                        *string                                                `json:"keyVault,omitempty"`
-	Location                        *string                                                `json:"location,omitempty"`
-	MlFlowTrackingUri               *string                                                `json:"mlFlowTrackingUri,omitempty"`
-	Name                            *string                                                `json:"name,omitempty"`
-	NotebookInfo                    *NotebookResourceInfo_STATUS                           `json:"notebookInfo,omitempty"`
-	PrimaryUserAssignedIdentity     *string                                                `json:"primaryUserAssignedIdentity,omitempty"`
-	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PrivateLinkCount                *int                                                   `json:"privateLinkCount,omitempty"`
-	PropertyBag                     genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess             *string                                                `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS                `json:"serviceManagedResourcesSettings,omitempty"`
-	ServiceProvisionedResourceGroup *string                                                `json:"serviceProvisionedResourceGroup,omitempty"`
-	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS                     `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                             *Sku_STATUS                                            `json:"sku,omitempty"`
-	StorageAccount                  *string                                                `json:"storageAccount,omitempty"`
-	StorageHnsEnabled               *bool                                                  `json:"storageHnsEnabled,omitempty"`
-	SystemData                      *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                            map[string]string                                      `json:"tags,omitempty"`
-	TenantId                        *string                                                `json:"tenantId,omitempty"`
-	Type                            *string                                                `json:"type,omitempty"`
-	WorkspaceId                     *string                                                `json:"workspaceId,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
@@ -432,21 +386,6 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20210701.Workspace_Spec_Properties_SharedPrivateLinkResources
-type Workspace_Spec_Properties_SharedPrivateLinkResources struct {
-	GroupId *string `json:"groupId,omitempty"`
-	Name    *string `json:"name,omitempty"`
-
-	// PrivateLinkResourceReference: The resource id that private link links to.
-	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
-	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	RequestMessage               *string                       `json:"requestMessage,omitempty"`
-	Status                       *string                       `json:"status,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20210701.WorkspaceOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WorkspaceOperatorSpec struct {

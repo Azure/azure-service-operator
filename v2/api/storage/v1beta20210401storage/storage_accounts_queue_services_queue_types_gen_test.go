@@ -76,11 +76,7 @@ func StorageAccountsQueueServicesQueueGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccounts_QueueServices_Queue_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = StorageAccounts_QueueServices_Queue_STATUSGenerator()
-=======
-	gens["Status"] = StorageQueue_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_StorageAccounts_QueueServices_Queue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

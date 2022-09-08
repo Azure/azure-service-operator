@@ -329,11 +329,7 @@ type RouteTable_Spec struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
-<<<<<<< HEAD
 	// Location: Resource location.
-=======
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -342,14 +338,10 @@ type RouteTable_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-<<<<<<< HEAD
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// Tags: Resource tags.
-=======
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -362,7 +354,6 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &RouteTable_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = table.AzureName
 
@@ -376,8 +367,6 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Id = &reference
 	}
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if table.Location != nil {
 		location := *table.Location
@@ -389,11 +378,7 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘Properties’:
 	if table.DisableBgpRoutePropagation != nil {
-<<<<<<< HEAD
 		result.Properties = &RouteTablePropertiesFormatARM{}
-=======
-		result.Properties = &RouteTable_Spec_PropertiesARM{}
->>>>>>> main
 	}
 	if table.DisableBgpRoutePropagation != nil {
 		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
@@ -445,11 +430,8 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		Name: owner.Name,
 	}
 
-<<<<<<< HEAD
 	// no assignment for property ‘Reference’
 
-=======
->>>>>>> main
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		table.Tags = make(map[string]string, len(typedInput.Tags))
@@ -537,7 +519,6 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v202
 		table.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
@@ -546,8 +527,6 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v202
 		table.Reference = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -585,7 +564,6 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
 	// Reference
 	if table.Reference != nil {
 		reference := table.Reference.Copy()
@@ -594,8 +572,6 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v
 		destination.Reference = nil
 	}
 
-=======
->>>>>>> main
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(table.Tags)
 

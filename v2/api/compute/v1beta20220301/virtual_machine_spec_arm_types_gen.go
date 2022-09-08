@@ -6,13 +6,9 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachine_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the Virtual Machine.
-=======
-	// ExtendedLocation: The complex type of the extended location.
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the virtual machine, if configured.
@@ -29,14 +25,7 @@ type VirtualMachine_SpecARM struct {
 	Plan       *PlanARM                     `json:"plan,omitempty"`
 	Properties *VirtualMachinePropertiesARM `json:"properties,omitempty"`
 
-<<<<<<< HEAD
 	// Tags: Resource tags
-=======
-	// Properties: Describes the properties of a Virtual Machine.
-	Properties *VirtualMachine_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: The virtual machine zones.
@@ -60,7 +49,6 @@ func (machine *VirtualMachine_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
-<<<<<<< HEAD
 type VirtualMachineIdentityARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
@@ -70,10 +58,6 @@ type VirtualMachineIdentityARM struct {
 
 type VirtualMachinePropertiesARM struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
-=======
-type VirtualMachine_Spec_PropertiesARM struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
->>>>>>> main
 	AdditionalCapabilities *AdditionalCapabilitiesARM `json:"additionalCapabilities,omitempty"`
 
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
@@ -107,11 +91,7 @@ type VirtualMachine_Spec_PropertiesARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-<<<<<<< HEAD
 	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
-=======
-	EvictionPolicy *VirtualMachine_Spec_Properties_EvictionPolicy `json:"evictionPolicy,omitempty"`
->>>>>>> main
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -145,21 +125,12 @@ type VirtualMachine_Spec_PropertiesARM struct {
 	// Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-<<<<<<< HEAD
 	// NetworkProfile: Specifies the network interfaces of the virtual machine.
 	NetworkProfile *NetworkProfileARM `json:"networkProfile,omitempty"`
 
 	// OsProfile: Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot
 	// be changed once VM is provisioned.
 	OsProfile *OSProfileARM `json:"osProfile,omitempty"`
-=======
-	// NetworkProfile: Specifies the network interfaces or the networking configuration of the virtual machine.
-	NetworkProfile *VirtualMachine_Spec_Properties_NetworkProfileARM `json:"networkProfile,omitempty"`
-
-	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
-	// VM is provisioned.
-	OsProfile *VirtualMachine_Spec_Properties_OsProfileARM `json:"osProfile,omitempty"`
->>>>>>> main
 
 	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
 	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
@@ -171,15 +142,8 @@ type VirtualMachine_Spec_PropertiesARM struct {
 	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
 
 	// Priority: Specifies the priority for the virtual machine.
-<<<<<<< HEAD
 	// Minimum api-version: 2019-03-01
 	Priority *Priority `json:"priority,omitempty"`
-=======
-	// Minimum api-version: 2019-03-01.
-	Priority                *VirtualMachine_Spec_Properties_Priority `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResourceARM                          `json:"proximityPlacementGroup,omitempty"`
-	ScheduledEventsProfile  *ScheduledEventsProfileARM               `json:"scheduledEventsProfile,omitempty"`
->>>>>>> main
 
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
 	// assigned to.
@@ -208,18 +172,6 @@ type VirtualMachine_Spec_PropertiesARM struct {
 	VirtualMachineScaleSet *SubResourceARM `json:"virtualMachineScaleSet,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineIdentity
-type VirtualMachineIdentityARM struct {
-	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// virtual machine.
-	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ApplicationProfile
->>>>>>> main
 type ApplicationProfileARM struct {
 	// GalleryApplications: Specifies the gallery applications that should be made available to the VM/VMSS
 	GalleryApplications []VMGalleryApplicationARM `json:"galleryApplications,omitempty"`
@@ -278,7 +230,6 @@ type HardwareProfileARM struct {
 	VmSizeProperties *VMSizePropertiesARM `json:"vmSizeProperties,omitempty"`
 }
 
-<<<<<<< HEAD
 type NetworkProfileARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
@@ -293,64 +244,6 @@ type NetworkProfileARM struct {
 }
 
 type OSProfileARM struct {
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
-type ScheduledEventsProfileARM struct {
-	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SecurityProfile
-type SecurityProfileARM struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
-	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
-	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
-
-	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
-	// UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
-
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
-	UefiSettings *UefiSettingsARM `json:"uefiSettings,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/StorageProfile
-type StorageProfileARM struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []DataDiskARM `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *OSDiskARM `json:"osDisk,omitempty"`
-}
-
-type VirtualMachine_Spec_Properties_NetworkProfileARM struct {
-	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations.
-	NetworkApiVersion *VirtualMachine_Spec_Properties_NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
-
-	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
-	// networking resources.
-	NetworkInterfaceConfigurations []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
-
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
-}
-
-type VirtualMachine_Spec_Properties_OsProfileARM struct {
->>>>>>> main
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -420,7 +313,6 @@ type VirtualMachine_Spec_Properties_OsProfileARM struct {
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
-<<<<<<< HEAD
 type ScheduledEventsProfileARM struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
@@ -460,8 +352,6 @@ type StorageProfileARM struct {
 	OsDisk *OSDiskARM `json:"osDisk,omitempty"`
 }
 
-=======
->>>>>>> main
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineIdentity_Type string
 
@@ -472,10 +362,6 @@ const (
 	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
 )
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/BootDiagnostics
->>>>>>> main
 type BootDiagnosticsARM struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -679,31 +565,12 @@ type VaultSecretGroupARM struct {
 	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineNetworkInterfaceConfigurationARM struct {
 	// Name: The network interface configuration name.
 	Name       *string                                                   `json:"name,omitempty"`
 	Properties *VirtualMachineNetworkInterfaceConfigurationPropertiesARM `json:"properties,omitempty"`
 }
 
-=======
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
-	// Name: The network interface configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine network profile's IP configuration.
-	Properties *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
-}
-
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Describes a network interface reference properties.
-	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMGalleryApplication
->>>>>>> main
 type VMGalleryApplicationARM struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
 	// package if provided
@@ -913,15 +780,9 @@ type VirtualHardDiskARM struct {
 	Uri *string `json:"uri,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineNetworkInterfaceConfigurationPropertiesARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
-=======
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
-	DeleteOption *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption `json:"deleteOption,omitempty"`
->>>>>>> main
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM `json:"dnsSettings,omitempty"`
@@ -937,15 +798,10 @@ type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfiguration
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	// IpConfigurations: Specifies the IP configurations of the network interface.
-<<<<<<< HEAD
 	IpConfigurations []VirtualMachineNetworkInterfaceIPConfigurationARM `json:"ipConfigurations,omitempty"`
 
 	// NetworkSecurityGroup: The network security group.
 	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
-=======
-	IpConfigurations     []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
-	NetworkSecurityGroup *SubResourceARM                                                                                               `json:"networkSecurityGroup,omitempty"`
->>>>>>> main
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -989,7 +845,6 @@ type SshPublicKeySpecARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -999,20 +854,6 @@ type VirtualMachineNetworkInterfaceIPConfigurationARM struct {
 	// Name: The IP configuration name.
 	Name       *string                                                     `json:"name,omitempty"`
 	Properties *VirtualMachineNetworkInterfaceIPConfigurationPropertiesARM `json:"properties,omitempty"`
-=======
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine network interface IP configuration properties.
-	Properties *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
-type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
-	// DnsServers: List of DNS servers IP addresses
-	DnsServers []string `json:"dnsServers,omitempty"`
->>>>>>> main
 }
 
 type VMDiskSecurityProfileARM struct {
@@ -1054,11 +895,7 @@ type WinRMListenerARM struct {
 	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineNetworkInterfaceIPConfigurationPropertiesARM struct {
-=======
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM struct {
->>>>>>> main
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
 	// machines cannot use the same application gateway.
@@ -1077,7 +914,6 @@ type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfiguration
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<< HEAD
 	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
@@ -1088,16 +924,6 @@ type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfiguration
 }
 
 type VirtualMachinePublicIPAddressConfigurationARM struct {
-=======
-	PrivateIPAddressVersion *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PublicIPAddressConfiguration: Describes a virtual machines IP Configuration's PublicIPAddress configuration
-	PublicIPAddressConfiguration *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                       *SubResourceARM                                                                                                                                      `json:"subnet,omitempty"`
-}
-
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM struct {
->>>>>>> main
 	// Name: The publicIP address configuration name.
 	Name       *string                                                  `json:"name,omitempty"`
 	Properties *VirtualMachinePublicIPAddressConfigurationPropertiesARM `json:"properties,omitempty"`

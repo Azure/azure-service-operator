@@ -84,19 +84,12 @@ func Namespaces_Eventhubs_Consumergroup_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Properties"] = gen.PtrOf(Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARMGenerator())
 }
 
@@ -114,25 +107,6 @@ func Test_Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM_WhenSerializedTo
 
 // RunJSONSerializationTestForNamespaces_Eventhubs_Consumergroup_Spec_PropertiesARM runs a test to see if a specific instance of Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNamespaces_Eventhubs_Consumergroup_Spec_PropertiesARM(subject Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM) string {
-=======
-	gens["Properties"] = gen.PtrOf(ConsumerGroupPropertiesARMGenerator())
-}
-
-func Test_ConsumerGroupPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ConsumerGroupPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConsumerGroupPropertiesARM, ConsumerGroupPropertiesARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForConsumerGroupPropertiesARM runs a test to see if a specific instance of ConsumerGroupPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConsumerGroupPropertiesARM(subject ConsumerGroupPropertiesARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -140,11 +114,7 @@ func RunJSONSerializationTestForConsumerGroupPropertiesARM(subject ConsumerGroup
 	}
 
 	// Deserialize back into memory
-<<<<<<< HEAD
 	var actual Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM
-=======
-	var actual ConsumerGroupPropertiesARM
->>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -162,7 +132,6 @@ func RunJSONSerializationTestForConsumerGroupPropertiesARM(subject ConsumerGroup
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM instances for property testing - lazily
 // instantiated by Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARMGenerator()
 var namespaces_Eventhubs_Consumergroup_Spec_PropertiesARMGenerator gopter.Gen
@@ -182,26 +151,5 @@ func Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARMGenerator() gopter.Gen
 
 // AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_Spec_PropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_Consumergroup_Spec_PropertiesARM(gens map[string]gopter.Gen) {
-=======
-// Generator of ConsumerGroupPropertiesARM instances for property testing - lazily instantiated by
-// ConsumerGroupPropertiesARMGenerator()
-var consumerGroupPropertiesARMGenerator gopter.Gen
-
-// ConsumerGroupPropertiesARMGenerator returns a generator of ConsumerGroupPropertiesARM instances for property testing.
-func ConsumerGroupPropertiesARMGenerator() gopter.Gen {
-	if consumerGroupPropertiesARMGenerator != nil {
-		return consumerGroupPropertiesARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupPropertiesARM(generators)
-	consumerGroupPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ConsumerGroupPropertiesARM{}), generators)
-
-	return consumerGroupPropertiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConsumerGroupPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConsumerGroupPropertiesARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
 }

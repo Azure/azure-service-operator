@@ -326,12 +326,8 @@ type Topic_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-<<<<<<< HEAD
 	// +kubebuilder:validation:Required
 	// Location: Location of the resource.
-=======
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -340,11 +336,7 @@ type Topic_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-<<<<<<< HEAD
 	// Tags: Tags of the resource.
-=======
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -357,12 +349,9 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Topic_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Location’:
 	if topic.Location != nil {
 		location := *topic.Location

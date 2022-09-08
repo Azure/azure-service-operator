@@ -7,16 +7,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Eventhubs_Consumergroup_Spec. Use v1beta20211101.Namespaces_Eventhubs_Consumergroup_Spec instead
 type Namespaces_Eventhubs_Consumergroup_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                                                 `json:"azureName,omitempty"`
 	Name       string                                                 `json:"name,omitempty"`
 	Properties *Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM `json:"properties,omitempty"`
-=======
-	Location   *string                     `json:"location,omitempty"`
-	Name       string                      `json:"name,omitempty"`
-	Properties *ConsumerGroupPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string           `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_SpecARM{}
@@ -36,12 +29,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_SpecARM) GetType() strin
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
-<<<<<<< HEAD
 // Deprecated version of Namespaces_Eventhubs_Consumergroup_Spec_Properties. Use v1beta20211101.Namespaces_Eventhubs_Consumergroup_Spec_Properties instead
 type Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM struct {
-=======
-// Deprecated version of ConsumerGroupProperties. Use v1beta20211101.ConsumerGroupProperties instead
-type ConsumerGroupPropertiesARM struct {
->>>>>>> main
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

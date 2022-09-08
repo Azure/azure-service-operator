@@ -84,10 +84,7 @@ func UserAssignedIdentities_FederatedIdentityCredential_SpecARMGenerator() gopte
 
 // AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
->>>>>>> main
 	gens["Name"] = gen.AlphaString()
 }
 

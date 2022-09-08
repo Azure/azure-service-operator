@@ -7,11 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Queue_Spec. Use v1beta20210101preview.Namespaces_Queue_Spec instead
 type Namespaces_Queue_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string                `json:"azureName,omitempty"`
-=======
-	Location   *string               `json:"location,omitempty"`
->>>>>>> main
 	Name       string                `json:"name,omitempty"`
 	Properties *SBQueuePropertiesARM `json:"properties,omitempty"`
 }

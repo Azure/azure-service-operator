@@ -162,11 +162,7 @@ func MongodbDatabaseCollectionGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollection(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_MongodbDatabases_Collection_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = DatabaseAccounts_MongodbDatabases_Collection_STATUSGenerator()
-=======
-	gens["Status"] = MongoDBCollectionGetResults_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_DatabaseAccounts_MongodbDatabases_Collection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

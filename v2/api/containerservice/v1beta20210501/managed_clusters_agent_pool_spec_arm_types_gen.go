@@ -6,13 +6,8 @@ package v1beta20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ManagedClusters_AgentPool_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
->>>>>>> main
 
 	// Properties: Properties of an agent pool.
 	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`

@@ -28,13 +28,8 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              VirtualNetworks_Subnet_Spec   `json:"spec,omitempty"`
 	Status            VirtualNetworks_Subnet_STATUS `json:"status,omitempty"`
-=======
-	Spec              VirtualNetworks_Subnet_Spec                              `json:"spec,omitempty"`
-	Status            Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
@@ -138,7 +133,6 @@ type VirtualNetworksSubnetList struct {
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20201101.VirtualNetworks_Subnet_Spec
 type VirtualNetworks_Subnet_Spec struct {
 	AddressPrefix                      *string                             `json:"addressPrefix,omitempty"`
@@ -153,70 +147,6 @@ type VirtualNetworks_Subnet_Spec struct {
 	NatGateway           *SubResource              `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *NetworkSecurityGroupSpec `json:"networkSecurityGroup,omitempty"`
 	OriginalVersion      string                    `json:"originalVersion,omitempty"`
-=======
-// Storage version of v1beta20201101.Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
-type Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
-	AddressPrefix                      *string                                                                    `json:"addressPrefix,omitempty"`
-	AddressPrefixes                    []string                                                                   `json:"addressPrefixes,omitempty"`
-	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUS                                 `json:"applicationGatewayIpConfigurations,omitempty"`
-	Conditions                         []conditions.Condition                                                     `json:"conditions,omitempty"`
-	Delegations                        []Delegation_STATUS                                                        `json:"delegations,omitempty"`
-	Etag                               *string                                                                    `json:"etag,omitempty"`
-	Id                                 *string                                                                    `json:"id,omitempty"`
-	IpAllocations                      []SubResource_STATUS                                                       `json:"ipAllocations,omitempty"`
-	IpConfigurationProfiles            []IPConfigurationProfile_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"ipConfigurationProfiles,omitempty"`
-	IpConfigurations                   []IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded        `json:"ipConfigurations,omitempty"`
-	Name                               *string                                                                    `json:"name,omitempty"`
-	NatGateway                         *SubResource_STATUS                                                        `json:"natGateway,omitempty"`
-	NetworkSecurityGroup               *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded    `json:"networkSecurityGroup,omitempty"`
-	PrivateEndpointNetworkPolicies     *string                                                                    `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateEndpoints                   []PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded        `json:"privateEndpoints,omitempty"`
-	PrivateLinkServiceNetworkPolicies  *string                                                                    `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	PropertyBag                        genruntime.PropertyBag                                                     `json:"$propertyBag,omitempty"`
-	ProvisioningState                  *string                                                                    `json:"provisioningState,omitempty"`
-	Purpose                            *string                                                                    `json:"purpose,omitempty"`
-	ResourceNavigationLinks            []ResourceNavigationLink_STATUS                                            `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                         *RouteTable_STATUS_SubResourceEmbedded                                     `json:"routeTable,omitempty"`
-	ServiceAssociationLinks            []ServiceAssociationLink_STATUS                                            `json:"serviceAssociationLinks,omitempty"`
-	ServiceEndpointPolicies            []ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded  `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_STATUS                                   `json:"serviceEndpoints,omitempty"`
-	Type                               *string                                                                    `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded{}
-
-// ConvertStatusFrom populates our Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source
-func (embedded *Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == embedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(embedded)
-}
-
-// ConvertStatusTo populates the provided destination from our Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == embedded {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(embedded)
-}
-
-// Storage version of v1beta20201101.VirtualNetworks_Subnet_Spec
-type VirtualNetworks_Subnet_Spec struct {
-	AddressPrefix   *string  `json:"addressPrefix,omitempty"`
-	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName            string                                               `json:"azureName,omitempty"`
-	Delegations          []VirtualNetworks_Subnet_Spec_Properties_Delegations `json:"delegations,omitempty"`
-	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
-	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
-	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
-	OriginalVersion      string                                               `json:"originalVersion,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -253,7 +183,6 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.
 	}
 
 	return destination.ConvertSpecFrom(subnet)
-<<<<<<< HEAD
 }
 
 // Storage version of v1beta20201101.VirtualNetworks_Subnet_STATUS
@@ -313,8 +242,6 @@ type ApplicationGatewayIPConfiguration struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	Subnet    *SubResource                  `json:"subnet,omitempty"`
-=======
->>>>>>> main
 }
 
 // Storage version of v1beta20201101.ApplicationGatewayIPConfiguration_STATUS
@@ -454,14 +381,9 @@ type ServiceEndpointPropertiesFormat_STATUS struct {
 	Service           *string                `json:"service,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20201101.ServiceEndpointPolicyDefinition
 type ServiceEndpointPolicyDefinition struct {
 	Description *string                `json:"description,omitempty"`
-=======
-// Storage version of v1beta20201101.VirtualNetworks_Subnet_Spec_Properties_Delegations
-type VirtualNetworks_Subnet_Spec_Properties_Delegations struct {
->>>>>>> main
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 

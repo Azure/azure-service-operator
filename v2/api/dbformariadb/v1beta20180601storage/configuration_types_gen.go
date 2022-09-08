@@ -28,13 +28,8 @@ import (
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Servers_Configuration_Spec   `json:"spec,omitempty"`
 	Status            Servers_Configuration_STATUS `json:"status,omitempty"`
-=======
-	Spec              Servers_Configuration_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS       `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -216,48 +211,6 @@ func (configuration *Servers_Configuration_STATUS) ConvertStatusTo(destination g
 	return destination.ConvertStatusFrom(configuration)
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20180601.Servers_Configuration_Spec
-type Servers_Configuration_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a dbformariadb.azure.com/Server resource
-	Owner       *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Source      *string                            `json:"source,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Value       *string                            `json:"value,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Servers_Configuration_Spec{}
-
-// ConvertSpecFrom populates our Servers_Configuration_Spec from the provided source
-func (configuration *Servers_Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(configuration)
-}
-
-// ConvertSpecTo populates the provided destination from our Servers_Configuration_Spec
-func (configuration *Servers_Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(configuration)
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&Configuration{}, &ConfigurationList{})
 }

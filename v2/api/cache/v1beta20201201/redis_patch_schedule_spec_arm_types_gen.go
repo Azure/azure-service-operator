@@ -6,16 +6,8 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_PatchSchedule_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Default string modeled as parameter for auto generation to work correctly.
-	Name string `json:"name,omitempty"`
->>>>>>> main
 
 	// Properties: List of patch schedules for a Redis cache.
 	Properties *ScheduleEntriesARM `json:"properties,omitempty"`

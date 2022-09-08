@@ -331,34 +331,23 @@ type Image_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-<<<<<<< HEAD
 	// ExtendedLocation: The extended location of the Image.
-=======
-	// ExtendedLocation: The complex type of the extended location.
->>>>>>> main
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
 	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
 	// resource.
-<<<<<<< HEAD
 	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: Resource location
-=======
-	HyperVGeneration *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-
-	// Location: Location to deploy resource to
->>>>>>> main
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-<<<<<<< HEAD
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// SourceVirtualMachine: The source virtual machine from which Image is created.
@@ -368,15 +357,6 @@ type Image_Spec struct {
 	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
 
 	// Tags: Resource tags
-=======
-	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
-
-	// StorageProfile: Describes a storage profile.
-	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
->>>>>>> main
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -389,12 +369,9 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Image_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = image.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘ExtendedLocation’:
 	if image.ExtendedLocation != nil {
 		extendedLocationARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
@@ -607,11 +584,7 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *v20220301s.Ima
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-<<<<<<< HEAD
 		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
-=======
-		hyperVGeneration := ImageProperties_HyperVGeneration(*source.HyperVGeneration)
->>>>>>> main
 		image.HyperVGeneration = &hyperVGeneration
 	} else {
 		image.HyperVGeneration = nil
@@ -1097,10 +1070,6 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202203
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ExtendedLocation
->>>>>>> main
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`

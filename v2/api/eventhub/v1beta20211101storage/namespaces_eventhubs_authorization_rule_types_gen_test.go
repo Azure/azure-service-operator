@@ -76,11 +76,7 @@ func NamespacesEventhubsAuthorizationRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Eventhubs_AuthorizationRule_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = Namespaces_Eventhubs_AuthorizationRule_STATUSGenerator()
-=======
-	gens["Status"] = AuthorizationRule_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Namespaces_Eventhubs_AuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

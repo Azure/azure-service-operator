@@ -142,7 +142,6 @@ const APIVersion_Value = APIVersion("2021-05-01")
 
 // Storage version of v1beta20210501.ManagedCluster_Spec
 type ManagedCluster_Spec struct {
-<<<<<<< HEAD
 	AadProfile             *ManagedClusterAADProfile                   `json:"aadProfile,omitempty"`
 	AddonProfiles          *v1.JSON                                    `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles      []ManagedClusterAgentPoolProfile            `json:"agentPoolProfiles,omitempty"`
@@ -150,18 +149,6 @@ type ManagedCluster_Spec struct {
 	AutoScalerProfile      *ManagedClusterProperties_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
 	AutoUpgradeProfile     *ManagedClusterAutoUpgradeProfile           `json:"autoUpgradeProfile,omitempty"`
 
-=======
-	AadProfile             *ManagedClusterAADProfile                  `json:"aadProfile,omitempty"`
-	AddonProfiles          map[string]ManagedClusterAddonProfile      `json:"addonProfiles,omitempty"`
-	AgentPoolProfiles      []ManagedClusterAgentPoolProfile           `json:"agentPoolProfiles,omitempty"`
-	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile      `json:"apiServerAccessProfile,omitempty"`
-	AutoScalerProfile      *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
-	AutoUpgradeProfile     *ManagedClusterAutoUpgradeProfile          `json:"autoUpgradeProfile,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string `json:"azureName,omitempty"`
@@ -169,7 +156,6 @@ type ManagedCluster_Spec struct {
 
 	// DiskEncryptionSetIDReference: This is of the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
-<<<<<<< HEAD
 	DiskEncryptionSetIDReference *genruntime.ResourceReference   `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
 	DnsPrefix                    *string                         `json:"dnsPrefix,omitempty"`
 	EnablePodSecurityPolicy      *bool                           `json:"enablePodSecurityPolicy,omitempty"`
@@ -186,24 +172,6 @@ type ManagedCluster_Spec struct {
 	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
 	OperatorSpec                 *ManagedClusterOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                          `json:"originalVersion,omitempty"`
-=======
-	DiskEncryptionSetIDReference *genruntime.ResourceReference                                                                           `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
-	DnsPrefix                    *string                                                                                                 `json:"dnsPrefix,omitempty"`
-	EnablePodSecurityPolicy      *bool                                                                                                   `json:"enablePodSecurityPolicy,omitempty"`
-	EnableRBAC                   *bool                                                                                                   `json:"enableRBAC,omitempty"`
-	ExtendedLocation             *ExtendedLocation                                                                                       `json:"extendedLocation,omitempty"`
-	FqdnSubdomain                *string                                                                                                 `json:"fqdnSubdomain,omitempty"`
-	HttpProxyConfig              *ManagedClusterHTTPProxyConfig                                                                          `json:"httpProxyConfig,omitempty"`
-	Identity                     *ManagedClusterIdentity                                                                                 `json:"identity,omitempty"`
-	IdentityProfile              map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
-	KubernetesVersion            *string                                                                                                 `json:"kubernetesVersion,omitempty"`
-	LinuxProfile                 *ContainerServiceLinuxProfile                                                                           `json:"linuxProfile,omitempty"`
-	Location                     *string                                                                                                 `json:"location,omitempty"`
-	NetworkProfile               *ContainerServiceNetworkProfile                                                                         `json:"networkProfile,omitempty"`
-	NodeResourceGroup            *string                                                                                                 `json:"nodeResourceGroup,omitempty"`
-	OperatorSpec                 *ManagedClusterOperatorSpec                                                                             `json:"operatorSpec,omitempty"`
-	OriginalVersion              string                                                                                                  `json:"originalVersion,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -301,20 +269,6 @@ func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(cluster)
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20210501.ContainerServiceLinuxProfile
 type ContainerServiceLinuxProfile struct {
 	AdminUsername *string                           `json:"adminUsername,omitempty"`

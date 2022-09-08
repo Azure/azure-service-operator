@@ -25,13 +25,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Namespaces_Topic_Spec   `json:"spec,omitempty"`
 	Status            Namespaces_Topic_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Topic_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS        `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -320,12 +315,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.EnablePartitioning = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -356,12 +345,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.SupportOrdering = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		topic.PropertyBag = propertyBag
@@ -414,12 +397,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.EnablePartitioning = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topic.Location)
-
->>>>>>> main
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
@@ -450,12 +427,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.SupportOrdering = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

@@ -344,12 +344,6 @@ type RoleAssignment_Spec struct {
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-<<<<<<< HEAD
-=======
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
->>>>>>> main
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
@@ -366,12 +360,6 @@ type RoleAssignment_Spec struct {
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-<<<<<<< HEAD
-=======
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -383,16 +371,8 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &RoleAssignment_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = assignment.AzureName
-=======
-	// Set property ‘Location’:
-	if assignment.Location != nil {
-		location := *assignment.Location
-		result.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -439,17 +419,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		roleDefinitionId := roleDefinitionIdARMID
 		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Tags’:
-	if assignment.Tags != nil {
-		result.Tags = make(map[string]string, len(assignment.Tags))
-		for key, value := range assignment.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -504,15 +473,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		assignment.Location = &location
-	}
-
->>>>>>> main
 	// Set property ‘Owner’:
 	assignment.Owner = &owner
 
@@ -536,17 +496,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// no assignment for property ‘RoleDefinitionReference’
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		assignment.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			assignment.Tags[key] = value
-		}
-	}
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -619,12 +568,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
-<<<<<<< HEAD
-=======
-	// Location
-	assignment.Location = genruntime.ClonePointerToString(source.Location)
-
->>>>>>> main
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -652,12 +595,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.RoleDefinitionReference = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	assignment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -682,12 +619,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
 
-<<<<<<< HEAD
-=======
-	// Location
-	destination.Location = genruntime.ClonePointerToString(assignment.Location)
-
->>>>>>> main
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
 
@@ -718,12 +649,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 		destination.RoleDefinitionReference = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(assignment.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

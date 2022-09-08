@@ -28,13 +28,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              StorageAccounts_QueueServices_Queue_Spec   `json:"spec,omitempty"`
 	Status            StorageAccounts_QueueServices_Queue_STATUS `json:"status,omitempty"`
-=======
-	Spec              StorageAccounts_QueueServices_Queue_Spec `json:"spec,omitempty"`
-	Status            StorageQueue_STATUS                      `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -140,11 +135,6 @@ type StorageAccountsQueueServicesQueueList struct {
 
 // Storage version of v1beta20210401.StorageAccounts_QueueServices_Queue_Spec
 type StorageAccounts_QueueServices_Queue_Spec struct {
-<<<<<<< HEAD
-=======
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`

@@ -75,11 +75,7 @@ func RedisPatchScheduleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Redis_PatchSchedule_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = Redis_PatchSchedule_STATUSGenerator()
-=======
-	gens["Status"] = RedisPatchSchedule_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Redis_PatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -149,11 +145,7 @@ func Redis_PatchSchedule_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
->>>>>>> main
 	gens["OriginalVersion"] = gen.AlphaString()
 }
 

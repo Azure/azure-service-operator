@@ -30,11 +30,7 @@ type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Webtest_Spec   `json:"spec,omitempty"`
-<<<<<<< HEAD
 	Status            Webtest_STATUS `json:"status,omitempty"`
-=======
-	Status            WebTest_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Webtest{}
@@ -148,37 +144,22 @@ const APIVersion_Value = APIVersion("2018-05-01-preview")
 type Webtest_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-<<<<<<< HEAD
 	AzureName       string                           `json:"azureName,omitempty"`
 	Configuration   *WebTestProperties_Configuration `json:"Configuration,omitempty"`
 	Description     *string                          `json:"Description,omitempty"`
 	Enabled         *bool                            `json:"Enabled,omitempty"`
 	Frequency       *int                             `json:"Frequency,omitempty"`
-	Kind            *string                          `json:"kind,omitempty"`
+	Kind            *string                          `json:"Kind,omitempty"`
 	Location        *string                          `json:"location,omitempty"`
 	Locations       []WebTestGeolocation             `json:"Locations,omitempty"`
 	Name            *string                          `json:"Name,omitempty"`
 	OriginalVersion string                           `json:"originalVersion,omitempty"`
-=======
-	AzureName       string                          `json:"azureName,omitempty"`
-	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
-	Description     *string                         `json:"Description,omitempty"`
-	Enabled         *bool                           `json:"Enabled,omitempty"`
-	Frequency       *int                            `json:"Frequency,omitempty"`
-	Kind            *string                         `json:"Kind,omitempty"`
-	Location        *string                         `json:"location,omitempty"`
-	Locations       []WebTestGeolocation            `json:"Locations,omitempty"`
-	Name            *string                         `json:"Name,omitempty"`
-	OriginalVersion string                          `json:"originalVersion,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-<<<<<<< HEAD
-	PropertiesKind     *string                            `json:"properties_kind,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Request            *WebTestProperties_Request         `json:"Request,omitempty"`
 	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
@@ -186,15 +167,6 @@ type Webtest_Spec struct {
 	Tags               *v1.JSON                           `json:"tags,omitempty"`
 	Timeout            *int                               `json:"Timeout,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
-=======
-	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Request            *WebTestPropertiesRequest          `json:"Request,omitempty"`
-	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
-	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
-	Tags               map[string]string                  `json:"tags,omitempty"`
-	Timeout            *int                               `json:"Timeout,omitempty"`
-	ValidationRules    *WebTestPropertiesValidationRules  `json:"ValidationRules,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.ConvertibleSpec = &Webtest_Spec{}
@@ -217,32 +189,14 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return destination.ConvertSpecFrom(webtest)
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20180501preview.Webtest_STATUS
 type Webtest_STATUS struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
-=======
-// Storage version of v1beta20180501preview.WebTest_STATUS
-type WebTest_STATUS struct {
-	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
-	Configuration      *WebTestProperties_STATUS_Configuration   `json:"Configuration,omitempty"`
->>>>>>> main
 	Description        *string                                   `json:"Description,omitempty"`
 	Enabled            *bool                                     `json:"Enabled,omitempty"`
 	Frequency          *int                                      `json:"Frequency,omitempty"`
 	Id                 *string                                   `json:"id,omitempty"`
-<<<<<<< HEAD
-	Kind               *string                                   `json:"kind,omitempty"`
-	Location           *string                                   `json:"location,omitempty"`
-	Locations          []WebTestGeolocation_STATUS               `json:"Locations,omitempty"`
-	Name               *string                                   `json:"name,omitempty"`
-	PropertiesKind     *string                                   `json:"properties_kind,omitempty"`
-	PropertiesName     *string                                   `json:"properties_name,omitempty"`
-	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
-	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
-=======
 	Kind               *string                                   `json:"Kind,omitempty"`
 	Location           *string                                   `json:"location,omitempty"`
 	Locations          []WebTestGeolocation_STATUS               `json:"Locations,omitempty"`
@@ -250,14 +204,12 @@ type WebTest_STATUS struct {
 	PropertiesName     *string                                   `json:"properties_name,omitempty"`
 	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
-	Request            *WebTestProperties_STATUS_Request         `json:"Request,omitempty"`
->>>>>>> main
+	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                                  `json:"tags,omitempty"`
 	Timeout            *int                                      `json:"Timeout,omitempty"`
 	Type               *string                                   `json:"type,omitempty"`
-<<<<<<< HEAD
 	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
@@ -279,29 +231,6 @@ func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	}
 
 	return destination.ConvertStatusFrom(webtest)
-=======
-	ValidationRules    *WebTestProperties_STATUS_ValidationRules `json:"ValidationRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
-
-// ConvertStatusFrom populates our WebTest_STATUS from the provided source
-func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == test {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(test)
-}
-
-// ConvertStatusTo populates the provided destination from our WebTest_STATUS
-func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == test {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(test)
->>>>>>> main
 }
 
 // Storage version of v1beta20180501preview.WebTestGeolocation

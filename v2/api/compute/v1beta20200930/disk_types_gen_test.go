@@ -282,11 +282,7 @@ func AddIndependentPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_V1, DiskProperties_HyperVGeneration_V2))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-<<<<<<< HEAD
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
-=======
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(DiskProperties_NetworkAccessPolicy_AllowAll, DiskProperties_NetworkAccessPolicy_AllowPrivate, DiskProperties_NetworkAccessPolicy_DenyAll))
->>>>>>> main
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux, DiskProperties_OsType_Windows))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())

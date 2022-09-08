@@ -30,13 +30,8 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccount_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccount_Spec             `json:"spec,omitempty"`
-	Status            DatabaseAccountGetResults_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -356,18 +351,10 @@ const APIVersion_Value = APIVersion("2021-05-15")
 type DatabaseAccount_Spec struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
-<<<<<<< HEAD
 
 	// ApiProperties: API specific properties. Currently, supported only for MongoDB API.
 	ApiProperties *ApiProperties `json:"apiProperties,omitempty"`
 
-=======
-	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
->>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -379,15 +366,9 @@ type DatabaseAccount_Spec struct {
 	Capabilities []Capability `json:"capabilities,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
-<<<<<<< HEAD
 	ConnectorOffer *ConnectorOffer `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB account.
-=======
-	ConnectorOffer *DatabaseAccountCreateUpdateProperties_ConnectorOffer `json:"connectorOffer,omitempty"`
-
-	// ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
->>>>>>> main
 	ConsistencyPolicy *ConsistencyPolicy `json:"consistencyPolicy,omitempty"`
 
 	// Cors: The CORS policy for the Cosmos DB database account.
@@ -395,11 +376,7 @@ type DatabaseAccount_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// DatabaseAccountOfferType: The offer type for the database
-<<<<<<< HEAD
 	DatabaseAccountOfferType *DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-=======
-	DatabaseAccountOfferType *DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
->>>>>>> main
 
 	// DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
 	// identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
@@ -424,19 +401,10 @@ type DatabaseAccount_Spec struct {
 	EnableFreeTier *bool `json:"enableFreeTier,omitempty"`
 
 	// EnableMultipleWriteLocations: Enables the account to write in multiple locations
-<<<<<<< HEAD
 	EnableMultipleWriteLocations *bool                   `json:"enableMultipleWriteLocations,omitempty"`
 	Identity                     *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// IpRules: List of IpRules.
-=======
-	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
-
-	// Identity: Identity for the resource.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
-
-	// IpRules: Array of IpAddressOrRange objects.
->>>>>>> main
 	IpRules []IpAddressOrRange `json:"ipRules,omitempty"`
 
 	// IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
@@ -456,11 +424,7 @@ type DatabaseAccount_Spec struct {
 	Locations []Location `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-<<<<<<< HEAD
 	NetworkAclBypass *NetworkAclBypass `json:"networkAclBypass,omitempty"`
-=======
-	NetworkAclBypass *DatabaseAccountCreateUpdateProperties_NetworkAclBypass `json:"networkAclBypass,omitempty"`
->>>>>>> main
 
 	// NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
@@ -475,21 +439,9 @@ type DatabaseAccount_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-<<<<<<< HEAD
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
 	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string    `json:"tags,omitempty"`
-=======
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *DatabaseAccountCreateUpdateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
->>>>>>> main
 
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
 	VirtualNetworkRules []VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
@@ -504,12 +456,9 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &DatabaseAccount_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
 
-=======
->>>>>>> main
 	// Set property ‘Identity’:
 	if account.Identity != nil {
 		identityARM, err := (*account.Identity).ConvertToARM(resolved)
@@ -1109,11 +1058,7 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
-<<<<<<< HEAD
 		connectorOffer := ConnectorOffer(*source.ConnectorOffer)
-=======
-		connectorOffer := DatabaseAccountCreateUpdateProperties_ConnectorOffer(*source.ConnectorOffer)
->>>>>>> main
 		account.ConnectorOffer = &connectorOffer
 	} else {
 		account.ConnectorOffer = nil
@@ -1151,11 +1096,7 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-<<<<<<< HEAD
 		databaseAccountOfferType := DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
-=======
-		databaseAccountOfferType := DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
->>>>>>> main
 		account.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		account.DatabaseAccountOfferType = nil
@@ -1284,11 +1225,7 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
-<<<<<<< HEAD
 		networkAclBypass := NetworkAclBypass(*source.NetworkAclBypass)
-=======
-		networkAclBypass := DatabaseAccountCreateUpdateProperties_NetworkAclBypass(*source.NetworkAclBypass)
->>>>>>> main
 		account.NetworkAclBypass = &networkAclBypass
 	} else {
 		account.NetworkAclBypass = nil
@@ -1319,11 +1256,7 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-<<<<<<< HEAD
 		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-=======
-		publicNetworkAccess := DatabaseAccountCreateUpdateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
->>>>>>> main
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -1665,11 +1598,7 @@ func (account *DatabaseAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *DatabaseAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
-<<<<<<< HEAD
 type DatabaseAccount_STATUS struct {
-=======
-type DatabaseAccountGetResults_STATUS struct {
->>>>>>> main
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
 
@@ -2940,10 +2869,6 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
->>>>>>> main
 type AnalyticalStorageConfiguration struct {
 	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
 }

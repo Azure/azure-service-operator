@@ -143,21 +143,12 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-<<<<<<< HEAD
 	AzureName          string              `json:"azureName,omitempty"`
 	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
-=======
-	AzureName          string                  `json:"azureName,omitempty"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also

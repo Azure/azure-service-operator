@@ -76,11 +76,7 @@ func SqlDatabaseContainerTriggerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerTrigger is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerTrigger(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUSGenerator()
-=======
-	gens["Status"] = SqlTriggerGetResults_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

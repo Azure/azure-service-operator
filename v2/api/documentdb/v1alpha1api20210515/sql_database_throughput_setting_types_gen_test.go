@@ -163,11 +163,7 @@ func SqlDatabaseThroughputSettingGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUSGenerator()
-=======
-	gens["Status"] = ThroughputSettingsGetResults_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -279,10 +275,7 @@ func DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecGenerator() gopter.Gen 
 
 // AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["AzureName"] = gen.AlphaString()
-=======
->>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

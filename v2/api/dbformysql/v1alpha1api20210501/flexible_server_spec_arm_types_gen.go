@@ -7,10 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServer_Spec. Use v1beta20210501.FlexibleServer_Spec instead
 type FlexibleServer_SpecARM struct {
-<<<<<<< HEAD
 	AzureName  string               `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	Identity   *IdentityARM         `json:"identity,omitempty"`
 	Location   *string              `json:"location,omitempty"`
 	Name       string               `json:"name,omitempty"`

@@ -6,13 +6,8 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_ManagementPolicy_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
-=======
-	// Name: The name of the Storage Account Management Policy. It should always be 'default'
-	Name string `json:"name,omitempty"`
->>>>>>> main
 
 	// Properties: Returns the Storage Account Data Policies Rules.
 	Properties *ManagementPolicyPropertiesARM `json:"properties,omitempty"`

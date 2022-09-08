@@ -30,13 +30,8 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Domains_Topic_Spec   `json:"spec,omitempty"`
 	Status            Domains_Topic_STATUS `json:"status,omitempty"`
-=======
-	Spec              Domains_Topic_Spec `json:"spec,omitempty"`
-	Status            DomainTopic_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -347,30 +342,11 @@ func (topic *Domains_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Domains_Topic_SpecARM{}
 
-<<<<<<< HEAD
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-=======
-	// Set property ‘Location’:
-	if topic.Location != nil {
-		location := *topic.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Tags’:
-	if topic.Tags != nil {
-		result.Tags = make(map[string]string, len(topic.Tags))
-		for key, value := range topic.Tags {
-			result.Tags[key] = value
-		}
-	}
->>>>>>> main
 	return result, nil
 }
 
@@ -388,32 +364,12 @@ func (topic *Domains_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘AzureName’:
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-<<<<<<< HEAD
-=======
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		topic.Location = &location
-	}
->>>>>>> main
 
 	// Set property ‘Owner’:
 	topic.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
-<<<<<<< HEAD
-=======
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			topic.Tags[key] = value
-		}
-	}
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -473,12 +429,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 
 	// AzureName
 	topic.AzureName = source.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
->>>>>>> main
 
 	// Owner
 	if source.Owner != nil {
@@ -488,12 +438,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 		topic.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
->>>>>>> main
 	// No error
 	return nil
 }
@@ -505,12 +449,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 
 	// AzureName
 	destination.AzureName = topic.AzureName
-<<<<<<< HEAD
-=======
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topic.Location)
->>>>>>> main
 
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion()
@@ -523,12 +461,6 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 		destination.Owner = nil
 	}
 
-<<<<<<< HEAD
-=======
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
->>>>>>> main
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag

@@ -25,13 +25,8 @@ import (
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                             `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -206,12 +201,9 @@ type SqlDatabaseContainerThroughputSettingList struct {
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
 type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
-<<<<<<< HEAD
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
-=======
->>>>>>> main
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -327,12 +319,9 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
-<<<<<<< HEAD
 
 	// AzureName
 	destination.AzureName = setting.AzureName
-=======
->>>>>>> main
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -362,7 +351,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
-<<<<<<< HEAD
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -518,8 +506,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(setting.Type)
-=======
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

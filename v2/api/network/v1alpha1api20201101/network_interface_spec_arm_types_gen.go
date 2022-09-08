@@ -7,19 +7,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkInterface_Spec. Use v1beta20201101.NetworkInterface_Spec instead
 type NetworkInterface_SpecARM struct {
-<<<<<<< HEAD
 	AzureName        string                               `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM                 `json:"extendedLocation,omitempty"`
 	Id               *string                              `json:"id,omitempty"`
 	Location         *string                              `json:"location,omitempty"`
 	Name             string                               `json:"name,omitempty"`
 	Properties       *NetworkInterfacePropertiesFormatARM `json:"properties,omitempty"`
-=======
-	ExtendedLocation *ExtendedLocationARM                 `json:"extendedLocation,omitempty"`
-	Location         *string                              `json:"location,omitempty"`
-	Name             string                               `json:"name,omitempty"`
-	Properties       *NetworkInterface_Spec_PropertiesARM `json:"properties,omitempty"`
->>>>>>> main
 	Tags             map[string]string                    `json:"tags,omitempty"`
 }
 
@@ -40,7 +33,6 @@ func (networkInterface *NetworkInterface_SpecARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
-<<<<<<< HEAD
 // Deprecated version of NetworkInterfacePropertiesFormat. Use v1beta20201101.NetworkInterfacePropertiesFormat instead
 type NetworkInterfacePropertiesFormatARM struct {
 	DnsSettings                 *NetworkInterfaceDnsSettingsARM                  `json:"dnsSettings,omitempty"`
@@ -51,21 +43,6 @@ type NetworkInterfacePropertiesFormatARM struct {
 	NetworkSecurityGroup        *NetworkSecurityGroupSpecARM                     `json:"networkSecurityGroup,omitempty"`
 	NicType                     *NetworkInterfacePropertiesFormat_NicType        `json:"nicType,omitempty"`
 	PrivateLinkService          *PrivateLinkServiceSpecARM                       `json:"privateLinkService,omitempty"`
-=======
-// Deprecated version of NetworkInterface_Spec_Properties. Use v1beta20201101.NetworkInterface_Spec_Properties instead
-type NetworkInterface_Spec_PropertiesARM struct {
-	DnsSettings                 *NetworkInterfaceDnsSettingsARM                        `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
-	IpConfigurations            []NetworkInterface_Spec_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
-	NetworkSecurityGroup        *SubResourceARM                                        `json:"networkSecurityGroup,omitempty"`
-}
-
-// Deprecated version of NetworkInterface_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterface_Spec_Properties_IpConfigurations instead
-type NetworkInterface_Spec_Properties_IpConfigurationsARM struct {
-	Name       *string                                             `json:"name,omitempty"`
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead
@@ -74,7 +51,6 @@ type NetworkInterfaceDnsSettingsARM struct {
 	InternalDnsNameLabel *string  `json:"internalDnsNameLabel,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of NetworkInterfaceIPConfiguration. Use v1beta20201101.NetworkInterfaceIPConfiguration instead
 type NetworkInterfaceIPConfigurationARM struct {
 	Id         *string                                             `json:"id,omitempty"`
@@ -98,16 +74,10 @@ type PrivateLinkServiceSpecARM struct {
 	Location         *string                          `json:"location,omitempty"`
 	Properties       *PrivateLinkServicePropertiesARM `json:"properties,omitempty"`
 	Tags             map[string]string                `json:"tags,omitempty"`
-=======
-// Deprecated version of SubResource. Use v1beta20201101.SubResource instead
-type SubResourceARM struct {
-	Id *string `json:"id,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead
 type NetworkInterfaceIPConfigurationPropertiesFormatARM struct {
-<<<<<<< HEAD
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPoolARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []ApplicationSecurityGroupSpecARM         `json:"applicationSecurityGroups,omitempty"`
 	LoadBalancerBackendAddressPools       []BackendAddressPoolARM                   `json:"loadBalancerBackendAddressPools,omitempty"`
@@ -196,17 +166,4 @@ type VirtualNetworkTapPropertiesFormatARM struct {
 type ApplicationGatewayBackendAddressARM struct {
 	Fqdn      *string `json:"fqdn,omitempty"`
 	IpAddress *string `json:"ipAddress,omitempty"`
-=======
-	ApplicationGatewayBackendAddressPools []SubResourceARM                                                           `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResourceARM                                                           `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResourceARM                                                           `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []SubResourceARM                                                           `json:"loadBalancerInboundNatRules,omitempty"`
-	Primary                               *bool                                                                      `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                                                    `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion   `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-	PublicIPAddress                       *SubResourceARM                                                            `json:"publicIPAddress,omitempty"`
-	Subnet                                *SubResourceARM                                                            `json:"subnet,omitempty"`
-	VirtualNetworkTaps                    []SubResourceARM                                                           `json:"virtualNetworkTaps,omitempty"`
->>>>>>> main
 }

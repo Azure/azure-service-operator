@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 | Type Definitions in package "dbformariadb"                             | v1beta20180601 |
 |------------------------------------------------------------------------|----------------|
 | APIVersion                                                             | v1beta20180601 |
@@ -44,69 +43,3 @@
 | StorageProfile_STATUS                                                  | v1beta20180601 |
 | StorageProfile_StorageAutogrow                                         | v1beta20180601 |
 | StorageProfile_StorageAutogrow_STATUS                                  | v1beta20180601 |
-=======
-| Type Definitions in package "dbformariadb"                                     | v1beta20180601 |
-|--------------------------------------------------------------------------------|----------------|
-| APIVersion                                                                     | v1beta20180601 |
-| Configuration                                                                  | v1beta20180601 |
-| ConfigurationProperties                                                        | v1beta20180601 |
-| ConfigurationProperties_STATUS                                                 | v1beta20180601 |
-| Configuration_STATUS                                                           | v1beta20180601 |
-| Database                                                                       | v1beta20180601 |
-| DatabaseProperties                                                             | v1beta20180601 |
-| DatabaseProperties_STATUS                                                      | v1beta20180601 |
-| Database_STATUS                                                                | v1beta20180601 |
-| MinimalTlsVersion_STATUS                                                       | v1beta20180601 |
-| PrivateEndpointProperty_STATUS                                                 | v1beta20180601 |
-| PublicNetworkAccess_STATUS                                                     | v1beta20180601 |
-| Server                                                                         | v1beta20180601 |
-| ServerPrivateEndpointConnectionProperties_STATUS                               | v1beta20180601 |
-| ServerPrivateEndpointConnectionProperties_STATUS_ProvisioningState             | v1beta20180601 |
-| ServerPrivateEndpointConnection_STATUS                                         | v1beta20180601 |
-| ServerPrivateLinkServiceConnectionStateProperty_STATUS                         | v1beta20180601 |
-| ServerPrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired         | v1beta20180601 |
-| ServerPrivateLinkServiceConnectionStateProperty_STATUS_Status                  | v1beta20180601 |
-| ServerPropertiesForCreate                                                      | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode          | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_MinimalTlsVersion   | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_PublicNetworkAccess | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_SslEnforcement      | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_Version             | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForGeoRestore_CreateMode             | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForGeoRestore_MinimalTlsVersion      | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForGeoRestore_PublicNetworkAccess    | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForGeoRestore_SslEnforcement         | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForGeoRestore_Version                | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForReplica_CreateMode                | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForReplica_MinimalTlsVersion         | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForReplica_PublicNetworkAccess       | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForReplica_SslEnforcement            | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForReplica_Version                   | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForRestore_CreateMode                | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForRestore_MinimalTlsVersion         | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForRestore_PublicNetworkAccess       | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForRestore_SslEnforcement            | v1beta20180601 |
-| ServerPropertiesForCreate_ServerPropertiesForRestore_Version                   | v1beta20180601 |
-| ServerPropertiesForDefaultCreate                                               | v1beta20180601 |
-| ServerPropertiesForGeoRestore                                                  | v1beta20180601 |
-| ServerPropertiesForReplica                                                     | v1beta20180601 |
-| ServerPropertiesForRestore                                                     | v1beta20180601 |
-| ServerProperties_STATUS                                                        | v1beta20180601 |
-| ServerProperties_STATUS_UserVisibleState                                       | v1beta20180601 |
-| ServerVersion_STATUS                                                           | v1beta20180601 |
-| Server_STATUS                                                                  | v1beta20180601 |
-| Server_Spec                                                                    | v1beta20180601 |
-| Servers_Configuration_Spec                                                     | v1beta20180601 |
-| Servers_Database_Spec                                                          | v1beta20180601 |
-| Sku                                                                            | v1beta20180601 |
-| Sku_STATUS                                                                     | v1beta20180601 |
-| Sku_STATUS_Tier                                                                | v1beta20180601 |
-| Sku_Tier                                                                       | v1beta20180601 |
-| SslEnforcement_STATUS                                                          | v1beta20180601 |
-| StorageProfile                                                                 | v1beta20180601 |
-| StorageProfile_GeoRedundantBackup                                              | v1beta20180601 |
-| StorageProfile_STATUS                                                          | v1beta20180601 |
-| StorageProfile_STATUS_GeoRedundantBackup                                       | v1beta20180601 |
-| StorageProfile_STATUS_StorageAutogrow                                          | v1beta20180601 |
-| StorageProfile_StorageAutogrow                                                 | v1beta20180601 |
->>>>>>> main

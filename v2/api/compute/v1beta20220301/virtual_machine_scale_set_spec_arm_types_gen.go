@@ -6,13 +6,9 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachineScaleSet_SpecARM struct {
-<<<<<<< HEAD
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
-=======
-	// ExtendedLocation: The complex type of the extended location.
->>>>>>> main
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the virtual machine scale set, if configured.
@@ -29,15 +25,7 @@ type VirtualMachineScaleSet_SpecARM struct {
 	Plan       *PlanARM                             `json:"plan,omitempty"`
 	Properties *VirtualMachineScaleSetPropertiesARM `json:"properties,omitempty"`
 
-<<<<<<< HEAD
 	// Sku: The virtual machine scale set sku.
-=======
-	// Properties: Describes the properties of a Virtual Machine Scale Set.
-	Properties *VirtualMachineScaleSet_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Sku: Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set
-	// is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
->>>>>>> main
 	Sku *SkuARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
@@ -93,7 +81,6 @@ type SkuARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetIdentityARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
@@ -105,10 +92,6 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
 	// Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data
 	// disks with UltraSSD_LRS storage account type.
-=======
-type VirtualMachineScaleSet_Spec_PropertiesARM struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
->>>>>>> main
 	AdditionalCapabilities *AdditionalCapabilitiesARM `json:"additionalCapabilities,omitempty"`
 
 	// AutomaticRepairsPolicy: Policy for automatic repairs.
@@ -124,11 +107,7 @@ type VirtualMachineScaleSet_Spec_PropertiesARM struct {
 	HostGroup *SubResourceARM `json:"hostGroup,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-<<<<<<< HEAD
 	OrchestrationMode *OrchestrationMode `json:"orchestrationMode,omitempty"`
-=======
-	OrchestrationMode *VirtualMachineScaleSet_Spec_Properties_OrchestrationMode `json:"orchestrationMode,omitempty"`
->>>>>>> main
 
 	// Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
@@ -155,13 +134,8 @@ type VirtualMachineScaleSet_Spec_PropertiesARM struct {
 	// UpgradePolicy: The upgrade policy.
 	UpgradePolicy *UpgradePolicyARM `json:"upgradePolicy,omitempty"`
 
-<<<<<<< HEAD
 	// VirtualMachineProfile: The virtual machine profile.
 	VirtualMachineProfile *VirtualMachineScaleSetVMProfileARM `json:"virtualMachineProfile,omitempty"`
-=======
-	// VirtualMachineProfile: Describes a virtual machine scale set virtual machine profile.
-	VirtualMachineProfile *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM `json:"virtualMachineProfile,omitempty"`
->>>>>>> main
 
 	// ZoneBalance: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
 	// zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no
@@ -169,18 +143,6 @@ type VirtualMachineScaleSet_Spec_PropertiesARM struct {
 	ZoneBalance *bool `json:"zoneBalance,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIdentity
-type VirtualMachineScaleSetIdentityARM struct {
-	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
-	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
-	// the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
->>>>>>> main
 type AdditionalCapabilitiesARM struct {
 	// HibernationEnabled: The flag that enables or disables hibernation capability on the VM.
 	HibernationEnabled *bool `json:"hibernationEnabled,omitempty"`
@@ -251,7 +213,6 @@ type UpgradePolicyARM struct {
 	RollingUpgradePolicy *RollingUpgradePolicyARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
-<<<<<<< HEAD
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineScaleSetIdentity_Type string
 
@@ -264,10 +225,6 @@ const (
 
 type VirtualMachineScaleSetVMProfileARM struct {
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
-	// ApplicationProfile: Contains the list of gallery applications that should be made available to the VM/VMSS
->>>>>>> main
 	ApplicationProfile *ApplicationProfileARM `json:"applicationProfile,omitempty"`
 
 	// BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
@@ -286,17 +243,10 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-<<<<<<< HEAD
 	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
 
 	// ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSetExtensionProfileARM `json:"extensionProfile,omitempty"`
-=======
-	EvictionPolicy *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// ExtensionProfile: Describes a virtual machine scale set extension profile.
-	ExtensionProfile *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM `json:"extensionProfile,omitempty"`
->>>>>>> main
 
 	// HardwareProfile: Specifies the hardware profile related details of a scale set.
 	// Minimum api-version: 2022-03-01.
@@ -316,7 +266,6 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
 	// Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-<<<<<<< HEAD
 	// NetworkProfile: Specifies properties of the network interfaces of the virtual machines in the scale set.
 	NetworkProfile *VirtualMachineScaleSetNetworkProfileARM `json:"networkProfile,omitempty"`
 
@@ -326,18 +275,6 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview
 	Priority *Priority `json:"priority,omitempty"`
-=======
-	// NetworkProfile: Describes a virtual machine scale set network profile.
-	NetworkProfile *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfileARM `json:"networkProfile,omitempty"`
-
-	// OsProfile: Describes a virtual machine scale set OS profile.
-	OsProfile *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfileARM `json:"osProfile,omitempty"`
-
-	// Priority: Specifies the priority for the virtual machines in the scale set.
-	// Minimum api-version: 2017-10-30-preview.
-	Priority               *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_Priority `json:"priority,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfileARM                                             `json:"scheduledEventsProfile,omitempty"`
->>>>>>> main
 
 	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfileARM `json:"scheduledEventsProfile,omitempty"`
@@ -354,20 +291,6 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfileARM struct {
 	UserData *string `json:"userData,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineScaleSetIdentity_Type string
-
-const (
-	VirtualMachineScaleSetIdentity_Type_None                       = VirtualMachineScaleSetIdentity_Type("None")
-	VirtualMachineScaleSetIdentity_Type_SystemAssigned             = VirtualMachineScaleSetIdentity_Type("SystemAssigned")
-	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
->>>>>>> main
 type AutomaticOSUpgradePolicyARM struct {
 	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
@@ -413,14 +336,7 @@ type RollingUpgradePolicyARM struct {
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetExtensionProfileARM struct {
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
-	// Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
-
->>>>>>> main
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
 	// (PT1H30M).
@@ -428,7 +344,6 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfi
 	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetHardwareProfileARM struct {
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2022-03-01.
@@ -451,21 +366,6 @@ type VirtualMachineScaleSetNetworkProfileARM struct {
 }
 
 type VirtualMachineScaleSetOSProfileARM struct {
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
-	// HealthProbe: The API entity reference.
-	HealthProbe *ApiEntityReferenceARM `json:"healthProbe,omitempty"`
-
-	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'.
-	NetworkApiVersion *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
-
-	// NetworkInterfaceConfigurations: The list of network configurations.
-	NetworkInterfaceConfigurations []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
-}
-
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfileARM struct {
->>>>>>> main
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -523,16 +423,6 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfileARM s
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetHardwareProfile
-type VirtualMachineScaleSetHardwareProfileARM struct {
-	// VmSizeProperties: Specifies VM Size Property settings on the virtual machine.
-	VmSizeProperties *VMSizePropertiesARM `json:"vmSizeProperties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
->>>>>>> main
 type VirtualMachineScaleSetStorageProfileARM struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -554,27 +444,6 @@ type ApiEntityReferenceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM struct {
-	// Name: The name of the extension.
-	Name       *string              `json:"name,omitempty"`
-	Properties *GenericExtensionARM `json:"properties,omitempty"`
-}
-
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Name: The network configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine scale set network profile's IP configuration.
-	Properties *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetDataDisk
->>>>>>> main
 type VirtualMachineScaleSetDataDiskARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -686,49 +555,6 @@ type VirtualMachineScaleSetOSDiskARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.Extensions.json#/definitions/genericExtension
-type GenericExtensionARM struct {
-	// Publisher: Microsoft.Compute/extensions - Publisher
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Microsoft.Compute/extensions - Settings
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// Type: Microsoft.Compute/extensions - Type
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Microsoft.Compute/extensions - Type handler version
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
-	DeleteOption *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// DnsSettings: Describes a virtual machines scale sets network configuration's DNS settings.
-	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM `json:"dnsSettings,omitempty"`
-
-	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations     []VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM `json:"ipConfigurations,omitempty"`
-	NetworkSecurityGroup *SubResourceARM                                                                                                                             `json:"networkSecurityGroup,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
->>>>>>> main
 type VirtualMachineScaleSetManagedDiskParametersARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResourceARM `json:"diskEncryptionSet,omitempty"`
@@ -741,7 +567,6 @@ type VirtualMachineScaleSetManagedDiskParametersARM struct {
 	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
@@ -766,17 +591,6 @@ type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine scale set network profile's IP configuration properties.
-	Properties *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
->>>>>>> main
 }
 
 type VirtualMachineScaleSetIPConfigurationARM struct {
@@ -792,11 +606,7 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetIPConfigurationPropertiesARM struct {
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM struct {
->>>>>>> main
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
 	// use the same application gateway.
@@ -820,27 +630,16 @@ type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<< HEAD
 	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
-=======
-	PrivateIPAddressVersion *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PublicIPAddressConfiguration: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
-	PublicIPAddressConfiguration *VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
->>>>>>> main
 
 	// Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReferenceARM `json:"subnet,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineScaleSetPublicIPAddressConfigurationARM struct {
-=======
-type VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM struct {
->>>>>>> main
 	// Name: The publicIP address configuration name.
 	Name       *string                                                          `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM `json:"properties,omitempty"`
