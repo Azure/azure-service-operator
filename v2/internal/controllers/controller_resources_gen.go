@@ -348,6 +348,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20210515s.SqlRoleAssignment),
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(eventgrid_v20200601s.Domain),
 	})
 	result = append(result, &registration.StorageType{
@@ -667,7 +670,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20210515.SqlDatabaseContainerTrigger),
 		new(documentdb_v20210515.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20210515.SqlDatabaseThroughputSetting))
+		new(documentdb_v20210515.SqlDatabaseThroughputSetting),
+		new(documentdb_v20210515.SqlRoleAssignment))
 	result = append(
 		result,
 		new(documentdb_v20210515s.DatabaseAccount),
@@ -681,7 +685,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
 		new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
+		new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
+		new(documentdb_v20210515s.SqlRoleAssignment))
 	result = append(
 		result,
 		new(eventgrid_alpha20200601.Domain),
@@ -1035,6 +1040,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerUserDefinedFunctionExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseThroughputSettingExtension{})
+	result = append(result, &documentdb_customizations.SqlRoleAssignmentExtension{})
 	result = append(result, &eventgrid_customizations.DomainExtension{})
 	result = append(result, &eventgrid_customizations.DomainsTopicExtension{})
 	result = append(result, &eventgrid_customizations.EventSubscriptionExtension{})
