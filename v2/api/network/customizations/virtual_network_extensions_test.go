@@ -25,22 +25,13 @@ func Test_FuzzySetSubnets(t *testing.T) {
 
 	vnet := &network.VirtualNetwork_SpecARM{
 		Location: to.StringPtr("westus"),
-<<<<<<< HEAD
 		Properties: &network.VirtualNetworkPropertiesFormatARM{
-=======
-		Properties: &network.VirtualNetwork_Spec_PropertiesARM{
->>>>>>> main
 			EnableDdosProtection: to.BoolPtr(true),
 		},
 	}
 
 	subnet := &network.VirtualNetworks_Subnet_SpecARM{
-<<<<<<< HEAD
 		Properties: &network.SubnetPropertiesFormatARM{
-=======
-		Name: "mysubnet",
-		Properties: &network.VirtualNetworks_Subnet_Spec_PropertiesARM{
->>>>>>> main
 			AddressPrefix: to.StringPtr("1.2.3.4"),
 			NatGateway: &network.SubResourceARM{
 				Id: to.StringPtr("/this/is/a/test"),
@@ -67,11 +58,7 @@ func Test_FuzzySetSubnets(t *testing.T) {
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-<<<<<<< HEAD
 	embeddedType := reflect.TypeOf(network.SubnetPropertiesFormatARM{})
-=======
-	embeddedType := reflect.TypeOf(network.VirtualNetwork_Spec_Properties_SubnetsARM{})
->>>>>>> main
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
