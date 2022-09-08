@@ -109,6 +109,11 @@ typeFilters:
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
 
+  - action: prune
+    group: securityinsights
+    name: Workspaces_Providers*
+    because: Resource ownership is malformed
+
   - action: include
     group: network
     version: v*2018*
@@ -413,11 +418,13 @@ typeTransformers:
   #   remove: true
   #   because: This property should have been marked readonly but wasn't.
 
-  - group: servicebus
-    name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
-    property: PrivateEndpointConnections
-    remove: true
-    because: This property should have been marked readonly but wasn't.
+  # TODO: Unused or renamed? 
+  #- group: servicebus
+  #  name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+  #  property: PrivateEndpointConnections
+  #  remove: true
+  #  because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
     property: Status
@@ -1203,16 +1210,16 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      Workspace_Spec_Properties:
+      WorkspaceProperties:
         ApplicationInsights:
+          $armReference: true
+        ContainerRegistry:
+          $armReference: true
+        KeyVault:
           $armReference: true
         PrimaryUserAssignedIdentity:
           $armReference: true
         StorageAccount:
-          $armReference: true
-        KeyVault:
-          $armReference: true
-        ContainerRegistry:
           $armReference: true
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
@@ -1292,7 +1299,7 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddresses:
+      PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       PublicIPAddressSpec_SubResourceEmbedded:
@@ -1304,7 +1311,7 @@ objectModelConfiguration:
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTable_Spec_Properties:
+      RouteTablePropertiesFormat:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
@@ -1331,7 +1338,10 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetwork_Spec_Properties:
+      VirtualNetworkGatewayPropertiesFormat:
+        VNetExtendedLocationResourceId:
+          $armReference: true
+      VirtualNetworkPropertiesFormat:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
@@ -1344,9 +1354,6 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateway_Spec_Properties:
-        VNetExtendedLocationResourceId:
-          $armReference: true
   operationalinsights:
     2021-06-01:
       Workspace:
