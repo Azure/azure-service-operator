@@ -1339,6 +1339,8 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - Endpoint
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
