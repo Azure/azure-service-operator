@@ -12,8 +12,8 @@ DIR=$5
 
 ASO_CHART="$DIR"charts/azure-service-operator
 GEN_FILES_DIR="$ASO_CHART"/templates/generated
-IF_CLUSTER="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
-IF_TENANT="{{- if or (eq .Values.multiTenant.enable false) (eq .Values.azureOperatorMode \"watchers\") }}"
+IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
+IF_TENANT="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"watchers\") }}"
 
 # Matches and adds helm flow control to a file
 flow_control(){
@@ -64,7 +64,7 @@ for file in $(find "$GEN_FILES_DIR" -type f)
 do
     if [[ $file == *"clusterrolebinding_azureserviceoperator-manager"* ]]; then
       sed -i "1 s/^/$IF_TENANT\n/;$ a {{- end }}" "$file"
-      flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multiTenant.enable }}" "$file" # TODO: flow control on L60, 61 like 63 and 64
+      flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multitenant.enable }}" "$file"
       sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}" "$file"
     elif [[ $file != *"leader-election"* ]] && [[ $file != *"_deployment_"* ]]; then
       sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
