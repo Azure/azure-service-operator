@@ -19,30 +19,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Authentication in Azure Service Operator v2 | Azure Service Operator</title>
-<meta name="description" content="Azure Service Operator supports two different styles of authentication today.
+<meta name="description" content="Azure Service Operator supports three different styles of authentication today.
 
 Service Principal
-aad-pod-identity authentication (managed identity) …">
+azure-workload-identity authentication (OIDC &#43; …">
 <meta property="og:title" content="Authentication in Azure Service Operator v2" />
-<meta property="og:description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI." />
+<meta property="og:description" content="Azure Service Operator supports three different styles of authentication today.
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/authentication/" /><meta property="article:section" content="introduction" />
 
 
 
 <meta itemprop="name" content="Authentication in Azure Service Operator v2">
-<meta itemprop="description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI.">
+<meta itemprop="description" content="Azure Service Operator supports three different styles of authentication today.
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID.">
 
-<meta itemprop="wordCount" content="340">
+<meta itemprop="wordCount" content="845">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Authentication in Azure Service Operator v2"/>
-<meta name="twitter:description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI."/>
+<meta name="twitter:description" content="Azure Service Operator supports three different styles of authentication today.
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID."/>
 
 
 
@@ -497,9 +497,17 @@ aad-pod-identity authentication (managed identity) …">
         <li><a href="#prerequisites">Prerequisites</a></li>
       </ul>
     </li>
-    <li><a href="#managed-identity-aad-pod-identity">Managed Identity (aad-pod-identity)</a>
+    <li><a href="#azure-workload-identity">Azure Workload Identity</a>
       <ul>
         <li><a href="#prerequisites-1">Prerequisites</a></li>
+        <li><a href="#get-the-application-object-id-of-the-identity">Get the Application Object ID of the identity</a></li>
+        <li><a href="#configure-trust">Configure trust</a></li>
+        <li><a href="#set-aso-to-use-the-service-account-token">Set ASO to use the Service Account token</a></li>
+      </ul>
+    </li>
+    <li><a href="#deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</a>
+      <ul>
+        <li><a href="#prerequisites-2">Prerequisites</a></li>
       </ul>
     </li>
   </ul>
@@ -561,23 +569,26 @@ aad-pod-identity authentication (managed identity) …">
 
 		
 	</header>    
-	<p>Azure Service Operator supports two different styles of authentication today.</p>
+	<p>Azure Service Operator supports three different styles of authentication today.</p>
 <ol>
 <li>Service Principal</li>
-<li>aad-pod-identity authentication (managed identity)</li>
+<li><a href="https://github.com/Azure/azure-workload-identity">azure-workload-identity</a> authentication (OIDC + Managed Identity or Service Principal)</li>
+<li>[Deprecated] aad-pod-identity authentication (Managed Identity)</li>
 </ol>
 <h2 id="service-principal">Service Principal</h2>
 <h3 id="prerequisites">Prerequisites</h3>
 <ol>
 <li>An existing Azure Service Principal.</li>
 </ol>
-<p>To use Service Principal authentication, specify an <code>aso-controller-settings</code> secret with <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> set.</p>
-<ul>
-<li><code>AZURE_CLIENT_ID</code> must be set to the Service Principal client ID. This will be a GUID.</li>
-<li><code>AZURE_CLIENT_SECRET</code> must be set to the Service Principal client secret.</li>
-</ul>
+<p>To use Service Principal authentication, specify an <code>aso-controller-settings</code> secret with the <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> keys set.</p>
 <p>For more information about Service Principals, see <a href="https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
 The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_SECRET</code> is the &ldquo;password&rdquo; returned by the command in the previously linked documentation.</p>
+<p>Use the following Bash script to set the environment variables for the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal.</span>
+export AZURE_CLIENT_SECRET<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>   <span style="color:#75715e"># The client secret of the Service Principal.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+</code></pre></div><p>Create the <code>aso-controller-settings</code> secret:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: v1
 </span><span style="color:#e6db74">kind: Secret
@@ -590,8 +601,100 @@ The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>
 </span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
 </span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
 </span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h2 id="managed-identity-aad-pod-identity">Managed Identity (aad-pod-identity)</h2>
+</code></pre></div><h2 id="azure-workload-identity">Azure Workload Identity</h2>
 <h3 id="prerequisites-1">Prerequisites</h3>
+<ol>
+<li>An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.</li>
+<li>The <a href="https://docs.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a>.</li>
+<li>The <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> webhook installed into your cluster. See <a href="https://azure.github.io/azure-workload-identity/docs/installation.html">Azure Workload Identity installation</a>. Note that setup involves two steps, getting your clusters OIDC issuer URL and installing the <a href="https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html">Azure Workload Identity mutating webhook</a>.</li>
+</ol>
+<p>Use the following Bash script to set the environment variables required for the below commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+export SERVICE_ACCOUNT_ISSUER<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/&#34;</span> <span style="color:#75715e"># The OIDC endpoint for your cluster in this example AKS</span>
+</code></pre></div><h3 id="get-the-application-object-id-of-the-identity">Get the Application Object ID of the identity</h3>
+<p>For Managed Identity: <code>export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/{my resource group name}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{my managed identity name} --query &quot;properties.principalId&quot; -o tsv | tr -d '[:space:]')</code></p>
+<h3 id="configure-trust">Configure trust</h3>
+<p>Establish trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation#how-it-works">how it works</a> for details.</p>
+<h4 id="service-principal-1">Service Principal</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export APPLICATION_OBJECT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az ad app show --id <span style="color:#e6db74">${</span>AZURE_CLIENT_ID<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+
+cat <span style="color:#e6db74">&lt;&lt;EOF &gt; params.json
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;name&#34;: &#34;aso-federated-credential&#34;,
+</span><span style="color:#e6db74">  &#34;issuer&#34;: &#34;${SERVICE_ACCOUNT_ISSUER}&#34;,
+</span><span style="color:#e6db74">  &#34;subject&#34;: &#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&#34;,
+</span><span style="color:#e6db74">  &#34;description&#34;: &#34;Kubernetes service account federated credential&#34;,
+</span><span style="color:#e6db74">  &#34;audiences&#34;: [
+</span><span style="color:#e6db74">    &#34;api://AzureADTokenExchange&#34;
+</span><span style="color:#e6db74">  ]
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+az ad app federated-credential create --id <span style="color:#e6db74">${</span>APPLICATION_OBJECT_ID<span style="color:#e6db74">}</span> --parameters @params.json
+</code></pre></div><h4 id="managed-identity">Managed Identity</h4>
+<p>Set the following additional environment variables:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export MI_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-rg&#34;</span>  <span style="color:#75715e"># The resource group containing the managed identity that will be used by ASO</span>
+export MI_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-mi&#34;</span>            <span style="color:#75715e"># The name of the managed identity that will be used by ASO</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF &gt; body.json
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;name&#34;: &#34;aso-federated-credential&#34;,
+</span><span style="color:#e6db74">  &#34;type&#34;:&#34;Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials&#34;,
+</span><span style="color:#e6db74">  &#34;properties&#34;: {
+</span><span style="color:#e6db74">    &#34;issuer&#34;:&#34;${SERVICE_ACCOUNT_ISSUER}&#34;,
+</span><span style="color:#e6db74">    &#34;subject&#34;:&#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&#34;,
+</span><span style="color:#e6db74">    &#34;audiences&#34;: [
+</span><span style="color:#e6db74">      &#34;api://AzureADTokenExchange&#34;
+</span><span style="color:#e6db74">    ]
+</span><span style="color:#e6db74">  }
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+az rest --method put --url /subscriptions/<span style="color:#e6db74">${</span>AZURE_SUBSCRIPTION_ID<span style="color:#e6db74">}</span>/resourcegroups/<span style="color:#e6db74">${</span>MI_RESOURCE_GROUP<span style="color:#e6db74">}</span>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<span style="color:#e6db74">${</span>MI_NAME<span style="color:#e6db74">}</span>/federatedIdentityCredentials/aso-federated-credential?api-version<span style="color:#f92672">=</span>2022-01-31-preview --body @body.json
+</code></pre></div><h3 id="set-aso-to-use-the-service-account-token">Set ASO to use the Service Account token</h3>
+<h4 id="helm">Helm</h4>
+<p>When installing ASO via Helm, set <code>useWorkloadIdentityAuth</code> to <code>true</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set useWorkloadIdentityAuth<span style="color:#f92672">=</span>true
+</code></pre></div><h4 id="kubectl">Kubectl</h4>
+<p>If you installed ASO manually, you can update the existing <code>ServiceAccount</code> to use Workload Identity.</p>
+<p>Update the ASO service account to use Workload Identity</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: ServiceAccount
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  annotations:
+</span><span style="color:#e6db74">    azure.workload.identity/client-id: ${AZURE_CLIENT_ID}
+</span><span style="color:#e6db74">  labels:
+</span><span style="color:#e6db74">    azure.workload.identity/use: &#34;true&#34;
+</span><span style="color:#e6db74">  name: azureserviceoperator-default
+</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Update the existing ASO deployment and ensure that the controller pod has the following annotation:
+<code>azure.workload.identity/inject-proxy-sidecar: &quot;true&quot;</code></p>
+<p>Create the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><h2 id="deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</h2>
+<blockquote>
+<p><strong>This authentication mechanism still works but is deprecated. See <a href="#azure-workload-identity">Azure Workload Identity</a> for the new way</strong></p>
+</blockquote>
+<h3 id="prerequisites-2">Prerequisites</h3>
 <ol>
 <li>An existing Azure Managed Identity.</li>
 <li><a href="https://github.com/Azure/aad-pod-identity">aad-pod-identity</a> installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
