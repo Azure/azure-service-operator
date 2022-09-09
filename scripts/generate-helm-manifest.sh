@@ -37,12 +37,23 @@ mkdir "$GEN_FILES_DIR"
 kustomize build "$DIR"config/default -o "$GEN_FILES_DIR"
 rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 
-# Sed Replacements
+# Chart replacements
+sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version for both main and subchart
+
+# Deployment replacements
 grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
 sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
-sed -i '/default-logs-container: manager/a \  \ {{- if .Values.podAnnotations }}\n \  \ {{ toYaml .Values.podAnnotations | indent 6 }}\n \  \ {{- end }}' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
-sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version for both main and subchart
+# Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
+perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations | indent 6 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
+perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.useWorkloadIdentityAuth \}\}\n$2azure.workload.identity\/inject-proxy-sidecar: "true"\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_*
+
+# ServiceAccount replacements
+# We don't have annotations or labels sections, so add them with a dummy value we'll swap out in a second
+yq e -i '.metadata.labels={"templabel": "temp"}' "$GEN_FILES_DIR"/*_serviceaccount_*
+yq e -i '.metadata.annotations={"tempannotation": "temp"}' "$GEN_FILES_DIR"/*_serviceaccount_*
+sed -i -r "s@(\s*)templabel.*temp@\1{{- if .Values.useWorkloadIdentityAuth }}\n\1azure.workload.identity/use: \"true\"\n\1{{- end }}@g" "$GEN_FILES_DIR"/*_serviceaccount_*
+sed -i -r "s@(\s*)tempannotation.*temp@\1{{- if .Values.useWorkloadIdentityAuth }}\n\1azure.workload.identity/client-id: {{ .Values.azureClientID }}\n\1{{- end }}\n@g" "$GEN_FILES_DIR"/*_serviceaccount_*
 
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
