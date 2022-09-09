@@ -431,7 +431,16 @@ typeTransformers:
     property: Tags
     remove: true
     because: Child resource shouldn't have tags
-
+  - name: DatabaseAccounts_SqlRoleAssignment_Spec
+    group: documentdb
+    property: Tags
+    remove: true
+    because: Shouldn't have tags
+  - name: DatabaseAccounts_SqlRoleAssignment_Spec
+    group: documentdb
+    property: Location
+    remove: true
+    because: Child resource shouldn't have Location
 
   # Deal with service Swaggers that are just wrong
   - group: insights
@@ -1072,6 +1081,9 @@ objectModelConfiguration:
       SqlContainerResource:
         Id:
           $armReference: false
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.0.0-beta.3
       SqlTriggerResource:
         Id:
           $armReference: false
@@ -1327,6 +1339,8 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - Endpoint
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
