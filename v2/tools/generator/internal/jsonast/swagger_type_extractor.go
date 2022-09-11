@@ -394,6 +394,8 @@ func isMarkedAsARMResource(schema Schema) bool {
 	return recurse(schema)
 }
 
+// Final result here is unused, but removing it has flow on effects. Leaving for now, needs to be fixed up [donotmerge] [theunrepentantgeek]
+// nolint:unparam
 func (extractor *SwaggerTypeExtractor) expandEnumsInPath(ctx context.Context, operationPath string, scanner *SchemaScanner, parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
 	results := []string{operationPath}
 	urlParams := make(map[string]astmodel.Type)

@@ -55,23 +55,26 @@ func Test_FuzzySetSubnets(t *testing.T) {
 	*/
 }
 
+// [donotmerges] This test is failing even though the two subtypes have the same shape as far as I can tell
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.SubnetPropertiesFormatARM{})
+	embeddedType := reflect.TypeOf(network.SubnetARM{})
+
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworks_Subnet_SpecARM) bool {
+			func(subnet *network.VirtualNetworks_Subnet_SpecARM) (bool, error) {
 				val := reflect.New(embeddedType)
 				err := fuzzySetSubnet(subnet, val)
 
 				// This ensures that the self-check that fuzzySetSubnet does did not fail
-				return err == nil
+				return err == nil, err
 			}))
 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+
 }
