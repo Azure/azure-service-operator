@@ -4,6 +4,9 @@
 package controllers
 
 import (
+	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
+	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
+	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_alpha20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801preview"
 	authorization_alpha20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801previewstorage"
@@ -143,6 +146,9 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{
+		Obj: new(appconfiguration_v20220501s.ConfigurationStore),
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20200801ps.RoleAssignment),
 	})
@@ -321,6 +327,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20210515s.SqlRoleAssignment),
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(eventgrid_v20200601s.Domain),
 	})
 	result = append(result, &registration.StorageType{
@@ -446,6 +455,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
+	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
+	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
 	result = append(result, new(authorization_alpha20200801p.RoleAssignment))
 	result = append(result, new(authorization_alpha20200801ps.RoleAssignment))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
@@ -609,7 +620,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20210515.SqlDatabaseContainerTrigger),
 		new(documentdb_v20210515.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20210515.SqlDatabaseThroughputSetting))
+		new(documentdb_v20210515.SqlDatabaseThroughputSetting),
+		new(documentdb_v20210515.SqlRoleAssignment))
 	result = append(
 		result,
 		new(documentdb_v20210515s.DatabaseAccount),
@@ -623,7 +635,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
 		new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
 		new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
+		new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
+		new(documentdb_v20210515s.SqlRoleAssignment))
 	result = append(
 		result,
 		new(eventgrid_alpha20200601.Domain),
@@ -813,6 +826,8 @@ func getKnownTypes() []client.Object {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = appconfiguration_v20220501.AddToScheme(scheme)
+	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = authorization_alpha20200801p.AddToScheme(scheme)
 	_ = authorization_alpha20200801ps.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
@@ -923,6 +938,7 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseExtension{})
@@ -962,6 +978,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.SqlDatabaseContainerUserDefinedFunctionExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseThroughputSettingExtension{})
+	result = append(result, &documentdb_customizations.SqlRoleAssignmentExtension{})
 	result = append(result, &eventgrid_customizations.DomainExtension{})
 	result = append(result, &eventgrid_customizations.DomainsTopicExtension{})
 	result = append(result, &eventgrid_customizations.EventSubscriptionExtension{})

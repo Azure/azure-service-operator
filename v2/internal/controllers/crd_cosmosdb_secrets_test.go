@@ -49,7 +49,7 @@ func Test_CosmosDB_DatabaseAccount_SecretsFromAzure(t *testing.T) {
 	tc.ListResources(list, client.InNamespace(tc.Namespace))
 	tc.Expect(list.Items).To(HaveLen(0))
 
-	// Run sub-tests on the redis
+	// Run sub-tests on the cosmosdb
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",

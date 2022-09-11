@@ -210,11 +210,12 @@ const APIVersion_Value = APIVersion("2021-01-01-preview")
 type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string      `json:"azureName,omitempty"`
-	Encryption      *Encryption `json:"encryption,omitempty"`
-	Identity        *Identity   `json:"identity,omitempty"`
-	Location        *string     `json:"location,omitempty"`
-	OriginalVersion string      `json:"originalVersion,omitempty"`
+	AzureName       string                 `json:"azureName,omitempty"`
+	Encryption      *Encryption            `json:"encryption,omitempty"`
+	Identity        *Identity              `json:"identity,omitempty"`
+	Location        *string                `json:"location,omitempty"`
+	OperatorSpec    *NamespaceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -313,6 +314,18 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 	// Location
 	namespace.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		namespace.OperatorSpec = &operatorSpec
+	} else {
+		namespace.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	namespace.OriginalVersion = source.OriginalVersion
 
@@ -410,6 +423,18 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(namespace.Location)
+
+	// OperatorSpec
+	if namespace.OperatorSpec != nil {
+		var operatorSpec v20210101ps.NamespaceOperatorSpec
+		err := namespace.OperatorSpec.AssignProperties_To_NamespaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = namespace.OriginalVersion
@@ -1139,6 +1164,69 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Storage version of v1alpha1api20210101preview.NamespaceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespaceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Secrets     *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSpec populates our NamespaceOperatorSpec from the provided source NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSpec(source *v20210101ps.NamespaceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret NamespaceOperatorSecrets
+		err := secret.AssignProperties_From_NamespaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSpec populates the provided destination NamespaceOperatorSpec from our NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec(destination *v20210101ps.NamespaceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20210101ps.NamespaceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_NamespaceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210101preview.PrivateEndpointConnection
 // Deprecated version of PrivateEndpointConnection. Use v1beta20210101preview.PrivateEndpointConnection instead
 type PrivateEndpointConnection struct {
@@ -1762,6 +1850,60 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 	// KeyVersion
 	destination.KeyVersion = genruntime.ClonePointerToString(properties.KeyVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210101preview.NamespaceOperatorSecrets
+type NamespaceOperatorSecrets struct {
+	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSecrets populates our NamespaceOperatorSecrets from the provided source NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperatorSecrets(source *v20210101ps.NamespaceOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Endpoint
+	if source.Endpoint != nil {
+		endpoint := source.Endpoint.Copy()
+		secrets.Endpoint = &endpoint
+	} else {
+		secrets.Endpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSecrets populates the provided destination NamespaceOperatorSecrets from our NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSecrets(destination *v20210101ps.NamespaceOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// Endpoint
+	if secrets.Endpoint != nil {
+		endpoint := secrets.Endpoint.Copy()
+		destination.Endpoint = &endpoint
+	} else {
+		destination.Endpoint = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

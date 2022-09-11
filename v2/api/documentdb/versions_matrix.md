@@ -73,6 +73,8 @@
 | DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec      | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS                 | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec                   | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccounts_SqlRoleAssignment_STATUS                              |                     | v1beta20210515 |
+| DatabaseAccounts_SqlRoleAssignment_Spec                                |                     | v1beta20210515 |
 | ExcludedPath                                                           | v1alpha1api20210515 | v1beta20210515 |
 | ExcludedPath_STATUS                                                    | v1alpha1api20210515 | v1beta20210515 |
 | FailoverPolicy_STATUS                                                  | v1alpha1api20210515 | v1beta20210515 |
@@ -140,6 +142,9 @@
 | SqlDatabaseGetProperties_STATUS                                        | v1alpha1api20210515 | v1beta20210515 |
 | SqlDatabaseResource                                                    | v1alpha1api20210515 | v1beta20210515 |
 | SqlDatabaseThroughputSetting                                           | v1alpha1api20210515 | v1beta20210515 |
+| SqlRoleAssignment                                                      |                     | v1beta20210515 |
+| SqlRoleAssignmentResource                                              |                     | v1beta20210515 |
+| SqlRoleAssignmentResource_STATUS                                       |                     | v1beta20210515 |
 | SqlStoredProcedureCreateUpdateProperties                               | v1alpha1api20210515 | v1beta20210515 |
 | SqlStoredProcedureGetProperties_Resource_STATUS                        | v1alpha1api20210515 | v1beta20210515 |
 | SqlStoredProcedureGetProperties_STATUS                                 | v1alpha1api20210515 | v1beta20210515 |
