@@ -171,7 +171,7 @@ type ThroughputSettingsGetResults_STATUS struct {
 	Location    *string                                          `json:"location,omitempty"`
 	Name        *string                                          `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                `json:"tags,omitempty"`
 	Type        *string                                          `json:"type,omitempty"`
 }
@@ -196,8 +196,8 @@ func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusTo(destination 
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetProperties_STATUS_Resource
-type ThroughputSettingsGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS
+type ThroughputSettingsGetProperties_Resource_STATUS struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
 	Etag                *string                           `json:"_etag,omitempty"`
 	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`

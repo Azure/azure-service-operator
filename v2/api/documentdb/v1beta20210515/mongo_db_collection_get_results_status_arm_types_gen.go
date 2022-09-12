@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type MongoDBCollectionGetResults_STATUSARM struct {
+type MongoDBCollectionGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,19 +14,19 @@ type MongoDBCollectionGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB MongoDB collection
-	Properties *MongoDBCollectionGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+	Properties *MongoDBCollectionGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type MongoDBCollectionGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                         `json:"options,omitempty"`
-	Resource *MongoDBCollectionGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type MongoDBCollectionGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                         `json:"options,omitempty"`
+	Resource *MongoDBCollectionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type MongoDBCollectionGetProperties_STATUS_ResourceARM struct {
+type MongoDBCollectionGetProperties_Resource_STATUS_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -37,7 +37,7 @@ type MongoDBCollectionGetProperties_STATUS_ResourceARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Indexes: List of index keys
-	Indexes []MongoIndex_STATUSARM `json:"indexes,omitempty"`
+	Indexes []MongoIndex_STATUS_ARM `json:"indexes,omitempty"`
 
 	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
@@ -49,34 +49,34 @@ type MongoDBCollectionGetProperties_STATUS_ResourceARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
-type OptionsResource_STATUSARM struct {
+type OptionsResource_STATUS_ARM struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
-	AutoscaleSettings *AutoscaleSettings_STATUSARM `json:"autoscaleSettings,omitempty"`
+	AutoscaleSettings *AutoscaleSettings_STATUS_ARM `json:"autoscaleSettings,omitempty"`
 
 	// Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
 	// retrieving offer details.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
-type AutoscaleSettings_STATUSARM struct {
+type AutoscaleSettings_STATUS_ARM struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-type MongoIndex_STATUSARM struct {
+type MongoIndex_STATUS_ARM struct {
 	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_STATUSARM `json:"key,omitempty"`
+	Key *MongoIndexKeys_STATUS_ARM `json:"key,omitempty"`
 
 	// Options: Cosmos DB MongoDB collection index key options
-	Options *MongoIndexOptions_STATUSARM `json:"options,omitempty"`
+	Options *MongoIndexOptions_STATUS_ARM `json:"options,omitempty"`
 }
 
-type MongoIndexKeys_STATUSARM struct {
+type MongoIndexKeys_STATUS_ARM struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-type MongoIndexOptions_STATUSARM struct {
+type MongoIndexOptions_STATUS_ARM struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
 

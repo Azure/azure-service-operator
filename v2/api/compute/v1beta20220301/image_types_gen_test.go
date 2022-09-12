@@ -1289,7 +1289,7 @@ func ImageDataDisk_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageDataDisk_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDataDisk_STATUS(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_STATUS_Caching_None, ImageDataDisk_STATUS_Caching_ReadOnly, ImageDataDisk_STATUS_Caching_ReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_Caching_STATUS_None, ImageDataDisk_Caching_STATUS_ReadOnly, ImageDataDisk_Caching_STATUS_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
@@ -1548,10 +1548,10 @@ func ImageOSDisk_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageOSDisk_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageOSDisk_STATUS(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_Caching_None, ImageOSDisk_STATUS_Caching_ReadOnly, ImageOSDisk_STATUS_Caching_ReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_Caching_STATUS_None, ImageOSDisk_Caching_STATUS_ReadOnly, ImageOSDisk_Caching_STATUS_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_OsState_Generalized, ImageOSDisk_STATUS_OsState_Specialized))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_OsType_Linux, ImageOSDisk_STATUS_OsType_Windows))
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsState_STATUS_Generalized, ImageOSDisk_OsState_STATUS_Specialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsType_STATUS_Linux, ImageOSDisk_OsType_STATUS_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccountType_STATUS_PremiumV2_LRS,
 		StorageAccountType_STATUS_Premium_LRS,

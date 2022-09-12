@@ -5,9 +5,9 @@ package v1beta20200930
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Snapshot_SpecARM struct {
+type Snapshot_Spec_ARM struct {
 	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -17,38 +17,38 @@ type Snapshot_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Snapshot resource properties.
-	Properties *SnapshotPropertiesARM `json:"properties,omitempty"`
+	Properties *SnapshotProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
 	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
-	Sku *SnapshotSkuARM `json:"sku,omitempty"`
+	Sku *SnapshotSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Snapshot_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
-func (snapshot Snapshot_SpecARM) GetAPIVersion() string {
+func (snapshot Snapshot_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (snapshot *Snapshot_SpecARM) GetName() string {
+func (snapshot *Snapshot_Spec_ARM) GetName() string {
 	return snapshot.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
-func (snapshot *Snapshot_SpecARM) GetType() string {
+func (snapshot *Snapshot_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotProperties
-type SnapshotPropertiesARM struct {
+type SnapshotProperties_ARM struct {
 	// CreationData: Data used when creating a disk.
-	CreationData *CreationDataARM `json:"creationData,omitempty"`
-	DiskAccessId *string          `json:"diskAccessId,omitempty"`
+	CreationData *CreationData_ARM `json:"creationData,omitempty"`
+	DiskAccessId *string           `json:"diskAccessId,omitempty"`
 
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
@@ -59,10 +59,10 @@ type SnapshotPropertiesARM struct {
 	DiskState *SnapshotProperties_DiskState `json:"diskState,omitempty"`
 
 	// Encryption: Encryption at rest settings for disk or snapshot
-	Encryption *EncryptionARM `json:"encryption,omitempty"`
+	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
 	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
-	EncryptionSettingsCollection *EncryptionSettingsCollectionARM `json:"encryptionSettingsCollection,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
@@ -76,11 +76,11 @@ type SnapshotPropertiesARM struct {
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
 
 	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-	PurchasePlan *PurchasePlanARM `json:"purchasePlan,omitempty"`
+	PurchasePlan *PurchasePlan_ARM `json:"purchasePlan,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
-type SnapshotSkuARM struct {
+type SnapshotSku_ARM struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
 }

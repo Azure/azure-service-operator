@@ -5,7 +5,7 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type StorageAccounts_BlobService_SpecARM struct {
+type StorageAccounts_BlobService_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,62 +13,62 @@ type StorageAccounts_BlobService_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *BlobServicePropertiesPropertiesARM `json:"properties,omitempty"`
+	Properties *BlobServicePropertiesProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (service StorageAccounts_BlobService_SpecARM) GetAPIVersion() string {
+func (service StorageAccounts_BlobService_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (service *StorageAccounts_BlobService_SpecARM) GetName() string {
+func (service *StorageAccounts_BlobService_Spec_ARM) GetName() string {
 	return service.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
-func (service *StorageAccounts_BlobService_SpecARM) GetType() string {
+func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/BlobServicePropertiesProperties
-type BlobServicePropertiesPropertiesARM struct {
+type BlobServicePropertiesProperties_ARM struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeedARM `json:"changeFeed,omitempty"`
+	ChangeFeed *ChangeFeed_ARM `json:"changeFeed,omitempty"`
 
 	// ContainerDeleteRetentionPolicy: The service properties for soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicyARM `json:"containerDeleteRetentionPolicy,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"containerDeleteRetentionPolicy,omitempty"`
 
 	// Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
-	Cors *CorsRulesARM `json:"cors,omitempty"`
+	Cors *CorsRules_ARM `json:"cors,omitempty"`
 
 	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
 	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
 	// DeleteRetentionPolicy: The service properties for soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicyARM `json:"deleteRetentionPolicy,omitempty"`
+	DeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"deleteRetentionPolicy,omitempty"`
 
 	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
 	// LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicyARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	// RestorePolicy: The blob service properties for blob restore policy
-	RestorePolicy *RestorePolicyPropertiesARM `json:"restorePolicy,omitempty"`
+	RestorePolicy *RestorePolicyProperties_ARM `json:"restorePolicy,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
-type ChangeFeedARM struct {
+type ChangeFeed_ARM struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -78,13 +78,13 @@ type ChangeFeedARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules
-type CorsRulesARM struct {
+type CorsRules_ARM struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
-	CorsRules []CorsRuleARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy
-type DeleteRetentionPolicyARM struct {
+type DeleteRetentionPolicy_ARM struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
@@ -94,7 +94,7 @@ type DeleteRetentionPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy
-type LastAccessTimeTrackingPolicyARM struct {
+type LastAccessTimeTrackingPolicy_ARM struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
 	BlobType []string `json:"blobType,omitempty"`
@@ -111,7 +111,7 @@ type LastAccessTimeTrackingPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties
-type RestorePolicyPropertiesARM struct {
+type RestorePolicyProperties_ARM struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
@@ -120,7 +120,7 @@ type RestorePolicyPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule
-type CorsRuleARM struct {
+type CorsRule_ARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`

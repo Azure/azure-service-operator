@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210301
 
-type Database_STATUSARM struct {
+type Database_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,28 +12,28 @@ type Database_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Other properties of the database.
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
-	ClientProtocol *DatabaseProperties_STATUS_ClientProtocol `json:"clientProtocol,omitempty"`
+	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS `json:"clientProtocol,omitempty"`
 
 	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
-	ClusteringPolicy *DatabaseProperties_STATUS_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_STATUS `json:"clusteringPolicy,omitempty"`
 
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_STATUS_EvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
 
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module_STATUSARM `json:"modules,omitempty"`
+	Modules []Module_STATUS_ARM `json:"modules,omitempty"`
 
 	// Persistence: Persistence settings
-	Persistence *Persistence_STATUSARM `json:"persistence,omitempty"`
+	Persistence *Persistence_STATUS_ARM `json:"persistence,omitempty"`
 
 	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
@@ -45,34 +45,34 @@ type DatabaseProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type DatabaseProperties_STATUS_ClientProtocol string
+type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
-	DatabaseProperties_STATUS_ClientProtocol_Encrypted = DatabaseProperties_STATUS_ClientProtocol("Encrypted")
-	DatabaseProperties_STATUS_ClientProtocol_Plaintext = DatabaseProperties_STATUS_ClientProtocol("Plaintext")
+	DatabaseProperties_ClientProtocol_STATUS_Encrypted = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
+	DatabaseProperties_ClientProtocol_STATUS_Plaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
 
-type DatabaseProperties_STATUS_ClusteringPolicy string
+type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
-	DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_STATUS_ClusteringPolicy("EnterpriseCluster")
-	DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster        = DatabaseProperties_STATUS_ClusteringPolicy("OSSCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
 
-type DatabaseProperties_STATUS_EvictionPolicy string
+type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLFU")
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLRU")
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom  = DatabaseProperties_STATUS_EvictionPolicy("AllKeysRandom")
-	DatabaseProperties_STATUS_EvictionPolicy_NoEviction     = DatabaseProperties_STATUS_EvictionPolicy("NoEviction")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLFU")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLRU")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom = DatabaseProperties_STATUS_EvictionPolicy("VolatileRandom")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL    = DatabaseProperties_STATUS_EvictionPolicy("VolatileTTL")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_NoEviction     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
-type Module_STATUSARM struct {
+type Module_STATUS_ARM struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
@@ -83,31 +83,31 @@ type Module_STATUSARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-type Persistence_STATUSARM struct {
+type Persistence_STATUS_ARM struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	// AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *Persistence_STATUS_AofFrequency `json:"aofFrequency,omitempty"`
+	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
 
 	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *Persistence_STATUS_RdbFrequency `json:"rdbFrequency,omitempty"`
+	RdbFrequency *Persistence_RdbFrequency_STATUS `json:"rdbFrequency,omitempty"`
 }
 
-type Persistence_STATUS_AofFrequency string
+type Persistence_AofFrequency_STATUS string
 
 const (
-	Persistence_STATUS_AofFrequency_1S     = Persistence_STATUS_AofFrequency("1s")
-	Persistence_STATUS_AofFrequency_Always = Persistence_STATUS_AofFrequency("always")
+	Persistence_AofFrequency_STATUS_1S     = Persistence_AofFrequency_STATUS("1s")
+	Persistence_AofFrequency_STATUS_Always = Persistence_AofFrequency_STATUS("always")
 )
 
-type Persistence_STATUS_RdbFrequency string
+type Persistence_RdbFrequency_STATUS string
 
 const (
-	Persistence_STATUS_RdbFrequency_12H = Persistence_STATUS_RdbFrequency("12h")
-	Persistence_STATUS_RdbFrequency_1H  = Persistence_STATUS_RdbFrequency("1h")
-	Persistence_STATUS_RdbFrequency_6H  = Persistence_STATUS_RdbFrequency("6h")
+	Persistence_RdbFrequency_STATUS_12H = Persistence_RdbFrequency_STATUS("12h")
+	Persistence_RdbFrequency_STATUS_1H  = Persistence_RdbFrequency_STATUS("1h")
+	Persistence_RdbFrequency_STATUS_6H  = Persistence_RdbFrequency_STATUS("6h")
 )

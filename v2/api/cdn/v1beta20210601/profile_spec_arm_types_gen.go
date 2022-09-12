@@ -5,7 +5,7 @@ package v1beta20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Profile_SpecARM struct {
+type Profile_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -14,7 +14,7 @@ type Profile_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The JSON object that contains the properties required to create a profile.
-	Properties *ProfilePropertiesARM `json:"properties,omitempty"`
+	Properties *ProfileProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
 	// Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
@@ -34,38 +34,38 @@ type Profile_SpecARM struct {
 	// billing model.
 	// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak
 	// bandwidth billing model.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Profile_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Profile_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (profile Profile_SpecARM) GetAPIVersion() string {
+func (profile Profile_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (profile *Profile_SpecARM) GetName() string {
+func (profile *Profile_Spec_ARM) GetName() string {
 	return profile.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"
-func (profile *Profile_SpecARM) GetType() string {
+func (profile *Profile_Spec_ARM) GetType() string {
 	return "Microsoft.Cdn/profiles"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ProfileProperties
-type ProfilePropertiesARM struct {
+type ProfileProperties_ARM struct {
 	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
 	// request fails and returns.
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: Name of the pricing tier.
 	Name *Sku_Name `json:"name,omitempty"`
 }

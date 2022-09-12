@@ -5,9 +5,9 @@ package v1beta20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type FlexibleServer_SpecARM struct {
+type FlexibleServer_Spec_ARM struct {
 	// Identity: Properties to configure Identity for Bring your Own Keys
-	Identity *IdentityARM `json:"identity,omitempty"`
+	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -16,40 +16,40 @@ type FlexibleServer_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a server.
-	Properties *ServerPropertiesARM `json:"properties,omitempty"`
+	Properties *ServerProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: Billing information related properties of a server.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FlexibleServer_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FlexibleServer_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (server FlexibleServer_SpecARM) GetAPIVersion() string {
+func (server FlexibleServer_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (server *FlexibleServer_SpecARM) GetName() string {
+func (server *FlexibleServer_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers"
-func (server *FlexibleServer_SpecARM) GetType() string {
+func (server *FlexibleServer_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity
-type IdentityARM struct {
+type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
-type ServerPropertiesARM struct {
+type ServerProperties_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -61,22 +61,22 @@ type ServerPropertiesARM struct {
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
 	// Backup: Storage Profile properties of a server
-	Backup *BackupARM `json:"backup,omitempty"`
+	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
 
 	// DataEncryption: The date encryption for cmk.
-	DataEncryption *DataEncryptionARM `json:"dataEncryption,omitempty"`
+	DataEncryption *DataEncryption_ARM `json:"dataEncryption,omitempty"`
 
 	// HighAvailability: Network related properties of a server
-	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
+	HighAvailability *HighAvailability_ARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window of a server.
-	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
+	MaintenanceWindow *MaintenanceWindow_ARM `json:"maintenanceWindow,omitempty"`
 
 	// Network: Network related properties of a server
-	Network *NetworkARM `json:"network,omitempty"`
+	Network *Network_ARM `json:"network,omitempty"`
 
 	// ReplicationRole: The replication role.
 	ReplicationRole *ServerProperties_ReplicationRole `json:"replicationRole,omitempty"`
@@ -88,14 +88,14 @@ type ServerPropertiesARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// Storage: Storage Profile properties of a server
-	Storage *StorageARM `json:"storage,omitempty"`
+	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: Server version.
 	Version *ServerProperties_Version `json:"version,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
@@ -104,7 +104,7 @@ type SkuARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
-type BackupARM struct {
+type Backup_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
@@ -113,7 +113,7 @@ type BackupARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption
-type DataEncryptionARM struct {
+type DataEncryption_ARM struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty"`
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
@@ -127,7 +127,7 @@ type DataEncryptionARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
-type HighAvailabilityARM struct {
+type HighAvailability_ARM struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
 
@@ -141,7 +141,7 @@ type Identity_Type string
 const Identity_Type_UserAssigned = Identity_Type("UserAssigned")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
-type MaintenanceWindowARM struct {
+type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
@@ -156,7 +156,7 @@ type MaintenanceWindowARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
-type NetworkARM struct {
+type Network_ARM struct {
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
 }
@@ -171,7 +171,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
-type StorageARM struct {
+type Storage_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *Storage_AutoGrow `json:"autoGrow,omitempty"`
 

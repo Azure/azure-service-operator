@@ -5,13 +5,13 @@ package v1beta20210501
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type Server_STATUSARM struct {
+type Server_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The cmk identity for the server.
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -20,13 +20,13 @@ type Server_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
-	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,7 +35,7 @@ type Server_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -43,13 +43,13 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
+	Type *Identity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Metadata of user assigned identity.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
-type ServerProperties_STATUSARM struct {
+type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -58,25 +58,25 @@ type ServerProperties_STATUSARM struct {
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
 	// Backup: Backup related properties of a server.
-	Backup *Backup_STATUSARM `json:"backup,omitempty"`
+	Backup *Backup_STATUS_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
 
 	// DataEncryption: The Data Encryption for CMK.
-	DataEncryption *DataEncryption_STATUSARM `json:"dataEncryption,omitempty"`
+	DataEncryption *DataEncryption_STATUS_ARM `json:"dataEncryption,omitempty"`
 
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
 	// HighAvailability: High availability related properties of a server.
-	HighAvailability *HighAvailability_STATUSARM `json:"highAvailability,omitempty"`
+	HighAvailability *HighAvailability_STATUS_ARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window of a server.
-	MaintenanceWindow *MaintenanceWindow_STATUSARM `json:"maintenanceWindow,omitempty"`
+	MaintenanceWindow *MaintenanceWindow_STATUS_ARM `json:"maintenanceWindow,omitempty"`
 
 	// Network: Network related properties of a server.
-	Network *Network_STATUSARM `json:"network,omitempty"`
+	Network *Network_STATUS_ARM `json:"network,omitempty"`
 
 	// ReplicaCapacity: The maximum number of replicas that a primary server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
@@ -91,24 +91,24 @@ type ServerProperties_STATUSARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: The state of a server.
-	State *ServerProperties_STATUS_State `json:"state,omitempty"`
+	State *ServerProperties_State_STATUS `json:"state,omitempty"`
 
 	// Storage: Storage related properties of a server.
-	Storage *Storage_STATUSARM `json:"storage,omitempty"`
+	Storage *Storage_STATUS_ARM `json:"storage,omitempty"`
 
 	// Version: Server version.
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type Backup_STATUSARM struct {
+type Backup_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
@@ -119,7 +119,7 @@ type Backup_STATUSARM struct {
 	GeoRedundantBackup *EnableStatusEnum_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
-type DataEncryption_STATUSARM struct {
+type DataEncryption_STATUS_ARM struct {
 	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
 
@@ -134,25 +134,25 @@ type DataEncryption_STATUSARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-	Type *DataEncryption_STATUS_Type `json:"type,omitempty"`
+	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
 }
 
-type HighAvailability_STATUSARM struct {
+type HighAvailability_STATUS_ARM struct {
 	// Mode: High availability mode for a server.
-	Mode *HighAvailability_STATUS_Mode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: The state of server high availability.
-	State *HighAvailability_STATUS_State `json:"state,omitempty"`
+	State *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
-type Identity_STATUS_Type string
+type Identity_Type_STATUS string
 
-const Identity_STATUS_Type_UserAssigned = Identity_STATUS_Type("UserAssigned")
+const Identity_Type_STATUS_UserAssigned = Identity_Type_STATUS("UserAssigned")
 
-type MaintenanceWindow_STATUSARM struct {
+type MaintenanceWindow_STATUS_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
@@ -166,7 +166,7 @@ type MaintenanceWindow_STATUSARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-type Network_STATUSARM struct {
+type Network_STATUS_ARM struct {
 	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
@@ -178,15 +178,15 @@ type Network_STATUSARM struct {
 	PublicNetworkAccess *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type Sku_STATUS_Tier string
+type Sku_Tier_STATUS string
 
 const (
-	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
-	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
-	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
+	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
-type Storage_STATUSARM struct {
+type Storage_STATUS_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`
 

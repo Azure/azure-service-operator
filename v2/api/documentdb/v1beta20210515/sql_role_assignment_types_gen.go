@@ -346,7 +346,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 	if assignment == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlRoleAssignment_SpecARM{}
+	result := &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -355,7 +355,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 	if assignment.PrincipalId != nil ||
 		assignment.RoleDefinitionId != nil ||
 		assignment.Scope != nil {
-		result.Properties = &SqlRoleAssignmentResourceARM{}
+		result.Properties = &SqlRoleAssignmentResource_ARM{}
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
@@ -374,14 +374,14 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlRoleAssignment_SpecARM{}
+	return &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlRoleAssignment_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_SqlRoleAssignment_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -627,14 +627,14 @@ var _ genruntime.FromARMConverter = &SqlRoleAssignmentGetResults_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (results *SqlRoleAssignmentGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlRoleAssignmentGetResults_STATUSARM{}
+	return &SqlRoleAssignmentGetResults_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlRoleAssignmentGetResults_STATUSARM)
+	typedInput, ok := armInput.(SqlRoleAssignmentGetResults_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlRoleAssignmentGetResults_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlRoleAssignmentGetResults_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

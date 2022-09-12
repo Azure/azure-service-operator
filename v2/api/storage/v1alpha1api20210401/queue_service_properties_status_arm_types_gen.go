@@ -4,14 +4,14 @@
 package v1alpha1api20210401
 
 // Deprecated version of QueueServiceProperties_STATUS. Use v1beta20210401.QueueServiceProperties_STATUS instead
-type QueueServiceProperties_STATUSARM struct {
-	Id         *string                                      `json:"id,omitempty"`
-	Name       *string                                      `json:"name,omitempty"`
-	Properties *QueueServiceProperties_STATUS_PropertiesARM `json:"properties,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
+type QueueServiceProperties_STATUS_ARM struct {
+	Id         *string                                       `json:"id,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Properties *QueueServiceProperties_Properties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
-// Deprecated version of QueueServiceProperties_STATUS_Properties. Use v1beta20210401.QueueServiceProperties_STATUS_Properties instead
-type QueueServiceProperties_STATUS_PropertiesARM struct {
-	Cors *CorsRules_STATUSARM `json:"cors,omitempty"`
+// Deprecated version of QueueServiceProperties_Properties_STATUS. Use v1beta20210401.QueueServiceProperties_Properties_STATUS instead
+type QueueServiceProperties_Properties_STATUS_ARM struct {
+	Cors *CorsRules_STATUS_ARM `json:"cors,omitempty"`
 }

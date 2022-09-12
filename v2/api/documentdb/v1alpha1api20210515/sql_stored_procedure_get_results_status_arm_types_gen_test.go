@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_SqlStoredProcedureGetResults_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlStoredProcedureGetResults_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureGetResults_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUSARM, SqlStoredProcedureGetResults_STATUSARMGenerator()))
+		"Round trip of SqlStoredProcedureGetResults_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS_ARM, SqlStoredProcedureGetResults_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUSARM runs a test to see if a specific instance of SqlStoredProcedureGetResults_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUSARM(subject SqlStoredProcedureGetResults_STATUSARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS_ARM runs a test to see if a specific instance of SqlStoredProcedureGetResults_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS_ARM(subject SqlStoredProcedureGetResults_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUSARM(subject S
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureGetResults_STATUSARM
+	var actual SqlStoredProcedureGetResults_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUSARM(subject S
 	return ""
 }
 
-// Generator of SqlStoredProcedureGetResults_STATUSARM instances for property testing - lazily instantiated by
-// SqlStoredProcedureGetResults_STATUSARMGenerator()
-var sqlStoredProcedureGetResults_STATUSARMGenerator gopter.Gen
+// Generator of SqlStoredProcedureGetResults_STATUS_ARM instances for property testing - lazily instantiated by
+// SqlStoredProcedureGetResults_STATUS_ARMGenerator()
+var sqlStoredProcedureGetResults_STATUS_ARMGenerator gopter.Gen
 
-// SqlStoredProcedureGetResults_STATUSARMGenerator returns a generator of SqlStoredProcedureGetResults_STATUSARM instances for property testing.
-// We first initialize sqlStoredProcedureGetResults_STATUSARMGenerator with a simplified generator based on the
+// SqlStoredProcedureGetResults_STATUS_ARMGenerator returns a generator of SqlStoredProcedureGetResults_STATUS_ARM instances for property testing.
+// We first initialize sqlStoredProcedureGetResults_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlStoredProcedureGetResults_STATUSARMGenerator() gopter.Gen {
-	if sqlStoredProcedureGetResults_STATUSARMGenerator != nil {
-		return sqlStoredProcedureGetResults_STATUSARMGenerator
+func SqlStoredProcedureGetResults_STATUS_ARMGenerator() gopter.Gen {
+	if sqlStoredProcedureGetResults_STATUS_ARMGenerator != nil {
+		return sqlStoredProcedureGetResults_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(generators)
-	sqlStoredProcedureGetResults_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM(generators)
+	sqlStoredProcedureGetResults_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(generators)
-	sqlStoredProcedureGetResults_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM(generators)
+	sqlStoredProcedureGetResults_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUS_ARM{}), generators)
 
-	return sqlStoredProcedureGetResults_STATUSARMGenerator
+	return sqlStoredProcedureGetResults_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,25 +91,25 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(g
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlStoredProcedureGetProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlStoredProcedureGetProperties_STATUS_ARMGenerator())
 }
 
-func Test_SqlStoredProcedureGetProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlStoredProcedureGetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureGetProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUSARM, SqlStoredProcedureGetProperties_STATUSARMGenerator()))
+		"Round trip of SqlStoredProcedureGetProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ARM, SqlStoredProcedureGetProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUSARM runs a test to see if a specific instance of SqlStoredProcedureGetProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUSARM(subject SqlStoredProcedureGetProperties_STATUSARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ARM runs a test to see if a specific instance of SqlStoredProcedureGetProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ARM(subject SqlStoredProcedureGetProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUSARM(subjec
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureGetProperties_STATUSARM
+	var actual SqlStoredProcedureGetProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,42 +135,42 @@ func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUSARM(subjec
 	return ""
 }
 
-// Generator of SqlStoredProcedureGetProperties_STATUSARM instances for property testing - lazily instantiated by
-// SqlStoredProcedureGetProperties_STATUSARMGenerator()
-var sqlStoredProcedureGetProperties_STATUSARMGenerator gopter.Gen
+// Generator of SqlStoredProcedureGetProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// SqlStoredProcedureGetProperties_STATUS_ARMGenerator()
+var sqlStoredProcedureGetProperties_STATUS_ARMGenerator gopter.Gen
 
-// SqlStoredProcedureGetProperties_STATUSARMGenerator returns a generator of SqlStoredProcedureGetProperties_STATUSARM instances for property testing.
-func SqlStoredProcedureGetProperties_STATUSARMGenerator() gopter.Gen {
-	if sqlStoredProcedureGetProperties_STATUSARMGenerator != nil {
-		return sqlStoredProcedureGetProperties_STATUSARMGenerator
+// SqlStoredProcedureGetProperties_STATUS_ARMGenerator returns a generator of SqlStoredProcedureGetProperties_STATUS_ARM instances for property testing.
+func SqlStoredProcedureGetProperties_STATUS_ARMGenerator() gopter.Gen {
+	if sqlStoredProcedureGetProperties_STATUS_ARMGenerator != nil {
+		return sqlStoredProcedureGetProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUSARM(generators)
-	sqlStoredProcedureGetProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetProperties_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ARM(generators)
+	sqlStoredProcedureGetProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetProperties_STATUS_ARM{}), generators)
 
-	return sqlStoredProcedureGetProperties_STATUSARMGenerator
+	return sqlStoredProcedureGetProperties_STATUS_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(SqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Resource"] = gen.PtrOf(SqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator())
 }
 
-func Test_SqlStoredProcedureGetProperties_STATUS_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlStoredProcedureGetProperties_Resource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureGetProperties_STATUS_ResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ResourceARM, SqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator()))
+		"Round trip of SqlStoredProcedureGetProperties_Resource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetProperties_Resource_STATUS_ARM, SqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ResourceARM runs a test to see if a specific instance of SqlStoredProcedureGetProperties_STATUS_ResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ResourceARM(subject SqlStoredProcedureGetProperties_STATUS_ResourceARM) string {
+// RunJSONSerializationTestForSqlStoredProcedureGetProperties_Resource_STATUS_ARM runs a test to see if a specific instance of SqlStoredProcedureGetProperties_Resource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlStoredProcedureGetProperties_Resource_STATUS_ARM(subject SqlStoredProcedureGetProperties_Resource_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -178,7 +178,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ResourceA
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureGetProperties_STATUS_ResourceARM
+	var actual SqlStoredProcedureGetProperties_Resource_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -196,25 +196,25 @@ func RunJSONSerializationTestForSqlStoredProcedureGetProperties_STATUS_ResourceA
 	return ""
 }
 
-// Generator of SqlStoredProcedureGetProperties_STATUS_ResourceARM instances for property testing - lazily instantiated
-// by SqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator()
-var sqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator gopter.Gen
+// Generator of SqlStoredProcedureGetProperties_Resource_STATUS_ARM instances for property testing - lazily instantiated
+// by SqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator()
+var sqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator gopter.Gen
 
-// SqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator returns a generator of SqlStoredProcedureGetProperties_STATUS_ResourceARM instances for property testing.
-func SqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator() gopter.Gen {
-	if sqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator != nil {
-		return sqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator
+// SqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator returns a generator of SqlStoredProcedureGetProperties_Resource_STATUS_ARM instances for property testing.
+func SqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator() gopter.Gen {
+	if sqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator != nil {
+		return sqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ResourceARM(generators)
-	sqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetProperties_STATUS_ResourceARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_Resource_STATUS_ARM(generators)
+	sqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetProperties_Resource_STATUS_ARM{}), generators)
 
-	return sqlStoredProcedureGetProperties_STATUS_ResourceARMGenerator
+	return sqlStoredProcedureGetProperties_Resource_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_STATUS_ResourceARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_Resource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_Resource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())

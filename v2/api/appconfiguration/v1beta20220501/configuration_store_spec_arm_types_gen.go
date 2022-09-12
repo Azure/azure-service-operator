@@ -5,9 +5,9 @@ package v1beta20220501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ConfigurationStore_SpecARM struct {
+type ConfigurationStore_Spec_ARM struct {
 	// Identity: An identity that can be associated with a resource.
-	Identity *ResourceIdentityARM `json:"identity,omitempty"`
+	Identity *ResourceIdentity_ARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -16,37 +16,37 @@ type ConfigurationStore_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration store.
-	Properties *ConfigurationStorePropertiesARM `json:"properties,omitempty"`
+	Properties *ConfigurationStoreProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: Describes a configuration store SKU.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ConfigurationStore_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ConfigurationStore_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-05-01"
-func (store ConfigurationStore_SpecARM) GetAPIVersion() string {
+func (store ConfigurationStore_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (store *ConfigurationStore_SpecARM) GetName() string {
+func (store *ConfigurationStore_Spec_ARM) GetName() string {
 	return store.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.AppConfiguration/configurationStores"
-func (store *ConfigurationStore_SpecARM) GetType() string {
+func (store *ConfigurationStore_Spec_ARM) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ConfigurationStoreProperties
-type ConfigurationStorePropertiesARM struct {
+type ConfigurationStoreProperties_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
 	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
 
@@ -57,7 +57,7 @@ type ConfigurationStorePropertiesARM struct {
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
 	// Encryption: The encryption settings for a configuration store.
-	Encryption *EncryptionPropertiesARM `json:"encryption,omitempty"`
+	Encryption *EncryptionProperties_ARM `json:"encryption,omitempty"`
 
 	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
 	// enabled.
@@ -69,20 +69,20 @@ type ConfigurationStorePropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ResourceIdentity
-type ResourceIdentityARM struct {
+type ResourceIdentity_ARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/Sku
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/SystemData
-type SystemDataARM struct {
+type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -103,9 +103,9 @@ type SystemDataARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/EncryptionProperties
-type EncryptionPropertiesARM struct {
+type EncryptionProperties_ARM struct {
 	// KeyVaultProperties: Settings concerning key vault encryption for a configuration store.
-	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
@@ -139,7 +139,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/KeyVaultProperties
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 

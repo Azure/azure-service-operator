@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type Domain_STATUSARM struct {
+type Domain_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,10 +14,10 @@ type Domain_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the domain.
-	Properties *DomainProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DomainProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Domain resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,49 +26,49 @@ type Domain_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type DomainProperties_STATUSARM struct {
+type DomainProperties_STATUS_ARM struct {
 	// Endpoint: Endpoint for the domain.
 	Endpoint *string `json:"endpoint,omitempty"`
 
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
+	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainProperties_STATUS_InputSchema `json:"inputSchema,omitempty"`
+	InputSchema *DomainProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
-	InputSchemaMapping *InputSchemaMapping_STATUSARM `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping *InputSchemaMapping_STATUS_ARM `json:"inputSchemaMapping,omitempty"`
 
 	// MetricResourceId: Metric resource id for the domain.
 	MetricResourceId *string `json:"metricResourceId,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type InboundIpRule_STATUSARM struct {
+type InboundIpRule_STATUS_ARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRule_STATUS_Action `json:"action,omitempty"`
+	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
-type InputSchemaMapping_STATUSARM struct {
+type InputSchemaMapping_STATUS_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMapping_STATUS_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }

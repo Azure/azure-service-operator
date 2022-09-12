@@ -4,57 +4,57 @@
 package v1alpha1api20210601
 
 // Deprecated version of Server_STATUS. Use v1beta20210601.Server_STATUS instead
-type Server_STATUSARM struct {
-	Id         *string                     `json:"id,omitempty"`
-	Location   *string                     `json:"location,omitempty"`
-	Name       *string                     `json:"name,omitempty"`
-	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUSARM              `json:"sku,omitempty"`
-	SystemData *SystemData_STATUSARM       `json:"systemData,omitempty"`
-	Tags       map[string]string           `json:"tags,omitempty"`
-	Type       *string                     `json:"type,omitempty"`
+type Server_STATUS_ARM struct {
+	Id         *string                      `json:"id,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
+	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *Sku_STATUS_ARM              `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM       `json:"systemData,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
 // Deprecated version of ServerProperties_STATUS. Use v1beta20210601.ServerProperties_STATUS instead
-type ServerProperties_STATUSARM struct {
+type ServerProperties_STATUS_ARM struct {
 	AdministratorLogin       *string                             `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                             `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_STATUSARM                   `json:"backup,omitempty"`
-	CreateMode               *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
+	Backup                   *Backup_STATUS_ARM                  `json:"backup,omitempty"`
+	CreateMode               *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
 	FullyQualifiedDomainName *string                             `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_STATUSARM         `json:"highAvailability,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_STATUSARM        `json:"maintenanceWindow,omitempty"`
+	HighAvailability         *HighAvailability_STATUS_ARM        `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUS_ARM       `json:"maintenanceWindow,omitempty"`
 	MinorVersion             *string                             `json:"minorVersion,omitempty"`
-	Network                  *Network_STATUSARM                  `json:"network,omitempty"`
+	Network                  *Network_STATUS_ARM                 `json:"network,omitempty"`
 	PointInTimeUTC           *string                             `json:"pointInTimeUTC,omitempty"`
 	SourceServerResourceId   *string                             `json:"sourceServerResourceId,omitempty"`
-	State                    *ServerProperties_STATUS_State      `json:"state,omitempty"`
-	Storage                  *Storage_STATUSARM                  `json:"storage,omitempty"`
+	State                    *ServerProperties_State_STATUS      `json:"state,omitempty"`
+	Storage                  *Storage_STATUS_ARM                 `json:"storage,omitempty"`
 	Version                  *ServerVersion_STATUS               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210601.Sku_STATUS instead
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Name *string          `json:"name,omitempty"`
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 // Deprecated version of Backup_STATUS. Use v1beta20210601.Backup_STATUS instead
-type Backup_STATUSARM struct {
+type Backup_STATUS_ARM struct {
 	BackupRetentionDays *int                              `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                           `json:"earliestRestoreDate,omitempty"`
-	GeoRedundantBackup  *Backup_STATUS_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup  *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
 // Deprecated version of HighAvailability_STATUS. Use v1beta20210601.HighAvailability_STATUS instead
-type HighAvailability_STATUSARM struct {
-	Mode                    *HighAvailability_STATUS_Mode  `json:"mode,omitempty"`
+type HighAvailability_STATUS_ARM struct {
+	Mode                    *HighAvailability_Mode_STATUS  `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string                        `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailability_STATUS_State `json:"state,omitempty"`
+	State                   *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
 // Deprecated version of MaintenanceWindow_STATUS. Use v1beta20210601.MaintenanceWindow_STATUS instead
-type MaintenanceWindow_STATUSARM struct {
+type MaintenanceWindow_STATUS_ARM struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
 	StartHour    *int    `json:"startHour,omitempty"`
@@ -62,22 +62,22 @@ type MaintenanceWindow_STATUSARM struct {
 }
 
 // Deprecated version of Network_STATUS. Use v1beta20210601.Network_STATUS instead
-type Network_STATUSARM struct {
+type Network_STATUS_ARM struct {
 	DelegatedSubnetResourceId   *string                             `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                             `json:"privateDnsZoneArmResourceId,omitempty"`
-	PublicNetworkAccess         *Network_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess         *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-// Deprecated version of Sku_STATUS_Tier. Use v1beta20210601.Sku_STATUS_Tier instead
-type Sku_STATUS_Tier string
+// Deprecated version of Sku_Tier_STATUS. Use v1beta20210601.Sku_Tier_STATUS instead
+type Sku_Tier_STATUS string
 
 const (
-	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
-	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
-	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
+	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
 // Deprecated version of Storage_STATUS. Use v1beta20210601.Storage_STATUS instead
-type Storage_STATUSARM struct {
+type Storage_STATUS_ARM struct {
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }

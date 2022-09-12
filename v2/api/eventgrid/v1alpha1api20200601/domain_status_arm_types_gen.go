@@ -4,40 +4,40 @@
 package v1alpha1api20200601
 
 // Deprecated version of Domain_STATUS. Use v1beta20200601.Domain_STATUS instead
-type Domain_STATUSARM struct {
-	Id         *string                     `json:"id,omitempty"`
-	Location   *string                     `json:"location,omitempty"`
-	Name       *string                     `json:"name,omitempty"`
-	Properties *DomainProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM       `json:"systemData,omitempty"`
-	Tags       map[string]string           `json:"tags,omitempty"`
-	Type       *string                     `json:"type,omitempty"`
+type Domain_STATUS_ARM struct {
+	Id         *string                      `json:"id,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
+	Properties *DomainProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM       `json:"systemData,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
 // Deprecated version of DomainProperties_STATUS. Use v1beta20200601.DomainProperties_STATUS instead
-type DomainProperties_STATUSARM struct {
-	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
-	InboundIpRules             []InboundIpRule_STATUSARM                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *DomainProperties_STATUS_InputSchema                             `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_STATUSARM                                    `json:"inputSchemaMapping,omitempty"`
-	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *DomainProperties_STATUS_ProvisioningState                       `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *DomainProperties_STATUS_PublicNetworkAccess                     `json:"publicNetworkAccess,omitempty"`
+type DomainProperties_STATUS_ARM struct {
+	Endpoint                   *string                                                           `json:"endpoint,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS_ARM                                        `json:"inboundIpRules,omitempty"`
+	InputSchema                *DomainProperties_InputSchema_STATUS                              `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS_ARM                                    `json:"inputSchemaMapping,omitempty"`
+	MetricResourceId           *string                                                           `json:"metricResourceId,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *DomainProperties_ProvisioningState_STATUS                        `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *DomainProperties_PublicNetworkAccess_STATUS                      `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of InboundIpRule_STATUS. Use v1beta20200601.InboundIpRule_STATUS instead
-type InboundIpRule_STATUSARM struct {
-	Action *InboundIpRule_STATUS_Action `json:"action,omitempty"`
+type InboundIpRule_STATUS_ARM struct {
+	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
 	IpMask *string                      `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
-type InputSchemaMapping_STATUSARM struct {
-	InputSchemaMappingType *InputSchemaMapping_STATUS_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+type InputSchemaMapping_STATUS_ARM struct {
+	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type PublicIPAddress_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
+type PublicIPAddress_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -20,10 +20,10 @@ type PublicIPAddress_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_STATUSARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,12 +35,12 @@ type PublicIPAddress_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type PublicIPAddressPropertiesFormat_STATUSARM struct {
+type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettings_STATUSARM `json:"ddosSettings,omitempty"`
+	DdosSettings *DdosSettings_STATUS_ARM `json:"ddosSettings,omitempty"`
 
 	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettings_STATUSARM `json:"dnsSettings,omitempty"`
+	DnsSettings *PublicIPAddressDnsSettings_STATUS_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
@@ -49,16 +49,16 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpConfiguration: The IP configuration associated with the public IP address.
-	IpConfiguration *IPConfiguration_STATUS_PublicIPAddresses_SubResourceEmbeddedARM `json:"ipConfiguration,omitempty"`
+	IpConfiguration *IPConfiguration_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM `json:"ipConfiguration,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTag_STATUSARM `json:"ipTags,omitempty"`
+	IpTags []IpTag_STATUS_ARM `json:"ipTags,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormat_STATUS_MigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
 
 	// NatGateway: The NatGateway for the Public IP address.
-	NatGateway *NatGateway_STATUS_PublicIPAddresses_SubResourceEmbeddedARM `json:"natGateway,omitempty"`
+	NatGateway *NatGateway_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM `json:"natGateway,omitempty"`
 
 	// ProvisioningState: The provisioning state of the public IP address resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -70,33 +70,33 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	PublicIPAllocationMethod *IPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the public IP address resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-type PublicIPAddressSku_STATUSARM struct {
+type PublicIPAddressSku_STATUS_ARM struct {
 	// Name: Name of a public IP address SKU.
-	Name *PublicIPAddressSku_STATUS_Name `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type DdosSettings_STATUSARM struct {
+type DdosSettings_STATUS_ARM struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
-	DdosCustomPolicy *SubResource_STATUSARM `json:"ddosCustomPolicy,omitempty"`
+	DdosCustomPolicy *SubResource_STATUS_ARM `json:"ddosCustomPolicy,omitempty"`
 
 	// ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
 
 	// ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
 	// ability to be customized.
-	ProtectionCoverage *DdosSettings_STATUS_ProtectionCoverage `json:"protectionCoverage,omitempty"`
+	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
 }
 
-type IPConfiguration_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
+type IPConfiguration_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -107,10 +107,10 @@ type IPConfiguration_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the IP configuration.
-	Properties *IPConfigurationPropertiesFormat_STATUS_PublicIPAddresses_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *IPConfigurationPropertiesFormat_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 }
 
-type IpTag_STATUSARM struct {
+type IpTag_STATUS_ARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
@@ -118,18 +118,18 @@ type IpTag_STATUSARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-type NatGateway_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
+type NatGateway_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	// Sku: The nat gateway SKU.
-	Sku *NatGatewaySku_STATUSARM `json:"sku,omitempty"`
+	Sku *NatGatewaySku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
 	Zones []string `json:"zones,omitempty"`
 }
 
-type PublicIPAddressDnsSettings_STATUSARM struct {
+type PublicIPAddressDnsSettings_STATUS_ARM struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
 	// record is created for the public IP in the Microsoft Azure DNS system.
@@ -145,21 +145,21 @@ type PublicIPAddressDnsSettings_STATUSARM struct {
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
-type PublicIPAddressSku_STATUS_Name string
+type PublicIPAddressSku_Name_STATUS string
 
 const (
-	PublicIPAddressSku_STATUS_Name_Basic    = PublicIPAddressSku_STATUS_Name("Basic")
-	PublicIPAddressSku_STATUS_Name_Standard = PublicIPAddressSku_STATUS_Name("Standard")
+	PublicIPAddressSku_Name_STATUS_Basic    = PublicIPAddressSku_Name_STATUS("Basic")
+	PublicIPAddressSku_Name_STATUS_Standard = PublicIPAddressSku_Name_STATUS("Standard")
 )
 
-type PublicIPAddressSku_STATUS_Tier string
+type PublicIPAddressSku_Tier_STATUS string
 
 const (
-	PublicIPAddressSku_STATUS_Tier_Global   = PublicIPAddressSku_STATUS_Tier("Global")
-	PublicIPAddressSku_STATUS_Tier_Regional = PublicIPAddressSku_STATUS_Tier("Regional")
+	PublicIPAddressSku_Tier_STATUS_Global   = PublicIPAddressSku_Tier_STATUS("Global")
+	PublicIPAddressSku_Tier_STATUS_Regional = PublicIPAddressSku_Tier_STATUS("Regional")
 )
 
-type IPConfigurationPropertiesFormat_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
+type IPConfigurationPropertiesFormat_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM struct {
 	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
@@ -170,15 +170,15 @@ type IPConfigurationPropertiesFormat_STATUS_PublicIPAddresses_SubResourceEmbedde
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_STATUS_PublicIPAddresses_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 }
 
-type NatGatewaySku_STATUSARM struct {
+type NatGatewaySku_STATUS_ARM struct {
 	// Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySku_STATUS_Name `json:"name,omitempty"`
+	Name *NatGatewaySku_Name_STATUS `json:"name,omitempty"`
 }
 
-type Subnet_STATUS_PublicIPAddresses_SubResourceEmbeddedARM struct {
+type Subnet_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

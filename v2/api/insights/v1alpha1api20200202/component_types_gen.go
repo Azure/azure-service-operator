@@ -342,7 +342,7 @@ const APIVersion_Value = APIVersion("2020-02-02")
 type ApplicationInsightsComponent_STATUS struct {
 	AppId            *string                                                         `json:"AppId,omitempty"`
 	ApplicationId    *string                                                         `json:"ApplicationId,omitempty"`
-	Application_Type *ApplicationInsightsComponentProperties_STATUS_Application_Type `json:"Application_Type,omitempty"`
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_STATUS `json:"Application_Type,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions                      []conditions.Condition                                        `json:"conditions,omitempty"`
@@ -351,13 +351,13 @@ type ApplicationInsightsComponent_STATUS struct {
 	DisableIpMasking                *bool                                                         `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool                                                         `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string                                                       `json:"etag,omitempty"`
-	Flow_Type                       *ApplicationInsightsComponentProperties_STATUS_Flow_Type      `json:"Flow_Type,omitempty"`
+	Flow_Type                       *ApplicationInsightsComponentProperties_Flow_Type_STATUS      `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool                                                         `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string                                                       `json:"HockeyAppId,omitempty"`
 	HockeyAppToken                  *string                                                       `json:"HockeyAppToken,omitempty"`
 	Id                              *string                                                       `json:"id,omitempty"`
 	ImmediatePurgeDataOn30Days      *bool                                                         `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *ApplicationInsightsComponentProperties_STATUS_IngestionMode  `json:"IngestionMode,omitempty"`
+	IngestionMode                   *ApplicationInsightsComponentProperties_IngestionMode_STATUS  `json:"IngestionMode,omitempty"`
 	InstrumentationKey              *string                                                       `json:"InstrumentationKey,omitempty"`
 	Kind                            *string                                                       `json:"kind,omitempty"`
 	LaMigrationDate                 *string                                                       `json:"LaMigrationDate,omitempty"`
@@ -368,7 +368,7 @@ type ApplicationInsightsComponent_STATUS struct {
 	ProvisioningState               *string                                                       `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS                               `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS                               `json:"publicNetworkAccessForQuery,omitempty"`
-	Request_Source                  *ApplicationInsightsComponentProperties_STATUS_Request_Source `json:"Request_Source,omitempty"`
+	Request_Source                  *ApplicationInsightsComponentProperties_Request_Source_STATUS `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                                                          `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                                                      `json:"SamplingPercentage,omitempty"`
 	Tags                            *v1.JSON                                                      `json:"tags,omitempty"`
@@ -431,14 +431,14 @@ var _ genruntime.FromARMConverter = &ApplicationInsightsComponent_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *ApplicationInsightsComponent_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationInsightsComponent_STATUSARM{}
+	return &ApplicationInsightsComponent_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationInsightsComponent_STATUSARM)
+	typedInput, ok := armInput.(ApplicationInsightsComponent_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationInsightsComponent_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationInsightsComponent_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AppId’:
@@ -729,7 +729,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Application_Type
 	if source.Application_Type != nil {
-		application_Type := ApplicationInsightsComponentProperties_STATUS_Application_Type(*source.Application_Type)
+		application_Type := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
 		component.Application_Type = &application_Type
 	} else {
 		component.Application_Type = nil
@@ -765,7 +765,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flow_Type := ApplicationInsightsComponentProperties_STATUS_Flow_Type(*source.Flow_Type)
+		flow_Type := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
 		component.Flow_Type = &flow_Type
 	} else {
 		component.Flow_Type = nil
@@ -798,7 +798,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_STATUS_IngestionMode(*source.IngestionMode)
+		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_STATUS(*source.IngestionMode)
 		component.IngestionMode = &ingestionMode
 	} else {
 		component.IngestionMode = nil
@@ -861,7 +861,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Request_Source
 	if source.Request_Source != nil {
-		request_Source := ApplicationInsightsComponentProperties_STATUS_Request_Source(*source.Request_Source)
+		request_Source := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
 		component.Request_Source = &request_Source
 	} else {
 		component.Request_Source = nil
@@ -1130,7 +1130,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component == nil {
 		return nil, nil
 	}
-	result := &Component_SpecARM{}
+	result := &Component_Spec_ARM{}
 
 	// Set property ‘Etag’:
 	if component.Etag != nil {
@@ -1168,7 +1168,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
 		component.WorkspaceResourceReference != nil {
-		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
+		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
 	}
 	if component.Application_Type != nil {
 		application_Type := *component.Application_Type
@@ -1243,14 +1243,14 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_SpecARM{}
+	return &Component_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_SpecARM)
+	typedInput, ok := armInput.(Component_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Application_Type’:
@@ -1809,14 +1809,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUSARM{}
+	return &PrivateLinkScopedResource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUSARM)
+	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ResourceId’:

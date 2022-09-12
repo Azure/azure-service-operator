@@ -6,66 +6,66 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of PublicIPAddresses_Spec. Use v1beta20201101.PublicIPAddresses_Spec instead
-type PublicIPAddresses_SpecARM struct {
-	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
-	Location         *string                             `json:"location,omitempty"`
-	Name             string                              `json:"name,omitempty"`
-	Properties       *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
-	Sku              *PublicIPAddressSkuARM              `json:"sku,omitempty"`
-	Tags             map[string]string                   `json:"tags,omitempty"`
-	Zones            []string                            `json:"zones,omitempty"`
+type PublicIPAddresses_Spec_ARM struct {
+	ExtendedLocation *ExtendedLocation_ARM                `json:"extendedLocation,omitempty"`
+	Location         *string                              `json:"location,omitempty"`
+	Name             string                               `json:"name,omitempty"`
+	Properties       *PublicIPAddressPropertiesFormat_ARM `json:"properties,omitempty"`
+	Sku              *PublicIPAddressSku_ARM              `json:"sku,omitempty"`
+	Tags             map[string]string                    `json:"tags,omitempty"`
+	Zones            []string                             `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &PublicIPAddresses_SpecARM{}
+var _ genruntime.ARMResourceSpec = &PublicIPAddresses_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (addresses PublicIPAddresses_SpecARM) GetAPIVersion() string {
+func (addresses PublicIPAddresses_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (addresses *PublicIPAddresses_SpecARM) GetName() string {
+func (addresses *PublicIPAddresses_Spec_ARM) GetName() string {
 	return addresses.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (addresses *PublicIPAddresses_SpecARM) GetType() string {
+func (addresses *PublicIPAddresses_Spec_ARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
 // Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
-type PublicIPAddressPropertiesFormatARM struct {
-	DdosSettings             *DdosSettingsARM                                          `json:"ddosSettings,omitempty"`
-	DnsSettings              *PublicIPAddressDnsSettingsARM                            `json:"dnsSettings,omitempty"`
+type PublicIPAddressPropertiesFormat_ARM struct {
+	DdosSettings             *DdosSettings_ARM                                         `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettings_ARM                           `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes     *int                                                      `json:"idleTimeoutInMinutes,omitempty"`
 	IpAddress                *string                                                   `json:"ipAddress,omitempty"`
-	IpTags                   []IpTagARM                                                `json:"ipTags,omitempty"`
+	IpTags                   []IpTag_ARM                                               `json:"ipTags,omitempty"`
 	PublicIPAddressVersion   *PublicIPAddressPropertiesFormat_PublicIPAddressVersion   `json:"publicIPAddressVersion,omitempty"`
 	PublicIPAllocationMethod *PublicIPAddressPropertiesFormat_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResourceARM                                           `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix           *SubResource_ARM                                          `json:"publicIPPrefix,omitempty"`
 }
 
 // Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
-type PublicIPAddressSkuARM struct {
+type PublicIPAddressSku_ARM struct {
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
 	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
-type DdosSettingsARM struct {
-	DdosCustomPolicy   *SubResourceARM                  `json:"ddosCustomPolicy,omitempty"`
+type DdosSettings_ARM struct {
+	DdosCustomPolicy   *SubResource_ARM                 `json:"ddosCustomPolicy,omitempty"`
 	ProtectedIP        *bool                            `json:"protectedIP,omitempty"`
 	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
 // Deprecated version of IpTag. Use v1beta20201101.IpTag instead
-type IpTagARM struct {
+type IpTag_ARM struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
 }
 
 // Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
-type PublicIPAddressDnsSettingsARM struct {
+type PublicIPAddressDnsSettings_ARM struct {
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 	Fqdn            *string `json:"fqdn,omitempty"`
 	ReverseFqdn     *string `json:"reverseFqdn,omitempty"`

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type SqlRoleAssignmentGetResults_STATUSARM struct {
+type SqlRoleAssignmentGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the database account.
 	Id *string `json:"id,omitempty"`
 
@@ -11,13 +11,13 @@ type SqlRoleAssignmentGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties related to the Role Assignment.
-	Properties *SqlRoleAssignmentResource_STATUSARM `json:"properties,omitempty"`
+	Properties *SqlRoleAssignmentResource_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlRoleAssignmentResource_STATUSARM struct {
+type SqlRoleAssignmentResource_STATUS_ARM struct {
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
 	PrincipalId *string `json:"principalId,omitempty"`

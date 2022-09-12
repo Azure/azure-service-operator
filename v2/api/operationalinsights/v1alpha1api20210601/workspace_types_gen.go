@@ -371,7 +371,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace == nil {
 		return nil, nil
 	}
-	result := &Workspace_SpecARM{}
+	result := &Workspace_Spec_ARM{}
 
 	// Set property ‘Etag’:
 	if workspace.Etag != nil {
@@ -397,14 +397,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		workspace.RetentionInDays != nil ||
 		workspace.Sku != nil ||
 		workspace.WorkspaceCapping != nil {
-		result.Properties = &WorkspacePropertiesARM{}
+		result.Properties = &WorkspaceProperties_ARM{}
 	}
 	if workspace.Features != nil {
-		featuresARM, err := (*workspace.Features).ConvertToARM(resolved)
+		features_ARM, err := (*workspace.Features).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		features := *featuresARM.(*WorkspaceFeaturesARM)
+		features := *features_ARM.(*WorkspaceFeatures_ARM)
 		result.Properties.Features = &features
 	}
 	if workspace.ForceCmkForQuery != nil {
@@ -428,19 +428,19 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.RetentionInDays = &retentionInDays
 	}
 	if workspace.Sku != nil {
-		skuARM, err := (*workspace.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*workspace.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*WorkspaceSkuARM)
+		sku := *sku_ARM.(*WorkspaceSku_ARM)
 		result.Properties.Sku = &sku
 	}
 	if workspace.WorkspaceCapping != nil {
-		workspaceCappingARM, err := (*workspace.WorkspaceCapping).ConvertToARM(resolved)
+		workspaceCapping_ARM, err := (*workspace.WorkspaceCapping).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		workspaceCapping := *workspaceCappingARM.(*WorkspaceCappingARM)
+		workspaceCapping := *workspaceCapping_ARM.(*WorkspaceCapping_ARM)
 		result.Properties.WorkspaceCapping = &workspaceCapping
 	}
 
@@ -456,14 +456,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_SpecARM{}
+	return &Workspace_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_SpecARM)
+	typedInput, ok := armInput.(Workspace_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -865,7 +865,7 @@ type Workspace_STATUS struct {
 	ModifiedDate                    *string                                       `json:"modifiedDate,omitempty"`
 	Name                            *string                                       `json:"name,omitempty"`
 	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS            `json:"privateLinkScopedResources,omitempty"`
-	ProvisioningState               *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForQuery,omitempty"`
 	RetentionInDays                 *int                                          `json:"retentionInDays,omitempty"`
@@ -929,14 +929,14 @@ var _ genruntime.FromARMConverter = &Workspace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_STATUSARM{}
+	return &Workspace_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_STATUSARM)
+	typedInput, ok := armInput.(Workspace_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1177,7 +1177,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_STATUS_ProvisioningState(*source.ProvisioningState)
+		provisioningState := WorkspaceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		workspace.ProvisioningState = &provisioningState
 	} else {
 		workspace.ProvisioningState = nil
@@ -1381,14 +1381,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUSARM{}
+	return &PrivateLinkScopedResource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUSARM)
+	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ResourceId’:
@@ -1462,7 +1462,7 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if capping == nil {
 		return nil, nil
 	}
-	result := &WorkspaceCappingARM{}
+	result := &WorkspaceCapping_ARM{}
 
 	// Set property ‘DailyQuotaGb’:
 	if capping.DailyQuotaGb != nil {
@@ -1474,14 +1474,14 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCappingARM{}
+	return &WorkspaceCapping_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCappingARM)
+	typedInput, ok := armInput.(WorkspaceCapping_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCappingARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DailyQuotaGb’:
@@ -1536,7 +1536,7 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 // Deprecated version of WorkspaceCapping_STATUS. Use v1beta20210601.WorkspaceCapping_STATUS instead
 type WorkspaceCapping_STATUS struct {
 	DailyQuotaGb        *float64                                     `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCapping_STATUS_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
 	QuotaNextResetTime  *string                                      `json:"quotaNextResetTime,omitempty"`
 }
 
@@ -1544,14 +1544,14 @@ var _ genruntime.FromARMConverter = &WorkspaceCapping_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCapping_STATUSARM{}
+	return &WorkspaceCapping_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCapping_STATUSARM)
+	typedInput, ok := armInput.(WorkspaceCapping_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DailyQuotaGb’:
@@ -1589,7 +1589,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 
 	// DataIngestionStatus
 	if source.DataIngestionStatus != nil {
-		dataIngestionStatus := WorkspaceCapping_STATUS_DataIngestionStatus(*source.DataIngestionStatus)
+		dataIngestionStatus := WorkspaceCapping_DataIngestionStatus_STATUS(*source.DataIngestionStatus)
 		capping.DataIngestionStatus = &dataIngestionStatus
 	} else {
 		capping.DataIngestionStatus = nil
@@ -1654,7 +1654,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	if features == nil {
 		return nil, nil
 	}
-	result := &WorkspaceFeaturesARM{}
+	result := &WorkspaceFeatures_ARM{}
 
 	// Set property ‘AdditionalProperties’:
 	if features.AdditionalProperties != nil {
@@ -1702,14 +1702,14 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeaturesARM{}
+	return &WorkspaceFeatures_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeaturesARM)
+	typedInput, ok := armInput.(WorkspaceFeatures_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeaturesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdditionalProperties’:
@@ -1892,14 +1892,14 @@ var _ genruntime.FromARMConverter = &WorkspaceFeatures_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeatures_STATUSARM{}
+	return &WorkspaceFeatures_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeatures_STATUSARM)
+	typedInput, ok := armInput.(WorkspaceFeatures_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ClusterResourceId’:
@@ -2044,6 +2044,20 @@ const (
 	WorkspaceProperties_ProvisioningState_Updating            = WorkspaceProperties_ProvisioningState("Updating")
 )
 
+// Deprecated version of WorkspaceProperties_ProvisioningState_STATUS. Use
+// v1beta20210601.WorkspaceProperties_ProvisioningState_STATUS instead
+type WorkspaceProperties_ProvisioningState_STATUS string
+
+const (
+	WorkspaceProperties_ProvisioningState_STATUS_Canceled            = WorkspaceProperties_ProvisioningState_STATUS("Canceled")
+	WorkspaceProperties_ProvisioningState_STATUS_Creating            = WorkspaceProperties_ProvisioningState_STATUS("Creating")
+	WorkspaceProperties_ProvisioningState_STATUS_Deleting            = WorkspaceProperties_ProvisioningState_STATUS("Deleting")
+	WorkspaceProperties_ProvisioningState_STATUS_Failed              = WorkspaceProperties_ProvisioningState_STATUS("Failed")
+	WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount = WorkspaceProperties_ProvisioningState_STATUS("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_STATUS_Succeeded           = WorkspaceProperties_ProvisioningState_STATUS("Succeeded")
+	WorkspaceProperties_ProvisioningState_STATUS_Updating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
+)
+
 // Deprecated version of WorkspaceProperties_PublicNetworkAccessForIngestion. Use
 // v1beta20210601.WorkspaceProperties_PublicNetworkAccessForIngestion instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
@@ -2064,20 +2078,6 @@ const (
 	WorkspaceProperties_PublicNetworkAccessForQuery_Enabled  = WorkspaceProperties_PublicNetworkAccessForQuery("Enabled")
 )
 
-// Deprecated version of WorkspaceProperties_STATUS_ProvisioningState. Use
-// v1beta20210601.WorkspaceProperties_STATUS_ProvisioningState instead
-type WorkspaceProperties_STATUS_ProvisioningState string
-
-const (
-	WorkspaceProperties_STATUS_ProvisioningState_Canceled            = WorkspaceProperties_STATUS_ProvisioningState("Canceled")
-	WorkspaceProperties_STATUS_ProvisioningState_Creating            = WorkspaceProperties_STATUS_ProvisioningState("Creating")
-	WorkspaceProperties_STATUS_ProvisioningState_Deleting            = WorkspaceProperties_STATUS_ProvisioningState("Deleting")
-	WorkspaceProperties_STATUS_ProvisioningState_Failed              = WorkspaceProperties_STATUS_ProvisioningState("Failed")
-	WorkspaceProperties_STATUS_ProvisioningState_ProvisioningAccount = WorkspaceProperties_STATUS_ProvisioningState("ProvisioningAccount")
-	WorkspaceProperties_STATUS_ProvisioningState_Succeeded           = WorkspaceProperties_STATUS_ProvisioningState("Succeeded")
-	WorkspaceProperties_STATUS_ProvisioningState_Updating            = WorkspaceProperties_STATUS_ProvisioningState("Updating")
-)
-
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
@@ -2093,7 +2093,7 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku == nil {
 		return nil, nil
 	}
-	result := &WorkspaceSkuARM{}
+	result := &WorkspaceSku_ARM{}
 
 	// Set property ‘CapacityReservationLevel’:
 	if workspaceSku.CapacityReservationLevel != nil {
@@ -2111,14 +2111,14 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSkuARM{}
+	return &WorkspaceSku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSkuARM)
+	typedInput, ok := armInput.(WorkspaceSku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CapacityReservationLevel’:
@@ -2184,23 +2184,23 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 
 // Deprecated version of WorkspaceSku_STATUS. Use v1beta20210601.WorkspaceSku_STATUS instead
 type WorkspaceSku_STATUS struct {
-	CapacityReservationLevel *WorkspaceSku_STATUS_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                                       `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSku_STATUS_Name                     `json:"name,omitempty"`
+	Name                     *WorkspaceSku_Name_STATUS                     `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSku_STATUSARM{}
+	return &WorkspaceSku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSku_STATUSARM)
+	typedInput, ok := armInput.(WorkspaceSku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CapacityReservationLevel’:
@@ -2230,7 +2230,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 
 	// CapacityReservationLevel
 	if source.CapacityReservationLevel != nil {
-		capacityReservationLevel := WorkspaceSku_STATUS_CapacityReservationLevel(*source.CapacityReservationLevel)
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_STATUS(*source.CapacityReservationLevel)
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	} else {
 		workspaceSku.CapacityReservationLevel = nil
@@ -2241,7 +2241,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 
 	// Name
 	if source.Name != nil {
-		name := WorkspaceSku_STATUS_Name(*source.Name)
+		name := WorkspaceSku_Name_STATUS(*source.Name)
 		workspaceSku.Name = &name
 	} else {
 		workspaceSku.Name = nil
@@ -2286,17 +2286,32 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS
 	return nil
 }
 
-// Deprecated version of WorkspaceCapping_STATUS_DataIngestionStatus. Use
-// v1beta20210601.WorkspaceCapping_STATUS_DataIngestionStatus instead
-type WorkspaceCapping_STATUS_DataIngestionStatus string
+// Deprecated version of WorkspaceCapping_DataIngestionStatus_STATUS. Use
+// v1beta20210601.WorkspaceCapping_DataIngestionStatus_STATUS instead
+type WorkspaceCapping_DataIngestionStatus_STATUS string
 
 const (
-	WorkspaceCapping_STATUS_DataIngestionStatus_ApproachingQuota      = WorkspaceCapping_STATUS_DataIngestionStatus("ApproachingQuota")
-	WorkspaceCapping_STATUS_DataIngestionStatus_ForceOff              = WorkspaceCapping_STATUS_DataIngestionStatus("ForceOff")
-	WorkspaceCapping_STATUS_DataIngestionStatus_ForceOn               = WorkspaceCapping_STATUS_DataIngestionStatus("ForceOn")
-	WorkspaceCapping_STATUS_DataIngestionStatus_OverQuota             = WorkspaceCapping_STATUS_DataIngestionStatus("OverQuota")
-	WorkspaceCapping_STATUS_DataIngestionStatus_RespectQuota          = WorkspaceCapping_STATUS_DataIngestionStatus("RespectQuota")
-	WorkspaceCapping_STATUS_DataIngestionStatus_SubscriptionSuspended = WorkspaceCapping_STATUS_DataIngestionStatus("SubscriptionSuspended")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota      = WorkspaceCapping_DataIngestionStatus_STATUS("ApproachingQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff              = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOff")
+	WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn               = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOn")
+	WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota             = WorkspaceCapping_DataIngestionStatus_STATUS("OverQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota          = WorkspaceCapping_DataIngestionStatus_STATUS("RespectQuota")
+	WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
+)
+
+// Deprecated version of WorkspaceSku_CapacityReservationLevel_STATUS. Use
+// v1beta20210601.WorkspaceSku_CapacityReservationLevel_STATUS instead
+type WorkspaceSku_CapacityReservationLevel_STATUS int
+
+const (
+	WorkspaceSku_CapacityReservationLevel_STATUS_100  = WorkspaceSku_CapacityReservationLevel_STATUS(100)
+	WorkspaceSku_CapacityReservationLevel_STATUS_1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_200  = WorkspaceSku_CapacityReservationLevel_STATUS(200)
+	WorkspaceSku_CapacityReservationLevel_STATUS_2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_300  = WorkspaceSku_CapacityReservationLevel_STATUS(300)
+	WorkspaceSku_CapacityReservationLevel_STATUS_400  = WorkspaceSku_CapacityReservationLevel_STATUS(400)
+	WorkspaceSku_CapacityReservationLevel_STATUS_500  = WorkspaceSku_CapacityReservationLevel_STATUS(500)
+	WorkspaceSku_CapacityReservationLevel_STATUS_5000 = WorkspaceSku_CapacityReservationLevel_STATUS(5000)
 )
 
 // Deprecated version of WorkspaceSku_Name. Use v1beta20210601.WorkspaceSku_Name instead
@@ -2314,33 +2329,18 @@ const (
 	WorkspaceSku_Name_Standard            = WorkspaceSku_Name("Standard")
 )
 
-// Deprecated version of WorkspaceSku_STATUS_CapacityReservationLevel. Use
-// v1beta20210601.WorkspaceSku_STATUS_CapacityReservationLevel instead
-type WorkspaceSku_STATUS_CapacityReservationLevel int
+// Deprecated version of WorkspaceSku_Name_STATUS. Use v1beta20210601.WorkspaceSku_Name_STATUS instead
+type WorkspaceSku_Name_STATUS string
 
 const (
-	WorkspaceSku_STATUS_CapacityReservationLevel_100  = WorkspaceSku_STATUS_CapacityReservationLevel(100)
-	WorkspaceSku_STATUS_CapacityReservationLevel_1000 = WorkspaceSku_STATUS_CapacityReservationLevel(1000)
-	WorkspaceSku_STATUS_CapacityReservationLevel_200  = WorkspaceSku_STATUS_CapacityReservationLevel(200)
-	WorkspaceSku_STATUS_CapacityReservationLevel_2000 = WorkspaceSku_STATUS_CapacityReservationLevel(2000)
-	WorkspaceSku_STATUS_CapacityReservationLevel_300  = WorkspaceSku_STATUS_CapacityReservationLevel(300)
-	WorkspaceSku_STATUS_CapacityReservationLevel_400  = WorkspaceSku_STATUS_CapacityReservationLevel(400)
-	WorkspaceSku_STATUS_CapacityReservationLevel_500  = WorkspaceSku_STATUS_CapacityReservationLevel(500)
-	WorkspaceSku_STATUS_CapacityReservationLevel_5000 = WorkspaceSku_STATUS_CapacityReservationLevel(5000)
-)
-
-// Deprecated version of WorkspaceSku_STATUS_Name. Use v1beta20210601.WorkspaceSku_STATUS_Name instead
-type WorkspaceSku_STATUS_Name string
-
-const (
-	WorkspaceSku_STATUS_Name_CapacityReservation = WorkspaceSku_STATUS_Name("CapacityReservation")
-	WorkspaceSku_STATUS_Name_Free                = WorkspaceSku_STATUS_Name("Free")
-	WorkspaceSku_STATUS_Name_LACluster           = WorkspaceSku_STATUS_Name("LACluster")
-	WorkspaceSku_STATUS_Name_PerGB2018           = WorkspaceSku_STATUS_Name("PerGB2018")
-	WorkspaceSku_STATUS_Name_PerNode             = WorkspaceSku_STATUS_Name("PerNode")
-	WorkspaceSku_STATUS_Name_Premium             = WorkspaceSku_STATUS_Name("Premium")
-	WorkspaceSku_STATUS_Name_Standalone          = WorkspaceSku_STATUS_Name("Standalone")
-	WorkspaceSku_STATUS_Name_Standard            = WorkspaceSku_STATUS_Name("Standard")
+	WorkspaceSku_Name_STATUS_CapacityReservation = WorkspaceSku_Name_STATUS("CapacityReservation")
+	WorkspaceSku_Name_STATUS_Free                = WorkspaceSku_Name_STATUS("Free")
+	WorkspaceSku_Name_STATUS_LACluster           = WorkspaceSku_Name_STATUS("LACluster")
+	WorkspaceSku_Name_STATUS_PerGB2018           = WorkspaceSku_Name_STATUS("PerGB2018")
+	WorkspaceSku_Name_STATUS_PerNode             = WorkspaceSku_Name_STATUS("PerNode")
+	WorkspaceSku_Name_STATUS_Premium             = WorkspaceSku_Name_STATUS("Premium")
+	WorkspaceSku_Name_STATUS_Standalone          = WorkspaceSku_Name_STATUS("Standalone")
+	WorkspaceSku_Name_STATUS_Standard            = WorkspaceSku_Name_STATUS("Standard")
 )
 
 func init() {

@@ -376,7 +376,7 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if topic == nil {
 		return nil, nil
 	}
-	result := &Namespaces_Topic_SpecARM{}
+	result := &Namespaces_Topic_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if topic.Location != nil {
@@ -397,7 +397,7 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		topic.MaxSizeInMegabytes != nil ||
 		topic.RequiresDuplicateDetection != nil ||
 		topic.SupportOrdering != nil {
-		result.Properties = &SBTopicPropertiesARM{}
+		result.Properties = &SBTopicProperties_ARM{}
 	}
 	if topic.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *topic.AutoDeleteOnIdle
@@ -448,14 +448,14 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Namespaces_Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Topic_SpecARM{}
+	return &Namespaces_Topic_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Topic_SpecARM)
+	typedInput, ok := armInput.(Namespaces_Topic_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topic_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topic_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AutoDeleteOnIdle’:
@@ -942,14 +942,14 @@ var _ genruntime.FromARMConverter = &SBTopic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *SBTopic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBTopic_STATUSARM{}
+	return &SBTopic_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *SBTopic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBTopic_STATUSARM)
+	typedInput, ok := armInput.(SBTopic_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AccessedAt’:

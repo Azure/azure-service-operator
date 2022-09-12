@@ -6,54 +6,54 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec instead
-type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM struct {
-	Location   *string                                `json:"location,omitempty"`
-	Name       string                                 `json:"name,omitempty"`
-	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                      `json:"tags,omitempty"`
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM struct {
+	Location   *string                                 `json:"location,omitempty"`
+	Name       string                                  `json:"name,omitempty"`
+	Properties *ThroughputSettingsUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (setting DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM) GetAPIVersion() string {
+func (setting DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM) GetName() string {
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM) GetName() string {
 	return setting.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
-func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM) GetType() string {
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
 // Deprecated version of ThroughputSettingsUpdateProperties. Use v1beta20210515.ThroughputSettingsUpdateProperties instead
-type ThroughputSettingsUpdatePropertiesARM struct {
-	Resource *ThroughputSettingsResourceARM `json:"resource,omitempty"`
+type ThroughputSettingsUpdateProperties_ARM struct {
+	Resource *ThroughputSettingsResource_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
-type ThroughputSettingsResourceARM struct {
-	AutoscaleSettings *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
-	Throughput        *int                          `json:"throughput,omitempty"`
+type ThroughputSettingsResource_ARM struct {
+	AutoscaleSettings *AutoscaleSettingsResource_ARM `json:"autoscaleSettings,omitempty"`
+	Throughput        *int                           `json:"throughput,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
-type AutoscaleSettingsResourceARM struct {
-	AutoUpgradePolicy *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput     *int                          `json:"maxThroughput,omitempty"`
+type AutoscaleSettingsResource_ARM struct {
+	AutoUpgradePolicy *AutoUpgradePolicyResource_ARM `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput     *int                           `json:"maxThroughput,omitempty"`
 }
 
 // Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
-type AutoUpgradePolicyResourceARM struct {
-	ThroughputPolicy *ThroughputPolicyResourceARM `json:"throughputPolicy,omitempty"`
+type AutoUpgradePolicyResource_ARM struct {
+	ThroughputPolicy *ThroughputPolicyResource_ARM `json:"throughputPolicy,omitempty"`
 }
 
 // Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
-type ThroughputPolicyResourceARM struct {
+type ThroughputPolicyResource_ARM struct {
 	IncrementPercent *int  `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }

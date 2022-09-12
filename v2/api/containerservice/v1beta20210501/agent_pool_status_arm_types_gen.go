@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-type AgentPool_STATUSARM struct {
+type AgentPool_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
@@ -11,13 +11,13 @@ type AgentPool_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of an agent pool.
-	Properties *ManagedClusterAgentPoolProfileProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ManagedClusterAgentPoolProfileProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 }
 
-type ManagedClusterAgentPoolProfileProperties_STATUSARM struct {
+type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -52,11 +52,11 @@ type ManagedClusterAgentPoolProfileProperties_STATUSARM struct {
 	GpuInstanceProfile *GPUInstanceProfile_STATUS `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_STATUSARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType_STATUS  `json:"kubeletDiskType,omitempty"`
+	KubeletConfig   *KubeletConfig_STATUS_ARM `json:"kubeletConfig,omitempty"`
+	KubeletDiskType *KubeletDiskType_STATUS   `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
-	LinuxOSConfig *LinuxOSConfig_STATUSARM `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig *LinuxOSConfig_STATUS_ARM `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
@@ -98,7 +98,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUSARM struct {
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState *PowerState_STATUSARM `json:"powerState,omitempty"`
+	PowerState *PowerState_STATUS_ARM `json:"powerState,omitempty"`
 
 	// ProvisioningState: The current deployment or provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -123,7 +123,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUSARM struct {
 	Type *AgentPoolType_STATUS `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
-	UpgradeSettings *AgentPoolUpgradeSettings_STATUSARM `json:"upgradeSettings,omitempty"`
+	UpgradeSettings *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
@@ -150,7 +150,7 @@ const (
 	AgentPoolType_STATUS_VirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
 )
 
-type AgentPoolUpgradeSettings_STATUSARM struct {
+type AgentPoolUpgradeSettings_STATUS_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
 	// up. If not specified, the default is 1. For more information, including best practices, see:
@@ -168,7 +168,7 @@ const (
 	GPUInstanceProfile_STATUS_MIG7G = GPUInstanceProfile_STATUS("MIG7g")
 )
 
-type KubeletConfig_STATUSARM struct {
+type KubeletConfig_STATUS_ARM struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
@@ -216,12 +216,12 @@ const (
 	KubeletDiskType_STATUS_Temporary = KubeletDiskType_STATUS("Temporary")
 )
 
-type LinuxOSConfig_STATUSARM struct {
+type LinuxOSConfig_STATUS_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
 	// Sysctls: Sysctl settings for Linux agent nodes.
-	Sysctls *SysctlConfig_STATUSARM `json:"sysctls,omitempty"`
+	Sysctls *SysctlConfig_STATUS_ARM `json:"sysctls,omitempty"`
 
 	// TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is
 	// 'madvise'. For more information see [Transparent
@@ -255,9 +255,9 @@ const (
 	OSType_STATUS_Windows = OSType_STATUS("Windows")
 )
 
-type PowerState_STATUSARM struct {
+type PowerState_STATUS_ARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerState_STATUS_Code `json:"code,omitempty"`
+	Code *PowerState_Code_STATUS `json:"code,omitempty"`
 }
 
 type ScaleSetEvictionPolicy_STATUS string
@@ -274,14 +274,14 @@ const (
 	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
 
-type PowerState_STATUS_Code string
+type PowerState_Code_STATUS string
 
 const (
-	PowerState_STATUS_Code_Running = PowerState_STATUS_Code("Running")
-	PowerState_STATUS_Code_Stopped = PowerState_STATUS_Code("Stopped")
+	PowerState_Code_STATUS_Running = PowerState_Code_STATUS("Running")
+	PowerState_Code_STATUS_Stopped = PowerState_Code_STATUS("Stopped")
 )
 
-type SysctlConfig_STATUSARM struct {
+type SysctlConfig_STATUS_ARM struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
 

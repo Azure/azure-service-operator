@@ -6,37 +6,37 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroups_SecurityRule_Spec. Use v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec instead
-type NetworkSecurityGroups_SecurityRule_SpecARM struct {
-	Location   *string                          `json:"location,omitempty"`
-	Name       string                           `json:"name,omitempty"`
-	Properties *SecurityRulePropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string                `json:"tags,omitempty"`
+type NetworkSecurityGroups_SecurityRule_Spec_ARM struct {
+	Location   *string                           `json:"location,omitempty"`
+	Name       string                            `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SecurityRule_SpecARM{}
+var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (rule NetworkSecurityGroups_SecurityRule_SpecARM) GetAPIVersion() string {
+func (rule NetworkSecurityGroups_SecurityRule_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (rule *NetworkSecurityGroups_SecurityRule_SpecARM) GetName() string {
+func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetName() string {
 	return rule.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
-func (rule *NetworkSecurityGroups_SecurityRule_SpecARM) GetType() string {
+func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
 // Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead
-type SecurityRulePropertiesFormatARM struct {
+type SecurityRulePropertiesFormat_ARM struct {
 	Access                               *SecurityRulePropertiesFormat_Access    `json:"access,omitempty"`
 	Description                          *string                                 `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                 `json:"destinationAddressPrefix,omitempty"`
 	DestinationAddressPrefixes           []string                                `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []SubResourceARM                        `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationApplicationSecurityGroups []SubResource_ARM                       `json:"destinationApplicationSecurityGroups,omitempty"`
 	DestinationPortRange                 *string                                 `json:"destinationPortRange,omitempty"`
 	DestinationPortRanges                []string                                `json:"destinationPortRanges,omitempty"`
 	Direction                            *SecurityRulePropertiesFormat_Direction `json:"direction,omitempty"`
@@ -44,7 +44,7 @@ type SecurityRulePropertiesFormatARM struct {
 	Protocol                             *SecurityRulePropertiesFormat_Protocol  `json:"protocol,omitempty"`
 	SourceAddressPrefix                  *string                                 `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []SubResourceARM                        `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourceApplicationSecurityGroups      []SubResource_ARM                       `json:"sourceApplicationSecurityGroups,omitempty"`
 	SourcePortRange                      *string                                 `json:"sourcePortRange,omitempty"`
 	SourcePortRanges                     []string                                `json:"sourcePortRanges,omitempty"`
 }

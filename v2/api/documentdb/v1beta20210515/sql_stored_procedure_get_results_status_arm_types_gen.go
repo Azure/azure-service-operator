@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type SqlStoredProcedureGetResults_STATUSARM struct {
+type SqlStoredProcedureGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,18 +14,18 @@ type SqlStoredProcedureGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB storedProcedure
-	Properties *SqlStoredProcedureGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	Properties *SqlStoredProcedureGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlStoredProcedureGetProperties_STATUSARM struct {
-	Resource *SqlStoredProcedureGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlStoredProcedureGetProperties_STATUS_ARM struct {
+	Resource *SqlStoredProcedureGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type SqlStoredProcedureGetProperties_STATUS_ResourceARM struct {
+type SqlStoredProcedureGetProperties_Resource_STATUS_ARM struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`
 

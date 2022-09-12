@@ -817,7 +817,7 @@ type VirtualNetworks_Subnet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                                               `json:"azureName,omitempty"`
-	Delegations          []VirtualNetworks_Subnet_Spec_Properties_Delegations `json:"delegations,omitempty"`
+	Delegations          []VirtualNetworks_Subnet_Properties_Delegations_Spec `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
 	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
@@ -902,14 +902,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 
 	// Delegations
 	if source.Delegations != nil {
-		delegationList := make([]VirtualNetworks_Subnet_Spec_Properties_Delegations, len(source.Delegations))
+		delegationList := make([]VirtualNetworks_Subnet_Properties_Delegations_Spec, len(source.Delegations))
 		for delegationIndex, delegationItem := range source.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation VirtualNetworks_Subnet_Spec_Properties_Delegations
-			err := delegation.AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations(&delegationItem)
+			var delegation VirtualNetworks_Subnet_Properties_Delegations_Spec
+			err := delegation.AssignProperties_From_VirtualNetworks_Subnet_Properties_Delegations_Spec(&delegationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworks_Subnet_Properties_Delegations_Spec() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -1052,14 +1052,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 
 	// Delegations
 	if subnet.Delegations != nil {
-		delegationList := make([]v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations, len(subnet.Delegations))
+		delegationList := make([]v20201101s.VirtualNetworks_Subnet_Properties_Delegations_Spec, len(subnet.Delegations))
 		for delegationIndex, delegationItem := range subnet.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations
-			err := delegationItem.AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations(&delegation)
+			var delegation v20201101s.VirtualNetworks_Subnet_Properties_Delegations_Spec
+			err := delegationItem.AssignProperties_To_VirtualNetworks_Subnet_Properties_Delegations_Spec(&delegation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworks_Subnet_Properties_Delegations_Spec() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -2070,16 +2070,16 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_To_Servic
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.VirtualNetworks_Subnet_Spec_Properties_Delegations
-// Deprecated version of VirtualNetworks_Subnet_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Subnet_Spec_Properties_Delegations instead
-type VirtualNetworks_Subnet_Spec_Properties_Delegations struct {
+// Storage version of v1alpha1api20201101.VirtualNetworks_Subnet_Properties_Delegations_Spec
+// Deprecated version of VirtualNetworks_Subnet_Properties_Delegations_Spec. Use v1beta20201101.VirtualNetworks_Subnet_Properties_Delegations_Spec instead
+type VirtualNetworks_Subnet_Properties_Delegations_Spec struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServiceName *string                `json:"serviceName,omitempty"`
 }
 
-// AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations populates our VirtualNetworks_Subnet_Spec_Properties_Delegations from the provided source VirtualNetworks_Subnet_Spec_Properties_Delegations
-func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) AssignProperties_From_VirtualNetworks_Subnet_Spec_Properties_Delegations(source *v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations) error {
+// AssignProperties_From_VirtualNetworks_Subnet_Properties_Delegations_Spec populates our VirtualNetworks_Subnet_Properties_Delegations_Spec from the provided source VirtualNetworks_Subnet_Properties_Delegations_Spec
+func (delegations *VirtualNetworks_Subnet_Properties_Delegations_Spec) AssignProperties_From_VirtualNetworks_Subnet_Properties_Delegations_Spec(source *v20201101s.VirtualNetworks_Subnet_Properties_Delegations_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2100,8 +2100,8 @@ func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) AssignPro
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations populates the provided destination VirtualNetworks_Subnet_Spec_Properties_Delegations from our VirtualNetworks_Subnet_Spec_Properties_Delegations
-func (delegations *VirtualNetworks_Subnet_Spec_Properties_Delegations) AssignProperties_To_VirtualNetworks_Subnet_Spec_Properties_Delegations(destination *v20201101s.VirtualNetworks_Subnet_Spec_Properties_Delegations) error {
+// AssignProperties_To_VirtualNetworks_Subnet_Properties_Delegations_Spec populates the provided destination VirtualNetworks_Subnet_Properties_Delegations_Spec from our VirtualNetworks_Subnet_Properties_Delegations_Spec
+func (delegations *VirtualNetworks_Subnet_Properties_Delegations_Spec) AssignProperties_To_VirtualNetworks_Subnet_Properties_Delegations_Spec(destination *v20201101s.VirtualNetworks_Subnet_Properties_Delegations_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(delegations.PropertyBag)
 

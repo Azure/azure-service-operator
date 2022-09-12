@@ -407,18 +407,18 @@ func AddIndependentPropertyGeneratorsForRegistry_STATUS(gens map[string]gopter.G
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["LoginServer"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_NetworkRuleBypassOptions_AzureServices, RegistryProperties_STATUS_NetworkRuleBypassOptions_None))
+	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_NetworkRuleBypassOptions_STATUS_AzureServices, RegistryProperties_NetworkRuleBypassOptions_STATUS_None))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RegistryProperties_STATUS_ProvisioningState_Canceled,
-		RegistryProperties_STATUS_ProvisioningState_Creating,
-		RegistryProperties_STATUS_ProvisioningState_Deleting,
-		RegistryProperties_STATUS_ProvisioningState_Failed,
-		RegistryProperties_STATUS_ProvisioningState_Succeeded,
-		RegistryProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_PublicNetworkAccess_Disabled, RegistryProperties_STATUS_PublicNetworkAccess_Enabled))
+		RegistryProperties_ProvisioningState_STATUS_Canceled,
+		RegistryProperties_ProvisioningState_STATUS_Creating,
+		RegistryProperties_ProvisioningState_STATUS_Deleting,
+		RegistryProperties_ProvisioningState_STATUS_Failed,
+		RegistryProperties_ProvisioningState_STATUS_Succeeded,
+		RegistryProperties_ProvisioningState_STATUS_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_PublicNetworkAccess_STATUS_Disabled, RegistryProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_ZoneRedundancy_Disabled, RegistryProperties_STATUS_ZoneRedundancy_Enabled))
+	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_STATUS_Disabled, RegistryProperties_ZoneRedundancy_STATUS_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForRegistry_STATUS is a factory method for creating gopter generators
@@ -658,7 +658,7 @@ func EncryptionProperty_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_STATUS_Status_Disabled, EncryptionProperty_STATUS_Status_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_STATUS_Disabled, EncryptionProperty_Status_STATUS_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_STATUS is a factory method for creating gopter generators
@@ -900,10 +900,10 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_STATUS(gens map[strin
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityProperties_STATUS_Type_None,
-		IdentityProperties_STATUS_Type_SystemAssigned,
-		IdentityProperties_STATUS_Type_SystemAssignedUserAssigned,
-		IdentityProperties_STATUS_Type_UserAssigned))
+		IdentityProperties_Type_STATUS_None,
+		IdentityProperties_Type_STATUS_SystemAssigned,
+		IdentityProperties_Type_STATUS_SystemAssignedUserAssigned,
+		IdentityProperties_Type_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_STATUS is a factory method for creating gopter generators
@@ -1136,7 +1136,7 @@ func NetworkRuleSet_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_STATUS_DefaultAction_Allow, NetworkRuleSet_STATUS_DefaultAction_Deny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_STATUS_Allow, NetworkRuleSet_DefaultAction_STATUS_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUS is a factory method for creating gopter generators
@@ -1677,15 +1677,15 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Name_Basic,
-		Sku_STATUS_Name_Classic,
-		Sku_STATUS_Name_Premium,
-		Sku_STATUS_Name_Standard))
+		Sku_Name_STATUS_Basic,
+		Sku_Name_STATUS_Classic,
+		Sku_Name_STATUS_Premium,
+		Sku_Name_STATUS_Standard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Tier_Basic,
-		Sku_STATUS_Tier_Classic,
-		Sku_STATUS_Tier_Premium,
-		Sku_STATUS_Tier_Standard))
+		Sku_Tier_STATUS_Basic,
+		Sku_Tier_STATUS_Classic,
+		Sku_Tier_STATUS_Premium,
+		Sku_Tier_STATUS_Standard))
 }
 
 func Test_Status_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1894,17 +1894,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_ExportPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2109,7 +2109,7 @@ func ExportPolicy_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExportPolicy_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExportPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(ExportPolicy_STATUS_Status_Disabled, ExportPolicy_STATUS_Status_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(ExportPolicy_Status_STATUS_Disabled, ExportPolicy_Status_STATUS_Enabled))
 }
 
 func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2314,7 +2314,7 @@ func IPRule_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIPRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRule_STATUS_Action_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRule_Action_STATUS_Allow))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2730,7 +2730,7 @@ func QuarantinePolicy_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForQuarantinePolicy_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForQuarantinePolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(QuarantinePolicy_STATUS_Status_Disabled, QuarantinePolicy_STATUS_Status_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(QuarantinePolicy_Status_STATUS_Disabled, QuarantinePolicy_Status_STATUS_Enabled))
 }
 
 func Test_RetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2938,7 +2938,7 @@ func RetentionPolicy_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRetentionPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["LastUpdatedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(RetentionPolicy_STATUS_Status_Disabled, RetentionPolicy_STATUS_Status_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(RetentionPolicy_Status_STATUS_Disabled, RetentionPolicy_Status_STATUS_Enabled))
 }
 
 func Test_TrustPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3143,8 +3143,8 @@ func TrustPolicy_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTrustPolicy_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTrustPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_STATUS_Status_Disabled, TrustPolicy_STATUS_Status_Enabled))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_STATUS_Type_Notary))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_Status_STATUS_Disabled, TrustPolicy_Status_STATUS_Enabled))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_Type_STATUS_Notary))
 }
 
 func Test_UserIdentityProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

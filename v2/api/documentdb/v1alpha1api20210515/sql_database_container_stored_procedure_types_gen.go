@@ -356,7 +356,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	if procedure == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM{}
+	result := &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if procedure.Location != nil {
@@ -369,22 +369,22 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 
 	// Set property ‘Properties’:
 	if procedure.Options != nil || procedure.Resource != nil {
-		result.Properties = &SqlStoredProcedureCreateUpdatePropertiesARM{}
+		result.Properties = &SqlStoredProcedureCreateUpdateProperties_ARM{}
 	}
 	if procedure.Options != nil {
-		optionsARM, err := (*procedure.Options).ConvertToARM(resolved)
+		options_ARM, err := (*procedure.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *optionsARM.(*CreateUpdateOptionsARM)
+		options := *options_ARM.(*CreateUpdateOptions_ARM)
 		result.Properties.Options = &options
 	}
 	if procedure.Resource != nil {
-		resourceARM, err := (*procedure.Resource).ConvertToARM(resolved)
+		resource_ARM, err := (*procedure.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*SqlStoredProcedureResourceARM)
+		resource := *resource_ARM.(*SqlStoredProcedureResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -400,14 +400,14 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM{}
+	return &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -639,7 +639,7 @@ type SqlStoredProcedureGetResults_STATUS struct {
 	Id         *string                                          `json:"id,omitempty"`
 	Location   *string                                          `json:"location,omitempty"`
 	Name       *string                                          `json:"name,omitempty"`
-	Resource   *SqlStoredProcedureGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource   *SqlStoredProcedureGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags       map[string]string                                `json:"tags,omitempty"`
 	Type       *string                                          `json:"type,omitempty"`
 }
@@ -698,14 +698,14 @@ var _ genruntime.FromARMConverter = &SqlStoredProcedureGetResults_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (results *SqlStoredProcedureGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureGetResults_STATUSARM{}
+	return &SqlStoredProcedureGetResults_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (results *SqlStoredProcedureGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureGetResults_STATUSARM)
+	typedInput, ok := armInput.(SqlStoredProcedureGetResults_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetResults_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetResults_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -732,7 +732,7 @@ func (results *SqlStoredProcedureGetResults_STATUS) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 SqlStoredProcedureGetProperties_STATUS_Resource
+			var resource1 SqlStoredProcedureGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -777,10 +777,10 @@ func (results *SqlStoredProcedureGetResults_STATUS) AssignProperties_From_SqlSto
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlStoredProcedureGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlStoredProcedureGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlStoredProcedureGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -816,10 +816,10 @@ func (results *SqlStoredProcedureGetResults_STATUS) AssignProperties_To_SqlStore
 
 	// Resource
 	if results.Resource != nil {
-		var resource alpha20210515s.SqlStoredProcedureGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlStoredProcedureGetProperties_STATUS_Resource(&resource)
+		var resource alpha20210515s.SqlStoredProcedureGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -843,8 +843,8 @@ func (results *SqlStoredProcedureGetResults_STATUS) AssignProperties_To_SqlStore
 	return nil
 }
 
-// Deprecated version of SqlStoredProcedureGetProperties_STATUS_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_STATUS_Resource instead
-type SqlStoredProcedureGetProperties_STATUS_Resource struct {
+// Deprecated version of SqlStoredProcedureGetProperties_Resource_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS instead
+type SqlStoredProcedureGetProperties_Resource_STATUS struct {
 	Body *string  `json:"body,omitempty"`
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`
@@ -852,18 +852,18 @@ type SqlStoredProcedureGetProperties_STATUS_Resource struct {
 	Ts   *float64 `json:"_ts,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_STATUS_Resource{}
+var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureGetProperties_STATUS_ResourceARM{}
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlStoredProcedureGetProperties_Resource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureGetProperties_STATUS_ResourceARM)
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlStoredProcedureGetProperties_Resource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetProperties_STATUS_ResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Body’:
@@ -900,8 +900,8 @@ func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) PopulateFromARM
 	return nil
 }
 
-// AssignProperties_From_SqlStoredProcedureGetProperties_STATUS_Resource populates our SqlStoredProcedureGetProperties_STATUS_Resource from the provided source SqlStoredProcedureGetProperties_STATUS_Resource
-func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) AssignProperties_From_SqlStoredProcedureGetProperties_STATUS_Resource(source *alpha20210515s.SqlStoredProcedureGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS populates our SqlStoredProcedureGetProperties_Resource_STATUS from the provided source SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignProperties_From_SqlStoredProcedureGetProperties_Resource_STATUS(source *alpha20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
 
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
@@ -927,8 +927,8 @@ func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) AssignPropertie
 	return nil
 }
 
-// AssignProperties_To_SqlStoredProcedureGetProperties_STATUS_Resource populates the provided destination SqlStoredProcedureGetProperties_STATUS_Resource from our SqlStoredProcedureGetProperties_STATUS_Resource
-func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) AssignProperties_To_SqlStoredProcedureGetProperties_STATUS_Resource(destination *alpha20210515s.SqlStoredProcedureGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS populates the provided destination SqlStoredProcedureGetProperties_Resource_STATUS from our SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignProperties_To_SqlStoredProcedureGetProperties_Resource_STATUS(destination *alpha20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -978,7 +978,7 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SqlStoredProcedureResourceARM{}
+	result := &SqlStoredProcedureResource_ARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {
@@ -996,14 +996,14 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlStoredProcedureResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureResourceARM{}
+	return &SqlStoredProcedureResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlStoredProcedureResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureResourceARM)
+	typedInput, ok := armInput.(SqlStoredProcedureResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureResource_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Body’:

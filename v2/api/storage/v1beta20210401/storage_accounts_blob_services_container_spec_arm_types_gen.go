@@ -5,7 +5,7 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type StorageAccounts_BlobServices_Container_SpecARM struct {
+type StorageAccounts_BlobServices_Container_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -15,31 +15,31 @@ type StorageAccounts_BlobServices_Container_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a container.
-	Properties *ContainerPropertiesARM `json:"properties,omitempty"`
+	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (container StorageAccounts_BlobServices_Container_SpecARM) GetAPIVersion() string {
+func (container StorageAccounts_BlobServices_Container_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (container *StorageAccounts_BlobServices_Container_SpecARM) GetName() string {
+func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetName() string {
 	return container.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
-func (container *StorageAccounts_BlobServices_Container_SpecARM) GetType() string {
+func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ContainerProperties
-type ContainerPropertiesARM struct {
+type ContainerProperties_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
@@ -47,7 +47,7 @@ type ContainerPropertiesARM struct {
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
 	// ImmutableStorageWithVersioning: Object level immutability properties of the container.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioningARM `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -57,7 +57,7 @@ type ContainerPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning
-type ImmutableStorageWithVersioningARM struct {
+type ImmutableStorageWithVersioning_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 }

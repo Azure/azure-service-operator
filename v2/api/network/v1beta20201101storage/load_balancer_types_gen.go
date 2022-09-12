@@ -140,21 +140,21 @@ type LoadBalancer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                string                                                  `json:"azureName,omitempty"`
-	BackendAddressPools      []LoadBalancer_Spec_Properties_BackendAddressPools      `json:"backendAddressPools,omitempty"`
+	BackendAddressPools      []LoadBalancer_Properties_BackendAddressPools_Spec      `json:"backendAddressPools,omitempty"`
 	ExtendedLocation         *ExtendedLocation                                       `json:"extendedLocation,omitempty"`
-	FrontendIPConfigurations []LoadBalancer_Spec_Properties_FrontendIPConfigurations `json:"frontendIPConfigurations,omitempty"`
-	InboundNatPools          []LoadBalancer_Spec_Properties_InboundNatPools          `json:"inboundNatPools,omitempty"`
-	LoadBalancingRules       []LoadBalancer_Spec_Properties_LoadBalancingRules       `json:"loadBalancingRules,omitempty"`
+	FrontendIPConfigurations []LoadBalancer_Properties_FrontendIPConfigurations_Spec `json:"frontendIPConfigurations,omitempty"`
+	InboundNatPools          []LoadBalancer_Properties_InboundNatPools_Spec          `json:"inboundNatPools,omitempty"`
+	LoadBalancingRules       []LoadBalancer_Properties_LoadBalancingRules_Spec       `json:"loadBalancingRules,omitempty"`
 	Location                 *string                                                 `json:"location,omitempty"`
 	OriginalVersion          string                                                  `json:"originalVersion,omitempty"`
-	OutboundRules            []LoadBalancer_Spec_Properties_OutboundRules            `json:"outboundRules,omitempty"`
+	OutboundRules            []LoadBalancer_Properties_OutboundRules_Spec            `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference    `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Probes      []LoadBalancer_Spec_Properties_Probes `json:"probes,omitempty"`
+	Probes      []LoadBalancer_Properties_Probes_Spec `json:"probes,omitempty"`
 	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	Sku         *LoadBalancerSku                      `json:"sku,omitempty"`
 	Tags        map[string]string                     `json:"tags,omitempty"`
@@ -289,16 +289,16 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_BackendAddressPools
-type LoadBalancer_Spec_Properties_BackendAddressPools struct {
-	LoadBalancerBackendAddresses []LoadBalancer_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses `json:"loadBalancerBackendAddresses,omitempty"`
+// Storage version of v1beta20201101.LoadBalancer_Properties_BackendAddressPools_Spec
+type LoadBalancer_Properties_BackendAddressPools_Spec struct {
+	LoadBalancerBackendAddresses []LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec `json:"loadBalancerBackendAddresses,omitempty"`
 	Location                     *string                                                                                    `json:"location,omitempty"`
 	Name                         *string                                                                                    `json:"name,omitempty"`
 	PropertyBag                  genruntime.PropertyBag                                                                     `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_FrontendIPConfigurations
-type LoadBalancer_Spec_Properties_FrontendIPConfigurations struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_FrontendIPConfigurations_Spec
+type LoadBalancer_Properties_FrontendIPConfigurations_Spec struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
 	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
@@ -310,8 +310,8 @@ type LoadBalancer_Spec_Properties_FrontendIPConfigurations struct {
 	Zones                     []string               `json:"zones,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_InboundNatPools
-type LoadBalancer_Spec_Properties_InboundNatPools struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_InboundNatPools_Spec
+type LoadBalancer_Properties_InboundNatPools_Spec struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
 	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
@@ -324,8 +324,8 @@ type LoadBalancer_Spec_Properties_InboundNatPools struct {
 	Protocol                *string                `json:"protocol,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_LoadBalancingRules
-type LoadBalancer_Spec_Properties_LoadBalancingRules struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_LoadBalancingRules_Spec
+type LoadBalancer_Properties_LoadBalancingRules_Spec struct {
 	BackendAddressPool      *SubResource           `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	DisableOutboundSnat     *bool                  `json:"disableOutboundSnat,omitempty"`
@@ -341,8 +341,8 @@ type LoadBalancer_Spec_Properties_LoadBalancingRules struct {
 	Protocol                *string                `json:"protocol,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_OutboundRules
-type LoadBalancer_Spec_Properties_OutboundRules struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_OutboundRules_Spec
+type LoadBalancer_Properties_OutboundRules_Spec struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource           `json:"backendAddressPool,omitempty"`
 	EnableTcpReset           *bool                  `json:"enableTcpReset,omitempty"`
@@ -353,8 +353,8 @@ type LoadBalancer_Spec_Properties_OutboundRules struct {
 	Protocol                 *string                `json:"protocol,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_Probes
-type LoadBalancer_Spec_Properties_Probes struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_Probes_Spec
+type LoadBalancer_Properties_Probes_Spec struct {
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
 	Name              *string                `json:"name,omitempty"`
 	NumberOfProbes    *int                   `json:"numberOfProbes,omitempty"`
@@ -432,8 +432,8 @@ type Probe_STATUS struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20201101.LoadBalancer_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-type LoadBalancer_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses struct {
+// Storage version of v1beta20201101.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
+type LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec struct {
 	IpAddress                           *string                `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource           `json:"loadBalancerFrontendIPConfiguration,omitempty"`
 	Name                                *string                `json:"name,omitempty"`

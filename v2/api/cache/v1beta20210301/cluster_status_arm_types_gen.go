@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210301
 
-type Cluster_STATUSARM struct {
+type Cluster_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,10 +15,10 @@ type Cluster_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Other properties of the cluster.
-	Properties *ClusterProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ClusterProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -30,15 +30,15 @@ type Cluster_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type ClusterProperties_STATUSARM struct {
+type ClusterProperties_STATUS_ARM struct {
 	// HostName: DNS name of the cluster endpoint
 	HostName *string `json:"hostName,omitempty"`
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_STATUS_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the cluster
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -50,24 +50,24 @@ type ClusterProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *Sku_STATUS_Name `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-type ClusterProperties_STATUS_MinimumTlsVersion string
+type ClusterProperties_MinimumTlsVersion_STATUS string
 
 const (
-	ClusterProperties_STATUS_MinimumTlsVersion_10 = ClusterProperties_STATUS_MinimumTlsVersion("1.0")
-	ClusterProperties_STATUS_MinimumTlsVersion_11 = ClusterProperties_STATUS_MinimumTlsVersion("1.1")
-	ClusterProperties_STATUS_MinimumTlsVersion_12 = ClusterProperties_STATUS_MinimumTlsVersion("1.2")
+	ClusterProperties_MinimumTlsVersion_STATUS_10 = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
+	ClusterProperties_MinimumTlsVersion_STATUS_11 = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
+	ClusterProperties_MinimumTlsVersion_STATUS_12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -101,14 +101,14 @@ const (
 	ResourceState_STATUS_Updating      = ResourceState_STATUS("Updating")
 )
 
-type Sku_STATUS_Name string
+type Sku_Name_STATUS string
 
 const (
-	Sku_STATUS_Name_EnterpriseFlash_F1500 = Sku_STATUS_Name("EnterpriseFlash_F1500")
-	Sku_STATUS_Name_EnterpriseFlash_F300  = Sku_STATUS_Name("EnterpriseFlash_F300")
-	Sku_STATUS_Name_EnterpriseFlash_F700  = Sku_STATUS_Name("EnterpriseFlash_F700")
-	Sku_STATUS_Name_Enterprise_E10        = Sku_STATUS_Name("Enterprise_E10")
-	Sku_STATUS_Name_Enterprise_E100       = Sku_STATUS_Name("Enterprise_E100")
-	Sku_STATUS_Name_Enterprise_E20        = Sku_STATUS_Name("Enterprise_E20")
-	Sku_STATUS_Name_Enterprise_E50        = Sku_STATUS_Name("Enterprise_E50")
+	Sku_Name_STATUS_EnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
+	Sku_Name_STATUS_EnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
+	Sku_Name_STATUS_EnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
+	Sku_Name_STATUS_Enterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
+	Sku_Name_STATUS_Enterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
+	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
+	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
 )

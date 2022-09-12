@@ -386,14 +386,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ManagementPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicy_STATUSARM{}
+	return &ManagementPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ManagementPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicy_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -543,21 +543,21 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertToARM(resolved genru
 	if policy == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_ManagementPolicy_SpecARM{}
+	result := &StorageAccounts_ManagementPolicy_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if policy.Policy != nil {
-		result.Properties = &ManagementPolicyPropertiesARM{}
+		result.Properties = &ManagementPolicyProperties_ARM{}
 	}
 	if policy.Policy != nil {
-		policyARM, err := (*policy.Policy).ConvertToARM(resolved)
+		policy_ARM, err := (*policy.Policy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		policy1 := *policyARM.(*ManagementPolicySchemaARM)
+		policy1 := *policy_ARM.(*ManagementPolicySchema_ARM)
 		result.Properties.Policy = &policy1
 	}
 
@@ -573,14 +573,14 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *StorageAccounts_ManagementPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_ManagementPolicy_SpecARM{}
+	return &StorageAccounts_ManagementPolicy_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_ManagementPolicy_SpecARM)
+	typedInput, ok := armInput.(StorageAccounts_ManagementPolicy_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicy_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicy_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Owner’:
@@ -756,29 +756,29 @@ func (schema *ManagementPolicySchema) ConvertToARM(resolved genruntime.ConvertTo
 	if schema == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicySchemaARM{}
+	result := &ManagementPolicySchema_ARM{}
 
 	// Set property ‘Rules’:
 	for _, item := range schema.Rules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *itemARM.(*ManagementPolicyRuleARM))
+		result.Rules = append(result.Rules, *item_ARM.(*ManagementPolicyRule_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schema *ManagementPolicySchema) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicySchemaARM{}
+	return &ManagementPolicySchema_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schema *ManagementPolicySchema) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicySchemaARM)
+	typedInput, ok := armInput.(ManagementPolicySchema_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySchemaARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySchema_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Rules’:
@@ -864,14 +864,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicySchema_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schema *ManagementPolicySchema_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicySchema_STATUSARM{}
+	return &ManagementPolicySchema_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schema *ManagementPolicySchema_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicySchema_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicySchema_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySchema_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySchema_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Rules’:
@@ -973,15 +973,15 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyRuleARM{}
+	result := &ManagementPolicyRule_ARM{}
 
 	// Set property ‘Definition’:
 	if rule.Definition != nil {
-		definitionARM, err := (*rule.Definition).ConvertToARM(resolved)
+		definition_ARM, err := (*rule.Definition).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		definition := *definitionARM.(*ManagementPolicyDefinitionARM)
+		definition := *definition_ARM.(*ManagementPolicyDefinition_ARM)
 		result.Definition = &definition
 	}
 
@@ -1007,14 +1007,14 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ManagementPolicyRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyRuleARM{}
+	return &ManagementPolicyRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ManagementPolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyRuleARM)
+	typedInput, ok := armInput.(ManagementPolicyRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Definition’:
@@ -1147,21 +1147,21 @@ type ManagementPolicyRule_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_STATUS_Type `json:"type,omitempty"`
+	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ManagementPolicyRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyRule_STATUSARM{}
+	return &ManagementPolicyRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ManagementPolicyRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyRule_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Definition’:
@@ -1225,7 +1225,7 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_From_ManagementPolicyR
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagementPolicyRule_STATUS_Type(*source.Type)
+		typeVar := ManagementPolicyRule_Type_STATUS(*source.Type)
 		rule.Type = &typeVar
 	} else {
 		rule.Type = nil
@@ -1300,25 +1300,25 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyDefinitionARM{}
+	result := &ManagementPolicyDefinition_ARM{}
 
 	// Set property ‘Actions’:
 	if definition.Actions != nil {
-		actionsARM, err := (*definition.Actions).ConvertToARM(resolved)
+		actions_ARM, err := (*definition.Actions).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		actions := *actionsARM.(*ManagementPolicyActionARM)
+		actions := *actions_ARM.(*ManagementPolicyAction_ARM)
 		result.Actions = &actions
 	}
 
 	// Set property ‘Filters’:
 	if definition.Filters != nil {
-		filtersARM, err := (*definition.Filters).ConvertToARM(resolved)
+		filters_ARM, err := (*definition.Filters).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		filters := *filtersARM.(*ManagementPolicyFilterARM)
+		filters := *filters_ARM.(*ManagementPolicyFilter_ARM)
 		result.Filters = &filters
 	}
 	return result, nil
@@ -1326,14 +1326,14 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagementPolicyDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyDefinitionARM{}
+	return &ManagementPolicyDefinition_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagementPolicyDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyDefinitionARM)
+	typedInput, ok := armInput.(ManagementPolicyDefinition_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyDefinitionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyDefinition_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
@@ -1445,14 +1445,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicyDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagementPolicyDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyDefinition_STATUSARM{}
+	return &ManagementPolicyDefinition_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagementPolicyDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyDefinition_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyDefinition_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyDefinition_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyDefinition_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
@@ -1576,35 +1576,35 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 	if action == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyActionARM{}
+	result := &ManagementPolicyAction_ARM{}
 
 	// Set property ‘BaseBlob’:
 	if action.BaseBlob != nil {
-		baseBlobARM, err := (*action.BaseBlob).ConvertToARM(resolved)
+		baseBlob_ARM, err := (*action.BaseBlob).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		baseBlob := *baseBlobARM.(*ManagementPolicyBaseBlobARM)
+		baseBlob := *baseBlob_ARM.(*ManagementPolicyBaseBlob_ARM)
 		result.BaseBlob = &baseBlob
 	}
 
 	// Set property ‘Snapshot’:
 	if action.Snapshot != nil {
-		snapshotARM, err := (*action.Snapshot).ConvertToARM(resolved)
+		snapshot_ARM, err := (*action.Snapshot).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		snapshot := *snapshotARM.(*ManagementPolicySnapShotARM)
+		snapshot := *snapshot_ARM.(*ManagementPolicySnapShot_ARM)
 		result.Snapshot = &snapshot
 	}
 
 	// Set property ‘Version’:
 	if action.Version != nil {
-		versionARM, err := (*action.Version).ConvertToARM(resolved)
+		version_ARM, err := (*action.Version).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		version := *versionARM.(*ManagementPolicyVersionARM)
+		version := *version_ARM.(*ManagementPolicyVersion_ARM)
 		result.Version = &version
 	}
 	return result, nil
@@ -1612,14 +1612,14 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *ManagementPolicyAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyActionARM{}
+	return &ManagementPolicyAction_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *ManagementPolicyAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyActionARM)
+	typedInput, ok := armInput.(ManagementPolicyAction_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyActionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyAction_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BaseBlob’:
@@ -1769,14 +1769,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicyAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *ManagementPolicyAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyAction_STATUSARM{}
+	return &ManagementPolicyAction_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *ManagementPolicyAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyAction_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyAction_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyAction_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyAction_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BaseBlob’:
@@ -1932,15 +1932,15 @@ func (filter *ManagementPolicyFilter) ConvertToARM(resolved genruntime.ConvertTo
 	if filter == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyFilterARM{}
+	result := &ManagementPolicyFilter_ARM{}
 
 	// Set property ‘BlobIndexMatch’:
 	for _, item := range filter.BlobIndexMatch {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.BlobIndexMatch = append(result.BlobIndexMatch, *itemARM.(*TagFilterARM))
+		result.BlobIndexMatch = append(result.BlobIndexMatch, *item_ARM.(*TagFilter_ARM))
 	}
 
 	// Set property ‘BlobTypes’:
@@ -1957,14 +1957,14 @@ func (filter *ManagementPolicyFilter) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *ManagementPolicyFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyFilterARM{}
+	return &ManagementPolicyFilter_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *ManagementPolicyFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyFilterARM)
+	typedInput, ok := armInput.(ManagementPolicyFilter_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyFilterARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyFilter_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobIndexMatch’:
@@ -2078,14 +2078,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicyFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *ManagementPolicyFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyFilter_STATUSARM{}
+	return &ManagementPolicyFilter_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *ManagementPolicyFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyFilter_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyFilter_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyFilter_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyFilter_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobIndexMatch’:
@@ -2209,15 +2209,15 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 	if blob == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyBaseBlobARM{}
+	result := &ManagementPolicyBaseBlob_ARM{}
 
 	// Set property ‘Delete’:
 	if blob.Delete != nil {
-		deleteARM, err := (*blob.Delete).ConvertToARM(resolved)
+		delete_ARM, err := (*blob.Delete).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		delete := *deleteARM.(*DateAfterModificationARM)
+		delete := *delete_ARM.(*DateAfterModification_ARM)
 		result.Delete = &delete
 	}
 
@@ -2229,21 +2229,21 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘TierToArchive’:
 	if blob.TierToArchive != nil {
-		tierToArchiveARM, err := (*blob.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := (*blob.TierToArchive).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := *tierToArchiveARM.(*DateAfterModificationARM)
+		tierToArchive := *tierToArchive_ARM.(*DateAfterModification_ARM)
 		result.TierToArchive = &tierToArchive
 	}
 
 	// Set property ‘TierToCool’:
 	if blob.TierToCool != nil {
-		tierToCoolARM, err := (*blob.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := (*blob.TierToCool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := *tierToCoolARM.(*DateAfterModificationARM)
+		tierToCool := *tierToCool_ARM.(*DateAfterModification_ARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -2251,14 +2251,14 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (blob *ManagementPolicyBaseBlob) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyBaseBlobARM{}
+	return &ManagementPolicyBaseBlob_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (blob *ManagementPolicyBaseBlob) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyBaseBlobARM)
+	typedInput, ok := armInput.(ManagementPolicyBaseBlob_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyBaseBlobARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyBaseBlob_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -2434,14 +2434,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicyBaseBlob_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (blob *ManagementPolicyBaseBlob_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyBaseBlob_STATUSARM{}
+	return &ManagementPolicyBaseBlob_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (blob *ManagementPolicyBaseBlob_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyBaseBlob_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyBaseBlob_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyBaseBlob_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyBaseBlob_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -2617,35 +2617,35 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 	if shot == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicySnapShotARM{}
+	result := &ManagementPolicySnapShot_ARM{}
 
 	// Set property ‘Delete’:
 	if shot.Delete != nil {
-		deleteARM, err := (*shot.Delete).ConvertToARM(resolved)
+		delete_ARM, err := (*shot.Delete).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		delete := *deleteARM.(*DateAfterCreationARM)
+		delete := *delete_ARM.(*DateAfterCreation_ARM)
 		result.Delete = &delete
 	}
 
 	// Set property ‘TierToArchive’:
 	if shot.TierToArchive != nil {
-		tierToArchiveARM, err := (*shot.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := (*shot.TierToArchive).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := *tierToArchiveARM.(*DateAfterCreationARM)
+		tierToArchive := *tierToArchive_ARM.(*DateAfterCreation_ARM)
 		result.TierToArchive = &tierToArchive
 	}
 
 	// Set property ‘TierToCool’:
 	if shot.TierToCool != nil {
-		tierToCoolARM, err := (*shot.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := (*shot.TierToCool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := *tierToCoolARM.(*DateAfterCreationARM)
+		tierToCool := *tierToCool_ARM.(*DateAfterCreation_ARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -2653,14 +2653,14 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (shot *ManagementPolicySnapShot) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicySnapShotARM{}
+	return &ManagementPolicySnapShot_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (shot *ManagementPolicySnapShot) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicySnapShotARM)
+	typedInput, ok := armInput.(ManagementPolicySnapShot_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySnapShotARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySnapShot_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -2810,14 +2810,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicySnapShot_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (shot *ManagementPolicySnapShot_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicySnapShot_STATUSARM{}
+	return &ManagementPolicySnapShot_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (shot *ManagementPolicySnapShot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicySnapShot_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicySnapShot_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySnapShot_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicySnapShot_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -2971,35 +2971,35 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 	if version == nil {
 		return nil, nil
 	}
-	result := &ManagementPolicyVersionARM{}
+	result := &ManagementPolicyVersion_ARM{}
 
 	// Set property ‘Delete’:
 	if version.Delete != nil {
-		deleteARM, err := (*version.Delete).ConvertToARM(resolved)
+		delete_ARM, err := (*version.Delete).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		delete := *deleteARM.(*DateAfterCreationARM)
+		delete := *delete_ARM.(*DateAfterCreation_ARM)
 		result.Delete = &delete
 	}
 
 	// Set property ‘TierToArchive’:
 	if version.TierToArchive != nil {
-		tierToArchiveARM, err := (*version.TierToArchive).ConvertToARM(resolved)
+		tierToArchive_ARM, err := (*version.TierToArchive).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := *tierToArchiveARM.(*DateAfterCreationARM)
+		tierToArchive := *tierToArchive_ARM.(*DateAfterCreation_ARM)
 		result.TierToArchive = &tierToArchive
 	}
 
 	// Set property ‘TierToCool’:
 	if version.TierToCool != nil {
-		tierToCoolARM, err := (*version.TierToCool).ConvertToARM(resolved)
+		tierToCool_ARM, err := (*version.TierToCool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := *tierToCoolARM.(*DateAfterCreationARM)
+		tierToCool := *tierToCool_ARM.(*DateAfterCreation_ARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -3007,14 +3007,14 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (version *ManagementPolicyVersion) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyVersionARM{}
+	return &ManagementPolicyVersion_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (version *ManagementPolicyVersion) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyVersionARM)
+	typedInput, ok := armInput.(ManagementPolicyVersion_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyVersionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyVersion_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -3164,14 +3164,14 @@ var _ genruntime.FromARMConverter = &ManagementPolicyVersion_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (version *ManagementPolicyVersion_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicyVersion_STATUSARM{}
+	return &ManagementPolicyVersion_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (version *ManagementPolicyVersion_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicyVersion_STATUSARM)
+	typedInput, ok := armInput.(ManagementPolicyVersion_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyVersion_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicyVersion_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Delete’:
@@ -3333,7 +3333,7 @@ func (filter *TagFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if filter == nil {
 		return nil, nil
 	}
-	result := &TagFilterARM{}
+	result := &TagFilter_ARM{}
 
 	// Set property ‘Name’:
 	if filter.Name != nil {
@@ -3357,14 +3357,14 @@ func (filter *TagFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *TagFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TagFilterARM{}
+	return &TagFilter_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *TagFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TagFilterARM)
+	typedInput, ok := armInput.(TagFilter_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagFilterARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagFilter_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3466,14 +3466,14 @@ var _ genruntime.FromARMConverter = &TagFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *TagFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TagFilter_STATUSARM{}
+	return &TagFilter_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *TagFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TagFilter_STATUSARM)
+	typedInput, ok := armInput.(TagFilter_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagFilter_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagFilter_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3555,7 +3555,7 @@ func (creation *DateAfterCreation) ConvertToARM(resolved genruntime.ConvertToARM
 	if creation == nil {
 		return nil, nil
 	}
-	result := &DateAfterCreationARM{}
+	result := &DateAfterCreation_ARM{}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
 	if creation.DaysAfterCreationGreaterThan != nil {
@@ -3567,14 +3567,14 @@ func (creation *DateAfterCreation) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (creation *DateAfterCreation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DateAfterCreationARM{}
+	return &DateAfterCreation_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (creation *DateAfterCreation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DateAfterCreationARM)
+	typedInput, ok := armInput.(DateAfterCreation_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterCreationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterCreation_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
@@ -3635,14 +3635,14 @@ var _ genruntime.FromARMConverter = &DateAfterCreation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (creation *DateAfterCreation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DateAfterCreation_STATUSARM{}
+	return &DateAfterCreation_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (creation *DateAfterCreation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DateAfterCreation_STATUSARM)
+	typedInput, ok := armInput.(DateAfterCreation_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterCreation_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterCreation_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
@@ -3715,7 +3715,7 @@ func (modification *DateAfterModification) ConvertToARM(resolved genruntime.Conv
 	if modification == nil {
 		return nil, nil
 	}
-	result := &DateAfterModificationARM{}
+	result := &DateAfterModification_ARM{}
 
 	// Set property ‘DaysAfterLastAccessTimeGreaterThan’:
 	if modification.DaysAfterLastAccessTimeGreaterThan != nil {
@@ -3733,14 +3733,14 @@ func (modification *DateAfterModification) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (modification *DateAfterModification) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DateAfterModificationARM{}
+	return &DateAfterModification_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (modification *DateAfterModification) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DateAfterModificationARM)
+	typedInput, ok := armInput.(DateAfterModification_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterModificationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterModification_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DaysAfterLastAccessTimeGreaterThan’:
@@ -3827,14 +3827,14 @@ var _ genruntime.FromARMConverter = &DateAfterModification_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (modification *DateAfterModification_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DateAfterModification_STATUSARM{}
+	return &DateAfterModification_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (modification *DateAfterModification_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DateAfterModification_STATUSARM)
+	typedInput, ok := armInput.(DateAfterModification_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterModification_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DateAfterModification_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DaysAfterLastAccessTimeGreaterThan’:

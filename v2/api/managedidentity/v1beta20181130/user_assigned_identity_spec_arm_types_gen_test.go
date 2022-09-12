@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_UserAssignedIdentity_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentity_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserAssignedIdentity_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_SpecARM, UserAssignedIdentity_SpecARMGenerator()))
+		"Round trip of UserAssignedIdentity_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_Spec_ARM, UserAssignedIdentity_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentity_SpecARM runs a test to see if a specific instance of UserAssignedIdentity_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentity_SpecARM(subject UserAssignedIdentity_SpecARM) string {
+// RunJSONSerializationTestForUserAssignedIdentity_Spec_ARM runs a test to see if a specific instance of UserAssignedIdentity_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentity_Spec_ARM(subject UserAssignedIdentity_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForUserAssignedIdentity_SpecARM(subject UserAssigne
 	}
 
 	// Deserialize back into memory
-	var actual UserAssignedIdentity_SpecARM
+	var actual UserAssignedIdentity_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,25 +56,25 @@ func RunJSONSerializationTestForUserAssignedIdentity_SpecARM(subject UserAssigne
 	return ""
 }
 
-// Generator of UserAssignedIdentity_SpecARM instances for property testing - lazily instantiated by
-// UserAssignedIdentity_SpecARMGenerator()
-var userAssignedIdentity_SpecARMGenerator gopter.Gen
+// Generator of UserAssignedIdentity_Spec_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentity_Spec_ARMGenerator()
+var userAssignedIdentity_Spec_ARMGenerator gopter.Gen
 
-// UserAssignedIdentity_SpecARMGenerator returns a generator of UserAssignedIdentity_SpecARM instances for property testing.
-func UserAssignedIdentity_SpecARMGenerator() gopter.Gen {
-	if userAssignedIdentity_SpecARMGenerator != nil {
-		return userAssignedIdentity_SpecARMGenerator
+// UserAssignedIdentity_Spec_ARMGenerator returns a generator of UserAssignedIdentity_Spec_ARM instances for property testing.
+func UserAssignedIdentity_Spec_ARMGenerator() gopter.Gen {
+	if userAssignedIdentity_Spec_ARMGenerator != nil {
+		return userAssignedIdentity_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentity_SpecARM(generators)
-	userAssignedIdentity_SpecARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec_ARM(generators)
+	userAssignedIdentity_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_Spec_ARM{}), generators)
 
-	return userAssignedIdentity_SpecARMGenerator
+	return userAssignedIdentity_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentity_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentity_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

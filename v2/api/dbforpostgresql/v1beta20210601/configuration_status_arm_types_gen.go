@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type Configuration_STATUSARM struct {
+type Configuration_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,21 +12,21 @@ type Configuration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration.
-	Properties *ConfigurationProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ConfigurationProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type ConfigurationProperties_STATUSARM struct {
+type ConfigurationProperties_STATUS_ARM struct {
 	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// DataType: Data type of the configuration.
-	DataType *ConfigurationProperties_STATUS_DataType `json:"dataType,omitempty"`
+	DataType *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
 
 	// DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -56,7 +56,7 @@ type ConfigurationProperties_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -64,7 +64,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -73,32 +73,32 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type ConfigurationProperties_STATUS_DataType string
+type ConfigurationProperties_DataType_STATUS string
 
 const (
-	ConfigurationProperties_STATUS_DataType_Boolean     = ConfigurationProperties_STATUS_DataType("Boolean")
-	ConfigurationProperties_STATUS_DataType_Enumeration = ConfigurationProperties_STATUS_DataType("Enumeration")
-	ConfigurationProperties_STATUS_DataType_Integer     = ConfigurationProperties_STATUS_DataType("Integer")
-	ConfigurationProperties_STATUS_DataType_Numeric     = ConfigurationProperties_STATUS_DataType("Numeric")
+	ConfigurationProperties_DataType_STATUS_Boolean     = ConfigurationProperties_DataType_STATUS("Boolean")
+	ConfigurationProperties_DataType_STATUS_Enumeration = ConfigurationProperties_DataType_STATUS("Enumeration")
+	ConfigurationProperties_DataType_STATUS_Integer     = ConfigurationProperties_DataType_STATUS("Integer")
+	ConfigurationProperties_DataType_STATUS_Numeric     = ConfigurationProperties_DataType_STATUS("Numeric")
 )
 
-type SystemData_STATUS_CreatedByType string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

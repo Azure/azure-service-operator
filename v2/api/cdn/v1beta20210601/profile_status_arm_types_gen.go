@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type Profile_STATUSARM struct {
+type Profile_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
@@ -14,13 +14,13 @@ type Profile_STATUSARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name.
-	Name       *string                      `json:"name,omitempty"`
-	Properties *ProfileProperties_STATUSARM `json:"properties,omitempty"`
+	Name       *string                       `json:"name,omitempty"`
+	Properties *ProfileProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
-	Sku        *Sku_STATUSARM        `json:"sku,omitempty"`
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	Sku        *Sku_STATUS_ARM        `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,7 +29,7 @@ type Profile_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ProfileProperties_STATUSARM struct {
+type ProfileProperties_STATUS_ARM struct {
 	// FrontDoorId: The Id of the frontdoor.
 	FrontDoorId *string `json:"frontDoorId,omitempty"`
 
@@ -38,31 +38,31 @@ type ProfileProperties_STATUSARM struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfileProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfileProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
+	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: Name of the pricing tier.
-	Name *Sku_STATUS_Name `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-type Sku_STATUS_Name string
+type Sku_Name_STATUS string
 
 const (
-	Sku_STATUS_Name_Custom_Verizon                     = Sku_STATUS_Name("Custom_Verizon")
-	Sku_STATUS_Name_Premium_AzureFrontDoor             = Sku_STATUS_Name("Premium_AzureFrontDoor")
-	Sku_STATUS_Name_Premium_Verizon                    = Sku_STATUS_Name("Premium_Verizon")
-	Sku_STATUS_Name_StandardPlus_955BandWidth_ChinaCdn = Sku_STATUS_Name("StandardPlus_955BandWidth_ChinaCdn")
-	Sku_STATUS_Name_StandardPlus_AvgBandWidth_ChinaCdn = Sku_STATUS_Name("StandardPlus_AvgBandWidth_ChinaCdn")
-	Sku_STATUS_Name_StandardPlus_ChinaCdn              = Sku_STATUS_Name("StandardPlus_ChinaCdn")
-	Sku_STATUS_Name_Standard_955BandWidth_ChinaCdn     = Sku_STATUS_Name("Standard_955BandWidth_ChinaCdn")
-	Sku_STATUS_Name_Standard_Akamai                    = Sku_STATUS_Name("Standard_Akamai")
-	Sku_STATUS_Name_Standard_AvgBandWidth_ChinaCdn     = Sku_STATUS_Name("Standard_AvgBandWidth_ChinaCdn")
-	Sku_STATUS_Name_Standard_AzureFrontDoor            = Sku_STATUS_Name("Standard_AzureFrontDoor")
-	Sku_STATUS_Name_Standard_ChinaCdn                  = Sku_STATUS_Name("Standard_ChinaCdn")
-	Sku_STATUS_Name_Standard_Microsoft                 = Sku_STATUS_Name("Standard_Microsoft")
-	Sku_STATUS_Name_Standard_Verizon                   = Sku_STATUS_Name("Standard_Verizon")
+	Sku_Name_STATUS_Custom_Verizon                     = Sku_Name_STATUS("Custom_Verizon")
+	Sku_Name_STATUS_Premium_AzureFrontDoor             = Sku_Name_STATUS("Premium_AzureFrontDoor")
+	Sku_Name_STATUS_Premium_Verizon                    = Sku_Name_STATUS("Premium_Verizon")
+	Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_StandardPlus_ChinaCdn              = Sku_Name_STATUS("StandardPlus_ChinaCdn")
+	Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_STATUS_Standard_Akamai                    = Sku_Name_STATUS("Standard_Akamai")
+	Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_STATUS_Standard_AzureFrontDoor            = Sku_Name_STATUS("Standard_AzureFrontDoor")
+	Sku_Name_STATUS_Standard_ChinaCdn                  = Sku_Name_STATUS("Standard_ChinaCdn")
+	Sku_Name_STATUS_Standard_Microsoft                 = Sku_Name_STATUS("Standard_Microsoft")
+	Sku_Name_STATUS_Standard_Verizon                   = Sku_Name_STATUS("Standard_Verizon")
 )

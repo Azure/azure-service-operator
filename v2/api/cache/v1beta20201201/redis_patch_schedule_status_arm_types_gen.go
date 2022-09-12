@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type RedisPatchSchedule_STATUSARM struct {
+type RedisPatchSchedule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,20 +15,20 @@ type RedisPatchSchedule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: List of patch schedules for a Redis cache.
-	Properties *ScheduleEntries_STATUSARM `json:"properties,omitempty"`
+	Properties *ScheduleEntries_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type ScheduleEntries_STATUSARM struct {
+type ScheduleEntries_STATUS_ARM struct {
 	// ScheduleEntries: List of patch schedules for a Redis cache.
-	ScheduleEntries []ScheduleEntry_STATUSARM `json:"scheduleEntries,omitempty"`
+	ScheduleEntries []ScheduleEntry_STATUS_ARM `json:"scheduleEntries,omitempty"`
 }
 
-type ScheduleEntry_STATUSARM struct {
+type ScheduleEntry_STATUS_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_STATUS_DayOfWeek `json:"dayOfWeek,omitempty"`
+	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`

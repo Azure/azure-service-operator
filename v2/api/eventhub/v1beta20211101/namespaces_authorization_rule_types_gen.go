@@ -332,7 +332,7 @@ type AuthorizationRule_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Rights: The rights associated with the rule.
-	Rights []AuthorizationRule_STATUS_Properties_Rights `json:"rights,omitempty"`
+	Rights []AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
@@ -395,14 +395,14 @@ var _ genruntime.FromARMConverter = &AuthorizationRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *AuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationRule_STATUSARM{}
+	return &AuthorizationRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *AuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationRule_STATUSARM)
+	typedInput, ok := armInput.(AuthorizationRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -471,11 +471,11 @@ func (rule *AuthorizationRule_STATUS) AssignProperties_From_AuthorizationRule_ST
 
 	// Rights
 	if source.Rights != nil {
-		rightList := make([]AuthorizationRule_STATUS_Properties_Rights, len(source.Rights))
+		rightList := make([]AuthorizationRule_Properties_Rights_STATUS, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = AuthorizationRule_STATUS_Properties_Rights(rightItem)
+			rightList[rightIndex] = AuthorizationRule_Properties_Rights_STATUS(rightItem)
 		}
 		rule.Rights = rightList
 	} else {
@@ -587,7 +587,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 	if rule == nil {
 		return nil, nil
 	}
-	result := &Namespaces_AuthorizationRule_SpecARM{}
+	result := &Namespaces_AuthorizationRule_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if rule.Location != nil {
@@ -600,7 +600,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Properties’:
 	if rule.Rights != nil {
-		result.Properties = &AuthorizationRulePropertiesARM{}
+		result.Properties = &AuthorizationRuleProperties_ARM{}
 	}
 	for _, item := range rule.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
@@ -618,14 +618,14 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *Namespaces_AuthorizationRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_AuthorizationRule_SpecARM{}
+	return &Namespaces_AuthorizationRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *Namespaces_AuthorizationRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_AuthorizationRule_SpecARM)
+	typedInput, ok := armInput.(Namespaces_AuthorizationRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:

@@ -175,7 +175,7 @@ type SqlUserDefinedFunctionGetResults_STATUS struct {
 	Location    *string                                              `json:"location,omitempty"`
 	Name        *string                                              `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlUserDefinedFunctionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                    `json:"tags,omitempty"`
 	Type        *string                                              `json:"type,omitempty"`
 }
@@ -200,8 +200,8 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusTo(destinat
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource
-type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
