@@ -44,17 +44,17 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 }
 
 func newVnetGateway(tc *testcommon.KubePerTestContext, publicIPAddress *network.PublicIPAddress, subnet *network.VirtualNetworksSubnet, rg *resources.ResourceGroup) *network.VirtualNetworkGateway {
-	gatewayType := network.VirtualNetworkGateway_Spec_Properties_GatewayType_Vpn
+	gatewayType := network.VirtualNetworkGateway_Properties_GatewayType_Spec_Vpn
 	skuName := network.VirtualNetworkGatewaySku_Name_VpnGw2
 	skuTier := network.VirtualNetworkGatewaySku_Tier_VpnGw2
-	vpnGatewayGen := network.VirtualNetworkGateway_Spec_Properties_VpnGatewayGeneration_Generation1
-	vpnType := network.VirtualNetworkGateway_Spec_Properties_VpnType_RouteBased
+	vpnGatewayGen := network.VirtualNetworkGateway_Properties_VpnGatewayGeneration_Spec_Generation1
+	vpnType := network.VirtualNetworkGateway_Properties_VpnType_Spec_RouteBased
 
 	return &network.VirtualNetworkGateway{
 		ObjectMeta: tc.MakeObjectMeta("gateway"),
 		Spec: network.VirtualNetworkGateway_Spec{
 			GatewayType: &gatewayType,
-			IpConfigurations: []network.VirtualNetworkGateway_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.VirtualNetworkGateway_Properties_IpConfigurations_Spec{{
 				Name: to.StringPtr("config1"),
 				PublicIPAddress: &network.SubResource{
 					Reference: tc.MakeReferenceFromResource(publicIPAddress),

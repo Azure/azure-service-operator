@@ -32,7 +32,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccount_STATUS_Kind_StorageV2
+	expectedKind := storage.StorageAccount_Kind_STATUS_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
@@ -147,7 +147,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccount_STATUS_Kind_StorageV2
+	expectedKind := storage.StorageAccount_Kind_STATUS_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// There should be no secrets at this point
@@ -262,7 +262,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
 	sku := storage.Sku_Name_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
