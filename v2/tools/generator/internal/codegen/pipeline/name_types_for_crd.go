@@ -34,7 +34,7 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 			for typeName, typeDef := range definitions {
 
-				newDefs, err := nameInnerTypes(typeDef, idFactory, getDescription)
+				newDefs, err := nameInnerTypes(typeDef, getDescription)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
@@ -57,7 +57,6 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory,
 	getDescription func(typeName astmodel.TypeName) []string,
 ) ([]astmodel.TypeDefinition, error) {
 	var resultTypes []astmodel.TypeDefinition
