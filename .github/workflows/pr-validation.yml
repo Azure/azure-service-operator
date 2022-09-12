@@ -133,6 +133,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       packages: read
+      checks: write
 
     steps:
       - name: Checkout code
@@ -185,3 +186,34 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Update check run called "integration-tests-fork"
+      - uses: actions/github-script@v1
+        id: update-check-run
+        if: ${{ always() }}
+        env:
+          number: ${{ github.event.number }}
+          integration_test_job: 'integration-tests-fork' # This is the name of the job defined in pr-validation-fork.yml
+          # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
+          conclusion: ${{ job.status }}
+          server_url: ${{ github.server_url }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
+            const { data: pull } = await github.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            const ref = pull.head.sha;
+            const { data: result } = await github.checks.create({
+              ...context.repo,
+              name: process.env.integration_test_job,
+              head_sha: ref,
+              status: 'completed',
+              conclusion: process.env.conclusion,
+              details_url: url,
+            });
+            return result;
