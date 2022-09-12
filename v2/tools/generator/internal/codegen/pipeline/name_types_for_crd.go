@@ -39,7 +39,10 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
 
-				result.AddAllAllowDuplicates(newDefs)
+				err = result.AddAllAllowDuplicates(newDefs)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to add new definitions")
+				}
 
 				if _, ok := result[typeName]; !ok {
 					// if we didn't regenerate the “input” type in nameInnerTypes then it won’t

@@ -62,6 +62,8 @@ func Test_NewNameHint(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			
 			g := NewGomegaWithT(t)
 
 			actual := newNameHint(c.typeName)
