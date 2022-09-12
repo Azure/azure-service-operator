@@ -17,10 +17,10 @@ deployment='(.kind == "Deployment" and .metadata.name == "azureserviceoperator-c
 certificate='.kind == "Certificate"'
 issuer='.kind == "Issuer"'
 webhooks='(.kind == "MutatingWebhookConfiguration" or .kind == "ValidatingWebhookConfiguration")'
-query="select($crd or $namespace or $cluster_role or $leader_election_role or $leader_election_binding or $service or $deployment or $certificate or $issuer or $webhooks or $proxy_binding)"
+serviceaccount='.kind == "ServiceAccount"'
+query="select($crd or $namespace or $cluster_role or $leader_election_role or $leader_election_binding or $service or $deployment or $certificate or $issuer or $webhooks or $proxy_binding or $serviceaccount)"
 
 yq eval "$query" "$source" > "$target"
-
 
 # Edit the deployment to run the ASO binary in webhooks-only mode.
 # Remove the aadpodidbinding label - this is only needed for communicating to ARM
