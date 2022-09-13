@@ -14,6 +14,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ApplySecret applies the secret in a way similar to kubectl apply. If the secret doesn't exist
@@ -69,7 +70,7 @@ func ApplySecretAndEnsureOwner(ctx context.Context, client client.Client, obj cl
 		// If the secret exists but isn't owned by our resource then it must have been created
 		// by the user. We want to avoid overwriting or otherwise modifying secrets of theirs.
 		if updatedSecret.GetResourceVersion() != "" {
-			if err := checkSecretOwner(obj, updatedSecret); err != nil {
+			if err := genruntime.CheckTargetOwnedByObj(obj, updatedSecret); err != nil {
 				return err
 			}
 		}
@@ -110,21 +111,4 @@ func ApplySecretsAndEnsureOwner(ctx context.Context, client client.Client, obj c
 	}
 
 	return results, nil
-}
-
-func checkSecretOwner(obj client.Object, secret *v1.Secret) error {
-	ownerRefs := secret.GetOwnerReferences()
-	owned := false
-	for _, ref := range ownerRefs {
-		if ref.UID == obj.GetUID() {
-			owned = true
-			break
-		}
-	}
-
-	if !owned {
-		return NewSecretNotOwnedError(secret.GetNamespace(), secret.GetName(), obj.GetName())
-	}
-
-	return nil
 }
