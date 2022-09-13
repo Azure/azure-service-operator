@@ -113,8 +113,8 @@ func (ref ResourceReference) Validate() error {
 	return nil
 }
 
-// ToNamespacedRef creates a NamespacedResourceReference from this reference.
-func (ref ResourceReference) ToNamespacedRef(namespace string) NamespacedResourceReference {
+// AsNamespacedRef creates a NamespacedResourceReference from this reference.
+func (ref ResourceReference) AsNamespacedRef(namespace string) NamespacedResourceReference {
 	// If this is a direct ARM reference, don't append a namespace as it reads weird
 	if ref.IsDirectARMReference() {
 		return NamespacedResourceReference{

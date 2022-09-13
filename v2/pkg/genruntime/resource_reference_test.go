@@ -129,7 +129,7 @@ func Test_ResourceReference_AsNamespacedReference_ARMReferenceHasNoNamespace(t *
 	g := NewGomegaWithT(t)
 	namespace := "default"
 
-	namespacedRef := validARMIDRef.ToNamespacedRef(namespace)
+	namespacedRef := validARMIDRef.AsNamespacedRef(namespace)
 	g.Expect(namespacedRef.Namespace).To(BeEmpty())
 }
 
@@ -138,6 +138,6 @@ func Test_ResourceReference_AsNamespacedReference_KubernetesReferenceHasNamespac
 	g := NewGomegaWithT(t)
 	namespace := "default"
 
-	namespacedRef := validKubRef.ToNamespacedRef(namespace)
+	namespacedRef := validKubRef.AsNamespacedRef(namespace)
 	g.Expect(namespacedRef.Namespace).To(Equal(namespace))
 }
