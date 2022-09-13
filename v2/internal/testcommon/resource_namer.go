@@ -107,10 +107,13 @@ func (n ResourceNamer) generateName(prefix string, num int) string {
 	result := n.makeRandomStringOfLength(num, n.runes)
 
 	var s []string
-	if prefix != "" {
-		s = []string{n.prefix, prefix, result}
-	} else {
+	// TODO: Do we need a check here for if both result and prefix are empty?
+	if result == "" {
+		s = []string{n.prefix, prefix}
+	} else if prefix == "" {
 		s = []string{n.prefix, result}
+	} else {
+		s = []string{n.prefix, prefix, result}
 	}
 
 	return strings.Join(s, n.separator)

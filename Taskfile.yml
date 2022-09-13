@@ -240,6 +240,33 @@ tasks:
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
     - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
+  controller:test-upgrade:
+    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - task: controller:kind-create
+    - task: controller:install-cert-manager
+    - task: controller:docker-push-local
+    - task: controller:gen-helm-manifest
+    # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+    - "cmctl check api --wait=2m"
+    - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
+    - "helm repo update"
+    - "helm upgrade --install --devel asov2 asov2/azure-service-operator \
+      --create-namespace \
+      --namespace={{.ASO_NAMESPACE}} \
+      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientID=$AZURE_CLIENT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET"
+    - "kubectl create namespace pre-release"
+    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+    - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
+    - task: controller:install-helm
+    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+#   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
+    - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
+
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
     dir: "{{.CONTROLLER_ROOT}}"
@@ -502,9 +529,11 @@ tasks:
     desc: Generate and install helm chart on cluster
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-    - "helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+    - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
       asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
