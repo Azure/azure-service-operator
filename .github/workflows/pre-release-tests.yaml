@@ -1,0 +1,59 @@
+name: Pre Release tests
+on:
+  workflow_dispatch:
+  # no content, allows manual triggering
+
+  schedule:
+    # 5:30 pm every Sunday (UTC)
+    - cron: '30 17 * * 0'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
+      - name: Run Pre Release Tests
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task test-upgrade
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
