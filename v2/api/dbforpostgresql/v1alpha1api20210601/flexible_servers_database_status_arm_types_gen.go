@@ -4,16 +4,16 @@
 package v1alpha1api20210601
 
 // Deprecated version of FlexibleServers_Database_STATUS. Use v1beta20210601.FlexibleServers_Database_STATUS instead
-type FlexibleServers_Database_STATUSARM struct {
-	Id         *string                       `json:"id,omitempty"`
-	Name       *string                       `json:"name,omitempty"`
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM         `json:"systemData,omitempty"`
-	Type       *string                       `json:"type,omitempty"`
+type FlexibleServers_Database_STATUS_ARM struct {
+	Id         *string                        `json:"id,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM         `json:"systemData,omitempty"`
+	Type       *string                        `json:"type,omitempty"`
 }
 
 // Deprecated version of DatabaseProperties_STATUS. Use v1beta20210601.DatabaseProperties_STATUS instead
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }

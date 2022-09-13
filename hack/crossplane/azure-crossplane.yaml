@@ -110,11 +110,19 @@ typeFilters:
     group: machinelearningservices
     name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
-    
   - action: prune
     group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
+  - action: prune
+    group: web
+    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+
+  - action: prune
+    group: hdinsight
+    name: Clusters;Clusters_Extensions
+    because: Uses one-of in a way we don't support
 
   - action: prune
     group: resources

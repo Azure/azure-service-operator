@@ -5,37 +5,37 @@ package v1beta20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type EventSubscription_SpecARM struct {
+type EventSubscription_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of the event subscription.
-	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
+	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
+var _ genruntime.ARMResourceSpec = &EventSubscription_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (subscription EventSubscription_SpecARM) GetAPIVersion() string {
+func (subscription EventSubscription_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (subscription *EventSubscription_SpecARM) GetName() string {
+func (subscription *EventSubscription_Spec_ARM) GetName() string {
 	return subscription.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (subscription *EventSubscription_SpecARM) GetType() string {
+func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
-type EventSubscriptionPropertiesARM struct {
+type EventSubscriptionProperties_ARM struct {
 	// DeadLetterDestination: The DeadLetter destination of the event subscription.
-	DeadLetterDestination *DeadLetterDestinationARM `json:"deadLetterDestination,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_ARM `json:"deadLetterDestination,omitempty"`
 
 	// Destination: Information about the destination where events have to be delivered for the event subscription.
-	Destination *EventSubscriptionDestinationARM `json:"destination,omitempty"`
+	Destination *EventSubscriptionDestination_ARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
 	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
@@ -44,29 +44,29 @@ type EventSubscriptionPropertiesARM struct {
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
 
 	// Filter: Information about the filter for the event subscription.
-	Filter *EventSubscriptionFilterARM `json:"filter,omitempty"`
+	Filter *EventSubscriptionFilter_ARM `json:"filter,omitempty"`
 
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
-	RetryPolicy *RetryPolicyARM `json:"retryPolicy,omitempty"`
+	RetryPolicy *RetryPolicy_ARM `json:"retryPolicy,omitempty"`
 }
 
-type DeadLetterDestinationARM struct {
+type DeadLetterDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
 	EndpointType *DeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
 }
 
-type EventSubscriptionDestinationARM struct {
+type EventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *EventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 }
 
-type EventSubscriptionFilterARM struct {
+type EventSubscriptionFilter_ARM struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilterARM `json:"advancedFilters,omitempty"`
+	AdvancedFilters []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
 
 	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
 	// subscribe to all default event types, set the IncludedEventTypes to null.
@@ -86,7 +86,7 @@ type EventSubscriptionFilterARM struct {
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
-type RetryPolicyARM struct {
+type RetryPolicy_ARM struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 
@@ -94,7 +94,7 @@ type RetryPolicyARM struct {
 	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
-type AdvancedFilterARM struct {
+type AdvancedFilter_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 

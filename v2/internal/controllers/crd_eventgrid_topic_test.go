@@ -64,8 +64,13 @@ func Test_EventGrid_Topic(t *testing.T) {
 }
 
 func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
+<<<<<<< HEAD
 	kind := storage.StorageAccount_Spec_Kind_StorageV2
 	sku := storage.SkuName_Standard_LRS
+=======
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
+>>>>>>> main
 	acctName := tc.NoSpaceNamer.GenerateName("stor")
 	tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	acct := &storage.StorageAccount{

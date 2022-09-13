@@ -6,19 +6,19 @@ package v1alpha1api20200202
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 // Deprecated version of Component_STATUS. Use v1beta20200202.Component_STATUS instead
-type Component_STATUSARM struct {
-	Etag       *string                                           `json:"etag,omitempty"`
-	Id         *string                                           `json:"id,omitempty"`
-	Kind       *string                                           `json:"kind,omitempty"`
-	Location   *string                                           `json:"location,omitempty"`
-	Name       *string                                           `json:"name,omitempty"`
-	Properties *ApplicationInsightsComponentProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       *v1.JSON                                          `json:"tags,omitempty"`
-	Type       *string                                           `json:"type,omitempty"`
+type Component_STATUS_ARM struct {
+	Etag       *string                                            `json:"etag,omitempty"`
+	Id         *string                                            `json:"id,omitempty"`
+	Kind       *string                                            `json:"kind,omitempty"`
+	Location   *string                                            `json:"location,omitempty"`
+	Name       *string                                            `json:"name,omitempty"`
+	Properties *ApplicationInsightsComponentProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       *v1.JSON                                           `json:"tags,omitempty"`
+	Type       *string                                            `json:"type,omitempty"`
 }
 
 // Deprecated version of ApplicationInsightsComponentProperties_STATUS. Use v1beta20200202.ApplicationInsightsComponentProperties_STATUS instead
-type ApplicationInsightsComponentProperties_STATUSARM struct {
+type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	AppId                           *string                                                         `json:"AppId,omitempty"`
 	ApplicationId                   *string                                                         `json:"ApplicationId,omitempty"`
 	Application_Type                *ApplicationInsightsComponentProperties_Application_Type_STATUS `json:"Application_Type,omitempty"`
@@ -35,7 +35,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	InstrumentationKey              *string                                                         `json:"InstrumentationKey,omitempty"`
 	LaMigrationDate                 *string                                                         `json:"LaMigrationDate,omitempty"`
 	Name                            *string                                                         `json:"Name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM                           `json:"PrivateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS_ARM                          `json:"PrivateLinkScopedResources,omitempty"`
 	ProvisioningState               *string                                                         `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS                                 `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS                                 `json:"publicNetworkAccessForQuery,omitempty"`
@@ -47,7 +47,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 }
 
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20200202.PrivateLinkScopedResource_STATUS instead
-type PrivateLinkScopedResource_STATUSARM struct {
+type PrivateLinkScopedResource_STATUS_ARM struct {
 	ResourceId *string `json:"ResourceId,omitempty"`
 	ScopeId    *string `json:"ScopeId,omitempty"`
 }

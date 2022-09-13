@@ -129,8 +129,13 @@ func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *t
 
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+<<<<<<< HEAD
 	kind := storage.StorageAccount_Spec_Kind_StorageV2
 	sku := storage.SkuName_Standard_LRS
+=======
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
+>>>>>>> main
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{

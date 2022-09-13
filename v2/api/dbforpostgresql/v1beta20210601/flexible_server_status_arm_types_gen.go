@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type FlexibleServer_STATUSARM struct {
+type FlexibleServer_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,13 +15,13 @@ type FlexibleServer_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
-	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -30,7 +30,7 @@ type FlexibleServer_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ServerProperties_STATUSARM struct {
+type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -39,7 +39,7 @@ type ServerProperties_STATUSARM struct {
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
 	// Backup: Backup properties of a server.
-	Backup *Backup_STATUSARM `json:"backup,omitempty"`
+	Backup *Backup_STATUS_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
 	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
@@ -48,16 +48,16 @@ type ServerProperties_STATUSARM struct {
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
 	// HighAvailability: High availability properties of a server.
-	HighAvailability *HighAvailability_STATUSARM `json:"highAvailability,omitempty"`
+	HighAvailability *HighAvailability_STATUS_ARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindow_STATUSARM `json:"maintenanceWindow,omitempty"`
+	MaintenanceWindow *MaintenanceWindow_STATUS_ARM `json:"maintenanceWindow,omitempty"`
 
 	// MinorVersion: The minor version of the server.
 	MinorVersion *string `json:"minorVersion,omitempty"`
 
 	// Network: Network properties of a server.
-	Network *Network_STATUSARM `json:"network,omitempty"`
+	Network *Network_STATUS_ARM `json:"network,omitempty"`
 
 	// PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
 	// 'createMode' is 'PointInTimeRestore'.
@@ -71,13 +71,13 @@ type ServerProperties_STATUSARM struct {
 	State *ServerProperties_State_STATUS `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
-	Storage *Storage_STATUSARM `json:"storage,omitempty"`
+	Storage *Storage_STATUS_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
 
@@ -85,7 +85,7 @@ type Sku_STATUSARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -105,7 +105,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type Backup_STATUSARM struct {
+type Backup_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
@@ -116,7 +116,7 @@ type Backup_STATUSARM struct {
 	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
-type HighAvailability_STATUSARM struct {
+type HighAvailability_STATUS_ARM struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
 
@@ -127,7 +127,7 @@ type HighAvailability_STATUSARM struct {
 	State *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
-type MaintenanceWindow_STATUSARM struct {
+type MaintenanceWindow_STATUS_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
@@ -141,7 +141,7 @@ type MaintenanceWindow_STATUSARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-type Network_STATUSARM struct {
+type Network_STATUS_ARM struct {
 	// DelegatedSubnetResourceId: delegated subnet arm resource id.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
@@ -155,12 +155,12 @@ type Network_STATUSARM struct {
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_Burstable_STATUS       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
+	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
-type Storage_STATUSARM struct {
+type Storage_STATUS_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
@@ -168,17 +168,17 @@ type Storage_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

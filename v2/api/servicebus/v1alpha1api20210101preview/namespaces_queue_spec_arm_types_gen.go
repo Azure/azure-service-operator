@@ -6,31 +6,31 @@ package v1alpha1api20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Queue_Spec. Use v1beta20210101preview.Namespaces_Queue_Spec instead
-type Namespaces_Queue_SpecARM struct {
-	AzureName  string                `json:"azureName,omitempty"`
-	Name       string                `json:"name,omitempty"`
-	Properties *SBQueuePropertiesARM `json:"properties,omitempty"`
+type Namespaces_Queue_Spec_ARM struct {
+	AzureName  string                 `json:"azureName,omitempty"`
+	Name       string                 `json:"name,omitempty"`
+	Properties *SBQueueProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Queue_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Queue_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (queue Namespaces_Queue_SpecARM) GetAPIVersion() string {
+func (queue Namespaces_Queue_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (queue *Namespaces_Queue_SpecARM) GetName() string {
+func (queue *Namespaces_Queue_Spec_ARM) GetName() string {
 	return queue.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
-func (queue *Namespaces_Queue_SpecARM) GetType() string {
+func (queue *Namespaces_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
 // Deprecated version of SBQueueProperties. Use v1beta20210101preview.SBQueueProperties instead
-type SBQueuePropertiesARM struct {
+type SBQueueProperties_ARM struct {
 	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`

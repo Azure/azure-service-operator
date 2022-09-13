@@ -41,7 +41,7 @@ type FakeResource_Spec struct {
 
 type FakeResourceParameters struct {
 	// +kubebuilder:validation:Required
-	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	JsonObject map[string]v1.JSON `json:"jsonObject,omitempty"`
@@ -57,18 +57,18 @@ type FakeResourceParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type FakeResource_Spec_Type `json:"type,omitempty"`
+	Type FakeResource_Type_Spec `json:"type,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_Spec_APIVersion string
+type FakeResource_APIVersion_Spec string
 
-const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Spec_Type string
+type FakeResource_Type_Spec string
 
-const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

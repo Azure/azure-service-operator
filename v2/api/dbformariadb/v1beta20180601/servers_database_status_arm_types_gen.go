@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20180601
 
-type Servers_Database_STATUSARM struct {
+type Servers_Database_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type Servers_Database_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a database.
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`
 

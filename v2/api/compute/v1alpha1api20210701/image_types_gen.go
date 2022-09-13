@@ -364,18 +364,18 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if image == nil {
 		return nil, nil
 	}
-	result := &Image_SpecARM{}
+	result := &Image_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = image.AzureName
 
 	// Set property ‘ExtendedLocation’:
 	if image.ExtendedLocation != nil {
-		extendedLocationARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -392,26 +392,26 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if image.HyperVGeneration != nil ||
 		image.SourceVirtualMachine != nil ||
 		image.StorageProfile != nil {
-		result.Properties = &ImagePropertiesARM{}
+		result.Properties = &ImageProperties_ARM{}
 	}
 	if image.HyperVGeneration != nil {
 		hyperVGeneration := *image.HyperVGeneration
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
 	if image.SourceVirtualMachine != nil {
-		sourceVirtualMachineARM, err := (*image.SourceVirtualMachine).ConvertToARM(resolved)
+		sourceVirtualMachine_ARM, err := (*image.SourceVirtualMachine).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sourceVirtualMachine := *sourceVirtualMachineARM.(*SubResourceARM)
+		sourceVirtualMachine := *sourceVirtualMachine_ARM.(*SubResource_ARM)
 		result.Properties.SourceVirtualMachine = &sourceVirtualMachine
 	}
 	if image.StorageProfile != nil {
-		storageProfileARM, err := (*image.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := (*image.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfileARM.(*ImageStorageProfileARM)
+		storageProfile := *storageProfile_ARM.(*ImageStorageProfile_ARM)
 		result.Properties.StorageProfile = &storageProfile
 	}
 
@@ -427,14 +427,14 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (image *Image_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Image_SpecARM{}
+	return &Image_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Image_SpecARM)
+	typedInput, ok := armInput.(Image_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -787,14 +787,14 @@ var _ genruntime.FromARMConverter = &Image_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (image *Image_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Image_STATUSARM{}
+	return &Image_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (image *Image_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Image_STATUSARM)
+	typedInput, ok := armInput.(Image_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1058,7 +1058,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	result := &ExtendedLocationARM{}
+	result := &ExtendedLocation_ARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -1076,14 +1076,14 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocationARM{}
+	return &ExtendedLocation_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocationARM)
+	typedInput, ok := armInput.(ExtendedLocation_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1157,14 +1157,14 @@ var _ genruntime.FromARMConverter = &ExtendedLocation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocation_STATUSARM{}
+	return &ExtendedLocation_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocation_STATUSARM)
+	typedInput, ok := armInput.(ExtendedLocation_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1241,8 +1241,8 @@ const (
 type HyperVGenerationType_STATUS string
 
 const (
-	HyperVGenerationType_V1_STATUS = HyperVGenerationType_STATUS("V1")
-	HyperVGenerationType_V2_STATUS = HyperVGenerationType_STATUS("V2")
+	HyperVGenerationType_STATUS_V1 = HyperVGenerationType_STATUS("V1")
+	HyperVGenerationType_STATUS_V2 = HyperVGenerationType_STATUS("V2")
 )
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
@@ -1259,24 +1259,24 @@ func (profile *ImageStorageProfile) ConvertToARM(resolved genruntime.ConvertToAR
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ImageStorageProfileARM{}
+	result := &ImageStorageProfile_ARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, *itemARM.(*ImageDataDiskARM))
+		result.DataDisks = append(result.DataDisks, *item_ARM.(*ImageDataDisk_ARM))
 	}
 
 	// Set property ‘OsDisk’:
 	if profile.OsDisk != nil {
-		osDiskARM, err := (*profile.OsDisk).ConvertToARM(resolved)
+		osDisk_ARM, err := (*profile.OsDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		osDisk := *osDiskARM.(*ImageOSDiskARM)
+		osDisk := *osDisk_ARM.(*ImageOSDisk_ARM)
 		result.OsDisk = &osDisk
 	}
 
@@ -1290,14 +1290,14 @@ func (profile *ImageStorageProfile) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ImageStorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageStorageProfileARM{}
+	return &ImageStorageProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ImageStorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageStorageProfileARM)
+	typedInput, ok := armInput.(ImageStorageProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataDisks’:
@@ -1441,14 +1441,14 @@ var _ genruntime.FromARMConverter = &ImageStorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ImageStorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageStorageProfile_STATUSARM{}
+	return &ImageStorageProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ImageStorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageStorageProfile_STATUSARM)
+	typedInput, ok := armInput.(ImageStorageProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataDisks’:
@@ -1593,7 +1593,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SubResourceARM{}
+	result := &SubResource_ARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -1609,14 +1609,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResourceARM{}
+	return &SubResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResourceARM)
+	_, ok := armInput.(SubResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Reference’
@@ -1673,14 +1673,14 @@ var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_STATUSARM{}
+	return &SubResource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_STATUSARM)
+	typedInput, ok := armInput.(SubResource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1743,7 +1743,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if disk == nil {
 		return nil, nil
 	}
-	result := &ImageDataDiskARM{}
+	result := &ImageDataDisk_ARM{}
 
 	// Set property ‘BlobUri’:
 	if disk.BlobUri != nil {
@@ -1759,11 +1759,11 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘DiskEncryptionSet’:
 	if disk.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*disk.DiskEncryptionSet).ConvertToARM(resolved)
+		diskEncryptionSet_ARM, err := (*disk.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*SubResourceARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*SubResource_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -1781,21 +1781,21 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
-		managedDiskARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := *managedDiskARM.(*SubResourceARM)
+		managedDisk := *managedDisk_ARM.(*SubResource_ARM)
 		result.ManagedDisk = &managedDisk
 	}
 
 	// Set property ‘Snapshot’:
 	if disk.Snapshot != nil {
-		snapshotARM, err := (*disk.Snapshot).ConvertToARM(resolved)
+		snapshot_ARM, err := (*disk.Snapshot).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		snapshot := *snapshotARM.(*SubResourceARM)
+		snapshot := *snapshot_ARM.(*SubResource_ARM)
 		result.Snapshot = &snapshot
 	}
 
@@ -1809,14 +1809,14 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *ImageDataDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageDataDiskARM{}
+	return &ImageDataDisk_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageDataDiskARM)
+	typedInput, ok := armInput.(ImageDataDisk_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDiskARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDisk_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2047,14 +2047,14 @@ var _ genruntime.FromARMConverter = &ImageDataDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *ImageDataDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageDataDisk_STATUSARM{}
+	return &ImageDataDisk_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *ImageDataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageDataDisk_STATUSARM)
+	typedInput, ok := armInput.(ImageDataDisk_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDisk_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDisk_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2293,7 +2293,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if disk == nil {
 		return nil, nil
 	}
-	result := &ImageOSDiskARM{}
+	result := &ImageOSDisk_ARM{}
 
 	// Set property ‘BlobUri’:
 	if disk.BlobUri != nil {
@@ -2309,11 +2309,11 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘DiskEncryptionSet’:
 	if disk.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*disk.DiskEncryptionSet).ConvertToARM(resolved)
+		diskEncryptionSet_ARM, err := (*disk.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*SubResourceARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*SubResource_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -2325,11 +2325,11 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
-		managedDiskARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := *managedDiskARM.(*SubResourceARM)
+		managedDisk := *managedDisk_ARM.(*SubResource_ARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -2347,11 +2347,11 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘Snapshot’:
 	if disk.Snapshot != nil {
-		snapshotARM, err := (*disk.Snapshot).ConvertToARM(resolved)
+		snapshot_ARM, err := (*disk.Snapshot).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		snapshot := *snapshotARM.(*SubResourceARM)
+		snapshot := *snapshot_ARM.(*SubResource_ARM)
 		result.Snapshot = &snapshot
 	}
 
@@ -2365,14 +2365,14 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *ImageOSDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageOSDiskARM{}
+	return &ImageOSDisk_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageOSDiskARM)
+	typedInput, ok := armInput.(ImageOSDisk_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDiskARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDisk_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2636,14 +2636,14 @@ var _ genruntime.FromARMConverter = &ImageOSDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *ImageOSDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageOSDisk_STATUSARM{}
+	return &ImageOSDisk_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *ImageOSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageOSDisk_STATUSARM)
+	typedInput, ok := armInput.(ImageOSDisk_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDisk_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDisk_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2904,9 +2904,9 @@ const (
 type ImageDataDisk_Caching_STATUS string
 
 const (
-	ImageDataDisk_Caching_None_STATUS      = ImageDataDisk_Caching_STATUS("None")
-	ImageDataDisk_Caching_ReadOnly_STATUS  = ImageDataDisk_Caching_STATUS("ReadOnly")
-	ImageDataDisk_Caching_ReadWrite_STATUS = ImageDataDisk_Caching_STATUS("ReadWrite")
+	ImageDataDisk_Caching_STATUS_None      = ImageDataDisk_Caching_STATUS("None")
+	ImageDataDisk_Caching_STATUS_ReadOnly  = ImageDataDisk_Caching_STATUS("ReadOnly")
+	ImageDataDisk_Caching_STATUS_ReadWrite = ImageDataDisk_Caching_STATUS("ReadWrite")
 )
 
 // Deprecated version of ImageOSDisk_Caching. Use v1beta20210701.ImageOSDisk_Caching instead
@@ -2923,9 +2923,9 @@ const (
 type ImageOSDisk_Caching_STATUS string
 
 const (
-	ImageOSDisk_Caching_None_STATUS      = ImageOSDisk_Caching_STATUS("None")
-	ImageOSDisk_Caching_ReadOnly_STATUS  = ImageOSDisk_Caching_STATUS("ReadOnly")
-	ImageOSDisk_Caching_ReadWrite_STATUS = ImageOSDisk_Caching_STATUS("ReadWrite")
+	ImageOSDisk_Caching_STATUS_None      = ImageOSDisk_Caching_STATUS("None")
+	ImageOSDisk_Caching_STATUS_ReadOnly  = ImageOSDisk_Caching_STATUS("ReadOnly")
+	ImageOSDisk_Caching_STATUS_ReadWrite = ImageOSDisk_Caching_STATUS("ReadWrite")
 )
 
 // Deprecated version of ImageOSDisk_OsState. Use v1beta20210701.ImageOSDisk_OsState instead
@@ -2941,8 +2941,8 @@ const (
 type ImageOSDisk_OsState_STATUS string
 
 const (
-	ImageOSDisk_OsState_Generalized_STATUS = ImageOSDisk_OsState_STATUS("Generalized")
-	ImageOSDisk_OsState_Specialized_STATUS = ImageOSDisk_OsState_STATUS("Specialized")
+	ImageOSDisk_OsState_STATUS_Generalized = ImageOSDisk_OsState_STATUS("Generalized")
+	ImageOSDisk_OsState_STATUS_Specialized = ImageOSDisk_OsState_STATUS("Specialized")
 )
 
 // Deprecated version of ImageOSDisk_OsType. Use v1beta20210701.ImageOSDisk_OsType instead
@@ -2958,8 +2958,8 @@ const (
 type ImageOSDisk_OsType_STATUS string
 
 const (
-	ImageOSDisk_OsType_Linux_STATUS   = ImageOSDisk_OsType_STATUS("Linux")
-	ImageOSDisk_OsType_Windows_STATUS = ImageOSDisk_OsType_STATUS("Windows")
+	ImageOSDisk_OsType_STATUS_Linux   = ImageOSDisk_OsType_STATUS("Linux")
+	ImageOSDisk_OsType_STATUS_Windows = ImageOSDisk_OsType_STATUS("Windows")
 )
 
 // Deprecated version of StorageAccountType. Use v1beta20210701.StorageAccountType instead
@@ -2979,12 +2979,12 @@ const (
 type StorageAccountType_STATUS string
 
 const (
-	StorageAccountType_Premium_LRS_STATUS     = StorageAccountType_STATUS("Premium_LRS")
-	StorageAccountType_Premium_ZRS_STATUS     = StorageAccountType_STATUS("Premium_ZRS")
-	StorageAccountType_StandardSSD_LRS_STATUS = StorageAccountType_STATUS("StandardSSD_LRS")
-	StorageAccountType_StandardSSD_ZRS_STATUS = StorageAccountType_STATUS("StandardSSD_ZRS")
-	StorageAccountType_Standard_LRS_STATUS    = StorageAccountType_STATUS("Standard_LRS")
-	StorageAccountType_UltraSSD_LRS_STATUS    = StorageAccountType_STATUS("UltraSSD_LRS")
+	StorageAccountType_STATUS_Premium_LRS     = StorageAccountType_STATUS("Premium_LRS")
+	StorageAccountType_STATUS_Premium_ZRS     = StorageAccountType_STATUS("Premium_ZRS")
+	StorageAccountType_STATUS_StandardSSD_LRS = StorageAccountType_STATUS("StandardSSD_LRS")
+	StorageAccountType_STATUS_StandardSSD_ZRS = StorageAccountType_STATUS("StandardSSD_ZRS")
+	StorageAccountType_STATUS_Standard_LRS    = StorageAccountType_STATUS("Standard_LRS")
+	StorageAccountType_STATUS_UltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
 
 func init() {

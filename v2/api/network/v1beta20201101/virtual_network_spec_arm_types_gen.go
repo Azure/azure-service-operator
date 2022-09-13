@@ -5,53 +5,53 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualNetwork_SpecARM struct {
+type VirtualNetwork_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the virtual network.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network.
-	Properties *VirtualNetworkPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetwork_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetwork_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (network VirtualNetwork_SpecARM) GetAPIVersion() string {
+func (network VirtualNetwork_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (network *VirtualNetwork_SpecARM) GetName() string {
+func (network *VirtualNetwork_Spec_ARM) GetName() string {
 	return network.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (network *VirtualNetwork_SpecARM) GetType() string {
+func (network *VirtualNetwork_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
-type VirtualNetworkPropertiesFormatARM struct {
+type VirtualNetworkPropertiesFormat_ARM struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-	AddressSpace *AddressSpaceARM `json:"addressSpace,omitempty"`
+	AddressSpace *AddressSpace_ARM `json:"addressSpace,omitempty"`
 
 	// BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
-	BgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"bgpCommunities,omitempty"`
+	BgpCommunities *VirtualNetworkBgpCommunities_ARM `json:"bgpCommunities,omitempty"`
 
 	// DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
-	DdosProtectionPlan *SubResourceARM `json:"ddosProtectionPlan,omitempty"`
+	DdosProtectionPlan *SubResource_ARM `json:"ddosProtectionPlan,omitempty"`
 
 	// DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
-	DhcpOptions *DhcpOptionsARM `json:"dhcpOptions,omitempty"`
+	DhcpOptions *DhcpOptions_ARM `json:"dhcpOptions,omitempty"`
 
 	// EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
 	// requires a DDoS protection plan associated with the resource.
@@ -61,46 +61,46 @@ type VirtualNetworkPropertiesFormatARM struct {
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this VNET.
-	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
+	IpAllocations []SubResource_ARM `json:"ipAllocations,omitempty"`
 
 	// Subnets: A list of subnets in a Virtual Network.
-	Subnets []SubnetARM `json:"subnets,omitempty"`
+	Subnets []Subnet_ARM `json:"subnets,omitempty"`
 
 	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings []VirtualNetworkPeeringARM `json:"virtualNetworkPeerings,omitempty"`
+	VirtualNetworkPeerings []VirtualNetworkPeering_ARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
-type DhcpOptionsARM struct {
+type DhcpOptions_ARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-type SubnetARM struct {
+type Subnet_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the subnet.
-	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *SubnetPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkBgpCommunitiesARM struct {
+type VirtualNetworkBgpCommunities_ARM struct {
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
-type VirtualNetworkPeeringARM struct {
+type VirtualNetworkPeering_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
-	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`

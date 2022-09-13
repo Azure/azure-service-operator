@@ -5,52 +5,52 @@ package v1beta20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Workspace_SpecARM struct {
+type Workspace_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *IdentityARM `json:"identity,omitempty"`
+	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: The properties of the machine learning workspace.
-	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
+	Properties *WorkspaceProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Workspace_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Workspace_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
-func (workspace Workspace_SpecARM) GetAPIVersion() string {
+func (workspace Workspace_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (workspace *Workspace_SpecARM) GetName() string {
+func (workspace *Workspace_Spec_ARM) GetName() string {
 	return workspace.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces"
-func (workspace *Workspace_SpecARM) GetType() string {
+func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"
 }
 
-type IdentityARM struct {
+type Identity_ARM struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
 
@@ -58,7 +58,7 @@ type SkuARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type SystemDataARM struct {
+type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -78,7 +78,7 @@ type SystemDataARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-type WorkspacePropertiesARM struct {
+type WorkspaceProperties_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 	ApplicationInsights             *string `json:"applicationInsights,omitempty"`
@@ -91,7 +91,7 @@ type WorkspacePropertiesARM struct {
 	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
 
 	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionPropertyARM `json:"encryption,omitempty"`
+	Encryption *EncryptionProperty_ARM `json:"encryption,omitempty"`
 
 	// FriendlyName: The friendly name for this workspace. This name in mutable
 	FriendlyName *string `json:"friendlyName,omitempty"`
@@ -108,19 +108,19 @@ type WorkspacePropertiesARM struct {
 	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettingsARM `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_ARM `json:"serviceManagedResourcesSettings,omitempty"`
 
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResourceARM `json:"sharedPrivateLinkResources,omitempty"`
-	StorageAccount             *string                        `json:"storageAccount,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_ARM `json:"sharedPrivateLinkResources,omitempty"`
+	StorageAccount             *string                         `json:"storageAccount,omitempty"`
 }
 
-type EncryptionPropertyARM struct {
+type EncryptionProperty_ARM struct {
 	// Identity: The identity that will be used to access the key vault for encryption at rest.
-	Identity *IdentityForCmkARM `json:"identity,omitempty"`
+	Identity *IdentityForCmk_ARM `json:"identity,omitempty"`
 
 	// KeyVaultProperties: Customer Key vault properties.
-	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
 	Status *EncryptionProperty_Status `json:"status,omitempty"`
@@ -136,17 +136,17 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-type ServiceManagedResourcesSettingsARM struct {
+type ServiceManagedResourcesSettings_ARM struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
-	CosmosDb *CosmosDbSettingsARM `json:"cosmosDb,omitempty"`
+	CosmosDb *CosmosDbSettings_ARM `json:"cosmosDb,omitempty"`
 }
 
-type SharedPrivateLinkResourceARM struct {
+type SharedPrivateLinkResource_ARM struct {
 	// Name: Unique name of the private link.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Resource properties.
-	Properties *SharedPrivateLinkResourcePropertyARM `json:"properties,omitempty"`
+	Properties *SharedPrivateLinkResourceProperty_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
@@ -169,17 +169,17 @@ const (
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
-type CosmosDbSettingsARM struct {
+type CosmosDbSettings_ARM struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
-type IdentityForCmkARM struct {
+type IdentityForCmk_ARM struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 
@@ -190,7 +190,7 @@ type KeyVaultPropertiesARM struct {
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
-type SharedPrivateLinkResourcePropertyARM struct {
+type SharedPrivateLinkResourceProperty_ARM struct {
 	// GroupId: The private link resource group id.
 	GroupId               *string `json:"groupId,omitempty"`
 	PrivateLinkResourceId *string `json:"privateLinkResourceId,omitempty"`

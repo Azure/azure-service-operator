@@ -271,27 +271,27 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecARM struct {
-	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+type FakeResource_Spec_ARM struct {
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 	Name       string                       `json:"name,omitempty"`
-	Properties *PropertiesARM               `json:"properties,omitempty"`
-	Type       FakeResource_Spec_Type       `json:"type,omitempty"`
+	Properties *Properties_ARM              `json:"properties,omitempty"`
+	Type       FakeResource_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (resource FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (resource *FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_Spec_ARM) GetType() string {
 	return ""
 }
 
@@ -300,9 +300,14 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_APIVersion_Spec string
+
+const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -316,7 +321,7 @@ type FakeResource_Spec struct {
 	Properties *Properties                        `json:"properties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type FakeResource_Spec_Type `json:"type,omitempty"`
+	Type FakeResource_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -326,7 +331,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_SpecARM{}
+	result := &FakeResource_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = resource.APIVersion
@@ -336,11 +341,11 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Properties’:
 	if resource.Properties != nil {
-		propertiesARM, err := (*resource.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*resource.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*PropertiesARM)
+		properties := *properties_ARM.(*Properties_ARM)
 		result.Properties = &properties
 	}
 
@@ -351,14 +356,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SpecARM{}
+	return &FakeResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecARM)
+	typedInput, ok := armInput.(FakeResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -445,7 +450,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// APIVersion
 	if source.APIVersion != nil {
-		resource.APIVersion = FakeResource_Spec_APIVersion(*source.APIVersion)
+		resource.APIVersion = FakeResource_APIVersion_Spec(*source.APIVersion)
 	} else {
 		resource.APIVersion = ""
 	}
@@ -475,7 +480,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// Type
 	if source.Type != nil {
-		resource.Type = FakeResource_Spec_Type(*source.Type)
+		resource.Type = FakeResource_Type_Spec(*source.Type)
 	} else {
 		resource.Type = ""
 	}
@@ -542,30 +547,25 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_Spec_APIVersion string
-
-const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Spec_Type string
+type FakeResource_Type_Spec string
 
-const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
-type PropertiesARM struct {
+type Properties_ARM struct {
 	// Bar: Mutually exclusive with all other properties
-	Bar *BarARM `json:"bar,omitempty"`
+	Bar *Bar_ARM `json:"bar,omitempty"`
 
 	// Baz: Mutually exclusive with all other properties
-	Baz *BazARM `json:"baz,omitempty"`
+	Baz *Baz_ARM `json:"baz,omitempty"`
 
 	// Foo: Mutually exclusive with all other properties
-	Foo *FooARM `json:"foo,omitempty"`
+	Foo *Foo_ARM `json:"foo,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because PropertiesARM represents a discriminated union (JSON OneOf)
-func (properties PropertiesARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because Properties_ARM represents a discriminated union (JSON OneOf)
+func (properties Properties_ARM) MarshalJSON() ([]byte, error) {
 	if properties.Bar != nil {
 		return json.Marshal(properties.Bar)
 	}
@@ -578,8 +578,8 @@ func (properties PropertiesARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the PropertiesARM
-func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the Properties_ARM
+func (properties *Properties_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -587,15 +587,15 @@ func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["discrim"]
 	if discriminator == "bar" {
-		properties.Bar = &BarARM{}
+		properties.Bar = &Bar_ARM{}
 		return json.Unmarshal(data, properties.Bar)
 	}
 	if discriminator == "baz" {
-		properties.Baz = &BazARM{}
+		properties.Baz = &Baz_ARM{}
 		return json.Unmarshal(data, properties.Baz)
 	}
 	if discriminator == "foo" {
-		properties.Foo = &FooARM{}
+		properties.Foo = &Foo_ARM{}
 		return json.Unmarshal(data, properties.Foo)
 	}
 
@@ -604,19 +604,19 @@ func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
-type BarARM struct {
+type Bar_ARM struct {
 	Discrim Bar_Discrim `json:"discrim,omitempty"`
 	Size    *int        `json:"size,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
-type BazARM struct {
+type Baz_ARM struct {
 	Discrim Baz_Discrim `json:"discrim,omitempty"`
 	Enabled *bool       `json:"enabled,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type FooARM struct {
+type Foo_ARM struct {
 	Discrim Foo_Discrim `json:"discrim,omitempty"`
 	Name    *string     `json:"name,omitempty"`
 }
@@ -640,35 +640,35 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PropertiesARM{}
+	result := &Properties_ARM{}
 
 	// Set property ‘Bar’:
 	if properties.Bar != nil {
-		barARM, err := (*properties.Bar).ConvertToARM(resolved)
+		bar_ARM, err := (*properties.Bar).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		bar := *barARM.(*BarARM)
+		bar := *bar_ARM.(*Bar_ARM)
 		result.Bar = &bar
 	}
 
 	// Set property ‘Baz’:
 	if properties.Baz != nil {
-		bazARM, err := (*properties.Baz).ConvertToARM(resolved)
+		baz_ARM, err := (*properties.Baz).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		baz := *bazARM.(*BazARM)
+		baz := *baz_ARM.(*Baz_ARM)
 		result.Baz = &baz
 	}
 
 	// Set property ‘Foo’:
 	if properties.Foo != nil {
-		fooARM, err := (*properties.Foo).ConvertToARM(resolved)
+		foo_ARM, err := (*properties.Foo).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		foo := *fooARM.(*FooARM)
+		foo := *foo_ARM.(*Foo_ARM)
 		result.Foo = &foo
 	}
 	return result, nil
@@ -676,14 +676,14 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PropertiesARM{}
+	return &Properties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PropertiesARM)
+	typedInput, ok := armInput.(Properties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Properties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Bar’:
@@ -834,7 +834,7 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if bar == nil {
 		return nil, nil
 	}
-	result := &BarARM{}
+	result := &Bar_ARM{}
 
 	// Set property ‘Discrim’:
 	if bar.Discrim != nil {
@@ -851,14 +851,14 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (bar *Bar) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BarARM{}
+	return &Bar_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (bar *Bar) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BarARM)
+	typedInput, ok := armInput.(Bar_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BarARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Bar_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Discrim’:
@@ -940,7 +940,7 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if baz == nil {
 		return nil, nil
 	}
-	result := &BazARM{}
+	result := &Baz_ARM{}
 
 	// Set property ‘Discrim’:
 	if baz.Discrim != nil {
@@ -957,14 +957,14 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (baz *Baz) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BazARM{}
+	return &Baz_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (baz *Baz) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BazARM)
+	typedInput, ok := armInput.(Baz_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BazARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Baz_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Discrim’:
@@ -1054,7 +1054,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	result := &FooARM{}
+	result := &Foo_ARM{}
 
 	// Set property ‘Discrim’:
 	if foo.Discrim != nil {
@@ -1071,14 +1071,14 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (foo *Foo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FooARM{}
+	return &Foo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FooARM)
+	typedInput, ok := armInput.(Foo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Discrim’:

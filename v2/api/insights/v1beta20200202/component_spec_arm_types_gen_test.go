@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Component_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Component_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Component_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponent_SpecARM, Component_SpecARMGenerator()))
+		"Round trip of Component_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponent_Spec_ARM, Component_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponent_SpecARM runs a test to see if a specific instance of Component_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponent_SpecARM(subject Component_SpecARM) string {
+// RunJSONSerializationTestForComponent_Spec_ARM runs a test to see if a specific instance of Component_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponent_Spec_ARM(subject Component_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForComponent_SpecARM(subject Component_SpecARM) str
 	}
 
 	// Deserialize back into memory
-	var actual Component_SpecARM
+	var actual Component_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForComponent_SpecARM(subject Component_SpecARM) str
 	return ""
 }
 
-// Generator of Component_SpecARM instances for property testing - lazily instantiated by Component_SpecARMGenerator()
-var component_SpecARMGenerator gopter.Gen
+// Generator of Component_Spec_ARM instances for property testing - lazily instantiated by Component_Spec_ARMGenerator()
+var component_Spec_ARMGenerator gopter.Gen
 
-// Component_SpecARMGenerator returns a generator of Component_SpecARM instances for property testing.
-// We first initialize component_SpecARMGenerator with a simplified generator based on the
+// Component_Spec_ARMGenerator returns a generator of Component_Spec_ARM instances for property testing.
+// We first initialize component_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Component_SpecARMGenerator() gopter.Gen {
-	if component_SpecARMGenerator != nil {
-		return component_SpecARMGenerator
+func Component_Spec_ARMGenerator() gopter.Gen {
+	if component_Spec_ARMGenerator != nil {
+		return component_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponent_SpecARM(generators)
-	component_SpecARMGenerator = gen.Struct(reflect.TypeOf(Component_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForComponent_Spec_ARM(generators)
+	component_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Component_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponent_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForComponent_SpecARM(generators)
-	component_SpecARMGenerator = gen.Struct(reflect.TypeOf(Component_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForComponent_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForComponent_Spec_ARM(generators)
+	component_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Component_Spec_ARM{}), generators)
 
-	return component_SpecARMGenerator
+	return component_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForComponent_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponent_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForComponent_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponent_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
@@ -90,25 +90,25 @@ func AddIndependentPropertyGeneratorsForComponent_SpecARM(gens map[string]gopter
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForComponent_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForComponent_SpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ApplicationInsightsComponentPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForComponent_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForComponent_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ApplicationInsightsComponentProperties_ARMGenerator())
 }
 
-func Test_ApplicationInsightsComponentPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApplicationInsightsComponentProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ApplicationInsightsComponentPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM, ApplicationInsightsComponentPropertiesARMGenerator()))
+		"Round trip of ApplicationInsightsComponentProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM, ApplicationInsightsComponentProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM runs a test to see if a specific instance of ApplicationInsightsComponentPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM(subject ApplicationInsightsComponentPropertiesARM) string {
+// RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM runs a test to see if a specific instance of ApplicationInsightsComponentProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationInsightsComponentProperties_ARM(subject ApplicationInsightsComponentProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +116,7 @@ func RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM(subjec
 	}
 
 	// Deserialize back into memory
-	var actual ApplicationInsightsComponentPropertiesARM
+	var actual ApplicationInsightsComponentProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,25 +134,25 @@ func RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM(subjec
 	return ""
 }
 
-// Generator of ApplicationInsightsComponentPropertiesARM instances for property testing - lazily instantiated by
-// ApplicationInsightsComponentPropertiesARMGenerator()
-var applicationInsightsComponentPropertiesARMGenerator gopter.Gen
+// Generator of ApplicationInsightsComponentProperties_ARM instances for property testing - lazily instantiated by
+// ApplicationInsightsComponentProperties_ARMGenerator()
+var applicationInsightsComponentProperties_ARMGenerator gopter.Gen
 
-// ApplicationInsightsComponentPropertiesARMGenerator returns a generator of ApplicationInsightsComponentPropertiesARM instances for property testing.
-func ApplicationInsightsComponentPropertiesARMGenerator() gopter.Gen {
-	if applicationInsightsComponentPropertiesARMGenerator != nil {
-		return applicationInsightsComponentPropertiesARMGenerator
+// ApplicationInsightsComponentProperties_ARMGenerator returns a generator of ApplicationInsightsComponentProperties_ARM instances for property testing.
+func ApplicationInsightsComponentProperties_ARMGenerator() gopter.Gen {
+	if applicationInsightsComponentProperties_ARMGenerator != nil {
+		return applicationInsightsComponentProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(generators)
-	applicationInsightsComponentPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(generators)
+	applicationInsightsComponentProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentProperties_ARM{}), generators)
 
-	return applicationInsightsComponentPropertiesARMGenerator
+	return applicationInsightsComponentProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_Other, ApplicationInsightsComponentProperties_Application_Type_Web))
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())

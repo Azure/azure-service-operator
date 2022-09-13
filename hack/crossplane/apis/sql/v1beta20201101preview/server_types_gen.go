@@ -233,15 +233,15 @@ const (
 type ServerProperties_PublicNetworkAccess_STATUS string
 
 const (
-	ServerProperties_PublicNetworkAccess_Disabled_STATUS = ServerProperties_PublicNetworkAccess_STATUS("Disabled")
-	ServerProperties_PublicNetworkAccess_Enabled_STATUS  = ServerProperties_PublicNetworkAccess_STATUS("Enabled")
+	ServerProperties_PublicNetworkAccess_STATUS_Disabled = ServerProperties_PublicNetworkAccess_STATUS("Disabled")
+	ServerProperties_PublicNetworkAccess_STATUS_Enabled  = ServerProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 type ServerProperties_WorkspaceFeature_STATUS string
 
 const (
-	ServerProperties_WorkspaceFeature_Connected_STATUS    = ServerProperties_WorkspaceFeature_STATUS("Connected")
-	ServerProperties_WorkspaceFeature_Disconnected_STATUS = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
+	ServerProperties_WorkspaceFeature_STATUS_Connected    = ServerProperties_WorkspaceFeature_STATUS("Connected")
+	ServerProperties_WorkspaceFeature_STATUS_Disconnected = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
 )
 
 type PrivateEndpointConnectionProperties_STATUS struct {
@@ -268,10 +268,10 @@ const (
 type ResourceIdentity_Type_STATUS string
 
 const (
-	ResourceIdentity_Type_None_STATUS                       = ResourceIdentity_Type_STATUS("None")
-	ResourceIdentity_Type_SystemAssigned_STATUS             = ResourceIdentity_Type_STATUS("SystemAssigned")
-	ResourceIdentity_Type_SystemAssignedUserAssigned_STATUS = ResourceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	ResourceIdentity_Type_UserAssigned_STATUS               = ResourceIdentity_Type_STATUS("UserAssigned")
+	ResourceIdentity_Type_STATUS_None                       = ResourceIdentity_Type_STATUS("None")
+	ResourceIdentity_Type_STATUS_SystemAssigned             = ResourceIdentity_Type_STATUS("SystemAssigned")
+	ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}
@@ -281,7 +281,7 @@ const ServerExternalAdministrator_AdministratorType_ActiveDirectory = ServerExte
 
 type ServerExternalAdministrator_AdministratorType_STATUS string
 
-const ServerExternalAdministrator_AdministratorType_ActiveDirectory_STATUS = ServerExternalAdministrator_AdministratorType_STATUS("ActiveDirectory")
+const ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory = ServerExternalAdministrator_AdministratorType_STATUS("ActiveDirectory")
 
 // +kubebuilder:validation:Enum={"Application","Group","User"}
 type ServerExternalAdministrator_PrincipalType string
@@ -295,9 +295,9 @@ const (
 type ServerExternalAdministrator_PrincipalType_STATUS string
 
 const (
-	ServerExternalAdministrator_PrincipalType_Application_STATUS = ServerExternalAdministrator_PrincipalType_STATUS("Application")
-	ServerExternalAdministrator_PrincipalType_Group_STATUS       = ServerExternalAdministrator_PrincipalType_STATUS("Group")
-	ServerExternalAdministrator_PrincipalType_User_STATUS        = ServerExternalAdministrator_PrincipalType_STATUS("User")
+	ServerExternalAdministrator_PrincipalType_STATUS_Application = ServerExternalAdministrator_PrincipalType_STATUS("Application")
+	ServerExternalAdministrator_PrincipalType_STATUS_Group       = ServerExternalAdministrator_PrincipalType_STATUS("Group")
+	ServerExternalAdministrator_PrincipalType_STATUS_User        = ServerExternalAdministrator_PrincipalType_STATUS("User")
 )
 
 type UserIdentity_STATUS struct {
@@ -311,11 +311,11 @@ type UserIdentity_STATUS struct {
 type PrivateEndpointConnectionProperties_ProvisioningState_STATUS string
 
 const (
-	PrivateEndpointConnectionProperties_ProvisioningState_Approving_STATUS = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Approving")
-	PrivateEndpointConnectionProperties_ProvisioningState_Dropping_STATUS  = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Dropping")
-	PrivateEndpointConnectionProperties_ProvisioningState_Failed_STATUS    = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
-	PrivateEndpointConnectionProperties_ProvisioningState_Ready_STATUS     = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Ready")
-	PrivateEndpointConnectionProperties_ProvisioningState_Rejecting_STATUS = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Approving")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping  = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Dropping")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed    = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready     = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Ready")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
 
 type PrivateEndpointProperty_STATUS struct {
@@ -336,15 +336,15 @@ type PrivateLinkServiceConnectionStateProperty_STATUS struct {
 
 type PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 
-const PrivateLinkServiceConnectionStateProperty_ActionsRequired_None_STATUS = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
+const PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
 type PrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (
-	PrivateLinkServiceConnectionStateProperty_Status_Approved_STATUS     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Approved")
-	PrivateLinkServiceConnectionStateProperty_Status_Disconnected_STATUS = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Disconnected")
-	PrivateLinkServiceConnectionStateProperty_Status_Pending_STATUS      = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
-	PrivateLinkServiceConnectionStateProperty_Status_Rejected_STATUS     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Approved")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Disconnected")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending      = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
 )
 
 func init() {

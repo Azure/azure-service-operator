@@ -4,26 +4,26 @@
 package v1alpha1api20201201
 
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
-type Redis_STATUSARM struct {
-	Id         *string                    `json:"id,omitempty"`
-	Location   *string                    `json:"location,omitempty"`
-	Name       *string                    `json:"name,omitempty"`
-	Properties *RedisProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string          `json:"tags,omitempty"`
-	Type       *string                    `json:"type,omitempty"`
-	Zones      []string                   `json:"zones,omitempty"`
+type Redis_STATUS_ARM struct {
+	Id         *string                     `json:"id,omitempty"`
+	Location   *string                     `json:"location,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
+	Properties *RedisProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string           `json:"tags,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
+	Zones      []string                    `json:"zones,omitempty"`
 }
 
 // Deprecated version of RedisProperties_STATUS. Use v1beta20201201.RedisProperties_STATUS instead
-type RedisProperties_STATUSARM struct {
-	AccessKeys                 *RedisAccessKeys_STATUSARM                  `json:"accessKeys,omitempty"`
+type RedisProperties_STATUS_ARM struct {
+	AccessKeys                 *RedisAccessKeys_STATUS_ARM                 `json:"accessKeys,omitempty"`
 	EnableNonSslPort           *bool                                       `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                     `json:"hostName,omitempty"`
-	Instances                  []RedisInstanceDetails_STATUSARM            `json:"instances,omitempty"`
-	LinkedServers              []RedisLinkedServer_STATUSARM               `json:"linkedServers,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUS_ARM           `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUS_ARM              `json:"linkedServers,omitempty"`
 	MinimumTlsVersion          *RedisProperties_MinimumTlsVersion_STATUS   `json:"minimumTlsVersion,omitempty"`
 	Port                       *int                                        `json:"port,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM       `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM      `json:"privateEndpointConnections,omitempty"`
 	ProvisioningState          *RedisProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 	RedisConfiguration         map[string]string                           `json:"redisConfiguration,omitempty"`
@@ -31,7 +31,7 @@ type RedisProperties_STATUSARM struct {
 	ReplicasPerMaster          *int                                        `json:"replicasPerMaster,omitempty"`
 	ReplicasPerPrimary         *int                                        `json:"replicasPerPrimary,omitempty"`
 	ShardCount                 *int                                        `json:"shardCount,omitempty"`
-	Sku                        *Sku_STATUSARM                              `json:"sku,omitempty"`
+	Sku                        *Sku_STATUS_ARM                             `json:"sku,omitempty"`
 	SslPort                    *int                                        `json:"sslPort,omitempty"`
 	StaticIP                   *string                                     `json:"staticIP,omitempty"`
 	SubnetId                   *string                                     `json:"subnetId,omitempty"`
@@ -39,18 +39,18 @@ type RedisProperties_STATUSARM struct {
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201201.PrivateEndpointConnection_STATUS instead
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
-type RedisAccessKeys_STATUSARM struct {
+type RedisAccessKeys_STATUS_ARM struct {
 	PrimaryKey   *string `json:"primaryKey,omitempty"`
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 // Deprecated version of RedisInstanceDetails_STATUS. Use v1beta20201201.RedisInstanceDetails_STATUS instead
-type RedisInstanceDetails_STATUSARM struct {
+type RedisInstanceDetails_STATUS_ARM struct {
 	IsMaster   *bool   `json:"isMaster,omitempty"`
 	IsPrimary  *bool   `json:"isPrimary,omitempty"`
 	NonSslPort *int    `json:"nonSslPort,omitempty"`
@@ -60,12 +60,12 @@ type RedisInstanceDetails_STATUSARM struct {
 }
 
 // Deprecated version of RedisLinkedServer_STATUS. Use v1beta20201201.RedisLinkedServer_STATUS instead
-type RedisLinkedServer_STATUSARM struct {
+type RedisLinkedServer_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20201201.Sku_STATUS instead
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Capacity *int               `json:"capacity,omitempty"`
 	Family   *Sku_Family_STATUS `json:"family,omitempty"`
 	Name     *Sku_Name_STATUS   `json:"name,omitempty"`

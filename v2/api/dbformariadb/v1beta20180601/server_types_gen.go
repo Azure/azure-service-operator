@@ -376,7 +376,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if server == nil {
 		return nil, nil
 	}
-	result := &Server_SpecARM{}
+	result := &Server_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
@@ -392,21 +392,21 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Properties’:
 	if server.Properties != nil {
-		propertiesARM, err := (*server.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*server.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*ServerPropertiesForCreateARM)
+		properties := *properties_ARM.(*ServerPropertiesForCreate_ARM)
 		result.Properties = &properties
 	}
 
 	// Set property ‘Sku’:
 	if server.Sku != nil {
-		skuARM, err := (*server.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*server.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*SkuARM)
+		sku := *sku_ARM.(*Sku_ARM)
 		result.Sku = &sku
 	}
 
@@ -422,14 +422,14 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Server_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_SpecARM{}
+	return &Server_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_SpecARM)
+	typedInput, ok := armInput.(Server_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -791,14 +791,14 @@ var _ genruntime.FromARMConverter = &Server_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_STATUSARM{}
+	return &Server_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_STATUSARM)
+	typedInput, ok := armInput.(Server_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
@@ -1238,17 +1238,17 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v201
 type MinimalTlsVersion_STATUS string
 
 const (
-	MinimalTlsVersion_TLS1_0_STATUS                 = MinimalTlsVersion_STATUS("TLS1_0")
-	MinimalTlsVersion_TLS1_1_STATUS                 = MinimalTlsVersion_STATUS("TLS1_1")
-	MinimalTlsVersion_TLS1_2_STATUS                 = MinimalTlsVersion_STATUS("TLS1_2")
-	MinimalTlsVersion_TLSEnforcementDisabled_STATUS = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
+	MinimalTlsVersion_STATUS_TLS1_0                 = MinimalTlsVersion_STATUS("TLS1_0")
+	MinimalTlsVersion_STATUS_TLS1_1                 = MinimalTlsVersion_STATUS("TLS1_1")
+	MinimalTlsVersion_STATUS_TLS1_2                 = MinimalTlsVersion_STATUS("TLS1_2")
+	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
 type PublicNetworkAccess_STATUS string
 
 const (
-	PublicNetworkAccess_Disabled_STATUS = PublicNetworkAccess_STATUS("Disabled")
-	PublicNetworkAccess_Enabled_STATUS  = PublicNetworkAccess_STATUS("Enabled")
+	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -1316,14 +1316,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *ServerPrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnection_STATUSARM{}
+	return &ServerPrivateEndpointConnection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnection_STATUSARM)
+	typedInput, ok := armInput.(ServerPrivateEndpointConnection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1403,9 +1403,9 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_Se
 type ServerProperties_UserVisibleState_STATUS string
 
 const (
-	ServerProperties_UserVisibleState_Disabled_STATUS = ServerProperties_UserVisibleState_STATUS("Disabled")
-	ServerProperties_UserVisibleState_Dropping_STATUS = ServerProperties_UserVisibleState_STATUS("Dropping")
-	ServerProperties_UserVisibleState_Ready_STATUS    = ServerProperties_UserVisibleState_STATUS("Ready")
+	ServerProperties_UserVisibleState_STATUS_Disabled = ServerProperties_UserVisibleState_STATUS("Disabled")
+	ServerProperties_UserVisibleState_STATUS_Dropping = ServerProperties_UserVisibleState_STATUS("Dropping")
+	ServerProperties_UserVisibleState_STATUS_Ready    = ServerProperties_UserVisibleState_STATUS("Ready")
 )
 
 type ServerPropertiesForCreate struct {
@@ -1437,7 +1437,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	if create == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForCreateARM{}
+	result := &ServerPropertiesForCreate_ARM{}
 
 	// Set property ‘CreateMode’:
 	if create.CreateMode != nil {
@@ -1465,11 +1465,11 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘StorageProfile’:
 	if create.StorageProfile != nil {
-		storageProfileARM, err := (*create.StorageProfile).ConvertToARM(resolved)
+		storageProfile_ARM, err := (*create.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfileARM.(*StorageProfileARM)
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
 		result.StorageProfile = &storageProfile
 	}
 
@@ -1483,14 +1483,14 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (create *ServerPropertiesForCreate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForCreateARM{}
+	return &ServerPropertiesForCreate_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForCreateARM)
+	typedInput, ok := armInput.(ServerPropertiesForCreate_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreateARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CreateMode’:
@@ -1668,8 +1668,8 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 type ServerVersion_STATUS string
 
 const (
-	ServerVersion_102_STATUS = ServerVersion_STATUS("10.2")
-	ServerVersion_103_STATUS = ServerVersion_STATUS("10.3")
+	ServerVersion_STATUS_102 = ServerVersion_STATUS("10.2")
+	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
 type Sku struct {
@@ -1698,7 +1698,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &SkuARM{}
+	result := &Sku_ARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -1734,14 +1734,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+	return &Sku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+	typedInput, ok := armInput.(Sku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1872,14 +1872,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUSARM{}
+	return &Sku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUSARM)
+	typedInput, ok := armInput.(Sku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1982,8 +1982,8 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20180601s.Sk
 type SslEnforcement_STATUS string
 
 const (
-	SslEnforcement_Disabled_STATUS = SslEnforcement_STATUS("Disabled")
-	SslEnforcement_Enabled_STATUS  = SslEnforcement_STATUS("Enabled")
+	SslEnforcement_STATUS_Disabled = SslEnforcement_STATUS("Disabled")
+	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
 
 type StorageProfile_STATUS struct {
@@ -2004,14 +2004,14 @@ var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_STATUSARM{}
+	return &StorageProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_STATUSARM)
+	typedInput, ok := armInput.(StorageProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -2169,14 +2169,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ServerPrivateEndpointConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnectionProperties_STATUSARM{}
+	return &ServerPrivateEndpointConnectionProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnectionProperties_STATUSARM)
+	typedInput, ok := armInput.(ServerPrivateEndpointConnectionProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PrivateEndpoint’:
@@ -2319,7 +2319,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &StorageProfileARM{}
+	result := &StorageProfile_ARM{}
 
 	// Set property ‘BackupRetentionDays’:
 	if profile.BackupRetentionDays != nil {
@@ -2349,14 +2349,14 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfileARM{}
+	return &StorageProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfileARM)
+	typedInput, ok := armInput.(StorageProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -2457,15 +2457,15 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 type StorageProfile_GeoRedundantBackup_STATUS string
 
 const (
-	StorageProfile_GeoRedundantBackup_Disabled_STATUS = StorageProfile_GeoRedundantBackup_STATUS("Disabled")
-	StorageProfile_GeoRedundantBackup_Enabled_STATUS  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
+	StorageProfile_GeoRedundantBackup_STATUS_Disabled = StorageProfile_GeoRedundantBackup_STATUS("Disabled")
+	StorageProfile_GeoRedundantBackup_STATUS_Enabled  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
 )
 
 type StorageProfile_StorageAutogrow_STATUS string
 
 const (
-	StorageProfile_StorageAutogrow_Disabled_STATUS = StorageProfile_StorageAutogrow_STATUS("Disabled")
-	StorageProfile_StorageAutogrow_Enabled_STATUS  = StorageProfile_StorageAutogrow_STATUS("Enabled")
+	StorageProfile_StorageAutogrow_STATUS_Disabled = StorageProfile_StorageAutogrow_STATUS("Disabled")
+	StorageProfile_StorageAutogrow_STATUS_Enabled  = StorageProfile_StorageAutogrow_STATUS("Enabled")
 )
 
 type PrivateEndpointProperty_STATUS struct {
@@ -2477,14 +2477,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *PrivateEndpointProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointProperty_STATUSARM{}
+	return &PrivateEndpointProperty_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointProperty_STATUSARM)
+	typedInput, ok := armInput.(PrivateEndpointProperty_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -2529,11 +2529,11 @@ func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpo
 type ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS string
 
 const (
-	ServerPrivateEndpointConnectionProperties_ProvisioningState_Approving_STATUS = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Approving")
-	ServerPrivateEndpointConnectionProperties_ProvisioningState_Dropping_STATUS  = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Dropping")
-	ServerPrivateEndpointConnectionProperties_ProvisioningState_Failed_STATUS    = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
-	ServerPrivateEndpointConnectionProperties_ProvisioningState_Ready_STATUS     = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Ready")
-	ServerPrivateEndpointConnectionProperties_ProvisioningState_Rejecting_STATUS = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Approving")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping  = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Dropping")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed    = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready     = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Ready")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
 
 type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
@@ -2551,14 +2551,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProp
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateLinkServiceConnectionStateProperty_STATUSARM{}
+	return &ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateLinkServiceConnectionStateProperty_STATUSARM)
+	typedInput, ok := armInput.(ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionsRequired’:
@@ -2646,15 +2646,15 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 
 type ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 
-const ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_None_STATUS = ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
+const ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
 type ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (
-	ServerPrivateLinkServiceConnectionStateProperty_Status_Approved_STATUS     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Approved")
-	ServerPrivateLinkServiceConnectionStateProperty_Status_Disconnected_STATUS = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Disconnected")
-	ServerPrivateLinkServiceConnectionStateProperty_Status_Pending_STATUS      = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
-	ServerPrivateLinkServiceConnectionStateProperty_Status_Rejected_STATUS     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Approved")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Disconnected")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending      = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
 )
 
 func init() {

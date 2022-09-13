@@ -5,49 +5,49 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespace_SpecARM struct {
+type Namespace_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: Properties of BYOK Identity description
-	Identity *IdentityARM `json:"identity,omitempty"`
+	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Namespace properties supplied for create namespace operation.
-	Properties *Namespace_Spec_PropertiesARM `json:"properties,omitempty"`
+	Properties *Namespace_Properties_Spec_ARM `json:"properties,omitempty"`
 
 	// Sku: Properties of sku resource
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespace_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespace Namespace_SpecARM) GetAPIVersion() string {
+func (namespace Namespace_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (namespace *Namespace_SpecARM) GetName() string {
+func (namespace *Namespace_Spec_ARM) GetName() string {
 	return namespace.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces"
-func (namespace *Namespace_SpecARM) GetType() string {
+func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
-type IdentityARM struct {
+type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-type Namespace_Spec_PropertiesARM struct {
+type Namespace_Properties_Spec_ARM struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 	ClusterArmId  *string `json:"clusterArmId,omitempty"`
@@ -56,7 +56,7 @@ type Namespace_Spec_PropertiesARM struct {
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	// Encryption: Properties of BYOK Encryption description
-	Encryption *EncryptionARM `json:"encryption,omitempty"`
+	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
 	// IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
@@ -69,13 +69,13 @@ type Namespace_Spec_PropertiesARM struct {
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
 	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
@@ -87,12 +87,12 @@ type SkuARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-type EncryptionARM struct {
+type Encryption_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
@@ -108,9 +108,9 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-type PrivateEndpointConnectionARM struct {
+type PrivateEndpointConnection_ARM struct {
 	// Properties: Properties of the PrivateEndpointConnection.
-	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
+	Properties *PrivateEndpointConnectionProperties_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
@@ -131,8 +131,8 @@ const (
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
 
-type KeyVaultPropertiesARM struct {
-	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
+type KeyVaultProperties_ARM struct {
+	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
 
 	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
@@ -144,15 +144,15 @@ type KeyVaultPropertiesARM struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-type PrivateEndpointConnectionPropertiesARM struct {
+type PrivateEndpointConnectionProperties_ARM struct {
 	// PrivateEndpoint: The Private Endpoint resource for this Connection.
-	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpoint_ARM `json:"privateEndpoint,omitempty"`
 }
 
-type PrivateEndpointARM struct {
+type PrivateEndpoint_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type UserAssignedIdentityPropertiesARM struct {
+type UserAssignedIdentityProperties_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

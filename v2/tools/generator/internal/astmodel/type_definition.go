@@ -8,7 +8,6 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -140,14 +139,7 @@ func (def TypeDefinition) HasTestCases() bool {
 // FileNameHint returns what a file that contains this name (if any) should be called
 // this is not always used as we often combine multiple definitions into one file
 func FileNameHint(name TypeName) string {
-	result := transformToSnakeCase(name.name)
-
-	//TODO: Change the ARM suffix to "_ARM" and get rid of this hack
-	result = strings.Replace(
-		result,
-		strings.ToLower(StatusSuffix)+strings.ToLower(ArmSuffix),
-		strings.ToLower(StatusSuffix)+"_"+strings.ToLower(ArmSuffix), -1)
-	return result
+	return transformToSnakeCase(name.name)
 }
 
 // ApplyObjectTransformation applies a specific transformation to the ObjectType contained by this

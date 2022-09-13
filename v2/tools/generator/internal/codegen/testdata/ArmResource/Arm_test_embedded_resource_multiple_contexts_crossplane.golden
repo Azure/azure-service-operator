@@ -40,7 +40,7 @@ const APIVersion_Value = APIVersion("2020-01-01")
 
 type AParameters struct {
 	// +kubebuilder:validation:Required
-	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name,omitempty"`
@@ -50,18 +50,18 @@ type AParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type A_Spec_Type `json:"type,omitempty"`
+	Type A_Type_Spec `json:"type,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type A_Spec_APIVersion string
+type A_APIVersion_Spec string
 
-const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
+const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
-type A_Spec_Type string
+type A_Type_Spec string
 
-const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {

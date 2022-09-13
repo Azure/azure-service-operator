@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_UserAssignedIdentities_FederatedIdentityCredential_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserAssignedIdentities_FederatedIdentityCredential_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM, UserAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator()))
+		"Round trip of UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM, UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM runs a test to see if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(subject UserAssignedIdentities_FederatedIdentityCredential_STATUSARM) string {
+// RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM runs a test to see if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(subject UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredenti
 	}
 
 	// Deserialize back into memory
-	var actual UserAssignedIdentities_FederatedIdentityCredential_STATUSARM
+	var actual UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,58 +56,58 @@ func RunJSONSerializationTestForUserAssignedIdentities_FederatedIdentityCredenti
 	return ""
 }
 
-// Generator of UserAssignedIdentities_FederatedIdentityCredential_STATUSARM instances for property testing - lazily
-// instantiated by UserAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator()
-var userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator gopter.Gen
+// Generator of UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM instances for property testing - lazily
+// instantiated by UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator()
+var userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator gopter.Gen
 
-// UserAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator returns a generator of UserAssignedIdentities_FederatedIdentityCredential_STATUSARM instances for property testing.
-// We first initialize userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator with a simplified generator based on the
+// UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator returns a generator of UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM instances for property testing.
+// We first initialize userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UserAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator() gopter.Gen {
-	if userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator != nil {
-		return userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator
+func UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator() gopter.Gen {
+	if userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator != nil {
+		return userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(generators)
-	userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_FederatedIdentityCredential_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(generators)
+	userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(generators)
-	userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_FederatedIdentityCredential_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(generators)
+	userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM{}), generators)
 
-	return userAssignedIdentities_FederatedIdentityCredential_STATUSARMGenerator
+	return userAssignedIdentities_FederatedIdentityCredential_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FederatedIdentityCredentialProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(FederatedIdentityCredentialProperties_STATUS_ARMGenerator())
 }
 
-func Test_FederatedIdentityCredentialProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FederatedIdentityCredentialProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FederatedIdentityCredentialProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUSARM, FederatedIdentityCredentialProperties_STATUSARMGenerator()))
+		"Round trip of FederatedIdentityCredentialProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUS_ARM, FederatedIdentityCredentialProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUSARM runs a test to see if a specific instance of FederatedIdentityCredentialProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUSARM(subject FederatedIdentityCredentialProperties_STATUSARM) string {
+// RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUS_ARM runs a test to see if a specific instance of FederatedIdentityCredentialProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUS_ARM(subject FederatedIdentityCredentialProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUSARM(
 	}
 
 	// Deserialize back into memory
-	var actual FederatedIdentityCredentialProperties_STATUSARM
+	var actual FederatedIdentityCredentialProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,25 +133,25 @@ func RunJSONSerializationTestForFederatedIdentityCredentialProperties_STATUSARM(
 	return ""
 }
 
-// Generator of FederatedIdentityCredentialProperties_STATUSARM instances for property testing - lazily instantiated by
-// FederatedIdentityCredentialProperties_STATUSARMGenerator()
-var federatedIdentityCredentialProperties_STATUSARMGenerator gopter.Gen
+// Generator of FederatedIdentityCredentialProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// FederatedIdentityCredentialProperties_STATUS_ARMGenerator()
+var federatedIdentityCredentialProperties_STATUS_ARMGenerator gopter.Gen
 
-// FederatedIdentityCredentialProperties_STATUSARMGenerator returns a generator of FederatedIdentityCredentialProperties_STATUSARM instances for property testing.
-func FederatedIdentityCredentialProperties_STATUSARMGenerator() gopter.Gen {
-	if federatedIdentityCredentialProperties_STATUSARMGenerator != nil {
-		return federatedIdentityCredentialProperties_STATUSARMGenerator
+// FederatedIdentityCredentialProperties_STATUS_ARMGenerator returns a generator of FederatedIdentityCredentialProperties_STATUS_ARM instances for property testing.
+func FederatedIdentityCredentialProperties_STATUS_ARMGenerator() gopter.Gen {
+	if federatedIdentityCredentialProperties_STATUS_ARMGenerator != nil {
+		return federatedIdentityCredentialProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUSARM(generators)
-	federatedIdentityCredentialProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(FederatedIdentityCredentialProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUS_ARM(generators)
+	federatedIdentityCredentialProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FederatedIdentityCredentialProperties_STATUS_ARM{}), generators)
 
-	return federatedIdentityCredentialProperties_STATUSARMGenerator
+	return federatedIdentityCredentialProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Audiences"] = gen.SliceOf(gen.AlphaString())
 	gens["Issuer"] = gen.PtrOf(gen.AlphaString())
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())

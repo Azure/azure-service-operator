@@ -274,7 +274,7 @@ func createForbiddenReceiverSuffixes() set.Set[string] {
 	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
 	status := strings.TrimPrefix(StatusSuffix, "_")
 	spec := strings.TrimPrefix(SpecSuffix, "_")
-	arm := strings.TrimPrefix(ArmSuffix, "_")
+	arm := strings.TrimPrefix(ARMSuffix, "_")
 	return set.Make(status, spec, arm, status+arm, spec+arm)
 }
 
@@ -369,14 +369,4 @@ func sliceIntoWords(identifier string) []string {
 	}
 
 	return result
-}
-
-// Helper function:
-// Appends newSuffix to s, preserving the suffix at the end of the string if it exists
-func AppendPreservingSuffix(s string, newSuffix string, preserveSuffix string) string {
-	if strings.HasSuffix(s, preserveSuffix) {
-		return s[0:len(s)-len(preserveSuffix)] + newSuffix + preserveSuffix
-	}
-
-	return s + newSuffix
 }

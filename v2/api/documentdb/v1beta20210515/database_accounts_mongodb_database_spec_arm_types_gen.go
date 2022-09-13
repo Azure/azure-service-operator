@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_MongodbDatabase_SpecARM struct {
+type DatabaseAccounts_MongodbDatabase_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
@@ -13,50 +13,50 @@ type DatabaseAccounts_MongodbDatabase_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB MongoDB database.
-	Properties *MongoDBDatabaseCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+	Properties *MongoDBDatabaseCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (database DatabaseAccounts_MongodbDatabase_SpecARM) GetAPIVersion() string {
+func (database DatabaseAccounts_MongodbDatabase_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetName() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetName() string {
 	return database.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetType() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
-type MongoDBDatabaseCreateUpdatePropertiesARM struct {
+type MongoDBDatabaseCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
 	// Resource: The standard JSON format of a MongoDB database
-	Resource *MongoDBDatabaseResourceARM `json:"resource,omitempty"`
+	Resource *MongoDBDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
-type CreateUpdateOptionsARM struct {
+type CreateUpdateOptions_ARM struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
-	AutoscaleSettings *AutoscaleSettingsARM `json:"autoscaleSettings,omitempty"`
+	AutoscaleSettings *AutoscaleSettings_ARM `json:"autoscaleSettings,omitempty"`
 
 	// Throughput: Request Units per second. For example, "throughput": 10000.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
-type MongoDBDatabaseResourceARM struct {
+type MongoDBDatabaseResource_ARM struct {
 	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 }
 
-type AutoscaleSettingsARM struct {
+type AutoscaleSettings_ARM struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

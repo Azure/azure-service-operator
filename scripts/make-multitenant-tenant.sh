@@ -15,7 +15,8 @@ leader_election_role='(.kind == "Role" and .metadata.name == "azureserviceoperat
 leader_election_binding='(.kind == "RoleBinding" and .metadata.name == "azureserviceoperator-leader-election-rolebinding")'
 manager_role_binding='(.kind == "ClusterRoleBinding" and .metadata.name == "azureserviceoperator-manager-rolebinding")'
 deployment='(.kind == "Deployment" and .metadata.name == "azureserviceoperator-controller-manager")'
-query="select($namespace or $leader_election_role or $leader_election_binding or $manager_role_binding or $deployment)"
+serviceaccount='.kind == "ServiceAccount"'
+query="select($namespace or $leader_election_role or $leader_election_binding or $manager_role_binding or $deployment or $serviceaccount)"
 
 yq eval "$query" "$source" > "$target"
 
@@ -34,6 +35,7 @@ inplace_edit "(select($leader_election_role or $leader_election_binding or $depl
 # Update the subject namespaces for the bindings so they refer to the
 # service account in the tenant namespace
 inplace_edit "(select($leader_election_binding or $manager_role_binding).subjects[0].namespace) = \"$tenant_namespace\""
+inplace_edit "(select($serviceaccount).metadata.namespace) = \"$tenant_namespace\""
 
 # Rename the cluster role binding so bindings for different tenants
 # can coexist.

@@ -416,7 +416,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if server == nil {
 		return nil, nil
 	}
-	result := &FlexibleServer_SpecARM{}
+	result := &FlexibleServer_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
@@ -443,7 +443,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		server.SourceServerResourceReference != nil ||
 		server.Storage != nil ||
 		server.Version != nil {
-		result.Properties = &ServerPropertiesARM{}
+		result.Properties = &ServerProperties_ARM{}
 	}
 	if server.AdministratorLogin != nil {
 		administratorLogin := *server.AdministratorLogin
@@ -462,11 +462,11 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.AvailabilityZone = &availabilityZone
 	}
 	if server.Backup != nil {
-		backupARM, err := (*server.Backup).ConvertToARM(resolved)
+		backup_ARM, err := (*server.Backup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backup := *backupARM.(*BackupARM)
+		backup := *backup_ARM.(*Backup_ARM)
 		result.Properties.Backup = &backup
 	}
 	if server.CreateMode != nil {
@@ -474,27 +474,27 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.CreateMode = &createMode
 	}
 	if server.HighAvailability != nil {
-		highAvailabilityARM, err := (*server.HighAvailability).ConvertToARM(resolved)
+		highAvailability_ARM, err := (*server.HighAvailability).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		highAvailability := *highAvailabilityARM.(*HighAvailabilityARM)
+		highAvailability := *highAvailability_ARM.(*HighAvailability_ARM)
 		result.Properties.HighAvailability = &highAvailability
 	}
 	if server.MaintenanceWindow != nil {
-		maintenanceWindowARM, err := (*server.MaintenanceWindow).ConvertToARM(resolved)
+		maintenanceWindow_ARM, err := (*server.MaintenanceWindow).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		maintenanceWindow := *maintenanceWindowARM.(*MaintenanceWindowARM)
+		maintenanceWindow := *maintenanceWindow_ARM.(*MaintenanceWindow_ARM)
 		result.Properties.MaintenanceWindow = &maintenanceWindow
 	}
 	if server.Network != nil {
-		networkARM, err := (*server.Network).ConvertToARM(resolved)
+		network_ARM, err := (*server.Network).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		network := *networkARM.(*NetworkARM)
+		network := *network_ARM.(*Network_ARM)
 		result.Properties.Network = &network
 	}
 	if server.PointInTimeUTC != nil {
@@ -510,11 +510,11 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.SourceServerResourceId = &sourceServerResourceId
 	}
 	if server.Storage != nil {
-		storageARM, err := (*server.Storage).ConvertToARM(resolved)
+		storage_ARM, err := (*server.Storage).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storage := *storageARM.(*StorageARM)
+		storage := *storage_ARM.(*Storage_ARM)
 		result.Properties.Storage = &storage
 	}
 	if server.Version != nil {
@@ -524,11 +524,11 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Sku’:
 	if server.Sku != nil {
-		skuARM, err := (*server.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*server.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*SkuARM)
+		sku := *sku_ARM.(*Sku_ARM)
 		result.Sku = &sku
 	}
 
@@ -544,14 +544,14 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *FlexibleServer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServer_SpecARM{}
+	return &FlexibleServer_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServer_SpecARM)
+	typedInput, ok := armInput.(FlexibleServer_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
@@ -1216,14 +1216,14 @@ var _ genruntime.FromARMConverter = &FlexibleServer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *FlexibleServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServer_STATUSARM{}
+	return &FlexibleServer_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServer_STATUSARM)
+	typedInput, ok := armInput.(FlexibleServer_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
@@ -1763,7 +1763,7 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if backup == nil {
 		return nil, nil
 	}
-	result := &BackupARM{}
+	result := &Backup_ARM{}
 
 	// Set property ‘BackupRetentionDays’:
 	if backup.BackupRetentionDays != nil {
@@ -1781,14 +1781,14 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (backup *Backup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackupARM{}
+	return &Backup_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackupARM)
+	typedInput, ok := armInput.(Backup_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -1867,14 +1867,14 @@ var _ genruntime.FromARMConverter = &Backup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (backup *Backup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Backup_STATUSARM{}
+	return &Backup_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (backup *Backup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Backup_STATUSARM)
+	typedInput, ok := armInput.(Backup_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -2018,7 +2018,7 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	if availability == nil {
 		return nil, nil
 	}
-	result := &HighAvailabilityARM{}
+	result := &HighAvailability_ARM{}
 
 	// Set property ‘Mode’:
 	if availability.Mode != nil {
@@ -2036,14 +2036,14 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (availability *HighAvailability) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HighAvailabilityARM{}
+	return &HighAvailability_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (availability *HighAvailability) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HighAvailabilityARM)
+	typedInput, ok := armInput.(HighAvailability_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailabilityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Mode’:
@@ -2122,14 +2122,14 @@ var _ genruntime.FromARMConverter = &HighAvailability_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (availability *HighAvailability_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HighAvailability_STATUSARM{}
+	return &HighAvailability_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HighAvailability_STATUSARM)
+	typedInput, ok := armInput.(HighAvailability_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Mode’:
@@ -2236,7 +2236,7 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if window == nil {
 		return nil, nil
 	}
-	result := &MaintenanceWindowARM{}
+	result := &MaintenanceWindow_ARM{}
 
 	// Set property ‘CustomWindow’:
 	if window.CustomWindow != nil {
@@ -2266,14 +2266,14 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (window *MaintenanceWindow) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MaintenanceWindowARM{}
+	return &MaintenanceWindow_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MaintenanceWindowARM)
+	typedInput, ok := armInput.(MaintenanceWindow_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindowARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CustomWindow’:
@@ -2369,14 +2369,14 @@ var _ genruntime.FromARMConverter = &MaintenanceWindow_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (window *MaintenanceWindow_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MaintenanceWindow_STATUSARM{}
+	return &MaintenanceWindow_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (window *MaintenanceWindow_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MaintenanceWindow_STATUSARM)
+	typedInput, ok := armInput.(MaintenanceWindow_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CustomWindow’:
@@ -2469,7 +2469,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if network == nil {
 		return nil, nil
 	}
-	result := &NetworkARM{}
+	result := &Network_ARM{}
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
@@ -2495,14 +2495,14 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (network *Network) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkARM{}
+	return &Network_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(NetworkARM)
+	_, ok := armInput.(Network_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘DelegatedSubnetResourceReference’
@@ -2583,14 +2583,14 @@ var _ genruntime.FromARMConverter = &Network_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (network *Network_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Network_STATUSARM{}
+	return &Network_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *Network_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Network_STATUSARM)
+	typedInput, ok := armInput.(Network_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DelegatedSubnetResourceId’:
@@ -2679,22 +2679,22 @@ const (
 type ServerProperties_CreateMode_STATUS string
 
 const (
-	ServerProperties_CreateMode_Create_STATUS             = ServerProperties_CreateMode_STATUS("Create")
-	ServerProperties_CreateMode_Default_STATUS            = ServerProperties_CreateMode_STATUS("Default")
-	ServerProperties_CreateMode_PointInTimeRestore_STATUS = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
-	ServerProperties_CreateMode_Update_STATUS             = ServerProperties_CreateMode_STATUS("Update")
+	ServerProperties_CreateMode_STATUS_Create             = ServerProperties_CreateMode_STATUS("Create")
+	ServerProperties_CreateMode_STATUS_Default            = ServerProperties_CreateMode_STATUS("Default")
+	ServerProperties_CreateMode_STATUS_PointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
+	ServerProperties_CreateMode_STATUS_Update             = ServerProperties_CreateMode_STATUS("Update")
 )
 
 type ServerProperties_State_STATUS string
 
 const (
-	ServerProperties_State_Disabled_STATUS = ServerProperties_State_STATUS("Disabled")
-	ServerProperties_State_Dropping_STATUS = ServerProperties_State_STATUS("Dropping")
-	ServerProperties_State_Ready_STATUS    = ServerProperties_State_STATUS("Ready")
-	ServerProperties_State_Starting_STATUS = ServerProperties_State_STATUS("Starting")
-	ServerProperties_State_Stopped_STATUS  = ServerProperties_State_STATUS("Stopped")
-	ServerProperties_State_Stopping_STATUS = ServerProperties_State_STATUS("Stopping")
-	ServerProperties_State_Updating_STATUS = ServerProperties_State_STATUS("Updating")
+	ServerProperties_State_STATUS_Disabled = ServerProperties_State_STATUS("Disabled")
+	ServerProperties_State_STATUS_Dropping = ServerProperties_State_STATUS("Dropping")
+	ServerProperties_State_STATUS_Ready    = ServerProperties_State_STATUS("Ready")
+	ServerProperties_State_STATUS_Starting = ServerProperties_State_STATUS("Starting")
+	ServerProperties_State_STATUS_Stopped  = ServerProperties_State_STATUS("Stopped")
+	ServerProperties_State_STATUS_Stopping = ServerProperties_State_STATUS("Stopping")
+	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"11","12","13"}
@@ -2709,9 +2709,9 @@ const (
 type ServerVersion_STATUS string
 
 const (
-	ServerVersion_11_STATUS = ServerVersion_STATUS("11")
-	ServerVersion_12_STATUS = ServerVersion_STATUS("12")
-	ServerVersion_13_STATUS = ServerVersion_STATUS("13")
+	ServerVersion_STATUS_11 = ServerVersion_STATUS("11")
+	ServerVersion_STATUS_12 = ServerVersion_STATUS("12")
+	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
 )
 
 type Sku struct {
@@ -2731,7 +2731,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &SkuARM{}
+	result := &Sku_ARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -2749,14 +2749,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+	return &Sku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+	typedInput, ok := armInput.(Sku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2832,14 +2832,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUSARM{}
+	return &Sku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUSARM)
+	typedInput, ok := armInput.(Sku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2915,7 +2915,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage == nil {
 		return nil, nil
 	}
-	result := &StorageARM{}
+	result := &Storage_ARM{}
 
 	// Set property ‘StorageSizeGB’:
 	if storage.StorageSizeGB != nil {
@@ -2927,14 +2927,14 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (storage *Storage) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageARM{}
+	return &Storage_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageARM)
+	typedInput, ok := armInput.(Storage_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_ARM, got %T", armInput)
 	}
 
 	// Set property ‘StorageSizeGB’:
@@ -2985,14 +2985,14 @@ var _ genruntime.FromARMConverter = &Storage_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (storage *Storage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Storage_STATUSARM{}
+	return &Storage_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Storage_STATUSARM)
+	typedInput, ok := armInput.(Storage_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘StorageSizeGB’:
@@ -3058,14 +3058,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUSARM{}
+	return &SystemData_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUSARM)
+	typedInput, ok := armInput.(SystemData_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CreatedAt’:
@@ -3198,8 +3198,8 @@ const (
 type Backup_GeoRedundantBackup_STATUS string
 
 const (
-	Backup_GeoRedundantBackup_Disabled_STATUS = Backup_GeoRedundantBackup_STATUS("Disabled")
-	Backup_GeoRedundantBackup_Enabled_STATUS  = Backup_GeoRedundantBackup_STATUS("Enabled")
+	Backup_GeoRedundantBackup_STATUS_Disabled = Backup_GeoRedundantBackup_STATUS("Disabled")
+	Backup_GeoRedundantBackup_STATUS_Enabled  = Backup_GeoRedundantBackup_STATUS("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -3258,26 +3258,26 @@ const (
 type HighAvailability_Mode_STATUS string
 
 const (
-	HighAvailability_Mode_Disabled_STATUS      = HighAvailability_Mode_STATUS("Disabled")
-	HighAvailability_Mode_ZoneRedundant_STATUS = HighAvailability_Mode_STATUS("ZoneRedundant")
+	HighAvailability_Mode_STATUS_Disabled      = HighAvailability_Mode_STATUS("Disabled")
+	HighAvailability_Mode_STATUS_ZoneRedundant = HighAvailability_Mode_STATUS("ZoneRedundant")
 )
 
 type HighAvailability_State_STATUS string
 
 const (
-	HighAvailability_State_CreatingStandby_STATUS = HighAvailability_State_STATUS("CreatingStandby")
-	HighAvailability_State_FailingOver_STATUS     = HighAvailability_State_STATUS("FailingOver")
-	HighAvailability_State_Healthy_STATUS         = HighAvailability_State_STATUS("Healthy")
-	HighAvailability_State_NotEnabled_STATUS      = HighAvailability_State_STATUS("NotEnabled")
-	HighAvailability_State_RemovingStandby_STATUS = HighAvailability_State_STATUS("RemovingStandby")
-	HighAvailability_State_ReplicatingData_STATUS = HighAvailability_State_STATUS("ReplicatingData")
+	HighAvailability_State_STATUS_CreatingStandby = HighAvailability_State_STATUS("CreatingStandby")
+	HighAvailability_State_STATUS_FailingOver     = HighAvailability_State_STATUS("FailingOver")
+	HighAvailability_State_STATUS_Healthy         = HighAvailability_State_STATUS("Healthy")
+	HighAvailability_State_STATUS_NotEnabled      = HighAvailability_State_STATUS("NotEnabled")
+	HighAvailability_State_STATUS_RemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
+	HighAvailability_State_STATUS_ReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
 )
 
 type Network_PublicNetworkAccess_STATUS string
 
 const (
-	Network_PublicNetworkAccess_Disabled_STATUS = Network_PublicNetworkAccess_STATUS("Disabled")
-	Network_PublicNetworkAccess_Enabled_STATUS  = Network_PublicNetworkAccess_STATUS("Enabled")
+	Network_PublicNetworkAccess_STATUS_Disabled = Network_PublicNetworkAccess_STATUS("Disabled")
+	Network_PublicNetworkAccess_STATUS_Enabled  = Network_PublicNetworkAccess_STATUS("Enabled")
 )
 
 func init() {

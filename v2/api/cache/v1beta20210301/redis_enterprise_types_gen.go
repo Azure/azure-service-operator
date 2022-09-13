@@ -362,7 +362,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	if enterprise == nil {
 		return nil, nil
 	}
-	result := &RedisEnterprise_SpecARM{}
+	result := &RedisEnterprise_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = enterprise.AzureName
@@ -378,7 +378,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Properties’:
 	if enterprise.MinimumTlsVersion != nil {
-		result.Properties = &ClusterPropertiesARM{}
+		result.Properties = &ClusterProperties_ARM{}
 	}
 	if enterprise.MinimumTlsVersion != nil {
 		minimumTlsVersion := *enterprise.MinimumTlsVersion
@@ -387,11 +387,11 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Sku’:
 	if enterprise.Sku != nil {
-		skuARM, err := (*enterprise.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*enterprise.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*SkuARM)
+		sku := *sku_ARM.(*Sku_ARM)
 		result.Sku = &sku
 	}
 
@@ -412,14 +412,14 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (enterprise *RedisEnterprise_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_SpecARM{}
+	return &RedisEnterprise_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_SpecARM)
+	typedInput, ok := armInput.(RedisEnterprise_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -738,14 +738,14 @@ var _ genruntime.FromARMConverter = &RedisEnterprise_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (enterprise *RedisEnterprise_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_STATUSARM{}
+	return &RedisEnterprise_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_STATUSARM)
+	typedInput, ok := armInput.(RedisEnterprise_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1057,9 +1057,9 @@ const (
 type ClusterProperties_MinimumTlsVersion_STATUS string
 
 const (
-	ClusterProperties_MinimumTlsVersion_10_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
-	ClusterProperties_MinimumTlsVersion_11_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
-	ClusterProperties_MinimumTlsVersion_12_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
+	ClusterProperties_MinimumTlsVersion_STATUS_10 = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
+	ClusterProperties_MinimumTlsVersion_STATUS_11 = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
+	ClusterProperties_MinimumTlsVersion_STATUS_12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 type PrivateEndpointConnection_STATUS struct {
@@ -1072,14 +1072,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUSARM{}
+	return &PrivateEndpointConnection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUSARM)
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1124,29 +1124,29 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_Canceled_STATUS  = ProvisioningState_STATUS("Canceled")
-	ProvisioningState_Creating_STATUS  = ProvisioningState_STATUS("Creating")
-	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
 type ResourceState_STATUS string
 
 const (
-	ResourceState_CreateFailed_STATUS  = ResourceState_STATUS("CreateFailed")
-	ResourceState_Creating_STATUS      = ResourceState_STATUS("Creating")
-	ResourceState_DeleteFailed_STATUS  = ResourceState_STATUS("DeleteFailed")
-	ResourceState_Deleting_STATUS      = ResourceState_STATUS("Deleting")
-	ResourceState_DisableFailed_STATUS = ResourceState_STATUS("DisableFailed")
-	ResourceState_Disabled_STATUS      = ResourceState_STATUS("Disabled")
-	ResourceState_Disabling_STATUS     = ResourceState_STATUS("Disabling")
-	ResourceState_EnableFailed_STATUS  = ResourceState_STATUS("EnableFailed")
-	ResourceState_Enabling_STATUS      = ResourceState_STATUS("Enabling")
-	ResourceState_Running_STATUS       = ResourceState_STATUS("Running")
-	ResourceState_UpdateFailed_STATUS  = ResourceState_STATUS("UpdateFailed")
-	ResourceState_Updating_STATUS      = ResourceState_STATUS("Updating")
+	ResourceState_STATUS_CreateFailed  = ResourceState_STATUS("CreateFailed")
+	ResourceState_STATUS_Creating      = ResourceState_STATUS("Creating")
+	ResourceState_STATUS_DeleteFailed  = ResourceState_STATUS("DeleteFailed")
+	ResourceState_STATUS_Deleting      = ResourceState_STATUS("Deleting")
+	ResourceState_STATUS_DisableFailed = ResourceState_STATUS("DisableFailed")
+	ResourceState_STATUS_Disabled      = ResourceState_STATUS("Disabled")
+	ResourceState_STATUS_Disabling     = ResourceState_STATUS("Disabling")
+	ResourceState_STATUS_EnableFailed  = ResourceState_STATUS("EnableFailed")
+	ResourceState_STATUS_Enabling      = ResourceState_STATUS("Enabling")
+	ResourceState_STATUS_Running       = ResourceState_STATUS("Running")
+	ResourceState_STATUS_UpdateFailed  = ResourceState_STATUS("UpdateFailed")
+	ResourceState_STATUS_Updating      = ResourceState_STATUS("Updating")
 )
 
 type Sku struct {
@@ -1166,7 +1166,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &SkuARM{}
+	result := &Sku_ARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -1184,14 +1184,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+	return &Sku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+	typedInput, ok := armInput.(Sku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1268,14 +1268,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUSARM{}
+	return &Sku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUSARM)
+	typedInput, ok := armInput.(Sku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:

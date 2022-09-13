@@ -364,7 +364,7 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if domain == nil {
 		return nil, nil
 	}
-	result := &Domain_SpecARM{}
+	result := &Domain_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = domain.AzureName
@@ -383,25 +383,25 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		domain.InputSchema != nil ||
 		domain.InputSchemaMapping != nil ||
 		domain.PublicNetworkAccess != nil {
-		result.Properties = &DomainPropertiesARM{}
+		result.Properties = &DomainProperties_ARM{}
 	}
 	for _, item := range domain.InboundIpRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *itemARM.(*InboundIpRuleARM))
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*InboundIpRule_ARM))
 	}
 	if domain.InputSchema != nil {
 		inputSchema := *domain.InputSchema
 		result.Properties.InputSchema = &inputSchema
 	}
 	if domain.InputSchemaMapping != nil {
-		inputSchemaMappingARM, err := (*domain.InputSchemaMapping).ConvertToARM(resolved)
+		inputSchemaMapping_ARM, err := (*domain.InputSchemaMapping).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		inputSchemaMapping := *inputSchemaMappingARM.(*InputSchemaMappingARM)
+		inputSchemaMapping := *inputSchemaMapping_ARM.(*InputSchemaMapping_ARM)
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if domain.PublicNetworkAccess != nil {
@@ -421,14 +421,14 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (domain *Domain_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domain_SpecARM{}
+	return &Domain_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domain_SpecARM)
+	typedInput, ok := armInput.(Domain_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -786,14 +786,14 @@ var _ genruntime.FromARMConverter = &Domain_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (domain *Domain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domain_STATUSARM{}
+	return &Domain_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domain_STATUSARM)
+	typedInput, ok := armInput.(Domain_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1183,9 +1183,9 @@ const (
 type DomainProperties_InputSchema_STATUS string
 
 const (
-	DomainProperties_InputSchema_CloudEventSchemaV1_0_STATUS = DomainProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
-	DomainProperties_InputSchema_CustomEventSchema_STATUS    = DomainProperties_InputSchema_STATUS("CustomEventSchema")
-	DomainProperties_InputSchema_EventGridSchema_STATUS      = DomainProperties_InputSchema_STATUS("EventGridSchema")
+	DomainProperties_InputSchema_STATUS_CloudEventSchemaV1_0 = DomainProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
+	DomainProperties_InputSchema_STATUS_CustomEventSchema    = DomainProperties_InputSchema_STATUS("CustomEventSchema")
+	DomainProperties_InputSchema_STATUS_EventGridSchema      = DomainProperties_InputSchema_STATUS("EventGridSchema")
 )
 
 // Deprecated version of DomainProperties_ProvisioningState_STATUS. Use
@@ -1193,12 +1193,12 @@ const (
 type DomainProperties_ProvisioningState_STATUS string
 
 const (
-	DomainProperties_ProvisioningState_Canceled_STATUS  = DomainProperties_ProvisioningState_STATUS("Canceled")
-	DomainProperties_ProvisioningState_Creating_STATUS  = DomainProperties_ProvisioningState_STATUS("Creating")
-	DomainProperties_ProvisioningState_Deleting_STATUS  = DomainProperties_ProvisioningState_STATUS("Deleting")
-	DomainProperties_ProvisioningState_Failed_STATUS    = DomainProperties_ProvisioningState_STATUS("Failed")
-	DomainProperties_ProvisioningState_Succeeded_STATUS = DomainProperties_ProvisioningState_STATUS("Succeeded")
-	DomainProperties_ProvisioningState_Updating_STATUS  = DomainProperties_ProvisioningState_STATUS("Updating")
+	DomainProperties_ProvisioningState_STATUS_Canceled  = DomainProperties_ProvisioningState_STATUS("Canceled")
+	DomainProperties_ProvisioningState_STATUS_Creating  = DomainProperties_ProvisioningState_STATUS("Creating")
+	DomainProperties_ProvisioningState_STATUS_Deleting  = DomainProperties_ProvisioningState_STATUS("Deleting")
+	DomainProperties_ProvisioningState_STATUS_Failed    = DomainProperties_ProvisioningState_STATUS("Failed")
+	DomainProperties_ProvisioningState_STATUS_Succeeded = DomainProperties_ProvisioningState_STATUS("Succeeded")
+	DomainProperties_ProvisioningState_STATUS_Updating  = DomainProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of DomainProperties_PublicNetworkAccess. Use v1beta20200601.DomainProperties_PublicNetworkAccess
@@ -1216,8 +1216,8 @@ const (
 type DomainProperties_PublicNetworkAccess_STATUS string
 
 const (
-	DomainProperties_PublicNetworkAccess_Disabled_STATUS = DomainProperties_PublicNetworkAccess_STATUS("Disabled")
-	DomainProperties_PublicNetworkAccess_Enabled_STATUS  = DomainProperties_PublicNetworkAccess_STATUS("Enabled")
+	DomainProperties_PublicNetworkAccess_STATUS_Disabled = DomainProperties_PublicNetworkAccess_STATUS("Disabled")
+	DomainProperties_PublicNetworkAccess_STATUS_Enabled  = DomainProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
@@ -1233,7 +1233,7 @@ func (rule *InboundIpRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if rule == nil {
 		return nil, nil
 	}
-	result := &InboundIpRuleARM{}
+	result := &InboundIpRule_ARM{}
 
 	// Set property ‘Action’:
 	if rule.Action != nil {
@@ -1251,14 +1251,14 @@ func (rule *InboundIpRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *InboundIpRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundIpRuleARM{}
+	return &InboundIpRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *InboundIpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundIpRuleARM)
+	typedInput, ok := armInput.(InboundIpRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -1332,14 +1332,14 @@ var _ genruntime.FromARMConverter = &InboundIpRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *InboundIpRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundIpRule_STATUSARM{}
+	return &InboundIpRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *InboundIpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundIpRule_STATUSARM)
+	typedInput, ok := armInput.(InboundIpRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -1416,7 +1416,7 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 	if mapping == nil {
 		return nil, nil
 	}
-	result := &InputSchemaMappingARM{}
+	result := &InputSchemaMapping_ARM{}
 
 	// Set property ‘InputSchemaMappingType’:
 	if mapping.InputSchemaMappingType != nil {
@@ -1428,14 +1428,14 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (mapping *InputSchemaMapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InputSchemaMappingARM{}
+	return &InputSchemaMapping_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InputSchemaMappingARM)
+	typedInput, ok := armInput.(InputSchemaMapping_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMappingARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_ARM, got %T", armInput)
 	}
 
 	// Set property ‘InputSchemaMappingType’:
@@ -1496,14 +1496,14 @@ var _ genruntime.FromARMConverter = &InputSchemaMapping_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (mapping *InputSchemaMapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InputSchemaMapping_STATUSARM{}
+	return &InputSchemaMapping_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InputSchemaMapping_STATUSARM)
+	typedInput, ok := armInput.(InputSchemaMapping_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘InputSchemaMappingType’:
@@ -1564,14 +1564,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_Domain_Sub
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM{}
+	return &PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1627,14 +1627,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUSARM{}
+	return &SystemData_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUSARM)
+	typedInput, ok := armInput.(SystemData_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CreatedAt’:
@@ -1765,7 +1765,7 @@ const InboundIpRule_Action_Allow = InboundIpRule_Action("Allow")
 // Deprecated version of InboundIpRule_Action_STATUS. Use v1beta20200601.InboundIpRule_Action_STATUS instead
 type InboundIpRule_Action_STATUS string
 
-const InboundIpRule_Action_Allow_STATUS = InboundIpRule_Action_STATUS("Allow")
+const InboundIpRule_Action_STATUS_Allow = InboundIpRule_Action_STATUS("Allow")
 
 // Deprecated version of InputSchemaMapping_InputSchemaMappingType. Use
 // v1beta20200601.InputSchemaMapping_InputSchemaMappingType instead
@@ -1778,7 +1778,7 @@ const InputSchemaMapping_InputSchemaMappingType_Json = InputSchemaMapping_InputS
 // v1beta20200601.InputSchemaMapping_InputSchemaMappingType_STATUS instead
 type InputSchemaMapping_InputSchemaMappingType_STATUS string
 
-const InputSchemaMapping_InputSchemaMappingType_Json_STATUS = InputSchemaMapping_InputSchemaMappingType_STATUS("Json")
+const InputSchemaMapping_InputSchemaMappingType_STATUS_Json = InputSchemaMapping_InputSchemaMappingType_STATUS("Json")
 
 func init() {
 	SchemeBuilder.Register(&Domain{}, &DomainList{})

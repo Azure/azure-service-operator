@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccounts_SqlDatabases_Container_STATUSARM struct {
+type DatabaseAccounts_SqlDatabases_Container_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,24 +14,24 @@ type DatabaseAccounts_SqlDatabases_Container_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB container
-	Properties *SqlContainerGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                    `json:"tags,omitempty"`
+	Properties *SqlContainerGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                     `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlContainerGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type SqlContainerGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                    `json:"options,omitempty"`
+	Resource *SqlContainerGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type SqlContainerGetProperties_Resource_STATUSARM struct {
+type SqlContainerGetProperties_Resource_STATUS_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// ConflictResolutionPolicy: The conflict resolution policy for the container.
-	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUSARM `json:"conflictResolutionPolicy,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS_ARM `json:"conflictResolutionPolicy,omitempty"`
 
 	// DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
@@ -44,10 +44,10 @@ type SqlContainerGetProperties_Resource_STATUSARM struct {
 
 	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
 	// within the container
-	IndexingPolicy *IndexingPolicy_STATUSARM `json:"indexingPolicy,omitempty"`
+	IndexingPolicy *IndexingPolicy_STATUS_ARM `json:"indexingPolicy,omitempty"`
 
 	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey_STATUSARM `json:"partitionKey,omitempty"`
+	PartitionKey *ContainerPartitionKey_STATUS_ARM `json:"partitionKey,omitempty"`
 
 	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
@@ -57,10 +57,10 @@ type SqlContainerGetProperties_Resource_STATUSARM struct {
 
 	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
 	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy_STATUSARM `json:"uniqueKeyPolicy,omitempty"`
+	UniqueKeyPolicy *UniqueKeyPolicy_STATUS_ARM `json:"uniqueKeyPolicy,omitempty"`
 }
 
-type ConflictResolutionPolicy_STATUSARM struct {
+type ConflictResolutionPolicy_STATUS_ARM struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
@@ -71,7 +71,7 @@ type ConflictResolutionPolicy_STATUSARM struct {
 	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
 }
 
-type ContainerPartitionKey_STATUSARM struct {
+type ContainerPartitionKey_STATUS_ARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
 	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
@@ -86,33 +86,33 @@ type ContainerPartitionKey_STATUSARM struct {
 	Version *int `json:"version,omitempty"`
 }
 
-type IndexingPolicy_STATUSARM struct {
+type IndexingPolicy_STATUS_ARM struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
 
 	// CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath_STATUSARM `json:"compositeIndexes,omitempty"`
+	CompositeIndexes [][]CompositePath_STATUS_ARM `json:"compositeIndexes,omitempty"`
 
 	// ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath_STATUSARM `json:"excludedPaths,omitempty"`
+	ExcludedPaths []ExcludedPath_STATUS_ARM `json:"excludedPaths,omitempty"`
 
 	// IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath_STATUSARM `json:"includedPaths,omitempty"`
+	IncludedPaths []IncludedPath_STATUS_ARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
 	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec_STATUSARM `json:"spatialIndexes,omitempty"`
+	SpatialIndexes []SpatialSpec_STATUS_ARM `json:"spatialIndexes,omitempty"`
 }
 
-type UniqueKeyPolicy_STATUSARM struct {
+type UniqueKeyPolicy_STATUS_ARM struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
-	UniqueKeys []UniqueKey_STATUSARM `json:"uniqueKeys,omitempty"`
+	UniqueKeys []UniqueKey_STATUS_ARM `json:"uniqueKeys,omitempty"`
 }
 
-type CompositePath_STATUSARM struct {
+type CompositePath_STATUS_ARM struct {
 	// Order: Sort order for composite paths.
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
 
@@ -124,27 +124,27 @@ type CompositePath_STATUSARM struct {
 type ConflictResolutionPolicy_Mode_STATUS string
 
 const (
-	ConflictResolutionPolicy_Mode_Custom_STATUS         = ConflictResolutionPolicy_Mode_STATUS("Custom")
-	ConflictResolutionPolicy_Mode_LastWriterWins_STATUS = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
+	ConflictResolutionPolicy_Mode_STATUS_Custom         = ConflictResolutionPolicy_Mode_STATUS("Custom")
+	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
 )
 
 type ContainerPartitionKey_Kind_STATUS string
 
 const (
-	ContainerPartitionKey_Kind_Hash_STATUS      = ContainerPartitionKey_Kind_STATUS("Hash")
-	ContainerPartitionKey_Kind_MultiHash_STATUS = ContainerPartitionKey_Kind_STATUS("MultiHash")
-	ContainerPartitionKey_Kind_Range_STATUS     = ContainerPartitionKey_Kind_STATUS("Range")
+	ContainerPartitionKey_Kind_STATUS_Hash      = ContainerPartitionKey_Kind_STATUS("Hash")
+	ContainerPartitionKey_Kind_STATUS_MultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
+	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
 )
 
-type ExcludedPath_STATUSARM struct {
+type ExcludedPath_STATUS_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-type IncludedPath_STATUSARM struct {
+type IncludedPath_STATUS_ARM struct {
 	// Indexes: List of indexes for this path
-	Indexes []Indexes_STATUSARM `json:"indexes,omitempty"`
+	Indexes []Indexes_STATUS_ARM `json:"indexes,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -154,12 +154,12 @@ type IncludedPath_STATUSARM struct {
 type IndexingPolicy_IndexingMode_STATUS string
 
 const (
-	IndexingPolicy_IndexingMode_Consistent_STATUS = IndexingPolicy_IndexingMode_STATUS("consistent")
-	IndexingPolicy_IndexingMode_Lazy_STATUS       = IndexingPolicy_IndexingMode_STATUS("lazy")
-	IndexingPolicy_IndexingMode_None_STATUS       = IndexingPolicy_IndexingMode_STATUS("none")
+	IndexingPolicy_IndexingMode_STATUS_Consistent = IndexingPolicy_IndexingMode_STATUS("consistent")
+	IndexingPolicy_IndexingMode_STATUS_Lazy       = IndexingPolicy_IndexingMode_STATUS("lazy")
+	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
 )
 
-type SpatialSpec_STATUSARM struct {
+type SpatialSpec_STATUS_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
@@ -168,7 +168,7 @@ type SpatialSpec_STATUSARM struct {
 	Types []SpatialType_STATUS `json:"types,omitempty"`
 }
 
-type UniqueKey_STATUSARM struct {
+type UniqueKey_STATUS_ARM struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
@@ -176,11 +176,11 @@ type UniqueKey_STATUSARM struct {
 type CompositePath_Order_STATUS string
 
 const (
-	CompositePath_Order_Ascending_STATUS  = CompositePath_Order_STATUS("ascending")
-	CompositePath_Order_Descending_STATUS = CompositePath_Order_STATUS("descending")
+	CompositePath_Order_STATUS_Ascending  = CompositePath_Order_STATUS("ascending")
+	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
 )
 
-type Indexes_STATUSARM struct {
+type Indexes_STATUS_ARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
 
@@ -194,27 +194,27 @@ type Indexes_STATUSARM struct {
 type SpatialType_STATUS string
 
 const (
-	SpatialType_LineString_STATUS   = SpatialType_STATUS("LineString")
-	SpatialType_MultiPolygon_STATUS = SpatialType_STATUS("MultiPolygon")
-	SpatialType_Point_STATUS        = SpatialType_STATUS("Point")
-	SpatialType_Polygon_STATUS      = SpatialType_STATUS("Polygon")
+	SpatialType_STATUS_LineString   = SpatialType_STATUS("LineString")
+	SpatialType_STATUS_MultiPolygon = SpatialType_STATUS("MultiPolygon")
+	SpatialType_STATUS_Point        = SpatialType_STATUS("Point")
+	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
 )
 
 type Indexes_DataType_STATUS string
 
 const (
-	Indexes_DataType_LineString_STATUS   = Indexes_DataType_STATUS("LineString")
-	Indexes_DataType_MultiPolygon_STATUS = Indexes_DataType_STATUS("MultiPolygon")
-	Indexes_DataType_Number_STATUS       = Indexes_DataType_STATUS("Number")
-	Indexes_DataType_Point_STATUS        = Indexes_DataType_STATUS("Point")
-	Indexes_DataType_Polygon_STATUS      = Indexes_DataType_STATUS("Polygon")
-	Indexes_DataType_String_STATUS       = Indexes_DataType_STATUS("String")
+	Indexes_DataType_STATUS_LineString   = Indexes_DataType_STATUS("LineString")
+	Indexes_DataType_STATUS_MultiPolygon = Indexes_DataType_STATUS("MultiPolygon")
+	Indexes_DataType_STATUS_Number       = Indexes_DataType_STATUS("Number")
+	Indexes_DataType_STATUS_Point        = Indexes_DataType_STATUS("Point")
+	Indexes_DataType_STATUS_Polygon      = Indexes_DataType_STATUS("Polygon")
+	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
 )
 
 type Indexes_Kind_STATUS string
 
 const (
-	Indexes_Kind_Hash_STATUS    = Indexes_Kind_STATUS("Hash")
-	Indexes_Kind_Range_STATUS   = Indexes_Kind_STATUS("Range")
-	Indexes_Kind_Spatial_STATUS = Indexes_Kind_STATUS("Spatial")
+	Indexes_Kind_STATUS_Hash    = Indexes_Kind_STATUS("Hash")
+	Indexes_Kind_STATUS_Range   = Indexes_Kind_STATUS("Range")
+	Indexes_Kind_STATUS_Spatial = Indexes_Kind_STATUS("Spatial")
 )

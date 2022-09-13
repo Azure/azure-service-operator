@@ -6,39 +6,39 @@ package v1alpha1api20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Eventhub_Spec. Use v1beta20211101.Namespaces_Eventhub_Spec instead
-type Namespaces_Eventhub_SpecARM struct {
-	AzureName  string                                  `json:"azureName,omitempty"`
-	Name       string                                  `json:"name,omitempty"`
-	Properties *Namespaces_Eventhub_Spec_PropertiesARM `json:"properties,omitempty"`
+type Namespaces_Eventhub_Spec_ARM struct {
+	AzureName  string                                   `json:"azureName,omitempty"`
+	Name       string                                   `json:"name,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (eventhub Namespaces_Eventhub_SpecARM) GetAPIVersion() string {
+func (eventhub Namespaces_Eventhub_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (eventhub *Namespaces_Eventhub_SpecARM) GetName() string {
+func (eventhub *Namespaces_Eventhub_Spec_ARM) GetName() string {
 	return eventhub.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
-func (eventhub *Namespaces_Eventhub_SpecARM) GetType() string {
+func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
-// Deprecated version of Namespaces_Eventhub_Spec_Properties. Use v1beta20211101.Namespaces_Eventhub_Spec_Properties instead
-type Namespaces_Eventhub_Spec_PropertiesARM struct {
-	CaptureDescription     *CaptureDescriptionARM `json:"captureDescription,omitempty"`
-	MessageRetentionInDays *int                   `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                   `json:"partitionCount,omitempty"`
+// Deprecated version of Namespaces_Eventhub_Properties_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_Spec instead
+type Namespaces_Eventhub_Properties_Spec_ARM struct {
+	CaptureDescription     *CaptureDescription_ARM `json:"captureDescription,omitempty"`
+	MessageRetentionInDays *int                    `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                    `json:"partitionCount,omitempty"`
 }
 
 // Deprecated version of CaptureDescription. Use v1beta20211101.CaptureDescription instead
-type CaptureDescriptionARM struct {
-	Destination       *DestinationARM              `json:"destination,omitempty"`
+type CaptureDescription_ARM struct {
+	Destination       *Destination_ARM             `json:"destination,omitempty"`
 	Enabled           *bool                        `json:"enabled,omitempty"`
 	Encoding          *CaptureDescription_Encoding `json:"encoding,omitempty"`
 	IntervalInSeconds *int                         `json:"intervalInSeconds,omitempty"`
@@ -47,13 +47,13 @@ type CaptureDescriptionARM struct {
 }
 
 // Deprecated version of Destination. Use v1beta20211101.Destination instead
-type DestinationARM struct {
-	Name       *string                    `json:"name,omitempty"`
-	Properties *Destination_PropertiesARM `json:"properties,omitempty"`
+type Destination_ARM struct {
+	Name       *string                     `json:"name,omitempty"`
+	Properties *Destination_Properties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of Destination_Properties. Use v1beta20211101.Destination_Properties instead
-type Destination_PropertiesARM struct {
+type Destination_Properties_ARM struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`
 	DataLakeAccountName      *string `json:"dataLakeAccountName,omitempty"`

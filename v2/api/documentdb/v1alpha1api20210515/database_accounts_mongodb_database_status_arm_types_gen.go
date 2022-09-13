@@ -4,23 +4,23 @@
 package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccounts_MongodbDatabase_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabase_STATUS instead
-type DatabaseAccounts_MongodbDatabase_STATUSARM struct {
-	Id         *string                                 `json:"id,omitempty"`
-	Location   *string                                 `json:"location,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *MongoDBDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                       `json:"tags,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+type DatabaseAccounts_MongodbDatabase_STATUS_ARM struct {
+	Id         *string                                  `json:"id,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *MongoDBDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of MongoDBDatabaseGetProperties_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_STATUS instead
-type MongoDBDatabaseGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                       `json:"options,omitempty"`
-	Resource *MongoDBDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type MongoDBDatabaseGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                       `json:"options,omitempty"`
+	Resource *MongoDBDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
-type MongoDBDatabaseGetProperties_Resource_STATUSARM struct {
+type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`
 	Rid  *string  `json:"_rid,omitempty"`
@@ -28,12 +28,12 @@ type MongoDBDatabaseGetProperties_Resource_STATUSARM struct {
 }
 
 // Deprecated version of OptionsResource_STATUS. Use v1beta20210515.OptionsResource_STATUS instead
-type OptionsResource_STATUSARM struct {
-	AutoscaleSettings *AutoscaleSettings_STATUSARM `json:"autoscaleSettings,omitempty"`
-	Throughput        *int                         `json:"throughput,omitempty"`
+type OptionsResource_STATUS_ARM struct {
+	AutoscaleSettings *AutoscaleSettings_STATUS_ARM `json:"autoscaleSettings,omitempty"`
+	Throughput        *int                          `json:"throughput,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettings_STATUS. Use v1beta20210515.AutoscaleSettings_STATUS instead
-type AutoscaleSettings_STATUSARM struct {
+type AutoscaleSettings_STATUS_ARM struct {
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

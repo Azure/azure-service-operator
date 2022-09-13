@@ -5,7 +5,7 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualNetworks_VirtualNetworkPeering_SpecARM struct {
+type VirtualNetworks_VirtualNetworkPeering_Spec_ARM struct {
 	AzureName string  `json:"azureName,omitempty"`
 	Id        *string `json:"id,omitempty"`
 
@@ -13,30 +13,30 @@ type VirtualNetworks_VirtualNetworkPeering_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
-	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetworks_VirtualNetworkPeering_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (peering VirtualNetworks_VirtualNetworkPeering_SpecARM) GetAPIVersion() string {
+func (peering VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (peering *VirtualNetworks_VirtualNetworkPeering_SpecARM) GetName() string {
+func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetName() string {
 	return peering.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-func (peering *VirtualNetworks_VirtualNetworkPeering_SpecARM) GetType() string {
+func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
-type VirtualNetworkPeeringPropertiesFormatARM struct {
+type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
@@ -55,15 +55,15 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
-	RemoteAddressSpace *AddressSpaceARM `json:"remoteAddressSpace,omitempty"`
+	RemoteAddressSpace *AddressSpace_ARM `json:"remoteAddressSpace,omitempty"`
 
 	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
-	RemoteBgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"remoteBgpCommunities,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities_ARM `json:"remoteBgpCommunities,omitempty"`
 
 	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork *SubResourceARM `json:"remoteVirtualNetwork,omitempty"`
+	RemoteVirtualNetwork *SubResource_ARM `json:"remoteVirtualNetwork,omitempty"`
 
 	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
 	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for

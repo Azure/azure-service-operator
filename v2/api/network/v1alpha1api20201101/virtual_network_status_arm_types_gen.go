@@ -4,37 +4,37 @@
 package v1alpha1api20201101
 
 // Deprecated version of VirtualNetwork_STATUS. Use v1beta20201101.VirtualNetwork_STATUS instead
-type VirtualNetwork_STATUSARM struct {
-	Etag             *string                                   `json:"etag,omitempty"`
-	ExtendedLocation *ExtendedLocation_STATUSARM               `json:"extendedLocation,omitempty"`
-	Id               *string                                   `json:"id,omitempty"`
-	Location         *string                                   `json:"location,omitempty"`
-	Name             *string                                   `json:"name,omitempty"`
-	Properties       *VirtualNetworkPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Tags             map[string]string                         `json:"tags,omitempty"`
-	Type             *string                                   `json:"type,omitempty"`
+type VirtualNetwork_STATUS_ARM struct {
+	Etag             *string                                    `json:"etag,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM               `json:"extendedLocation,omitempty"`
+	Id               *string                                    `json:"id,omitempty"`
+	Location         *string                                    `json:"location,omitempty"`
+	Name             *string                                    `json:"name,omitempty"`
+	Properties       *VirtualNetworkPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                          `json:"tags,omitempty"`
+	Type             *string                                    `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkPropertiesFormat_STATUS. Use v1beta20201101.VirtualNetworkPropertiesFormat_STATUS instead
-type VirtualNetworkPropertiesFormat_STATUSARM struct {
-	AddressSpace         *AddressSpace_STATUSARM                 `json:"addressSpace,omitempty"`
-	BgpCommunities       *VirtualNetworkBgpCommunities_STATUSARM `json:"bgpCommunities,omitempty"`
-	DdosProtectionPlan   *SubResource_STATUSARM                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions_STATUSARM                  `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection *bool                                   `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection   *bool                                   `json:"enableVmProtection,omitempty"`
-	IpAllocations        []SubResource_STATUSARM                 `json:"ipAllocations,omitempty"`
-	ProvisioningState    *ProvisioningState_STATUS               `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                                 `json:"resourceGuid,omitempty"`
+type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
+	AddressSpace         *AddressSpace_STATUS_ARM                 `json:"addressSpace,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities_STATUS_ARM `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan   *SubResource_STATUS_ARM                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_STATUS_ARM                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                                    `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                                    `json:"enableVmProtection,omitempty"`
+	IpAllocations        []SubResource_STATUS_ARM                 `json:"ipAllocations,omitempty"`
+	ProvisioningState    *ProvisioningState_STATUS                `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                                  `json:"resourceGuid,omitempty"`
 }
 
 // Deprecated version of DhcpOptions_STATUS. Use v1beta20201101.DhcpOptions_STATUS instead
-type DhcpOptions_STATUSARM struct {
+type DhcpOptions_STATUS_ARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkBgpCommunities_STATUS. Use v1beta20201101.VirtualNetworkBgpCommunities_STATUS instead
-type VirtualNetworkBgpCommunities_STATUSARM struct {
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
 	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }

@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type Webtest_SpecARM struct {
+type Webtest_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: Resource location
@@ -16,32 +16,32 @@ type Webtest_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Metadata describing a web test for an Azure resource.
-	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
+	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Webtest_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
-func (webtest Webtest_SpecARM) GetAPIVersion() string {
+func (webtest Webtest_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (webtest *Webtest_SpecARM) GetName() string {
+func (webtest *Webtest_Spec_ARM) GetName() string {
 	return webtest.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
-func (webtest *Webtest_SpecARM) GetType() string {
+func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
-type WebTestPropertiesARM struct {
+type WebTestProperties_ARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_ConfigurationARM `json:"Configuration,omitempty"`
+	Configuration *WebTestProperties_Configuration_ARM `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -57,13 +57,13 @@ type WebTestPropertiesARM struct {
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
-	Locations []WebTestGeolocationARM `json:"Locations,omitempty"`
+	Locations []WebTestGeolocation_ARM `json:"Locations,omitempty"`
 
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestProperties_RequestARM `json:"Request,omitempty"`
+	Request *WebTestProperties_Request_ARM `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -75,25 +75,25 @@ type WebTestPropertiesARM struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRulesARM `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
-type WebTestGeolocationARM struct {
+type WebTestGeolocation_ARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
-type WebTestProperties_ConfigurationARM struct {
+type WebTestProperties_Configuration_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-type WebTestProperties_RequestARM struct {
+type WebTestProperties_Request_ARM struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
 	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderFieldARM `json:"Headers,omitempty"`
+	Headers []HeaderField_ARM `json:"Headers,omitempty"`
 
 	// HttpVerb: Http verb to use for this web test.
 	HttpVerb *string `json:"HttpVerb,omitempty"`
@@ -108,9 +108,9 @@ type WebTestProperties_RequestARM struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-type WebTestProperties_ValidationRulesARM struct {
+type WebTestProperties_ValidationRules_ARM struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidationARM `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_ARM `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -126,7 +126,7 @@ type WebTestProperties_ValidationRulesARM struct {
 	SSLCheck *bool `json:"SSLCheck,omitempty"`
 }
 
-type HeaderFieldARM struct {
+type HeaderField_ARM struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
 
@@ -134,7 +134,7 @@ type HeaderFieldARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type WebTestProperties_ValidationRules_ContentValidationARM struct {
+type WebTestProperties_ValidationRules_ContentValidation_ARM struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

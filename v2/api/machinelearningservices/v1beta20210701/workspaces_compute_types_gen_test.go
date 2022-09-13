@@ -635,29 +635,29 @@ func Compute_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCompute_STATUS(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(
-		ComputeType_AKS_STATUS,
-		ComputeType_AmlCompute_STATUS,
-		ComputeType_ComputeInstance_STATUS,
-		ComputeType_DataFactory_STATUS,
-		ComputeType_DataLakeAnalytics_STATUS,
-		ComputeType_Databricks_STATUS,
-		ComputeType_HDInsight_STATUS,
-		ComputeType_Kubernetes_STATUS,
-		ComputeType_SynapseSpark_STATUS,
-		ComputeType_VirtualMachine_STATUS))
+		ComputeType_STATUS_AKS,
+		ComputeType_STATUS_AmlCompute,
+		ComputeType_STATUS_ComputeInstance,
+		ComputeType_STATUS_DataFactory,
+		ComputeType_STATUS_DataLakeAnalytics,
+		ComputeType_STATUS_Databricks,
+		ComputeType_STATUS_HDInsight,
+		ComputeType_STATUS_Kubernetes,
+		ComputeType_STATUS_SynapseSpark,
+		ComputeType_STATUS_VirtualMachine))
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Compute_ProvisioningState_Canceled_STATUS,
-		Compute_ProvisioningState_Creating_STATUS,
-		Compute_ProvisioningState_Deleting_STATUS,
-		Compute_ProvisioningState_Failed_STATUS,
-		Compute_ProvisioningState_Succeeded_STATUS,
-		Compute_ProvisioningState_Unknown_STATUS,
-		Compute_ProvisioningState_Updating_STATUS))
+		Compute_ProvisioningState_STATUS_Canceled,
+		Compute_ProvisioningState_STATUS_Creating,
+		Compute_ProvisioningState_STATUS_Deleting,
+		Compute_ProvisioningState_STATUS_Failed,
+		Compute_ProvisioningState_STATUS_Succeeded,
+		Compute_ProvisioningState_STATUS_Unknown,
+		Compute_ProvisioningState_STATUS_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 

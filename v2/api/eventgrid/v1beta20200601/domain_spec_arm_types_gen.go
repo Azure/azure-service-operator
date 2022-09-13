@@ -5,7 +5,7 @@ package v1beta20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Domain_SpecARM struct {
+type Domain_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: Location of the resource.
@@ -13,39 +13,39 @@ type Domain_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the domain.
-	Properties *DomainPropertiesARM `json:"properties,omitempty"`
+	Properties *DomainProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Domain_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Domain_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (domain Domain_SpecARM) GetAPIVersion() string {
+func (domain Domain_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (domain *Domain_SpecARM) GetName() string {
+func (domain *Domain_Spec_ARM) GetName() string {
 	return domain.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
-func (domain *Domain_SpecARM) GetType() string {
+func (domain *Domain_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
-type DomainPropertiesARM struct {
+type DomainProperties_ARM struct {
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRuleARM `json:"inboundIpRules,omitempty"`
+	InboundIpRules []InboundIpRule_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainProperties_InputSchema `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
-	InputSchemaMapping *InputSchemaMappingARM `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping *InputSchemaMapping_ARM `json:"inputSchemaMapping,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
@@ -53,7 +53,7 @@ type DomainPropertiesARM struct {
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-type InboundIpRuleARM struct {
+type InboundIpRule_ARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRule_Action `json:"action,omitempty"`
 
@@ -61,7 +61,7 @@ type InboundIpRuleARM struct {
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
-type InputSchemaMappingARM struct {
+type InputSchemaMapping_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }

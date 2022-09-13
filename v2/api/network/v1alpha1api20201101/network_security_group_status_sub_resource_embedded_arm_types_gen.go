@@ -4,44 +4,44 @@
 package v1alpha1api20201101
 
 // Deprecated version of NetworkSecurityGroup_STATUS_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_SubResourceEmbedded instead
-type NetworkSecurityGroup_STATUS_SubResourceEmbeddedARM struct {
-	Etag       *string                                                             `json:"etag,omitempty"`
-	Id         *string                                                             `json:"id,omitempty"`
-	Location   *string                                                             `json:"location,omitempty"`
-	Name       *string                                                             `json:"name,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
-	Tags       map[string]string                                                   `json:"tags,omitempty"`
-	Type       *string                                                             `json:"type,omitempty"`
+type NetworkSecurityGroup_STATUS_SubResourceEmbedded_ARM struct {
+	Etag       *string                                                              `json:"etag,omitempty"`
+	Id         *string                                                              `json:"id,omitempty"`
+	Location   *string                                                              `json:"location,omitempty"`
+	Name       *string                                                              `json:"name,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                                                    `json:"tags,omitempty"`
+	Type       *string                                                              `json:"type,omitempty"`
 }
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded instead
-type NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
-	DefaultSecurityRules []SecurityRule_STATUS_SubResourceEmbeddedARM                          `json:"defaultSecurityRules,omitempty"`
-	FlowLogs             []FlowLog_STATUS_SubResourceEmbeddedARM                               `json:"flowLogs,omitempty"`
-	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
-	ProvisioningState    *ProvisioningState_STATUS                                             `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                                                               `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS_SubResourceEmbeddedARM                          `json:"securityRules,omitempty"`
-	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM           `json:"subnets,omitempty"`
+type NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
+	DefaultSecurityRules []SecurityRule_STATUS_SubResourceEmbedded_ARM                          `json:"defaultSecurityRules,omitempty"`
+	FlowLogs             []FlowLog_STATUS_SubResourceEmbedded_ARM                               `json:"flowLogs,omitempty"`
+	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
+	ProvisioningState    *ProvisioningState_STATUS                                              `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                                                                `json:"resourceGuid,omitempty"`
+	SecurityRules        []SecurityRule_STATUS_SubResourceEmbedded_ARM                          `json:"securityRules,omitempty"`
+	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM           `json:"subnets,omitempty"`
 }
 
 // Deprecated version of FlowLog_STATUS_SubResourceEmbedded. Use v1beta20201101.FlowLog_STATUS_SubResourceEmbedded instead
-type FlowLog_STATUS_SubResourceEmbeddedARM struct {
+type FlowLog_STATUS_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
-type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
-	Id               *string                     `json:"id,omitempty"`
+type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
+	Id               *string                      `json:"id,omitempty"`
 }
 
 // Deprecated version of SecurityRule_STATUS_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_SubResourceEmbedded instead
-type SecurityRule_STATUS_SubResourceEmbeddedARM struct {
+type SecurityRule_STATUS_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
-type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

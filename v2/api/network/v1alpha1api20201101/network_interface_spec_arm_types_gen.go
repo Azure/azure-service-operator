@@ -6,164 +6,164 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkInterface_Spec. Use v1beta20201101.NetworkInterface_Spec instead
-type NetworkInterface_SpecARM struct {
-	AzureName        string                               `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocationARM                 `json:"extendedLocation,omitempty"`
-	Id               *string                              `json:"id,omitempty"`
-	Location         *string                              `json:"location,omitempty"`
-	Name             string                               `json:"name,omitempty"`
-	Properties       *NetworkInterfacePropertiesFormatARM `json:"properties,omitempty"`
-	Tags             map[string]string                    `json:"tags,omitempty"`
+type NetworkInterface_Spec_ARM struct {
+	AzureName        string                                `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM                 `json:"extendedLocation,omitempty"`
+	Id               *string                               `json:"id,omitempty"`
+	Location         *string                               `json:"location,omitempty"`
+	Name             string                                `json:"name,omitempty"`
+	Properties       *NetworkInterfacePropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                     `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &NetworkInterface_SpecARM{}
+var _ genruntime.ARMResourceSpec = &NetworkInterface_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (networkInterface NetworkInterface_SpecARM) GetAPIVersion() string {
+func (networkInterface NetworkInterface_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (networkInterface *NetworkInterface_SpecARM) GetName() string {
+func (networkInterface *NetworkInterface_Spec_ARM) GetName() string {
 	return networkInterface.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkInterfaces"
-func (networkInterface *NetworkInterface_SpecARM) GetType() string {
+func (networkInterface *NetworkInterface_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
 // Deprecated version of NetworkInterfacePropertiesFormat. Use v1beta20201101.NetworkInterfacePropertiesFormat instead
-type NetworkInterfacePropertiesFormatARM struct {
-	DnsSettings                 *NetworkInterfaceDnsSettingsARM                  `json:"dnsSettings,omitempty"`
+type NetworkInterfacePropertiesFormat_ARM struct {
+	DnsSettings                 *NetworkInterfaceDnsSettings_ARM                 `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                            `json:"enableAcceleratedNetworking,omitempty"`
 	EnableIPForwarding          *bool                                            `json:"enableIPForwarding,omitempty"`
-	IpConfigurations            []NetworkInterfaceIPConfigurationARM             `json:"ipConfigurations,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_ARM            `json:"ipConfigurations,omitempty"`
 	MigrationPhase              *NetworkInterfacePropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
-	NetworkSecurityGroup        *NetworkSecurityGroupSpecARM                     `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroupSpec_ARM                    `json:"networkSecurityGroup,omitempty"`
 	NicType                     *NetworkInterfacePropertiesFormat_NicType        `json:"nicType,omitempty"`
-	PrivateLinkService          *PrivateLinkServiceSpecARM                       `json:"privateLinkService,omitempty"`
+	PrivateLinkService          *PrivateLinkServiceSpec_ARM                      `json:"privateLinkService,omitempty"`
 }
 
 // Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead
-type NetworkInterfaceDnsSettingsARM struct {
+type NetworkInterfaceDnsSettings_ARM struct {
 	DnsServers           []string `json:"dnsServers,omitempty"`
 	InternalDnsNameLabel *string  `json:"internalDnsNameLabel,omitempty"`
 }
 
 // Deprecated version of NetworkInterfaceIPConfiguration. Use v1beta20201101.NetworkInterfaceIPConfiguration instead
-type NetworkInterfaceIPConfigurationARM struct {
-	Id         *string                                             `json:"id,omitempty"`
-	Name       *string                                             `json:"name,omitempty"`
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                                             `json:"type,omitempty"`
+type NetworkInterfaceIPConfiguration_ARM struct {
+	Id         *string                                              `json:"id,omitempty"`
+	Name       *string                                              `json:"name,omitempty"`
+	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                                              `json:"type,omitempty"`
 }
 
 // Deprecated version of NetworkSecurityGroupSpec. Use v1beta20201101.NetworkSecurityGroupSpec instead
-type NetworkSecurityGroupSpecARM struct {
-	Id         *string                                  `json:"id,omitempty"`
-	Location   *string                                  `json:"location,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string                        `json:"tags,omitempty"`
+type NetworkSecurityGroupSpec_ARM struct {
+	Id         *string                                   `json:"id,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                         `json:"tags,omitempty"`
 }
 
 // Deprecated version of PrivateLinkServiceSpec. Use v1beta20201101.PrivateLinkServiceSpec instead
-type PrivateLinkServiceSpecARM struct {
-	ExtendedLocation *ExtendedLocationARM             `json:"extendedLocation,omitempty"`
-	Id               *string                          `json:"id,omitempty"`
-	Location         *string                          `json:"location,omitempty"`
-	Properties       *PrivateLinkServicePropertiesARM `json:"properties,omitempty"`
-	Tags             map[string]string                `json:"tags,omitempty"`
+type PrivateLinkServiceSpec_ARM struct {
+	ExtendedLocation *ExtendedLocation_ARM             `json:"extendedLocation,omitempty"`
+	Id               *string                           `json:"id,omitempty"`
+	Location         *string                           `json:"location,omitempty"`
+	Properties       *PrivateLinkServiceProperties_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                 `json:"tags,omitempty"`
 }
 
 // Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead
-type NetworkInterfaceIPConfigurationPropertiesFormatARM struct {
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPoolARM `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []ApplicationSecurityGroupSpecARM         `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []BackendAddressPoolARM                   `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []InboundNatRuleARM                       `json:"loadBalancerInboundNatRules,omitempty"`
-	Primary                               *bool                                     `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                   `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *IPVersion                                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *IPAllocationMethod                       `json:"privateIPAllocationMethod,omitempty"`
-	PublicIPAddress                       *PublicIPAddressSpecARM                   `json:"publicIPAddress,omitempty"`
-	Subnet                                *SubnetARM                                `json:"subnet,omitempty"`
-	VirtualNetworkTaps                    []VirtualNetworkTapSpecARM                `json:"virtualNetworkTaps,omitempty"`
+type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec_ARM         `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_ARM                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_ARM                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Primary                               *bool                                      `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                    `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *IPVersion                                 `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *IPAllocationMethod                        `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress                       *PublicIPAddressSpec_ARM                   `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_ARM                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTapSpec_ARM                `json:"virtualNetworkTaps,omitempty"`
 }
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat instead
-type NetworkSecurityGroupPropertiesFormatARM struct {
-	SecurityRules []SecurityRuleARM `json:"securityRules,omitempty"`
+type NetworkSecurityGroupPropertiesFormat_ARM struct {
+	SecurityRules []SecurityRule_ARM `json:"securityRules,omitempty"`
 }
 
 // Deprecated version of PrivateLinkServiceProperties. Use v1beta20201101.PrivateLinkServiceProperties instead
-type PrivateLinkServicePropertiesARM struct {
-	AutoApproval                         *ResourceSetARM                        `json:"autoApproval,omitempty"`
-	EnableProxyProtocol                  *bool                                  `json:"enableProxyProtocol,omitempty"`
-	Fqdns                                []string                               `json:"fqdns,omitempty"`
-	IpConfigurations                     []PrivateLinkServiceIpConfigurationARM `json:"ipConfigurations,omitempty"`
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfigurationARM           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
-	Visibility                           *ResourceSetARM                        `json:"visibility,omitempty"`
+type PrivateLinkServiceProperties_ARM struct {
+	AutoApproval                         *ResourceSet_ARM                        `json:"autoApproval,omitempty"`
+	EnableProxyProtocol                  *bool                                   `json:"enableProxyProtocol,omitempty"`
+	Fqdns                                []string                                `json:"fqdns,omitempty"`
+	IpConfigurations                     []PrivateLinkServiceIpConfiguration_ARM `json:"ipConfigurations,omitempty"`
+	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_ARM           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
+	Visibility                           *ResourceSet_ARM                        `json:"visibility,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayBackendAddressPool. Use v1beta20201101.ApplicationGatewayBackendAddressPool instead
-type ApplicationGatewayBackendAddressPoolARM struct {
-	Id         *string                                                  `json:"id,omitempty"`
-	Name       *string                                                  `json:"name,omitempty"`
-	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormatARM `json:"properties,omitempty"`
+type ApplicationGatewayBackendAddressPool_ARM struct {
+	Id         *string                                                   `json:"id,omitempty"`
+	Name       *string                                                   `json:"name,omitempty"`
+	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of PrivateLinkServiceIpConfiguration. Use v1beta20201101.PrivateLinkServiceIpConfiguration instead
-type PrivateLinkServiceIpConfigurationARM struct {
-	Id         *string                                         `json:"id,omitempty"`
-	Name       *string                                         `json:"name,omitempty"`
-	Properties *PrivateLinkServiceIpConfigurationPropertiesARM `json:"properties,omitempty"`
+type PrivateLinkServiceIpConfiguration_ARM struct {
+	Id         *string                                          `json:"id,omitempty"`
+	Name       *string                                          `json:"name,omitempty"`
+	Properties *PrivateLinkServiceIpConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of ResourceSet. Use v1beta20201101.ResourceSet instead
-type ResourceSetARM struct {
+type ResourceSet_ARM struct {
 	Subscriptions []string `json:"subscriptions,omitempty"`
 }
 
 // Deprecated version of SecurityRule. Use v1beta20201101.SecurityRule instead
-type SecurityRuleARM struct {
-	Id         *string                          `json:"id,omitempty"`
-	Name       *string                          `json:"name,omitempty"`
-	Properties *SecurityRulePropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                          `json:"type,omitempty"`
+type SecurityRule_ARM struct {
+	Id         *string                           `json:"id,omitempty"`
+	Name       *string                           `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                           `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkTapSpec. Use v1beta20201101.VirtualNetworkTapSpec instead
-type VirtualNetworkTapSpecARM struct {
-	Id         *string                               `json:"id,omitempty"`
-	Location   *string                               `json:"location,omitempty"`
-	Properties *VirtualNetworkTapPropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string                     `json:"tags,omitempty"`
+type VirtualNetworkTapSpec_ARM struct {
+	Id         *string                                `json:"id,omitempty"`
+	Location   *string                                `json:"location,omitempty"`
+	Properties *VirtualNetworkTapPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                      `json:"tags,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat instead
-type ApplicationGatewayBackendAddressPoolPropertiesFormatARM struct {
-	BackendAddresses []ApplicationGatewayBackendAddressARM `json:"backendAddresses,omitempty"`
+type ApplicationGatewayBackendAddressPoolPropertiesFormat_ARM struct {
+	BackendAddresses []ApplicationGatewayBackendAddress_ARM `json:"backendAddresses,omitempty"`
 }
 
 // Deprecated version of PrivateLinkServiceIpConfigurationProperties. Use v1beta20201101.PrivateLinkServiceIpConfigurationProperties instead
-type PrivateLinkServiceIpConfigurationPropertiesARM struct {
+type PrivateLinkServiceIpConfigurationProperties_ARM struct {
 	Primary                   *bool               `json:"primary,omitempty"`
 	PrivateIPAddress          *string             `json:"privateIPAddress,omitempty"`
 	PrivateIPAddressVersion   *IPVersion          `json:"privateIPAddressVersion,omitempty"`
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-	Subnet                    *SubnetARM          `json:"subnet,omitempty"`
+	Subnet                    *Subnet_ARM         `json:"subnet,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkTapPropertiesFormat. Use v1beta20201101.VirtualNetworkTapPropertiesFormat instead
-type VirtualNetworkTapPropertiesFormatARM struct {
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfigurationARM         `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfigurationARM `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
-	DestinationPort                                *int                                `json:"destinationPort,omitempty"`
+type VirtualNetworkTapPropertiesFormat_ARM struct {
+	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_ARM         `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
+	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfiguration_ARM `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
+	DestinationPort                                *int                                 `json:"destinationPort,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayBackendAddress. Use v1beta20201101.ApplicationGatewayBackendAddress instead
-type ApplicationGatewayBackendAddressARM struct {
+type ApplicationGatewayBackendAddress_ARM struct {
 	Fqdn      *string `json:"fqdn,omitempty"`
 	IpAddress *string `json:"ipAddress,omitempty"`
 }

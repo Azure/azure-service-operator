@@ -4,18 +4,18 @@
 package v1alpha1api20211101
 
 // Deprecated version of Namespaces_Eventhub_STATUS. Use v1beta20211101.Namespaces_Eventhub_STATUS instead
-type Namespaces_Eventhub_STATUSARM struct {
-	Id         *string                                   `json:"id,omitempty"`
-	Location   *string                                   `json:"location,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *Namespaces_Eventhub_Properties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                     `json:"systemData,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+type Namespaces_Eventhub_STATUS_ARM struct {
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM                     `json:"systemData,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 // Deprecated version of Namespaces_Eventhub_Properties_STATUS. Use v1beta20211101.Namespaces_Eventhub_Properties_STATUS instead
-type Namespaces_Eventhub_Properties_STATUSARM struct {
-	CaptureDescription     *CaptureDescription_STATUSARM                 `json:"captureDescription,omitempty"`
+type Namespaces_Eventhub_Properties_STATUS_ARM struct {
+	CaptureDescription     *CaptureDescription_STATUS_ARM                `json:"captureDescription,omitempty"`
 	CreatedAt              *string                                       `json:"createdAt,omitempty"`
 	MessageRetentionInDays *int                                          `json:"messageRetentionInDays,omitempty"`
 	PartitionCount         *int                                          `json:"partitionCount,omitempty"`
@@ -25,8 +25,8 @@ type Namespaces_Eventhub_Properties_STATUSARM struct {
 }
 
 // Deprecated version of CaptureDescription_STATUS. Use v1beta20211101.CaptureDescription_STATUS instead
-type CaptureDescription_STATUSARM struct {
-	Destination       *Destination_STATUSARM              `json:"destination,omitempty"`
+type CaptureDescription_STATUS_ARM struct {
+	Destination       *Destination_STATUS_ARM             `json:"destination,omitempty"`
 	Enabled           *bool                               `json:"enabled,omitempty"`
 	Encoding          *CaptureDescription_Encoding_STATUS `json:"encoding,omitempty"`
 	IntervalInSeconds *int                                `json:"intervalInSeconds,omitempty"`
@@ -35,13 +35,13 @@ type CaptureDescription_STATUSARM struct {
 }
 
 // Deprecated version of Destination_STATUS. Use v1beta20211101.Destination_STATUS instead
-type Destination_STATUSARM struct {
-	Name       *string                           `json:"name,omitempty"`
-	Properties *Destination_Properties_STATUSARM `json:"properties,omitempty"`
+type Destination_STATUS_ARM struct {
+	Name       *string                            `json:"name,omitempty"`
+	Properties *Destination_Properties_STATUS_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of Destination_Properties_STATUS. Use v1beta20211101.Destination_Properties_STATUS instead
-type Destination_Properties_STATUSARM struct {
+type Destination_Properties_STATUS_ARM struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`
 	DataLakeAccountName      *string `json:"dataLakeAccountName,omitempty"`

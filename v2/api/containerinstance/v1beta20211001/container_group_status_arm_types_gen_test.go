@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_ContainerGroup_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_STATUSARM, ContainerGroup_STATUSARMGenerator()))
+		"Round trip of ContainerGroup_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroup_STATUS_ARM, ContainerGroup_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_STATUSARM runs a test to see if a specific instance of ContainerGroup_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_STATUSARM(subject ContainerGroup_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroup_STATUS_ARM runs a test to see if a specific instance of ContainerGroup_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroup_STATUS_ARM(subject ContainerGroup_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForContainerGroup_STATUSARM(subject ContainerGroup_
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_STATUSARM
+	var actual ContainerGroup_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForContainerGroup_STATUSARM(subject ContainerGroup_
 	return ""
 }
 
-// Generator of ContainerGroup_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroup_STATUSARMGenerator()
-var containerGroup_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroup_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerGroup_STATUS_ARMGenerator()
+var containerGroup_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroup_STATUSARMGenerator returns a generator of ContainerGroup_STATUSARM instances for property testing.
-// We first initialize containerGroup_STATUSARMGenerator with a simplified generator based on the
+// ContainerGroup_STATUS_ARMGenerator returns a generator of ContainerGroup_STATUS_ARM instances for property testing.
+// We first initialize containerGroup_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_STATUSARMGenerator() gopter.Gen {
-	if containerGroup_STATUSARMGenerator != nil {
-		return containerGroup_STATUSARMGenerator
+func ContainerGroup_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroup_STATUS_ARMGenerator != nil {
+		return containerGroup_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_STATUSARM(generators)
-	containerGroup_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_STATUS_ARM(generators)
+	containerGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_STATUSARM(generators)
-	containerGroup_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerGroup_STATUS_ARM(generators)
+	containerGroup_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_STATUS_ARM{}), generators)
 
-	return containerGroup_STATUSARMGenerator
+	return containerGroup_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroup_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerGroup_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroup_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -92,26 +92,26 @@ func AddIndependentPropertyGeneratorsForContainerGroup_STATUSARM(gens map[string
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ContainerGroupIdentity_STATUSARMGenerator())
-	gens["Properties"] = gen.PtrOf(ContainerGroup_Properties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroup_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroup_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(ContainerGroupIdentity_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ContainerGroup_Properties_STATUS_ARMGenerator())
 }
 
-func Test_ContainerGroup_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroup_Properties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_Properties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_STATUSARM, ContainerGroup_Properties_STATUSARMGenerator()))
+		"Round trip of ContainerGroup_Properties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_STATUS_ARM, ContainerGroup_Properties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_Properties_STATUSARM runs a test to see if a specific instance of ContainerGroup_Properties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_STATUSARM(subject ContainerGroup_Properties_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroup_Properties_STATUS_ARM runs a test to see if a specific instance of ContainerGroup_Properties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroup_Properties_STATUS_ARM(subject ContainerGroup_Properties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -119,7 +119,7 @@ func RunJSONSerializationTestForContainerGroup_Properties_STATUSARM(subject Cont
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_Properties_STATUSARM
+	var actual ContainerGroup_Properties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -137,68 +137,68 @@ func RunJSONSerializationTestForContainerGroup_Properties_STATUSARM(subject Cont
 	return ""
 }
 
-// Generator of ContainerGroup_Properties_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroup_Properties_STATUSARMGenerator()
-var containerGroup_Properties_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroup_Properties_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerGroup_Properties_STATUS_ARMGenerator()
+var containerGroup_Properties_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroup_Properties_STATUSARMGenerator returns a generator of ContainerGroup_Properties_STATUSARM instances for property testing.
-// We first initialize containerGroup_Properties_STATUSARMGenerator with a simplified generator based on the
+// ContainerGroup_Properties_STATUS_ARMGenerator returns a generator of ContainerGroup_Properties_STATUS_ARM instances for property testing.
+// We first initialize containerGroup_Properties_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_STATUSARMGenerator() gopter.Gen {
-	if containerGroup_Properties_STATUSARMGenerator != nil {
-		return containerGroup_Properties_STATUSARMGenerator
+func ContainerGroup_Properties_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroup_Properties_STATUS_ARMGenerator != nil {
+		return containerGroup_Properties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUSARM(generators)
-	containerGroup_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM(generators)
+	containerGroup_Properties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUSARM(generators)
-	containerGroup_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM(generators)
+	containerGroup_Properties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_STATUS_ARM{}), generators)
 
-	return containerGroup_Properties_STATUSARMGenerator
+	return containerGroup_Properties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_OsType_Linux_STATUS, ContainerGroup_Properties_OsType_Windows_STATUS))
+// AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_OsType_STATUS_Linux, ContainerGroup_Properties_OsType_STATUS_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_RestartPolicy_Always_STATUS, ContainerGroup_Properties_RestartPolicy_Never_STATUS, ContainerGroup_Properties_RestartPolicy_OnFailure_STATUS))
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_Dedicated_STATUS, ContainerGroupSku_Standard_STATUS))
+	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_RestartPolicy_STATUS_Always, ContainerGroup_Properties_RestartPolicy_STATUS_Never, ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_STATUS_Dedicated, ContainerGroupSku_STATUS_Standard))
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Containers"] = gen.SliceOf(Container_STATUSARMGenerator())
-	gens["Diagnostics"] = gen.PtrOf(ContainerGroupDiagnostics_STATUSARMGenerator())
-	gens["DnsConfig"] = gen.PtrOf(DnsConfiguration_STATUSARMGenerator())
-	gens["EncryptionProperties"] = gen.PtrOf(EncryptionProperties_STATUSARMGenerator())
-	gens["ImageRegistryCredentials"] = gen.SliceOf(ImageRegistryCredential_STATUSARMGenerator())
-	gens["InitContainers"] = gen.SliceOf(InitContainerDefinition_STATUSARMGenerator())
-	gens["InstanceView"] = gen.PtrOf(ContainerGroup_Properties_InstanceView_STATUSARMGenerator())
-	gens["IpAddress"] = gen.PtrOf(IpAddress_STATUSARMGenerator())
-	gens["SubnetIds"] = gen.SliceOf(ContainerGroupSubnetId_STATUSARMGenerator())
-	gens["Volumes"] = gen.SliceOf(Volume_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroup_Properties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Containers"] = gen.SliceOf(Container_STATUS_ARMGenerator())
+	gens["Diagnostics"] = gen.PtrOf(ContainerGroupDiagnostics_STATUS_ARMGenerator())
+	gens["DnsConfig"] = gen.PtrOf(DnsConfiguration_STATUS_ARMGenerator())
+	gens["EncryptionProperties"] = gen.PtrOf(EncryptionProperties_STATUS_ARMGenerator())
+	gens["ImageRegistryCredentials"] = gen.SliceOf(ImageRegistryCredential_STATUS_ARMGenerator())
+	gens["InitContainers"] = gen.SliceOf(InitContainerDefinition_STATUS_ARMGenerator())
+	gens["InstanceView"] = gen.PtrOf(ContainerGroup_Properties_InstanceView_STATUS_ARMGenerator())
+	gens["IpAddress"] = gen.PtrOf(IpAddress_STATUS_ARMGenerator())
+	gens["SubnetIds"] = gen.SliceOf(ContainerGroupSubnetId_STATUS_ARMGenerator())
+	gens["Volumes"] = gen.SliceOf(Volume_STATUS_ARMGenerator())
 }
 
-func Test_ContainerGroupIdentity_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroupIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroupIdentity_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroupIdentity_STATUSARM, ContainerGroupIdentity_STATUSARMGenerator()))
+		"Round trip of ContainerGroupIdentity_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupIdentity_STATUS_ARM, ContainerGroupIdentity_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroupIdentity_STATUSARM runs a test to see if a specific instance of ContainerGroupIdentity_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroupIdentity_STATUSARM(subject ContainerGroupIdentity_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroupIdentity_STATUS_ARM runs a test to see if a specific instance of ContainerGroupIdentity_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupIdentity_STATUS_ARM(subject ContainerGroupIdentity_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -206,7 +206,7 @@ func RunJSONSerializationTestForContainerGroupIdentity_STATUSARM(subject Contain
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroupIdentity_STATUSARM
+	var actual ContainerGroupIdentity_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -224,62 +224,62 @@ func RunJSONSerializationTestForContainerGroupIdentity_STATUSARM(subject Contain
 	return ""
 }
 
-// Generator of ContainerGroupIdentity_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroupIdentity_STATUSARMGenerator()
-var containerGroupIdentity_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroupIdentity_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerGroupIdentity_STATUS_ARMGenerator()
+var containerGroupIdentity_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroupIdentity_STATUSARMGenerator returns a generator of ContainerGroupIdentity_STATUSARM instances for property testing.
-// We first initialize containerGroupIdentity_STATUSARMGenerator with a simplified generator based on the
+// ContainerGroupIdentity_STATUS_ARMGenerator returns a generator of ContainerGroupIdentity_STATUS_ARM instances for property testing.
+// We first initialize containerGroupIdentity_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroupIdentity_STATUSARMGenerator() gopter.Gen {
-	if containerGroupIdentity_STATUSARMGenerator != nil {
-		return containerGroupIdentity_STATUSARMGenerator
+func ContainerGroupIdentity_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroupIdentity_STATUS_ARMGenerator != nil {
+		return containerGroupIdentity_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUSARM(generators)
-	containerGroupIdentity_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM(generators)
+	containerGroupIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUSARM(generators)
-	containerGroupIdentity_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM(generators)
+	containerGroupIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_STATUS_ARM{}), generators)
 
-	return containerGroupIdentity_STATUSARMGenerator
+	return containerGroupIdentity_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ContainerGroupIdentity_Type_None_STATUS,
-		ContainerGroupIdentity_Type_SystemAssigned_STATUS,
-		ContainerGroupIdentity_Type_SystemAssignedUserAssigned_STATUS,
-		ContainerGroupIdentity_Type_UserAssigned_STATUS))
+		ContainerGroupIdentity_Type_STATUS_None,
+		ContainerGroupIdentity_Type_STATUS_SystemAssigned,
+		ContainerGroupIdentity_Type_STATUS_SystemAssignedUserAssigned,
+		ContainerGroupIdentity_Type_STATUS_UserAssigned))
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUSARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ContainerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
-func Test_Container_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Container_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Container_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainer_STATUSARM, Container_STATUSARMGenerator()))
+		"Round trip of Container_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainer_STATUS_ARM, Container_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainer_STATUSARM runs a test to see if a specific instance of Container_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainer_STATUSARM(subject Container_STATUSARM) string {
+// RunJSONSerializationTestForContainer_STATUS_ARM runs a test to see if a specific instance of Container_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainer_STATUS_ARM(subject Container_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -287,7 +287,7 @@ func RunJSONSerializationTestForContainer_STATUSARM(subject Container_STATUSARM)
 	}
 
 	// Deserialize back into memory
-	var actual Container_STATUSARM
+	var actual Container_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -305,56 +305,56 @@ func RunJSONSerializationTestForContainer_STATUSARM(subject Container_STATUSARM)
 	return ""
 }
 
-// Generator of Container_STATUSARM instances for property testing - lazily instantiated by
-// Container_STATUSARMGenerator()
-var container_STATUSARMGenerator gopter.Gen
+// Generator of Container_STATUS_ARM instances for property testing - lazily instantiated by
+// Container_STATUS_ARMGenerator()
+var container_STATUS_ARMGenerator gopter.Gen
 
-// Container_STATUSARMGenerator returns a generator of Container_STATUSARM instances for property testing.
-// We first initialize container_STATUSARMGenerator with a simplified generator based on the
+// Container_STATUS_ARMGenerator returns a generator of Container_STATUS_ARM instances for property testing.
+// We first initialize container_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Container_STATUSARMGenerator() gopter.Gen {
-	if container_STATUSARMGenerator != nil {
-		return container_STATUSARMGenerator
+func Container_STATUS_ARMGenerator() gopter.Gen {
+	if container_STATUS_ARMGenerator != nil {
+		return container_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainer_STATUSARM(generators)
-	container_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Container_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainer_STATUS_ARM(generators)
+	container_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Container_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainer_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainer_STATUSARM(generators)
-	container_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Container_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainer_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainer_STATUS_ARM(generators)
+	container_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Container_STATUS_ARM{}), generators)
 
-	return container_STATUSARMGenerator
+	return container_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainer_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainer_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainer_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainer_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainer_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainer_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ContainerProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainer_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainer_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ContainerProperties_STATUS_ARMGenerator())
 }
 
-func Test_ContainerGroup_Properties_InstanceView_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroup_Properties_InstanceView_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_Properties_InstanceView_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUSARM, ContainerGroup_Properties_InstanceView_STATUSARMGenerator()))
+		"Round trip of ContainerGroup_Properties_InstanceView_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUS_ARM, ContainerGroup_Properties_InstanceView_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUSARM runs a test to see if a specific instance of ContainerGroup_Properties_InstanceView_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUSARM(subject ContainerGroup_Properties_InstanceView_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUS_ARM runs a test to see if a specific instance of ContainerGroup_Properties_InstanceView_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUS_ARM(subject ContainerGroup_Properties_InstanceView_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -362,7 +362,7 @@ func RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUSARM
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_Properties_InstanceView_STATUSARM
+	var actual ContainerGroup_Properties_InstanceView_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -380,56 +380,56 @@ func RunJSONSerializationTestForContainerGroup_Properties_InstanceView_STATUSARM
 	return ""
 }
 
-// Generator of ContainerGroup_Properties_InstanceView_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroup_Properties_InstanceView_STATUSARMGenerator()
-var containerGroup_Properties_InstanceView_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroup_Properties_InstanceView_STATUS_ARM instances for property testing - lazily instantiated
+// by ContainerGroup_Properties_InstanceView_STATUS_ARMGenerator()
+var containerGroup_Properties_InstanceView_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroup_Properties_InstanceView_STATUSARMGenerator returns a generator of ContainerGroup_Properties_InstanceView_STATUSARM instances for property testing.
-// We first initialize containerGroup_Properties_InstanceView_STATUSARMGenerator with a simplified generator based on the
+// ContainerGroup_Properties_InstanceView_STATUS_ARMGenerator returns a generator of ContainerGroup_Properties_InstanceView_STATUS_ARM instances for property testing.
+// We first initialize containerGroup_Properties_InstanceView_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_InstanceView_STATUSARMGenerator() gopter.Gen {
-	if containerGroup_Properties_InstanceView_STATUSARMGenerator != nil {
-		return containerGroup_Properties_InstanceView_STATUSARMGenerator
+func ContainerGroup_Properties_InstanceView_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroup_Properties_InstanceView_STATUS_ARMGenerator != nil {
+		return containerGroup_Properties_InstanceView_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM(generators)
-	containerGroup_Properties_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM(generators)
+	containerGroup_Properties_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InstanceView_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM(generators)
-	containerGroup_Properties_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM(generators)
+	containerGroup_Properties_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InstanceView_STATUS_ARM{}), generators)
 
-	return containerGroup_Properties_InstanceView_STATUSARMGenerator
+	return containerGroup_Properties_InstanceView_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Events"] = gen.SliceOf(Event_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroup_Properties_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Events"] = gen.SliceOf(Event_STATUS_ARMGenerator())
 }
 
-func Test_ContainerGroupDiagnostics_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroupDiagnostics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroupDiagnostics_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroupDiagnostics_STATUSARM, ContainerGroupDiagnostics_STATUSARMGenerator()))
+		"Round trip of ContainerGroupDiagnostics_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupDiagnostics_STATUS_ARM, ContainerGroupDiagnostics_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroupDiagnostics_STATUSARM runs a test to see if a specific instance of ContainerGroupDiagnostics_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroupDiagnostics_STATUSARM(subject ContainerGroupDiagnostics_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroupDiagnostics_STATUS_ARM runs a test to see if a specific instance of ContainerGroupDiagnostics_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupDiagnostics_STATUS_ARM(subject ContainerGroupDiagnostics_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -437,7 +437,7 @@ func RunJSONSerializationTestForContainerGroupDiagnostics_STATUSARM(subject Cont
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroupDiagnostics_STATUSARM
+	var actual ContainerGroupDiagnostics_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -455,42 +455,42 @@ func RunJSONSerializationTestForContainerGroupDiagnostics_STATUSARM(subject Cont
 	return ""
 }
 
-// Generator of ContainerGroupDiagnostics_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroupDiagnostics_STATUSARMGenerator()
-var containerGroupDiagnostics_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroupDiagnostics_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerGroupDiagnostics_STATUS_ARMGenerator()
+var containerGroupDiagnostics_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroupDiagnostics_STATUSARMGenerator returns a generator of ContainerGroupDiagnostics_STATUSARM instances for property testing.
-func ContainerGroupDiagnostics_STATUSARMGenerator() gopter.Gen {
-	if containerGroupDiagnostics_STATUSARMGenerator != nil {
-		return containerGroupDiagnostics_STATUSARMGenerator
+// ContainerGroupDiagnostics_STATUS_ARMGenerator returns a generator of ContainerGroupDiagnostics_STATUS_ARM instances for property testing.
+func ContainerGroupDiagnostics_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroupDiagnostics_STATUS_ARMGenerator != nil {
+		return containerGroupDiagnostics_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUSARM(generators)
-	containerGroupDiagnostics_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupDiagnostics_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUS_ARM(generators)
+	containerGroupDiagnostics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupDiagnostics_STATUS_ARM{}), generators)
 
-	return containerGroupDiagnostics_STATUSARMGenerator
+	return containerGroupDiagnostics_STATUS_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUSARM(gens map[string]gopter.Gen) {
-	gens["LogAnalytics"] = gen.PtrOf(LogAnalytics_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["LogAnalytics"] = gen.PtrOf(LogAnalytics_STATUS_ARMGenerator())
 }
 
-func Test_ContainerGroupIdentity_UserAssignedIdentities_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroupIdentity_UserAssignedIdentities_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUSARM, ContainerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator()))
+		"Round trip of ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM, ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUSARM runs a test to see if a specific instance of ContainerGroupIdentity_UserAssignedIdentities_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUSARM(subject ContainerGroupIdentity_UserAssignedIdentities_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM runs a test to see if a specific instance of ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM(subject ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -498,7 +498,7 @@ func RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_ST
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroupIdentity_UserAssignedIdentities_STATUSARM
+	var actual ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -516,43 +516,43 @@ func RunJSONSerializationTestForContainerGroupIdentity_UserAssignedIdentities_ST
 	return ""
 }
 
-// Generator of ContainerGroupIdentity_UserAssignedIdentities_STATUSARM instances for property testing - lazily
-// instantiated by ContainerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator()
-var containerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing - lazily
+// instantiated by ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator()
+var containerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator returns a generator of ContainerGroupIdentity_UserAssignedIdentities_STATUSARM instances for property testing.
-func ContainerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator() gopter.Gen {
-	if containerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator != nil {
-		return containerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator
+// ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator returns a generator of ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing.
+func ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator != nil {
+		return containerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUSARM(generators)
-	containerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_UserAssignedIdentities_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM(generators)
+	containerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM{}), generators)
 
-	return containerGroupIdentity_UserAssignedIdentities_STATUSARMGenerator
+	return containerGroupIdentity_UserAssignedIdentities_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ContainerGroupSubnetId_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroupSubnetId_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroupSubnetId_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroupSubnetId_STATUSARM, ContainerGroupSubnetId_STATUSARMGenerator()))
+		"Round trip of ContainerGroupSubnetId_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupSubnetId_STATUS_ARM, ContainerGroupSubnetId_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroupSubnetId_STATUSARM runs a test to see if a specific instance of ContainerGroupSubnetId_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroupSubnetId_STATUSARM(subject ContainerGroupSubnetId_STATUSARM) string {
+// RunJSONSerializationTestForContainerGroupSubnetId_STATUS_ARM runs a test to see if a specific instance of ContainerGroupSubnetId_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupSubnetId_STATUS_ARM(subject ContainerGroupSubnetId_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -560,7 +560,7 @@ func RunJSONSerializationTestForContainerGroupSubnetId_STATUSARM(subject Contain
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroupSubnetId_STATUSARM
+	var actual ContainerGroupSubnetId_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -578,43 +578,43 @@ func RunJSONSerializationTestForContainerGroupSubnetId_STATUSARM(subject Contain
 	return ""
 }
 
-// Generator of ContainerGroupSubnetId_STATUSARM instances for property testing - lazily instantiated by
-// ContainerGroupSubnetId_STATUSARMGenerator()
-var containerGroupSubnetId_STATUSARMGenerator gopter.Gen
+// Generator of ContainerGroupSubnetId_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerGroupSubnetId_STATUS_ARMGenerator()
+var containerGroupSubnetId_STATUS_ARMGenerator gopter.Gen
 
-// ContainerGroupSubnetId_STATUSARMGenerator returns a generator of ContainerGroupSubnetId_STATUSARM instances for property testing.
-func ContainerGroupSubnetId_STATUSARMGenerator() gopter.Gen {
-	if containerGroupSubnetId_STATUSARMGenerator != nil {
-		return containerGroupSubnetId_STATUSARMGenerator
+// ContainerGroupSubnetId_STATUS_ARMGenerator returns a generator of ContainerGroupSubnetId_STATUS_ARM instances for property testing.
+func ContainerGroupSubnetId_STATUS_ARMGenerator() gopter.Gen {
+	if containerGroupSubnetId_STATUS_ARMGenerator != nil {
+		return containerGroupSubnetId_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUSARM(generators)
-	containerGroupSubnetId_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupSubnetId_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUS_ARM(generators)
+	containerGroupSubnetId_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupSubnetId_STATUS_ARM{}), generators)
 
-	return containerGroupSubnetId_STATUSARMGenerator
+	return containerGroupSubnetId_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroupSubnetId_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_DnsConfiguration_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsConfiguration_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsConfiguration_STATUSARM, DnsConfiguration_STATUSARMGenerator()))
+		"Round trip of DnsConfiguration_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsConfiguration_STATUS_ARM, DnsConfiguration_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsConfiguration_STATUSARM runs a test to see if a specific instance of DnsConfiguration_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsConfiguration_STATUSARM(subject DnsConfiguration_STATUSARM) string {
+// RunJSONSerializationTestForDnsConfiguration_STATUS_ARM runs a test to see if a specific instance of DnsConfiguration_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsConfiguration_STATUS_ARM(subject DnsConfiguration_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -622,7 +622,7 @@ func RunJSONSerializationTestForDnsConfiguration_STATUSARM(subject DnsConfigurat
 	}
 
 	// Deserialize back into memory
-	var actual DnsConfiguration_STATUSARM
+	var actual DnsConfiguration_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -640,44 +640,44 @@ func RunJSONSerializationTestForDnsConfiguration_STATUSARM(subject DnsConfigurat
 	return ""
 }
 
-// Generator of DnsConfiguration_STATUSARM instances for property testing - lazily instantiated by
-// DnsConfiguration_STATUSARMGenerator()
-var dnsConfiguration_STATUSARMGenerator gopter.Gen
+// Generator of DnsConfiguration_STATUS_ARM instances for property testing - lazily instantiated by
+// DnsConfiguration_STATUS_ARMGenerator()
+var dnsConfiguration_STATUS_ARMGenerator gopter.Gen
 
-// DnsConfiguration_STATUSARMGenerator returns a generator of DnsConfiguration_STATUSARM instances for property testing.
-func DnsConfiguration_STATUSARMGenerator() gopter.Gen {
-	if dnsConfiguration_STATUSARMGenerator != nil {
-		return dnsConfiguration_STATUSARMGenerator
+// DnsConfiguration_STATUS_ARMGenerator returns a generator of DnsConfiguration_STATUS_ARM instances for property testing.
+func DnsConfiguration_STATUS_ARMGenerator() gopter.Gen {
+	if dnsConfiguration_STATUS_ARMGenerator != nil {
+		return dnsConfiguration_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsConfiguration_STATUSARM(generators)
-	dnsConfiguration_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DnsConfiguration_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsConfiguration_STATUS_ARM(generators)
+	dnsConfiguration_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsConfiguration_STATUS_ARM{}), generators)
 
-	return dnsConfiguration_STATUSARMGenerator
+	return dnsConfiguration_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsConfiguration_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsConfiguration_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsConfiguration_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["NameServers"] = gen.SliceOf(gen.AlphaString())
 	gens["Options"] = gen.PtrOf(gen.AlphaString())
 	gens["SearchDomains"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_EncryptionProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EncryptionProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EncryptionProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryptionProperties_STATUSARM, EncryptionProperties_STATUSARMGenerator()))
+		"Round trip of EncryptionProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryptionProperties_STATUS_ARM, EncryptionProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEncryptionProperties_STATUSARM runs a test to see if a specific instance of EncryptionProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryptionProperties_STATUSARM(subject EncryptionProperties_STATUSARM) string {
+// RunJSONSerializationTestForEncryptionProperties_STATUS_ARM runs a test to see if a specific instance of EncryptionProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryptionProperties_STATUS_ARM(subject EncryptionProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -685,7 +685,7 @@ func RunJSONSerializationTestForEncryptionProperties_STATUSARM(subject Encryptio
 	}
 
 	// Deserialize back into memory
-	var actual EncryptionProperties_STATUSARM
+	var actual EncryptionProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -703,44 +703,44 @@ func RunJSONSerializationTestForEncryptionProperties_STATUSARM(subject Encryptio
 	return ""
 }
 
-// Generator of EncryptionProperties_STATUSARM instances for property testing - lazily instantiated by
-// EncryptionProperties_STATUSARMGenerator()
-var encryptionProperties_STATUSARMGenerator gopter.Gen
+// Generator of EncryptionProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// EncryptionProperties_STATUS_ARMGenerator()
+var encryptionProperties_STATUS_ARMGenerator gopter.Gen
 
-// EncryptionProperties_STATUSARMGenerator returns a generator of EncryptionProperties_STATUSARM instances for property testing.
-func EncryptionProperties_STATUSARMGenerator() gopter.Gen {
-	if encryptionProperties_STATUSARMGenerator != nil {
-		return encryptionProperties_STATUSARMGenerator
+// EncryptionProperties_STATUS_ARMGenerator returns a generator of EncryptionProperties_STATUS_ARM instances for property testing.
+func EncryptionProperties_STATUS_ARMGenerator() gopter.Gen {
+	if encryptionProperties_STATUS_ARMGenerator != nil {
+		return encryptionProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionProperties_STATUSARM(generators)
-	encryptionProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(EncryptionProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM(generators)
+	encryptionProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EncryptionProperties_STATUS_ARM{}), generators)
 
-	return encryptionProperties_STATUSARMGenerator
+	return encryptionProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEncryptionProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultBaseUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ImageRegistryCredential_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageRegistryCredential_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageRegistryCredential_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageRegistryCredential_STATUSARM, ImageRegistryCredential_STATUSARMGenerator()))
+		"Round trip of ImageRegistryCredential_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageRegistryCredential_STATUS_ARM, ImageRegistryCredential_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageRegistryCredential_STATUSARM runs a test to see if a specific instance of ImageRegistryCredential_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageRegistryCredential_STATUSARM(subject ImageRegistryCredential_STATUSARM) string {
+// RunJSONSerializationTestForImageRegistryCredential_STATUS_ARM runs a test to see if a specific instance of ImageRegistryCredential_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageRegistryCredential_STATUS_ARM(subject ImageRegistryCredential_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -748,7 +748,7 @@ func RunJSONSerializationTestForImageRegistryCredential_STATUSARM(subject ImageR
 	}
 
 	// Deserialize back into memory
-	var actual ImageRegistryCredential_STATUSARM
+	var actual ImageRegistryCredential_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -766,45 +766,45 @@ func RunJSONSerializationTestForImageRegistryCredential_STATUSARM(subject ImageR
 	return ""
 }
 
-// Generator of ImageRegistryCredential_STATUSARM instances for property testing - lazily instantiated by
-// ImageRegistryCredential_STATUSARMGenerator()
-var imageRegistryCredential_STATUSARMGenerator gopter.Gen
+// Generator of ImageRegistryCredential_STATUS_ARM instances for property testing - lazily instantiated by
+// ImageRegistryCredential_STATUS_ARMGenerator()
+var imageRegistryCredential_STATUS_ARMGenerator gopter.Gen
 
-// ImageRegistryCredential_STATUSARMGenerator returns a generator of ImageRegistryCredential_STATUSARM instances for property testing.
-func ImageRegistryCredential_STATUSARMGenerator() gopter.Gen {
-	if imageRegistryCredential_STATUSARMGenerator != nil {
-		return imageRegistryCredential_STATUSARMGenerator
+// ImageRegistryCredential_STATUS_ARMGenerator returns a generator of ImageRegistryCredential_STATUS_ARM instances for property testing.
+func ImageRegistryCredential_STATUS_ARMGenerator() gopter.Gen {
+	if imageRegistryCredential_STATUS_ARMGenerator != nil {
+		return imageRegistryCredential_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUSARM(generators)
-	imageRegistryCredential_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageRegistryCredential_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUS_ARM(generators)
+	imageRegistryCredential_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageRegistryCredential_STATUS_ARM{}), generators)
 
-	return imageRegistryCredential_STATUSARMGenerator
+	return imageRegistryCredential_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageRegistryCredential_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(gen.AlphaString())
 	gens["IdentityUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["Server"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_InitContainerDefinition_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InitContainerDefinition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of InitContainerDefinition_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInitContainerDefinition_STATUSARM, InitContainerDefinition_STATUSARMGenerator()))
+		"Round trip of InitContainerDefinition_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInitContainerDefinition_STATUS_ARM, InitContainerDefinition_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInitContainerDefinition_STATUSARM runs a test to see if a specific instance of InitContainerDefinition_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInitContainerDefinition_STATUSARM(subject InitContainerDefinition_STATUSARM) string {
+// RunJSONSerializationTestForInitContainerDefinition_STATUS_ARM runs a test to see if a specific instance of InitContainerDefinition_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInitContainerDefinition_STATUS_ARM(subject InitContainerDefinition_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -812,7 +812,7 @@ func RunJSONSerializationTestForInitContainerDefinition_STATUSARM(subject InitCo
 	}
 
 	// Deserialize back into memory
-	var actual InitContainerDefinition_STATUSARM
+	var actual InitContainerDefinition_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -830,56 +830,56 @@ func RunJSONSerializationTestForInitContainerDefinition_STATUSARM(subject InitCo
 	return ""
 }
 
-// Generator of InitContainerDefinition_STATUSARM instances for property testing - lazily instantiated by
-// InitContainerDefinition_STATUSARMGenerator()
-var initContainerDefinition_STATUSARMGenerator gopter.Gen
+// Generator of InitContainerDefinition_STATUS_ARM instances for property testing - lazily instantiated by
+// InitContainerDefinition_STATUS_ARMGenerator()
+var initContainerDefinition_STATUS_ARMGenerator gopter.Gen
 
-// InitContainerDefinition_STATUSARMGenerator returns a generator of InitContainerDefinition_STATUSARM instances for property testing.
-// We first initialize initContainerDefinition_STATUSARMGenerator with a simplified generator based on the
+// InitContainerDefinition_STATUS_ARMGenerator returns a generator of InitContainerDefinition_STATUS_ARM instances for property testing.
+// We first initialize initContainerDefinition_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InitContainerDefinition_STATUSARMGenerator() gopter.Gen {
-	if initContainerDefinition_STATUSARMGenerator != nil {
-		return initContainerDefinition_STATUSARMGenerator
+func InitContainerDefinition_STATUS_ARMGenerator() gopter.Gen {
+	if initContainerDefinition_STATUS_ARMGenerator != nil {
+		return initContainerDefinition_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUSARM(generators)
-	initContainerDefinition_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUS_ARM(generators)
+	initContainerDefinition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUSARM(generators)
-	initContainerDefinition_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUS_ARM(generators)
+	initContainerDefinition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_STATUS_ARM{}), generators)
 
-	return initContainerDefinition_STATUSARMGenerator
+	return initContainerDefinition_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInitContainerDefinition_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(InitContainerPropertiesDefinition_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInitContainerDefinition_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(InitContainerPropertiesDefinition_STATUS_ARMGenerator())
 }
 
-func Test_IpAddress_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_IpAddress_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IpAddress_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIpAddress_STATUSARM, IpAddress_STATUSARMGenerator()))
+		"Round trip of IpAddress_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIpAddress_STATUS_ARM, IpAddress_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIpAddress_STATUSARM runs a test to see if a specific instance of IpAddress_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIpAddress_STATUSARM(subject IpAddress_STATUSARM) string {
+// RunJSONSerializationTestForIpAddress_STATUS_ARM runs a test to see if a specific instance of IpAddress_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIpAddress_STATUS_ARM(subject IpAddress_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -887,7 +887,7 @@ func RunJSONSerializationTestForIpAddress_STATUSARM(subject IpAddress_STATUSARM)
 	}
 
 	// Deserialize back into memory
-	var actual IpAddress_STATUSARM
+	var actual IpAddress_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -905,65 +905,65 @@ func RunJSONSerializationTestForIpAddress_STATUSARM(subject IpAddress_STATUSARM)
 	return ""
 }
 
-// Generator of IpAddress_STATUSARM instances for property testing - lazily instantiated by
-// IpAddress_STATUSARMGenerator()
-var ipAddress_STATUSARMGenerator gopter.Gen
+// Generator of IpAddress_STATUS_ARM instances for property testing - lazily instantiated by
+// IpAddress_STATUS_ARMGenerator()
+var ipAddress_STATUS_ARMGenerator gopter.Gen
 
-// IpAddress_STATUSARMGenerator returns a generator of IpAddress_STATUSARM instances for property testing.
-// We first initialize ipAddress_STATUSARMGenerator with a simplified generator based on the
+// IpAddress_STATUS_ARMGenerator returns a generator of IpAddress_STATUS_ARM instances for property testing.
+// We first initialize ipAddress_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IpAddress_STATUSARMGenerator() gopter.Gen {
-	if ipAddress_STATUSARMGenerator != nil {
-		return ipAddress_STATUSARMGenerator
+func IpAddress_STATUS_ARMGenerator() gopter.Gen {
+	if ipAddress_STATUS_ARMGenerator != nil {
+		return ipAddress_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIpAddress_STATUSARM(generators)
-	ipAddress_STATUSARMGenerator = gen.Struct(reflect.TypeOf(IpAddress_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForIpAddress_STATUS_ARM(generators)
+	ipAddress_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IpAddress_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIpAddress_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForIpAddress_STATUSARM(generators)
-	ipAddress_STATUSARMGenerator = gen.Struct(reflect.TypeOf(IpAddress_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForIpAddress_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForIpAddress_STATUS_ARM(generators)
+	ipAddress_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(IpAddress_STATUS_ARM{}), generators)
 
-	return ipAddress_STATUSARMGenerator
+	return ipAddress_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIpAddress_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIpAddress_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIpAddress_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIpAddress_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DnsNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["DnsNameLabelReusePolicy"] = gen.PtrOf(gen.OneConstOf(
-		IpAddress_DnsNameLabelReusePolicy_Noreuse_STATUS,
-		IpAddress_DnsNameLabelReusePolicy_ResourceGroupReuse_STATUS,
-		IpAddress_DnsNameLabelReusePolicy_SubscriptionReuse_STATUS,
-		IpAddress_DnsNameLabelReusePolicy_TenantReuse_STATUS,
-		IpAddress_DnsNameLabelReusePolicy_Unsecure_STATUS))
+		IpAddress_DnsNameLabelReusePolicy_STATUS_Noreuse,
+		IpAddress_DnsNameLabelReusePolicy_STATUS_ResourceGroupReuse,
+		IpAddress_DnsNameLabelReusePolicy_STATUS_SubscriptionReuse,
+		IpAddress_DnsNameLabelReusePolicy_STATUS_TenantReuse,
+		IpAddress_DnsNameLabelReusePolicy_STATUS_Unsecure))
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Ip"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddress_Type_Private_STATUS, IpAddress_Type_Public_STATUS))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddress_Type_STATUS_Private, IpAddress_Type_STATUS_Public))
 }
 
-// AddRelatedPropertyGeneratorsForIpAddress_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIpAddress_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Ports"] = gen.SliceOf(Port_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForIpAddress_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIpAddress_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Ports"] = gen.SliceOf(Port_STATUS_ARMGenerator())
 }
 
-func Test_Volume_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Volume_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Volume_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVolume_STATUSARM, Volume_STATUSARMGenerator()))
+		"Round trip of Volume_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVolume_STATUS_ARM, Volume_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVolume_STATUSARM runs a test to see if a specific instance of Volume_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVolume_STATUSARM(subject Volume_STATUSARM) string {
+// RunJSONSerializationTestForVolume_STATUS_ARM runs a test to see if a specific instance of Volume_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVolume_STATUS_ARM(subject Volume_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -971,7 +971,7 @@ func RunJSONSerializationTestForVolume_STATUSARM(subject Volume_STATUSARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual Volume_STATUSARM
+	var actual Volume_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -989,57 +989,57 @@ func RunJSONSerializationTestForVolume_STATUSARM(subject Volume_STATUSARM) strin
 	return ""
 }
 
-// Generator of Volume_STATUSARM instances for property testing - lazily instantiated by Volume_STATUSARMGenerator()
-var volume_STATUSARMGenerator gopter.Gen
+// Generator of Volume_STATUS_ARM instances for property testing - lazily instantiated by Volume_STATUS_ARMGenerator()
+var volume_STATUS_ARMGenerator gopter.Gen
 
-// Volume_STATUSARMGenerator returns a generator of Volume_STATUSARM instances for property testing.
-// We first initialize volume_STATUSARMGenerator with a simplified generator based on the
+// Volume_STATUS_ARMGenerator returns a generator of Volume_STATUS_ARM instances for property testing.
+// We first initialize volume_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Volume_STATUSARMGenerator() gopter.Gen {
-	if volume_STATUSARMGenerator != nil {
-		return volume_STATUSARMGenerator
+func Volume_STATUS_ARMGenerator() gopter.Gen {
+	if volume_STATUS_ARMGenerator != nil {
+		return volume_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVolume_STATUSARM(generators)
-	volume_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Volume_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForVolume_STATUS_ARM(generators)
+	volume_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Volume_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVolume_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForVolume_STATUSARM(generators)
-	volume_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Volume_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForVolume_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForVolume_STATUS_ARM(generators)
+	volume_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Volume_STATUS_ARM{}), generators)
 
-	return volume_STATUSARMGenerator
+	return volume_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVolume_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVolume_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVolume_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVolume_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVolume_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVolume_STATUSARM(gens map[string]gopter.Gen) {
-	gens["AzureFile"] = gen.PtrOf(AzureFileVolume_STATUSARMGenerator())
-	gens["GitRepo"] = gen.PtrOf(GitRepoVolume_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForVolume_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVolume_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AzureFile"] = gen.PtrOf(AzureFileVolume_STATUS_ARMGenerator())
+	gens["GitRepo"] = gen.PtrOf(GitRepoVolume_STATUS_ARMGenerator())
 }
 
-func Test_AzureFileVolume_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AzureFileVolume_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AzureFileVolume_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureFileVolume_STATUSARM, AzureFileVolume_STATUSARMGenerator()))
+		"Round trip of AzureFileVolume_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureFileVolume_STATUS_ARM, AzureFileVolume_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAzureFileVolume_STATUSARM runs a test to see if a specific instance of AzureFileVolume_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureFileVolume_STATUSARM(subject AzureFileVolume_STATUSARM) string {
+// RunJSONSerializationTestForAzureFileVolume_STATUS_ARM runs a test to see if a specific instance of AzureFileVolume_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureFileVolume_STATUS_ARM(subject AzureFileVolume_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1047,7 +1047,7 @@ func RunJSONSerializationTestForAzureFileVolume_STATUSARM(subject AzureFileVolum
 	}
 
 	// Deserialize back into memory
-	var actual AzureFileVolume_STATUSARM
+	var actual AzureFileVolume_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1065,45 +1065,45 @@ func RunJSONSerializationTestForAzureFileVolume_STATUSARM(subject AzureFileVolum
 	return ""
 }
 
-// Generator of AzureFileVolume_STATUSARM instances for property testing - lazily instantiated by
-// AzureFileVolume_STATUSARMGenerator()
-var azureFileVolume_STATUSARMGenerator gopter.Gen
+// Generator of AzureFileVolume_STATUS_ARM instances for property testing - lazily instantiated by
+// AzureFileVolume_STATUS_ARMGenerator()
+var azureFileVolume_STATUS_ARMGenerator gopter.Gen
 
-// AzureFileVolume_STATUSARMGenerator returns a generator of AzureFileVolume_STATUSARM instances for property testing.
-func AzureFileVolume_STATUSARMGenerator() gopter.Gen {
-	if azureFileVolume_STATUSARMGenerator != nil {
-		return azureFileVolume_STATUSARMGenerator
+// AzureFileVolume_STATUS_ARMGenerator returns a generator of AzureFileVolume_STATUS_ARM instances for property testing.
+func AzureFileVolume_STATUS_ARMGenerator() gopter.Gen {
+	if azureFileVolume_STATUS_ARMGenerator != nil {
+		return azureFileVolume_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureFileVolume_STATUSARM(generators)
-	azureFileVolume_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AzureFileVolume_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAzureFileVolume_STATUS_ARM(generators)
+	azureFileVolume_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureFileVolume_STATUS_ARM{}), generators)
 
-	return azureFileVolume_STATUSARMGenerator
+	return azureFileVolume_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAzureFileVolume_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureFileVolume_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAzureFileVolume_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureFileVolume_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ReadOnly"] = gen.PtrOf(gen.Bool())
 	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountKey"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountName"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ContainerProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerProperties_STATUSARM, ContainerProperties_STATUSARMGenerator()))
+		"Round trip of ContainerProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerProperties_STATUS_ARM, ContainerProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerProperties_STATUSARM runs a test to see if a specific instance of ContainerProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerProperties_STATUSARM(subject ContainerProperties_STATUSARM) string {
+// RunJSONSerializationTestForContainerProperties_STATUS_ARM runs a test to see if a specific instance of ContainerProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerProperties_STATUS_ARM(subject ContainerProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1111,7 +1111,7 @@ func RunJSONSerializationTestForContainerProperties_STATUSARM(subject ContainerP
 	}
 
 	// Deserialize back into memory
-	var actual ContainerProperties_STATUSARM
+	var actual ContainerProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1129,63 +1129,63 @@ func RunJSONSerializationTestForContainerProperties_STATUSARM(subject ContainerP
 	return ""
 }
 
-// Generator of ContainerProperties_STATUSARM instances for property testing - lazily instantiated by
-// ContainerProperties_STATUSARMGenerator()
-var containerProperties_STATUSARMGenerator gopter.Gen
+// Generator of ContainerProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerProperties_STATUS_ARMGenerator()
+var containerProperties_STATUS_ARMGenerator gopter.Gen
 
-// ContainerProperties_STATUSARMGenerator returns a generator of ContainerProperties_STATUSARM instances for property testing.
-// We first initialize containerProperties_STATUSARMGenerator with a simplified generator based on the
+// ContainerProperties_STATUS_ARMGenerator returns a generator of ContainerProperties_STATUS_ARM instances for property testing.
+// We first initialize containerProperties_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerProperties_STATUSARMGenerator() gopter.Gen {
-	if containerProperties_STATUSARMGenerator != nil {
-		return containerProperties_STATUSARMGenerator
+func ContainerProperties_STATUS_ARMGenerator() gopter.Gen {
+	if containerProperties_STATUS_ARMGenerator != nil {
+		return containerProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProperties_STATUSARM(generators)
-	containerProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_STATUS_ARM(generators)
+	containerProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProperties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerProperties_STATUSARM(generators)
-	containerProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerProperties_STATUS_ARM(generators)
+	containerProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_STATUS_ARM{}), generators)
 
-	return containerProperties_STATUSARMGenerator
+	return containerProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Command"] = gen.SliceOf(gen.AlphaString())
 	gens["Image"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_STATUSARMGenerator())
-	gens["InstanceView"] = gen.PtrOf(ContainerProperties_InstanceView_STATUSARMGenerator())
-	gens["LivenessProbe"] = gen.PtrOf(ContainerProbe_STATUSARMGenerator())
-	gens["Ports"] = gen.SliceOf(ContainerPort_STATUSARMGenerator())
-	gens["ReadinessProbe"] = gen.PtrOf(ContainerProbe_STATUSARMGenerator())
-	gens["Resources"] = gen.PtrOf(ResourceRequirements_STATUSARMGenerator())
-	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_STATUS_ARMGenerator())
+	gens["InstanceView"] = gen.PtrOf(ContainerProperties_InstanceView_STATUS_ARMGenerator())
+	gens["LivenessProbe"] = gen.PtrOf(ContainerProbe_STATUS_ARMGenerator())
+	gens["Ports"] = gen.SliceOf(ContainerPort_STATUS_ARMGenerator())
+	gens["ReadinessProbe"] = gen.PtrOf(ContainerProbe_STATUS_ARMGenerator())
+	gens["Resources"] = gen.PtrOf(ResourceRequirements_STATUS_ARMGenerator())
+	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_STATUS_ARMGenerator())
 }
 
-func Test_Event_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Event_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Event_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEvent_STATUSARM, Event_STATUSARMGenerator()))
+		"Round trip of Event_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEvent_STATUS_ARM, Event_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEvent_STATUSARM runs a test to see if a specific instance of Event_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEvent_STATUSARM(subject Event_STATUSARM) string {
+// RunJSONSerializationTestForEvent_STATUS_ARM runs a test to see if a specific instance of Event_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEvent_STATUS_ARM(subject Event_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1193,7 +1193,7 @@ func RunJSONSerializationTestForEvent_STATUSARM(subject Event_STATUSARM) string 
 	}
 
 	// Deserialize back into memory
-	var actual Event_STATUSARM
+	var actual Event_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1211,24 +1211,24 @@ func RunJSONSerializationTestForEvent_STATUSARM(subject Event_STATUSARM) string 
 	return ""
 }
 
-// Generator of Event_STATUSARM instances for property testing - lazily instantiated by Event_STATUSARMGenerator()
-var event_STATUSARMGenerator gopter.Gen
+// Generator of Event_STATUS_ARM instances for property testing - lazily instantiated by Event_STATUS_ARMGenerator()
+var event_STATUS_ARMGenerator gopter.Gen
 
-// Event_STATUSARMGenerator returns a generator of Event_STATUSARM instances for property testing.
-func Event_STATUSARMGenerator() gopter.Gen {
-	if event_STATUSARMGenerator != nil {
-		return event_STATUSARMGenerator
+// Event_STATUS_ARMGenerator returns a generator of Event_STATUS_ARM instances for property testing.
+func Event_STATUS_ARMGenerator() gopter.Gen {
+	if event_STATUS_ARMGenerator != nil {
+		return event_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEvent_STATUSARM(generators)
-	event_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Event_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForEvent_STATUS_ARM(generators)
+	event_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Event_STATUS_ARM{}), generators)
 
-	return event_STATUSARMGenerator
+	return event_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEvent_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEvent_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEvent_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEvent_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["FirstTimestamp"] = gen.PtrOf(gen.AlphaString())
 	gens["LastTimestamp"] = gen.PtrOf(gen.AlphaString())
@@ -1237,20 +1237,20 @@ func AddIndependentPropertyGeneratorsForEvent_STATUSARM(gens map[string]gopter.G
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_GitRepoVolume_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_GitRepoVolume_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of GitRepoVolume_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGitRepoVolume_STATUSARM, GitRepoVolume_STATUSARMGenerator()))
+		"Round trip of GitRepoVolume_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForGitRepoVolume_STATUS_ARM, GitRepoVolume_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForGitRepoVolume_STATUSARM runs a test to see if a specific instance of GitRepoVolume_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForGitRepoVolume_STATUSARM(subject GitRepoVolume_STATUSARM) string {
+// RunJSONSerializationTestForGitRepoVolume_STATUS_ARM runs a test to see if a specific instance of GitRepoVolume_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForGitRepoVolume_STATUS_ARM(subject GitRepoVolume_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1258,7 +1258,7 @@ func RunJSONSerializationTestForGitRepoVolume_STATUSARM(subject GitRepoVolume_ST
 	}
 
 	// Deserialize back into memory
-	var actual GitRepoVolume_STATUSARM
+	var actual GitRepoVolume_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1276,44 +1276,44 @@ func RunJSONSerializationTestForGitRepoVolume_STATUSARM(subject GitRepoVolume_ST
 	return ""
 }
 
-// Generator of GitRepoVolume_STATUSARM instances for property testing - lazily instantiated by
-// GitRepoVolume_STATUSARMGenerator()
-var gitRepoVolume_STATUSARMGenerator gopter.Gen
+// Generator of GitRepoVolume_STATUS_ARM instances for property testing - lazily instantiated by
+// GitRepoVolume_STATUS_ARMGenerator()
+var gitRepoVolume_STATUS_ARMGenerator gopter.Gen
 
-// GitRepoVolume_STATUSARMGenerator returns a generator of GitRepoVolume_STATUSARM instances for property testing.
-func GitRepoVolume_STATUSARMGenerator() gopter.Gen {
-	if gitRepoVolume_STATUSARMGenerator != nil {
-		return gitRepoVolume_STATUSARMGenerator
+// GitRepoVolume_STATUS_ARMGenerator returns a generator of GitRepoVolume_STATUS_ARM instances for property testing.
+func GitRepoVolume_STATUS_ARMGenerator() gopter.Gen {
+	if gitRepoVolume_STATUS_ARMGenerator != nil {
+		return gitRepoVolume_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGitRepoVolume_STATUSARM(generators)
-	gitRepoVolume_STATUSARMGenerator = gen.Struct(reflect.TypeOf(GitRepoVolume_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForGitRepoVolume_STATUS_ARM(generators)
+	gitRepoVolume_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(GitRepoVolume_STATUS_ARM{}), generators)
 
-	return gitRepoVolume_STATUSARMGenerator
+	return gitRepoVolume_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForGitRepoVolume_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGitRepoVolume_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForGitRepoVolume_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForGitRepoVolume_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Directory"] = gen.PtrOf(gen.AlphaString())
 	gens["Repository"] = gen.PtrOf(gen.AlphaString())
 	gens["Revision"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_InitContainerPropertiesDefinition_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InitContainerPropertiesDefinition_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of InitContainerPropertiesDefinition_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUSARM, InitContainerPropertiesDefinition_STATUSARMGenerator()))
+		"Round trip of InitContainerPropertiesDefinition_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUS_ARM, InitContainerPropertiesDefinition_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUSARM runs a test to see if a specific instance of InitContainerPropertiesDefinition_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUSARM(subject InitContainerPropertiesDefinition_STATUSARM) string {
+// RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUS_ARM runs a test to see if a specific instance of InitContainerPropertiesDefinition_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUS_ARM(subject InitContainerPropertiesDefinition_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1321,7 +1321,7 @@ func RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUSARM(subj
 	}
 
 	// Deserialize back into memory
-	var actual InitContainerPropertiesDefinition_STATUSARM
+	var actual InitContainerPropertiesDefinition_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1339,59 +1339,59 @@ func RunJSONSerializationTestForInitContainerPropertiesDefinition_STATUSARM(subj
 	return ""
 }
 
-// Generator of InitContainerPropertiesDefinition_STATUSARM instances for property testing - lazily instantiated by
-// InitContainerPropertiesDefinition_STATUSARMGenerator()
-var initContainerPropertiesDefinition_STATUSARMGenerator gopter.Gen
+// Generator of InitContainerPropertiesDefinition_STATUS_ARM instances for property testing - lazily instantiated by
+// InitContainerPropertiesDefinition_STATUS_ARMGenerator()
+var initContainerPropertiesDefinition_STATUS_ARMGenerator gopter.Gen
 
-// InitContainerPropertiesDefinition_STATUSARMGenerator returns a generator of InitContainerPropertiesDefinition_STATUSARM instances for property testing.
-// We first initialize initContainerPropertiesDefinition_STATUSARMGenerator with a simplified generator based on the
+// InitContainerPropertiesDefinition_STATUS_ARMGenerator returns a generator of InitContainerPropertiesDefinition_STATUS_ARM instances for property testing.
+// We first initialize initContainerPropertiesDefinition_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InitContainerPropertiesDefinition_STATUSARMGenerator() gopter.Gen {
-	if initContainerPropertiesDefinition_STATUSARMGenerator != nil {
-		return initContainerPropertiesDefinition_STATUSARMGenerator
+func InitContainerPropertiesDefinition_STATUS_ARMGenerator() gopter.Gen {
+	if initContainerPropertiesDefinition_STATUS_ARMGenerator != nil {
+		return initContainerPropertiesDefinition_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM(generators)
-	initContainerPropertiesDefinition_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM(generators)
+	initContainerPropertiesDefinition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM(generators)
-	initContainerPropertiesDefinition_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM(generators)
+	initContainerPropertiesDefinition_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_STATUS_ARM{}), generators)
 
-	return initContainerPropertiesDefinition_STATUSARMGenerator
+	return initContainerPropertiesDefinition_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Command"] = gen.SliceOf(gen.AlphaString())
 	gens["Image"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUSARM(gens map[string]gopter.Gen) {
-	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_STATUSARMGenerator())
-	gens["InstanceView"] = gen.PtrOf(InitContainerPropertiesDefinition_InstanceView_STATUSARMGenerator())
-	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_STATUS_ARMGenerator())
+	gens["InstanceView"] = gen.PtrOf(InitContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator())
+	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_STATUS_ARMGenerator())
 }
 
-func Test_LogAnalytics_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_LogAnalytics_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LogAnalytics_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogAnalytics_STATUSARM, LogAnalytics_STATUSARMGenerator()))
+		"Round trip of LogAnalytics_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLogAnalytics_STATUS_ARM, LogAnalytics_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLogAnalytics_STATUSARM runs a test to see if a specific instance of LogAnalytics_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogAnalytics_STATUSARM(subject LogAnalytics_STATUSARM) string {
+// RunJSONSerializationTestForLogAnalytics_STATUS_ARM runs a test to see if a specific instance of LogAnalytics_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLogAnalytics_STATUS_ARM(subject LogAnalytics_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1399,7 +1399,7 @@ func RunJSONSerializationTestForLogAnalytics_STATUSARM(subject LogAnalytics_STAT
 	}
 
 	// Deserialize back into memory
-	var actual LogAnalytics_STATUSARM
+	var actual LogAnalytics_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1417,46 +1417,46 @@ func RunJSONSerializationTestForLogAnalytics_STATUSARM(subject LogAnalytics_STAT
 	return ""
 }
 
-// Generator of LogAnalytics_STATUSARM instances for property testing - lazily instantiated by
-// LogAnalytics_STATUSARMGenerator()
-var logAnalytics_STATUSARMGenerator gopter.Gen
+// Generator of LogAnalytics_STATUS_ARM instances for property testing - lazily instantiated by
+// LogAnalytics_STATUS_ARMGenerator()
+var logAnalytics_STATUS_ARMGenerator gopter.Gen
 
-// LogAnalytics_STATUSARMGenerator returns a generator of LogAnalytics_STATUSARM instances for property testing.
-func LogAnalytics_STATUSARMGenerator() gopter.Gen {
-	if logAnalytics_STATUSARMGenerator != nil {
-		return logAnalytics_STATUSARMGenerator
+// LogAnalytics_STATUS_ARMGenerator returns a generator of LogAnalytics_STATUS_ARM instances for property testing.
+func LogAnalytics_STATUS_ARMGenerator() gopter.Gen {
+	if logAnalytics_STATUS_ARMGenerator != nil {
+		return logAnalytics_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogAnalytics_STATUSARM(generators)
-	logAnalytics_STATUSARMGenerator = gen.Struct(reflect.TypeOf(LogAnalytics_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForLogAnalytics_STATUS_ARM(generators)
+	logAnalytics_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(LogAnalytics_STATUS_ARM{}), generators)
 
-	return logAnalytics_STATUSARMGenerator
+	return logAnalytics_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLogAnalytics_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogAnalytics_STATUSARM(gens map[string]gopter.Gen) {
-	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_ContainerInsights_STATUS, LogAnalytics_LogType_ContainerInstanceLogs_STATUS))
+// AddIndependentPropertyGeneratorsForLogAnalytics_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLogAnalytics_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_STATUS_ContainerInsights, LogAnalytics_LogType_STATUS_ContainerInstanceLogs))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Port_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Port_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Port_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPort_STATUSARM, Port_STATUSARMGenerator()))
+		"Round trip of Port_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPort_STATUS_ARM, Port_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPort_STATUSARM runs a test to see if a specific instance of Port_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPort_STATUSARM(subject Port_STATUSARM) string {
+// RunJSONSerializationTestForPort_STATUS_ARM runs a test to see if a specific instance of Port_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPort_STATUS_ARM(subject Port_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1464,7 +1464,7 @@ func RunJSONSerializationTestForPort_STATUSARM(subject Port_STATUSARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual Port_STATUSARM
+	var actual Port_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1482,42 +1482,42 @@ func RunJSONSerializationTestForPort_STATUSARM(subject Port_STATUSARM) string {
 	return ""
 }
 
-// Generator of Port_STATUSARM instances for property testing - lazily instantiated by Port_STATUSARMGenerator()
-var port_STATUSARMGenerator gopter.Gen
+// Generator of Port_STATUS_ARM instances for property testing - lazily instantiated by Port_STATUS_ARMGenerator()
+var port_STATUS_ARMGenerator gopter.Gen
 
-// Port_STATUSARMGenerator returns a generator of Port_STATUSARM instances for property testing.
-func Port_STATUSARMGenerator() gopter.Gen {
-	if port_STATUSARMGenerator != nil {
-		return port_STATUSARMGenerator
+// Port_STATUS_ARMGenerator returns a generator of Port_STATUS_ARM instances for property testing.
+func Port_STATUS_ARMGenerator() gopter.Gen {
+	if port_STATUS_ARMGenerator != nil {
+		return port_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPort_STATUSARM(generators)
-	port_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Port_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPort_STATUS_ARM(generators)
+	port_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Port_STATUS_ARM{}), generators)
 
-	return port_STATUSARMGenerator
+	return port_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPort_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPort_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPort_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPort_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(Port_Protocol_TCP_STATUS, Port_Protocol_UDP_STATUS))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(Port_Protocol_STATUS_TCP, Port_Protocol_STATUS_UDP))
 }
 
-func Test_ContainerPort_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerPort_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerPort_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerPort_STATUSARM, ContainerPort_STATUSARMGenerator()))
+		"Round trip of ContainerPort_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerPort_STATUS_ARM, ContainerPort_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerPort_STATUSARM runs a test to see if a specific instance of ContainerPort_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerPort_STATUSARM(subject ContainerPort_STATUSARM) string {
+// RunJSONSerializationTestForContainerPort_STATUS_ARM runs a test to see if a specific instance of ContainerPort_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerPort_STATUS_ARM(subject ContainerPort_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1525,7 +1525,7 @@ func RunJSONSerializationTestForContainerPort_STATUSARM(subject ContainerPort_ST
 	}
 
 	// Deserialize back into memory
-	var actual ContainerPort_STATUSARM
+	var actual ContainerPort_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1543,43 +1543,43 @@ func RunJSONSerializationTestForContainerPort_STATUSARM(subject ContainerPort_ST
 	return ""
 }
 
-// Generator of ContainerPort_STATUSARM instances for property testing - lazily instantiated by
-// ContainerPort_STATUSARMGenerator()
-var containerPort_STATUSARMGenerator gopter.Gen
+// Generator of ContainerPort_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerPort_STATUS_ARMGenerator()
+var containerPort_STATUS_ARMGenerator gopter.Gen
 
-// ContainerPort_STATUSARMGenerator returns a generator of ContainerPort_STATUSARM instances for property testing.
-func ContainerPort_STATUSARMGenerator() gopter.Gen {
-	if containerPort_STATUSARMGenerator != nil {
-		return containerPort_STATUSARMGenerator
+// ContainerPort_STATUS_ARMGenerator returns a generator of ContainerPort_STATUS_ARM instances for property testing.
+func ContainerPort_STATUS_ARMGenerator() gopter.Gen {
+	if containerPort_STATUS_ARMGenerator != nil {
+		return containerPort_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerPort_STATUSARM(generators)
-	containerPort_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerPort_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerPort_STATUS_ARM(generators)
+	containerPort_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerPort_STATUS_ARM{}), generators)
 
-	return containerPort_STATUSARMGenerator
+	return containerPort_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerPort_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerPort_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerPort_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerPort_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPort_Protocol_TCP_STATUS, ContainerPort_Protocol_UDP_STATUS))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPort_Protocol_STATUS_TCP, ContainerPort_Protocol_STATUS_UDP))
 }
 
-func Test_ContainerProbe_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerProbe_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerProbe_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerProbe_STATUSARM, ContainerProbe_STATUSARMGenerator()))
+		"Round trip of ContainerProbe_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerProbe_STATUS_ARM, ContainerProbe_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerProbe_STATUSARM runs a test to see if a specific instance of ContainerProbe_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerProbe_STATUSARM(subject ContainerProbe_STATUSARM) string {
+// RunJSONSerializationTestForContainerProbe_STATUS_ARM runs a test to see if a specific instance of ContainerProbe_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerProbe_STATUS_ARM(subject ContainerProbe_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1587,7 +1587,7 @@ func RunJSONSerializationTestForContainerProbe_STATUSARM(subject ContainerProbe_
 	}
 
 	// Deserialize back into memory
-	var actual ContainerProbe_STATUSARM
+	var actual ContainerProbe_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1605,34 +1605,34 @@ func RunJSONSerializationTestForContainerProbe_STATUSARM(subject ContainerProbe_
 	return ""
 }
 
-// Generator of ContainerProbe_STATUSARM instances for property testing - lazily instantiated by
-// ContainerProbe_STATUSARMGenerator()
-var containerProbe_STATUSARMGenerator gopter.Gen
+// Generator of ContainerProbe_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerProbe_STATUS_ARMGenerator()
+var containerProbe_STATUS_ARMGenerator gopter.Gen
 
-// ContainerProbe_STATUSARMGenerator returns a generator of ContainerProbe_STATUSARM instances for property testing.
-// We first initialize containerProbe_STATUSARMGenerator with a simplified generator based on the
+// ContainerProbe_STATUS_ARMGenerator returns a generator of ContainerProbe_STATUS_ARM instances for property testing.
+// We first initialize containerProbe_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerProbe_STATUSARMGenerator() gopter.Gen {
-	if containerProbe_STATUSARMGenerator != nil {
-		return containerProbe_STATUSARMGenerator
+func ContainerProbe_STATUS_ARMGenerator() gopter.Gen {
+	if containerProbe_STATUS_ARMGenerator != nil {
+		return containerProbe_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProbe_STATUSARM(generators)
-	containerProbe_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProbe_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProbe_STATUS_ARM(generators)
+	containerProbe_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProbe_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProbe_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerProbe_STATUSARM(generators)
-	containerProbe_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProbe_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProbe_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerProbe_STATUS_ARM(generators)
+	containerProbe_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProbe_STATUS_ARM{}), generators)
 
-	return containerProbe_STATUSARMGenerator
+	return containerProbe_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerProbe_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerProbe_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerProbe_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerProbe_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["FailureThreshold"] = gen.PtrOf(gen.Int())
 	gens["InitialDelaySeconds"] = gen.PtrOf(gen.Int())
 	gens["PeriodSeconds"] = gen.PtrOf(gen.Int())
@@ -1640,26 +1640,26 @@ func AddIndependentPropertyGeneratorsForContainerProbe_STATUSARM(gens map[string
 	gens["TimeoutSeconds"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForContainerProbe_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerProbe_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Exec"] = gen.PtrOf(ContainerExec_STATUSARMGenerator())
-	gens["HttpGet"] = gen.PtrOf(ContainerHttpGet_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerProbe_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerProbe_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Exec"] = gen.PtrOf(ContainerExec_STATUS_ARMGenerator())
+	gens["HttpGet"] = gen.PtrOf(ContainerHttpGet_STATUS_ARMGenerator())
 }
 
-func Test_ContainerProperties_InstanceView_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerProperties_InstanceView_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerProperties_InstanceView_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerProperties_InstanceView_STATUSARM, ContainerProperties_InstanceView_STATUSARMGenerator()))
+		"Round trip of ContainerProperties_InstanceView_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerProperties_InstanceView_STATUS_ARM, ContainerProperties_InstanceView_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerProperties_InstanceView_STATUSARM runs a test to see if a specific instance of ContainerProperties_InstanceView_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerProperties_InstanceView_STATUSARM(subject ContainerProperties_InstanceView_STATUSARM) string {
+// RunJSONSerializationTestForContainerProperties_InstanceView_STATUS_ARM runs a test to see if a specific instance of ContainerProperties_InstanceView_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerProperties_InstanceView_STATUS_ARM(subject ContainerProperties_InstanceView_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1667,7 +1667,7 @@ func RunJSONSerializationTestForContainerProperties_InstanceView_STATUSARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual ContainerProperties_InstanceView_STATUSARM
+	var actual ContainerProperties_InstanceView_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1685,58 +1685,58 @@ func RunJSONSerializationTestForContainerProperties_InstanceView_STATUSARM(subje
 	return ""
 }
 
-// Generator of ContainerProperties_InstanceView_STATUSARM instances for property testing - lazily instantiated by
-// ContainerProperties_InstanceView_STATUSARMGenerator()
-var containerProperties_InstanceView_STATUSARMGenerator gopter.Gen
+// Generator of ContainerProperties_InstanceView_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerProperties_InstanceView_STATUS_ARMGenerator()
+var containerProperties_InstanceView_STATUS_ARMGenerator gopter.Gen
 
-// ContainerProperties_InstanceView_STATUSARMGenerator returns a generator of ContainerProperties_InstanceView_STATUSARM instances for property testing.
-// We first initialize containerProperties_InstanceView_STATUSARMGenerator with a simplified generator based on the
+// ContainerProperties_InstanceView_STATUS_ARMGenerator returns a generator of ContainerProperties_InstanceView_STATUS_ARM instances for property testing.
+// We first initialize containerProperties_InstanceView_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerProperties_InstanceView_STATUSARMGenerator() gopter.Gen {
-	if containerProperties_InstanceView_STATUSARMGenerator != nil {
-		return containerProperties_InstanceView_STATUSARMGenerator
+func ContainerProperties_InstanceView_STATUS_ARMGenerator() gopter.Gen {
+	if containerProperties_InstanceView_STATUS_ARMGenerator != nil {
+		return containerProperties_InstanceView_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM(generators)
-	containerProperties_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM(generators)
+	containerProperties_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_InstanceView_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM(generators)
-	containerProperties_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM(generators)
+	containerProperties_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_InstanceView_STATUS_ARM{}), generators)
 
-	return containerProperties_InstanceView_STATUSARMGenerator
+	return containerProperties_InstanceView_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["RestartCount"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CurrentState"] = gen.PtrOf(ContainerState_STATUSARMGenerator())
-	gens["Events"] = gen.SliceOf(Event_STATUSARMGenerator())
-	gens["PreviousState"] = gen.PtrOf(ContainerState_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerProperties_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CurrentState"] = gen.PtrOf(ContainerState_STATUS_ARMGenerator())
+	gens["Events"] = gen.SliceOf(Event_STATUS_ARMGenerator())
+	gens["PreviousState"] = gen.PtrOf(ContainerState_STATUS_ARMGenerator())
 }
 
-func Test_EnvironmentVariable_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EnvironmentVariable_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EnvironmentVariable_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEnvironmentVariable_STATUSARM, EnvironmentVariable_STATUSARMGenerator()))
+		"Round trip of EnvironmentVariable_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEnvironmentVariable_STATUS_ARM, EnvironmentVariable_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEnvironmentVariable_STATUSARM runs a test to see if a specific instance of EnvironmentVariable_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEnvironmentVariable_STATUSARM(subject EnvironmentVariable_STATUSARM) string {
+// RunJSONSerializationTestForEnvironmentVariable_STATUS_ARM runs a test to see if a specific instance of EnvironmentVariable_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEnvironmentVariable_STATUS_ARM(subject EnvironmentVariable_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1744,7 +1744,7 @@ func RunJSONSerializationTestForEnvironmentVariable_STATUSARM(subject Environmen
 	}
 
 	// Deserialize back into memory
-	var actual EnvironmentVariable_STATUSARM
+	var actual EnvironmentVariable_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1762,44 +1762,44 @@ func RunJSONSerializationTestForEnvironmentVariable_STATUSARM(subject Environmen
 	return ""
 }
 
-// Generator of EnvironmentVariable_STATUSARM instances for property testing - lazily instantiated by
-// EnvironmentVariable_STATUSARMGenerator()
-var environmentVariable_STATUSARMGenerator gopter.Gen
+// Generator of EnvironmentVariable_STATUS_ARM instances for property testing - lazily instantiated by
+// EnvironmentVariable_STATUS_ARMGenerator()
+var environmentVariable_STATUS_ARMGenerator gopter.Gen
 
-// EnvironmentVariable_STATUSARMGenerator returns a generator of EnvironmentVariable_STATUSARM instances for property testing.
-func EnvironmentVariable_STATUSARMGenerator() gopter.Gen {
-	if environmentVariable_STATUSARMGenerator != nil {
-		return environmentVariable_STATUSARMGenerator
+// EnvironmentVariable_STATUS_ARMGenerator returns a generator of EnvironmentVariable_STATUS_ARM instances for property testing.
+func EnvironmentVariable_STATUS_ARMGenerator() gopter.Gen {
+	if environmentVariable_STATUS_ARMGenerator != nil {
+		return environmentVariable_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUSARM(generators)
-	environmentVariable_STATUSARMGenerator = gen.Struct(reflect.TypeOf(EnvironmentVariable_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUS_ARM(generators)
+	environmentVariable_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EnvironmentVariable_STATUS_ARM{}), generators)
 
-	return environmentVariable_STATUSARMGenerator
+	return environmentVariable_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEnvironmentVariable_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SecureValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_InitContainerPropertiesDefinition_InstanceView_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InitContainerPropertiesDefinition_InstanceView_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of InitContainerPropertiesDefinition_InstanceView_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUSARM, InitContainerPropertiesDefinition_InstanceView_STATUSARMGenerator()))
+		"Round trip of InitContainerPropertiesDefinition_InstanceView_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM, InitContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUSARM runs a test to see if a specific instance of InitContainerPropertiesDefinition_InstanceView_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUSARM(subject InitContainerPropertiesDefinition_InstanceView_STATUSARM) string {
+// RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM runs a test to see if a specific instance of InitContainerPropertiesDefinition_InstanceView_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(subject InitContainerPropertiesDefinition_InstanceView_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1807,7 +1807,7 @@ func RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_S
 	}
 
 	// Deserialize back into memory
-	var actual InitContainerPropertiesDefinition_InstanceView_STATUSARM
+	var actual InitContainerPropertiesDefinition_InstanceView_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1825,58 +1825,58 @@ func RunJSONSerializationTestForInitContainerPropertiesDefinition_InstanceView_S
 	return ""
 }
 
-// Generator of InitContainerPropertiesDefinition_InstanceView_STATUSARM instances for property testing - lazily
-// instantiated by InitContainerPropertiesDefinition_InstanceView_STATUSARMGenerator()
-var initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator gopter.Gen
+// Generator of InitContainerPropertiesDefinition_InstanceView_STATUS_ARM instances for property testing - lazily
+// instantiated by InitContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator()
+var initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator gopter.Gen
 
-// InitContainerPropertiesDefinition_InstanceView_STATUSARMGenerator returns a generator of InitContainerPropertiesDefinition_InstanceView_STATUSARM instances for property testing.
-// We first initialize initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator with a simplified generator based on the
+// InitContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator returns a generator of InitContainerPropertiesDefinition_InstanceView_STATUS_ARM instances for property testing.
+// We first initialize initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InitContainerPropertiesDefinition_InstanceView_STATUSARMGenerator() gopter.Gen {
-	if initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator != nil {
-		return initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator
+func InitContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator() gopter.Gen {
+	if initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator != nil {
+		return initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM(generators)
-	initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(generators)
+	initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_InstanceView_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM(generators)
-	initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_InstanceView_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(generators)
+	initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_InstanceView_STATUS_ARM{}), generators)
 
-	return initContainerPropertiesDefinition_InstanceView_STATUSARMGenerator
+	return initContainerPropertiesDefinition_InstanceView_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["RestartCount"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CurrentState"] = gen.PtrOf(ContainerState_STATUSARMGenerator())
-	gens["Events"] = gen.SliceOf(Event_STATUSARMGenerator())
-	gens["PreviousState"] = gen.PtrOf(ContainerState_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_InstanceView_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CurrentState"] = gen.PtrOf(ContainerState_STATUS_ARMGenerator())
+	gens["Events"] = gen.SliceOf(Event_STATUS_ARMGenerator())
+	gens["PreviousState"] = gen.PtrOf(ContainerState_STATUS_ARMGenerator())
 }
 
-func Test_ResourceRequirements_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ResourceRequirements_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ResourceRequirements_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceRequirements_STATUSARM, ResourceRequirements_STATUSARMGenerator()))
+		"Round trip of ResourceRequirements_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForResourceRequirements_STATUS_ARM, ResourceRequirements_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceRequirements_STATUSARM runs a test to see if a specific instance of ResourceRequirements_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceRequirements_STATUSARM(subject ResourceRequirements_STATUSARM) string {
+// RunJSONSerializationTestForResourceRequirements_STATUS_ARM runs a test to see if a specific instance of ResourceRequirements_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceRequirements_STATUS_ARM(subject ResourceRequirements_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1884,7 +1884,7 @@ func RunJSONSerializationTestForResourceRequirements_STATUSARM(subject ResourceR
 	}
 
 	// Deserialize back into memory
-	var actual ResourceRequirements_STATUSARM
+	var actual ResourceRequirements_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1902,43 +1902,43 @@ func RunJSONSerializationTestForResourceRequirements_STATUSARM(subject ResourceR
 	return ""
 }
 
-// Generator of ResourceRequirements_STATUSARM instances for property testing - lazily instantiated by
-// ResourceRequirements_STATUSARMGenerator()
-var resourceRequirements_STATUSARMGenerator gopter.Gen
+// Generator of ResourceRequirements_STATUS_ARM instances for property testing - lazily instantiated by
+// ResourceRequirements_STATUS_ARMGenerator()
+var resourceRequirements_STATUS_ARMGenerator gopter.Gen
 
-// ResourceRequirements_STATUSARMGenerator returns a generator of ResourceRequirements_STATUSARM instances for property testing.
-func ResourceRequirements_STATUSARMGenerator() gopter.Gen {
-	if resourceRequirements_STATUSARMGenerator != nil {
-		return resourceRequirements_STATUSARMGenerator
+// ResourceRequirements_STATUS_ARMGenerator returns a generator of ResourceRequirements_STATUS_ARM instances for property testing.
+func ResourceRequirements_STATUS_ARMGenerator() gopter.Gen {
+	if resourceRequirements_STATUS_ARMGenerator != nil {
+		return resourceRequirements_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceRequirements_STATUSARM(generators)
-	resourceRequirements_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequirements_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForResourceRequirements_STATUS_ARM(generators)
+	resourceRequirements_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequirements_STATUS_ARM{}), generators)
 
-	return resourceRequirements_STATUSARMGenerator
+	return resourceRequirements_STATUS_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceRequirements_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceRequirements_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Limits"] = gen.PtrOf(ResourceLimits_STATUSARMGenerator())
-	gens["Requests"] = gen.PtrOf(ResourceRequests_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForResourceRequirements_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceRequirements_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Limits"] = gen.PtrOf(ResourceLimits_STATUS_ARMGenerator())
+	gens["Requests"] = gen.PtrOf(ResourceRequests_STATUS_ARMGenerator())
 }
 
-func Test_VolumeMount_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VolumeMount_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VolumeMount_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVolumeMount_STATUSARM, VolumeMount_STATUSARMGenerator()))
+		"Round trip of VolumeMount_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVolumeMount_STATUS_ARM, VolumeMount_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVolumeMount_STATUSARM runs a test to see if a specific instance of VolumeMount_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVolumeMount_STATUSARM(subject VolumeMount_STATUSARM) string {
+// RunJSONSerializationTestForVolumeMount_STATUS_ARM runs a test to see if a specific instance of VolumeMount_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVolumeMount_STATUS_ARM(subject VolumeMount_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1946,7 +1946,7 @@ func RunJSONSerializationTestForVolumeMount_STATUSARM(subject VolumeMount_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual VolumeMount_STATUSARM
+	var actual VolumeMount_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1964,44 +1964,44 @@ func RunJSONSerializationTestForVolumeMount_STATUSARM(subject VolumeMount_STATUS
 	return ""
 }
 
-// Generator of VolumeMount_STATUSARM instances for property testing - lazily instantiated by
-// VolumeMount_STATUSARMGenerator()
-var volumeMount_STATUSARMGenerator gopter.Gen
+// Generator of VolumeMount_STATUS_ARM instances for property testing - lazily instantiated by
+// VolumeMount_STATUS_ARMGenerator()
+var volumeMount_STATUS_ARMGenerator gopter.Gen
 
-// VolumeMount_STATUSARMGenerator returns a generator of VolumeMount_STATUSARM instances for property testing.
-func VolumeMount_STATUSARMGenerator() gopter.Gen {
-	if volumeMount_STATUSARMGenerator != nil {
-		return volumeMount_STATUSARMGenerator
+// VolumeMount_STATUS_ARMGenerator returns a generator of VolumeMount_STATUS_ARM instances for property testing.
+func VolumeMount_STATUS_ARMGenerator() gopter.Gen {
+	if volumeMount_STATUS_ARMGenerator != nil {
+		return volumeMount_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVolumeMount_STATUSARM(generators)
-	volumeMount_STATUSARMGenerator = gen.Struct(reflect.TypeOf(VolumeMount_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForVolumeMount_STATUS_ARM(generators)
+	volumeMount_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VolumeMount_STATUS_ARM{}), generators)
 
-	return volumeMount_STATUSARMGenerator
+	return volumeMount_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVolumeMount_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVolumeMount_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVolumeMount_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVolumeMount_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReadOnly"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_ContainerExec_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerExec_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerExec_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerExec_STATUSARM, ContainerExec_STATUSARMGenerator()))
+		"Round trip of ContainerExec_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerExec_STATUS_ARM, ContainerExec_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerExec_STATUSARM runs a test to see if a specific instance of ContainerExec_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerExec_STATUSARM(subject ContainerExec_STATUSARM) string {
+// RunJSONSerializationTestForContainerExec_STATUS_ARM runs a test to see if a specific instance of ContainerExec_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerExec_STATUS_ARM(subject ContainerExec_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2009,7 +2009,7 @@ func RunJSONSerializationTestForContainerExec_STATUSARM(subject ContainerExec_ST
 	}
 
 	// Deserialize back into memory
-	var actual ContainerExec_STATUSARM
+	var actual ContainerExec_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2027,42 +2027,42 @@ func RunJSONSerializationTestForContainerExec_STATUSARM(subject ContainerExec_ST
 	return ""
 }
 
-// Generator of ContainerExec_STATUSARM instances for property testing - lazily instantiated by
-// ContainerExec_STATUSARMGenerator()
-var containerExec_STATUSARMGenerator gopter.Gen
+// Generator of ContainerExec_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerExec_STATUS_ARMGenerator()
+var containerExec_STATUS_ARMGenerator gopter.Gen
 
-// ContainerExec_STATUSARMGenerator returns a generator of ContainerExec_STATUSARM instances for property testing.
-func ContainerExec_STATUSARMGenerator() gopter.Gen {
-	if containerExec_STATUSARMGenerator != nil {
-		return containerExec_STATUSARMGenerator
+// ContainerExec_STATUS_ARMGenerator returns a generator of ContainerExec_STATUS_ARM instances for property testing.
+func ContainerExec_STATUS_ARMGenerator() gopter.Gen {
+	if containerExec_STATUS_ARMGenerator != nil {
+		return containerExec_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerExec_STATUSARM(generators)
-	containerExec_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerExec_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerExec_STATUS_ARM(generators)
+	containerExec_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerExec_STATUS_ARM{}), generators)
 
-	return containerExec_STATUSARMGenerator
+	return containerExec_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerExec_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerExec_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerExec_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerExec_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Command"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_ContainerHttpGet_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerHttpGet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerHttpGet_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerHttpGet_STATUSARM, ContainerHttpGet_STATUSARMGenerator()))
+		"Round trip of ContainerHttpGet_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerHttpGet_STATUS_ARM, ContainerHttpGet_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerHttpGet_STATUSARM runs a test to see if a specific instance of ContainerHttpGet_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerHttpGet_STATUSARM(subject ContainerHttpGet_STATUSARM) string {
+// RunJSONSerializationTestForContainerHttpGet_STATUS_ARM runs a test to see if a specific instance of ContainerHttpGet_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerHttpGet_STATUS_ARM(subject ContainerHttpGet_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2070,7 +2070,7 @@ func RunJSONSerializationTestForContainerHttpGet_STATUSARM(subject ContainerHttp
 	}
 
 	// Deserialize back into memory
-	var actual ContainerHttpGet_STATUSARM
+	var actual ContainerHttpGet_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2088,58 +2088,58 @@ func RunJSONSerializationTestForContainerHttpGet_STATUSARM(subject ContainerHttp
 	return ""
 }
 
-// Generator of ContainerHttpGet_STATUSARM instances for property testing - lazily instantiated by
-// ContainerHttpGet_STATUSARMGenerator()
-var containerHttpGet_STATUSARMGenerator gopter.Gen
+// Generator of ContainerHttpGet_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerHttpGet_STATUS_ARMGenerator()
+var containerHttpGet_STATUS_ARMGenerator gopter.Gen
 
-// ContainerHttpGet_STATUSARMGenerator returns a generator of ContainerHttpGet_STATUSARM instances for property testing.
-// We first initialize containerHttpGet_STATUSARMGenerator with a simplified generator based on the
+// ContainerHttpGet_STATUS_ARMGenerator returns a generator of ContainerHttpGet_STATUS_ARM instances for property testing.
+// We first initialize containerHttpGet_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerHttpGet_STATUSARMGenerator() gopter.Gen {
-	if containerHttpGet_STATUSARMGenerator != nil {
-		return containerHttpGet_STATUSARMGenerator
+func ContainerHttpGet_STATUS_ARMGenerator() gopter.Gen {
+	if containerHttpGet_STATUS_ARMGenerator != nil {
+		return containerHttpGet_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerHttpGet_STATUSARM(generators)
-	containerHttpGet_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerHttpGet_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerHttpGet_STATUS_ARM(generators)
+	containerHttpGet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerHttpGet_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerHttpGet_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForContainerHttpGet_STATUSARM(generators)
-	containerHttpGet_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerHttpGet_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerHttpGet_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerHttpGet_STATUS_ARM(generators)
+	containerHttpGet_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerHttpGet_STATUS_ARM{}), generators)
 
-	return containerHttpGet_STATUSARMGenerator
+	return containerHttpGet_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerHttpGet_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerHttpGet_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerHttpGet_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerHttpGet_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGet_Scheme_Http_STATUS, ContainerHttpGet_Scheme_Https_STATUS))
+	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGet_Scheme_STATUS_Http, ContainerHttpGet_Scheme_STATUS_Https))
 }
 
-// AddRelatedPropertyGeneratorsForContainerHttpGet_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerHttpGet_STATUSARM(gens map[string]gopter.Gen) {
-	gens["HttpHeaders"] = gen.SliceOf(HttpHeader_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerHttpGet_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerHttpGet_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["HttpHeaders"] = gen.SliceOf(HttpHeader_STATUS_ARMGenerator())
 }
 
-func Test_ContainerState_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerState_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerState_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerState_STATUSARM, ContainerState_STATUSARMGenerator()))
+		"Round trip of ContainerState_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerState_STATUS_ARM, ContainerState_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerState_STATUSARM runs a test to see if a specific instance of ContainerState_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerState_STATUSARM(subject ContainerState_STATUSARM) string {
+// RunJSONSerializationTestForContainerState_STATUS_ARM runs a test to see if a specific instance of ContainerState_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerState_STATUS_ARM(subject ContainerState_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2147,7 +2147,7 @@ func RunJSONSerializationTestForContainerState_STATUSARM(subject ContainerState_
 	}
 
 	// Deserialize back into memory
-	var actual ContainerState_STATUSARM
+	var actual ContainerState_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2165,25 +2165,25 @@ func RunJSONSerializationTestForContainerState_STATUSARM(subject ContainerState_
 	return ""
 }
 
-// Generator of ContainerState_STATUSARM instances for property testing - lazily instantiated by
-// ContainerState_STATUSARMGenerator()
-var containerState_STATUSARMGenerator gopter.Gen
+// Generator of ContainerState_STATUS_ARM instances for property testing - lazily instantiated by
+// ContainerState_STATUS_ARMGenerator()
+var containerState_STATUS_ARMGenerator gopter.Gen
 
-// ContainerState_STATUSARMGenerator returns a generator of ContainerState_STATUSARM instances for property testing.
-func ContainerState_STATUSARMGenerator() gopter.Gen {
-	if containerState_STATUSARMGenerator != nil {
-		return containerState_STATUSARMGenerator
+// ContainerState_STATUS_ARMGenerator returns a generator of ContainerState_STATUS_ARM instances for property testing.
+func ContainerState_STATUS_ARMGenerator() gopter.Gen {
+	if containerState_STATUS_ARMGenerator != nil {
+		return containerState_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerState_STATUSARM(generators)
-	containerState_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ContainerState_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerState_STATUS_ARM(generators)
+	containerState_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerState_STATUS_ARM{}), generators)
 
-	return containerState_STATUSARMGenerator
+	return containerState_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerState_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerState_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerState_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerState_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DetailStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["ExitCode"] = gen.PtrOf(gen.Int())
 	gens["FinishTime"] = gen.PtrOf(gen.AlphaString())
@@ -2191,20 +2191,20 @@ func AddIndependentPropertyGeneratorsForContainerState_STATUSARM(gens map[string
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ResourceLimits_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ResourceLimits_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ResourceLimits_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLimits_STATUSARM, ResourceLimits_STATUSARMGenerator()))
+		"Round trip of ResourceLimits_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForResourceLimits_STATUS_ARM, ResourceLimits_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceLimits_STATUSARM runs a test to see if a specific instance of ResourceLimits_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLimits_STATUSARM(subject ResourceLimits_STATUSARM) string {
+// RunJSONSerializationTestForResourceLimits_STATUS_ARM runs a test to see if a specific instance of ResourceLimits_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceLimits_STATUS_ARM(subject ResourceLimits_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2212,7 +2212,7 @@ func RunJSONSerializationTestForResourceLimits_STATUSARM(subject ResourceLimits_
 	}
 
 	// Deserialize back into memory
-	var actual ResourceLimits_STATUSARM
+	var actual ResourceLimits_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2230,57 +2230,57 @@ func RunJSONSerializationTestForResourceLimits_STATUSARM(subject ResourceLimits_
 	return ""
 }
 
-// Generator of ResourceLimits_STATUSARM instances for property testing - lazily instantiated by
-// ResourceLimits_STATUSARMGenerator()
-var resourceLimits_STATUSARMGenerator gopter.Gen
+// Generator of ResourceLimits_STATUS_ARM instances for property testing - lazily instantiated by
+// ResourceLimits_STATUS_ARMGenerator()
+var resourceLimits_STATUS_ARMGenerator gopter.Gen
 
-// ResourceLimits_STATUSARMGenerator returns a generator of ResourceLimits_STATUSARM instances for property testing.
-// We first initialize resourceLimits_STATUSARMGenerator with a simplified generator based on the
+// ResourceLimits_STATUS_ARMGenerator returns a generator of ResourceLimits_STATUS_ARM instances for property testing.
+// We first initialize resourceLimits_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ResourceLimits_STATUSARMGenerator() gopter.Gen {
-	if resourceLimits_STATUSARMGenerator != nil {
-		return resourceLimits_STATUSARMGenerator
+func ResourceLimits_STATUS_ARMGenerator() gopter.Gen {
+	if resourceLimits_STATUS_ARMGenerator != nil {
+		return resourceLimits_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceLimits_STATUSARM(generators)
-	resourceLimits_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ResourceLimits_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForResourceLimits_STATUS_ARM(generators)
+	resourceLimits_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceLimits_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceLimits_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForResourceLimits_STATUSARM(generators)
-	resourceLimits_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ResourceLimits_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForResourceLimits_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForResourceLimits_STATUS_ARM(generators)
+	resourceLimits_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceLimits_STATUS_ARM{}), generators)
 
-	return resourceLimits_STATUSARMGenerator
+	return resourceLimits_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceLimits_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceLimits_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceLimits_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceLimits_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Cpu"] = gen.PtrOf(gen.Float64())
 	gens["MemoryInGB"] = gen.PtrOf(gen.Float64())
 }
 
-// AddRelatedPropertyGeneratorsForResourceLimits_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceLimits_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Gpu"] = gen.PtrOf(GpuResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForResourceLimits_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceLimits_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Gpu"] = gen.PtrOf(GpuResource_STATUS_ARMGenerator())
 }
 
-func Test_ResourceRequests_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ResourceRequests_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ResourceRequests_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceRequests_STATUSARM, ResourceRequests_STATUSARMGenerator()))
+		"Round trip of ResourceRequests_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForResourceRequests_STATUS_ARM, ResourceRequests_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceRequests_STATUSARM runs a test to see if a specific instance of ResourceRequests_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceRequests_STATUSARM(subject ResourceRequests_STATUSARM) string {
+// RunJSONSerializationTestForResourceRequests_STATUS_ARM runs a test to see if a specific instance of ResourceRequests_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceRequests_STATUS_ARM(subject ResourceRequests_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2288,7 +2288,7 @@ func RunJSONSerializationTestForResourceRequests_STATUSARM(subject ResourceReque
 	}
 
 	// Deserialize back into memory
-	var actual ResourceRequests_STATUSARM
+	var actual ResourceRequests_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2306,57 +2306,57 @@ func RunJSONSerializationTestForResourceRequests_STATUSARM(subject ResourceReque
 	return ""
 }
 
-// Generator of ResourceRequests_STATUSARM instances for property testing - lazily instantiated by
-// ResourceRequests_STATUSARMGenerator()
-var resourceRequests_STATUSARMGenerator gopter.Gen
+// Generator of ResourceRequests_STATUS_ARM instances for property testing - lazily instantiated by
+// ResourceRequests_STATUS_ARMGenerator()
+var resourceRequests_STATUS_ARMGenerator gopter.Gen
 
-// ResourceRequests_STATUSARMGenerator returns a generator of ResourceRequests_STATUSARM instances for property testing.
-// We first initialize resourceRequests_STATUSARMGenerator with a simplified generator based on the
+// ResourceRequests_STATUS_ARMGenerator returns a generator of ResourceRequests_STATUS_ARM instances for property testing.
+// We first initialize resourceRequests_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ResourceRequests_STATUSARMGenerator() gopter.Gen {
-	if resourceRequests_STATUSARMGenerator != nil {
-		return resourceRequests_STATUSARMGenerator
+func ResourceRequests_STATUS_ARMGenerator() gopter.Gen {
+	if resourceRequests_STATUS_ARMGenerator != nil {
+		return resourceRequests_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceRequests_STATUSARM(generators)
-	resourceRequests_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequests_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForResourceRequests_STATUS_ARM(generators)
+	resourceRequests_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequests_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceRequests_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForResourceRequests_STATUSARM(generators)
-	resourceRequests_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequests_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForResourceRequests_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForResourceRequests_STATUS_ARM(generators)
+	resourceRequests_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceRequests_STATUS_ARM{}), generators)
 
-	return resourceRequests_STATUSARMGenerator
+	return resourceRequests_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceRequests_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceRequests_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForResourceRequests_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForResourceRequests_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Cpu"] = gen.PtrOf(gen.Float64())
 	gens["MemoryInGB"] = gen.PtrOf(gen.Float64())
 }
 
-// AddRelatedPropertyGeneratorsForResourceRequests_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceRequests_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Gpu"] = gen.PtrOf(GpuResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForResourceRequests_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceRequests_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Gpu"] = gen.PtrOf(GpuResource_STATUS_ARMGenerator())
 }
 
-func Test_GpuResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_GpuResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of GpuResource_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGpuResource_STATUSARM, GpuResource_STATUSARMGenerator()))
+		"Round trip of GpuResource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForGpuResource_STATUS_ARM, GpuResource_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForGpuResource_STATUSARM runs a test to see if a specific instance of GpuResource_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForGpuResource_STATUSARM(subject GpuResource_STATUSARM) string {
+// RunJSONSerializationTestForGpuResource_STATUS_ARM runs a test to see if a specific instance of GpuResource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForGpuResource_STATUS_ARM(subject GpuResource_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2364,7 +2364,7 @@ func RunJSONSerializationTestForGpuResource_STATUSARM(subject GpuResource_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual GpuResource_STATUSARM
+	var actual GpuResource_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2382,43 +2382,43 @@ func RunJSONSerializationTestForGpuResource_STATUSARM(subject GpuResource_STATUS
 	return ""
 }
 
-// Generator of GpuResource_STATUSARM instances for property testing - lazily instantiated by
-// GpuResource_STATUSARMGenerator()
-var gpuResource_STATUSARMGenerator gopter.Gen
+// Generator of GpuResource_STATUS_ARM instances for property testing - lazily instantiated by
+// GpuResource_STATUS_ARMGenerator()
+var gpuResource_STATUS_ARMGenerator gopter.Gen
 
-// GpuResource_STATUSARMGenerator returns a generator of GpuResource_STATUSARM instances for property testing.
-func GpuResource_STATUSARMGenerator() gopter.Gen {
-	if gpuResource_STATUSARMGenerator != nil {
-		return gpuResource_STATUSARMGenerator
+// GpuResource_STATUS_ARMGenerator returns a generator of GpuResource_STATUS_ARM instances for property testing.
+func GpuResource_STATUS_ARMGenerator() gopter.Gen {
+	if gpuResource_STATUS_ARMGenerator != nil {
+		return gpuResource_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGpuResource_STATUSARM(generators)
-	gpuResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(GpuResource_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForGpuResource_STATUS_ARM(generators)
+	gpuResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(GpuResource_STATUS_ARM{}), generators)
 
-	return gpuResource_STATUSARMGenerator
+	return gpuResource_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForGpuResource_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGpuResource_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForGpuResource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForGpuResource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResource_Sku_K80_STATUS, GpuResource_Sku_P100_STATUS, GpuResource_Sku_V100_STATUS))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResource_Sku_STATUS_K80, GpuResource_Sku_STATUS_P100, GpuResource_Sku_STATUS_V100))
 }
 
-func Test_HttpHeader_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_HttpHeader_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of HttpHeader_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHttpHeader_STATUSARM, HttpHeader_STATUSARMGenerator()))
+		"Round trip of HttpHeader_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHttpHeader_STATUS_ARM, HttpHeader_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForHttpHeader_STATUSARM runs a test to see if a specific instance of HttpHeader_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForHttpHeader_STATUSARM(subject HttpHeader_STATUSARM) string {
+// RunJSONSerializationTestForHttpHeader_STATUS_ARM runs a test to see if a specific instance of HttpHeader_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForHttpHeader_STATUS_ARM(subject HttpHeader_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2426,7 +2426,7 @@ func RunJSONSerializationTestForHttpHeader_STATUSARM(subject HttpHeader_STATUSAR
 	}
 
 	// Deserialize back into memory
-	var actual HttpHeader_STATUSARM
+	var actual HttpHeader_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2444,25 +2444,25 @@ func RunJSONSerializationTestForHttpHeader_STATUSARM(subject HttpHeader_STATUSAR
 	return ""
 }
 
-// Generator of HttpHeader_STATUSARM instances for property testing - lazily instantiated by
-// HttpHeader_STATUSARMGenerator()
-var httpHeader_STATUSARMGenerator gopter.Gen
+// Generator of HttpHeader_STATUS_ARM instances for property testing - lazily instantiated by
+// HttpHeader_STATUS_ARMGenerator()
+var httpHeader_STATUS_ARMGenerator gopter.Gen
 
-// HttpHeader_STATUSARMGenerator returns a generator of HttpHeader_STATUSARM instances for property testing.
-func HttpHeader_STATUSARMGenerator() gopter.Gen {
-	if httpHeader_STATUSARMGenerator != nil {
-		return httpHeader_STATUSARMGenerator
+// HttpHeader_STATUS_ARMGenerator returns a generator of HttpHeader_STATUS_ARM instances for property testing.
+func HttpHeader_STATUS_ARMGenerator() gopter.Gen {
+	if httpHeader_STATUS_ARMGenerator != nil {
+		return httpHeader_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHttpHeader_STATUSARM(generators)
-	httpHeader_STATUSARMGenerator = gen.Struct(reflect.TypeOf(HttpHeader_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForHttpHeader_STATUS_ARM(generators)
+	httpHeader_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(HttpHeader_STATUS_ARM{}), generators)
 
-	return httpHeader_STATUSARMGenerator
+	return httpHeader_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHttpHeader_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHttpHeader_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForHttpHeader_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHttpHeader_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

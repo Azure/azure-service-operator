@@ -5,22 +5,22 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type PublicIPAddress_SpecARM struct {
+type PublicIPAddress_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,29 +29,29 @@ type PublicIPAddress_SpecARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &PublicIPAddress_SpecARM{}
+var _ genruntime.ARMResourceSpec = &PublicIPAddress_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (address PublicIPAddress_SpecARM) GetAPIVersion() string {
+func (address PublicIPAddress_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (address *PublicIPAddress_SpecARM) GetName() string {
+func (address *PublicIPAddress_Spec_ARM) GetName() string {
 	return address.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (address *PublicIPAddress_SpecARM) GetType() string {
+func (address *PublicIPAddress_Spec_ARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
-type PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM struct {
+type PublicIPAddressPropertiesFormat_SubResourceEmbedded_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettingsARM `json:"ddosSettings,omitempty"`
+	DdosSettings *DdosSettings_ARM `json:"ddosSettings,omitempty"`
 
 	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettingsARM `json:"dnsSettings,omitempty"`
+	DnsSettings *PublicIPAddressDnsSettings_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
@@ -60,16 +60,16 @@ type PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTagARM `json:"ipTags,omitempty"`
+	IpTags []IpTag_ARM `json:"ipTags,omitempty"`
 
 	// LinkedPublicIPAddress: The linked public IP address of the public IP address resource.
-	LinkedPublicIPAddress *PublicIPAddressSpec_SubResourceEmbeddedARM `json:"linkedPublicIPAddress,omitempty"`
+	LinkedPublicIPAddress *PublicIPAddressSpec_SubResourceEmbedded_ARM `json:"linkedPublicIPAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
 	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
 
 	// NatGateway: The NatGateway for the Public IP address.
-	NatGateway *NatGatewaySpecARM `json:"natGateway,omitempty"`
+	NatGateway *NatGatewaySpec_ARM `json:"natGateway,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *IPVersion `json:"publicIPAddressVersion,omitempty"`
@@ -78,13 +78,13 @@ type PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM struct {
 	PublicIPAllocationMethod *IPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 
 	// ServicePublicIPAddress: The service public IP address of the public IP address resource.
-	ServicePublicIPAddress *PublicIPAddressSpec_SubResourceEmbeddedARM `json:"servicePublicIPAddress,omitempty"`
+	ServicePublicIPAddress *PublicIPAddressSpec_SubResourceEmbedded_ARM `json:"servicePublicIPAddress,omitempty"`
 }
 
-type PublicIPAddressSkuARM struct {
+type PublicIPAddressSku_ARM struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
 
@@ -92,9 +92,9 @@ type PublicIPAddressSkuARM struct {
 	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
 }
 
-type DdosSettingsARM struct {
+type DdosSettings_ARM struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
-	DdosCustomPolicy *SubResourceARM `json:"ddosCustomPolicy,omitempty"`
+	DdosCustomPolicy *SubResource_ARM `json:"ddosCustomPolicy,omitempty"`
 
 	// ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
@@ -104,7 +104,7 @@ type DdosSettingsARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-type IpTagARM struct {
+type IpTag_ARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
@@ -112,17 +112,17 @@ type IpTagARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-type NatGatewaySpecARM struct {
+type NatGatewaySpec_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// Properties: Nat Gateway properties.
-	Properties *NatGatewayPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *NatGatewayPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Sku: The nat gateway SKU.
-	Sku *NatGatewaySkuARM `json:"sku,omitempty"`
+	Sku *NatGatewaySku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -131,7 +131,7 @@ type NatGatewaySpecARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type PublicIPAddressDnsSettingsARM struct {
+type PublicIPAddressDnsSettings_ARM struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
 	// record is created for the public IP in the Microsoft Azure DNS system.
@@ -163,16 +163,16 @@ const (
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
-type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
+type PublicIPAddressSpec_SubResourceEmbedded_ARM struct {
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -181,22 +181,22 @@ type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type SubResourceARM struct {
+type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type NatGatewayPropertiesFormatARM struct {
+type NatGatewayPropertiesFormat_ARM struct {
 	// IdleTimeoutInMinutes: The idle timeout of the nat gateway.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []SubResourceARM `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource_ARM `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []SubResourceARM `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource_ARM `json:"publicIpPrefixes,omitempty"`
 }
 
-type NatGatewaySkuARM struct {
+type NatGatewaySku_ARM struct {
 	// Name: Name of Nat Gateway SKU.
 	Name *NatGatewaySku_Name `json:"name,omitempty"`
 }

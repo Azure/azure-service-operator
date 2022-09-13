@@ -344,7 +344,7 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertToARM(resolved genruntime.Conve
 	if schedule == nil {
 		return nil, nil
 	}
-	result := &Redis_PatchSchedule_SpecARM{}
+	result := &Redis_PatchSchedule_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = schedule.AzureName
@@ -354,28 +354,28 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Properties’:
 	if schedule.ScheduleEntries != nil {
-		result.Properties = &ScheduleEntriesARM{}
+		result.Properties = &ScheduleEntries_ARM{}
 	}
 	for _, item := range schedule.ScheduleEntries {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *itemARM.(*ScheduleEntryARM))
+		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *item_ARM.(*ScheduleEntry_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *Redis_PatchSchedule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_PatchSchedule_SpecARM{}
+	return &Redis_PatchSchedule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *Redis_PatchSchedule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_PatchSchedule_SpecARM)
+	typedInput, ok := armInput.(Redis_PatchSchedule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -622,14 +622,14 @@ var _ genruntime.FromARMConverter = &Redis_PatchSchedule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *Redis_PatchSchedule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_PatchSchedule_STATUSARM{}
+	return &Redis_PatchSchedule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *Redis_PatchSchedule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_PatchSchedule_STATUSARM)
+	typedInput, ok := armInput.(Redis_PatchSchedule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -784,7 +784,7 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if entry == nil {
 		return nil, nil
 	}
-	result := &ScheduleEntryARM{}
+	result := &ScheduleEntry_ARM{}
 
 	// Set property ‘DayOfWeek’:
 	if entry.DayOfWeek != nil {
@@ -808,14 +808,14 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *ScheduleEntry) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduleEntryARM{}
+	return &ScheduleEntry_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduleEntryARM)
+	typedInput, ok := armInput.(ScheduleEntry_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntryARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DayOfWeek’:
@@ -916,14 +916,14 @@ var _ genruntime.FromARMConverter = &ScheduleEntry_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *ScheduleEntry_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduleEntry_STATUSARM{}
+	return &ScheduleEntry_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *ScheduleEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduleEntry_STATUSARM)
+	typedInput, ok := armInput.(ScheduleEntry_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DayOfWeek’:
@@ -1017,15 +1017,15 @@ const (
 type ScheduleEntry_DayOfWeek_STATUS string
 
 const (
-	ScheduleEntry_DayOfWeek_Everyday_STATUS  = ScheduleEntry_DayOfWeek_STATUS("Everyday")
-	ScheduleEntry_DayOfWeek_Friday_STATUS    = ScheduleEntry_DayOfWeek_STATUS("Friday")
-	ScheduleEntry_DayOfWeek_Monday_STATUS    = ScheduleEntry_DayOfWeek_STATUS("Monday")
-	ScheduleEntry_DayOfWeek_Saturday_STATUS  = ScheduleEntry_DayOfWeek_STATUS("Saturday")
-	ScheduleEntry_DayOfWeek_Sunday_STATUS    = ScheduleEntry_DayOfWeek_STATUS("Sunday")
-	ScheduleEntry_DayOfWeek_Thursday_STATUS  = ScheduleEntry_DayOfWeek_STATUS("Thursday")
-	ScheduleEntry_DayOfWeek_Tuesday_STATUS   = ScheduleEntry_DayOfWeek_STATUS("Tuesday")
-	ScheduleEntry_DayOfWeek_Wednesday_STATUS = ScheduleEntry_DayOfWeek_STATUS("Wednesday")
-	ScheduleEntry_DayOfWeek_Weekend_STATUS   = ScheduleEntry_DayOfWeek_STATUS("Weekend")
+	ScheduleEntry_DayOfWeek_STATUS_Everyday  = ScheduleEntry_DayOfWeek_STATUS("Everyday")
+	ScheduleEntry_DayOfWeek_STATUS_Friday    = ScheduleEntry_DayOfWeek_STATUS("Friday")
+	ScheduleEntry_DayOfWeek_STATUS_Monday    = ScheduleEntry_DayOfWeek_STATUS("Monday")
+	ScheduleEntry_DayOfWeek_STATUS_Saturday  = ScheduleEntry_DayOfWeek_STATUS("Saturday")
+	ScheduleEntry_DayOfWeek_STATUS_Sunday    = ScheduleEntry_DayOfWeek_STATUS("Sunday")
+	ScheduleEntry_DayOfWeek_STATUS_Thursday  = ScheduleEntry_DayOfWeek_STATUS("Thursday")
+	ScheduleEntry_DayOfWeek_STATUS_Tuesday   = ScheduleEntry_DayOfWeek_STATUS("Tuesday")
+	ScheduleEntry_DayOfWeek_STATUS_Wednesday = ScheduleEntry_DayOfWeek_STATUS("Wednesday")
+	ScheduleEntry_DayOfWeek_STATUS_Weekend   = ScheduleEntry_DayOfWeek_STATUS("Weekend")
 )
 
 func init() {

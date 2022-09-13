@@ -549,18 +549,18 @@ func (image *Image_STATUS) AssignProperties_From_Image_STATUS(source *v20210701s
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash v20201201s.ExtendedLocation_STATUS
-		err := extendedLocation_STATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		var extendedLocationSTATUSStash v20201201s.ExtendedLocation_STATUS
+		err := extendedLocationSTATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal v20200930s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStashLocal v20200930s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation ExtendedLocation_STATUS
-		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -586,13 +586,13 @@ func (image *Image_STATUS) AssignProperties_From_Image_STATUS(source *v20210701s
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVirtualMachine)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVirtualMachine")
 		}
 		var sourceVirtualMachine SubResource_STATUS
-		err = sourceVirtualMachine.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = sourceVirtualMachine.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVirtualMachine from SubResource_STATUSStash")
 		}
@@ -640,18 +640,18 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202107
 
 	// ExtendedLocation
 	if image.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash v20200930s.ExtendedLocation_STATUS
-		err := image.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStash v20200930s.ExtendedLocation_STATUS
+		err := image.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal v20201201s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		var extendedLocationSTATUSStashLocal v20201201s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation v20210701s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err = extendedLocationSTATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -677,13 +677,13 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202107
 
 	// SourceVirtualMachine
 	if image.SourceVirtualMachine != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := image.SourceVirtualMachine.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := image.SourceVirtualMachine.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVirtualMachine")
 		}
 		var sourceVirtualMachine v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVirtualMachine)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVirtualMachine from SubResource_STATUSStash")
 		}
@@ -1364,13 +1364,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet SubResource_STATUS
-		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -1387,13 +1387,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.ManagedDisk)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ManagedDisk")
 		}
 		var managedDisk SubResource_STATUS
-		err = managedDisk.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = managedDisk.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ManagedDisk from SubResource_STATUSStash")
 		}
@@ -1404,13 +1404,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.Snapshot)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Snapshot")
 		}
 		var snapshot SubResource_STATUS
-		err = snapshot.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = snapshot.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Snapshot from SubResource_STATUSStash")
 		}
@@ -1446,13 +1446,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -1469,13 +1469,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.ManagedDisk.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.ManagedDisk.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ManagedDisk")
 		}
 		var managedDisk v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&managedDisk)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ManagedDisk from SubResource_STATUSStash")
 		}
@@ -1486,13 +1486,13 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.Snapshot.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.Snapshot.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Snapshot")
 		}
 		var snapshot v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&snapshot)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Snapshot from SubResource_STATUSStash")
 		}
@@ -1728,13 +1728,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet SubResource_STATUS
-		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -1748,13 +1748,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.ManagedDisk)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ManagedDisk")
 		}
 		var managedDisk SubResource_STATUS
-		err = managedDisk.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = managedDisk.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ManagedDisk from SubResource_STATUSStash")
 		}
@@ -1771,13 +1771,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.Snapshot)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Snapshot")
 		}
 		var snapshot SubResource_STATUS
-		err = snapshot.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = snapshot.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Snapshot from SubResource_STATUSStash")
 		}
@@ -1813,13 +1813,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -1833,13 +1833,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.ManagedDisk.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.ManagedDisk.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ManagedDisk")
 		}
 		var managedDisk v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&managedDisk)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ManagedDisk from SubResource_STATUSStash")
 		}
@@ -1856,13 +1856,13 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResource_STATUSStash v20201201s.SubResource_STATUS
-		err := disk.Snapshot.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20201201s.SubResource_STATUS
+		err := disk.Snapshot.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Snapshot")
 		}
 		var snapshot v20210701s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&snapshot)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Snapshot from SubResource_STATUSStash")
 		}

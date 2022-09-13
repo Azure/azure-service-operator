@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type Domains_Topic_STATUSARM struct {
+type Domains_Topic_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -11,16 +11,16 @@ type Domains_Topic_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the Domain Topic.
-	Properties *DomainTopicProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DomainTopicProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Domain Topic resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type DomainTopicProperties_STATUSARM struct {
+type DomainTopicProperties_STATUS_ARM struct {
 	// ProvisioningState: Provisioning state of the domain topic.
 	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }

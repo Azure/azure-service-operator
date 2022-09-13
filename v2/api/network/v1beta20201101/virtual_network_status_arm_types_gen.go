@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type VirtualNetwork_STATUSARM struct {
+type VirtualNetwork_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the virtual network.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -20,7 +20,7 @@ type VirtualNetwork_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network.
-	Properties *VirtualNetworkPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,18 +29,18 @@ type VirtualNetwork_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkPropertiesFormat_STATUSARM struct {
+type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-	AddressSpace *AddressSpace_STATUSARM `json:"addressSpace,omitempty"`
+	AddressSpace *AddressSpace_STATUS_ARM `json:"addressSpace,omitempty"`
 
 	// BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
-	BgpCommunities *VirtualNetworkBgpCommunities_STATUSARM `json:"bgpCommunities,omitempty"`
+	BgpCommunities *VirtualNetworkBgpCommunities_STATUS_ARM `json:"bgpCommunities,omitempty"`
 
 	// DdosProtectionPlan: The DDoS protection plan associated with the virtual network.
-	DdosProtectionPlan *SubResource_STATUSARM `json:"ddosProtectionPlan,omitempty"`
+	DdosProtectionPlan *SubResource_STATUS_ARM `json:"ddosProtectionPlan,omitempty"`
 
 	// DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
-	DhcpOptions *DhcpOptions_STATUSARM `json:"dhcpOptions,omitempty"`
+	DhcpOptions *DhcpOptions_STATUS_ARM `json:"dhcpOptions,omitempty"`
 
 	// EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
 	// requires a DDoS protection plan associated with the resource.
@@ -50,7 +50,7 @@ type VirtualNetworkPropertiesFormat_STATUSARM struct {
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this VNET.
-	IpAllocations []SubResource_STATUSARM `json:"ipAllocations,omitempty"`
+	IpAllocations []SubResource_STATUS_ARM `json:"ipAllocations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -59,12 +59,12 @@ type VirtualNetworkPropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-type DhcpOptions_STATUSARM struct {
+type DhcpOptions_STATUS_ARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-type VirtualNetworkBgpCommunities_STATUSARM struct {
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
 	// RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 

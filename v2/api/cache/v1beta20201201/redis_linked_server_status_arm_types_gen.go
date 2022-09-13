@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type Redis_LinkedServer_STATUSARM struct {
+type Redis_LinkedServer_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type Redis_LinkedServer_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the linked server.
-	Properties *RedisLinkedServerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *RedisLinkedServerProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type RedisLinkedServerProperties_STATUSARM struct {
+type RedisLinkedServerProperties_STATUS_ARM struct {
 	// LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 

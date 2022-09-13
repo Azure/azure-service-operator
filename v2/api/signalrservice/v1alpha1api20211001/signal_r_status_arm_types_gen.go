@@ -4,29 +4,29 @@
 package v1alpha1api20211001
 
 // Deprecated version of SignalR_STATUS. Use v1beta20211001.SignalR_STATUS instead
-type SignalR_STATUSARM struct {
-	Id         *string                      `json:"id,omitempty"`
-	Identity   *ManagedIdentity_STATUSARM   `json:"identity,omitempty"`
-	Kind       *ServiceKind_STATUS          `json:"kind,omitempty"`
-	Location   *string                      `json:"location,omitempty"`
-	Name       *string                      `json:"name,omitempty"`
-	Properties *SignalRProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *ResourceSku_STATUSARM       `json:"sku,omitempty"`
-	SystemData *SystemData_STATUSARM        `json:"systemData,omitempty"`
-	Tags       map[string]string            `json:"tags,omitempty"`
-	Type       *string                      `json:"type,omitempty"`
+type SignalR_STATUS_ARM struct {
+	Id         *string                       `json:"id,omitempty"`
+	Identity   *ManagedIdentity_STATUS_ARM   `json:"identity,omitempty"`
+	Kind       *ServiceKind_STATUS           `json:"kind,omitempty"`
+	Location   *string                       `json:"location,omitempty"`
+	Name       *string                       `json:"name,omitempty"`
+	Properties *SignalRProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *ResourceSku_STATUS_ARM       `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM        `json:"systemData,omitempty"`
+	Tags       map[string]string             `json:"tags,omitempty"`
+	Type       *string                       `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedIdentity_STATUS. Use v1beta20211001.ManagedIdentity_STATUS instead
-type ManagedIdentity_STATUSARM struct {
-	PrincipalId            *string                                           `json:"principalId,omitempty"`
-	TenantId               *string                                           `json:"tenantId,omitempty"`
-	Type                   *ManagedIdentityType_STATUS                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityProperty_STATUSARM `json:"userAssignedIdentities,omitempty"`
+type ManagedIdentity_STATUS_ARM struct {
+	PrincipalId            *string                                            `json:"principalId,omitempty"`
+	TenantId               *string                                            `json:"tenantId,omitempty"`
+	Type                   *ManagedIdentityType_STATUS                        `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityProperty_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ResourceSku_STATUS. Use v1beta20211001.ResourceSku_STATUS instead
-type ResourceSku_STATUSARM struct {
+type ResourceSku_STATUS_ARM struct {
 	Capacity *int                   `json:"capacity,omitempty"`
 	Family   *string                `json:"family,omitempty"`
 	Name     *string                `json:"name,omitempty"`
@@ -38,34 +38,34 @@ type ResourceSku_STATUSARM struct {
 type ServiceKind_STATUS string
 
 const (
-	ServiceKind_RawWebSockets_STATUS = ServiceKind_STATUS("RawWebSockets")
-	ServiceKind_SignalR_STATUS       = ServiceKind_STATUS("SignalR")
+	ServiceKind_STATUS_RawWebSockets = ServiceKind_STATUS("RawWebSockets")
+	ServiceKind_STATUS_SignalR       = ServiceKind_STATUS("SignalR")
 )
 
 // Deprecated version of SignalRProperties_STATUS. Use v1beta20211001.SignalRProperties_STATUS instead
-type SignalRProperties_STATUSARM struct {
-	Cors                       *SignalRCorsSettings_STATUSARM                                    `json:"cors,omitempty"`
-	DisableAadAuth             *bool                                                             `json:"disableAadAuth,omitempty"`
-	DisableLocalAuth           *bool                                                             `json:"disableLocalAuth,omitempty"`
-	ExternalIP                 *string                                                           `json:"externalIP,omitempty"`
-	Features                   []SignalRFeature_STATUSARM                                        `json:"features,omitempty"`
-	HostName                   *string                                                           `json:"hostName,omitempty"`
-	HostNamePrefix             *string                                                           `json:"hostNamePrefix,omitempty"`
-	NetworkACLs                *SignalRNetworkACLs_STATUSARM                                     `json:"networkACLs,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState_STATUS                                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                           `json:"publicNetworkAccess,omitempty"`
-	PublicPort                 *int                                                              `json:"publicPort,omitempty"`
-	ResourceLogConfiguration   *ResourceLogConfiguration_STATUSARM                               `json:"resourceLogConfiguration,omitempty"`
-	ServerPort                 *int                                                              `json:"serverPort,omitempty"`
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbeddedARM `json:"sharedPrivateLinkResources,omitempty"`
-	Tls                        *SignalRTlsSettings_STATUSARM                                     `json:"tls,omitempty"`
-	Upstream                   *ServerlessUpstreamSettings_STATUSARM                             `json:"upstream,omitempty"`
-	Version                    *string                                                           `json:"version,omitempty"`
+type SignalRProperties_STATUS_ARM struct {
+	Cors                       *SignalRCorsSettings_STATUS_ARM                                    `json:"cors,omitempty"`
+	DisableAadAuth             *bool                                                              `json:"disableAadAuth,omitempty"`
+	DisableLocalAuth           *bool                                                              `json:"disableLocalAuth,omitempty"`
+	ExternalIP                 *string                                                            `json:"externalIP,omitempty"`
+	Features                   []SignalRFeature_STATUS_ARM                                        `json:"features,omitempty"`
+	HostName                   *string                                                            `json:"hostName,omitempty"`
+	HostNamePrefix             *string                                                            `json:"hostNamePrefix,omitempty"`
+	NetworkACLs                *SignalRNetworkACLs_STATUS_ARM                                     `json:"networkACLs,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                            `json:"publicNetworkAccess,omitempty"`
+	PublicPort                 *int                                                               `json:"publicPort,omitempty"`
+	ResourceLogConfiguration   *ResourceLogConfiguration_STATUS_ARM                               `json:"resourceLogConfiguration,omitempty"`
+	ServerPort                 *int                                                               `json:"serverPort,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded_ARM `json:"sharedPrivateLinkResources,omitempty"`
+	Tls                        *SignalRTlsSettings_STATUS_ARM                                     `json:"tls,omitempty"`
+	Upstream                   *ServerlessUpstreamSettings_STATUS_ARM                             `json:"upstream,omitempty"`
+	Version                    *string                                                            `json:"version,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20211001.SystemData_STATUS instead
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
 	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
@@ -78,64 +78,64 @@ type SystemData_STATUSARM struct {
 type ManagedIdentityType_STATUS string
 
 const (
-	ManagedIdentityType_None_STATUS           = ManagedIdentityType_STATUS("None")
-	ManagedIdentityType_SystemAssigned_STATUS = ManagedIdentityType_STATUS("SystemAssigned")
-	ManagedIdentityType_UserAssigned_STATUS   = ManagedIdentityType_STATUS("UserAssigned")
+	ManagedIdentityType_STATUS_None           = ManagedIdentityType_STATUS("None")
+	ManagedIdentityType_STATUS_SystemAssigned = ManagedIdentityType_STATUS("SystemAssigned")
+	ManagedIdentityType_STATUS_UserAssigned   = ManagedIdentityType_STATUS("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbeddedARM struct {
-	Id         *string               `json:"id,omitempty"`
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM struct {
+	Id         *string                `json:"id,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 // Deprecated version of ResourceLogConfiguration_STATUS. Use v1beta20211001.ResourceLogConfiguration_STATUS instead
-type ResourceLogConfiguration_STATUSARM struct {
-	Categories []ResourceLogCategory_STATUSARM `json:"categories,omitempty"`
+type ResourceLogConfiguration_STATUS_ARM struct {
+	Categories []ResourceLogCategory_STATUS_ARM `json:"categories,omitempty"`
 }
 
 // Deprecated version of ServerlessUpstreamSettings_STATUS. Use v1beta20211001.ServerlessUpstreamSettings_STATUS instead
-type ServerlessUpstreamSettings_STATUSARM struct {
-	Templates []UpstreamTemplate_STATUSARM `json:"templates,omitempty"`
+type ServerlessUpstreamSettings_STATUS_ARM struct {
+	Templates []UpstreamTemplate_STATUS_ARM `json:"templates,omitempty"`
 }
 
 // Deprecated version of SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded instead
-type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbeddedARM struct {
-	Id         *string               `json:"id,omitempty"`
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded_ARM struct {
+	Id         *string                `json:"id,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 // Deprecated version of SignalRCorsSettings_STATUS. Use v1beta20211001.SignalRCorsSettings_STATUS instead
-type SignalRCorsSettings_STATUSARM struct {
+type SignalRCorsSettings_STATUS_ARM struct {
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
 // Deprecated version of SignalRFeature_STATUS. Use v1beta20211001.SignalRFeature_STATUS instead
-type SignalRFeature_STATUSARM struct {
+type SignalRFeature_STATUS_ARM struct {
 	Flag       *FeatureFlags_STATUS `json:"flag,omitempty"`
 	Properties map[string]string    `json:"properties,omitempty"`
 	Value      *string              `json:"value,omitempty"`
 }
 
 // Deprecated version of SignalRNetworkACLs_STATUS. Use v1beta20211001.SignalRNetworkACLs_STATUS instead
-type SignalRNetworkACLs_STATUSARM struct {
-	DefaultAction    *ACLAction_STATUS              `json:"defaultAction,omitempty"`
-	PrivateEndpoints []PrivateEndpointACL_STATUSARM `json:"privateEndpoints,omitempty"`
-	PublicNetwork    *NetworkACL_STATUSARM          `json:"publicNetwork,omitempty"`
+type SignalRNetworkACLs_STATUS_ARM struct {
+	DefaultAction    *ACLAction_STATUS               `json:"defaultAction,omitempty"`
+	PrivateEndpoints []PrivateEndpointACL_STATUS_ARM `json:"privateEndpoints,omitempty"`
+	PublicNetwork    *NetworkACL_STATUS_ARM          `json:"publicNetwork,omitempty"`
 }
 
 // Deprecated version of SignalRSkuTier_STATUS. Use v1beta20211001.SignalRSkuTier_STATUS instead
 type SignalRSkuTier_STATUS string
 
 const (
-	SignalRSkuTier_Basic_STATUS    = SignalRSkuTier_STATUS("Basic")
-	SignalRSkuTier_Free_STATUS     = SignalRSkuTier_STATUS("Free")
-	SignalRSkuTier_Premium_STATUS  = SignalRSkuTier_STATUS("Premium")
-	SignalRSkuTier_Standard_STATUS = SignalRSkuTier_STATUS("Standard")
+	SignalRSkuTier_STATUS_Basic    = SignalRSkuTier_STATUS("Basic")
+	SignalRSkuTier_STATUS_Free     = SignalRSkuTier_STATUS("Free")
+	SignalRSkuTier_STATUS_Premium  = SignalRSkuTier_STATUS("Premium")
+	SignalRSkuTier_STATUS_Standard = SignalRSkuTier_STATUS("Standard")
 )
 
 // Deprecated version of SignalRTlsSettings_STATUS. Use v1beta20211001.SignalRTlsSettings_STATUS instead
-type SignalRTlsSettings_STATUSARM struct {
+type SignalRTlsSettings_STATUS_ARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
@@ -143,10 +143,10 @@ type SignalRTlsSettings_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20211001.SystemData_LastModifiedByType_STATUS
@@ -154,53 +154,53 @@ const (
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 // Deprecated version of UserAssignedIdentityProperty_STATUS. Use v1beta20211001.UserAssignedIdentityProperty_STATUS instead
-type UserAssignedIdentityProperty_STATUSARM struct {
+type UserAssignedIdentityProperty_STATUS_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of NetworkACL_STATUS. Use v1beta20211001.NetworkACL_STATUS instead
-type NetworkACL_STATUSARM struct {
+type NetworkACL_STATUS_ARM struct {
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
 	Deny  []SignalRRequestType_STATUS `json:"deny,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointACL_STATUS. Use v1beta20211001.PrivateEndpointACL_STATUS instead
-type PrivateEndpointACL_STATUSARM struct {
+type PrivateEndpointACL_STATUS_ARM struct {
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
 	Deny  []SignalRRequestType_STATUS `json:"deny,omitempty"`
 	Name  *string                     `json:"name,omitempty"`
 }
 
 // Deprecated version of ResourceLogCategory_STATUS. Use v1beta20211001.ResourceLogCategory_STATUS instead
-type ResourceLogCategory_STATUSARM struct {
+type ResourceLogCategory_STATUS_ARM struct {
 	Enabled *string `json:"enabled,omitempty"`
 	Name    *string `json:"name,omitempty"`
 }
 
 // Deprecated version of UpstreamTemplate_STATUS. Use v1beta20211001.UpstreamTemplate_STATUS instead
-type UpstreamTemplate_STATUSARM struct {
-	Auth            *UpstreamAuthSettings_STATUSARM `json:"auth,omitempty"`
-	CategoryPattern *string                         `json:"categoryPattern,omitempty"`
-	EventPattern    *string                         `json:"eventPattern,omitempty"`
-	HubPattern      *string                         `json:"hubPattern,omitempty"`
-	UrlTemplate     *string                         `json:"urlTemplate,omitempty"`
+type UpstreamTemplate_STATUS_ARM struct {
+	Auth            *UpstreamAuthSettings_STATUS_ARM `json:"auth,omitempty"`
+	CategoryPattern *string                          `json:"categoryPattern,omitempty"`
+	EventPattern    *string                          `json:"eventPattern,omitempty"`
+	HubPattern      *string                          `json:"hubPattern,omitempty"`
+	UrlTemplate     *string                          `json:"urlTemplate,omitempty"`
 }
 
 // Deprecated version of UpstreamAuthSettings_STATUS. Use v1beta20211001.UpstreamAuthSettings_STATUS instead
-type UpstreamAuthSettings_STATUSARM struct {
-	ManagedIdentity *ManagedIdentitySettings_STATUSARM `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthType_STATUS           `json:"type,omitempty"`
+type UpstreamAuthSettings_STATUS_ARM struct {
+	ManagedIdentity *ManagedIdentitySettings_STATUS_ARM `json:"managedIdentity,omitempty"`
+	Type            *UpstreamAuthType_STATUS            `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedIdentitySettings_STATUS. Use v1beta20211001.ManagedIdentitySettings_STATUS instead
-type ManagedIdentitySettings_STATUSARM struct {
+type ManagedIdentitySettings_STATUS_ARM struct {
 	Resource *string `json:"resource,omitempty"`
 }

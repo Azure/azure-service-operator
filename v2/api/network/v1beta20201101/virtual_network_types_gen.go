@@ -374,18 +374,18 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if network == nil {
 		return nil, nil
 	}
-	result := &VirtualNetwork_SpecARM{}
+	result := &VirtualNetwork_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = network.AzureName
 
 	// Set property ‘ExtendedLocation’:
 	if network.ExtendedLocation != nil {
-		extendedLocationARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -416,38 +416,38 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil {
-		result.Properties = &VirtualNetworkPropertiesFormatARM{}
+		result.Properties = &VirtualNetworkPropertiesFormat_ARM{}
 	}
 	if network.AddressSpace != nil {
-		addressSpaceARM, err := (*network.AddressSpace).ConvertToARM(resolved)
+		addressSpace_ARM, err := (*network.AddressSpace).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		addressSpace := *addressSpaceARM.(*AddressSpaceARM)
+		addressSpace := *addressSpace_ARM.(*AddressSpace_ARM)
 		result.Properties.AddressSpace = &addressSpace
 	}
 	if network.BgpCommunities != nil {
-		bgpCommunitiesARM, err := (*network.BgpCommunities).ConvertToARM(resolved)
+		bgpCommunities_ARM, err := (*network.BgpCommunities).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		bgpCommunities := *bgpCommunitiesARM.(*VirtualNetworkBgpCommunitiesARM)
+		bgpCommunities := *bgpCommunities_ARM.(*VirtualNetworkBgpCommunities_ARM)
 		result.Properties.BgpCommunities = &bgpCommunities
 	}
 	if network.DdosProtectionPlan != nil {
-		ddosProtectionPlanARM, err := (*network.DdosProtectionPlan).ConvertToARM(resolved)
+		ddosProtectionPlan_ARM, err := (*network.DdosProtectionPlan).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ddosProtectionPlan := *ddosProtectionPlanARM.(*SubResourceARM)
+		ddosProtectionPlan := *ddosProtectionPlan_ARM.(*SubResource_ARM)
 		result.Properties.DdosProtectionPlan = &ddosProtectionPlan
 	}
 	if network.DhcpOptions != nil {
-		dhcpOptionsARM, err := (*network.DhcpOptions).ConvertToARM(resolved)
+		dhcpOptions_ARM, err := (*network.DhcpOptions).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		dhcpOptions := *dhcpOptionsARM.(*DhcpOptionsARM)
+		dhcpOptions := *dhcpOptions_ARM.(*DhcpOptions_ARM)
 		result.Properties.DhcpOptions = &dhcpOptions
 	}
 	if network.EnableDdosProtection != nil {
@@ -459,11 +459,11 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.EnableVmProtection = &enableVmProtection
 	}
 	for _, item := range network.IpAllocations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *item_ARM.(*SubResource_ARM))
 	}
 
 	// Set property ‘Tags’:
@@ -478,14 +478,14 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (network *VirtualNetwork_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetwork_SpecARM{}
+	return &VirtualNetwork_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetwork_SpecARM)
+	typedInput, ok := armInput.(VirtualNetwork_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressSpace’:
@@ -1044,14 +1044,14 @@ var _ genruntime.FromARMConverter = &VirtualNetwork_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (network *VirtualNetwork_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetwork_STATUSARM{}
+	return &VirtualNetwork_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetwork_STATUSARM)
+	typedInput, ok := armInput.(VirtualNetwork_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressSpace’:
@@ -1501,7 +1501,7 @@ func (space *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if space == nil {
 		return nil, nil
 	}
-	result := &AddressSpaceARM{}
+	result := &AddressSpace_ARM{}
 
 	// Set property ‘AddressPrefixes’:
 	for _, item := range space.AddressPrefixes {
@@ -1512,14 +1512,14 @@ func (space *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (space *AddressSpace) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AddressSpaceARM{}
+	return &AddressSpace_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (space *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AddressSpaceARM)
+	typedInput, ok := armInput.(AddressSpace_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpaceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefixes’:
@@ -1569,14 +1569,14 @@ var _ genruntime.FromARMConverter = &AddressSpace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (space *AddressSpace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AddressSpace_STATUSARM{}
+	return &AddressSpace_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (space *AddressSpace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AddressSpace_STATUSARM)
+	typedInput, ok := armInput.(AddressSpace_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefixes’:
@@ -1629,7 +1629,7 @@ func (options *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if options == nil {
 		return nil, nil
 	}
-	result := &DhcpOptionsARM{}
+	result := &DhcpOptions_ARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range options.DnsServers {
@@ -1640,14 +1640,14 @@ func (options *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (options *DhcpOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DhcpOptionsARM{}
+	return &DhcpOptions_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (options *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DhcpOptionsARM)
+	typedInput, ok := armInput.(DhcpOptions_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptionsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DnsServers’:
@@ -1697,14 +1697,14 @@ var _ genruntime.FromARMConverter = &DhcpOptions_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (options *DhcpOptions_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DhcpOptions_STATUSARM{}
+	return &DhcpOptions_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (options *DhcpOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DhcpOptions_STATUSARM)
+	typedInput, ok := armInput.(DhcpOptions_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DnsServers’:
@@ -1758,7 +1758,7 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 	if communities == nil {
 		return nil, nil
 	}
-	result := &VirtualNetworkBgpCommunitiesARM{}
+	result := &VirtualNetworkBgpCommunities_ARM{}
 
 	// Set property ‘VirtualNetworkCommunity’:
 	if communities.VirtualNetworkCommunity != nil {
@@ -1770,14 +1770,14 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (communities *VirtualNetworkBgpCommunities) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworkBgpCommunitiesARM{}
+	return &VirtualNetworkBgpCommunities_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkBgpCommunitiesARM)
+	typedInput, ok := armInput.(VirtualNetworkBgpCommunities_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunitiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_ARM, got %T", armInput)
 	}
 
 	// Set property ‘VirtualNetworkCommunity’:
@@ -1831,14 +1831,14 @@ var _ genruntime.FromARMConverter = &VirtualNetworkBgpCommunities_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (communities *VirtualNetworkBgpCommunities_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworkBgpCommunities_STATUSARM{}
+	return &VirtualNetworkBgpCommunities_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (communities *VirtualNetworkBgpCommunities_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkBgpCommunities_STATUSARM)
+	typedInput, ok := armInput.(VirtualNetworkBgpCommunities_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RegionalCommunity’:

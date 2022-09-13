@@ -348,7 +348,7 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if rule == nil {
 		return nil, nil
 	}
-	result := &Redis_FirewallRule_SpecARM{}
+	result := &Redis_FirewallRule_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
@@ -358,7 +358,7 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Properties’:
 	if rule.EndIP != nil || rule.StartIP != nil {
-		result.Properties = &RedisFirewallRulePropertiesARM{}
+		result.Properties = &RedisFirewallRuleProperties_ARM{}
 	}
 	if rule.EndIP != nil {
 		endIP := *rule.EndIP
@@ -373,14 +373,14 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *Redis_FirewallRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_FirewallRule_SpecARM{}
+	return &Redis_FirewallRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_FirewallRule_SpecARM)
+	typedInput, ok := armInput.(Redis_FirewallRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -606,14 +606,14 @@ var _ genruntime.FromARMConverter = &Redis_FirewallRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *Redis_FirewallRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_FirewallRule_STATUSARM{}
+	return &Redis_FirewallRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *Redis_FirewallRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_FirewallRule_STATUSARM)
+	typedInput, ok := armInput.(Redis_FirewallRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

@@ -6,31 +6,31 @@ package v1alpha1api20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_FirewallRule_Spec. Use v1beta20201201.Redis_FirewallRule_Spec instead
-type Redis_FirewallRule_SpecARM struct {
-	AzureName  string                          `json:"azureName,omitempty"`
-	Name       string                          `json:"name,omitempty"`
-	Properties *RedisFirewallRulePropertiesARM `json:"properties,omitempty"`
+type Redis_FirewallRule_Spec_ARM struct {
+	AzureName  string                           `json:"azureName,omitempty"`
+	Name       string                           `json:"name,omitempty"`
+	Properties *RedisFirewallRuleProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_FirewallRule_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Redis_FirewallRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (rule Redis_FirewallRule_SpecARM) GetAPIVersion() string {
+func (rule Redis_FirewallRule_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (rule *Redis_FirewallRule_SpecARM) GetName() string {
+func (rule *Redis_FirewallRule_Spec_ARM) GetName() string {
 	return rule.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
-func (rule *Redis_FirewallRule_SpecARM) GetType() string {
+func (rule *Redis_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
 // Deprecated version of RedisFirewallRuleProperties. Use v1beta20201201.RedisFirewallRuleProperties instead
-type RedisFirewallRulePropertiesARM struct {
+type RedisFirewallRuleProperties_ARM struct {
 	EndIP   *string `json:"endIP,omitempty"`
 	StartIP *string `json:"startIP,omitempty"`
 }

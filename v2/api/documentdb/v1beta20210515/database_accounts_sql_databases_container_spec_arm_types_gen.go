@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_SqlDatabases_Container_SpecARM struct {
+type DatabaseAccounts_SqlDatabases_Container_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
@@ -13,42 +13,42 @@ type DatabaseAccounts_SqlDatabases_Container_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB container.
-	Properties *SqlContainerCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                      `json:"tags,omitempty"`
+	Properties *SqlContainerCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Container_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (container DatabaseAccounts_SqlDatabases_Container_SpecARM) GetAPIVersion() string {
+func (container DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (container *DatabaseAccounts_SqlDatabases_Container_SpecARM) GetName() string {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetName() string {
 	return container.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (container *DatabaseAccounts_SqlDatabases_Container_SpecARM) GetType() string {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
-type SqlContainerCreateUpdatePropertiesARM struct {
+type SqlContainerCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
 	// Resource: The standard JSON format of a container
-	Resource *SqlContainerResourceARM `json:"resource,omitempty"`
+	Resource *SqlContainerResource_ARM `json:"resource,omitempty"`
 }
 
-type SqlContainerResourceARM struct {
+type SqlContainerResource_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// ConflictResolutionPolicy: The conflict resolution policy for the container.
-	ConflictResolutionPolicy *ConflictResolutionPolicyARM `json:"conflictResolutionPolicy,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy_ARM `json:"conflictResolutionPolicy,omitempty"`
 
 	// DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
@@ -58,17 +58,17 @@ type SqlContainerResourceARM struct {
 
 	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
 	// within the container
-	IndexingPolicy *IndexingPolicyARM `json:"indexingPolicy,omitempty"`
+	IndexingPolicy *IndexingPolicy_ARM `json:"indexingPolicy,omitempty"`
 
 	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKeyARM `json:"partitionKey,omitempty"`
+	PartitionKey *ContainerPartitionKey_ARM `json:"partitionKey,omitempty"`
 
 	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
 	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicyARM `json:"uniqueKeyPolicy,omitempty"`
+	UniqueKeyPolicy *UniqueKeyPolicy_ARM `json:"uniqueKeyPolicy,omitempty"`
 }
 
-type ConflictResolutionPolicyARM struct {
+type ConflictResolutionPolicy_ARM struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
@@ -79,7 +79,7 @@ type ConflictResolutionPolicyARM struct {
 	Mode *ConflictResolutionPolicy_Mode `json:"mode,omitempty"`
 }
 
-type ContainerPartitionKeyARM struct {
+type ContainerPartitionKey_ARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
 	Kind *ContainerPartitionKey_Kind `json:"kind,omitempty"`
@@ -91,33 +91,33 @@ type ContainerPartitionKeyARM struct {
 	Version *int `json:"version,omitempty"`
 }
 
-type IndexingPolicyARM struct {
+type IndexingPolicy_ARM struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
 
 	// CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePathARM `json:"compositeIndexes,omitempty"`
+	CompositeIndexes [][]CompositePath_ARM `json:"compositeIndexes,omitempty"`
 
 	// ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPathARM `json:"excludedPaths,omitempty"`
+	ExcludedPaths []ExcludedPath_ARM `json:"excludedPaths,omitempty"`
 
 	// IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPathARM `json:"includedPaths,omitempty"`
+	IncludedPaths []IncludedPath_ARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
 	IndexingMode *IndexingPolicy_IndexingMode `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpecARM `json:"spatialIndexes,omitempty"`
+	SpatialIndexes []SpatialSpec_ARM `json:"spatialIndexes,omitempty"`
 }
 
-type UniqueKeyPolicyARM struct {
+type UniqueKeyPolicy_ARM struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
-	UniqueKeys []UniqueKeyARM `json:"uniqueKeys,omitempty"`
+	UniqueKeys []UniqueKey_ARM `json:"uniqueKeys,omitempty"`
 }
 
-type CompositePathARM struct {
+type CompositePath_ARM struct {
 	// Order: Sort order for composite paths.
 	Order *CompositePath_Order `json:"order,omitempty"`
 
@@ -143,15 +143,15 @@ const (
 	ContainerPartitionKey_Kind_Range     = ContainerPartitionKey_Kind("Range")
 )
 
-type ExcludedPathARM struct {
+type ExcludedPath_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-type IncludedPathARM struct {
+type IncludedPath_ARM struct {
 	// Indexes: List of indexes for this path
-	Indexes []IndexesARM `json:"indexes,omitempty"`
+	Indexes []Indexes_ARM `json:"indexes,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -167,7 +167,7 @@ const (
 	IndexingPolicy_IndexingMode_None       = IndexingPolicy_IndexingMode("none")
 )
 
-type SpatialSpecARM struct {
+type SpatialSpec_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
@@ -176,7 +176,7 @@ type SpatialSpecARM struct {
 	Types []SpatialType `json:"types,omitempty"`
 }
 
-type UniqueKeyARM struct {
+type UniqueKey_ARM struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
@@ -189,7 +189,7 @@ const (
 	CompositePath_Order_Descending = CompositePath_Order("descending")
 )
 
-type IndexesARM struct {
+type Indexes_ARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType `json:"dataType,omitempty"`
 

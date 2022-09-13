@@ -9,84 +9,84 @@ import (
 )
 
 // Deprecated version of Webtest_Spec. Use v1beta20180501preview.Webtest_Spec instead
-type Webtest_SpecARM struct {
-	AzureName  string                `json:"azureName,omitempty"`
-	Location   *string               `json:"location,omitempty"`
-	Name       string                `json:"name,omitempty"`
-	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
-	Tags       *v1.JSON              `json:"tags,omitempty"`
+type Webtest_Spec_ARM struct {
+	AzureName  string                 `json:"azureName,omitempty"`
+	Location   *string                `json:"location,omitempty"`
+	Name       string                 `json:"name,omitempty"`
+	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
+	Tags       *v1.JSON               `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Webtest_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
-func (webtest Webtest_SpecARM) GetAPIVersion() string {
+func (webtest Webtest_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (webtest *Webtest_SpecARM) GetName() string {
+func (webtest *Webtest_Spec_ARM) GetName() string {
 	return webtest.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
-func (webtest *Webtest_SpecARM) GetType() string {
+func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
 // Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead
-type WebTestPropertiesARM struct {
-	Configuration      *WebTestProperties_ConfigurationARM   `json:"Configuration,omitempty"`
-	Description        *string                               `json:"Description,omitempty"`
-	Enabled            *bool                                 `json:"Enabled,omitempty"`
-	Frequency          *int                                  `json:"Frequency,omitempty"`
-	Kind               *WebTestProperties_Kind               `json:"Kind,omitempty"`
-	Locations          []WebTestGeolocationARM               `json:"Locations,omitempty"`
-	Name               *string                               `json:"Name,omitempty"`
-	Request            *WebTestProperties_RequestARM         `json:"Request,omitempty"`
-	RetryEnabled       *bool                                 `json:"RetryEnabled,omitempty"`
-	SyntheticMonitorId *string                               `json:"SyntheticMonitorId,omitempty"`
-	Timeout            *int                                  `json:"Timeout,omitempty"`
-	ValidationRules    *WebTestProperties_ValidationRulesARM `json:"ValidationRules,omitempty"`
+type WebTestProperties_ARM struct {
+	Configuration      *WebTestProperties_Configuration_ARM   `json:"Configuration,omitempty"`
+	Description        *string                                `json:"Description,omitempty"`
+	Enabled            *bool                                  `json:"Enabled,omitempty"`
+	Frequency          *int                                   `json:"Frequency,omitempty"`
+	Kind               *WebTestProperties_Kind                `json:"Kind,omitempty"`
+	Locations          []WebTestGeolocation_ARM               `json:"Locations,omitempty"`
+	Name               *string                                `json:"Name,omitempty"`
+	Request            *WebTestProperties_Request_ARM         `json:"Request,omitempty"`
+	RetryEnabled       *bool                                  `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                                `json:"SyntheticMonitorId,omitempty"`
+	Timeout            *int                                   `json:"Timeout,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
 // Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
-type WebTestGeolocationARM struct {
+type WebTestGeolocation_ARM struct {
 	Id *string `json:"Id,omitempty"`
 }
 
 // Deprecated version of WebTestProperties_Configuration. Use v1beta20180501preview.WebTestProperties_Configuration instead
-type WebTestProperties_ConfigurationARM struct {
+type WebTestProperties_Configuration_ARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
 // Deprecated version of WebTestProperties_Request. Use v1beta20180501preview.WebTestProperties_Request instead
-type WebTestProperties_RequestARM struct {
-	FollowRedirects        *bool            `json:"FollowRedirects,omitempty"`
-	Headers                []HeaderFieldARM `json:"Headers,omitempty"`
-	HttpVerb               *string          `json:"HttpVerb,omitempty"`
-	ParseDependentRequests *bool            `json:"ParseDependentRequests,omitempty"`
-	RequestBody            *string          `json:"RequestBody,omitempty"`
-	RequestUrl             *string          `json:"RequestUrl,omitempty"`
+type WebTestProperties_Request_ARM struct {
+	FollowRedirects        *bool             `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField_ARM `json:"Headers,omitempty"`
+	HttpVerb               *string           `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool             `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string           `json:"RequestBody,omitempty"`
+	RequestUrl             *string           `json:"RequestUrl,omitempty"`
 }
 
 // Deprecated version of WebTestProperties_ValidationRules. Use v1beta20180501preview.WebTestProperties_ValidationRules instead
-type WebTestProperties_ValidationRulesARM struct {
-	ContentValidation             *WebTestProperties_ValidationRules_ContentValidationARM `json:"ContentValidation,omitempty"`
-	ExpectedHttpStatusCode        *int                                                    `json:"ExpectedHttpStatusCode,omitempty"`
-	IgnoreHttpsStatusCode         *bool                                                   `json:"IgnoreHttpsStatusCode,omitempty"`
-	SSLCertRemainingLifetimeCheck *int                                                    `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-	SSLCheck                      *bool                                                   `json:"SSLCheck,omitempty"`
+type WebTestProperties_ValidationRules_ARM struct {
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_ARM `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                     `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                    `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                     `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                    `json:"SSLCheck,omitempty"`
 }
 
 // Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
-type HeaderFieldARM struct {
+type HeaderField_ARM struct {
 	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
 // Deprecated version of WebTestProperties_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation instead
-type WebTestProperties_ValidationRules_ContentValidationARM struct {
+type WebTestProperties_ValidationRules_ContentValidation_ARM struct {
 	ContentMatch    *string `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`

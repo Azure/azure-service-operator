@@ -6,34 +6,34 @@ package v1alpha1api20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
-type Redis_SpecARM struct {
-	AzureName  string                    `json:"azureName,omitempty"`
-	Location   *string                   `json:"location,omitempty"`
-	Name       string                    `json:"name,omitempty"`
-	Properties *RedisCreatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string         `json:"tags,omitempty"`
-	Zones      []string                  `json:"zones,omitempty"`
+type Redis_Spec_ARM struct {
+	AzureName  string                     `json:"azureName,omitempty"`
+	Location   *string                    `json:"location,omitempty"`
+	Name       string                     `json:"name,omitempty"`
+	Properties *RedisCreateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string          `json:"tags,omitempty"`
+	Zones      []string                   `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Redis_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (redis Redis_SpecARM) GetAPIVersion() string {
+func (redis Redis_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (redis *Redis_SpecARM) GetName() string {
+func (redis *Redis_Spec_ARM) GetName() string {
 	return redis.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
-func (redis *Redis_SpecARM) GetType() string {
+func (redis *Redis_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 
 // Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
-type RedisCreatePropertiesARM struct {
+type RedisCreateProperties_ARM struct {
 	EnableNonSslPort    *bool                                      `json:"enableNonSslPort,omitempty"`
 	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
 	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -42,14 +42,14 @@ type RedisCreatePropertiesARM struct {
 	ReplicasPerMaster   *int                                       `json:"replicasPerMaster,omitempty"`
 	ReplicasPerPrimary  *int                                       `json:"replicasPerPrimary,omitempty"`
 	ShardCount          *int                                       `json:"shardCount,omitempty"`
-	Sku                 *SkuARM                                    `json:"sku,omitempty"`
+	Sku                 *Sku_ARM                                   `json:"sku,omitempty"`
 	StaticIP            *string                                    `json:"staticIP,omitempty"`
 	SubnetId            *string                                    `json:"subnetId,omitempty"`
 	TenantSettings      map[string]string                          `json:"tenantSettings,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20201201.Sku instead
-type SkuARM struct {
+type Sku_ARM struct {
 	Capacity *int        `json:"capacity,omitempty"`
 	Family   *Sku_Family `json:"family,omitempty"`
 	Name     *Sku_Name   `json:"name,omitempty"`

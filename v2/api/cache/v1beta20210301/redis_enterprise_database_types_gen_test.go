@@ -404,40 +404,40 @@ func RedisEnterprise_Database_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_Encrypted_STATUS, DatabaseProperties_ClientProtocol_Plaintext_STATUS))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_EnterpriseCluster_STATUS, DatabaseProperties_ClusteringPolicy_OSSCluster_STATUS))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_Encrypted, DatabaseProperties_ClientProtocol_STATUS_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_AllKeysLFU_STATUS,
-		DatabaseProperties_EvictionPolicy_AllKeysLRU_STATUS,
-		DatabaseProperties_EvictionPolicy_AllKeysRandom_STATUS,
-		DatabaseProperties_EvictionPolicy_NoEviction_STATUS,
-		DatabaseProperties_EvictionPolicy_VolatileLFU_STATUS,
-		DatabaseProperties_EvictionPolicy_VolatileLRU_STATUS,
-		DatabaseProperties_EvictionPolicy_VolatileRandom_STATUS,
-		DatabaseProperties_EvictionPolicy_VolatileTTL_STATUS))
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Canceled_STATUS,
-		ProvisioningState_Creating_STATUS,
-		ProvisioningState_Deleting_STATUS,
-		ProvisioningState_Failed_STATUS,
-		ProvisioningState_Succeeded_STATUS,
-		ProvisioningState_Updating_STATUS))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_CreateFailed_STATUS,
-		ResourceState_Creating_STATUS,
-		ResourceState_DeleteFailed_STATUS,
-		ResourceState_Deleting_STATUS,
-		ResourceState_DisableFailed_STATUS,
-		ResourceState_Disabled_STATUS,
-		ResourceState_Disabling_STATUS,
-		ResourceState_EnableFailed_STATUS,
-		ResourceState_Enabling_STATUS,
-		ResourceState_Running_STATUS,
-		ResourceState_UpdateFailed_STATUS,
-		ResourceState_Updating_STATUS))
+		ResourceState_STATUS_CreateFailed,
+		ResourceState_STATUS_Creating,
+		ResourceState_STATUS_DeleteFailed,
+		ResourceState_STATUS_Deleting,
+		ResourceState_STATUS_DisableFailed,
+		ResourceState_STATUS_Disabled,
+		ResourceState_STATUS_Disabling,
+		ResourceState_STATUS_EnableFailed,
+		ResourceState_STATUS_Enabling,
+		ResourceState_STATUS_Running,
+		ResourceState_STATUS_UpdateFailed,
+		ResourceState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -859,7 +859,7 @@ func Persistence_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistence_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistence_STATUS(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_1S_STATUS, Persistence_AofFrequency_Always_STATUS))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_STATUS_1S, Persistence_AofFrequency_STATUS_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_12H_STATUS, Persistence_RdbFrequency_1H_STATUS, Persistence_RdbFrequency_6H_STATUS))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_12H, Persistence_RdbFrequency_STATUS_1H, Persistence_RdbFrequency_STATUS_6H))
 }

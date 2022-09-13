@@ -5,32 +5,32 @@ package v1beta20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ManagedClusters_AgentPool_SpecARM struct {
+type ManagedClusters_AgentPool_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of an agent pool.
-	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
+	Properties *ManagedClusterAgentPoolProfileProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (pool ManagedClusters_AgentPool_SpecARM) GetAPIVersion() string {
+func (pool ManagedClusters_AgentPool_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (pool *ManagedClusters_AgentPool_SpecARM) GetName() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetName() string {
 	return pool.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (pool *ManagedClusters_AgentPool_SpecARM) GetType() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
-type ManagedClusterAgentPoolProfilePropertiesARM struct {
+type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -65,11 +65,11 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfigARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType  `json:"kubeletDiskType,omitempty"`
+	KubeletConfig   *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
+	KubeletDiskType *KubeletDiskType   `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
-	LinuxOSConfig *LinuxOSConfigARM `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
@@ -120,7 +120,7 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	Type *AgentPoolType    `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
-	UpgradeSettings *AgentPoolUpgradeSettingsARM `json:"upgradeSettings,omitempty"`
+	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
@@ -129,7 +129,7 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
-type AgentPoolUpgradeSettingsARM struct {
+type AgentPoolUpgradeSettings_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
 	// up. If not specified, the default is 1. For more information, including best practices, see:
@@ -137,7 +137,7 @@ type AgentPoolUpgradeSettingsARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
-type KubeletConfigARM struct {
+type KubeletConfig_ARM struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
@@ -178,12 +178,12 @@ type KubeletConfigARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
-type LinuxOSConfigARM struct {
+type LinuxOSConfig_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
 	// Sysctls: Sysctl settings for Linux agent nodes.
-	Sysctls *SysctlConfigARM `json:"sysctls,omitempty"`
+	Sysctls *SysctlConfig_ARM `json:"sysctls,omitempty"`
 
 	// TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is
 	// 'madvise'. For more information see [Transparent
@@ -196,7 +196,7 @@ type LinuxOSConfigARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
-type SysctlConfigARM struct {
+type SysctlConfig_ARM struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
 

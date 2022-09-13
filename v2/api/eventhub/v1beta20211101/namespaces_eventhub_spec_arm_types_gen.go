@@ -5,34 +5,34 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Eventhub_SpecARM struct {
+type Namespaces_Eventhub_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties *Namespaces_Eventhub_Spec_PropertiesARM `json:"properties,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (eventhub Namespaces_Eventhub_SpecARM) GetAPIVersion() string {
+func (eventhub Namespaces_Eventhub_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (eventhub *Namespaces_Eventhub_SpecARM) GetName() string {
+func (eventhub *Namespaces_Eventhub_Spec_ARM) GetName() string {
 	return eventhub.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
-func (eventhub *Namespaces_Eventhub_SpecARM) GetType() string {
+func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
-type Namespaces_Eventhub_Spec_PropertiesARM struct {
+type Namespaces_Eventhub_Properties_Spec_ARM struct {
 	// CaptureDescription: Properties of capture description
-	CaptureDescription *CaptureDescriptionARM `json:"captureDescription,omitempty"`
+	CaptureDescription *CaptureDescription_ARM `json:"captureDescription,omitempty"`
 
 	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
@@ -41,9 +41,9 @@ type Namespaces_Eventhub_Spec_PropertiesARM struct {
 	PartitionCount *int `json:"partitionCount,omitempty"`
 }
 
-type CaptureDescriptionARM struct {
+type CaptureDescription_ARM struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
-	Destination *DestinationARM `json:"destination,omitempty"`
+	Destination *Destination_ARM `json:"destination,omitempty"`
 
 	// Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -64,15 +64,15 @@ type CaptureDescriptionARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
-type DestinationARM struct {
+type Destination_ARM struct {
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties describing the storage account, blob container and archive name format for capture destination
-	Properties *Destination_PropertiesARM `json:"properties,omitempty"`
+	Properties *Destination_Properties_ARM `json:"properties,omitempty"`
 }
 
-type Destination_PropertiesARM struct {
+type Destination_Properties_ARM struct {
 	// ArchiveNameFormat: Blob naming convention for archive, e.g.
 	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
 	// (Namespace,EventHub .. etc) are mandatory irrespective of order

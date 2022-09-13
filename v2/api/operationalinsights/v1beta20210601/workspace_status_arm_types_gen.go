@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type Workspace_STATUSARM struct {
+type Workspace_STATUS_ARM struct {
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
 
@@ -18,7 +18,7 @@ type Workspace_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Workspace properties.
-	Properties *WorkspaceProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *WorkspaceProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -27,7 +27,7 @@ type Workspace_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type WorkspaceProperties_STATUSARM struct {
+type WorkspaceProperties_STATUS_ARM struct {
 	// CreatedDate: Workspace creation date.
 	CreatedDate *string `json:"createdDate,omitempty"`
 
@@ -35,7 +35,7 @@ type WorkspaceProperties_STATUSARM struct {
 	CustomerId *string `json:"customerId,omitempty"`
 
 	// Features: Workspace features.
-	Features *WorkspaceFeatures_STATUSARM `json:"features,omitempty"`
+	Features *WorkspaceFeatures_STATUS_ARM `json:"features,omitempty"`
 
 	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
@@ -44,7 +44,7 @@ type WorkspaceProperties_STATUSARM struct {
 	ModifiedDate *string `json:"modifiedDate,omitempty"`
 
 	// PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUSARM `json:"privateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS_ARM `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -60,13 +60,13 @@ type WorkspaceProperties_STATUSARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
 	// Sku: The SKU of the workspace.
-	Sku *WorkspaceSku_STATUSARM `json:"sku,omitempty"`
+	Sku *WorkspaceSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// WorkspaceCapping: The daily volume cap for ingestion.
-	WorkspaceCapping *WorkspaceCapping_STATUSARM `json:"workspaceCapping,omitempty"`
+	WorkspaceCapping *WorkspaceCapping_STATUS_ARM `json:"workspaceCapping,omitempty"`
 }
 
-type PrivateLinkScopedResource_STATUSARM struct {
+type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"resourceId,omitempty"`
 
@@ -74,7 +74,7 @@ type PrivateLinkScopedResource_STATUSARM struct {
 	ScopeId *string `json:"scopeId,omitempty"`
 }
 
-type WorkspaceCapping_STATUSARM struct {
+type WorkspaceCapping_STATUS_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
@@ -85,7 +85,7 @@ type WorkspaceCapping_STATUSARM struct {
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
 }
 
-type WorkspaceFeatures_STATUSARM struct {
+type WorkspaceFeatures_STATUS_ARM struct {
 	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
@@ -102,7 +102,7 @@ type WorkspaceFeatures_STATUSARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
-type WorkspaceSku_STATUSARM struct {
+type WorkspaceSku_STATUS_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`

@@ -397,19 +397,19 @@ func EventSubscription_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscription_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscription_STATUS(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0_STATUS, EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema_STATUS, EventSubscriptionProperties_EventDeliverySchema_EventGridSchema_STATUS))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_STATUS_CloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchema_STATUS_CustomInputSchema, EventSubscriptionProperties_EventDeliverySchema_STATUS_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionProperties_ProvisioningState_AwaitingManualAction_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Canceled_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Creating_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Deleting_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Failed_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Succeeded_STATUS,
-		EventSubscriptionProperties_ProvisioningState_Updating_STATUS))
+		EventSubscriptionProperties_ProvisioningState_STATUS_AwaitingManualAction,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Canceled,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Creating,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Deleting,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Failed,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Succeeded,
+		EventSubscriptionProperties_ProvisioningState_STATUS_Updating))
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -626,7 +626,7 @@ func DeadLetterDestination_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointType_StorageBlob_STATUS))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointType_STATUS_StorageBlob))
 }
 
 func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -840,13 +840,13 @@ func EventSubscriptionDestination_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS(gens map[string]gopter.Gen) {
 	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionDestination_EndpointType_AzureFunction_STATUS,
-		EventSubscriptionDestination_EndpointType_EventHub_STATUS,
-		EventSubscriptionDestination_EndpointType_HybridConnection_STATUS,
-		EventSubscriptionDestination_EndpointType_ServiceBusQueue_STATUS,
-		EventSubscriptionDestination_EndpointType_ServiceBusTopic_STATUS,
-		EventSubscriptionDestination_EndpointType_StorageQueue_STATUS,
-		EventSubscriptionDestination_EndpointType_WebHook_STATUS))
+		EventSubscriptionDestination_EndpointType_STATUS_AzureFunction,
+		EventSubscriptionDestination_EndpointType_STATUS_EventHub,
+		EventSubscriptionDestination_EndpointType_STATUS_HybridConnection,
+		EventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue,
+		EventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic,
+		EventSubscriptionDestination_EndpointType_STATUS_StorageQueue,
+		EventSubscriptionDestination_EndpointType_STATUS_WebHook))
 }
 
 func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1512,16 +1512,16 @@ func AdvancedFilter_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-		AdvancedFilter_OperatorType_BoolEquals_STATUS,
-		AdvancedFilter_OperatorType_NumberGreaterThan_STATUS,
-		AdvancedFilter_OperatorType_NumberGreaterThanOrEquals_STATUS,
-		AdvancedFilter_OperatorType_NumberIn_STATUS,
-		AdvancedFilter_OperatorType_NumberLessThan_STATUS,
-		AdvancedFilter_OperatorType_NumberLessThanOrEquals_STATUS,
-		AdvancedFilter_OperatorType_NumberNotIn_STATUS,
-		AdvancedFilter_OperatorType_StringBeginsWith_STATUS,
-		AdvancedFilter_OperatorType_StringContains_STATUS,
-		AdvancedFilter_OperatorType_StringEndsWith_STATUS,
-		AdvancedFilter_OperatorType_StringIn_STATUS,
-		AdvancedFilter_OperatorType_StringNotIn_STATUS))
+		AdvancedFilter_OperatorType_STATUS_BoolEquals,
+		AdvancedFilter_OperatorType_STATUS_NumberGreaterThan,
+		AdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals,
+		AdvancedFilter_OperatorType_STATUS_NumberIn,
+		AdvancedFilter_OperatorType_STATUS_NumberLessThan,
+		AdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals,
+		AdvancedFilter_OperatorType_STATUS_NumberNotIn,
+		AdvancedFilter_OperatorType_STATUS_StringBeginsWith,
+		AdvancedFilter_OperatorType_STATUS_StringContains,
+		AdvancedFilter_OperatorType_STATUS_StringEndsWith,
+		AdvancedFilter_OperatorType_STATUS_StringIn,
+		AdvancedFilter_OperatorType_STATUS_StringNotIn))
 }

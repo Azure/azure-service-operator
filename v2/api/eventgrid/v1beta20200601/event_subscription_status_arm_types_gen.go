@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type EventSubscription_STATUSARM struct {
+type EventSubscription_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -11,21 +11,21 @@ type EventSubscription_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the event subscription.
-	Properties *EventSubscriptionProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *EventSubscriptionProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Event Subscription resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type EventSubscriptionProperties_STATUSARM struct {
+type EventSubscriptionProperties_STATUS_ARM struct {
 	// DeadLetterDestination: The DeadLetter destination of the event subscription.
-	DeadLetterDestination *DeadLetterDestination_STATUSARM `json:"deadLetterDestination,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS_ARM `json:"deadLetterDestination,omitempty"`
 
 	// Destination: Information about the destination where events have to be delivered for the event subscription.
-	Destination *EventSubscriptionDestination_STATUSARM `json:"destination,omitempty"`
+	Destination *EventSubscriptionDestination_STATUS_ARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
 	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_STATUS `json:"eventDeliverySchema,omitempty"`
@@ -34,7 +34,7 @@ type EventSubscriptionProperties_STATUSARM struct {
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
 
 	// Filter: Information about the filter for the event subscription.
-	Filter *EventSubscriptionFilter_STATUSARM `json:"filter,omitempty"`
+	Filter *EventSubscriptionFilter_STATUS_ARM `json:"filter,omitempty"`
 
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
@@ -44,25 +44,25 @@ type EventSubscriptionProperties_STATUSARM struct {
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
-	RetryPolicy *RetryPolicy_STATUSARM `json:"retryPolicy,omitempty"`
+	RetryPolicy *RetryPolicy_STATUS_ARM `json:"retryPolicy,omitempty"`
 
 	// Topic: Name of the topic of the event subscription.
 	Topic *string `json:"topic,omitempty"`
 }
 
-type DeadLetterDestination_STATUSARM struct {
+type DeadLetterDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
 	EndpointType *DeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 }
 
-type EventSubscriptionDestination_STATUSARM struct {
+type EventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *EventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 }
 
-type EventSubscriptionFilter_STATUSARM struct {
+type EventSubscriptionFilter_STATUS_ARM struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilter_STATUSARM `json:"advancedFilters,omitempty"`
+	AdvancedFilters []AdvancedFilter_STATUS_ARM `json:"advancedFilters,omitempty"`
 
 	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
 	// subscribe to all default event types, set the IncludedEventTypes to null.
@@ -82,7 +82,7 @@ type EventSubscriptionFilter_STATUSARM struct {
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
-type RetryPolicy_STATUSARM struct {
+type RetryPolicy_STATUS_ARM struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 
@@ -90,7 +90,7 @@ type RetryPolicy_STATUSARM struct {
 	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
-type AdvancedFilter_STATUSARM struct {
+type AdvancedFilter_STATUS_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 

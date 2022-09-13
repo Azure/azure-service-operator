@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20210101
 
-type BatchAccount_STATUSARM struct {
+type BatchAccount_STATUS_ARM struct {
 	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the Batch account.
-	Identity *BatchAccountIdentity_STATUSARM `json:"identity,omitempty"`
+	Identity *BatchAccountIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: The location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -17,7 +17,7 @@ type BatchAccount_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the account.
-	Properties *BatchAccountProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *BatchAccountProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: The tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,7 +26,7 @@ type BatchAccount_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type BatchAccountIdentity_STATUSARM struct {
+type BatchAccountIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -40,14 +40,14 @@ type BatchAccountIdentity_STATUSARM struct {
 	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	// references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type BatchAccountProperties_STATUSARM struct {
+type BatchAccountProperties_STATUS_ARM struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
-	AccountEndpoint              *string                          `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota *int                             `json:"activeJobAndJobScheduleQuota,omitempty"`
-	AutoStorage                  *AutoStorageProperties_STATUSARM `json:"autoStorage,omitempty"`
+	AccountEndpoint              *string                           `json:"accountEndpoint,omitempty"`
+	ActiveJobAndJobScheduleQuota *int                              `json:"activeJobAndJobScheduleQuota,omitempty"`
+	AutoStorage                  *AutoStorageProperties_STATUS_ARM `json:"autoStorage,omitempty"`
 
 	// DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
 	// so this value is not returned.
@@ -56,7 +56,7 @@ type BatchAccountProperties_STATUSARM struct {
 	// DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
 	// accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
 	// returned.
-	DedicatedCoreQuotaPerVMFamily []VirtualMachineFamilyCoreQuota_STATUSARM `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
+	DedicatedCoreQuotaPerVMFamily []VirtualMachineFamilyCoreQuota_STATUS_ARM `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
 
 	// DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
 	// per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
@@ -67,8 +67,8 @@ type BatchAccountProperties_STATUSARM struct {
 
 	// Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
-	Encryption        *EncryptionProperties_STATUSARM `json:"encryption,omitempty"`
-	KeyVaultReference *KeyVaultReference_STATUSARM    `json:"keyVaultReference,omitempty"`
+	Encryption        *EncryptionProperties_STATUS_ARM `json:"encryption,omitempty"`
+	KeyVaultReference *KeyVaultReference_STATUS_ARM    `json:"keyVaultReference,omitempty"`
 
 	// LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
 	// so this value is not returned.
@@ -77,7 +77,7 @@ type BatchAccountProperties_STATUSARM struct {
 	PoolQuota            *int                       `json:"poolQuota,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
 	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -86,7 +86,7 @@ type BatchAccountProperties_STATUSARM struct {
 	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type AutoStorageProperties_STATUSARM struct {
+type AutoStorageProperties_STATUS_ARM struct {
 	// LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
 	LastKeySync *string `json:"lastKeySync,omitempty"`
 
@@ -97,12 +97,12 @@ type AutoStorageProperties_STATUSARM struct {
 type BatchAccountIdentity_Type_STATUS string
 
 const (
-	BatchAccountIdentity_Type_None_STATUS           = BatchAccountIdentity_Type_STATUS("None")
-	BatchAccountIdentity_Type_SystemAssigned_STATUS = BatchAccountIdentity_Type_STATUS("SystemAssigned")
-	BatchAccountIdentity_Type_UserAssigned_STATUS   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+	BatchAccountIdentity_Type_STATUS_None           = BatchAccountIdentity_Type_STATUS("None")
+	BatchAccountIdentity_Type_STATUS_SystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
+	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
 )
 
-type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
+type BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -110,15 +110,15 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type EncryptionProperties_STATUSARM struct {
+type EncryptionProperties_STATUS_ARM struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
-	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 }
 
-type KeyVaultReference_STATUSARM struct {
+type KeyVaultReference_STATUS_ARM struct {
 	// Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id *string `json:"id,omitempty"`
 
@@ -126,7 +126,7 @@ type KeyVaultReference_STATUSARM struct {
 	Url *string `json:"url,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Etag: The ETag of the resource, used for concurrency statements.
 	Etag *string `json:"etag,omitempty"`
 
@@ -137,13 +137,13 @@ type PrivateEndpointConnection_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the private endpoint connection.
-	Properties *PrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualMachineFamilyCoreQuota_STATUSARM struct {
+type VirtualMachineFamilyCoreQuota_STATUS_ARM struct {
 	// CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
 
@@ -151,7 +151,7 @@ type VirtualMachineFamilyCoreQuota_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-type KeyVaultProperties_STATUSARM struct {
+type KeyVaultProperties_STATUS_ARM struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
 	// prerequisites must be met:
@@ -161,17 +161,17 @@ type KeyVaultProperties_STATUSARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-type PrivateEndpointConnectionProperties_STATUSARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                    `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                  `json:"privateLinkServiceConnectionState,omitempty"`
+type PrivateEndpointConnectionProperties_STATUS_ARM struct {
+	PrivateEndpoint                   *PrivateEndpoint_STATUS_ARM                                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM                 `json:"privateLinkServiceConnectionState,omitempty"`
 	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type PrivateEndpoint_STATUSARM struct {
+type PrivateEndpoint_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type PrivateLinkServiceConnectionState_STATUSARM struct {
+type PrivateLinkServiceConnectionState_STATUS_ARM struct {
 	ActionRequired *string                                    `json:"actionRequired,omitempty"`
 	Description    *string                                    `json:"description,omitempty"`
 	Status         *PrivateLinkServiceConnectionStatus_STATUS `json:"status,omitempty"`

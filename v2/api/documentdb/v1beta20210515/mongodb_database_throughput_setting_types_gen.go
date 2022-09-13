@@ -348,7 +348,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Convert
 	if setting == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_MongodbDatabases_ThroughputSetting_SpecARM{}
+	result := &DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = setting.AzureName
@@ -364,14 +364,14 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Convert
 
 	// Set property ‘Properties’:
 	if setting.Resource != nil {
-		result.Properties = &ThroughputSettingsUpdatePropertiesARM{}
+		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
 	}
 	if setting.Resource != nil {
-		resourceARM, err := (*setting.Resource).ConvertToARM(resolved)
+		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*ThroughputSettingsResourceARM)
+		resource := *resource_ARM.(*ThroughputSettingsResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -387,14 +387,14 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_SpecARM{}
+	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_ThroughputSetting_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_ThroughputSetting_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -654,14 +654,14 @@ var _ genruntime.FromARMConverter = &DatabaseAccounts_MongodbDatabases_Throughpu
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM{}
+	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM)
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

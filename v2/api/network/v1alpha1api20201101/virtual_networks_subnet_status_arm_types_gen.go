@@ -4,157 +4,157 @@
 package v1alpha1api20201101
 
 // Deprecated version of VirtualNetworks_Subnet_STATUS. Use v1beta20201101.VirtualNetworks_Subnet_STATUS instead
-type VirtualNetworks_Subnet_STATUSARM struct {
-	Etag       *string                           `json:"etag,omitempty"`
-	Id         *string                           `json:"id,omitempty"`
-	Name       *string                           `json:"name,omitempty"`
-	Properties *SubnetPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                           `json:"type,omitempty"`
+type VirtualNetworks_Subnet_STATUS_ARM struct {
+	Etag       *string                            `json:"etag,omitempty"`
+	Id         *string                            `json:"id,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Properties *SubnetPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
 }
 
 // Deprecated version of SubnetPropertiesFormat_STATUS. Use v1beta20201101.SubnetPropertiesFormat_STATUS instead
-type SubnetPropertiesFormat_STATUSARM struct {
+type SubnetPropertiesFormat_STATUS_ARM struct {
 	AddressPrefix                      *string                                                          `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                         `json:"addressPrefixes,omitempty"`
-	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUSARM                    `json:"applicationGatewayIpConfigurations,omitempty"`
-	Delegations                        []Delegation_STATUSARM                                           `json:"delegations,omitempty"`
-	IpAllocations                      []SubResource_STATUSARM                                          `json:"ipAllocations,omitempty"`
-	IpConfigurationProfiles            []IPConfigurationProfile_STATUSARM                               `json:"ipConfigurationProfiles,omitempty"`
-	IpConfigurations                   []IPConfiguration_STATUSARM                                      `json:"ipConfigurations,omitempty"`
-	NatGateway                         *SubResource_STATUSARM                                           `json:"natGateway,omitempty"`
-	NetworkSecurityGroup               *NetworkSecurityGroup_STATUSARM                                  `json:"networkSecurityGroup,omitempty"`
+	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUS_ARM                   `json:"applicationGatewayIpConfigurations,omitempty"`
+	Delegations                        []Delegation_STATUS_ARM                                          `json:"delegations,omitempty"`
+	IpAllocations                      []SubResource_STATUS_ARM                                         `json:"ipAllocations,omitempty"`
+	IpConfigurationProfiles            []IPConfigurationProfile_STATUS_ARM                              `json:"ipConfigurationProfiles,omitempty"`
+	IpConfigurations                   []IPConfiguration_STATUS_ARM                                     `json:"ipConfigurations,omitempty"`
+	NatGateway                         *SubResource_STATUS_ARM                                          `json:"natGateway,omitempty"`
+	NetworkSecurityGroup               *NetworkSecurityGroup_STATUS_ARM                                 `json:"networkSecurityGroup,omitempty"`
 	PrivateEndpointNetworkPolicies     *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS    `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateEndpoints                   []PrivateEndpoint_STATUSARM                                      `json:"privateEndpoints,omitempty"`
+	PrivateEndpoints                   []PrivateEndpoint_STATUS_ARM                                     `json:"privateEndpoints,omitempty"`
 	PrivateLinkServiceNetworkPolicies  *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS `json:"privateLinkServiceNetworkPolicies,omitempty"`
 	ProvisioningState                  *ProvisioningState_STATUS                                        `json:"provisioningState,omitempty"`
 	Purpose                            *string                                                          `json:"purpose,omitempty"`
-	ResourceNavigationLinks            []ResourceNavigationLink_STATUSARM                               `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                         *RouteTable_STATUSARM                                            `json:"routeTable,omitempty"`
-	ServiceAssociationLinks            []ServiceAssociationLink_STATUSARM                               `json:"serviceAssociationLinks,omitempty"`
-	ServiceEndpointPolicies            []ServiceEndpointPolicy_STATUSARM                                `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_STATUSARM                      `json:"serviceEndpoints,omitempty"`
+	ResourceNavigationLinks            []ResourceNavigationLink_STATUS_ARM                              `json:"resourceNavigationLinks,omitempty"`
+	RouteTable                         *RouteTable_STATUS_ARM                                           `json:"routeTable,omitempty"`
+	ServiceAssociationLinks            []ServiceAssociationLink_STATUS_ARM                              `json:"serviceAssociationLinks,omitempty"`
+	ServiceEndpointPolicies            []ServiceEndpointPolicy_STATUS_ARM                               `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_STATUS_ARM                     `json:"serviceEndpoints,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfiguration_STATUS. Use v1beta20201101.ApplicationGatewayIPConfiguration_STATUS instead
-type ApplicationGatewayIPConfiguration_STATUSARM struct {
-	Etag       *string                                                      `json:"etag,omitempty"`
-	Id         *string                                                      `json:"id,omitempty"`
-	Name       *string                                                      `json:"name,omitempty"`
-	Properties *ApplicationGatewayIPConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                                      `json:"type,omitempty"`
+type ApplicationGatewayIPConfiguration_STATUS_ARM struct {
+	Etag       *string                                                       `json:"etag,omitempty"`
+	Id         *string                                                       `json:"id,omitempty"`
+	Name       *string                                                       `json:"name,omitempty"`
+	Properties *ApplicationGatewayIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                                       `json:"type,omitempty"`
 }
 
 // Deprecated version of Delegation_STATUS. Use v1beta20201101.Delegation_STATUS instead
-type Delegation_STATUSARM struct {
-	Etag       *string                                      `json:"etag,omitempty"`
-	Id         *string                                      `json:"id,omitempty"`
-	Name       *string                                      `json:"name,omitempty"`
-	Properties *ServiceDelegationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
+type Delegation_STATUS_ARM struct {
+	Etag       *string                                       `json:"etag,omitempty"`
+	Id         *string                                       `json:"id,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Properties *ServiceDelegationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
 // Deprecated version of IPConfiguration_STATUS. Use v1beta20201101.IPConfiguration_STATUS instead
-type IPConfiguration_STATUSARM struct {
-	Etag       *string                                    `json:"etag,omitempty"`
-	Id         *string                                    `json:"id,omitempty"`
-	Name       *string                                    `json:"name,omitempty"`
-	Properties *IPConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+type IPConfiguration_STATUS_ARM struct {
+	Etag       *string                                     `json:"etag,omitempty"`
+	Id         *string                                     `json:"id,omitempty"`
+	Name       *string                                     `json:"name,omitempty"`
+	Properties *IPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of IPConfigurationProfile_STATUS. Use v1beta20201101.IPConfigurationProfile_STATUS instead
-type IPConfigurationProfile_STATUSARM struct {
-	Etag       *string                                           `json:"etag,omitempty"`
-	Id         *string                                           `json:"id,omitempty"`
-	Name       *string                                           `json:"name,omitempty"`
-	Properties *IPConfigurationProfilePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                           `json:"type,omitempty"`
+type IPConfigurationProfile_STATUS_ARM struct {
+	Etag       *string                                            `json:"etag,omitempty"`
+	Id         *string                                            `json:"id,omitempty"`
+	Name       *string                                            `json:"name,omitempty"`
+	Properties *IPConfigurationProfilePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                            `json:"type,omitempty"`
 }
 
 // Deprecated version of ResourceNavigationLink_STATUS. Use v1beta20201101.ResourceNavigationLink_STATUS instead
-type ResourceNavigationLink_STATUSARM struct {
-	Etag       *string                                 `json:"etag,omitempty"`
-	Id         *string                                 `json:"id,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *ResourceNavigationLinkFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+type ResourceNavigationLink_STATUS_ARM struct {
+	Etag       *string                                  `json:"etag,omitempty"`
+	Id         *string                                  `json:"id,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *ResourceNavigationLinkFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of RouteTable_STATUS. Use v1beta20201101.RouteTable_STATUS instead
-type RouteTable_STATUSARM struct {
-	Etag       *string                               `json:"etag,omitempty"`
-	Id         *string                               `json:"id,omitempty"`
-	Location   *string                               `json:"location,omitempty"`
-	Name       *string                               `json:"name,omitempty"`
-	Properties *RouteTablePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                     `json:"tags,omitempty"`
-	Type       *string                               `json:"type,omitempty"`
+type RouteTable_STATUS_ARM struct {
+	Etag       *string                                `json:"etag,omitempty"`
+	Id         *string                                `json:"id,omitempty"`
+	Location   *string                                `json:"location,omitempty"`
+	Name       *string                                `json:"name,omitempty"`
+	Properties *RouteTablePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                      `json:"tags,omitempty"`
+	Type       *string                                `json:"type,omitempty"`
 }
 
 // Deprecated version of ServiceAssociationLink_STATUS. Use v1beta20201101.ServiceAssociationLink_STATUS instead
-type ServiceAssociationLink_STATUSARM struct {
-	Etag       *string                                           `json:"etag,omitempty"`
-	Id         *string                                           `json:"id,omitempty"`
-	Name       *string                                           `json:"name,omitempty"`
-	Properties *ServiceAssociationLinkPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                           `json:"type,omitempty"`
+type ServiceAssociationLink_STATUS_ARM struct {
+	Etag       *string                                            `json:"etag,omitempty"`
+	Id         *string                                            `json:"id,omitempty"`
+	Name       *string                                            `json:"name,omitempty"`
+	Properties *ServiceAssociationLinkPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                            `json:"type,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicy_STATUS. Use v1beta20201101.ServiceEndpointPolicy_STATUS instead
-type ServiceEndpointPolicy_STATUSARM struct {
-	Etag       *string                                          `json:"etag,omitempty"`
-	Id         *string                                          `json:"id,omitempty"`
-	Kind       *string                                          `json:"kind,omitempty"`
-	Location   *string                                          `json:"location,omitempty"`
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *ServiceEndpointPolicyPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
-	Type       *string                                          `json:"type,omitempty"`
+type ServiceEndpointPolicy_STATUS_ARM struct {
+	Etag       *string                                           `json:"etag,omitempty"`
+	Id         *string                                           `json:"id,omitempty"`
+	Kind       *string                                           `json:"kind,omitempty"`
+	Location   *string                                           `json:"location,omitempty"`
+	Name       *string                                           `json:"name,omitempty"`
+	Properties *ServiceEndpointPolicyPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                                 `json:"tags,omitempty"`
+	Type       *string                                           `json:"type,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPropertiesFormat_STATUS. Use v1beta20201101.ServiceEndpointPropertiesFormat_STATUS instead
-type ServiceEndpointPropertiesFormat_STATUSARM struct {
+type ServiceEndpointPropertiesFormat_STATUS_ARM struct {
 	Locations         []string                  `json:"locations,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	Service           *string                   `json:"service,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfigurationPropertiesFormat_STATUS. Use v1beta20201101.ApplicationGatewayIPConfigurationPropertiesFormat_STATUS instead
-type ApplicationGatewayIPConfigurationPropertiesFormat_STATUSARM struct {
+type ApplicationGatewayIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-	Subnet            *SubResource_STATUSARM    `json:"subnet,omitempty"`
+	Subnet            *SubResource_STATUS_ARM   `json:"subnet,omitempty"`
 }
 
 // Deprecated version of IPConfigurationProfilePropertiesFormat_STATUS. Use v1beta20201101.IPConfigurationProfilePropertiesFormat_STATUS instead
-type IPConfigurationProfilePropertiesFormat_STATUSARM struct {
+type IPConfigurationProfilePropertiesFormat_STATUS_ARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-	Subnet            *Subnet_STATUSARM         `json:"subnet,omitempty"`
+	Subnet            *Subnet_STATUS_ARM        `json:"subnet,omitempty"`
 }
 
 // Deprecated version of IPConfigurationPropertiesFormat_STATUS. Use v1beta20201101.IPConfigurationPropertiesFormat_STATUS instead
-type IPConfigurationPropertiesFormat_STATUSARM struct {
-	PrivateIPAddress          *string                    `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_STATUS  `json:"provisioningState,omitempty"`
-	PublicIPAddress           *PublicIPAddress_STATUSARM `json:"publicIPAddress,omitempty"`
-	Subnet                    *Subnet_STATUSARM          `json:"subnet,omitempty"`
+type IPConfigurationPropertiesFormat_STATUS_ARM struct {
+	PrivateIPAddress          *string                     `json:"privateIPAddress,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS  `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicIPAddress           *PublicIPAddress_STATUS_ARM `json:"publicIPAddress,omitempty"`
+	Subnet                    *Subnet_STATUS_ARM          `json:"subnet,omitempty"`
 }
 
 // Deprecated version of ResourceNavigationLinkFormat_STATUS. Use v1beta20201101.ResourceNavigationLinkFormat_STATUS instead
-type ResourceNavigationLinkFormat_STATUSARM struct {
+type ResourceNavigationLinkFormat_STATUS_ARM struct {
 	Link               *string                   `json:"link,omitempty"`
 	LinkedResourceType *string                   `json:"linkedResourceType,omitempty"`
 	ProvisioningState  *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of RouteTablePropertiesFormat_STATUS. Use v1beta20201101.RouteTablePropertiesFormat_STATUS instead
-type RouteTablePropertiesFormat_STATUSARM struct {
+type RouteTablePropertiesFormat_STATUS_ARM struct {
 	DisableBgpRoutePropagation *bool                     `json:"disableBgpRoutePropagation,omitempty"`
 	ProvisioningState          *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	ResourceGuid               *string                   `json:"resourceGuid,omitempty"`
 }
 
 // Deprecated version of ServiceAssociationLinkPropertiesFormat_STATUS. Use v1beta20201101.ServiceAssociationLinkPropertiesFormat_STATUS instead
-type ServiceAssociationLinkPropertiesFormat_STATUSARM struct {
+type ServiceAssociationLinkPropertiesFormat_STATUS_ARM struct {
 	AllowDelete        *bool                     `json:"allowDelete,omitempty"`
 	Link               *string                   `json:"link,omitempty"`
 	LinkedResourceType *string                   `json:"linkedResourceType,omitempty"`
@@ -163,30 +163,30 @@ type ServiceAssociationLinkPropertiesFormat_STATUSARM struct {
 }
 
 // Deprecated version of ServiceDelegationPropertiesFormat_STATUS. Use v1beta20201101.ServiceDelegationPropertiesFormat_STATUS instead
-type ServiceDelegationPropertiesFormat_STATUSARM struct {
+type ServiceDelegationPropertiesFormat_STATUS_ARM struct {
 	Actions           []string                  `json:"actions,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	ServiceName       *string                   `json:"serviceName,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicyPropertiesFormat_STATUS. Use v1beta20201101.ServiceEndpointPolicyPropertiesFormat_STATUS instead
-type ServiceEndpointPolicyPropertiesFormat_STATUSARM struct {
-	ProvisioningState                *ProvisioningState_STATUS                   `json:"provisioningState,omitempty"`
-	ResourceGuid                     *string                                     `json:"resourceGuid,omitempty"`
-	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_STATUSARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
-	Subnets                          []Subnet_STATUSARM                          `json:"subnets,omitempty"`
+type ServiceEndpointPolicyPropertiesFormat_STATUS_ARM struct {
+	ProvisioningState                *ProvisioningState_STATUS                    `json:"provisioningState,omitempty"`
+	ResourceGuid                     *string                                      `json:"resourceGuid,omitempty"`
+	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_STATUS_ARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
+	Subnets                          []Subnet_STATUS_ARM                          `json:"subnets,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicyDefinition_STATUS. Use v1beta20201101.ServiceEndpointPolicyDefinition_STATUS instead
-type ServiceEndpointPolicyDefinition_STATUSARM struct {
-	Etag       *string                                                    `json:"etag,omitempty"`
-	Id         *string                                                    `json:"id,omitempty"`
-	Name       *string                                                    `json:"name,omitempty"`
-	Properties *ServiceEndpointPolicyDefinitionPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+type ServiceEndpointPolicyDefinition_STATUS_ARM struct {
+	Etag       *string                                                     `json:"etag,omitempty"`
+	Id         *string                                                     `json:"id,omitempty"`
+	Name       *string                                                     `json:"name,omitempty"`
+	Properties *ServiceEndpointPolicyDefinitionPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicyDefinitionPropertiesFormat_STATUS. Use v1beta20201101.ServiceEndpointPolicyDefinitionPropertiesFormat_STATUS instead
-type ServiceEndpointPolicyDefinitionPropertiesFormat_STATUSARM struct {
+type ServiceEndpointPolicyDefinitionPropertiesFormat_STATUS_ARM struct {
 	Description       *string                   `json:"description,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	Service           *string                   `json:"service,omitempty"`

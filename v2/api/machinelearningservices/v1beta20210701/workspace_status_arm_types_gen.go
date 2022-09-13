@@ -3,13 +3,13 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
-type Workspace_STATUSARM struct {
+type Workspace_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -18,13 +18,13 @@ type Workspace_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of the machine learning workspace.
-	Properties *WorkspaceProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *WorkspaceProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -33,7 +33,7 @@ type Workspace_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -44,10 +44,10 @@ type Identity_STATUSARM struct {
 	Type *Identity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The user assigned identities associated with the resource.
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
 
@@ -55,7 +55,7 @@ type Sku_STATUSARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -75,7 +75,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type WorkspaceProperties_STATUSARM struct {
+type WorkspaceProperties_STATUS_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 
@@ -94,7 +94,7 @@ type WorkspaceProperties_STATUSARM struct {
 	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
 
 	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty_STATUSARM `json:"encryption,omitempty"`
+	Encryption *EncryptionProperty_STATUS_ARM `json:"encryption,omitempty"`
 
 	// FriendlyName: The friendly name for this workspace. This name in mutable
 	FriendlyName *string `json:"friendlyName,omitempty"`
@@ -113,13 +113,13 @@ type WorkspaceProperties_STATUSARM struct {
 	MlFlowTrackingUri *string `json:"mlFlowTrackingUri,omitempty"`
 
 	// NotebookInfo: The notebook info of Azure ML workspace.
-	NotebookInfo *NotebookResourceInfo_STATUSARM `json:"notebookInfo,omitempty"`
+	NotebookInfo *NotebookResourceInfo_STATUS_ARM `json:"notebookInfo,omitempty"`
 
 	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// PrivateLinkCount: Count of private connections in the workspace
 	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
@@ -132,14 +132,14 @@ type WorkspaceProperties_STATUSARM struct {
 	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUSARM `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS_ARM `json:"serviceManagedResourcesSettings,omitempty"`
 
 	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
 	// if the workspace is CMK workspace
 	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
 
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUSARM `json:"sharedPrivateLinkResources,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_ARM `json:"sharedPrivateLinkResources,omitempty"`
 
 	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
 	// has been created
@@ -155,12 +155,12 @@ type WorkspaceProperties_STATUSARM struct {
 	WorkspaceId *string `json:"workspaceId,omitempty"`
 }
 
-type EncryptionProperty_STATUSARM struct {
+type EncryptionProperty_STATUS_ARM struct {
 	// Identity: The identity that will be used to access the key vault for encryption at rest.
-	Identity *IdentityForCmk_STATUSARM `json:"identity,omitempty"`
+	Identity *IdentityForCmk_STATUS_ARM `json:"identity,omitempty"`
 
 	// KeyVaultProperties: Customer Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
@@ -169,69 +169,69 @@ type EncryptionProperty_STATUSARM struct {
 type Identity_Type_STATUS string
 
 const (
-	Identity_Type_None_STATUS                       = Identity_Type_STATUS("None")
-	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned,UserAssigned")
-	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
-type NotebookResourceInfo_STATUSARM struct {
+type NotebookResourceInfo_STATUS_ARM struct {
 	Fqdn *string `json:"fqdn,omitempty"`
 
 	// NotebookPreparationError: The error that occurs when preparing notebook.
-	NotebookPreparationError *NotebookPreparationError_STATUSARM `json:"notebookPreparationError,omitempty"`
+	NotebookPreparationError *NotebookPreparationError_STATUS_ARM `json:"notebookPreparationError,omitempty"`
 
 	// ResourceId: the data plane resourceId that used to initialize notebook component
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
-type ServiceManagedResourcesSettings_STATUSARM struct {
+type ServiceManagedResourcesSettings_STATUS_ARM struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
-	CosmosDb *CosmosDbSettings_STATUSARM `json:"cosmosDb,omitempty"`
+	CosmosDb *CosmosDbSettings_STATUS_ARM `json:"cosmosDb,omitempty"`
 }
 
-type SharedPrivateLinkResource_STATUSARM struct {
+type SharedPrivateLinkResource_STATUS_ARM struct {
 	// Name: Unique name of the private link.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Resource properties.
-	Properties *SharedPrivateLinkResourceProperty_STATUSARM `json:"properties,omitempty"`
+	Properties *SharedPrivateLinkResourceProperty_STATUS_ARM `json:"properties,omitempty"`
 }
 
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -242,17 +242,17 @@ type UserAssignedIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-type CosmosDbSettings_STATUSARM struct {
+type CosmosDbSettings_STATUS_ARM struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
-type IdentityForCmk_STATUSARM struct {
+type IdentityForCmk_STATUS_ARM struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-type KeyVaultProperties_STATUSARM struct {
+type KeyVaultProperties_STATUS_ARM struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 
@@ -263,12 +263,12 @@ type KeyVaultProperties_STATUSARM struct {
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
-type NotebookPreparationError_STATUSARM struct {
+type NotebookPreparationError_STATUS_ARM struct {
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	StatusCode   *int    `json:"statusCode,omitempty"`
 }
 
-type SharedPrivateLinkResourceProperty_STATUSARM struct {
+type SharedPrivateLinkResourceProperty_STATUS_ARM struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
 

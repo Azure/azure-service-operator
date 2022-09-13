@@ -88,7 +88,11 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
+<<<<<<< HEAD
 			FrontendIPConfigurations: []network.FrontendIPConfiguration{
+=======
+			FrontendIPConfigurations: []network.LoadBalancer_Properties_FrontendIPConfigurations_Spec{
+>>>>>>> main
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.PublicIPAddressSpec{
@@ -96,7 +100,11 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 					},
 				},
 			},
+<<<<<<< HEAD
 			InboundNatPools: []network.InboundNatPool{
+=======
+			InboundNatPools: []network.LoadBalancer_Properties_InboundNatPools_Spec{
+>>>>>>> main
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
@@ -145,7 +153,11 @@ func newVMSS20201201(
 			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
+<<<<<<< HEAD
 			VirtualMachineProfile: &compute2020.VirtualMachineScaleSetVMProfile{
+=======
+			VirtualMachineProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
+>>>>>>> main
 				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2020.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -154,7 +166,11 @@ func newVMSS20201201(
 						Version:   to.StringPtr("latest"),
 					},
 				},
+<<<<<<< HEAD
 				OsProfile: &compute2020.VirtualMachineScaleSetOSProfile{
+=======
+				OsProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
+>>>>>>> main
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2020.LinuxConfiguration{
@@ -169,12 +185,21 @@ func newVMSS20201201(
 						},
 					},
 				},
+<<<<<<< HEAD
 				NetworkProfile: &compute2020.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
 							IpConfigurations: []compute2020.VirtualMachineScaleSetIPConfiguration{
+=======
+				NetworkProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
+					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
+						{
+							Name:    to.StringPtr("mynicconfig"),
+							Primary: to.BoolPtr(true),
+							IpConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
+>>>>>>> main
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2020.ApiEntityReference{

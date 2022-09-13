@@ -5,47 +5,47 @@ package v1beta20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Workspaces_Compute_SpecARM struct {
+type Workspaces_Compute_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *IdentityARM `json:"identity,omitempty"`
+	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Compute properties
-	Properties *ComputeARM `json:"properties,omitempty"`
+	Properties *Compute_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Workspaces_Compute_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Workspaces_Compute_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
-func (compute Workspaces_Compute_SpecARM) GetAPIVersion() string {
+func (compute Workspaces_Compute_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (compute *Workspaces_Compute_SpecARM) GetName() string {
+func (compute *Workspaces_Compute_Spec_ARM) GetName() string {
 	return compute.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/computes"
-func (compute *Workspaces_Compute_SpecARM) GetType() string {
+func (compute *Workspaces_Compute_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/computes"
 }
 
-type ComputeARM struct {
+type Compute_ARM struct {
 	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 

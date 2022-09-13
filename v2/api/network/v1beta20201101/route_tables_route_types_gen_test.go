@@ -384,15 +384,15 @@ func AddIndependentPropertyGeneratorsForRouteTables_Route_STATUS(gens map[string
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_Internet_STATUS,
-		RouteNextHopType_None_STATUS,
-		RouteNextHopType_VirtualAppliance_STATUS,
-		RouteNextHopType_VirtualNetworkGateway_STATUS,
-		RouteNextHopType_VnetLocal_STATUS))
+		RouteNextHopType_STATUS_Internet,
+		RouteNextHopType_STATUS_None,
+		RouteNextHopType_STATUS_VirtualAppliance,
+		RouteNextHopType_STATUS_VirtualNetworkGateway,
+		RouteNextHopType_STATUS_VnetLocal))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting_STATUS,
-		ProvisioningState_Failed_STATUS,
-		ProvisioningState_Succeeded_STATUS,
-		ProvisioningState_Updating_STATUS))
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

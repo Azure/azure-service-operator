@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type Redis_STATUSARM struct {
+type Redis_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,7 +15,7 @@ type Redis_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Redis cache properties.
-	Properties *RedisProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *RedisProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -27,9 +27,9 @@ type Redis_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type RedisProperties_STATUSARM struct {
+type RedisProperties_STATUS_ARM struct {
 	// AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
-	AccessKeys *RedisAccessKeys_STATUSARM `json:"accessKeys,omitempty"`
+	AccessKeys *RedisAccessKeys_STATUS_ARM `json:"accessKeys,omitempty"`
 
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
@@ -38,10 +38,10 @@ type RedisProperties_STATUSARM struct {
 	HostName *string `json:"hostName,omitempty"`
 
 	// Instances: List of the Redis instances associated with the cache
-	Instances []RedisInstanceDetails_STATUSARM `json:"instances,omitempty"`
+	Instances []RedisInstanceDetails_STATUS_ARM `json:"instances,omitempty"`
 
 	// LinkedServers: List of the linked servers associated with the cache
-	LinkedServers []RedisLinkedServer_STATUSARM `json:"linkedServers,omitempty"`
+	LinkedServers []RedisLinkedServer_STATUS_ARM `json:"linkedServers,omitempty"`
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
@@ -51,7 +51,7 @@ type RedisProperties_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
 	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -79,7 +79,7 @@ type RedisProperties_STATUSARM struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	// Sku: The SKU of the Redis cache to deploy.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
@@ -96,13 +96,13 @@ type RedisProperties_STATUSARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
-type RedisAccessKeys_STATUSARM struct {
+type RedisAccessKeys_STATUS_ARM struct {
 	// PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
 	PrimaryKey *string `json:"primaryKey,omitempty"`
 
@@ -110,7 +110,7 @@ type RedisAccessKeys_STATUSARM struct {
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
-type RedisInstanceDetails_STATUSARM struct {
+type RedisInstanceDetails_STATUS_ARM struct {
 	// IsMaster: Specifies whether the instance is a primary node.
 	IsMaster *bool `json:"isMaster,omitempty"`
 
@@ -130,12 +130,12 @@ type RedisInstanceDetails_STATUSARM struct {
 	Zone *string `json:"zone,omitempty"`
 }
 
-type RedisLinkedServer_STATUSARM struct {
+type RedisLinkedServer_STATUS_ARM struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).
 	Capacity *int `json:"capacity,omitempty"`

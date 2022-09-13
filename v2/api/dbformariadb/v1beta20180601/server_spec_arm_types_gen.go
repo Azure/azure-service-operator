@@ -5,7 +5,7 @@ package v1beta20180601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Server_SpecARM struct {
+type Server_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The location the resource resides in.
@@ -13,33 +13,33 @@ type Server_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
-	Properties *ServerPropertiesForCreateARM `json:"properties,omitempty"`
+	Properties *ServerPropertiesForCreate_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Application-specific metadata in the form of key-value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Server_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Server_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
-func (server Server_SpecARM) GetAPIVersion() string {
+func (server Server_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (server *Server_SpecARM) GetName() string {
+func (server *Server_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers"
-func (server *Server_SpecARM) GetType() string {
+func (server *Server_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers"
 }
 
-type ServerPropertiesForCreateARM struct {
+type ServerPropertiesForCreate_ARM struct {
 	// CreateMode: The mode to create a new server.
 	CreateMode *ServerPropertiesForCreate_CreateMode `json:"createMode,omitempty"`
 
@@ -54,13 +54,13 @@ type ServerPropertiesForCreateARM struct {
 	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
 	Version *ServerVersion `json:"version,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -130,7 +130,7 @@ const (
 	SslEnforcement_Enabled  = SslEnforcement("Enabled")
 )
 
-type StorageProfileARM struct {
+type StorageProfile_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 

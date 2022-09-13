@@ -6,50 +6,50 @@ package v1alpha1api20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Snapshot_Spec. Use v1beta20200930.Snapshot_Spec instead
-type Snapshot_SpecARM struct {
-	AzureName        string                 `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
-	Location         *string                `json:"location,omitempty"`
-	Name             string                 `json:"name,omitempty"`
-	Properties       *SnapshotPropertiesARM `json:"properties,omitempty"`
-	Sku              *SnapshotSkuARM        `json:"sku,omitempty"`
-	Tags             map[string]string      `json:"tags,omitempty"`
+type Snapshot_Spec_ARM struct {
+	AzureName        string                  `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM   `json:"extendedLocation,omitempty"`
+	Location         *string                 `json:"location,omitempty"`
+	Name             string                  `json:"name,omitempty"`
+	Properties       *SnapshotProperties_ARM `json:"properties,omitempty"`
+	Sku              *SnapshotSku_ARM        `json:"sku,omitempty"`
+	Tags             map[string]string       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Snapshot_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
-func (snapshot Snapshot_SpecARM) GetAPIVersion() string {
+func (snapshot Snapshot_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (snapshot *Snapshot_SpecARM) GetName() string {
+func (snapshot *Snapshot_Spec_ARM) GetName() string {
 	return snapshot.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
-func (snapshot *Snapshot_SpecARM) GetType() string {
+func (snapshot *Snapshot_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 
 // Deprecated version of SnapshotProperties. Use v1beta20200930.SnapshotProperties instead
-type SnapshotPropertiesARM struct {
-	CreationData                 *CreationDataARM                     `json:"creationData,omitempty"`
+type SnapshotProperties_ARM struct {
+	CreationData                 *CreationData_ARM                    `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *DiskState                           `json:"diskState,omitempty"`
-	Encryption                   *EncryptionARM                       `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollectionARM     `json:"encryptionSettingsCollection,omitempty"`
+	Encryption                   *Encryption_ARM                      `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM    `json:"encryptionSettingsCollection,omitempty"`
 	HyperVGeneration             *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 	Incremental                  *bool                                `json:"incremental,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy                 `json:"networkAccessPolicy,omitempty"`
 	OsType                       *SnapshotProperties_OsType           `json:"osType,omitempty"`
-	PurchasePlan                 *PurchasePlanARM                     `json:"purchasePlan,omitempty"`
+	PurchasePlan                 *PurchasePlan_ARM                    `json:"purchasePlan,omitempty"`
 }
 
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
-type SnapshotSkuARM struct {
+type SnapshotSku_ARM struct {
 	Name *SnapshotSku_Name `json:"name,omitempty"`
 }
 

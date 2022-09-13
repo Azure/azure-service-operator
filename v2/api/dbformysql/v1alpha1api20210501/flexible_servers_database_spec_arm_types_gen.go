@@ -6,31 +6,31 @@ package v1alpha1api20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServers_Database_Spec. Use v1beta20210501.FlexibleServers_Database_Spec instead
-type FlexibleServers_Database_SpecARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
-	Name       string                 `json:"name,omitempty"`
-	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
+type FlexibleServers_Database_Spec_ARM struct {
+	AzureName  string                  `json:"azureName,omitempty"`
+	Name       string                  `json:"name,omitempty"`
+	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FlexibleServers_Database_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FlexibleServers_Database_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (database FlexibleServers_Database_SpecARM) GetAPIVersion() string {
+func (database FlexibleServers_Database_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (database *FlexibleServers_Database_SpecARM) GetName() string {
+func (database *FlexibleServers_Database_Spec_ARM) GetName() string {
 	return database.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/databases"
-func (database *FlexibleServers_Database_SpecARM) GetType() string {
+func (database *FlexibleServers_Database_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/databases"
 }
 
 // Deprecated version of DatabaseProperties. Use v1beta20210501.DatabaseProperties instead
-type DatabasePropertiesARM struct {
+type DatabaseProperties_ARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }

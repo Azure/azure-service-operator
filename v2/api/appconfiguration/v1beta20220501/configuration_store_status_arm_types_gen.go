@@ -3,13 +3,13 @@
 // Licensed under the MIT license.
 package v1beta20220501
 
-type ConfigurationStore_STATUSARM struct {
+type ConfigurationStore_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The managed identity information, if configured.
-	Identity *ResourceIdentity_STATUSARM `json:"identity,omitempty"`
+	Identity *ResourceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -18,13 +18,13 @@ type ConfigurationStore_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration store.
-	Properties *ConfigurationStoreProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ConfigurationStoreProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the configuration store.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: Resource system metadata.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -33,7 +33,7 @@ type ConfigurationStore_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ConfigurationStoreProperties_STATUSARM struct {
+type ConfigurationStoreProperties_STATUS_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
 	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS `json:"createMode,omitempty"`
 
@@ -47,13 +47,13 @@ type ConfigurationStoreProperties_STATUSARM struct {
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
 	// Encryption: The encryption settings of the configuration store.
-	Encryption *EncryptionProperties_STATUSARM `json:"encryption,omitempty"`
+	Encryption *EncryptionProperties_STATUS_ARM `json:"encryption,omitempty"`
 
 	// Endpoint: The DNS endpoint where the configuration store API will be available.
 	Endpoint *string `json:"endpoint,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections that are set up for this resource.
-	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the configuration store.
 	ProvisioningState *ConfigurationStoreProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -67,7 +67,7 @@ type ConfigurationStoreProperties_STATUSARM struct {
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 }
 
-type ResourceIdentity_STATUSARM struct {
+type ResourceIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the identity. This property will only be provided for a system-assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -82,15 +82,15 @@ type ResourceIdentity_STATUSARM struct {
 	// UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
 	// dictionary keys will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -110,12 +110,12 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type EncryptionProperties_STATUSARM struct {
+type EncryptionProperties_STATUS_ARM struct {
 	// KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 }
 
-type PrivateEndpointConnectionReference_STATUSARM struct {
+type PrivateEndpointConnectionReference_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 }
@@ -123,31 +123,31 @@ type PrivateEndpointConnectionReference_STATUSARM struct {
 type ResourceIdentity_Type_STATUS string
 
 const (
-	ResourceIdentity_Type_None_STATUS                       = ResourceIdentity_Type_STATUS("None")
-	ResourceIdentity_Type_SystemAssigned_STATUS             = ResourceIdentity_Type_STATUS("SystemAssigned")
-	ResourceIdentity_Type_SystemAssignedUserAssigned_STATUS = ResourceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ResourceIdentity_Type_UserAssigned_STATUS               = ResourceIdentity_Type_STATUS("UserAssigned")
+	ResourceIdentity_Type_STATUS_None                       = ResourceIdentity_Type_STATUS("None")
+	ResourceIdentity_Type_STATUS_SystemAssigned             = ResourceIdentity_Type_STATUS("SystemAssigned")
+	ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
 )
 
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-type UserIdentity_STATUSARM struct {
+type UserIdentity_STATUS_ARM struct {
 	// ClientId: The client ID of the user-assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -155,7 +155,7 @@ type UserIdentity_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type KeyVaultProperties_STATUSARM struct {
+type KeyVaultProperties_STATUS_ARM struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 

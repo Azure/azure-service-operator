@@ -3,9 +3,9 @@
 // Licensed under the MIT license.
 package v1beta20200930
 
-type Snapshot_STATUSARM struct {
+type Snapshot_STATUS_ARM struct {
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -17,9 +17,9 @@ type Snapshot_STATUSARM struct {
 	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Name: Resource name
-	Name       *string                       `json:"name,omitempty"`
-	Properties *SnapshotProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *SnapshotSku_STATUSARM        `json:"sku,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *SnapshotProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *SnapshotSku_STATUS_ARM        `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -28,9 +28,9 @@ type Snapshot_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type SnapshotProperties_STATUSARM struct {
+type SnapshotProperties_STATUS_ARM struct {
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData *CreationData_STATUSARM `json:"creationData,omitempty"`
+	CreationData *CreationData_STATUS_ARM `json:"creationData,omitempty"`
 
 	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`
@@ -47,11 +47,11 @@ type SnapshotProperties_STATUSARM struct {
 	DiskState *DiskState_STATUS `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
-	Encryption *Encryption_STATUSARM `json:"encryption,omitempty"`
+	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
 
 	// EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
 	// encryption settings per disk or snapshot.
-	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
@@ -68,7 +68,7 @@ type SnapshotProperties_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan *PurchasePlan_STATUSARM `json:"purchasePlan,omitempty"`
+	PurchasePlan *PurchasePlan_STATUS_ARM `json:"purchasePlan,omitempty"`
 
 	// TimeCreated: The time when the snapshot was created.
 	TimeCreated *string `json:"timeCreated,omitempty"`
@@ -77,7 +77,7 @@ type SnapshotProperties_STATUSARM struct {
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
-type SnapshotSku_STATUSARM struct {
+type SnapshotSku_STATUS_ARM struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
 
@@ -88,7 +88,7 @@ type SnapshotSku_STATUSARM struct {
 type SnapshotSku_Name_STATUS string
 
 const (
-	SnapshotSku_Name_Premium_LRS_STATUS  = SnapshotSku_Name_STATUS("Premium_LRS")
-	SnapshotSku_Name_Standard_LRS_STATUS = SnapshotSku_Name_STATUS("Standard_LRS")
-	SnapshotSku_Name_Standard_ZRS_STATUS = SnapshotSku_Name_STATUS("Standard_ZRS")
+	SnapshotSku_Name_STATUS_Premium_LRS  = SnapshotSku_Name_STATUS("Premium_LRS")
+	SnapshotSku_Name_STATUS_Standard_LRS = SnapshotSku_Name_STATUS("Standard_LRS")
+	SnapshotSku_Name_STATUS_Standard_ZRS = SnapshotSku_Name_STATUS("Standard_ZRS")
 )

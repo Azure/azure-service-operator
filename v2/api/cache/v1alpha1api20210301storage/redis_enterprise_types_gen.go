@@ -494,13 +494,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection_STATUSStash v20201201s.PrivateEndpointConnection_STATUS
-			err := privateEndpointConnection_STATUSStash.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			var privateEndpointConnectionSTATUSStash v20201201s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionSTATUSStash.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection PrivateEndpointConnection_STATUS
-			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnection_STATUSStash)
+			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
@@ -522,13 +522,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// Sku
 	if source.Sku != nil {
-		var sku_STATUSStash v20201201s.Sku_STATUS
-		err := sku_STATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := skuSTATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku Sku_STATUS
-		err = sku.AssignProperties_From_Sku_STATUS(&sku_STATUSStash)
+		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
@@ -586,13 +586,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range enterprise.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection_STATUSStash v20201201s.PrivateEndpointConnection_STATUS
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection_STATUSStash)
+			var privateEndpointConnectionSTATUSStash v20201201s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnectionSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection v20210301s.PrivateEndpointConnection_STATUS
-			err = privateEndpointConnection_STATUSStash.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			err = privateEndpointConnectionSTATUSStash.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
 			}
@@ -614,13 +614,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 
 	// Sku
 	if enterprise.Sku != nil {
-		var sku_STATUSStash v20201201s.Sku_STATUS
-		err := enterprise.Sku.AssignProperties_To_Sku_STATUS(&sku_STATUSStash)
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := enterprise.Sku.AssignProperties_To_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku v20210301s.Sku_STATUS
-		err = sku_STATUSStash.AssignProperties_To_Sku_STATUS(&sku)
+		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}

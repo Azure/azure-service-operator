@@ -268,26 +268,26 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-type A_SpecARM struct {
-	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
+type A_Spec_ARM struct {
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
 	Name       string            `json:"name,omitempty"`
-	Type       A_Spec_Type       `json:"type,omitempty"`
+	Type       A_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &A_SpecARM{}
+var _ genruntime.ARMResourceSpec = &A_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (a A_SpecARM) GetAPIVersion() string {
+func (a A_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (a *A_SpecARM) GetName() string {
+func (a *A_Spec_ARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (a *A_SpecARM) GetType() string {
+func (a *A_Spec_ARM) GetType() string {
 	return ""
 }
 
@@ -541,26 +541,26 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-type B_SpecARM struct {
-	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
+type B_Spec_ARM struct {
+	APIVersion B_APIVersion_Spec `json:"apiVersion,omitempty"`
 	Name       string            `json:"name,omitempty"`
-	Type       B_Spec_Type       `json:"type,omitempty"`
+	Type       B_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &B_SpecARM{}
+var _ genruntime.ARMResourceSpec = &B_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (b B_SpecARM) GetAPIVersion() string {
+func (b B_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (b *B_SpecARM) GetName() string {
+func (b *B_Spec_ARM) GetName() string {
 	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (b *B_SpecARM) GetType() string {
+func (b *B_Spec_ARM) GetType() string {
 	return ""
 }
 
@@ -814,26 +814,26 @@ type CList struct {
 	Items           []C `json:"items"`
 }
 
-type C_SpecARM struct {
-	APIVersion C_Spec_APIVersion `json:"apiVersion,omitempty"`
+type C_Spec_ARM struct {
+	APIVersion C_APIVersion_Spec `json:"apiVersion,omitempty"`
 	Name       string            `json:"name,omitempty"`
-	Type       C_Spec_Type       `json:"type,omitempty"`
+	Type       C_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &C_SpecARM{}
+var _ genruntime.ARMResourceSpec = &C_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (c C_SpecARM) GetAPIVersion() string {
+func (c C_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (c *C_SpecARM) GetName() string {
+func (c *C_Spec_ARM) GetName() string {
 	return c.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (c *C_SpecARM) GetType() string {
+func (c *C_Spec_ARM) GetType() string {
 	return ""
 }
 
@@ -1087,32 +1087,37 @@ type DList struct {
 	Items           []D `json:"items"`
 }
 
-type D_SpecARM struct {
-	APIVersion D_Spec_APIVersion `json:"apiVersion,omitempty"`
+type D_Spec_ARM struct {
+	APIVersion D_APIVersion_Spec `json:"apiVersion,omitempty"`
 	Name       string            `json:"name,omitempty"`
-	Type       D_Spec_Type       `json:"type,omitempty"`
+	Type       D_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &D_SpecARM{}
+var _ genruntime.ARMResourceSpec = &D_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (d D_SpecARM) GetAPIVersion() string {
+func (d D_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (d *D_SpecARM) GetName() string {
+func (d *D_Spec_ARM) GetName() string {
 	return d.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (d *D_SpecARM) GetType() string {
+func (d *D_Spec_ARM) GetType() string {
 	return ""
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type A_APIVersion_Spec string
+
+const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
+
 type A_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1125,7 +1130,7 @@ type A_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type A_Spec_Type `json:"type,omitempty"`
+	Type A_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &A_Spec{}
@@ -1135,7 +1140,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	result := &A_SpecARM{}
+	result := &A_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = a.APIVersion
@@ -1150,14 +1155,14 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (a *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &A_SpecARM{}
+	return &A_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(A_SpecARM)
+	typedInput, ok := armInput.(A_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -1233,7 +1238,7 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		a.APIVersion = A_Spec_APIVersion(*source.APIVersion)
+		a.APIVersion = A_APIVersion_Spec(*source.APIVersion)
 	} else {
 		a.APIVersion = ""
 	}
@@ -1251,7 +1256,7 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		a.Type = A_Spec_Type(*source.Type)
+		a.Type = A_Type_Spec(*source.Type)
 	} else {
 		a.Type = ""
 	}
@@ -1306,24 +1311,24 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type A_Spec_APIVersion string
-
-const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
-type A_Spec_Type string
+type A_Type_Spec string
 
-const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
 
 // +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type B_APIVersion_Spec string
+
+const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
+
 type B_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion B_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1336,7 +1341,7 @@ type B_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type B_Spec_Type `json:"type,omitempty"`
+	Type B_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &B_Spec{}
@@ -1346,7 +1351,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	result := &B_SpecARM{}
+	result := &B_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = b.APIVersion
@@ -1361,14 +1366,14 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (b *B_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &B_SpecARM{}
+	return &B_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(B_SpecARM)
+	typedInput, ok := armInput.(B_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -1444,7 +1449,7 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		b.APIVersion = B_Spec_APIVersion(*source.APIVersion)
+		b.APIVersion = B_APIVersion_Spec(*source.APIVersion)
 	} else {
 		b.APIVersion = ""
 	}
@@ -1462,7 +1467,7 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		b.Type = B_Spec_Type(*source.Type)
+		b.Type = B_Type_Spec(*source.Type)
 	} else {
 		b.Type = ""
 	}
@@ -1517,19 +1522,19 @@ func (b *B_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type B_Spec_APIVersion string
-
-const B_Spec_APIVersion_20200601 = B_Spec_APIVersion("2020-06-01")
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
-type B_Spec_Type string
+type B_Type_Spec string
 
-const B_Spec_Type_MicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
+const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type C_APIVersion_Spec string
+
+const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
 
 type C_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion C_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion C_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1542,7 +1547,7 @@ type C_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type C_Spec_Type `json:"type,omitempty"`
+	Type C_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &C_Spec{}
@@ -1552,7 +1557,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	result := &C_SpecARM{}
+	result := &C_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = c.APIVersion
@@ -1567,14 +1572,14 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (c *C_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &C_SpecARM{}
+	return &C_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(C_SpecARM)
+	typedInput, ok := armInput.(C_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -1650,7 +1655,7 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		c.APIVersion = C_Spec_APIVersion(*source.APIVersion)
+		c.APIVersion = C_APIVersion_Spec(*source.APIVersion)
 	} else {
 		c.APIVersion = ""
 	}
@@ -1668,7 +1673,7 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		c.Type = C_Spec_Type(*source.Type)
+		c.Type = C_Type_Spec(*source.Type)
 	} else {
 		c.Type = ""
 	}
@@ -1723,19 +1728,19 @@ func (c *C_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type C_Spec_APIVersion string
-
-const C_Spec_APIVersion_20200601 = C_Spec_APIVersion("2020-06-01")
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
-type C_Spec_Type string
+type C_Type_Spec string
 
-const C_Spec_Type_MicrosoftAzureC = C_Spec_Type("Microsoft.Azure/C")
+const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type D_APIVersion_Spec string
+
+const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
 
 type D_Spec struct {
 	// +kubebuilder:validation:Required
-	APIVersion D_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion D_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1748,7 +1753,7 @@ type D_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type D_Spec_Type `json:"type,omitempty"`
+	Type D_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &D_Spec{}
@@ -1758,7 +1763,7 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if d == nil {
 		return nil, nil
 	}
-	result := &D_SpecARM{}
+	result := &D_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = d.APIVersion
@@ -1773,14 +1778,14 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (d *D_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &D_SpecARM{}
+	return &D_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(D_SpecARM)
+	typedInput, ok := armInput.(D_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -1856,7 +1861,7 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		d.APIVersion = D_Spec_APIVersion(*source.APIVersion)
+		d.APIVersion = D_APIVersion_Spec(*source.APIVersion)
 	} else {
 		d.APIVersion = ""
 	}
@@ -1874,7 +1879,7 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		d.Type = D_Spec_Type(*source.Type)
+		d.Type = D_Type_Spec(*source.Type)
 	} else {
 		d.Type = ""
 	}
@@ -1929,15 +1934,10 @@ func (d *D_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (d *D_Spec) SetAzureName(azureName string) { d.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type D_Spec_APIVersion string
-
-const D_Spec_APIVersion_20200601 = D_Spec_APIVersion("2020-06-01")
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
-type D_Spec_Type string
+type D_Type_Spec string
 
-const D_Spec_Type_MicrosoftAzureD = D_Spec_Type("Microsoft.Azure/D")
+const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

@@ -357,7 +357,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	if credential == nil {
 		return nil, nil
 	}
-	result := &UserAssignedIdentities_FederatedIdentityCredential_SpecARM{}
+	result := &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = credential.AzureName
@@ -369,7 +369,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	if credential.Audiences != nil ||
 		credential.Issuer != nil ||
 		credential.Subject != nil {
-		result.Properties = &FederatedIdentityCredentialPropertiesARM{}
+		result.Properties = &FederatedIdentityCredentialProperties_ARM{}
 	}
 	for _, item := range credential.Audiences {
 		result.Properties.Audiences = append(result.Properties.Audiences, item)
@@ -387,14 +387,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentities_FederatedIdentityCredential_SpecARM{}
+	return &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_SpecARM)
+	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Audiences’:
@@ -649,14 +649,14 @@ var _ genruntime.FromARMConverter = &UserAssignedIdentities_FederatedIdentityCre
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentities_FederatedIdentityCredential_STATUSARM{}
+	return &UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_STATUSARM)
+	typedInput, ok := armInput.(UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Audiences’:

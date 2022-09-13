@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Image_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Image_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Image_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImage_STATUSARM, Image_STATUSARMGenerator()))
+		"Round trip of Image_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImage_STATUS_ARM, Image_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImage_STATUSARM runs a test to see if a specific instance of Image_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImage_STATUSARM(subject Image_STATUSARM) string {
+// RunJSONSerializationTestForImage_STATUS_ARM runs a test to see if a specific instance of Image_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImage_STATUS_ARM(subject Image_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForImage_STATUSARM(subject Image_STATUSARM) string 
 	}
 
 	// Deserialize back into memory
-	var actual Image_STATUSARM
+	var actual Image_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForImage_STATUSARM(subject Image_STATUSARM) string 
 	return ""
 }
 
-// Generator of Image_STATUSARM instances for property testing - lazily instantiated by Image_STATUSARMGenerator()
-var image_STATUSARMGenerator gopter.Gen
+// Generator of Image_STATUS_ARM instances for property testing - lazily instantiated by Image_STATUS_ARMGenerator()
+var image_STATUS_ARMGenerator gopter.Gen
 
-// Image_STATUSARMGenerator returns a generator of Image_STATUSARM instances for property testing.
-// We first initialize image_STATUSARMGenerator with a simplified generator based on the
+// Image_STATUS_ARMGenerator returns a generator of Image_STATUS_ARM instances for property testing.
+// We first initialize image_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Image_STATUSARMGenerator() gopter.Gen {
-	if image_STATUSARMGenerator != nil {
-		return image_STATUSARMGenerator
+func Image_STATUS_ARMGenerator() gopter.Gen {
+	if image_STATUS_ARMGenerator != nil {
+		return image_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_STATUSARM(generators)
-	image_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Image_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImage_STATUS_ARM(generators)
+	image_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Image_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForImage_STATUSARM(generators)
-	image_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Image_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImage_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForImage_STATUS_ARM(generators)
+	image_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Image_STATUS_ARM{}), generators)
 
-	return image_STATUSARMGenerator
+	return image_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImage_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImage_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImage_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImage_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -90,26 +90,26 @@ func AddIndependentPropertyGeneratorsForImage_STATUSARM(gens map[string]gopter.G
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForImage_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImage_STATUSARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSARMGenerator())
-	gens["Properties"] = gen.PtrOf(ImageProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForImage_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImage_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ImageProperties_STATUS_ARMGenerator())
 }
 
-func Test_ExtendedLocation_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ExtendedLocation_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ExtendedLocation_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUSARM, ExtendedLocation_STATUSARMGenerator()))
+		"Round trip of ExtendedLocation_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS_ARM, ExtendedLocation_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocation_STATUSARM runs a test to see if a specific instance of ExtendedLocation_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation_STATUSARM(subject ExtendedLocation_STATUSARM) string {
+// RunJSONSerializationTestForExtendedLocation_STATUS_ARM runs a test to see if a specific instance of ExtendedLocation_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_STATUS_ARM(subject ExtendedLocation_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForExtendedLocation_STATUSARM(subject ExtendedLocat
 	}
 
 	// Deserialize back into memory
-	var actual ExtendedLocation_STATUSARM
+	var actual ExtendedLocation_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,43 +135,43 @@ func RunJSONSerializationTestForExtendedLocation_STATUSARM(subject ExtendedLocat
 	return ""
 }
 
-// Generator of ExtendedLocation_STATUSARM instances for property testing - lazily instantiated by
-// ExtendedLocation_STATUSARMGenerator()
-var extendedLocation_STATUSARMGenerator gopter.Gen
+// Generator of ExtendedLocation_STATUS_ARM instances for property testing - lazily instantiated by
+// ExtendedLocation_STATUS_ARMGenerator()
+var extendedLocation_STATUS_ARMGenerator gopter.Gen
 
-// ExtendedLocation_STATUSARMGenerator returns a generator of ExtendedLocation_STATUSARM instances for property testing.
-func ExtendedLocation_STATUSARMGenerator() gopter.Gen {
-	if extendedLocation_STATUSARMGenerator != nil {
-		return extendedLocation_STATUSARMGenerator
+// ExtendedLocation_STATUS_ARMGenerator returns a generator of ExtendedLocation_STATUS_ARM instances for property testing.
+func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
+	if extendedLocation_STATUS_ARMGenerator != nil {
+		return extendedLocation_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation_STATUSARM(generators)
-	extendedLocation_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(generators)
+	extendedLocation_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS_ARM{}), generators)
 
-	return extendedLocation_STATUSARMGenerator
+	return extendedLocation_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocation_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone_STATUS))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
 }
 
-func Test_ImageProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageProperties_STATUSARM, ImageProperties_STATUSARMGenerator()))
+		"Round trip of ImageProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageProperties_STATUS_ARM, ImageProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageProperties_STATUSARM runs a test to see if a specific instance of ImageProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageProperties_STATUSARM(subject ImageProperties_STATUSARM) string {
+// RunJSONSerializationTestForImageProperties_STATUS_ARM runs a test to see if a specific instance of ImageProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageProperties_STATUS_ARM(subject ImageProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -179,7 +179,7 @@ func RunJSONSerializationTestForImageProperties_STATUSARM(subject ImagePropertie
 	}
 
 	// Deserialize back into memory
-	var actual ImageProperties_STATUSARM
+	var actual ImageProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -197,58 +197,58 @@ func RunJSONSerializationTestForImageProperties_STATUSARM(subject ImagePropertie
 	return ""
 }
 
-// Generator of ImageProperties_STATUSARM instances for property testing - lazily instantiated by
-// ImageProperties_STATUSARMGenerator()
-var imageProperties_STATUSARMGenerator gopter.Gen
+// Generator of ImageProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ImageProperties_STATUS_ARMGenerator()
+var imageProperties_STATUS_ARMGenerator gopter.Gen
 
-// ImageProperties_STATUSARMGenerator returns a generator of ImageProperties_STATUSARM instances for property testing.
-// We first initialize imageProperties_STATUSARMGenerator with a simplified generator based on the
+// ImageProperties_STATUS_ARMGenerator returns a generator of ImageProperties_STATUS_ARM instances for property testing.
+// We first initialize imageProperties_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageProperties_STATUSARMGenerator() gopter.Gen {
-	if imageProperties_STATUSARMGenerator != nil {
-		return imageProperties_STATUSARMGenerator
+func ImageProperties_STATUS_ARMGenerator() gopter.Gen {
+	if imageProperties_STATUS_ARMGenerator != nil {
+		return imageProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageProperties_STATUSARM(generators)
-	imageProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageProperties_STATUS_ARM(generators)
+	imageProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageProperties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForImageProperties_STATUSARM(generators)
-	imageProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageProperties_STATUS_ARM(generators)
+	imageProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_STATUS_ARM{}), generators)
 
-	return imageProperties_STATUSARMGenerator
+	return imageProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_V1_STATUS, HyperVGenerationType_V2_STATUS))
+// AddIndependentPropertyGeneratorsForImageProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_STATUS_V1, HyperVGenerationType_STATUS_V2))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForImageProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["SourceVirtualMachine"] = gen.PtrOf(SubResource_STATUSARMGenerator())
-	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfile_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForImageProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["SourceVirtualMachine"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfile_STATUS_ARMGenerator())
 }
 
-func Test_ImageStorageProfile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageStorageProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageStorageProfile_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageStorageProfile_STATUSARM, ImageStorageProfile_STATUSARMGenerator()))
+		"Round trip of ImageStorageProfile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageStorageProfile_STATUS_ARM, ImageStorageProfile_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageStorageProfile_STATUSARM runs a test to see if a specific instance of ImageStorageProfile_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageStorageProfile_STATUSARM(subject ImageStorageProfile_STATUSARM) string {
+// RunJSONSerializationTestForImageStorageProfile_STATUS_ARM runs a test to see if a specific instance of ImageStorageProfile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageStorageProfile_STATUS_ARM(subject ImageStorageProfile_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -256,7 +256,7 @@ func RunJSONSerializationTestForImageStorageProfile_STATUSARM(subject ImageStora
 	}
 
 	// Deserialize back into memory
-	var actual ImageStorageProfile_STATUSARM
+	var actual ImageStorageProfile_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -274,57 +274,57 @@ func RunJSONSerializationTestForImageStorageProfile_STATUSARM(subject ImageStora
 	return ""
 }
 
-// Generator of ImageStorageProfile_STATUSARM instances for property testing - lazily instantiated by
-// ImageStorageProfile_STATUSARMGenerator()
-var imageStorageProfile_STATUSARMGenerator gopter.Gen
+// Generator of ImageStorageProfile_STATUS_ARM instances for property testing - lazily instantiated by
+// ImageStorageProfile_STATUS_ARMGenerator()
+var imageStorageProfile_STATUS_ARMGenerator gopter.Gen
 
-// ImageStorageProfile_STATUSARMGenerator returns a generator of ImageStorageProfile_STATUSARM instances for property testing.
-// We first initialize imageStorageProfile_STATUSARMGenerator with a simplified generator based on the
+// ImageStorageProfile_STATUS_ARMGenerator returns a generator of ImageStorageProfile_STATUS_ARM instances for property testing.
+// We first initialize imageStorageProfile_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageStorageProfile_STATUSARMGenerator() gopter.Gen {
-	if imageStorageProfile_STATUSARMGenerator != nil {
-		return imageStorageProfile_STATUSARMGenerator
+func ImageStorageProfile_STATUS_ARMGenerator() gopter.Gen {
+	if imageStorageProfile_STATUS_ARMGenerator != nil {
+		return imageStorageProfile_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUSARM(generators)
-	imageStorageProfile_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS_ARM(generators)
+	imageStorageProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForImageStorageProfile_STATUSARM(generators)
-	imageStorageProfile_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS_ARM(generators)
+	imageStorageProfile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_STATUS_ARM{}), generators)
 
-	return imageStorageProfile_STATUSARMGenerator
+	return imageStorageProfile_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageStorageProfile_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageStorageProfile_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageStorageProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForImageStorageProfile_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageStorageProfile_STATUSARM(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(ImageDataDisk_STATUSARMGenerator())
-	gens["OsDisk"] = gen.PtrOf(ImageOSDisk_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(ImageDataDisk_STATUS_ARMGenerator())
+	gens["OsDisk"] = gen.PtrOf(ImageOSDisk_STATUS_ARMGenerator())
 }
 
-func Test_SubResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SubResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SubResource_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResource_STATUSARM, SubResource_STATUSARMGenerator()))
+		"Round trip of SubResource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS_ARM, SubResource_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubResource_STATUSARM runs a test to see if a specific instance of SubResource_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResource_STATUSARM(subject SubResource_STATUSARM) string {
+// RunJSONSerializationTestForSubResource_STATUS_ARM runs a test to see if a specific instance of SubResource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_STATUS_ARM(subject SubResource_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -332,7 +332,7 @@ func RunJSONSerializationTestForSubResource_STATUSARM(subject SubResource_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual SubResource_STATUSARM
+	var actual SubResource_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -350,42 +350,42 @@ func RunJSONSerializationTestForSubResource_STATUSARM(subject SubResource_STATUS
 	return ""
 }
 
-// Generator of SubResource_STATUSARM instances for property testing - lazily instantiated by
-// SubResource_STATUSARMGenerator()
-var subResource_STATUSARMGenerator gopter.Gen
+// Generator of SubResource_STATUS_ARM instances for property testing - lazily instantiated by
+// SubResource_STATUS_ARMGenerator()
+var subResource_STATUS_ARMGenerator gopter.Gen
 
-// SubResource_STATUSARMGenerator returns a generator of SubResource_STATUSARM instances for property testing.
-func SubResource_STATUSARMGenerator() gopter.Gen {
-	if subResource_STATUSARMGenerator != nil {
-		return subResource_STATUSARMGenerator
+// SubResource_STATUS_ARMGenerator returns a generator of SubResource_STATUS_ARM instances for property testing.
+func SubResource_STATUS_ARMGenerator() gopter.Gen {
+	if subResource_STATUS_ARMGenerator != nil {
+		return subResource_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResource_STATUSARM(generators)
-	subResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSubResource_STATUS_ARM(generators)
+	subResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS_ARM{}), generators)
 
-	return subResource_STATUSARMGenerator
+	return subResource_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubResource_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResource_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubResource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ImageDataDisk_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageDataDisk_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageDataDisk_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageDataDisk_STATUSARM, ImageDataDisk_STATUSARMGenerator()))
+		"Round trip of ImageDataDisk_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageDataDisk_STATUS_ARM, ImageDataDisk_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageDataDisk_STATUSARM runs a test to see if a specific instance of ImageDataDisk_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageDataDisk_STATUSARM(subject ImageDataDisk_STATUSARM) string {
+// RunJSONSerializationTestForImageDataDisk_STATUS_ARM runs a test to see if a specific instance of ImageDataDisk_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageDataDisk_STATUS_ARM(subject ImageDataDisk_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -393,7 +393,7 @@ func RunJSONSerializationTestForImageDataDisk_STATUSARM(subject ImageDataDisk_ST
 	}
 
 	// Deserialize back into memory
-	var actual ImageDataDisk_STATUSARM
+	var actual ImageDataDisk_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -411,69 +411,69 @@ func RunJSONSerializationTestForImageDataDisk_STATUSARM(subject ImageDataDisk_ST
 	return ""
 }
 
-// Generator of ImageDataDisk_STATUSARM instances for property testing - lazily instantiated by
-// ImageDataDisk_STATUSARMGenerator()
-var imageDataDisk_STATUSARMGenerator gopter.Gen
+// Generator of ImageDataDisk_STATUS_ARM instances for property testing - lazily instantiated by
+// ImageDataDisk_STATUS_ARMGenerator()
+var imageDataDisk_STATUS_ARMGenerator gopter.Gen
 
-// ImageDataDisk_STATUSARMGenerator returns a generator of ImageDataDisk_STATUSARM instances for property testing.
-// We first initialize imageDataDisk_STATUSARMGenerator with a simplified generator based on the
+// ImageDataDisk_STATUS_ARMGenerator returns a generator of ImageDataDisk_STATUS_ARM instances for property testing.
+// We first initialize imageDataDisk_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageDataDisk_STATUSARMGenerator() gopter.Gen {
-	if imageDataDisk_STATUSARMGenerator != nil {
-		return imageDataDisk_STATUSARMGenerator
+func ImageDataDisk_STATUS_ARMGenerator() gopter.Gen {
+	if imageDataDisk_STATUS_ARMGenerator != nil {
+		return imageDataDisk_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM(generators)
-	imageDataDisk_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageDataDisk_STATUS_ARM(generators)
+	imageDataDisk_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForImageDataDisk_STATUSARM(generators)
-	imageDataDisk_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageDataDisk_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageDataDisk_STATUS_ARM(generators)
+	imageDataDisk_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_STATUS_ARM{}), generators)
 
-	return imageDataDisk_STATUSARMGenerator
+	return imageDataDisk_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageDataDisk_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageDataDisk_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_Caching_None_STATUS, ImageDataDisk_Caching_ReadOnly_STATUS, ImageDataDisk_Caching_ReadWrite_STATUS))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_Caching_STATUS_None, ImageDataDisk_Caching_STATUS_ReadOnly, ImageDataDisk_Caching_STATUS_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_PremiumV2_LRS_STATUS,
-		StorageAccountType_Premium_LRS_STATUS,
-		StorageAccountType_Premium_ZRS_STATUS,
-		StorageAccountType_StandardSSD_LRS_STATUS,
-		StorageAccountType_StandardSSD_ZRS_STATUS,
-		StorageAccountType_Standard_LRS_STATUS,
-		StorageAccountType_UltraSSD_LRS_STATUS))
+		StorageAccountType_STATUS_PremiumV2_LRS,
+		StorageAccountType_STATUS_Premium_LRS,
+		StorageAccountType_STATUS_Premium_ZRS,
+		StorageAccountType_STATUS_StandardSSD_LRS,
+		StorageAccountType_STATUS_StandardSSD_ZRS,
+		StorageAccountType_STATUS_Standard_LRS,
+		StorageAccountType_STATUS_UltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForImageDataDisk_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageDataDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUSARMGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUSARMGenerator())
-	gens["Snapshot"] = gen.PtrOf(SubResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForImageDataDisk_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageDataDisk_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["Snapshot"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
 }
 
-func Test_ImageOSDisk_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageOSDisk_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageOSDisk_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageOSDisk_STATUSARM, ImageOSDisk_STATUSARMGenerator()))
+		"Round trip of ImageOSDisk_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageOSDisk_STATUS_ARM, ImageOSDisk_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageOSDisk_STATUSARM runs a test to see if a specific instance of ImageOSDisk_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageOSDisk_STATUSARM(subject ImageOSDisk_STATUSARM) string {
+// RunJSONSerializationTestForImageOSDisk_STATUS_ARM runs a test to see if a specific instance of ImageOSDisk_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageOSDisk_STATUS_ARM(subject ImageOSDisk_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -481,7 +481,7 @@ func RunJSONSerializationTestForImageOSDisk_STATUSARM(subject ImageOSDisk_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual ImageOSDisk_STATUSARM
+	var actual ImageOSDisk_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -499,52 +499,52 @@ func RunJSONSerializationTestForImageOSDisk_STATUSARM(subject ImageOSDisk_STATUS
 	return ""
 }
 
-// Generator of ImageOSDisk_STATUSARM instances for property testing - lazily instantiated by
-// ImageOSDisk_STATUSARMGenerator()
-var imageOSDisk_STATUSARMGenerator gopter.Gen
+// Generator of ImageOSDisk_STATUS_ARM instances for property testing - lazily instantiated by
+// ImageOSDisk_STATUS_ARMGenerator()
+var imageOSDisk_STATUS_ARMGenerator gopter.Gen
 
-// ImageOSDisk_STATUSARMGenerator returns a generator of ImageOSDisk_STATUSARM instances for property testing.
-// We first initialize imageOSDisk_STATUSARMGenerator with a simplified generator based on the
+// ImageOSDisk_STATUS_ARMGenerator returns a generator of ImageOSDisk_STATUS_ARM instances for property testing.
+// We first initialize imageOSDisk_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageOSDisk_STATUSARMGenerator() gopter.Gen {
-	if imageOSDisk_STATUSARMGenerator != nil {
-		return imageOSDisk_STATUSARMGenerator
+func ImageOSDisk_STATUS_ARMGenerator() gopter.Gen {
+	if imageOSDisk_STATUS_ARMGenerator != nil {
+		return imageOSDisk_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM(generators)
-	imageOSDisk_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageOSDisk_STATUS_ARM(generators)
+	imageOSDisk_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForImageOSDisk_STATUSARM(generators)
-	imageOSDisk_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageOSDisk_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageOSDisk_STATUS_ARM(generators)
+	imageOSDisk_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_STATUS_ARM{}), generators)
 
-	return imageOSDisk_STATUSARMGenerator
+	return imageOSDisk_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageOSDisk_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageOSDisk_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_Caching_None_STATUS, ImageOSDisk_Caching_ReadOnly_STATUS, ImageOSDisk_Caching_ReadWrite_STATUS))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_Caching_STATUS_None, ImageOSDisk_Caching_STATUS_ReadOnly, ImageOSDisk_Caching_STATUS_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsState_Generalized_STATUS, ImageOSDisk_OsState_Specialized_STATUS))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsType_Linux_STATUS, ImageOSDisk_OsType_Windows_STATUS))
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsState_STATUS_Generalized, ImageOSDisk_OsState_STATUS_Specialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsType_STATUS_Linux, ImageOSDisk_OsType_STATUS_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_PremiumV2_LRS_STATUS,
-		StorageAccountType_Premium_LRS_STATUS,
-		StorageAccountType_Premium_ZRS_STATUS,
-		StorageAccountType_StandardSSD_LRS_STATUS,
-		StorageAccountType_StandardSSD_ZRS_STATUS,
-		StorageAccountType_Standard_LRS_STATUS,
-		StorageAccountType_UltraSSD_LRS_STATUS))
+		StorageAccountType_STATUS_PremiumV2_LRS,
+		StorageAccountType_STATUS_Premium_LRS,
+		StorageAccountType_STATUS_Premium_ZRS,
+		StorageAccountType_STATUS_StandardSSD_LRS,
+		StorageAccountType_STATUS_StandardSSD_ZRS,
+		StorageAccountType_STATUS_Standard_LRS,
+		StorageAccountType_STATUS_UltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForImageOSDisk_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageOSDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUSARMGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUSARMGenerator())
-	gens["Snapshot"] = gen.PtrOf(SubResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForImageOSDisk_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageOSDisk_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
+	gens["Snapshot"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
 }

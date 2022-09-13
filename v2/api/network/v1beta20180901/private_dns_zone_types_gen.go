@@ -348,7 +348,7 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if zone == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZone_SpecARM{}
+	result := &PrivateDnsZone_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = zone.AzureName
@@ -366,14 +366,14 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateDnsZone_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_SpecARM{}
+	return &PrivateDnsZone_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_SpecARM)
+	typedInput, ok := armInput.(PrivateDnsZone_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -597,14 +597,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZone_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateDnsZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_STATUSARM{}
+	return &PrivateDnsZone_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_STATUSARM)
+	typedInput, ok := armInput.(PrivateDnsZone_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -772,12 +772,12 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(des
 type PrivateZoneProperties_ProvisioningState_STATUS string
 
 const (
-	PrivateZoneProperties_ProvisioningState_Canceled_STATUS  = PrivateZoneProperties_ProvisioningState_STATUS("Canceled")
-	PrivateZoneProperties_ProvisioningState_Creating_STATUS  = PrivateZoneProperties_ProvisioningState_STATUS("Creating")
-	PrivateZoneProperties_ProvisioningState_Deleting_STATUS  = PrivateZoneProperties_ProvisioningState_STATUS("Deleting")
-	PrivateZoneProperties_ProvisioningState_Failed_STATUS    = PrivateZoneProperties_ProvisioningState_STATUS("Failed")
-	PrivateZoneProperties_ProvisioningState_Succeeded_STATUS = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
-	PrivateZoneProperties_ProvisioningState_Updating_STATUS  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
+	PrivateZoneProperties_ProvisioningState_STATUS_Canceled  = PrivateZoneProperties_ProvisioningState_STATUS("Canceled")
+	PrivateZoneProperties_ProvisioningState_STATUS_Creating  = PrivateZoneProperties_ProvisioningState_STATUS("Creating")
+	PrivateZoneProperties_ProvisioningState_STATUS_Deleting  = PrivateZoneProperties_ProvisioningState_STATUS("Deleting")
+	PrivateZoneProperties_ProvisioningState_STATUS_Failed    = PrivateZoneProperties_ProvisioningState_STATUS("Failed")
+	PrivateZoneProperties_ProvisioningState_STATUS_Succeeded = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
+	PrivateZoneProperties_ProvisioningState_STATUS_Updating  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
 )
 
 func init() {

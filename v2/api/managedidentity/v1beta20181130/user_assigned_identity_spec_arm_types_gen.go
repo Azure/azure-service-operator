@@ -5,7 +5,7 @@ package v1beta20181130
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type UserAssignedIdentity_SpecARM struct {
+type UserAssignedIdentity_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -16,19 +16,19 @@ type UserAssignedIdentity_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_SpecARM{}
+var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
-func (identity UserAssignedIdentity_SpecARM) GetAPIVersion() string {
+func (identity UserAssignedIdentity_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (identity *UserAssignedIdentity_SpecARM) GetName() string {
+func (identity *UserAssignedIdentity_Spec_ARM) GetName() string {
 	return identity.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
-func (identity *UserAssignedIdentity_SpecARM) GetType() string {
+func (identity *UserAssignedIdentity_Spec_ARM) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }

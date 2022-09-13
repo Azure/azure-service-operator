@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type FlexibleServers_Configuration_STATUSARM struct {
+type FlexibleServers_Configuration_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,16 +12,16 @@ type FlexibleServers_Configuration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration.
-	Properties *ConfigurationProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ConfigurationProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type ConfigurationProperties_STATUSARM struct {
+type ConfigurationProperties_STATUS_ARM struct {
 	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 

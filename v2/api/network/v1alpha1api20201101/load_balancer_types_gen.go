@@ -368,18 +368,18 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if balancer == nil {
 		return nil, nil
 	}
-	result := &LoadBalancer_SpecARM{}
+	result := &LoadBalancer_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = balancer.AzureName
 
 	// Set property ‘ExtendedLocation’:
 	if balancer.ExtendedLocation != nil {
-		extendedLocationARM, err := (*balancer.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*balancer.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -410,65 +410,65 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		balancer.LoadBalancingRules != nil ||
 		balancer.OutboundRules != nil ||
 		balancer.Probes != nil {
-		result.Properties = &LoadBalancerPropertiesFormatARM{}
+		result.Properties = &LoadBalancerPropertiesFormat_ARM{}
 	}
 	for _, item := range balancer.BackendAddressPools {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *itemARM.(*BackendAddressPoolARM))
+		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*BackendAddressPool_ARM))
 	}
 	for _, item := range balancer.FrontendIPConfigurations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *itemARM.(*FrontendIPConfigurationARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*FrontendIPConfiguration_ARM))
 	}
 	for _, item := range balancer.InboundNatPools {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *itemARM.(*InboundNatPoolARM))
+		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *item_ARM.(*InboundNatPool_ARM))
 	}
 	for _, item := range balancer.InboundNatRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatRules = append(result.Properties.InboundNatRules, *itemARM.(*InboundNatRuleARM))
+		result.Properties.InboundNatRules = append(result.Properties.InboundNatRules, *item_ARM.(*InboundNatRule_ARM))
 	}
 	for _, item := range balancer.LoadBalancingRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *itemARM.(*LoadBalancingRuleARM))
+		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *item_ARM.(*LoadBalancingRule_ARM))
 	}
 	for _, item := range balancer.OutboundRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *itemARM.(*OutboundRuleARM))
+		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *item_ARM.(*OutboundRule_ARM))
 	}
 	for _, item := range balancer.Probes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Probes = append(result.Properties.Probes, *itemARM.(*ProbeARM))
+		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*Probe_ARM))
 	}
 
 	// Set property ‘Sku’:
 	if balancer.Sku != nil {
-		skuARM, err := (*balancer.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*balancer.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*LoadBalancerSkuARM)
+		sku := *sku_ARM.(*LoadBalancerSku_ARM)
 		result.Sku = &sku
 	}
 
@@ -484,14 +484,14 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancer *LoadBalancer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_SpecARM{}
+	return &LoadBalancer_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_SpecARM)
+	typedInput, ok := armInput.(LoadBalancer_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1147,14 +1147,14 @@ var _ genruntime.FromARMConverter = &LoadBalancer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancer *LoadBalancer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_STATUSARM{}
+	return &LoadBalancer_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_STATUSARM)
+	typedInput, ok := armInput.(LoadBalancer_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendAddressPools’:
@@ -1733,7 +1733,7 @@ func (pool *BackendAddressPool) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if pool == nil {
 		return nil, nil
 	}
-	result := &BackendAddressPoolARM{}
+	result := &BackendAddressPool_ARM{}
 
 	// Set property ‘Id’:
 	if pool.Reference != nil {
@@ -1753,28 +1753,28 @@ func (pool *BackendAddressPool) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘Properties’:
 	if pool.LoadBalancerBackendAddresses != nil {
-		result.Properties = &BackendAddressPoolPropertiesFormatARM{}
+		result.Properties = &BackendAddressPoolPropertiesFormat_ARM{}
 	}
 	for _, item := range pool.LoadBalancerBackendAddresses {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *itemARM.(*LoadBalancerBackendAddressARM))
+		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *item_ARM.(*LoadBalancerBackendAddress_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *BackendAddressPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAddressPoolARM{}
+	return &BackendAddressPool_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *BackendAddressPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAddressPoolARM)
+	typedInput, ok := armInput.(BackendAddressPool_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPoolARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_ARM, got %T", armInput)
 	}
 
 	// Set property ‘LoadBalancerBackendAddresses’:
@@ -1901,14 +1901,14 @@ var _ genruntime.FromARMConverter = &BackendAddressPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *BackendAddressPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAddressPool_STATUSARM{}
+	return &BackendAddressPool_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *BackendAddressPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAddressPool_STATUSARM)
+	typedInput, ok := armInput.(BackendAddressPool_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendIPConfigurations’:
@@ -2261,7 +2261,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	result := &ExtendedLocationARM{}
+	result := &ExtendedLocation_ARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -2279,14 +2279,14 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocationARM{}
+	return &ExtendedLocation_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocationARM)
+	typedInput, ok := armInput.(ExtendedLocation_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2360,14 +2360,14 @@ var _ genruntime.FromARMConverter = &ExtendedLocation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocation_STATUSARM{}
+	return &ExtendedLocation_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocation_STATUSARM)
+	typedInput, ok := armInput.(ExtendedLocation_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2451,7 +2451,7 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FrontendIPConfigurationARM{}
+	result := &FrontendIPConfiguration_ARM{}
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
@@ -2476,7 +2476,7 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 		configuration.PublicIPAddress != nil ||
 		configuration.PublicIPPrefix != nil ||
 		configuration.Subnet != nil {
-		result.Properties = &FrontendIPConfigurationPropertiesFormatARM{}
+		result.Properties = &FrontendIPConfigurationPropertiesFormat_ARM{}
 	}
 	if configuration.PrivateIPAddress != nil {
 		privateIPAddress := *configuration.PrivateIPAddress
@@ -2491,27 +2491,27 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PublicIPAddress != nil {
-		publicIPAddressARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
+		publicIPAddress_ARM, err := (*configuration.PublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddressARM.(*PublicIPAddressSpecARM)
+		publicIPAddress := *publicIPAddress_ARM.(*PublicIPAddressSpec_ARM)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*configuration.PublicIPPrefix).ConvertToARM(resolved)
+		publicIPPrefix_ARM, err := (*configuration.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
+		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if configuration.Subnet != nil {
-		subnetARM, err := (*configuration.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnetARM.(*SubnetARM)
+		subnet := *subnet_ARM.(*Subnet_ARM)
 		result.Properties.Subnet = &subnet
 	}
 
@@ -2524,14 +2524,14 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FrontendIPConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfigurationARM{}
+	return &FrontendIPConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FrontendIPConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendIPConfigurationARM)
+	typedInput, ok := armInput.(FrontendIPConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2805,14 +2805,14 @@ var _ genruntime.FromARMConverter = &FrontendIPConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FrontendIPConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfiguration_STATUSARM{}
+	return &FrontendIPConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FrontendIPConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendIPConfiguration_STATUSARM)
+	typedInput, ok := armInput.(FrontendIPConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Etag’:
@@ -3329,7 +3329,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if pool == nil {
 		return nil, nil
 	}
-	result := &InboundNatPoolARM{}
+	result := &InboundNatPool_ARM{}
 
 	// Set property ‘Id’:
 	if pool.Reference != nil {
@@ -3356,7 +3356,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		pool.FrontendPortRangeStart != nil ||
 		pool.IdleTimeoutInMinutes != nil ||
 		pool.Protocol != nil {
-		result.Properties = &InboundNatPoolPropertiesFormatARM{}
+		result.Properties = &InboundNatPoolPropertiesFormat_ARM{}
 	}
 	if pool.BackendPort != nil {
 		backendPort := *pool.BackendPort
@@ -3371,11 +3371,11 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if pool.FrontendIPConfiguration != nil {
-		frontendIPConfigurationARM, err := (*pool.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := (*pool.FrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfigurationARM.(*SubResourceARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if pool.FrontendPortRangeEnd != nil {
@@ -3399,14 +3399,14 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *InboundNatPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatPoolARM{}
+	return &InboundNatPool_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatPoolARM)
+	typedInput, ok := armInput.(InboundNatPool_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPoolARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendPort’:
@@ -3660,14 +3660,14 @@ var _ genruntime.FromARMConverter = &InboundNatPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *InboundNatPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatPool_STATUSARM{}
+	return &InboundNatPool_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatPool_STATUSARM)
+	typedInput, ok := armInput.(InboundNatPool_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendPort’:
@@ -3963,7 +3963,7 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if rule == nil {
 		return nil, nil
 	}
-	result := &InboundNatRuleARM{}
+	result := &InboundNatRule_ARM{}
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
@@ -3989,7 +3989,7 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		rule.FrontendPort != nil ||
 		rule.IdleTimeoutInMinutes != nil ||
 		rule.Protocol != nil {
-		result.Properties = &InboundNatRulePropertiesFormatARM{}
+		result.Properties = &InboundNatRulePropertiesFormat_ARM{}
 	}
 	if rule.BackendPort != nil {
 		backendPort := *rule.BackendPort
@@ -4004,11 +4004,11 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if rule.FrontendIPConfiguration != nil {
-		frontendIPConfigurationARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfigurationARM.(*SubResourceARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if rule.FrontendPort != nil {
@@ -4028,14 +4028,14 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *InboundNatRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatRuleARM{}
+	return &InboundNatRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *InboundNatRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatRuleARM)
+	typedInput, ok := armInput.(InboundNatRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendPort’:
@@ -4274,14 +4274,14 @@ var _ genruntime.FromARMConverter = &InboundNatRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *InboundNatRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatRule_STATUSARM{}
+	return &InboundNatRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *InboundNatRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatRule_STATUSARM)
+	typedInput, ok := armInput.(InboundNatRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendIPConfiguration’:
@@ -4593,7 +4593,7 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 	if balancerSku == nil {
 		return nil, nil
 	}
-	result := &LoadBalancerSkuARM{}
+	result := &LoadBalancerSku_ARM{}
 
 	// Set property ‘Name’:
 	if balancerSku.Name != nil {
@@ -4611,14 +4611,14 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancerSku *LoadBalancerSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerSkuARM{}
+	return &LoadBalancerSku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancerSku *LoadBalancerSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerSkuARM)
+	typedInput, ok := armInput.(LoadBalancerSku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -4702,14 +4702,14 @@ var _ genruntime.FromARMConverter = &LoadBalancerSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancerSku *LoadBalancerSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerSku_STATUSARM{}
+	return &LoadBalancerSku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancerSku *LoadBalancerSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerSku_STATUSARM)
+	typedInput, ok := armInput.(LoadBalancerSku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -4811,7 +4811,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if rule == nil {
 		return nil, nil
 	}
-	result := &LoadBalancingRuleARM{}
+	result := &LoadBalancingRule_ARM{}
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
@@ -4841,14 +4841,14 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		rule.LoadDistribution != nil ||
 		rule.Probe != nil ||
 		rule.Protocol != nil {
-		result.Properties = &LoadBalancingRulePropertiesFormatARM{}
+		result.Properties = &LoadBalancingRulePropertiesFormat_ARM{}
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPoolARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPoolARM.(*SubResourceARM)
+		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendPort != nil {
@@ -4868,11 +4868,11 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	if rule.FrontendIPConfiguration != nil {
-		frontendIPConfigurationARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
+		frontendIPConfiguration_ARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfigurationARM.(*SubResourceARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if rule.FrontendPort != nil {
@@ -4888,11 +4888,11 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.LoadDistribution = &loadDistribution
 	}
 	if rule.Probe != nil {
-		probeARM, err := (*rule.Probe).ConvertToARM(resolved)
+		probe_ARM, err := (*rule.Probe).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		probe := *probeARM.(*SubResourceARM)
+		probe := *probe_ARM.(*SubResource_ARM)
 		result.Properties.Probe = &probe
 	}
 	if rule.Protocol != nil {
@@ -4904,14 +4904,14 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancingRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingRuleARM{}
+	return &LoadBalancingRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingRuleARM)
+	typedInput, ok := armInput.(LoadBalancingRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendAddressPool’:
@@ -5279,14 +5279,14 @@ var _ genruntime.FromARMConverter = &LoadBalancingRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancingRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingRule_STATUSARM{}
+	return &LoadBalancingRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingRule_STATUSARM)
+	typedInput, ok := armInput.(LoadBalancingRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BackendAddressPool’:
@@ -5698,7 +5698,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule == nil {
 		return nil, nil
 	}
-	result := &OutboundRuleARM{}
+	result := &OutboundRule_ARM{}
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
@@ -5723,18 +5723,18 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		rule.FrontendIPConfigurations != nil ||
 		rule.IdleTimeoutInMinutes != nil ||
 		rule.Protocol != nil {
-		result.Properties = &OutboundRulePropertiesFormatARM{}
+		result.Properties = &OutboundRulePropertiesFormat_ARM{}
 	}
 	if rule.AllocatedOutboundPorts != nil {
 		allocatedOutboundPorts := *rule.AllocatedOutboundPorts
 		result.Properties.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
 	if rule.BackendAddressPool != nil {
-		backendAddressPoolARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPoolARM.(*SubResourceARM)
+		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.EnableTcpReset != nil {
@@ -5742,11 +5742,11 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Properties.EnableTcpReset = &enableTcpReset
 	}
 	for _, item := range rule.FrontendIPConfigurations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *itemARM.(*SubResourceARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*SubResource_ARM))
 	}
 	if rule.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *rule.IdleTimeoutInMinutes
@@ -5761,14 +5761,14 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *OutboundRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OutboundRuleARM{}
+	return &OutboundRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OutboundRuleARM)
+	typedInput, ok := armInput.(OutboundRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllocatedOutboundPorts’:
@@ -6014,14 +6014,14 @@ var _ genruntime.FromARMConverter = &OutboundRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *OutboundRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OutboundRule_STATUSARM{}
+	return &OutboundRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OutboundRule_STATUSARM)
+	typedInput, ok := armInput.(OutboundRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllocatedOutboundPorts’:
@@ -6313,7 +6313,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if probe == nil {
 		return nil, nil
 	}
-	result := &ProbeARM{}
+	result := &Probe_ARM{}
 
 	// Set property ‘Id’:
 	if probe.Reference != nil {
@@ -6337,7 +6337,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		probe.Port != nil ||
 		probe.Protocol != nil ||
 		probe.RequestPath != nil {
-		result.Properties = &ProbePropertiesFormatARM{}
+		result.Properties = &ProbePropertiesFormat_ARM{}
 	}
 	if probe.IntervalInSeconds != nil {
 		intervalInSeconds := *probe.IntervalInSeconds
@@ -6364,14 +6364,14 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *Probe) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProbeARM{}
+	return &Probe_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProbeARM)
+	typedInput, ok := armInput.(Probe_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProbeARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IntervalInSeconds’:
@@ -6535,14 +6535,14 @@ var _ genruntime.FromARMConverter = &Probe_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *Probe_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Probe_STATUSARM{}
+	return &Probe_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Probe_STATUSARM)
+	typedInput, ok := armInput.(Probe_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Etag’:
@@ -6783,10 +6783,10 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *alpha20
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of LoadBalancerBackendAddress. Use v1beta20201101.LoadBalancerBackendAddress instead
@@ -6805,7 +6805,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 	if address == nil {
 		return nil, nil
 	}
-	result := &LoadBalancerBackendAddressARM{}
+	result := &LoadBalancerBackendAddress_ARM{}
 
 	// Set property ‘Name’:
 	if address.Name != nil {
@@ -6818,34 +6818,34 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		address.LoadBalancerFrontendIPConfiguration != nil ||
 		address.Subnet != nil ||
 		address.VirtualNetwork != nil {
-		result.Properties = &LoadBalancerBackendAddressPropertiesFormatARM{}
+		result.Properties = &LoadBalancerBackendAddressPropertiesFormat_ARM{}
 	}
 	if address.IpAddress != nil {
 		ipAddress := *address.IpAddress
 		result.Properties.IpAddress = &ipAddress
 	}
 	if address.LoadBalancerFrontendIPConfiguration != nil {
-		loadBalancerFrontendIPConfigurationARM, err := (*address.LoadBalancerFrontendIPConfiguration).ConvertToARM(resolved)
+		loadBalancerFrontendIPConfiguration_ARM, err := (*address.LoadBalancerFrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfigurationARM.(*SubResourceARM)
+		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfiguration_ARM.(*SubResource_ARM)
 		result.Properties.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	}
 	if address.Subnet != nil {
-		subnetARM, err := (*address.Subnet).ConvertToARM(resolved)
+		subnet_ARM, err := (*address.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnetARM.(*SubResourceARM)
+		subnet := *subnet_ARM.(*SubResource_ARM)
 		result.Properties.Subnet = &subnet
 	}
 	if address.VirtualNetwork != nil {
-		virtualNetworkARM, err := (*address.VirtualNetwork).ConvertToARM(resolved)
+		virtualNetwork_ARM, err := (*address.VirtualNetwork).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetworkARM.(*SubResourceARM)
+		virtualNetwork := *virtualNetwork_ARM.(*SubResource_ARM)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 	return result, nil
@@ -6853,14 +6853,14 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *LoadBalancerBackendAddress) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerBackendAddressARM{}
+	return &LoadBalancerBackendAddress_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerBackendAddressARM)
+	typedInput, ok := armInput.(LoadBalancerBackendAddress_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddressARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpAddress’:
@@ -7045,14 +7045,14 @@ var _ genruntime.FromARMConverter = &LoadBalancerBackendAddress_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *LoadBalancerBackendAddress_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerBackendAddress_STATUSARM{}
+	return &LoadBalancerBackendAddress_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerBackendAddress_STATUSARM)
+	typedInput, ok := armInput.(LoadBalancerBackendAddress_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpAddress’:
@@ -7277,9 +7277,9 @@ const (
 type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS string
 
 const (
-	LoadBalancingRulePropertiesFormat_LoadDistribution_Default_STATUS          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP_STATUS         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol_STATUS = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_Default          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
 // Deprecated version of OutboundRulePropertiesFormat_Protocol. Use v1beta20201101.OutboundRulePropertiesFormat_Protocol
@@ -7298,9 +7298,9 @@ const (
 type OutboundRulePropertiesFormat_Protocol_STATUS string
 
 const (
-	OutboundRulePropertiesFormat_Protocol_All_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("All")
-	OutboundRulePropertiesFormat_Protocol_Tcp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
-	OutboundRulePropertiesFormat_Protocol_Udp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
+	OutboundRulePropertiesFormat_Protocol_STATUS_All = OutboundRulePropertiesFormat_Protocol_STATUS("All")
+	OutboundRulePropertiesFormat_Protocol_STATUS_Tcp = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
+	OutboundRulePropertiesFormat_Protocol_STATUS_Udp = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
 // Deprecated version of ProbePropertiesFormat_Protocol. Use v1beta20201101.ProbePropertiesFormat_Protocol instead
@@ -7318,9 +7318,9 @@ const (
 type ProbePropertiesFormat_Protocol_STATUS string
 
 const (
-	ProbePropertiesFormat_Protocol_Http_STATUS  = ProbePropertiesFormat_Protocol_STATUS("Http")
-	ProbePropertiesFormat_Protocol_Https_STATUS = ProbePropertiesFormat_Protocol_STATUS("Https")
-	ProbePropertiesFormat_Protocol_Tcp_STATUS   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
+	ProbePropertiesFormat_Protocol_STATUS_Http  = ProbePropertiesFormat_Protocol_STATUS("Http")
+	ProbePropertiesFormat_Protocol_STATUS_Https = ProbePropertiesFormat_Protocol_STATUS("Https")
+	ProbePropertiesFormat_Protocol_STATUS_Tcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
 
 // Deprecated version of PublicIPAddress_STATUS. Use v1beta20201101.PublicIPAddress_STATUS instead
@@ -7355,14 +7355,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *PublicIPAddress_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_STATUSARM{}
+	return &PublicIPAddress_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *PublicIPAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_STATUSARM)
+	typedInput, ok := armInput.(PublicIPAddress_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DdosSettings’:
@@ -8036,15 +8036,15 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 	if address == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSpecARM{}
+	result := &PublicIPAddressSpec_ARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if address.ExtendedLocation != nil {
-		extendedLocationARM, err := (*address.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*address.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -8077,22 +8077,22 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 		address.PublicIPAllocationMethod != nil ||
 		address.PublicIPPrefix != nil ||
 		address.ServicePublicIPAddress != nil {
-		result.Properties = &PublicIPAddressPropertiesFormatARM{}
+		result.Properties = &PublicIPAddressPropertiesFormat_ARM{}
 	}
 	if address.DdosSettings != nil {
-		ddosSettingsARM, err := (*address.DdosSettings).ConvertToARM(resolved)
+		ddosSettings_ARM, err := (*address.DdosSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ddosSettings := *ddosSettingsARM.(*DdosSettingsARM)
+		ddosSettings := *ddosSettings_ARM.(*DdosSettings_ARM)
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if address.DnsSettings != nil {
-		dnsSettingsARM, err := (*address.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := (*address.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := *dnsSettingsARM.(*PublicIPAddressDnsSettingsARM)
+		dnsSettings := *dnsSettings_ARM.(*PublicIPAddressDnsSettings_ARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if address.IdleTimeoutInMinutes != nil {
@@ -8104,18 +8104,18 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.IpAddress = &ipAddress
 	}
 	for _, item := range address.IpTags {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*IpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*IpTag_ARM))
 	}
 	if address.LinkedPublicIPAddress != nil {
-		linkedPublicIPAddressARM, err := (*address.LinkedPublicIPAddress).ConvertToARM(resolved)
+		linkedPublicIPAddress_ARM, err := (*address.LinkedPublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		linkedPublicIPAddress := *linkedPublicIPAddressARM.(*PublicIPAddressSpecARM)
+		linkedPublicIPAddress := *linkedPublicIPAddress_ARM.(*PublicIPAddressSpec_ARM)
 		result.Properties.LinkedPublicIPAddress = &linkedPublicIPAddress
 	}
 	if address.MigrationPhase != nil {
@@ -8123,11 +8123,11 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.MigrationPhase = &migrationPhase
 	}
 	if address.NatGateway != nil {
-		natGatewayARM, err := (*address.NatGateway).ConvertToARM(resolved)
+		natGateway_ARM, err := (*address.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		natGateway := *natGatewayARM.(*NatGatewaySpecARM)
+		natGateway := *natGateway_ARM.(*NatGatewaySpec_ARM)
 		result.Properties.NatGateway = &natGateway
 	}
 	if address.PublicIPAddressVersion != nil {
@@ -8139,29 +8139,29 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
 	}
 	if address.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*address.PublicIPPrefix).ConvertToARM(resolved)
+		publicIPPrefix_ARM, err := (*address.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
+		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if address.ServicePublicIPAddress != nil {
-		servicePublicIPAddressARM, err := (*address.ServicePublicIPAddress).ConvertToARM(resolved)
+		servicePublicIPAddress_ARM, err := (*address.ServicePublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		servicePublicIPAddress := *servicePublicIPAddressARM.(*PublicIPAddressSpecARM)
+		servicePublicIPAddress := *servicePublicIPAddress_ARM.(*PublicIPAddressSpec_ARM)
 		result.Properties.ServicePublicIPAddress = &servicePublicIPAddress
 	}
 
 	// Set property ‘Sku’:
 	if address.Sku != nil {
-		skuARM, err := (*address.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*address.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*PublicIPAddressSkuARM)
+		sku := *sku_ARM.(*PublicIPAddressSku_ARM)
 		result.Sku = &sku
 	}
 
@@ -8182,14 +8182,14 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *PublicIPAddressSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSpecARM{}
+	return &PublicIPAddressSpec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *PublicIPAddressSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSpecARM)
+	typedInput, ok := armInput.(PublicIPAddressSpec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DdosSettings’:
@@ -8752,7 +8752,7 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if subnet == nil {
 		return nil, nil
 	}
-	result := &SubnetARM{}
+	result := &Subnet_ARM{}
 
 	// Set property ‘Id’:
 	if subnet.Reference != nil {
@@ -8783,7 +8783,7 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		subnet.RouteTable != nil ||
 		subnet.ServiceEndpointPolicies != nil ||
 		subnet.ServiceEndpoints != nil {
-		result.Properties = &SubnetPropertiesFormatARM{}
+		result.Properties = &SubnetPropertiesFormat_ARM{}
 	}
 	if subnet.AddressPrefix != nil {
 		addressPrefix := *subnet.AddressPrefix
@@ -8793,40 +8793,40 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		result.Properties.AddressPrefixes = append(result.Properties.AddressPrefixes, item)
 	}
 	for _, item := range subnet.ApplicationGatewayIpConfigurations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationGatewayIpConfigurations = append(result.Properties.ApplicationGatewayIpConfigurations, *itemARM.(*ApplicationGatewayIPConfigurationARM))
+		result.Properties.ApplicationGatewayIpConfigurations = append(result.Properties.ApplicationGatewayIpConfigurations, *item_ARM.(*ApplicationGatewayIPConfiguration_ARM))
 	}
 	for _, item := range subnet.Delegations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Delegations = append(result.Properties.Delegations, *itemARM.(*DelegationARM))
+		result.Properties.Delegations = append(result.Properties.Delegations, *item_ARM.(*Delegation_ARM))
 	}
 	for _, item := range subnet.IpAllocations {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *item_ARM.(*SubResource_ARM))
 	}
 	if subnet.NatGateway != nil {
-		natGatewayARM, err := (*subnet.NatGateway).ConvertToARM(resolved)
+		natGateway_ARM, err := (*subnet.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		natGateway := *natGatewayARM.(*SubResourceARM)
+		natGateway := *natGateway_ARM.(*SubResource_ARM)
 		result.Properties.NatGateway = &natGateway
 	}
 	if subnet.NetworkSecurityGroup != nil {
-		networkSecurityGroupARM, err := (*subnet.NetworkSecurityGroup).ConvertToARM(resolved)
+		networkSecurityGroup_ARM, err := (*subnet.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := *networkSecurityGroupARM.(*NetworkSecurityGroupSpecARM)
+		networkSecurityGroup := *networkSecurityGroup_ARM.(*NetworkSecurityGroupSpec_ARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if subnet.PrivateEndpointNetworkPolicies != nil {
@@ -8838,26 +8838,26 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		result.Properties.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 	}
 	if subnet.RouteTable != nil {
-		routeTableARM, err := (*subnet.RouteTable).ConvertToARM(resolved)
+		routeTable_ARM, err := (*subnet.RouteTable).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		routeTable := *routeTableARM.(*RouteTableSpecARM)
+		routeTable := *routeTable_ARM.(*RouteTableSpec_ARM)
 		result.Properties.RouteTable = &routeTable
 	}
 	for _, item := range subnet.ServiceEndpointPolicies {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, *itemARM.(*ServiceEndpointPolicySpecARM))
+		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, *item_ARM.(*ServiceEndpointPolicySpec_ARM))
 	}
 	for _, item := range subnet.ServiceEndpoints {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, *itemARM.(*ServiceEndpointPropertiesFormatARM))
+		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, *item_ARM.(*ServiceEndpointPropertiesFormat_ARM))
 	}
 
 	// Set property ‘Type’:
@@ -8870,14 +8870,14 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subnet *Subnet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubnetARM{}
+	return &Subnet_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subnet *Subnet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubnetARM)
+	typedInput, ok := armInput.(Subnet_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubnetARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefix’:
@@ -9418,14 +9418,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subnet *Subnet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUSARM{}
+	return &Subnet_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subnet *Subnet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUSARM)
+	typedInput, ok := armInput.(Subnet_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefix’:
@@ -10240,9 +10240,9 @@ const (
 type TransportProtocol_STATUS string
 
 const (
-	TransportProtocol_All_STATUS = TransportProtocol_STATUS("All")
-	TransportProtocol_Tcp_STATUS = TransportProtocol_STATUS("Tcp")
-	TransportProtocol_Udp_STATUS = TransportProtocol_STATUS("Udp")
+	TransportProtocol_STATUS_All = TransportProtocol_STATUS("All")
+	TransportProtocol_STATUS_Tcp = TransportProtocol_STATUS("Tcp")
+	TransportProtocol_STATUS_Udp = TransportProtocol_STATUS("Udp")
 )
 
 // Deprecated version of NatGateway_STATUS. Use v1beta20201101.NatGateway_STATUS instead
@@ -10267,14 +10267,14 @@ var _ genruntime.FromARMConverter = &NatGateway_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gateway *NatGateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGateway_STATUSARM{}
+	return &NatGateway_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGateway_STATUSARM)
+	typedInput, ok := armInput.(NatGateway_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Etag’:

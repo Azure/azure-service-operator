@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type Redis_FirewallRule_STATUSARM struct {
+type Redis_FirewallRule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type Redis_FirewallRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: redis cache firewall rule properties
-	Properties *RedisFirewallRuleProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *RedisFirewallRuleProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type RedisFirewallRuleProperties_STATUSARM struct {
+type RedisFirewallRuleProperties_STATUS_ARM struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 

@@ -90,8 +90,8 @@
 | QueryStringCachingBehavior_STATUS                                                  | v1beta20210601 |
 =======
 | DeliveryRuleAction1                                                                | v1beta20210601 |
+| DeliveryRuleAction_Name_STATUS                                                     | v1beta20210601 |
 | DeliveryRuleAction_STATUS                                                          | v1beta20210601 |
-| DeliveryRuleAction_STATUS_Name                                                     | v1beta20210601 |
 | DeliveryRuleCacheExpirationAction                                                  | v1beta20210601 |
 | DeliveryRuleCacheExpirationAction_Name                                             | v1beta20210601 |
 | DeliveryRuleCacheKeyQueryStringAction                                              | v1beta20210601 |
@@ -99,8 +99,8 @@
 | DeliveryRuleClientPortCondition                                                    | v1beta20210601 |
 | DeliveryRuleClientPortCondition_Name                                               | v1beta20210601 |
 | DeliveryRuleCondition                                                              | v1beta20210601 |
+| DeliveryRuleCondition_Name_STATUS                                                  | v1beta20210601 |
 | DeliveryRuleCondition_STATUS                                                       | v1beta20210601 |
-| DeliveryRuleCondition_STATUS_Name                                                  | v1beta20210601 |
 | DeliveryRuleCookiesCondition                                                       | v1beta20210601 |
 | DeliveryRuleCookiesCondition_Name                                                  | v1beta20210601 |
 | DeliveryRuleHostNameCondition                                                      | v1beta20210601 |
@@ -146,25 +146,25 @@
 | DeliveryRule_STATUS                                                                | v1beta20210601 |
 | EndpointPropertiesUpdateParametersDeliveryPolicy                                   | v1beta20210601 |
 | EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink                 | v1beta20210601 |
+| EndpointProperties_DeliveryPolicy_STATUS                                           | v1beta20210601 |
+| EndpointProperties_ProvisioningState_STATUS                                        | v1beta20210601 |
+| EndpointProperties_ResourceState_STATUS                                            | v1beta20210601 |
 | EndpointProperties_STATUS                                                          | v1beta20210601 |
-| EndpointProperties_STATUS_DeliveryPolicy                                           | v1beta20210601 |
-| EndpointProperties_STATUS_ProvisioningState                                        | v1beta20210601 |
-| EndpointProperties_STATUS_ResourceState                                            | v1beta20210601 |
-| EndpointProperties_STATUS_WebApplicationFirewallPolicyLink                         | v1beta20210601 |
+| EndpointProperties_WebApplicationFirewallPolicyLink_STATUS                         | v1beta20210601 |
 | Endpoint_STATUS                                                                    | v1beta20210601 |
 | GeoFilter                                                                          | v1beta20210601 |
 | GeoFilter_Action                                                                   | v1beta20210601 |
+| GeoFilter_Action_STATUS                                                            | v1beta20210601 |
 | GeoFilter_STATUS                                                                   | v1beta20210601 |
-| GeoFilter_STATUS_Action                                                            | v1beta20210601 |
 | HeaderActionParameters                                                             | v1beta20210601 |
 | HeaderActionParameters_HeaderAction                                                | v1beta20210601 |
 | HeaderActionParameters_TypeName                                                    | v1beta20210601 |
 | HealthProbeParameters                                                              | v1beta20210601 |
 | HealthProbeParameters_ProbeProtocol                                                | v1beta20210601 |
+| HealthProbeParameters_ProbeProtocol_STATUS                                         | v1beta20210601 |
 | HealthProbeParameters_ProbeRequestType                                             | v1beta20210601 |
+| HealthProbeParameters_ProbeRequestType_STATUS                                      | v1beta20210601 |
 | HealthProbeParameters_STATUS                                                       | v1beta20210601 |
-| HealthProbeParameters_STATUS_ProbeProtocol                                         | v1beta20210601 |
-| HealthProbeParameters_STATUS_ProbeRequestType                                      | v1beta20210601 |
 | HostNameMatchConditionParameters                                                   | v1beta20210601 |
 | HostNameMatchConditionParameters_Operator                                          | v1beta20210601 |
 | HostNameMatchConditionParameters_Transforms                                        | v1beta20210601 |
@@ -183,8 +183,8 @@
 | IsDeviceMatchConditionParameters_TypeName                                          | v1beta20210601 |
 | KeyVaultSigningKeyParameters                                                       | v1beta20210601 |
 | KeyVaultSigningKeyParameters_STATUS                                                | v1beta20210601 |
-| KeyVaultSigningKeyParameters_STATUS_TypeName                                       | v1beta20210601 |
 | KeyVaultSigningKeyParameters_TypeName                                              | v1beta20210601 |
+| KeyVaultSigningKeyParameters_TypeName_STATUS                                       | v1beta20210601 |
 | OptimizationType_STATUS                                                            | v1beta20210601 |
 | OriginGroupOverride                                                                | v1beta20210601 |
 | OriginGroupOverrideAction                                                          | v1beta20210601 |
@@ -199,18 +199,18 @@
 | PrivateEndpointStatus_STATUS                                                       | v1beta20210601 |
 | Profile                                                                            | v1beta20210601 |
 | ProfileProperties                                                                  | v1beta20210601 |
+| ProfileProperties_ProvisioningState_STATUS                                         | v1beta20210601 |
+| ProfileProperties_ResourceState_STATUS                                             | v1beta20210601 |
 | ProfileProperties_STATUS                                                           | v1beta20210601 |
-| ProfileProperties_STATUS_ProvisioningState                                         | v1beta20210601 |
-| ProfileProperties_STATUS_ResourceState                                             | v1beta20210601 |
 | Profile_STATUS                                                                     | v1beta20210601 |
 | Profile_Spec                                                                       | v1beta20210601 |
 | ProfilesEndpoint                                                                   | v1beta20210601 |
+| Profiles_Endpoint_Properties_OptimizationType_Spec                                 | v1beta20210601 |
+| Profiles_Endpoint_Properties_OriginGroups_Spec                                     | v1beta20210601 |
+| Profiles_Endpoint_Properties_Origins_Spec                                          | v1beta20210601 |
+| Profiles_Endpoint_Properties_QueryStringCachingBehavior_Spec                       | v1beta20210601 |
+| Profiles_Endpoint_Properties_Spec                                                  | v1beta20210601 |
 | Profiles_Endpoint_Spec                                                             | v1beta20210601 |
-| Profiles_Endpoint_Spec_Properties                                                  | v1beta20210601 |
-| Profiles_Endpoint_Spec_Properties_OptimizationType                                 | v1beta20210601 |
-| Profiles_Endpoint_Spec_Properties_OriginGroups                                     | v1beta20210601 |
-| Profiles_Endpoint_Spec_Properties_Origins                                          | v1beta20210601 |
-| Profiles_Endpoint_Spec_Properties_QueryStringCachingBehavior                       | v1beta20210601 |
 | QueryStringCachingBehavior_STATUS                                                  | v1beta20210601 |
 | QueryStringMatchConditionParameters                                                | v1beta20210601 |
 | QueryStringMatchConditionParameters_Operator                                       | v1beta20210601 |
@@ -247,6 +247,7 @@
 | ResourceReference_STATUS                                                           | v1beta20210601 |
 | ResponseBasedOriginErrorDetectionParameters                                        | v1beta20210601 |
 | ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes        | v1beta20210601 |
+<<<<<<< HEAD
 <<<<<<< HEAD
 | ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS | v1beta20210601 |
 | ResponseBasedOriginErrorDetectionParameters_STATUS                                 | v1beta20210601 |
@@ -500,8 +501,10 @@
 | UrlSigningParamIdentifierParamIndicator                                          | v1beta20210601 |
 >>>>>>> master
 =======
+=======
+| ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS | v1beta20210601 |
+>>>>>>> main
 | ResponseBasedOriginErrorDetectionParameters_STATUS                                 | v1beta20210601 |
-| ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes | v1beta20210601 |
 | RouteConfigurationOverrideActionParameters                                         | v1beta20210601 |
 | RouteConfigurationOverrideActionParameters_TypeName                                | v1beta20210601 |
 | ServerPortMatchConditionParameters                                                 | v1beta20210601 |
@@ -510,8 +513,8 @@
 | ServerPortMatchConditionParameters_TypeName                                        | v1beta20210601 |
 | Sku                                                                                | v1beta20210601 |
 | Sku_Name                                                                           | v1beta20210601 |
+| Sku_Name_STATUS                                                                    | v1beta20210601 |
 | Sku_STATUS                                                                         | v1beta20210601 |
-| Sku_STATUS_Name                                                                    | v1beta20210601 |
 | SocketAddrMatchConditionParameters                                                 | v1beta20210601 |
 | SocketAddrMatchConditionParameters_Operator                                        | v1beta20210601 |
 | SocketAddrMatchConditionParameters_Transforms                                      | v1beta20210601 |

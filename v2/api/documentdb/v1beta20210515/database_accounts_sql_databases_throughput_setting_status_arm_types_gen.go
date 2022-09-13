@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUSARM struct {
+type DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,8 +14,8 @@ type DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB resource throughput
-	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	Properties *ThroughputSettingsGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`

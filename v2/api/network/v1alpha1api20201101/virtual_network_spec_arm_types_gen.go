@@ -6,68 +6,68 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetwork_Spec. Use v1beta20201101.VirtualNetwork_Spec instead
-type VirtualNetwork_SpecARM struct {
-	AzureName        string                             `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocationARM               `json:"extendedLocation,omitempty"`
-	Id               *string                            `json:"id,omitempty"`
-	Location         *string                            `json:"location,omitempty"`
-	Name             string                             `json:"name,omitempty"`
-	Properties       *VirtualNetworkPropertiesFormatARM `json:"properties,omitempty"`
-	Tags             map[string]string                  `json:"tags,omitempty"`
+type VirtualNetwork_Spec_ARM struct {
+	AzureName        string                              `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM               `json:"extendedLocation,omitempty"`
+	Id               *string                             `json:"id,omitempty"`
+	Location         *string                             `json:"location,omitempty"`
+	Name             string                              `json:"name,omitempty"`
+	Properties       *VirtualNetworkPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                   `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetwork_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetwork_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (network VirtualNetwork_SpecARM) GetAPIVersion() string {
+func (network VirtualNetwork_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (network *VirtualNetwork_SpecARM) GetName() string {
+func (network *VirtualNetwork_Spec_ARM) GetName() string {
 	return network.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (network *VirtualNetwork_SpecARM) GetType() string {
+func (network *VirtualNetwork_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
 // Deprecated version of VirtualNetworkPropertiesFormat. Use v1beta20201101.VirtualNetworkPropertiesFormat instead
-type VirtualNetworkPropertiesFormatARM struct {
-	AddressSpace           *AddressSpaceARM                 `json:"addressSpace,omitempty"`
-	BgpCommunities         *VirtualNetworkBgpCommunitiesARM `json:"bgpCommunities,omitempty"`
-	DdosProtectionPlan     *SubResourceARM                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions            *DhcpOptionsARM                  `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection   *bool                            `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection     *bool                            `json:"enableVmProtection,omitempty"`
-	IpAllocations          []SubResourceARM                 `json:"ipAllocations,omitempty"`
-	Subnets                []SubnetARM                      `json:"subnets,omitempty"`
-	VirtualNetworkPeerings []VirtualNetworkPeeringARM       `json:"virtualNetworkPeerings,omitempty"`
+type VirtualNetworkPropertiesFormat_ARM struct {
+	AddressSpace           *AddressSpace_ARM                 `json:"addressSpace,omitempty"`
+	BgpCommunities         *VirtualNetworkBgpCommunities_ARM `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan     *SubResource_ARM                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions            *DhcpOptions_ARM                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection   *bool                             `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection     *bool                             `json:"enableVmProtection,omitempty"`
+	IpAllocations          []SubResource_ARM                 `json:"ipAllocations,omitempty"`
+	Subnets                []Subnet_ARM                      `json:"subnets,omitempty"`
+	VirtualNetworkPeerings []VirtualNetworkPeering_ARM       `json:"virtualNetworkPeerings,omitempty"`
 }
 
 // Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
-type DhcpOptionsARM struct {
+type DhcpOptions_ARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
 // Deprecated version of Subnet. Use v1beta20201101.Subnet instead
-type SubnetARM struct {
-	Id         *string                    `json:"id,omitempty"`
-	Name       *string                    `json:"name,omitempty"`
-	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                    `json:"type,omitempty"`
+type Subnet_ARM struct {
+	Id         *string                     `json:"id,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
+	Properties *SubnetPropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
-type VirtualNetworkBgpCommunitiesARM struct {
+type VirtualNetworkBgpCommunities_ARM struct {
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkPeering. Use v1beta20201101.VirtualNetworkPeering instead
-type VirtualNetworkPeeringARM struct {
-	Id         *string                                   `json:"id,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+type VirtualNetworkPeering_ARM struct {
+	Id         *string                                    `json:"id,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }

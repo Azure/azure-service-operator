@@ -404,16 +404,16 @@ func AddIndependentPropertyGeneratorsForBatchAccount_STATUS(gens map[string]gopt
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["LowPriorityCoreQuota"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService_STATUS, PoolAllocationMode_UserSubscription_STATUS))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_STATUS_BatchService, PoolAllocationMode_STATUS_UserSubscription))
 	gens["PoolQuota"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BatchAccountProperties_ProvisioningState_Cancelled_STATUS,
-		BatchAccountProperties_ProvisioningState_Creating_STATUS,
-		BatchAccountProperties_ProvisioningState_Deleting_STATUS,
-		BatchAccountProperties_ProvisioningState_Failed_STATUS,
-		BatchAccountProperties_ProvisioningState_Invalid_STATUS,
-		BatchAccountProperties_ProvisioningState_Succeeded_STATUS))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
+		BatchAccountProperties_ProvisioningState_STATUS_Cancelled,
+		BatchAccountProperties_ProvisioningState_STATUS_Creating,
+		BatchAccountProperties_ProvisioningState_STATUS_Deleting,
+		BatchAccountProperties_ProvisioningState_STATUS_Failed,
+		BatchAccountProperties_ProvisioningState_STATUS_Invalid,
+		BatchAccountProperties_ProvisioningState_STATUS_Succeeded))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -843,7 +843,7 @@ func BatchAccountIdentity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None_STATUS, BatchAccountIdentity_Type_SystemAssigned_STATUS, BatchAccountIdentity_Type_UserAssigned_STATUS))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_STATUS_None, BatchAccountIdentity_Type_STATUS_SystemAssigned, BatchAccountIdentity_Type_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS is a factory method for creating gopter generators
@@ -1077,7 +1077,7 @@ func EncryptionProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_MicrosoftBatch_STATUS, EncryptionProperties_KeySource_MicrosoftKeyVault_STATUS))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_STATUS_MicrosoftBatch, EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS is a factory method for creating gopter generators
@@ -1403,7 +1403,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointConnectionProperties_ProvisioningState_Failed_STATUS, PrivateEndpointConnectionProperties_ProvisioningState_Succeeded_STATUS, PrivateEndpointConnectionProperties_ProvisioningState_Updating_STATUS))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed, PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Succeeded, PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2032,8 +2032,8 @@ func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateLinkServiceConnectionStatus_Approved_STATUS,
-		PrivateLinkServiceConnectionStatus_Disconnected_STATUS,
-		PrivateLinkServiceConnectionStatus_Pending_STATUS,
-		PrivateLinkServiceConnectionStatus_Rejected_STATUS))
+		PrivateLinkServiceConnectionStatus_STATUS_Approved,
+		PrivateLinkServiceConnectionStatus_STATUS_Disconnected,
+		PrivateLinkServiceConnectionStatus_STATUS_Pending,
+		PrivateLinkServiceConnectionStatus_STATUS_Rejected))
 }

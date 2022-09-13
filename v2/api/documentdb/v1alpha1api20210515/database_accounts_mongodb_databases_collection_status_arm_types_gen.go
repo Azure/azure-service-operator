@@ -4,45 +4,45 @@
 package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collection_STATUS instead
-type DatabaseAccounts_MongodbDatabases_Collection_STATUSARM struct {
-	Id         *string                                   `json:"id,omitempty"`
-	Location   *string                                   `json:"location,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *MongoDBCollectionGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+type DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM struct {
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *MongoDBCollectionGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 // Deprecated version of MongoDBCollectionGetProperties_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_STATUS instead
-type MongoDBCollectionGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                         `json:"options,omitempty"`
-	Resource *MongoDBCollectionGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type MongoDBCollectionGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                         `json:"options,omitempty"`
+	Resource *MongoDBCollectionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
-type MongoDBCollectionGetProperties_Resource_STATUSARM struct {
-	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
-	Etag                 *string                `json:"_etag,omitempty"`
-	Id                   *string                `json:"id,omitempty"`
-	Indexes              []MongoIndex_STATUSARM `json:"indexes,omitempty"`
-	Rid                  *string                `json:"_rid,omitempty"`
-	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-	Ts                   *float64               `json:"_ts,omitempty"`
+type MongoDBCollectionGetProperties_Resource_STATUS_ARM struct {
+	AnalyticalStorageTtl *int                    `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string                 `json:"_etag,omitempty"`
+	Id                   *string                 `json:"id,omitempty"`
+	Indexes              []MongoIndex_STATUS_ARM `json:"indexes,omitempty"`
+	Rid                  *string                 `json:"_rid,omitempty"`
+	ShardKey             map[string]string       `json:"shardKey,omitempty"`
+	Ts                   *float64                `json:"_ts,omitempty"`
 }
 
 // Deprecated version of MongoIndex_STATUS. Use v1beta20210515.MongoIndex_STATUS instead
-type MongoIndex_STATUSARM struct {
-	Key     *MongoIndexKeys_STATUSARM    `json:"key,omitempty"`
-	Options *MongoIndexOptions_STATUSARM `json:"options,omitempty"`
+type MongoIndex_STATUS_ARM struct {
+	Key     *MongoIndexKeys_STATUS_ARM    `json:"key,omitempty"`
+	Options *MongoIndexOptions_STATUS_ARM `json:"options,omitempty"`
 }
 
 // Deprecated version of MongoIndexKeys_STATUS. Use v1beta20210515.MongoIndexKeys_STATUS instead
-type MongoIndexKeys_STATUSARM struct {
+type MongoIndexKeys_STATUS_ARM struct {
 	Keys []string `json:"keys,omitempty"`
 }
 
 // Deprecated version of MongoIndexOptions_STATUS. Use v1beta20210515.MongoIndexOptions_STATUS instead
-type MongoIndexOptions_STATUSARM struct {
+type MongoIndexOptions_STATUS_ARM struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`
 }

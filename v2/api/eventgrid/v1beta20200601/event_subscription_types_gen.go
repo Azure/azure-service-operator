@@ -361,7 +361,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	if subscription == nil {
 		return nil, nil
 	}
-	result := &EventSubscription_SpecARM{}
+	result := &EventSubscription_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = subscription.AzureName
@@ -377,22 +377,22 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		subscription.Filter != nil ||
 		subscription.Labels != nil ||
 		subscription.RetryPolicy != nil {
-		result.Properties = &EventSubscriptionPropertiesARM{}
+		result.Properties = &EventSubscriptionProperties_ARM{}
 	}
 	if subscription.DeadLetterDestination != nil {
-		deadLetterDestinationARM, err := (*subscription.DeadLetterDestination).ConvertToARM(resolved)
+		deadLetterDestination_ARM, err := (*subscription.DeadLetterDestination).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deadLetterDestination := *deadLetterDestinationARM.(*DeadLetterDestinationARM)
+		deadLetterDestination := *deadLetterDestination_ARM.(*DeadLetterDestination_ARM)
 		result.Properties.DeadLetterDestination = &deadLetterDestination
 	}
 	if subscription.Destination != nil {
-		destinationARM, err := (*subscription.Destination).ConvertToARM(resolved)
+		destination_ARM, err := (*subscription.Destination).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		destination := *destinationARM.(*EventSubscriptionDestinationARM)
+		destination := *destination_ARM.(*EventSubscriptionDestination_ARM)
 		result.Properties.Destination = &destination
 	}
 	if subscription.EventDeliverySchema != nil {
@@ -404,22 +404,22 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.ExpirationTimeUtc = &expirationTimeUtc
 	}
 	if subscription.Filter != nil {
-		filterARM, err := (*subscription.Filter).ConvertToARM(resolved)
+		filter_ARM, err := (*subscription.Filter).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		filter := *filterARM.(*EventSubscriptionFilterARM)
+		filter := *filter_ARM.(*EventSubscriptionFilter_ARM)
 		result.Properties.Filter = &filter
 	}
 	for _, item := range subscription.Labels {
 		result.Properties.Labels = append(result.Properties.Labels, item)
 	}
 	if subscription.RetryPolicy != nil {
-		retryPolicyARM, err := (*subscription.RetryPolicy).ConvertToARM(resolved)
+		retryPolicy_ARM, err := (*subscription.RetryPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
+		retryPolicy := *retryPolicy_ARM.(*RetryPolicy_ARM)
 		result.Properties.RetryPolicy = &retryPolicy
 	}
 	return result, nil
@@ -427,14 +427,14 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *EventSubscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscription_SpecARM{}
+	return &EventSubscription_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscription_SpecARM)
+	typedInput, ok := armInput.(EventSubscription_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -870,14 +870,14 @@ var _ genruntime.FromARMConverter = &EventSubscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *EventSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscription_STATUSARM{}
+	return &EventSubscription_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscription_STATUSARM)
+	typedInput, ok := armInput.(EventSubscription_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1245,7 +1245,7 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 	if destination == nil {
 		return nil, nil
 	}
-	result := &DeadLetterDestinationARM{}
+	result := &DeadLetterDestination_ARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -1257,14 +1257,14 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *DeadLetterDestination) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeadLetterDestinationARM{}
+	return &DeadLetterDestination_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeadLetterDestinationARM)
+	typedInput, ok := armInput.(DeadLetterDestination_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestinationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1325,14 +1325,14 @@ var _ genruntime.FromARMConverter = &DeadLetterDestination_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *DeadLetterDestination_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeadLetterDestination_STATUSARM{}
+	return &DeadLetterDestination_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeadLetterDestination_STATUSARM)
+	typedInput, ok := armInput.(DeadLetterDestination_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1397,7 +1397,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 	if destination == nil {
 		return nil, nil
 	}
-	result := &EventSubscriptionDestinationARM{}
+	result := &EventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -1409,14 +1409,14 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *EventSubscriptionDestination) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionDestinationARM{}
+	return &EventSubscriptionDestination_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionDestinationARM)
+	typedInput, ok := armInput.(EventSubscriptionDestination_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestinationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1477,14 +1477,14 @@ var _ genruntime.FromARMConverter = &EventSubscriptionDestination_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (destination *EventSubscriptionDestination_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionDestination_STATUSARM{}
+	return &EventSubscriptionDestination_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionDestination_STATUSARM)
+	typedInput, ok := armInput.(EventSubscriptionDestination_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1565,15 +1565,15 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 	if filter == nil {
 		return nil, nil
 	}
-	result := &EventSubscriptionFilterARM{}
+	result := &EventSubscriptionFilter_ARM{}
 
 	// Set property ‘AdvancedFilters’:
 	for _, item := range filter.AdvancedFilters {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.AdvancedFilters = append(result.AdvancedFilters, *itemARM.(*AdvancedFilterARM))
+		result.AdvancedFilters = append(result.AdvancedFilters, *item_ARM.(*AdvancedFilter_ARM))
 	}
 
 	// Set property ‘IncludedEventTypes’:
@@ -1603,14 +1603,14 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *EventSubscriptionFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionFilterARM{}
+	return &EventSubscriptionFilter_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionFilterARM)
+	typedInput, ok := armInput.(EventSubscriptionFilter_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilterARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdvancedFilters’:
@@ -1769,14 +1769,14 @@ var _ genruntime.FromARMConverter = &EventSubscriptionFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *EventSubscriptionFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionFilter_STATUSARM{}
+	return &EventSubscriptionFilter_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionFilter_STATUSARM)
+	typedInput, ok := armInput.(EventSubscriptionFilter_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdvancedFilters’:
@@ -1921,21 +1921,21 @@ const (
 type EventSubscriptionProperties_EventDeliverySchema_STATUS string
 
 const (
-	EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0_STATUS = EventSubscriptionProperties_EventDeliverySchema_STATUS("CloudEventSchemaV1_0")
-	EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema_STATUS    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
-	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema_STATUS      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_CloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema_STATUS("CloudEventSchemaV1_0")
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_CustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
 )
 
 type EventSubscriptionProperties_ProvisioningState_STATUS string
 
 const (
-	EventSubscriptionProperties_ProvisioningState_AwaitingManualAction_STATUS = EventSubscriptionProperties_ProvisioningState_STATUS("AwaitingManualAction")
-	EventSubscriptionProperties_ProvisioningState_Canceled_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Canceled")
-	EventSubscriptionProperties_ProvisioningState_Creating_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Creating")
-	EventSubscriptionProperties_ProvisioningState_Deleting_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Deleting")
-	EventSubscriptionProperties_ProvisioningState_Failed_STATUS               = EventSubscriptionProperties_ProvisioningState_STATUS("Failed")
-	EventSubscriptionProperties_ProvisioningState_Succeeded_STATUS            = EventSubscriptionProperties_ProvisioningState_STATUS("Succeeded")
-	EventSubscriptionProperties_ProvisioningState_Updating_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
+	EventSubscriptionProperties_ProvisioningState_STATUS_AwaitingManualAction = EventSubscriptionProperties_ProvisioningState_STATUS("AwaitingManualAction")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Canceled             = EventSubscriptionProperties_ProvisioningState_STATUS("Canceled")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Creating             = EventSubscriptionProperties_ProvisioningState_STATUS("Creating")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Deleting             = EventSubscriptionProperties_ProvisioningState_STATUS("Deleting")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Failed               = EventSubscriptionProperties_ProvisioningState_STATUS("Failed")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Succeeded            = EventSubscriptionProperties_ProvisioningState_STATUS("Succeeded")
+	EventSubscriptionProperties_ProvisioningState_STATUS_Updating             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
 )
 
 type RetryPolicy struct {
@@ -1953,7 +1953,7 @@ func (policy *RetryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if policy == nil {
 		return nil, nil
 	}
-	result := &RetryPolicyARM{}
+	result := &RetryPolicy_ARM{}
 
 	// Set property ‘EventTimeToLiveInMinutes’:
 	if policy.EventTimeToLiveInMinutes != nil {
@@ -1971,14 +1971,14 @@ func (policy *RetryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *RetryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RetryPolicyARM{}
+	return &RetryPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *RetryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RetryPolicyARM)
+	typedInput, ok := armInput.(RetryPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EventTimeToLiveInMinutes’:
@@ -2044,14 +2044,14 @@ var _ genruntime.FromARMConverter = &RetryPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *RetryPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RetryPolicy_STATUSARM{}
+	return &RetryPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *RetryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RetryPolicy_STATUSARM)
+	typedInput, ok := armInput.(RetryPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EventTimeToLiveInMinutes’:
@@ -2121,7 +2121,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if filter == nil {
 		return nil, nil
 	}
-	result := &AdvancedFilterARM{}
+	result := &AdvancedFilter_ARM{}
 
 	// Set property ‘Key’:
 	if filter.Key != nil {
@@ -2139,14 +2139,14 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *AdvancedFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdvancedFilterARM{}
+	return &AdvancedFilter_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdvancedFilterARM)
+	typedInput, ok := armInput.(AdvancedFilter_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilterARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Key’:
@@ -2222,14 +2222,14 @@ var _ genruntime.FromARMConverter = &AdvancedFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *AdvancedFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdvancedFilter_STATUSARM{}
+	return &AdvancedFilter_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdvancedFilter_STATUSARM)
+	typedInput, ok := armInput.(AdvancedFilter_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Key’:
@@ -2300,7 +2300,7 @@ const DeadLetterDestination_EndpointType_StorageBlob = DeadLetterDestination_End
 
 type DeadLetterDestination_EndpointType_STATUS string
 
-const DeadLetterDestination_EndpointType_StorageBlob_STATUS = DeadLetterDestination_EndpointType_STATUS("StorageBlob")
+const DeadLetterDestination_EndpointType_STATUS_StorageBlob = DeadLetterDestination_EndpointType_STATUS("StorageBlob")
 
 // +kubebuilder:validation:Enum={"AzureFunction","EventHub","HybridConnection","ServiceBusQueue","ServiceBusTopic","StorageQueue","WebHook"}
 type EventSubscriptionDestination_EndpointType string
@@ -2318,13 +2318,13 @@ const (
 type EventSubscriptionDestination_EndpointType_STATUS string
 
 const (
-	EventSubscriptionDestination_EndpointType_AzureFunction_STATUS    = EventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
-	EventSubscriptionDestination_EndpointType_EventHub_STATUS         = EventSubscriptionDestination_EndpointType_STATUS("EventHub")
-	EventSubscriptionDestination_EndpointType_HybridConnection_STATUS = EventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
-	EventSubscriptionDestination_EndpointType_ServiceBusQueue_STATUS  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
-	EventSubscriptionDestination_EndpointType_ServiceBusTopic_STATUS  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
-	EventSubscriptionDestination_EndpointType_StorageQueue_STATUS     = EventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
-	EventSubscriptionDestination_EndpointType_WebHook_STATUS          = EventSubscriptionDestination_EndpointType_STATUS("WebHook")
+	EventSubscriptionDestination_EndpointType_STATUS_AzureFunction    = EventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
+	EventSubscriptionDestination_EndpointType_STATUS_EventHub         = EventSubscriptionDestination_EndpointType_STATUS("EventHub")
+	EventSubscriptionDestination_EndpointType_STATUS_HybridConnection = EventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
+	EventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
+	EventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
+	EventSubscriptionDestination_EndpointType_STATUS_StorageQueue     = EventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
+	EventSubscriptionDestination_EndpointType_STATUS_WebHook          = EventSubscriptionDestination_EndpointType_STATUS("WebHook")
 )
 
 // +kubebuilder:validation:Enum={"BoolEquals","NumberGreaterThan","NumberGreaterThanOrEquals","NumberIn","NumberLessThan","NumberLessThanOrEquals","NumberNotIn","StringBeginsWith","StringContains","StringEndsWith","StringIn","StringNotIn"}
@@ -2348,18 +2348,18 @@ const (
 type AdvancedFilter_OperatorType_STATUS string
 
 const (
-	AdvancedFilter_OperatorType_BoolEquals_STATUS                = AdvancedFilter_OperatorType_STATUS("BoolEquals")
-	AdvancedFilter_OperatorType_NumberGreaterThan_STATUS         = AdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
-	AdvancedFilter_OperatorType_NumberGreaterThanOrEquals_STATUS = AdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
-	AdvancedFilter_OperatorType_NumberIn_STATUS                  = AdvancedFilter_OperatorType_STATUS("NumberIn")
-	AdvancedFilter_OperatorType_NumberLessThan_STATUS            = AdvancedFilter_OperatorType_STATUS("NumberLessThan")
-	AdvancedFilter_OperatorType_NumberLessThanOrEquals_STATUS    = AdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
-	AdvancedFilter_OperatorType_NumberNotIn_STATUS               = AdvancedFilter_OperatorType_STATUS("NumberNotIn")
-	AdvancedFilter_OperatorType_StringBeginsWith_STATUS          = AdvancedFilter_OperatorType_STATUS("StringBeginsWith")
-	AdvancedFilter_OperatorType_StringContains_STATUS            = AdvancedFilter_OperatorType_STATUS("StringContains")
-	AdvancedFilter_OperatorType_StringEndsWith_STATUS            = AdvancedFilter_OperatorType_STATUS("StringEndsWith")
-	AdvancedFilter_OperatorType_StringIn_STATUS                  = AdvancedFilter_OperatorType_STATUS("StringIn")
-	AdvancedFilter_OperatorType_StringNotIn_STATUS               = AdvancedFilter_OperatorType_STATUS("StringNotIn")
+	AdvancedFilter_OperatorType_STATUS_BoolEquals                = AdvancedFilter_OperatorType_STATUS("BoolEquals")
+	AdvancedFilter_OperatorType_STATUS_NumberGreaterThan         = AdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
+	AdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals = AdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
+	AdvancedFilter_OperatorType_STATUS_NumberIn                  = AdvancedFilter_OperatorType_STATUS("NumberIn")
+	AdvancedFilter_OperatorType_STATUS_NumberLessThan            = AdvancedFilter_OperatorType_STATUS("NumberLessThan")
+	AdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals    = AdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
+	AdvancedFilter_OperatorType_STATUS_NumberNotIn               = AdvancedFilter_OperatorType_STATUS("NumberNotIn")
+	AdvancedFilter_OperatorType_STATUS_StringBeginsWith          = AdvancedFilter_OperatorType_STATUS("StringBeginsWith")
+	AdvancedFilter_OperatorType_STATUS_StringContains            = AdvancedFilter_OperatorType_STATUS("StringContains")
+	AdvancedFilter_OperatorType_STATUS_StringEndsWith            = AdvancedFilter_OperatorType_STATUS("StringEndsWith")
+	AdvancedFilter_OperatorType_STATUS_StringIn                  = AdvancedFilter_OperatorType_STATUS("StringIn")
+	AdvancedFilter_OperatorType_STATUS_StringNotIn               = AdvancedFilter_OperatorType_STATUS("StringNotIn")
 )
 
 func init() {

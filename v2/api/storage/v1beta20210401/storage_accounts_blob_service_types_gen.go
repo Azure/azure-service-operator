@@ -370,7 +370,7 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 	if service == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_BlobService_SpecARM{}
+	result := &StorageAccounts_BlobService_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = service.AzureName
@@ -388,34 +388,34 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 		service.IsVersioningEnabled != nil ||
 		service.LastAccessTimeTrackingPolicy != nil ||
 		service.RestorePolicy != nil {
-		result.Properties = &StorageAccounts_BlobService_Spec_PropertiesARM{}
+		result.Properties = &StorageAccounts_BlobService_Properties_Spec_ARM{}
 	}
 	if service.AutomaticSnapshotPolicyEnabled != nil {
 		automaticSnapshotPolicyEnabled := *service.AutomaticSnapshotPolicyEnabled
 		result.Properties.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
 	}
 	if service.ChangeFeed != nil {
-		changeFeedARM, err := (*service.ChangeFeed).ConvertToARM(resolved)
+		changeFeed_ARM, err := (*service.ChangeFeed).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		changeFeed := *changeFeedARM.(*ChangeFeedARM)
+		changeFeed := *changeFeed_ARM.(*ChangeFeed_ARM)
 		result.Properties.ChangeFeed = &changeFeed
 	}
 	if service.ContainerDeleteRetentionPolicy != nil {
-		containerDeleteRetentionPolicyARM, err := (*service.ContainerDeleteRetentionPolicy).ConvertToARM(resolved)
+		containerDeleteRetentionPolicy_ARM, err := (*service.ContainerDeleteRetentionPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		containerDeleteRetentionPolicy := *containerDeleteRetentionPolicyARM.(*DeleteRetentionPolicyARM)
+		containerDeleteRetentionPolicy := *containerDeleteRetentionPolicy_ARM.(*DeleteRetentionPolicy_ARM)
 		result.Properties.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	}
 	if service.Cors != nil {
-		corsARM, err := (*service.Cors).ConvertToARM(resolved)
+		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cors := *corsARM.(*CorsRulesARM)
+		cors := *cors_ARM.(*CorsRules_ARM)
 		result.Properties.Cors = &cors
 	}
 	if service.DefaultServiceVersion != nil {
@@ -423,11 +423,11 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 		result.Properties.DefaultServiceVersion = &defaultServiceVersion
 	}
 	if service.DeleteRetentionPolicy != nil {
-		deleteRetentionPolicyARM, err := (*service.DeleteRetentionPolicy).ConvertToARM(resolved)
+		deleteRetentionPolicy_ARM, err := (*service.DeleteRetentionPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deleteRetentionPolicy := *deleteRetentionPolicyARM.(*DeleteRetentionPolicyARM)
+		deleteRetentionPolicy := *deleteRetentionPolicy_ARM.(*DeleteRetentionPolicy_ARM)
 		result.Properties.DeleteRetentionPolicy = &deleteRetentionPolicy
 	}
 	if service.IsVersioningEnabled != nil {
@@ -435,19 +435,19 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 		result.Properties.IsVersioningEnabled = &isVersioningEnabled
 	}
 	if service.LastAccessTimeTrackingPolicy != nil {
-		lastAccessTimeTrackingPolicyARM, err := (*service.LastAccessTimeTrackingPolicy).ConvertToARM(resolved)
+		lastAccessTimeTrackingPolicy_ARM, err := (*service.LastAccessTimeTrackingPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		lastAccessTimeTrackingPolicy := *lastAccessTimeTrackingPolicyARM.(*LastAccessTimeTrackingPolicyARM)
+		lastAccessTimeTrackingPolicy := *lastAccessTimeTrackingPolicy_ARM.(*LastAccessTimeTrackingPolicy_ARM)
 		result.Properties.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	}
 	if service.RestorePolicy != nil {
-		restorePolicyARM, err := (*service.RestorePolicy).ConvertToARM(resolved)
+		restorePolicy_ARM, err := (*service.RestorePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		restorePolicy := *restorePolicyARM.(*RestorePolicyPropertiesARM)
+		restorePolicy := *restorePolicy_ARM.(*RestorePolicyProperties_ARM)
 		result.Properties.RestorePolicy = &restorePolicy
 	}
 	return result, nil
@@ -455,14 +455,14 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *StorageAccounts_BlobService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobService_SpecARM{}
+	return &StorageAccounts_BlobService_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobService_SpecARM)
+	typedInput, ok := armInput.(StorageAccounts_BlobService_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AutomaticSnapshotPolicyEnabled’:
@@ -980,14 +980,14 @@ var _ genruntime.FromARMConverter = &StorageAccounts_BlobService_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *StorageAccounts_BlobService_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobService_STATUSARM{}
+	return &StorageAccounts_BlobService_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobService_STATUSARM)
+	typedInput, ok := armInput.(StorageAccounts_BlobService_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AutomaticSnapshotPolicyEnabled’:
@@ -1407,7 +1407,7 @@ func (feed *ChangeFeed) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if feed == nil {
 		return nil, nil
 	}
-	result := &ChangeFeedARM{}
+	result := &ChangeFeed_ARM{}
 
 	// Set property ‘Enabled’:
 	if feed.Enabled != nil {
@@ -1425,14 +1425,14 @@ func (feed *ChangeFeed) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (feed *ChangeFeed) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ChangeFeedARM{}
+	return &ChangeFeed_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (feed *ChangeFeed) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ChangeFeedARM)
+	typedInput, ok := armInput.(ChangeFeed_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeed_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1519,14 +1519,14 @@ var _ genruntime.FromARMConverter = &ChangeFeed_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (feed *ChangeFeed_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ChangeFeed_STATUSARM{}
+	return &ChangeFeed_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (feed *ChangeFeed_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ChangeFeed_STATUSARM)
+	typedInput, ok := armInput.(ChangeFeed_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeed_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeed_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1602,29 +1602,29 @@ func (rules *CorsRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rules == nil {
 		return nil, nil
 	}
-	result := &CorsRulesARM{}
+	result := &CorsRules_ARM{}
 
 	// Set property ‘CorsRules’:
 	for _, item := range rules.CorsRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.CorsRules = append(result.CorsRules, *itemARM.(*CorsRuleARM))
+		result.CorsRules = append(result.CorsRules, *item_ARM.(*CorsRule_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *CorsRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsRulesARM{}
+	return &CorsRules_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *CorsRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsRulesARM)
+	typedInput, ok := armInput.(CorsRules_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRulesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRules_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CorsRules’:
@@ -1709,14 +1709,14 @@ var _ genruntime.FromARMConverter = &CorsRules_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *CorsRules_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsRules_STATUSARM{}
+	return &CorsRules_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *CorsRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsRules_STATUSARM)
+	typedInput, ok := armInput.(CorsRules_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRules_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRules_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CorsRules’:
@@ -1810,7 +1810,7 @@ func (policy *DeleteRetentionPolicy) ConvertToARM(resolved genruntime.ConvertToA
 	if policy == nil {
 		return nil, nil
 	}
-	result := &DeleteRetentionPolicyARM{}
+	result := &DeleteRetentionPolicy_ARM{}
 
 	// Set property ‘Days’:
 	if policy.Days != nil {
@@ -1828,14 +1828,14 @@ func (policy *DeleteRetentionPolicy) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *DeleteRetentionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeleteRetentionPolicyARM{}
+	return &DeleteRetentionPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *DeleteRetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeleteRetentionPolicyARM)
+	typedInput, ok := armInput.(DeleteRetentionPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Days’:
@@ -1922,14 +1922,14 @@ var _ genruntime.FromARMConverter = &DeleteRetentionPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *DeleteRetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeleteRetentionPolicy_STATUSARM{}
+	return &DeleteRetentionPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *DeleteRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeleteRetentionPolicy_STATUSARM)
+	typedInput, ok := armInput.(DeleteRetentionPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Days’:
@@ -2017,7 +2017,7 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 	if policy == nil {
 		return nil, nil
 	}
-	result := &LastAccessTimeTrackingPolicyARM{}
+	result := &LastAccessTimeTrackingPolicy_ARM{}
 
 	// Set property ‘BlobType’:
 	for _, item := range policy.BlobType {
@@ -2046,14 +2046,14 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *LastAccessTimeTrackingPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LastAccessTimeTrackingPolicyARM{}
+	return &LastAccessTimeTrackingPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *LastAccessTimeTrackingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LastAccessTimeTrackingPolicyARM)
+	typedInput, ok := armInput.(LastAccessTimeTrackingPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobType’:
@@ -2170,14 +2170,14 @@ var _ genruntime.FromARMConverter = &LastAccessTimeTrackingPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *LastAccessTimeTrackingPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LastAccessTimeTrackingPolicy_STATUSARM{}
+	return &LastAccessTimeTrackingPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *LastAccessTimeTrackingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LastAccessTimeTrackingPolicy_STATUSARM)
+	typedInput, ok := armInput.(LastAccessTimeTrackingPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobType’:
@@ -2292,7 +2292,7 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RestorePolicyPropertiesARM{}
+	result := &RestorePolicyProperties_ARM{}
 
 	// Set property ‘Days’:
 	if properties.Days != nil {
@@ -2310,14 +2310,14 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RestorePolicyProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RestorePolicyPropertiesARM{}
+	return &RestorePolicyProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RestorePolicyProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RestorePolicyPropertiesARM)
+	typedInput, ok := armInput.(RestorePolicyProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyProperties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Days’:
@@ -2409,14 +2409,14 @@ var _ genruntime.FromARMConverter = &RestorePolicyProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RestorePolicyProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RestorePolicyProperties_STATUSARM{}
+	return &RestorePolicyProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RestorePolicyProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RestorePolicyProperties_STATUSARM)
+	typedInput, ok := armInput.(RestorePolicyProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Days’:
@@ -2537,7 +2537,7 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if rule == nil {
 		return nil, nil
 	}
-	result := &CorsRuleARM{}
+	result := &CorsRule_ARM{}
 
 	// Set property ‘AllowedHeaders’:
 	for _, item := range rule.AllowedHeaders {
@@ -2569,14 +2569,14 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CorsRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsRuleARM{}
+	return &CorsRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsRuleARM)
+	typedInput, ok := armInput.(CorsRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedHeaders’:
@@ -2707,14 +2707,14 @@ var _ genruntime.FromARMConverter = &CorsRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *CorsRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsRule_STATUSARM{}
+	return &CorsRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *CorsRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsRule_STATUSARM)
+	typedInput, ok := armInput.(CorsRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedHeaders’:
@@ -2827,7 +2827,7 @@ const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrack
 
 type LastAccessTimeTrackingPolicy_Name_STATUS string
 
-const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking_STATUS = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","MERGE","OPTIONS","POST","PUT"}
 type CorsRule_AllowedMethods string
@@ -2845,13 +2845,13 @@ const (
 type CorsRule_AllowedMethods_STATUS string
 
 const (
-	CorsRule_AllowedMethods_DELETE_STATUS  = CorsRule_AllowedMethods_STATUS("DELETE")
-	CorsRule_AllowedMethods_GET_STATUS     = CorsRule_AllowedMethods_STATUS("GET")
-	CorsRule_AllowedMethods_HEAD_STATUS    = CorsRule_AllowedMethods_STATUS("HEAD")
-	CorsRule_AllowedMethods_MERGE_STATUS   = CorsRule_AllowedMethods_STATUS("MERGE")
-	CorsRule_AllowedMethods_OPTIONS_STATUS = CorsRule_AllowedMethods_STATUS("OPTIONS")
-	CorsRule_AllowedMethods_POST_STATUS    = CorsRule_AllowedMethods_STATUS("POST")
-	CorsRule_AllowedMethods_PUT_STATUS     = CorsRule_AllowedMethods_STATUS("PUT")
+	CorsRule_AllowedMethods_STATUS_DELETE  = CorsRule_AllowedMethods_STATUS("DELETE")
+	CorsRule_AllowedMethods_STATUS_GET     = CorsRule_AllowedMethods_STATUS("GET")
+	CorsRule_AllowedMethods_STATUS_HEAD    = CorsRule_AllowedMethods_STATUS("HEAD")
+	CorsRule_AllowedMethods_STATUS_MERGE   = CorsRule_AllowedMethods_STATUS("MERGE")
+	CorsRule_AllowedMethods_STATUS_OPTIONS = CorsRule_AllowedMethods_STATUS("OPTIONS")
+	CorsRule_AllowedMethods_STATUS_POST    = CorsRule_AllowedMethods_STATUS("POST")
+	CorsRule_AllowedMethods_STATUS_PUT     = CorsRule_AllowedMethods_STATUS("PUT")
 )
 
 func init() {

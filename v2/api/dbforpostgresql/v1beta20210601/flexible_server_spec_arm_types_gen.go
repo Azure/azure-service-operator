@@ -5,7 +5,7 @@ package v1beta20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type FlexibleServer_SpecARM struct {
+type FlexibleServer_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -13,33 +13,33 @@ type FlexibleServer_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
-	Properties *ServerPropertiesARM `json:"properties,omitempty"`
+	Properties *ServerProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FlexibleServer_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FlexibleServer_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (server FlexibleServer_SpecARM) GetAPIVersion() string {
+func (server FlexibleServer_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (server *FlexibleServer_SpecARM) GetName() string {
+func (server *FlexibleServer_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
-func (server *FlexibleServer_SpecARM) GetType() string {
+func (server *FlexibleServer_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
-type ServerPropertiesARM struct {
+type ServerProperties_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -51,19 +51,19 @@ type ServerPropertiesARM struct {
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
 	// Backup: Backup properties of a server.
-	Backup *BackupARM `json:"backup,omitempty"`
+	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
 	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
 
 	// HighAvailability: High availability properties of a server.
-	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
+	HighAvailability *HighAvailability_ARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
+	MaintenanceWindow *MaintenanceWindow_ARM `json:"maintenanceWindow,omitempty"`
 
 	// Network: Network properties of a server.
-	Network *NetworkARM `json:"network,omitempty"`
+	Network *Network_ARM `json:"network,omitempty"`
 
 	// PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
 	// 'createMode' is 'PointInTimeRestore'.
@@ -71,13 +71,13 @@ type ServerPropertiesARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// Storage: Storage properties of a server.
-	Storage *StorageARM `json:"storage,omitempty"`
+	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
 	Version *ServerVersion `json:"version,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
 
@@ -85,7 +85,7 @@ type SkuARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-type BackupARM struct {
+type Backup_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
@@ -93,7 +93,7 @@ type BackupARM struct {
 	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-type HighAvailabilityARM struct {
+type HighAvailability_ARM struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
 
@@ -101,7 +101,7 @@ type HighAvailabilityARM struct {
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
-type MaintenanceWindowARM struct {
+type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
@@ -115,7 +115,7 @@ type MaintenanceWindowARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-type NetworkARM struct {
+type Network_ARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 }
@@ -129,7 +129,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
-type StorageARM struct {
+type Storage_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }

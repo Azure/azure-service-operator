@@ -270,30 +270,30 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecARM struct {
-	EmbeddedTestTypeARM `json:",inline,omitempty"`
-	APIVersion          FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
-	Color               *FakeResource_Spec_Color     `json:"color,omitempty"`
-	Foo                 *FooARM                      `json:"foo,omitempty"`
-	Name                string                       `json:"name,omitempty"`
-	OptionalFoo         *FooARM                      `json:"optionalFoo,omitempty"`
-	Type                FakeResource_Spec_Type       `json:"type,omitempty"`
+type FakeResource_Spec_ARM struct {
+	EmbeddedTestType_ARM `json:",inline,omitempty"`
+	APIVersion           FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Color                *FakeResource_Color_Spec     `json:"color,omitempty"`
+	Foo                  *Foo_ARM                     `json:"foo,omitempty"`
+	Name                 string                       `json:"name,omitempty"`
+	OptionalFoo          *Foo_ARM                     `json:"optionalFoo,omitempty"`
+	Type                 FakeResource_Type_Spec       `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
-func (resource FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (resource *FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_Spec_ARM) GetType() string {
 	return ""
 }
 
@@ -302,20 +302,34 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
-type EmbeddedTestTypeARM struct {
+type EmbeddedTestType_ARM struct {
 	FancyProp int `json:"fancyProp,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_APIVersion_Spec string
+
+const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+
+// +kubebuilder:validation:Enum={"blue","green","red"}
+type FakeResource_Color_Spec string
+
+const (
+	FakeResource_Color_Spec_Blue  = FakeResource_Color_Spec("blue")
+	FakeResource_Color_Spec_Green = FakeResource_Color_Spec("green")
+	FakeResource_Color_Spec_Red   = FakeResource_Color_Spec("red")
+)
 
 type FakeResource_Spec struct {
 	EmbeddedTestType `json:",inline,omitempty"`
 
 	// +kubebuilder:validation:Required
-	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string                   `json:"azureName,omitempty"`
-	Color     *FakeResource_Spec_Color `json:"color,omitempty"`
+	Color     *FakeResource_Color_Spec `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Foo         *Foo `json:"foo,omitempty"`
@@ -328,7 +342,7 @@ type FakeResource_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	Type FakeResource_Spec_Type `json:"type,omitempty"`
+	Type FakeResource_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -338,7 +352,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_SpecARM{}
+	result := &FakeResource_Spec_ARM{}
 
 	// Set property ‘APIVersion’:
 	result.APIVersion = resource.APIVersion
@@ -351,11 +365,11 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Foo’:
 	if resource.Foo != nil {
-		fooARM, err := (*resource.Foo).ConvertToARM(resolved)
+		foo_ARM, err := (*resource.Foo).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		foo := *fooARM.(*FooARM)
+		foo := *foo_ARM.(*Foo_ARM)
 		result.Foo = &foo
 	}
 
@@ -364,11 +378,11 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘OptionalFoo’:
 	if resource.OptionalFoo != nil {
-		optionalFooARM, err := (*resource.OptionalFoo).ConvertToARM(resolved)
+		optionalFoo_ARM, err := (*resource.OptionalFoo).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		optionalFoo := *optionalFooARM.(*FooARM)
+		optionalFoo := *optionalFoo_ARM.(*Foo_ARM)
 		result.OptionalFoo = &optionalFoo
 	}
 
@@ -379,14 +393,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SpecARM{}
+	return &FakeResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecARM)
+	typedInput, ok := armInput.(FakeResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘APIVersion’:
@@ -490,7 +504,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// APIVersion
 	if source.APIVersion != nil {
-		resource.APIVersion = FakeResource_Spec_APIVersion(*source.APIVersion)
+		resource.APIVersion = FakeResource_APIVersion_Spec(*source.APIVersion)
 	} else {
 		resource.APIVersion = ""
 	}
@@ -500,7 +514,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// Color
 	if source.Color != nil {
-		color := FakeResource_Spec_Color(*source.Color)
+		color := FakeResource_Color_Spec(*source.Color)
 		resource.Color = &color
 	} else {
 		resource.Color = nil
@@ -540,7 +554,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// Type
 	if source.Type != nil {
-		resource.Type = FakeResource_Spec_Type(*source.Type)
+		resource.Type = FakeResource_Type_Spec(*source.Type)
 	} else {
 		resource.Type = ""
 	}
@@ -627,29 +641,15 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_Spec_APIVersion string
-
-const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"blue","green","red"}
-type FakeResource_Spec_Color string
-
-const (
-	FakeResource_Spec_Color_Blue  = FakeResource_Spec_Color("blue")
-	FakeResource_Spec_Color_Green = FakeResource_Spec_Color("green")
-	FakeResource_Spec_Color_Red   = FakeResource_Spec_Color("red")
-)
-
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Spec_Type string
+type FakeResource_Type_Spec string
 
-const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type FooARM struct {
-	EmbeddedTestTypeARM `json:",inline,omitempty"`
-	Name                *string `json:"name,omitempty"`
+type Foo_ARM struct {
+	EmbeddedTestType_ARM `json:",inline,omitempty"`
+	Name                 *string `json:"name,omitempty"`
 }
 
 type EmbeddedTestType struct {
@@ -663,7 +663,7 @@ func (testType *EmbeddedTestType) ConvertToARM(resolved genruntime.ConvertToARMR
 	if testType == nil {
 		return nil, nil
 	}
-	result := &EmbeddedTestTypeARM{}
+	result := &EmbeddedTestType_ARM{}
 
 	// Set property ‘FancyProp’:
 	result.FancyProp = testType.FancyProp
@@ -672,14 +672,14 @@ func (testType *EmbeddedTestType) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (testType *EmbeddedTestType) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EmbeddedTestTypeARM{}
+	return &EmbeddedTestType_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (testType *EmbeddedTestType) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmbeddedTestTypeARM)
+	typedInput, ok := armInput.(EmbeddedTestType_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmbeddedTestTypeARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmbeddedTestType_ARM, got %T", armInput)
 	}
 
 	// Set property ‘FancyProp’:
@@ -732,7 +732,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	result := &FooARM{}
+	result := &Foo_ARM{}
 
 	// Set property ‘Name’:
 	if foo.Name != nil {
@@ -744,14 +744,14 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (foo *Foo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FooARM{}
+	return &Foo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FooARM)
+	typedInput, ok := armInput.(Foo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:

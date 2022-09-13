@@ -213,7 +213,7 @@ func (enum *EnumType) clone() *EnumType {
 }
 
 func GetEnumValueId(name string, value EnumValue) string {
-	return AppendPreservingSuffix(name, "_"+value.Identifier, StatusNameSuffix)
+	return name + "_" + value.Identifier
 }
 
 // String implements fmt.Stringer
@@ -222,9 +222,9 @@ func (enum *EnumType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current enum type, including option names, to the
-// passed builder
-// builder receives the full description
-// definitions is for resolving named types
+// passed builder.
+// builder receives the full description.
+// definitions is for resolving named types.
 func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")

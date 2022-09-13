@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -33,13 +34,14 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 			for typeName, typeDef := range definitions {
 
-				newDefs, err := nameInnerTypes(typeDef, idFactory, getDescription)
+				newDefs, err := nameInnerTypes(typeDef, getDescription)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
 
-				for _, newDef := range newDefs {
-					result.Add(newDef)
+				err = result.AddAllAllowDuplicates(newDefs)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to add new definitions")
 				}
 
 				if _, ok := result[typeName]; !ok {
@@ -55,17 +57,15 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory,
 	getDescription func(typeName astmodel.TypeName) []string,
 ) ([]astmodel.TypeDefinition, error) {
 	var resultTypes []astmodel.TypeDefinition
 
 	builder := astmodel.TypeVisitorBuilder{}
 	builder.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
-		nameHint := ctx.(string)
+		hint := ctx.(nameHint)
 
-		enumName := astmodel.MakeTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
-
+		enumName := hint.AsTypeName(def.Name().PackageReference)
 		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
 		namedEnum = namedEnum.WithDescription(getDescription(enumName))
 
@@ -77,13 +77,13 @@ func nameInnerTypes(
 	builder.VisitValidatedType = func(this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
 		// a validated type anywhere except directly under a property
 		// must be named so that we can put the validations on it
-		nameHint := ctx.(string)
-		newElementType, err := this.Visit(v.ElementType(), astmodel.AppendPreservingSuffix(nameHint, "_Validated", astmodel.StatusNameSuffix))
+		hint := ctx.(nameHint)
+		newElementType, err := this.Visit(v.ElementType(), hint.WithBasePart("Validated"))
 		if err != nil {
 			return nil, err
 		}
 
-		name := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
+		name := hint.AsTypeName(def.Name().PackageReference)
 		namedType := astmodel.MakeTypeDefinition(name, v.WithType(newElementType))
 		resultTypes = append(resultTypes, namedType)
 		return namedType.Name(), nil
@@ -91,9 +91,9 @@ func nameInnerTypes(
 
 	builder.VisitFlaggedType = func(this *astmodel.TypeVisitor, it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
 		// Because we're returning type names here, we need to look up the name returned by visit and wrap that with the correct flags
-		nameHint := ctx.(string)
+		hint := ctx.(nameHint)
 
-		name, err := this.Visit(it.Element(), nameHint)
+		name, err := this.Visit(it.Element(), hint)
 		if err != nil {
 			return nil, err
 		}
@@ -118,14 +118,14 @@ func nameInnerTypes(
 	}
 
 	builder.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		nameHint := ctx.(string)
+		hint := ctx.(nameHint)
 
 		var errs []error
 		var props []*astmodel.PropertyDefinition
 		// first map the inner types:
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			propType := prop.PropertyType()
-			propHint := astmodel.AppendPreservingSuffix(nameHint, "_"+string(prop.PropertyName()), astmodel.StatusNameSuffix)
+			propHint := hint.WithBasePart(string(prop.PropertyName()))
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
 				// handle validated types in properties specially,
 				// they don't need to be named, so skip directly to element type
@@ -149,7 +149,7 @@ func nameInnerTypes(
 			return nil, kerrors.NewAggregate(errs)
 		}
 
-		objectName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
+		objectName := hint.AsTypeName(def.Name().PackageReference)
 
 		namedObjectType := astmodel.MakeTypeDefinition(objectName, it.WithProperties(props...))
 		namedObjectType = namedObjectType.WithDescription(getDescription(objectName))
@@ -160,22 +160,22 @@ func nameInnerTypes(
 	}
 
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-		nameHint := ctx.(string)
+		hint := ctx.(nameHint)
 
-		spec, err := this.Visit(it.SpecType(), nameHint+astmodel.SpecSuffix)
+		spec, err := this.Visit(it.SpecType(), hint.WithSuffix(astmodel.SpecSuffix))
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status, err = this.Visit(it.StatusType(), nameHint+astmodel.StatusSuffix)
+			status, err = this.Visit(it.StatusType(), hint.WithSuffix(astmodel.StatusSuffix))
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}
 		}
 
-		resourceName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
+		resourceName := hint.AsTypeName(def.Name().PackageReference)
 
 		it = it.WithSpec(spec).WithStatus(status)
 		resource := astmodel.MakeTypeDefinition(resourceName, it).WithDescription(getDescription(resourceName))
@@ -186,10 +186,77 @@ func nameInnerTypes(
 
 	visitor := builder.Build()
 
-	_, err := visitor.Visit(def.Type(), def.Name().Name())
+	_, err := visitor.Visit(def.Type(), newNameHint(def.Name()))
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to name inner types of %s", def.Name())
 	}
 
 	return resultTypes, nil
+}
+
+type nameHint struct {
+	baseName string
+	suffix   string
+}
+
+func newNameHint(name astmodel.TypeName) nameHint {
+
+	suffixesToFloat := []string{
+		astmodel.SpecSuffix,
+		astmodel.StatusSuffix,
+		astmodel.ARMSuffix,
+	}
+
+	baseName := name.Name()
+	var suffixes []string
+	done := false
+	for !done {
+		done = true
+		for _, s := range suffixesToFloat {
+			if strings.HasSuffix(baseName, s) {
+				baseName = strings.TrimSuffix(baseName, s)
+				suffixes = append(
+					[]string{strings.TrimPrefix(s, "_")},
+					suffixes...)
+				done = false
+				break
+			}
+		}
+	}
+
+	result := nameHint{
+		baseName: baseName,
+		suffix:   strings.Join(suffixes, "_"),
+	}
+
+	return result
+}
+
+func (n nameHint) WithBasePart(part string) nameHint {
+	return nameHint{
+		baseName: n.baseName + "_" + part,
+		suffix:   n.suffix,
+	}
+}
+
+func (n nameHint) WithSuffix(suffix string) nameHint {
+	return nameHint{
+		baseName: n.baseName,
+		suffix:   strings.TrimPrefix(suffix, "_"),
+	}
+}
+
+func (n nameHint) String() string {
+	if n.suffix != "" {
+		return n.baseName + "_" + n.suffix
+	}
+
+	return n.baseName
+}
+
+func (n nameHint) AsTypeName(ref astmodel.PackageReference) astmodel.TypeName {
+	if n.suffix != "" {
+		return astmodel.MakeTypeName(ref, n.baseName+"_"+n.suffix)
+	}
+	return astmodel.MakeTypeName(ref, n.baseName)
 }

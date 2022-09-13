@@ -6,67 +6,67 @@ package v1alpha1api20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of EventSubscription_Spec. Use v1beta20200601.EventSubscription_Spec instead
-type EventSubscription_SpecARM struct {
-	AzureName  string                          `json:"azureName,omitempty"`
-	Name       string                          `json:"name,omitempty"`
-	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
+type EventSubscription_Spec_ARM struct {
+	AzureName  string                           `json:"azureName,omitempty"`
+	Name       string                           `json:"name,omitempty"`
+	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
+var _ genruntime.ARMResourceSpec = &EventSubscription_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (subscription EventSubscription_SpecARM) GetAPIVersion() string {
+func (subscription EventSubscription_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (subscription *EventSubscription_SpecARM) GetName() string {
+func (subscription *EventSubscription_Spec_ARM) GetName() string {
 	return subscription.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (subscription *EventSubscription_SpecARM) GetType() string {
+func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 // Deprecated version of EventSubscriptionProperties. Use v1beta20200601.EventSubscriptionProperties instead
-type EventSubscriptionPropertiesARM struct {
-	DeadLetterDestination *DeadLetterDestinationARM                        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestinationARM                 `json:"destination,omitempty"`
+type EventSubscriptionProperties_ARM struct {
+	DeadLetterDestination *DeadLetterDestination_ARM                       `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_ARM                `json:"destination,omitempty"`
 	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilterARM                      `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_ARM                     `json:"filter,omitempty"`
 	Labels                []string                                         `json:"labels,omitempty"`
-	RetryPolicy           *RetryPolicyARM                                  `json:"retryPolicy,omitempty"`
+	RetryPolicy           *RetryPolicy_ARM                                 `json:"retryPolicy,omitempty"`
 }
 
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
-type DeadLetterDestinationARM struct {
+type DeadLetterDestination_ARM struct {
 	EndpointType *DeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
 }
 
 // Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
-type EventSubscriptionDestinationARM struct {
+type EventSubscriptionDestination_ARM struct {
 	EndpointType *EventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 }
 
 // Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead
-type EventSubscriptionFilterARM struct {
-	AdvancedFilters        []AdvancedFilterARM `json:"advancedFilters,omitempty"`
-	IncludedEventTypes     []string            `json:"includedEventTypes,omitempty"`
-	IsSubjectCaseSensitive *bool               `json:"isSubjectCaseSensitive,omitempty"`
-	SubjectBeginsWith      *string             `json:"subjectBeginsWith,omitempty"`
-	SubjectEndsWith        *string             `json:"subjectEndsWith,omitempty"`
+type EventSubscriptionFilter_ARM struct {
+	AdvancedFilters        []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
+	IncludedEventTypes     []string             `json:"includedEventTypes,omitempty"`
+	IsSubjectCaseSensitive *bool                `json:"isSubjectCaseSensitive,omitempty"`
+	SubjectBeginsWith      *string              `json:"subjectBeginsWith,omitempty"`
+	SubjectEndsWith        *string              `json:"subjectEndsWith,omitempty"`
 }
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
-type RetryPolicyARM struct {
+type RetryPolicy_ARM struct {
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
-type AdvancedFilterARM struct {
+type AdvancedFilter_ARM struct {
 	Key          *string                      `json:"key,omitempty"`
 	OperatorType *AdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 }

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20180601
 
-type Server_STATUSARM struct {
+type Server_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,10 +15,10 @@ type Server_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
-	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -27,7 +27,7 @@ type Server_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ServerProperties_STATUSARM struct {
+type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -45,7 +45,7 @@ type ServerProperties_STATUSARM struct {
 	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections on a server
-	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
@@ -61,7 +61,7 @@ type ServerProperties_STATUSARM struct {
 	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_STATUSARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_STATUS_ARM `json:"storageProfile,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
 	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
@@ -70,7 +70,7 @@ type ServerProperties_STATUSARM struct {
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -87,23 +87,23 @@ type Sku_STATUSARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type ServerPrivateEndpointConnection_STATUSARM struct {
+type ServerPrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Resource Id of the private endpoint connection.
 	Id *string `json:"id,omitempty"`
 
 	// Properties: Private endpoint connection properties
-	Properties *ServerPrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ServerPrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_Basic_STATUS           = Sku_Tier_STATUS("Basic")
-	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
+	Sku_Tier_STATUS_Basic           = Sku_Tier_STATUS("Basic")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
-type StorageProfile_STATUSARM struct {
+type StorageProfile_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
@@ -117,23 +117,23 @@ type StorageProfile_STATUSARM struct {
 	StorageMB *int `json:"storageMB,omitempty"`
 }
 
-type ServerPrivateEndpointConnectionProperties_STATUSARM struct {
+type ServerPrivateEndpointConnectionProperties_STATUS_ARM struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
-	PrivateEndpoint *PrivateEndpointProperty_STATUSARM `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpointProperty_STATUS_ARM `json:"privateEndpoint,omitempty"`
 
 	// PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
-	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
 	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type PrivateEndpointProperty_STATUSARM struct {
+type PrivateEndpointProperty_STATUS_ARM struct {
 	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
-type ServerPrivateLinkServiceConnectionStateProperty_STATUSARM struct {
+type ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM struct {
 	// ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
 

@@ -5,7 +5,7 @@ package v1beta20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Workspace_SpecARM struct {
+type Workspace_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Etag: The etag of the workspace.
@@ -16,32 +16,32 @@ type Workspace_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Workspace properties.
-	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
+	Properties *WorkspaceProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Workspace_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Workspace_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (workspace Workspace_SpecARM) GetAPIVersion() string {
+func (workspace Workspace_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (workspace *Workspace_SpecARM) GetName() string {
+func (workspace *Workspace_Spec_ARM) GetName() string {
 	return workspace.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
-func (workspace *Workspace_SpecARM) GetType() string {
+func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 
-type WorkspacePropertiesARM struct {
+type WorkspaceProperties_ARM struct {
 	// Features: Workspace features.
-	Features *WorkspaceFeaturesARM `json:"features,omitempty"`
+	Features *WorkspaceFeatures_ARM `json:"features,omitempty"`
 
 	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
@@ -60,18 +60,18 @@ type WorkspacePropertiesARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
 	// Sku: The SKU of the workspace.
-	Sku *WorkspaceSkuARM `json:"sku,omitempty"`
+	Sku *WorkspaceSku_ARM `json:"sku,omitempty"`
 
 	// WorkspaceCapping: The daily volume cap for ingestion.
-	WorkspaceCapping *WorkspaceCappingARM `json:"workspaceCapping,omitempty"`
+	WorkspaceCapping *WorkspaceCapping_ARM `json:"workspaceCapping,omitempty"`
 }
 
-type WorkspaceCappingARM struct {
+type WorkspaceCapping_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
-type WorkspaceFeaturesARM struct {
+type WorkspaceFeatures_ARM struct {
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
 	// DisableLocalAuth: Disable Non-AAD based Auth.
@@ -87,7 +87,7 @@ type WorkspaceFeaturesARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
-type WorkspaceSkuARM struct {
+type WorkspaceSku_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`

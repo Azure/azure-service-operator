@@ -368,18 +368,18 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if address == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddress_SpecARM{}
+	result := &PublicIPAddress_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = address.AzureName
 
 	// Set property ‘ExtendedLocation’:
 	if address.ExtendedLocation != nil {
-		extendedLocationARM, err := (*address.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*address.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -415,22 +415,22 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		address.PublicIPAllocationMethod != nil ||
 		address.PublicIPPrefix != nil ||
 		address.ServicePublicIPAddress != nil {
-		result.Properties = &PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM{}
+		result.Properties = &PublicIPAddressPropertiesFormat_SubResourceEmbedded_ARM{}
 	}
 	if address.DdosSettings != nil {
-		ddosSettingsARM, err := (*address.DdosSettings).ConvertToARM(resolved)
+		ddosSettings_ARM, err := (*address.DdosSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ddosSettings := *ddosSettingsARM.(*DdosSettingsARM)
+		ddosSettings := *ddosSettings_ARM.(*DdosSettings_ARM)
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if address.DnsSettings != nil {
-		dnsSettingsARM, err := (*address.DnsSettings).ConvertToARM(resolved)
+		dnsSettings_ARM, err := (*address.DnsSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := *dnsSettingsARM.(*PublicIPAddressDnsSettingsARM)
+		dnsSettings := *dnsSettings_ARM.(*PublicIPAddressDnsSettings_ARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if address.IdleTimeoutInMinutes != nil {
@@ -442,18 +442,18 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.IpAddress = &ipAddress
 	}
 	for _, item := range address.IpTags {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*IpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*IpTag_ARM))
 	}
 	if address.LinkedPublicIPAddress != nil {
-		linkedPublicIPAddressARM, err := (*address.LinkedPublicIPAddress).ConvertToARM(resolved)
+		linkedPublicIPAddress_ARM, err := (*address.LinkedPublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		linkedPublicIPAddress := *linkedPublicIPAddressARM.(*PublicIPAddressSpec_SubResourceEmbeddedARM)
+		linkedPublicIPAddress := *linkedPublicIPAddress_ARM.(*PublicIPAddressSpec_SubResourceEmbedded_ARM)
 		result.Properties.LinkedPublicIPAddress = &linkedPublicIPAddress
 	}
 	if address.MigrationPhase != nil {
@@ -461,11 +461,11 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.MigrationPhase = &migrationPhase
 	}
 	if address.NatGateway != nil {
-		natGatewayARM, err := (*address.NatGateway).ConvertToARM(resolved)
+		natGateway_ARM, err := (*address.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		natGateway := *natGatewayARM.(*NatGatewaySpecARM)
+		natGateway := *natGateway_ARM.(*NatGatewaySpec_ARM)
 		result.Properties.NatGateway = &natGateway
 	}
 	if address.PublicIPAddressVersion != nil {
@@ -477,29 +477,29 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
 	}
 	if address.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*address.PublicIPPrefix).ConvertToARM(resolved)
+		publicIPPrefix_ARM, err := (*address.PublicIPPrefix).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
+		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if address.ServicePublicIPAddress != nil {
-		servicePublicIPAddressARM, err := (*address.ServicePublicIPAddress).ConvertToARM(resolved)
+		servicePublicIPAddress_ARM, err := (*address.ServicePublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		servicePublicIPAddress := *servicePublicIPAddressARM.(*PublicIPAddressSpec_SubResourceEmbeddedARM)
+		servicePublicIPAddress := *servicePublicIPAddress_ARM.(*PublicIPAddressSpec_SubResourceEmbedded_ARM)
 		result.Properties.ServicePublicIPAddress = &servicePublicIPAddress
 	}
 
 	// Set property ‘Sku’:
 	if address.Sku != nil {
-		skuARM, err := (*address.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*address.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*PublicIPAddressSkuARM)
+		sku := *sku_ARM.(*PublicIPAddressSku_ARM)
 		result.Sku = &sku
 	}
 
@@ -520,14 +520,14 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *PublicIPAddress_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_SpecARM{}
+	return &PublicIPAddress_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_SpecARM)
+	typedInput, ok := armInput.(PublicIPAddress_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1237,14 +1237,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS_PublicIPAddress_SubR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedARM{}
+	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1835,15 +1835,15 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	result := &DdosSettingsARM{}
+	result := &DdosSettings_ARM{}
 
 	// Set property ‘DdosCustomPolicy’:
 	if settings.DdosCustomPolicy != nil {
-		ddosCustomPolicyARM, err := (*settings.DdosCustomPolicy).ConvertToARM(resolved)
+		ddosCustomPolicy_ARM, err := (*settings.DdosCustomPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ddosCustomPolicy := *ddosCustomPolicyARM.(*SubResourceARM)
+		ddosCustomPolicy := *ddosCustomPolicy_ARM.(*SubResource_ARM)
 		result.DdosCustomPolicy = &ddosCustomPolicy
 	}
 
@@ -1863,14 +1863,14 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DdosSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DdosSettingsARM{}
+	return &DdosSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DdosSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DdosSettingsARM)
+	typedInput, ok := armInput.(DdosSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DdosCustomPolicy’:
@@ -1990,14 +1990,14 @@ var _ genruntime.FromARMConverter = &DdosSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DdosSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DdosSettings_STATUSARM{}
+	return &DdosSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DdosSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DdosSettings_STATUSARM)
+	typedInput, ok := armInput.(DdosSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DdosCustomPolicy’:
@@ -2119,8 +2119,8 @@ const (
 type IPAllocationMethod_STATUS string
 
 const (
-	IPAllocationMethod_Dynamic_STATUS = IPAllocationMethod_STATUS("Dynamic")
-	IPAllocationMethod_Static_STATUS  = IPAllocationMethod_STATUS("Static")
+	IPAllocationMethod_STATUS_Dynamic = IPAllocationMethod_STATUS("Dynamic")
+	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
 )
 
 // Deprecated version of IPConfiguration_STATUS_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_STATUS_SubResourceEmbedded instead
@@ -2138,14 +2138,14 @@ var _ genruntime.FromARMConverter = &IPConfiguration_STATUS_SubResourceEmbedded{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *IPConfiguration_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IPConfiguration_STATUS_SubResourceEmbeddedARM{}
+	return &IPConfiguration_STATUS_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *IPConfiguration_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IPConfiguration_STATUS_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(IPConfiguration_STATUS_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfiguration_STATUS_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfiguration_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Etag’:
@@ -2327,7 +2327,7 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if ipTag == nil {
 		return nil, nil
 	}
-	result := &IpTagARM{}
+	result := &IpTag_ARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -2345,14 +2345,14 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *IpTag) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpTagARM{}
+	return &IpTag_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *IpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpTagARM)
+	typedInput, ok := armInput.(IpTag_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTagARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpTagType’:
@@ -2416,14 +2416,14 @@ var _ genruntime.FromARMConverter = &IpTag_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *IpTag_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpTag_STATUSARM{}
+	return &IpTag_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *IpTag_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpTag_STATUSARM)
+	typedInput, ok := armInput.(IpTag_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpTagType’:
@@ -2490,8 +2490,8 @@ const (
 type IPVersion_STATUS string
 
 const (
-	IPVersion_IPv4_STATUS = IPVersion_STATUS("IPv4")
-	IPVersion_IPv6_STATUS = IPVersion_STATUS("IPv6")
+	IPVersion_STATUS_IPv4 = IPVersion_STATUS("IPv4")
+	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
 )
 
 // Deprecated version of NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded instead
@@ -2505,14 +2505,14 @@ var _ genruntime.FromARMConverter = &NatGateway_STATUS_PublicIPAddress_SubResour
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedARM{}
+	return &NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -2619,7 +2619,7 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if gateway == nil {
 		return nil, nil
 	}
-	result := &NatGatewaySpecARM{}
+	result := &NatGatewaySpec_ARM{}
 
 	// Set property ‘Id’:
 	if gateway.Reference != nil {
@@ -2641,34 +2641,34 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if gateway.IdleTimeoutInMinutes != nil ||
 		gateway.PublicIpAddresses != nil ||
 		gateway.PublicIpPrefixes != nil {
-		result.Properties = &NatGatewayPropertiesFormatARM{}
+		result.Properties = &NatGatewayPropertiesFormat_ARM{}
 	}
 	if gateway.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *gateway.IdleTimeoutInMinutes
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	for _, item := range gateway.PublicIpAddresses {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *itemARM.(*SubResourceARM))
+		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *item_ARM.(*SubResource_ARM))
 	}
 	for _, item := range gateway.PublicIpPrefixes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *itemARM.(*SubResourceARM))
+		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*SubResource_ARM))
 	}
 
 	// Set property ‘Sku’:
 	if gateway.Sku != nil {
-		skuARM, err := (*gateway.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*gateway.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*NatGatewaySkuARM)
+		sku := *sku_ARM.(*NatGatewaySku_ARM)
 		result.Sku = &sku
 	}
 
@@ -2689,14 +2689,14 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gateway *NatGatewaySpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySpecARM{}
+	return &NatGatewaySpec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gateway *NatGatewaySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGatewaySpecARM)
+	typedInput, ok := armInput.(NatGatewaySpec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySpec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IdleTimeoutInMinutes’:
@@ -2943,7 +2943,7 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressDnsSettingsARM{}
+	result := &PublicIPAddressDnsSettings_ARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if settings.DomainNameLabel != nil {
@@ -2967,14 +2967,14 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PublicIPAddressDnsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressDnsSettingsARM{}
+	return &PublicIPAddressDnsSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressDnsSettingsARM)
+	typedInput, ok := armInput.(PublicIPAddressDnsSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DomainNameLabel’:
@@ -3051,14 +3051,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddressDnsSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PublicIPAddressDnsSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressDnsSettings_STATUSARM{}
+	return &PublicIPAddressDnsSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PublicIPAddressDnsSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressDnsSettings_STATUSARM)
+	typedInput, ok := armInput.(PublicIPAddressDnsSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DomainNameLabel’:
@@ -3142,11 +3142,11 @@ const (
 type PublicIPAddressPropertiesFormat_MigrationPhase_STATUS string
 
 const (
-	PublicIPAddressPropertiesFormat_MigrationPhase_Abort_STATUS     = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Abort")
-	PublicIPAddressPropertiesFormat_MigrationPhase_Commit_STATUS    = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Commit")
-	PublicIPAddressPropertiesFormat_MigrationPhase_Committed_STATUS = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Committed")
-	PublicIPAddressPropertiesFormat_MigrationPhase_None_STATUS      = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("None")
-	PublicIPAddressPropertiesFormat_MigrationPhase_Prepare_STATUS   = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Prepare")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Abort     = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Abort")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Commit    = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Commit")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Committed = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Committed")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_None      = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("None")
+	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Prepare   = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
 // Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
@@ -3162,7 +3162,7 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSkuARM{}
+	result := &PublicIPAddressSku_ARM{}
 
 	// Set property ‘Name’:
 	if addressSku.Name != nil {
@@ -3180,14 +3180,14 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSkuARM{}
+	return &PublicIPAddressSku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSkuARM)
+	typedInput, ok := armInput.(PublicIPAddressSku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3271,14 +3271,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddressSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSku_STATUSARM{}
+	return &PublicIPAddressSku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSku_STATUSARM)
+	typedInput, ok := armInput.(PublicIPAddressSku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3369,15 +3369,15 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSpec_SubResourceEmbeddedARM{}
+	result := &PublicIPAddressSpec_SubResourceEmbedded_ARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if embedded.ExtendedLocation != nil {
-		extendedLocationARM, err := (*embedded.ExtendedLocation).ConvertToARM(resolved)
+		extendedLocation_ARM, err := (*embedded.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -3399,11 +3399,11 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 
 	// Set property ‘Sku’:
 	if embedded.Sku != nil {
-		skuARM, err := (*embedded.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*embedded.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*PublicIPAddressSkuARM)
+		sku := *sku_ARM.(*PublicIPAddressSku_ARM)
 		result.Sku = &sku
 	}
 
@@ -3424,14 +3424,14 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PublicIPAddressSpec_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSpec_SubResourceEmbeddedARM{}
+	return &PublicIPAddressSpec_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PublicIPAddressSpec_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSpec_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(PublicIPAddressSpec_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -3598,7 +3598,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SubResourceARM{}
+	result := &SubResource_ARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -3614,14 +3614,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResourceARM{}
+	return &SubResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResourceARM)
+	_, ok := armInput.(SubResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Reference’
@@ -3683,8 +3683,8 @@ const (
 type DdosSettings_ProtectionCoverage_STATUS string
 
 const (
-	DdosSettings_ProtectionCoverage_Basic_STATUS    = DdosSettings_ProtectionCoverage_STATUS("Basic")
-	DdosSettings_ProtectionCoverage_Standard_STATUS = DdosSettings_ProtectionCoverage_STATUS("Standard")
+	DdosSettings_ProtectionCoverage_STATUS_Basic    = DdosSettings_ProtectionCoverage_STATUS("Basic")
+	DdosSettings_ProtectionCoverage_STATUS_Standard = DdosSettings_ProtectionCoverage_STATUS("Standard")
 )
 
 // Deprecated version of NatGatewaySku. Use v1beta20201101.NatGatewaySku instead
@@ -3699,7 +3699,7 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if gatewaySku == nil {
 		return nil, nil
 	}
-	result := &NatGatewaySkuARM{}
+	result := &NatGatewaySku_ARM{}
 
 	// Set property ‘Name’:
 	if gatewaySku.Name != nil {
@@ -3711,14 +3711,14 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *NatGatewaySku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySkuARM{}
+	return &NatGatewaySku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *NatGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGatewaySkuARM)
+	typedInput, ok := armInput.(NatGatewaySku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3779,14 +3779,14 @@ var _ genruntime.FromARMConverter = &NatGatewaySku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *NatGatewaySku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySku_STATUSARM{}
+	return &NatGatewaySku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *NatGatewaySku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGatewaySku_STATUSARM)
+	typedInput, ok := armInput.(NatGatewaySku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3847,14 +3847,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS_PublicIPAddress_SubResourceEm
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUS_PublicIPAddress_SubResourceEmbeddedARM{}
+	return &Subnet_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUS_PublicIPAddress_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(Subnet_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_PublicIPAddress_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -3905,7 +3905,7 @@ const NatGatewaySku_Name_Standard = NatGatewaySku_Name("Standard")
 // Deprecated version of NatGatewaySku_Name_STATUS. Use v1beta20201101.NatGatewaySku_Name_STATUS instead
 type NatGatewaySku_Name_STATUS string
 
-const NatGatewaySku_Name_Standard_STATUS = NatGatewaySku_Name_STATUS("Standard")
+const NatGatewaySku_Name_STATUS_Standard = NatGatewaySku_Name_STATUS("Standard")
 
 func init() {
 	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})

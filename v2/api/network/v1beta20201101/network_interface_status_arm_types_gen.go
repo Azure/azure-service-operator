@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type ApplicationGatewayBackendAddress_STATUSARM struct {
+type ApplicationGatewayBackendAddress_STATUS_ARM struct {
 	// Fqdn: Fully qualified domain name (FQDN).
 	Fqdn *string `json:"fqdn,omitempty"`
 
@@ -11,7 +11,7 @@ type ApplicationGatewayBackendAddress_STATUSARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 }
 
-type ApplicationGatewayBackendAddressPool_STATUSARM struct {
+type ApplicationGatewayBackendAddressPool_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -22,24 +22,24 @@ type ApplicationGatewayBackendAddressPool_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the application gateway backend address pool.
-	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUSARM struct {
+type ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_ARM struct {
 	// BackendAddresses: Backend addresses.
-	BackendAddresses []ApplicationGatewayBackendAddress_STATUSARM `json:"backendAddresses,omitempty"`
+	BackendAddresses []ApplicationGatewayBackendAddress_STATUS_ARM `json:"backendAddresses,omitempty"`
 
 	// BackendIPConfigurations: Collection of references to IPs defined in network interfaces.
-	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUSARM `json:"backendIPConfigurations,omitempty"`
+	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS_ARM `json:"backendIPConfigurations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type ApplicationSecurityGroup_STATUSARM struct {
+type ApplicationSecurityGroup_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -53,7 +53,7 @@ type ApplicationSecurityGroup_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the application security group.
-	Properties *ApplicationSecurityGroupPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *ApplicationSecurityGroupPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -62,7 +62,7 @@ type ApplicationSecurityGroup_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ApplicationSecurityGroupPropertiesFormat_STATUSARM struct {
+type ApplicationSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the application security group resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
@@ -71,7 +71,7 @@ type ApplicationSecurityGroupPropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-type CustomDnsConfigPropertiesFormat_STATUSARM struct {
+type CustomDnsConfigPropertiesFormat_STATUS_ARM struct {
 	// Fqdn: Fqdn that resolves to private endpoint ip address.
 	Fqdn *string `json:"fqdn,omitempty"`
 
@@ -79,7 +79,7 @@ type CustomDnsConfigPropertiesFormat_STATUSARM struct {
 	IpAddresses []string `json:"ipAddresses,omitempty"`
 }
 
-type FlowLog_STATUSARM struct {
+type FlowLog_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -93,7 +93,7 @@ type FlowLog_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the flow log.
-	Properties *FlowLogPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *FlowLogPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -102,7 +102,7 @@ type FlowLog_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type FlowLogFormatParameters_STATUSARM struct {
+type FlowLogFormatParameters_STATUS_ARM struct {
 	// Type: The file type of flow log.
 	Type *FlowLogFormatParameters_Type_STATUS `json:"type,omitempty"`
 
@@ -110,21 +110,21 @@ type FlowLogFormatParameters_STATUSARM struct {
 	Version *int `json:"version,omitempty"`
 }
 
-type FlowLogPropertiesFormat_STATUSARM struct {
+type FlowLogPropertiesFormat_STATUS_ARM struct {
 	// Enabled: Flag to enable/disable flow logging.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// FlowAnalyticsConfiguration: Parameters that define the configuration of traffic analytics.
-	FlowAnalyticsConfiguration *TrafficAnalyticsProperties_STATUSARM `json:"flowAnalyticsConfiguration,omitempty"`
+	FlowAnalyticsConfiguration *TrafficAnalyticsProperties_STATUS_ARM `json:"flowAnalyticsConfiguration,omitempty"`
 
 	// Format: Parameters that define the flow log format.
-	Format *FlowLogFormatParameters_STATUSARM `json:"format,omitempty"`
+	Format *FlowLogFormatParameters_STATUS_ARM `json:"format,omitempty"`
 
 	// ProvisioningState: The provisioning state of the flow log.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RetentionPolicy: Parameters that define the retention policy for flow log.
-	RetentionPolicy *RetentionPolicyParameters_STATUSARM `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *RetentionPolicyParameters_STATUS_ARM `json:"retentionPolicy,omitempty"`
 
 	// StorageId: ID of the storage account which is used to store the flow log.
 	StorageId *string `json:"storageId,omitempty"`
@@ -136,12 +136,12 @@ type FlowLogPropertiesFormat_STATUSARM struct {
 	TargetResourceId *string `json:"targetResourceId,omitempty"`
 }
 
-type NetworkInterface_STATUSARM struct {
+type NetworkInterface_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -153,7 +153,7 @@ type NetworkInterface_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the network interface.
-	Properties *NetworkInterfacePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NetworkInterfacePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -162,7 +162,7 @@ type NetworkInterface_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkInterfaceDnsSettings_STATUSARM struct {
+type NetworkInterfaceDnsSettings_STATUS_ARM struct {
 	// AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
 	// all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
 	// those VMs.
@@ -184,7 +184,7 @@ type NetworkInterfaceDnsSettings_STATUSARM struct {
 	InternalFqdn *string `json:"internalFqdn,omitempty"`
 }
 
-type NetworkInterfaceIPConfiguration_STATUSARM struct {
+type NetworkInterfaceIPConfiguration_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -195,13 +195,13 @@ type NetworkInterfaceIPConfiguration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Network interface IP configuration properties.
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM struct {
+type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM struct {
 	// Fqdns: List of FQDNs for current private link connection.
 	Fqdns []string `json:"fqdns,omitempty"`
 
@@ -212,18 +212,18 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM st
 	RequiredMemberName *string `json:"requiredMemberName,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPropertiesFormat_STATUSARM struct {
+type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUSARM `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 
 	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroup_STATUSARM `json:"applicationSecurityGroups,omitempty"`
+	ApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_ARM `json:"applicationSecurityGroups,omitempty"`
 
 	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_STATUSARM `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerBackendAddressPools []BackendAddressPool_STATUS_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_STATUSARM `json:"loadBalancerInboundNatRules,omitempty"`
+	LoadBalancerInboundNatRules []InboundNatRule_STATUS_ARM `json:"loadBalancerInboundNatRules,omitempty"`
 
 	// Primary: Whether this is a primary customer address on the network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -238,27 +238,27 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_STATUSARM struct {
 	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
-	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM `json:"privateLinkConnectionProperties,omitempty"`
+	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM `json:"privateLinkConnectionProperties,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface IP configuration.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddress_STATUSARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddress_STATUS_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_STATUSARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_ARM `json:"subnet,omitempty"`
 
 	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTap_STATUSARM `json:"virtualNetworkTaps,omitempty"`
+	VirtualNetworkTaps []VirtualNetworkTap_STATUS_ARM `json:"virtualNetworkTaps,omitempty"`
 }
 
-type NetworkInterfacePropertiesFormat_STATUSARM struct {
+type NetworkInterfacePropertiesFormat_STATUS_ARM struct {
 	// DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings_STATUSARM `json:"dnsSettings,omitempty"`
+	DnsSettings *NetworkInterfaceDnsSettings_STATUS_ARM `json:"dnsSettings,omitempty"`
 
 	// DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.
-	DscpConfiguration *SubResource_STATUSARM `json:"dscpConfiguration,omitempty"`
+	DscpConfiguration *SubResource_STATUS_ARM `json:"dscpConfiguration,omitempty"`
 
 	// EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
@@ -270,7 +270,7 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	HostedWorkloads []string `json:"hostedWorkloads,omitempty"`
 
 	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_STATUSARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []NetworkInterfaceIPConfiguration_STATUS_ARM `json:"ipConfigurations,omitempty"`
 
 	// MacAddress: The MAC address of the network interface.
 	MacAddress *string `json:"macAddress,omitempty"`
@@ -279,7 +279,7 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroup_STATUSARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
 	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS `json:"nicType,omitempty"`
@@ -288,10 +288,10 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	Primary *bool `json:"primary,omitempty"`
 
 	// PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.
-	PrivateEndpoint *PrivateEndpoint_STATUSARM `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpoint_STATUS_ARM `json:"privateEndpoint,omitempty"`
 
 	// PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkService_STATUSARM `json:"privateLinkService,omitempty"`
+	PrivateLinkService *PrivateLinkService_STATUS_ARM `json:"privateLinkService,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -300,13 +300,13 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// TapConfigurations: A list of TapConfigurations of the network interface.
-	TapConfigurations []NetworkInterfaceTapConfiguration_STATUSARM `json:"tapConfigurations,omitempty"`
+	TapConfigurations []NetworkInterfaceTapConfiguration_STATUS_ARM `json:"tapConfigurations,omitempty"`
 
 	// VirtualMachine: The reference to a virtual machine.
-	VirtualMachine *SubResource_STATUSARM `json:"virtualMachine,omitempty"`
+	VirtualMachine *SubResource_STATUS_ARM `json:"virtualMachine,omitempty"`
 }
 
-type NetworkInterfaceTapConfiguration_STATUSARM struct {
+type NetworkInterfaceTapConfiguration_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -317,21 +317,21 @@ type NetworkInterfaceTapConfiguration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the Virtual Network Tap configuration.
-	Properties *NetworkInterfaceTapConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NetworkInterfaceTapConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Sub Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkInterfaceTapConfigurationPropertiesFormat_STATUSARM struct {
+type NetworkInterfaceTapConfigurationPropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the network interface tap configuration resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// VirtualNetworkTap: The reference to the Virtual Network Tap resource.
-	VirtualNetworkTap *VirtualNetworkTap_STATUSARM `json:"virtualNetworkTap,omitempty"`
+	VirtualNetworkTap *VirtualNetworkTap_STATUS_ARM `json:"virtualNetworkTap,omitempty"`
 }
 
-type NetworkSecurityGroup_STATUSARM struct {
+type NetworkSecurityGroup_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -345,7 +345,7 @@ type NetworkSecurityGroup_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -354,15 +354,15 @@ type NetworkSecurityGroup_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkSecurityGroupPropertiesFormat_STATUSARM struct {
+type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRule_STATUSARM `json:"defaultSecurityRules,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_ARM `json:"defaultSecurityRules,omitempty"`
 
 	// FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLog_STATUSARM `json:"flowLogs,omitempty"`
+	FlowLogs []FlowLog_STATUS_ARM `json:"flowLogs,omitempty"`
 
 	// NetworkInterfaces: A collection of references to network interfaces.
-	NetworkInterfaces []NetworkInterface_STATUSARM `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces []NetworkInterface_STATUS_ARM `json:"networkInterfaces,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network security group resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -371,18 +371,18 @@ type NetworkSecurityGroupPropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_STATUSARM `json:"securityRules,omitempty"`
+	SecurityRules []SecurityRule_STATUS_ARM `json:"securityRules,omitempty"`
 
 	// Subnets: A collection of references to subnets.
-	Subnets []Subnet_STATUSARM `json:"subnets,omitempty"`
+	Subnets []Subnet_STATUS_ARM `json:"subnets,omitempty"`
 }
 
-type PrivateEndpoint_STATUSARM struct {
+type PrivateEndpoint_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -394,7 +394,7 @@ type PrivateEndpoint_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the private endpoint.
-	Properties *PrivateEndpointProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateEndpointProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -403,7 +403,7 @@ type PrivateEndpoint_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -414,54 +414,54 @@ type PrivateEndpointConnection_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the private end point connection.
-	Properties *PrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type PrivateEndpointConnectionProperties_STATUSARM struct {
+type PrivateEndpointConnectionProperties_STATUS_ARM struct {
 	// LinkIdentifier: The consumer link id.
 	LinkIdentifier *string `json:"linkIdentifier,omitempty"`
 
 	// PrivateEndpoint: The resource of private end point.
-	PrivateEndpoint *PrivateEndpoint_STATUSARM `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpoint_STATUS_ARM `json:"privateEndpoint,omitempty"`
 
 	// PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
 	// consumer and provider.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private endpoint connection resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type PrivateEndpointProperties_STATUSARM struct {
+type PrivateEndpointProperties_STATUS_ARM struct {
 	// CustomDnsConfigs: An array of custom dns configurations.
-	CustomDnsConfigs []CustomDnsConfigPropertiesFormat_STATUSARM `json:"customDnsConfigs,omitempty"`
+	CustomDnsConfigs []CustomDnsConfigPropertiesFormat_STATUS_ARM `json:"customDnsConfigs,omitempty"`
 
 	// ManualPrivateLinkServiceConnections: A grouping of information about the connection to the remote resource. Used when
 	// the network admin does not have access to approve connections to the remote resource.
-	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUSARM `json:"manualPrivateLinkServiceConnections,omitempty"`
+	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS_ARM `json:"manualPrivateLinkServiceConnections,omitempty"`
 
 	// NetworkInterfaces: An array of references to the network interfaces created for this private endpoint.
-	NetworkInterfaces []NetworkInterface_STATUSARM `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces []NetworkInterface_STATUS_ARM `json:"networkInterfaces,omitempty"`
 
 	// PrivateLinkServiceConnections: A grouping of information about the connection to the remote resource.
-	PrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUSARM `json:"privateLinkServiceConnections,omitempty"`
+	PrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS_ARM `json:"privateLinkServiceConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private endpoint resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Subnet: The ID of the subnet from which the private IP will be allocated.
-	Subnet *Subnet_STATUSARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_ARM `json:"subnet,omitempty"`
 }
 
-type PrivateLinkService_STATUSARM struct {
+type PrivateLinkService_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -473,7 +473,7 @@ type PrivateLinkService_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the private link service.
-	Properties *PrivateLinkServiceProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateLinkServiceProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -482,7 +482,7 @@ type PrivateLinkService_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type PrivateLinkServiceConnection_STATUSARM struct {
+type PrivateLinkServiceConnection_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -493,19 +493,19 @@ type PrivateLinkServiceConnection_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the private link service connection.
-	Properties *PrivateLinkServiceConnectionProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateLinkServiceConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type PrivateLinkServiceConnectionProperties_STATUSARM struct {
+type PrivateLinkServiceConnectionProperties_STATUS_ARM struct {
 	// GroupIds: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
 	GroupIds []string `json:"groupIds,omitempty"`
 
 	// PrivateLinkServiceConnectionState: A collection of read-only information about the state of the connection to the remote
 	// resource.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// PrivateLinkServiceId: The resource id of private link service.
 	PrivateLinkServiceId *string `json:"privateLinkServiceId,omitempty"`
@@ -518,7 +518,7 @@ type PrivateLinkServiceConnectionProperties_STATUSARM struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 }
 
-type PrivateLinkServiceConnectionState_STATUSARM struct {
+type PrivateLinkServiceConnectionState_STATUS_ARM struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *string `json:"actionsRequired,omitempty"`
 
@@ -529,7 +529,7 @@ type PrivateLinkServiceConnectionState_STATUSARM struct {
 	Status *string `json:"status,omitempty"`
 }
 
-type PrivateLinkServiceIpConfiguration_STATUSARM struct {
+type PrivateLinkServiceIpConfiguration_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -540,13 +540,13 @@ type PrivateLinkServiceIpConfiguration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the private link service ip configuration.
-	Properties *PrivateLinkServiceIpConfigurationProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateLinkServiceIpConfigurationProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type PrivateLinkServiceIpConfigurationProperties_STATUSARM struct {
+type PrivateLinkServiceIpConfigurationProperties_STATUS_ARM struct {
 	// Primary: Whether the ip configuration is primary or not.
 	Primary *bool `json:"primary,omitempty"`
 
@@ -563,15 +563,15 @@ type PrivateLinkServiceIpConfigurationProperties_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_STATUSARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_ARM `json:"subnet,omitempty"`
 }
 
-type PrivateLinkServiceProperties_STATUSARM struct {
+type PrivateLinkServiceProperties_STATUS_ARM struct {
 	// Alias: The alias of the private link service.
 	Alias *string `json:"alias,omitempty"`
 
 	// AutoApproval: The auto-approval list of the private link service.
-	AutoApproval *ResourceSet_STATUSARM `json:"autoApproval,omitempty"`
+	AutoApproval *ResourceSet_STATUS_ARM `json:"autoApproval,omitempty"`
 
 	// EnableProxyProtocol: Whether the private link service is enabled for proxy protocol or not.
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty"`
@@ -580,30 +580,30 @@ type PrivateLinkServiceProperties_STATUSARM struct {
 	Fqdns []string `json:"fqdns,omitempty"`
 
 	// IpConfigurations: An array of private link service IP configurations.
-	IpConfigurations []PrivateLinkServiceIpConfiguration_STATUSARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []PrivateLinkServiceIpConfiguration_STATUS_ARM `json:"ipConfigurations,omitempty"`
 
 	// LoadBalancerFrontendIpConfigurations: An array of references to the load balancer IP configurations.
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_STATUSARM `json:"loadBalancerFrontendIpConfigurations,omitempty"`
+	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_STATUS_ARM `json:"loadBalancerFrontendIpConfigurations,omitempty"`
 
 	// NetworkInterfaces: An array of references to the network interfaces created for this private link service.
-	NetworkInterfaces []NetworkInterface_STATUSARM `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces []NetworkInterface_STATUS_ARM `json:"networkInterfaces,omitempty"`
 
 	// PrivateEndpointConnections: An array of list about connections to the private endpoint.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Visibility: The visibility list of the private link service.
-	Visibility *ResourceSet_STATUSARM `json:"visibility,omitempty"`
+	Visibility *ResourceSet_STATUS_ARM `json:"visibility,omitempty"`
 }
 
-type ResourceSet_STATUSARM struct {
+type ResourceSet_STATUS_ARM struct {
 	// Subscriptions: The list of subscriptions.
 	Subscriptions []string `json:"subscriptions,omitempty"`
 }
 
-type RetentionPolicyParameters_STATUSARM struct {
+type RetentionPolicyParameters_STATUS_ARM struct {
 	// Days: Number of days to retain flow log records.
 	Days *int `json:"days,omitempty"`
 
@@ -611,7 +611,7 @@ type RetentionPolicyParameters_STATUSARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-type SecurityRule_STATUSARM struct {
+type SecurityRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -622,13 +622,13 @@ type SecurityRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the security rule.
-	Properties *SecurityRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SecurityRulePropertiesFormat_STATUSARM struct {
+type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
@@ -643,7 +643,7 @@ type SecurityRulePropertiesFormat_STATUSARM struct {
 	DestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
 
 	// DestinationApplicationSecurityGroups: The application security group specified as destination.
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUSARM `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_ARM `json:"destinationApplicationSecurityGroups,omitempty"`
 
 	// DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used
 	// to match all ports.
@@ -674,7 +674,7 @@ type SecurityRulePropertiesFormat_STATUSARM struct {
 	SourceAddressPrefixes []string `json:"sourceAddressPrefixes,omitempty"`
 
 	// SourceApplicationSecurityGroups: The application security group specified as source.
-	SourceApplicationSecurityGroups []ApplicationSecurityGroup_STATUSARM `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourceApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_ARM `json:"sourceApplicationSecurityGroups,omitempty"`
 
 	// SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match
 	// all ports.
@@ -684,12 +684,12 @@ type SecurityRulePropertiesFormat_STATUSARM struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
-type SubResource_STATUSARM struct {
+type SubResource_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type TrafficAnalyticsConfigurationProperties_STATUSARM struct {
+type TrafficAnalyticsConfigurationProperties_STATUS_ARM struct {
 	// Enabled: Flag to enable/disable traffic analytics.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -706,12 +706,12 @@ type TrafficAnalyticsConfigurationProperties_STATUSARM struct {
 	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
 }
 
-type TrafficAnalyticsProperties_STATUSARM struct {
+type TrafficAnalyticsProperties_STATUS_ARM struct {
 	// NetworkWatcherFlowAnalyticsConfiguration: Parameters that define the configuration of traffic analytics.
-	NetworkWatcherFlowAnalyticsConfiguration *TrafficAnalyticsConfigurationProperties_STATUSARM `json:"networkWatcherFlowAnalyticsConfiguration,omitempty"`
+	NetworkWatcherFlowAnalyticsConfiguration *TrafficAnalyticsConfigurationProperties_STATUS_ARM `json:"networkWatcherFlowAnalyticsConfiguration,omitempty"`
 }
 
-type VirtualNetworkTap_STATUSARM struct {
+type VirtualNetworkTap_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -725,7 +725,7 @@ type VirtualNetworkTap_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Virtual Network Tap Properties.
-	Properties *VirtualNetworkTapPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkTapPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -734,21 +734,21 @@ type VirtualNetworkTap_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkTapPropertiesFormat_STATUSARM struct {
+type VirtualNetworkTapPropertiesFormat_STATUS_ARM struct {
 	// DestinationLoadBalancerFrontEndIPConfiguration: The reference to the private IP address on the internal Load Balancer
 	// that will receive the tap.
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_STATUSARM `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
+	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_STATUS_ARM `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
 
 	// DestinationNetworkInterfaceIPConfiguration: The reference to the private IP Address of the collector nic that will
 	// receive the tap.
-	DestinationNetworkInterfaceIPConfiguration *NetworkInterfaceIPConfiguration_STATUSARM `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
+	DestinationNetworkInterfaceIPConfiguration *NetworkInterfaceIPConfiguration_STATUS_ARM `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
 
 	// DestinationPort: The VXLAN destination port that will receive the tapped traffic.
 	DestinationPort *int `json:"destinationPort,omitempty"`
 
 	// NetworkInterfaceTapConfigurations: Specifies the list of resource IDs for the network interface IP configuration that
 	// needs to be tapped.
-	NetworkInterfaceTapConfigurations []NetworkInterfaceTapConfiguration_STATUSARM `json:"networkInterfaceTapConfigurations,omitempty"`
+	NetworkInterfaceTapConfigurations []NetworkInterfaceTapConfiguration_STATUS_ARM `json:"networkInterfaceTapConfigurations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network tap resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`

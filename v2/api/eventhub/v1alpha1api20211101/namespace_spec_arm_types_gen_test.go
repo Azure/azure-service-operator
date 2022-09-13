@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Namespace_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespace_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespace_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespace_SpecARM, Namespace_SpecARMGenerator()))
+		"Round trip of Namespace_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Spec_ARM, Namespace_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespace_SpecARM runs a test to see if a specific instance of Namespace_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespace_SpecARM(subject Namespace_SpecARM) string {
+// RunJSONSerializationTestForNamespace_Spec_ARM runs a test to see if a specific instance of Namespace_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Spec_ARM(subject Namespace_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespace_SpecARM(subject Namespace_SpecARM) str
 	}
 
 	// Deserialize back into memory
-	var actual Namespace_SpecARM
+	var actual Namespace_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,60 +56,60 @@ func RunJSONSerializationTestForNamespace_SpecARM(subject Namespace_SpecARM) str
 	return ""
 }
 
-// Generator of Namespace_SpecARM instances for property testing - lazily instantiated by Namespace_SpecARMGenerator()
-var namespace_SpecARMGenerator gopter.Gen
+// Generator of Namespace_Spec_ARM instances for property testing - lazily instantiated by Namespace_Spec_ARMGenerator()
+var namespace_Spec_ARMGenerator gopter.Gen
 
-// Namespace_SpecARMGenerator returns a generator of Namespace_SpecARM instances for property testing.
-// We first initialize namespace_SpecARMGenerator with a simplified generator based on the
+// Namespace_Spec_ARMGenerator returns a generator of Namespace_Spec_ARM instances for property testing.
+// We first initialize namespace_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespace_SpecARMGenerator() gopter.Gen {
-	if namespace_SpecARMGenerator != nil {
-		return namespace_SpecARMGenerator
+func Namespace_Spec_ARMGenerator() gopter.Gen {
+	if namespace_Spec_ARMGenerator != nil {
+		return namespace_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespace_SpecARM(generators)
-	namespace_SpecARMGenerator = gen.Struct(reflect.TypeOf(Namespace_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Spec_ARM(generators)
+	namespace_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespace_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForNamespace_SpecARM(generators)
-	namespace_SpecARMGenerator = gen.Struct(reflect.TypeOf(Namespace_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespace_Spec_ARM(generators)
+	namespace_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_ARM{}), generators)
 
-	return namespace_SpecARMGenerator
+	return namespace_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespace_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespace_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespace_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespace_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespace_SpecARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
-	gens["Properties"] = gen.PtrOf(Namespace_Spec_PropertiesARMGenerator())
-	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespace_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(Identity_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(Namespace_Properties_Spec_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_ARMGenerator())
 }
 
-func Test_IdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Identity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of IdentityARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityARM, IdentityARMGenerator()))
+		"Round trip of Identity_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentity_ARM, Identity_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIdentityARM runs a test to see if a specific instance of IdentityARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
+// RunJSONSerializationTestForIdentity_ARM runs a test to see if a specific instance of Identity_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentity_ARM(subject Identity_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual IdentityARM
+	var actual Identity_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,24 +135,24 @@ func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
 	return ""
 }
 
-// Generator of IdentityARM instances for property testing - lazily instantiated by IdentityARMGenerator()
-var identityARMGenerator gopter.Gen
+// Generator of Identity_ARM instances for property testing - lazily instantiated by Identity_ARMGenerator()
+var identity_ARMGenerator gopter.Gen
 
-// IdentityARMGenerator returns a generator of IdentityARM instances for property testing.
-func IdentityARMGenerator() gopter.Gen {
-	if identityARMGenerator != nil {
-		return identityARMGenerator
+// Identity_ARMGenerator returns a generator of Identity_ARM instances for property testing.
+func Identity_ARMGenerator() gopter.Gen {
+	if identity_ARMGenerator != nil {
+		return identity_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityARM(generators)
-	identityARMGenerator = gen.Struct(reflect.TypeOf(IdentityARM{}), generators)
+	AddIndependentPropertyGeneratorsForIdentity_ARM(generators)
+	identity_ARMGenerator = gen.Struct(reflect.TypeOf(Identity_ARM{}), generators)
 
-	return identityARMGenerator
+	return identity_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIdentityARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		Identity_Type_None,
 		Identity_Type_SystemAssigned,
@@ -160,20 +160,20 @@ func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) 
 		Identity_Type_UserAssigned))
 }
 
-func Test_Namespace_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespace_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespace_Spec_PropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespace_Spec_PropertiesARM, Namespace_Spec_PropertiesARMGenerator()))
+		"Round trip of Namespace_Properties_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespace_Properties_Spec_ARM, Namespace_Properties_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespace_Spec_PropertiesARM runs a test to see if a specific instance of Namespace_Spec_PropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespace_Spec_PropertiesARM(subject Namespace_Spec_PropertiesARM) string {
+// RunJSONSerializationTestForNamespace_Properties_Spec_ARM runs a test to see if a specific instance of Namespace_Properties_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespace_Properties_Spec_ARM(subject Namespace_Properties_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -181,7 +181,7 @@ func RunJSONSerializationTestForNamespace_Spec_PropertiesARM(subject Namespace_S
 	}
 
 	// Deserialize back into memory
-	var actual Namespace_Spec_PropertiesARM
+	var actual Namespace_Properties_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -199,34 +199,34 @@ func RunJSONSerializationTestForNamespace_Spec_PropertiesARM(subject Namespace_S
 	return ""
 }
 
-// Generator of Namespace_Spec_PropertiesARM instances for property testing - lazily instantiated by
-// Namespace_Spec_PropertiesARMGenerator()
-var namespace_Spec_PropertiesARMGenerator gopter.Gen
+// Generator of Namespace_Properties_Spec_ARM instances for property testing - lazily instantiated by
+// Namespace_Properties_Spec_ARMGenerator()
+var namespace_Properties_Spec_ARMGenerator gopter.Gen
 
-// Namespace_Spec_PropertiesARMGenerator returns a generator of Namespace_Spec_PropertiesARM instances for property testing.
-// We first initialize namespace_Spec_PropertiesARMGenerator with a simplified generator based on the
+// Namespace_Properties_Spec_ARMGenerator returns a generator of Namespace_Properties_Spec_ARM instances for property testing.
+// We first initialize namespace_Properties_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespace_Spec_PropertiesARMGenerator() gopter.Gen {
-	if namespace_Spec_PropertiesARMGenerator != nil {
-		return namespace_Spec_PropertiesARMGenerator
+func Namespace_Properties_Spec_ARMGenerator() gopter.Gen {
+	if namespace_Properties_Spec_ARMGenerator != nil {
+		return namespace_Properties_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
-	namespace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_PropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Properties_Spec_ARM(generators)
+	namespace_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Properties_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM(generators)
-	namespace_Spec_PropertiesARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Spec_PropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespace_Properties_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespace_Properties_Spec_ARM(generators)
+	namespace_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespace_Properties_Spec_ARM{}), generators)
 
-	return namespace_Spec_PropertiesARMGenerator
+	return namespace_Properties_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespace_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespace_Properties_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AlternateName"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterArmId"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
@@ -236,26 +236,26 @@ func AddIndependentPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[st
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespace_Spec_PropertiesARM(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(EncryptionARMGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespace_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespace_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Encryption"] = gen.PtrOf(Encryption_ARMGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_ARMGenerator())
 }
 
-func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SkuARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSkuARM, SkuARMGenerator()))
+		"Round trip of Sku_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_ARM, Sku_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSkuARM runs a test to see if a specific instance of SkuARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSkuARM(subject SkuARM) string {
+// RunJSONSerializationTestForSku_ARM runs a test to see if a specific instance of Sku_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_ARM(subject Sku_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -263,7 +263,7 @@ func RunJSONSerializationTestForSkuARM(subject SkuARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual SkuARM
+	var actual Sku_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -281,43 +281,43 @@ func RunJSONSerializationTestForSkuARM(subject SkuARM) string {
 	return ""
 }
 
-// Generator of SkuARM instances for property testing - lazily instantiated by SkuARMGenerator()
-var skuARMGenerator gopter.Gen
+// Generator of Sku_ARM instances for property testing - lazily instantiated by Sku_ARMGenerator()
+var sku_ARMGenerator gopter.Gen
 
-// SkuARMGenerator returns a generator of SkuARM instances for property testing.
-func SkuARMGenerator() gopter.Gen {
-	if skuARMGenerator != nil {
-		return skuARMGenerator
+// Sku_ARMGenerator returns a generator of Sku_ARM instances for property testing.
+func Sku_ARMGenerator() gopter.Gen {
+	if sku_ARMGenerator != nil {
+		return sku_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSkuARM(generators)
-	skuARMGenerator = gen.Struct(reflect.TypeOf(SkuARM{}), generators)
+	AddIndependentPropertyGeneratorsForSku_ARM(generators)
+	sku_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_ARM{}), generators)
 
-	return skuARMGenerator
+	return sku_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic, Sku_Name_Premium, Sku_Name_Standard))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Basic, Sku_Tier_Premium, Sku_Tier_Standard))
 }
 
-func Test_EncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Encryption_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EncryptionARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEncryptionARM, EncryptionARMGenerator()))
+		"Round trip of Encryption_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEncryption_ARM, Encryption_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEncryptionARM runs a test to see if a specific instance of EncryptionARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForEncryptionARM(subject EncryptionARM) string {
+// RunJSONSerializationTestForEncryption_ARM runs a test to see if a specific instance of Encryption_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEncryption_ARM(subject Encryption_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -325,7 +325,7 @@ func RunJSONSerializationTestForEncryptionARM(subject EncryptionARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual EncryptionARM
+	var actual Encryption_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -343,56 +343,56 @@ func RunJSONSerializationTestForEncryptionARM(subject EncryptionARM) string {
 	return ""
 }
 
-// Generator of EncryptionARM instances for property testing - lazily instantiated by EncryptionARMGenerator()
-var encryptionARMGenerator gopter.Gen
+// Generator of Encryption_ARM instances for property testing - lazily instantiated by Encryption_ARMGenerator()
+var encryption_ARMGenerator gopter.Gen
 
-// EncryptionARMGenerator returns a generator of EncryptionARM instances for property testing.
-// We first initialize encryptionARMGenerator with a simplified generator based on the
+// Encryption_ARMGenerator returns a generator of Encryption_ARM instances for property testing.
+// We first initialize encryption_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EncryptionARMGenerator() gopter.Gen {
-	if encryptionARMGenerator != nil {
-		return encryptionARMGenerator
+func Encryption_ARMGenerator() gopter.Gen {
+	if encryption_ARMGenerator != nil {
+		return encryption_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionARM(generators)
-	encryptionARMGenerator = gen.Struct(reflect.TypeOf(EncryptionARM{}), generators)
+	AddIndependentPropertyGeneratorsForEncryption_ARM(generators)
+	encryption_ARMGenerator = gen.Struct(reflect.TypeOf(Encryption_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionARM(generators)
-	AddRelatedPropertyGeneratorsForEncryptionARM(generators)
-	encryptionARMGenerator = gen.Struct(reflect.TypeOf(EncryptionARM{}), generators)
+	AddIndependentPropertyGeneratorsForEncryption_ARM(generators)
+	AddRelatedPropertyGeneratorsForEncryption_ARM(generators)
+	encryption_ARMGenerator = gen.Struct(reflect.TypeOf(Encryption_ARM{}), generators)
 
-	return encryptionARMGenerator
+	return encryption_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEncryption_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEncryption_ARM(gens map[string]gopter.Gen) {
 	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(Encryption_KeySource_MicrosoftKeyVault))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
-	gens["KeyVaultProperties"] = gen.SliceOf(KeyVaultPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForEncryption_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEncryption_ARM(gens map[string]gopter.Gen) {
+	gens["KeyVaultProperties"] = gen.SliceOf(KeyVaultProperties_ARMGenerator())
 }
 
-func Test_PrivateEndpointConnectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointConnection_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointConnectionARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionARM, PrivateEndpointConnectionARMGenerator()))
+		"Round trip of PrivateEndpointConnection_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_ARM, PrivateEndpointConnection_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnectionARM runs a test to see if a specific instance of PrivateEndpointConnectionARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndpointConnectionARM) string {
+// RunJSONSerializationTestForPrivateEndpointConnection_ARM runs a test to see if a specific instance of PrivateEndpointConnection_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnection_ARM(subject PrivateEndpointConnection_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -400,7 +400,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndp
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointConnectionARM
+	var actual PrivateEndpointConnection_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -418,42 +418,42 @@ func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndp
 	return ""
 }
 
-// Generator of PrivateEndpointConnectionARM instances for property testing - lazily instantiated by
-// PrivateEndpointConnectionARMGenerator()
-var privateEndpointConnectionARMGenerator gopter.Gen
+// Generator of PrivateEndpointConnection_ARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnection_ARMGenerator()
+var privateEndpointConnection_ARMGenerator gopter.Gen
 
-// PrivateEndpointConnectionARMGenerator returns a generator of PrivateEndpointConnectionARM instances for property testing.
-func PrivateEndpointConnectionARMGenerator() gopter.Gen {
-	if privateEndpointConnectionARMGenerator != nil {
-		return privateEndpointConnectionARMGenerator
+// PrivateEndpointConnection_ARMGenerator returns a generator of PrivateEndpointConnection_ARM instances for property testing.
+func PrivateEndpointConnection_ARMGenerator() gopter.Gen {
+	if privateEndpointConnection_ARMGenerator != nil {
+		return privateEndpointConnection_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionARM(generators)
-	privateEndpointConnectionARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionARM{}), generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_ARM(generators)
+	privateEndpointConnection_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_ARM{}), generators)
 
-	return privateEndpointConnectionARMGenerator
+	return privateEndpointConnection_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PrivateEndpointConnectionPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(PrivateEndpointConnectionProperties_ARMGenerator())
 }
 
-func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KeyVaultProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of KeyVaultPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultPropertiesARM, KeyVaultPropertiesARMGenerator()))
+		"Round trip of KeyVaultProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_ARM, KeyVaultProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKeyVaultPropertiesARM runs a test to see if a specific instance of KeyVaultPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultPropertiesARM) string {
+// RunJSONSerializationTestForKeyVaultProperties_ARM runs a test to see if a specific instance of KeyVaultProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKeyVaultProperties_ARM(subject KeyVaultProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -461,7 +461,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 	}
 
 	// Deserialize back into memory
-	var actual KeyVaultPropertiesARM
+	var actual KeyVaultProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -479,58 +479,58 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 	return ""
 }
 
-// Generator of KeyVaultPropertiesARM instances for property testing - lazily instantiated by
-// KeyVaultPropertiesARMGenerator()
-var keyVaultPropertiesARMGenerator gopter.Gen
+// Generator of KeyVaultProperties_ARM instances for property testing - lazily instantiated by
+// KeyVaultProperties_ARMGenerator()
+var keyVaultProperties_ARMGenerator gopter.Gen
 
-// KeyVaultPropertiesARMGenerator returns a generator of KeyVaultPropertiesARM instances for property testing.
-// We first initialize keyVaultPropertiesARMGenerator with a simplified generator based on the
+// KeyVaultProperties_ARMGenerator returns a generator of KeyVaultProperties_ARM instances for property testing.
+// We first initialize keyVaultProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func KeyVaultPropertiesARMGenerator() gopter.Gen {
-	if keyVaultPropertiesARMGenerator != nil {
-		return keyVaultPropertiesARMGenerator
+func KeyVaultProperties_ARMGenerator() gopter.Gen {
+	if keyVaultProperties_ARMGenerator != nil {
+		return keyVaultProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM(generators)
-	keyVaultPropertiesARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultProperties_ARM(generators)
+	keyVaultProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForKeyVaultPropertiesARM(generators)
-	keyVaultPropertiesARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForKeyVaultProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForKeyVaultProperties_ARM(generators)
+	keyVaultProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_ARM{}), generators)
 
-	return keyVaultPropertiesARMGenerator
+	return keyVaultProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKeyVaultProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKeyVaultProperties_ARM(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVaultUri"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForKeyVaultPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyVaultPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(UserAssignedIdentityPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForKeyVaultProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForKeyVaultProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentityProperties_ARMGenerator())
 }
 
-func Test_PrivateEndpointConnectionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointConnectionProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointConnectionPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM, PrivateEndpointConnectionPropertiesARMGenerator()))
+		"Round trip of PrivateEndpointConnectionProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionProperties_ARM, PrivateEndpointConnectionProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM runs a test to see if a specific instance of PrivateEndpointConnectionPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM(subject PrivateEndpointConnectionPropertiesARM) string {
+// RunJSONSerializationTestForPrivateEndpointConnectionProperties_ARM runs a test to see if a specific instance of PrivateEndpointConnectionProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnectionProperties_ARM(subject PrivateEndpointConnectionProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -538,7 +538,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM(subject P
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointConnectionPropertiesARM
+	var actual PrivateEndpointConnectionProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -556,42 +556,42 @@ func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM(subject P
 	return ""
 }
 
-// Generator of PrivateEndpointConnectionPropertiesARM instances for property testing - lazily instantiated by
-// PrivateEndpointConnectionPropertiesARMGenerator()
-var privateEndpointConnectionPropertiesARMGenerator gopter.Gen
+// Generator of PrivateEndpointConnectionProperties_ARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnectionProperties_ARMGenerator()
+var privateEndpointConnectionProperties_ARMGenerator gopter.Gen
 
-// PrivateEndpointConnectionPropertiesARMGenerator returns a generator of PrivateEndpointConnectionPropertiesARM instances for property testing.
-func PrivateEndpointConnectionPropertiesARMGenerator() gopter.Gen {
-	if privateEndpointConnectionPropertiesARMGenerator != nil {
-		return privateEndpointConnectionPropertiesARMGenerator
+// PrivateEndpointConnectionProperties_ARMGenerator returns a generator of PrivateEndpointConnectionProperties_ARM instances for property testing.
+func PrivateEndpointConnectionProperties_ARMGenerator() gopter.Gen {
+	if privateEndpointConnectionProperties_ARMGenerator != nil {
+		return privateEndpointConnectionProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(generators)
-	privateEndpointConnectionPropertiesARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionPropertiesARM{}), generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_ARM(generators)
+	privateEndpointConnectionProperties_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionProperties_ARM{}), generators)
 
-	return privateEndpointConnectionPropertiesARMGenerator
+	return privateEndpointConnectionProperties_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(gens map[string]gopter.Gen) {
-	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpointARMGenerator())
+// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_ARM(gens map[string]gopter.Gen) {
+	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpoint_ARMGenerator())
 }
 
-func Test_PrivateEndpointARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpoint_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointARM, PrivateEndpointARMGenerator()))
+		"Round trip of PrivateEndpoint_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_ARM, PrivateEndpoint_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointARM runs a test to see if a specific instance of PrivateEndpointARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointARM(subject PrivateEndpointARM) string {
+// RunJSONSerializationTestForPrivateEndpoint_ARM runs a test to see if a specific instance of PrivateEndpoint_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpoint_ARM(subject PrivateEndpoint_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -599,7 +599,7 @@ func RunJSONSerializationTestForPrivateEndpointARM(subject PrivateEndpointARM) s
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointARM
+	var actual PrivateEndpoint_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -617,41 +617,42 @@ func RunJSONSerializationTestForPrivateEndpointARM(subject PrivateEndpointARM) s
 	return ""
 }
 
-// Generator of PrivateEndpointARM instances for property testing - lazily instantiated by PrivateEndpointARMGenerator()
-var privateEndpointARMGenerator gopter.Gen
+// Generator of PrivateEndpoint_ARM instances for property testing - lazily instantiated by
+// PrivateEndpoint_ARMGenerator()
+var privateEndpoint_ARMGenerator gopter.Gen
 
-// PrivateEndpointARMGenerator returns a generator of PrivateEndpointARM instances for property testing.
-func PrivateEndpointARMGenerator() gopter.Gen {
-	if privateEndpointARMGenerator != nil {
-		return privateEndpointARMGenerator
+// PrivateEndpoint_ARMGenerator returns a generator of PrivateEndpoint_ARM instances for property testing.
+func PrivateEndpoint_ARMGenerator() gopter.Gen {
+	if privateEndpoint_ARMGenerator != nil {
+		return privateEndpoint_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointARM(generators)
-	privateEndpointARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpoint_ARM(generators)
+	privateEndpoint_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_ARM{}), generators)
 
-	return privateEndpointARMGenerator
+	return privateEndpoint_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpoint_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpoint_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_UserAssignedIdentityPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentityProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserAssignedIdentityPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityPropertiesARM, UserAssignedIdentityPropertiesARMGenerator()))
+		"Round trip of UserAssignedIdentityProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityProperties_ARM, UserAssignedIdentityProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentityPropertiesARM runs a test to see if a specific instance of UserAssignedIdentityPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAssignedIdentityPropertiesARM) string {
+// RunJSONSerializationTestForUserAssignedIdentityProperties_ARM runs a test to see if a specific instance of UserAssignedIdentityProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityProperties_ARM(subject UserAssignedIdentityProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -659,7 +660,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAs
 	}
 
 	// Deserialize back into memory
-	var actual UserAssignedIdentityPropertiesARM
+	var actual UserAssignedIdentityProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -677,24 +678,24 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAs
 	return ""
 }
 
-// Generator of UserAssignedIdentityPropertiesARM instances for property testing - lazily instantiated by
-// UserAssignedIdentityPropertiesARMGenerator()
-var userAssignedIdentityPropertiesARMGenerator gopter.Gen
+// Generator of UserAssignedIdentityProperties_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentityProperties_ARMGenerator()
+var userAssignedIdentityProperties_ARMGenerator gopter.Gen
 
-// UserAssignedIdentityPropertiesARMGenerator returns a generator of UserAssignedIdentityPropertiesARM instances for property testing.
-func UserAssignedIdentityPropertiesARMGenerator() gopter.Gen {
-	if userAssignedIdentityPropertiesARMGenerator != nil {
-		return userAssignedIdentityPropertiesARMGenerator
+// UserAssignedIdentityProperties_ARMGenerator returns a generator of UserAssignedIdentityProperties_ARM instances for property testing.
+func UserAssignedIdentityProperties_ARMGenerator() gopter.Gen {
+	if userAssignedIdentityProperties_ARMGenerator != nil {
+		return userAssignedIdentityProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesARM(generators)
-	userAssignedIdentityPropertiesARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_ARM(generators)
+	userAssignedIdentityProperties_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperties_ARM{}), generators)
 
-	return userAssignedIdentityPropertiesARMGenerator
+	return userAssignedIdentityProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentityPropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentityProperties_ARM(gens map[string]gopter.Gen) {
 	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }

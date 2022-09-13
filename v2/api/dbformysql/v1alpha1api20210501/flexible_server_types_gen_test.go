@@ -415,29 +415,29 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_STATUS(gens map[string]go
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_Default_STATUS,
-		ServerProperties_CreateMode_GeoRestore_STATUS,
-		ServerProperties_CreateMode_PointInTimeRestore_STATUS,
-		ServerProperties_CreateMode_Replica_STATUS))
+		ServerProperties_CreateMode_STATUS_Default,
+		ServerProperties_CreateMode_STATUS_GeoRestore,
+		ServerProperties_CreateMode_STATUS_PointInTimeRestore,
+		ServerProperties_CreateMode_STATUS_Replica))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None_STATUS, ReplicationRole_Replica_STATUS, ReplicationRole_Source_STATUS))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_STATUS_None, ReplicationRole_STATUS_Replica, ReplicationRole_STATUS_Source))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_State_Disabled_STATUS,
-		ServerProperties_State_Dropping_STATUS,
-		ServerProperties_State_Ready_STATUS,
-		ServerProperties_State_Starting_STATUS,
-		ServerProperties_State_Stopped_STATUS,
-		ServerProperties_State_Stopping_STATUS,
-		ServerProperties_State_Updating_STATUS))
+		ServerProperties_State_STATUS_Disabled,
+		ServerProperties_State_STATUS_Dropping,
+		ServerProperties_State_STATUS_Ready,
+		ServerProperties_State_STATUS_Starting,
+		ServerProperties_State_STATUS_Stopped,
+		ServerProperties_State_STATUS_Stopping,
+		ServerProperties_State_STATUS_Updating))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57_STATUS, ServerVersion_8021_STATUS))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS_57, ServerVersion_STATUS_8021))
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServer_STATUS is a factory method for creating gopter generators
@@ -657,7 +657,7 @@ func Backup_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackup_STATUS(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUS_Disabled, EnableStatusEnum_STATUS_Enabled))
 }
 
 func Test_DataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -868,7 +868,7 @@ func AddIndependentPropertyGeneratorsForDataEncryption_STATUS(gens map[string]go
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault_STATUS, DataEncryption_Type_SystemManaged_STATUS))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_STATUS_AzureKeyVault, DataEncryption_Type_STATUS_SystemManaged))
 }
 
 func Test_FlexibleServerOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1177,14 +1177,14 @@ func HighAvailability_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHighAvailability_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHighAvailability_STATUS(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_Disabled_STATUS, HighAvailability_Mode_SameZone_STATUS, HighAvailability_Mode_ZoneRedundant_STATUS))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_STATUS_Disabled, HighAvailability_Mode_STATUS_SameZone, HighAvailability_Mode_STATUS_ZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		HighAvailability_State_CreatingStandby_STATUS,
-		HighAvailability_State_FailingOver_STATUS,
-		HighAvailability_State_Healthy_STATUS,
-		HighAvailability_State_NotEnabled_STATUS,
-		HighAvailability_State_RemovingStandby_STATUS))
+		HighAvailability_State_STATUS_CreatingStandby,
+		HighAvailability_State_STATUS_FailingOver,
+		HighAvailability_State_STATUS_Healthy,
+		HighAvailability_State_STATUS_NotEnabled,
+		HighAvailability_State_STATUS_RemovingStandby))
 }
 
 func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1390,7 +1390,7 @@ func Identity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_UserAssigned_STATUS))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUS_UserAssigned))
 }
 
 func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1801,7 +1801,7 @@ func Network_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetwork_STATUS(gens map[string]gopter.Gen) {
 	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateDnsZoneResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUS_Disabled, EnableStatusEnum_STATUS_Enabled))
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2007,7 +2007,7 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable_STATUS, Sku_Tier_GeneralPurpose_STATUS, Sku_Tier_MemoryOptimized_STATUS))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUS_Burstable, Sku_Tier_STATUS_GeneralPurpose, Sku_Tier_STATUS_MemoryOptimized))
 }
 
 func Test_Storage_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2213,7 +2213,7 @@ func Storage_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUS_Disabled, EnableStatusEnum_STATUS_Enabled))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 	gens["StorageSku"] = gen.PtrOf(gen.AlphaString())
@@ -2321,17 +2321,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application_STATUS,
-		SystemData_CreatedByType_Key_STATUS,
-		SystemData_CreatedByType_ManagedIdentity_STATUS,
-		SystemData_CreatedByType_User_STATUS))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application_STATUS,
-		SystemData_LastModifiedByType_Key_STATUS,
-		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
-		SystemData_LastModifiedByType_User_STATUS))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_FlexibleServerOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

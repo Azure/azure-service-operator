@@ -5,15 +5,15 @@ package v1beta20210501
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type ManagedCluster_STATUSARM struct {
+type ManagedCluster_STATUS_ARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the managed cluster, if configured.
-	Identity *ManagedClusterIdentity_STATUSARM `json:"identity,omitempty"`
+	Identity *ManagedClusterIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
@@ -22,10 +22,10 @@ type ManagedCluster_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of a managed cluster.
-	Properties *ManagedClusterProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ManagedClusterProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The managed cluster SKU.
-	Sku *ManagedClusterSKU_STATUSARM `json:"sku,omitempty"`
+	Sku *ManagedClusterSKU_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -34,7 +34,7 @@ type ManagedCluster_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ExtendedLocation_STATUSARM struct {
+type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -42,7 +42,7 @@ type ExtendedLocation_STATUSARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
-type ManagedClusterIdentity_STATUSARM struct {
+type ManagedClusterIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the system assigned identity which is used by master components.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -55,27 +55,27 @@ type ManagedClusterIdentity_STATUSARM struct {
 
 	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type ManagedClusterProperties_STATUSARM struct {
+type ManagedClusterProperties_STATUS_ARM struct {
 	// AadProfile: The Azure Active Directory configuration.
-	AadProfile *ManagedClusterAADProfile_STATUSARM `json:"aadProfile,omitempty"`
+	AadProfile *ManagedClusterAADProfile_STATUS_ARM `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
 	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
-	AgentPoolProfiles []ManagedClusterAgentPoolProfile_STATUSARM `json:"agentPoolProfiles,omitempty"`
+	AgentPoolProfiles []ManagedClusterAgentPoolProfile_STATUS_ARM `json:"agentPoolProfiles,omitempty"`
 
 	// ApiServerAccessProfile: The access profile for managed cluster API server.
-	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_STATUSARM `json:"apiServerAccessProfile,omitempty"`
+	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_STATUS_ARM `json:"apiServerAccessProfile,omitempty"`
 
 	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
-	AutoScalerProfile *ManagedClusterProperties_AutoScalerProfile_STATUSARM `json:"autoScalerProfile,omitempty"`
+	AutoScalerProfile *ManagedClusterProperties_AutoScalerProfile_STATUS_ARM `json:"autoScalerProfile,omitempty"`
 
 	// AutoUpgradeProfile: The auto upgrade configuration.
-	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_STATUSARM `json:"autoUpgradeProfile,omitempty"`
+	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_STATUS_ARM `json:"autoUpgradeProfile,omitempty"`
 
 	// AzurePortalFQDN: The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some
 	// responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure
@@ -108,7 +108,7 @@ type ManagedClusterProperties_STATUSARM struct {
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
 	// HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.
-	HttpProxyConfig *ManagedClusterHTTPProxyConfig_STATUSARM `json:"httpProxyConfig,omitempty"`
+	HttpProxyConfig *ManagedClusterHTTPProxyConfig_STATUS_ARM `json:"httpProxyConfig,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
 	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
@@ -120,42 +120,42 @@ type ManagedClusterProperties_STATUSARM struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	// LinuxProfile: The profile for Linux VMs in the Managed Cluster.
-	LinuxProfile *ContainerServiceLinuxProfile_STATUSARM `json:"linuxProfile,omitempty"`
+	LinuxProfile *ContainerServiceLinuxProfile_STATUS_ARM `json:"linuxProfile,omitempty"`
 
 	// MaxAgentPools: The max number of agent pools for the managed cluster.
 	MaxAgentPools *int `json:"maxAgentPools,omitempty"`
 
 	// NetworkProfile: The network configuration profile.
-	NetworkProfile *ContainerServiceNetworkProfile_STATUSARM `json:"networkProfile,omitempty"`
+	NetworkProfile *ContainerServiceNetworkProfile_STATUS_ARM `json:"networkProfile,omitempty"`
 
 	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
 	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
 	// details on AAD pod identity integration.
-	PodIdentityProfile *ManagedClusterPodIdentityProfile_STATUSARM `json:"podIdentityProfile,omitempty"`
+	PodIdentityProfile *ManagedClusterPodIdentityProfile_STATUS_ARM `json:"podIdentityProfile,omitempty"`
 
 	// PowerState: The Power State of the cluster.
-	PowerState *PowerState_STATUSARM `json:"powerState,omitempty"`
+	PowerState *PowerState_STATUS_ARM `json:"powerState,omitempty"`
 
 	// PrivateFQDN: The FQDN of private cluster.
 	PrivateFQDN *string `json:"privateFQDN,omitempty"`
 
 	// PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResource_STATUSARM `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources []PrivateLinkResource_STATUS_ARM `json:"privateLinkResources,omitempty"`
 
 	// ProvisioningState: The current provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
 	// APIs.
-	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_STATUSARM `json:"servicePrincipalProfile,omitempty"`
+	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_STATUS_ARM `json:"servicePrincipalProfile,omitempty"`
 
 	// WindowsProfile: The profile for Windows VMs in the Managed Cluster.
-	WindowsProfile *ManagedClusterWindowsProfile_STATUSARM `json:"windowsProfile,omitempty"`
+	WindowsProfile *ManagedClusterWindowsProfile_STATUS_ARM `json:"windowsProfile,omitempty"`
 }
 
-type ManagedClusterSKU_STATUSARM struct {
+type ManagedClusterSKU_STATUS_ARM struct {
 	// Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKU_Name_STATUS `json:"name,omitempty"`
 
@@ -164,15 +164,15 @@ type ManagedClusterSKU_STATUSARM struct {
 	Tier *ManagedClusterSKU_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type ContainerServiceLinuxProfile_STATUSARM struct {
+type ContainerServiceLinuxProfile_STATUS_ARM struct {
 	// AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	// Ssh: The SSH configuration for Linux-based VMs running on Azure.
-	Ssh *ContainerServiceSshConfiguration_STATUSARM `json:"ssh,omitempty"`
+	Ssh *ContainerServiceSshConfiguration_STATUS_ARM `json:"ssh,omitempty"`
 }
 
-type ContainerServiceNetworkProfile_STATUSARM struct {
+type ContainerServiceNetworkProfile_STATUS_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
@@ -182,7 +182,7 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
 	// LoadBalancerProfile: Profile of the cluster load balancer.
-	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_STATUSARM `json:"loadBalancerProfile,omitempty"`
+	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_STATUS_ARM `json:"loadBalancerProfile,omitempty"`
 
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
@@ -212,9 +212,9 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
-type ManagedClusterAADProfile_STATUSARM struct {
+type ManagedClusterAADProfile_STATUS_ARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 
@@ -238,7 +238,7 @@ type ManagedClusterAADProfile_STATUSARM struct {
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
-type ManagedClusterAgentPoolProfile_STATUSARM struct {
+type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -273,11 +273,11 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	GpuInstanceProfile *GPUInstanceProfile_STATUS `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_STATUSARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType_STATUS  `json:"kubeletDiskType,omitempty"`
+	KubeletConfig   *KubeletConfig_STATUS_ARM `json:"kubeletConfig,omitempty"`
+	KubeletDiskType *KubeletDiskType_STATUS   `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
-	LinuxOSConfig *LinuxOSConfig_STATUSARM `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig *LinuxOSConfig_STATUS_ARM `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
@@ -322,7 +322,7 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState *PowerState_STATUSARM `json:"powerState,omitempty"`
+	PowerState *PowerState_STATUS_ARM `json:"powerState,omitempty"`
 
 	// ProvisioningState: The current deployment or provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -347,7 +347,7 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	Type *AgentPoolType_STATUS `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
-	UpgradeSettings *AgentPoolUpgradeSettings_STATUSARM `json:"upgradeSettings,omitempty"`
+	UpgradeSettings *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
@@ -360,7 +360,7 @@ type ManagedClusterAgentPoolProfile_STATUSARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
-type ManagedClusterAPIServerAccessProfile_STATUSARM struct {
+type ManagedClusterAPIServerAccessProfile_STATUS_ARM struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
 	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
 	// server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
@@ -379,13 +379,13 @@ type ManagedClusterAPIServerAccessProfile_STATUSARM struct {
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
-type ManagedClusterAutoUpgradeProfile_STATUSARM struct {
+type ManagedClusterAutoUpgradeProfile_STATUS_ARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS `json:"upgradeChannel,omitempty"`
 }
 
-type ManagedClusterHTTPProxyConfig_STATUSARM struct {
+type ManagedClusterHTTPProxyConfig_STATUS_ARM struct {
 	// HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
 
@@ -402,12 +402,12 @@ type ManagedClusterHTTPProxyConfig_STATUSARM struct {
 type ManagedClusterIdentity_Type_STATUS string
 
 const (
-	ManagedClusterIdentity_Type_None_STATUS           = ManagedClusterIdentity_Type_STATUS("None")
-	ManagedClusterIdentity_Type_SystemAssigned_STATUS = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
-	ManagedClusterIdentity_Type_UserAssigned_STATUS   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
+	ManagedClusterIdentity_Type_STATUS_None           = ManagedClusterIdentity_Type_STATUS("None")
+	ManagedClusterIdentity_Type_STATUS_SystemAssigned = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
+	ManagedClusterIdentity_Type_STATUS_UserAssigned   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
 )
 
-type ManagedClusterIdentity_UserAssignedIdentities_STATUSARM struct {
+type ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -415,7 +415,7 @@ type ManagedClusterIdentity_UserAssignedIdentities_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type ManagedClusterPodIdentityProfile_STATUSARM struct {
+type ManagedClusterPodIdentityProfile_STATUS_ARM struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
 	// Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod
 	// Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities)
@@ -426,13 +426,13 @@ type ManagedClusterPodIdentityProfile_STATUSARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// UserAssignedIdentities: The pod identities to use in the cluster.
-	UserAssignedIdentities []ManagedClusterPodIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities []ManagedClusterPodIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 
 	// UserAssignedIdentityExceptions: The pod identity exceptions to allow.
-	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUSARM `json:"userAssignedIdentityExceptions,omitempty"`
+	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUS_ARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
+type ManagedClusterProperties_AutoScalerProfile_STATUS_ARM struct {
 	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
 
@@ -495,7 +495,7 @@ type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-type ManagedClusterServicePrincipalProfile_STATUSARM struct {
+type ManagedClusterServicePrincipalProfile_STATUS_ARM struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -505,16 +505,16 @@ type ManagedClusterServicePrincipalProfile_STATUSARM struct {
 
 type ManagedClusterSKU_Name_STATUS string
 
-const ManagedClusterSKU_Name_Basic_STATUS = ManagedClusterSKU_Name_STATUS("Basic")
+const ManagedClusterSKU_Name_STATUS_Basic = ManagedClusterSKU_Name_STATUS("Basic")
 
 type ManagedClusterSKU_Tier_STATUS string
 
 const (
-	ManagedClusterSKU_Tier_Free_STATUS = ManagedClusterSKU_Tier_STATUS("Free")
-	ManagedClusterSKU_Tier_Paid_STATUS = ManagedClusterSKU_Tier_STATUS("Paid")
+	ManagedClusterSKU_Tier_STATUS_Free = ManagedClusterSKU_Tier_STATUS("Free")
+	ManagedClusterSKU_Tier_STATUS_Paid = ManagedClusterSKU_Tier_STATUS("Paid")
 )
 
-type ManagedClusterWindowsProfile_STATUSARM struct {
+type ManagedClusterWindowsProfile_STATUS_ARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length: 8 characters
 	// Max-length: 123 characters
@@ -545,12 +545,12 @@ type ManagedClusterWindowsProfile_STATUSARM struct {
 	LicenseType *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
 }
 
-type PowerState_STATUSARM struct {
+type PowerState_STATUS_ARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
 	Code *PowerState_Code_STATUS `json:"code,omitempty"`
 }
 
-type PrivateLinkResource_STATUSARM struct {
+type PrivateLinkResource_STATUS_ARM struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
 
@@ -570,52 +570,52 @@ type PrivateLinkResource_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ContainerServiceSshConfiguration_STATUSARM struct {
+type ContainerServiceSshConfiguration_STATUS_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKey_STATUSARM `json:"publicKeys,omitempty"`
+	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_STATUSARM struct {
+type ManagedClusterLoadBalancerProfile_STATUS_ARM struct {
 	// AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
 	// (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.
-	EffectiveOutboundIPs []ResourceReference_STATUSARM `json:"effectiveOutboundIPs,omitempty"`
+	EffectiveOutboundIPs []ResourceReference_STATUS_ARM `json:"effectiveOutboundIPs,omitempty"`
 
 	// IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
 	// (inclusive). The default value is 30 minutes.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
-	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM `json:"managedOutboundIPs,omitempty"`
+	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM `json:"managedOutboundIPs,omitempty"`
 
 	// OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.
-	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM `json:"outboundIPPrefixes,omitempty"`
 
 	// OutboundIPs: Desired outbound IP resources for the cluster load balancer.
-	OutboundIPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM `json:"outboundIPs,omitempty"`
+	OutboundIPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM `json:"outboundIPs,omitempty"`
 }
 
-type ManagedClusterPodIdentity_STATUSARM struct {
+type ManagedClusterPodIdentity_STATUS_ARM struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	// Identity: The user assigned identity details.
-	Identity *UserAssignedIdentity_STATUSARM `json:"identity,omitempty"`
+	Identity *UserAssignedIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Name: The name of the pod identity.
 	Name *string `json:"name,omitempty"`
 
 	// Namespace: The namespace of the pod identity.
-	Namespace        *string                                               `json:"namespace,omitempty"`
-	ProvisioningInfo *ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM `json:"provisioningInfo,omitempty"`
+	Namespace        *string                                                `json:"namespace,omitempty"`
+	ProvisioningInfo *ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
 	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type ManagedClusterPodIdentityException_STATUSARM struct {
+type ManagedClusterPodIdentityException_STATUS_ARM struct {
 	// Name: The name of the pod identity exception.
 	Name *string `json:"name,omitempty"`
 
@@ -626,39 +626,39 @@ type ManagedClusterPodIdentityException_STATUSARM struct {
 	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
-type ContainerServiceSshPublicKey_STATUSARM struct {
+type ContainerServiceSshPublicKey_STATUS_ARM struct {
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	// without headers.
 	KeyData *string `json:"keyData,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM struct {
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM struct {
 	// Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
 	// in the range of 1 to 100 (inclusive). The default value is 1.
 	Count *int `json:"count,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM struct {
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM struct {
 	// PublicIPPrefixes: A list of public IP prefix resources.
-	PublicIPPrefixes []ResourceReference_STATUSARM `json:"publicIPPrefixes,omitempty"`
+	PublicIPPrefixes []ResourceReference_STATUS_ARM `json:"publicIPPrefixes,omitempty"`
 }
 
-type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM struct {
+type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM struct {
 	// PublicIPs: A list of public IP resources.
-	PublicIPs []ResourceReference_STATUSARM `json:"publicIPs,omitempty"`
+	PublicIPs []ResourceReference_STATUS_ARM `json:"publicIPs,omitempty"`
 }
 
-type ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM struct {
+type ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM struct {
 	// Error: Pod identity assignment error (if any).
-	Error *ManagedClusterPodIdentityProvisioningError_STATUSARM `json:"error,omitempty"`
+	Error *ManagedClusterPodIdentityProvisioningError_STATUS_ARM `json:"error,omitempty"`
 }
 
-type ResourceReference_STATUSARM struct {
+type ResourceReference_STATUS_ARM struct {
 	// Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
 }
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -669,17 +669,17 @@ type UserAssignedIdentity_STATUSARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-type ManagedClusterPodIdentityProvisioningError_STATUSARM struct {
+type ManagedClusterPodIdentityProvisioningError_STATUS_ARM struct {
 	// Error: Details about the error.
-	Error *ManagedClusterPodIdentityProvisioningErrorBody_STATUSARM `json:"error,omitempty"`
+	Error *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM `json:"error,omitempty"`
 }
 
-type ManagedClusterPodIdentityProvisioningErrorBody_STATUSARM struct {
+type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM struct {
 	// Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
 	Code *string `json:"code,omitempty"`
 
 	// Details: A list of additional details about the error.
-	Details []ManagedClusterPodIdentityProvisioningErrorBody_STATUS_UnrolledARM `json:"details,omitempty"`
+	Details []ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM `json:"details,omitempty"`
 
 	// Message: A message describing the error, intended to be suitable for display in a user interface.
 	Message *string `json:"message,omitempty"`
@@ -688,7 +688,7 @@ type ManagedClusterPodIdentityProvisioningErrorBody_STATUSARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
-type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_UnrolledARM struct {
+type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM struct {
 	// Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
 	Code *string `json:"code,omitempty"`
 

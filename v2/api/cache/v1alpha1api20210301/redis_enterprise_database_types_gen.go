@@ -356,7 +356,7 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 	if database == nil {
 		return nil, nil
 	}
-	result := &RedisEnterprise_Database_SpecARM{}
+	result := &RedisEnterprise_Database_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
@@ -371,7 +371,7 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 		database.Modules != nil ||
 		database.Persistence != nil ||
 		database.Port != nil {
-		result.Properties = &DatabasePropertiesARM{}
+		result.Properties = &DatabaseProperties_ARM{}
 	}
 	if database.ClientProtocol != nil {
 		clientProtocol := *database.ClientProtocol
@@ -386,18 +386,18 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.EvictionPolicy = &evictionPolicy
 	}
 	for _, item := range database.Modules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Modules = append(result.Properties.Modules, *itemARM.(*ModuleARM))
+		result.Properties.Modules = append(result.Properties.Modules, *item_ARM.(*Module_ARM))
 	}
 	if database.Persistence != nil {
-		persistenceARM, err := (*database.Persistence).ConvertToARM(resolved)
+		persistence_ARM, err := (*database.Persistence).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		persistence := *persistenceARM.(*PersistenceARM)
+		persistence := *persistence_ARM.(*Persistence_ARM)
 		result.Properties.Persistence = &persistence
 	}
 	if database.Port != nil {
@@ -409,14 +409,14 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *RedisEnterprise_Database_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_Database_SpecARM{}
+	return &RedisEnterprise_Database_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_Database_SpecARM)
+	typedInput, ok := armInput.(RedisEnterprise_Database_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -788,14 +788,14 @@ var _ genruntime.FromARMConverter = &RedisEnterprise_Database_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *RedisEnterprise_Database_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterprise_Database_STATUSARM{}
+	return &RedisEnterprise_Database_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterprise_Database_STATUSARM)
+	typedInput, ok := armInput.(RedisEnterprise_Database_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ClientProtocol’:
@@ -1110,8 +1110,8 @@ const (
 type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
-	DatabaseProperties_ClientProtocol_Encrypted_STATUS = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
-	DatabaseProperties_ClientProtocol_Plaintext_STATUS = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
+	DatabaseProperties_ClientProtocol_STATUS_Encrypted = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
+	DatabaseProperties_ClientProtocol_STATUS_Plaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
 
 // Deprecated version of DatabaseProperties_ClusteringPolicy. Use v1beta20210301.DatabaseProperties_ClusteringPolicy instead
@@ -1128,8 +1128,8 @@ const (
 type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
-	DatabaseProperties_ClusteringPolicy_EnterpriseCluster_STATUS = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
-	DatabaseProperties_ClusteringPolicy_OSSCluster_STATUS        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
 
 // Deprecated version of DatabaseProperties_EvictionPolicy. Use v1beta20210301.DatabaseProperties_EvictionPolicy instead
@@ -1152,14 +1152,14 @@ const (
 type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
-	DatabaseProperties_EvictionPolicy_AllKeysLFU_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
-	DatabaseProperties_EvictionPolicy_AllKeysLRU_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
-	DatabaseProperties_EvictionPolicy_AllKeysRandom_STATUS  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
-	DatabaseProperties_EvictionPolicy_NoEviction_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
-	DatabaseProperties_EvictionPolicy_VolatileLFU_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
-	DatabaseProperties_EvictionPolicy_VolatileLRU_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
-	DatabaseProperties_EvictionPolicy_VolatileRandom_STATUS = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
-	DatabaseProperties_EvictionPolicy_VolatileTTL_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_NoEviction     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
 // Deprecated version of Module. Use v1beta20210301.Module instead
@@ -1177,7 +1177,7 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if module == nil {
 		return nil, nil
 	}
-	result := &ModuleARM{}
+	result := &Module_ARM{}
 
 	// Set property ‘Args’:
 	if module.Args != nil {
@@ -1195,14 +1195,14 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (module *Module) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ModuleARM{}
+	return &Module_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (module *Module) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ModuleARM)
+	typedInput, ok := armInput.(Module_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ModuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Args’:
@@ -1267,14 +1267,14 @@ var _ genruntime.FromARMConverter = &Module_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (module *Module_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Module_STATUSARM{}
+	return &Module_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (module *Module_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Module_STATUSARM)
+	typedInput, ok := armInput.(Module_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Args’:
@@ -1355,7 +1355,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence == nil {
 		return nil, nil
 	}
-	result := &PersistenceARM{}
+	result := &Persistence_ARM{}
 
 	// Set property ‘AofEnabled’:
 	if persistence.AofEnabled != nil {
@@ -1385,14 +1385,14 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (persistence *Persistence) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PersistenceARM{}
+	return &Persistence_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (persistence *Persistence) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PersistenceARM)
+	typedInput, ok := armInput.(Persistence_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersistenceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AofEnabled’:
@@ -1522,14 +1522,14 @@ var _ genruntime.FromARMConverter = &Persistence_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (persistence *Persistence_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Persistence_STATUSARM{}
+	return &Persistence_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (persistence *Persistence_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Persistence_STATUSARM)
+	typedInput, ok := armInput.(Persistence_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AofEnabled’:
@@ -1660,8 +1660,8 @@ const (
 type Persistence_AofFrequency_STATUS string
 
 const (
-	Persistence_AofFrequency_1S_STATUS     = Persistence_AofFrequency_STATUS("1s")
-	Persistence_AofFrequency_Always_STATUS = Persistence_AofFrequency_STATUS("always")
+	Persistence_AofFrequency_STATUS_1S     = Persistence_AofFrequency_STATUS("1s")
+	Persistence_AofFrequency_STATUS_Always = Persistence_AofFrequency_STATUS("always")
 )
 
 // Deprecated version of Persistence_RdbFrequency. Use v1beta20210301.Persistence_RdbFrequency instead
@@ -1678,9 +1678,9 @@ const (
 type Persistence_RdbFrequency_STATUS string
 
 const (
-	Persistence_RdbFrequency_12H_STATUS = Persistence_RdbFrequency_STATUS("12h")
-	Persistence_RdbFrequency_1H_STATUS  = Persistence_RdbFrequency_STATUS("1h")
-	Persistence_RdbFrequency_6H_STATUS  = Persistence_RdbFrequency_STATUS("6h")
+	Persistence_RdbFrequency_STATUS_12H = Persistence_RdbFrequency_STATUS("12h")
+	Persistence_RdbFrequency_STATUS_1H  = Persistence_RdbFrequency_STATUS("1h")
+	Persistence_RdbFrequency_STATUS_6H  = Persistence_RdbFrequency_STATUS("6h")
 )
 
 func init() {

@@ -6,61 +6,61 @@ package v1alpha1api20210901
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Registry_Spec. Use v1beta20210901.Registry_Spec instead
-type Registry_SpecARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
-	Identity   *IdentityPropertiesARM `json:"identity,omitempty"`
-	Location   *string                `json:"location,omitempty"`
-	Name       string                 `json:"name,omitempty"`
-	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
-	Sku        *SkuARM                `json:"sku,omitempty"`
-	Tags       map[string]string      `json:"tags,omitempty"`
+type Registry_Spec_ARM struct {
+	AzureName  string                  `json:"azureName,omitempty"`
+	Identity   *IdentityProperties_ARM `json:"identity,omitempty"`
+	Location   *string                 `json:"location,omitempty"`
+	Name       string                  `json:"name,omitempty"`
+	Properties *RegistryProperties_ARM `json:"properties,omitempty"`
+	Sku        *Sku_ARM                `json:"sku,omitempty"`
+	Tags       map[string]string       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Registry_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Registry_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
-func (registry Registry_SpecARM) GetAPIVersion() string {
+func (registry Registry_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (registry *Registry_SpecARM) GetName() string {
+func (registry *Registry_Spec_ARM) GetName() string {
 	return registry.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries"
-func (registry *Registry_SpecARM) GetType() string {
+func (registry *Registry_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
 // Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
-type IdentityPropertiesARM struct {
-	PrincipalId            *string                              `json:"principalId,omitempty"`
-	TenantId               *string                              `json:"tenantId,omitempty"`
-	Type                   *IdentityProperties_Type             `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityPropertiesARM `json:"userAssignedIdentities,omitempty"`
+type IdentityProperties_ARM struct {
+	PrincipalId            *string                               `json:"principalId,omitempty"`
+	TenantId               *string                               `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type              `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead
-type RegistryPropertiesARM struct {
+type RegistryProperties_ARM struct {
 	AdminUserEnabled         *bool                                        `json:"adminUserEnabled,omitempty"`
 	DataEndpointEnabled      *bool                                        `json:"dataEndpointEnabled,omitempty"`
-	Encryption               *EncryptionPropertyARM                       `json:"encryption,omitempty"`
+	Encryption               *EncryptionProperty_ARM                      `json:"encryption,omitempty"`
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet           *NetworkRuleSetARM                           `json:"networkRuleSet,omitempty"`
-	Policies                 *PoliciesARM                                 `json:"policies,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet_ARM                          `json:"networkRuleSet,omitempty"`
+	Policies                 *Policies_ARM                                `json:"policies,omitempty"`
 	PublicNetworkAccess      *RegistryProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
 	ZoneRedundancy           *RegistryProperties_ZoneRedundancy           `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210901.Sku instead
-type SkuARM struct {
+type Sku_ARM struct {
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
 // Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
-type EncryptionPropertyARM struct {
-	KeyVaultProperties *KeyVaultPropertiesARM     `json:"keyVaultProperties,omitempty"`
+type EncryptionProperty_ARM struct {
+	KeyVaultProperties *KeyVaultProperties_ARM    `json:"keyVaultProperties,omitempty"`
 	Status             *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
@@ -76,17 +76,17 @@ const (
 )
 
 // Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
-type NetworkRuleSetARM struct {
+type NetworkRuleSet_ARM struct {
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-	IpRules       []IPRuleARM                   `json:"ipRules,omitempty"`
+	IpRules       []IPRule_ARM                  `json:"ipRules,omitempty"`
 }
 
 // Deprecated version of Policies. Use v1beta20210901.Policies instead
-type PoliciesARM struct {
-	ExportPolicy     *ExportPolicyARM     `json:"exportPolicy,omitempty"`
-	QuarantinePolicy *QuarantinePolicyARM `json:"quarantinePolicy,omitempty"`
-	RetentionPolicy  *RetentionPolicyARM  `json:"retentionPolicy,omitempty"`
-	TrustPolicy      *TrustPolicyARM      `json:"trustPolicy,omitempty"`
+type Policies_ARM struct {
+	ExportPolicy     *ExportPolicy_ARM     `json:"exportPolicy,omitempty"`
+	QuarantinePolicy *QuarantinePolicy_ARM `json:"quarantinePolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_ARM  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_ARM      `json:"trustPolicy,omitempty"`
 }
 
 // Deprecated version of Sku_Name. Use v1beta20210901.Sku_Name instead
@@ -101,41 +101,41 @@ const (
 )
 
 // Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
-type UserIdentityPropertiesARM struct {
+type UserIdentityProperties_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
-type ExportPolicyARM struct {
+type ExportPolicy_ARM struct {
 	Status *ExportPolicy_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of IPRule. Use v1beta20210901.IPRule instead
-type IPRuleARM struct {
+type IPRule_ARM struct {
 	Action *IPRule_Action `json:"action,omitempty"`
 	Value  *string        `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
-type QuarantinePolicyARM struct {
+type QuarantinePolicy_ARM struct {
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
-type RetentionPolicyARM struct {
+type RetentionPolicy_ARM struct {
 	Days   *int                    `json:"days,omitempty"`
 	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
-type TrustPolicyARM struct {
+type TrustPolicy_ARM struct {
 	Status *TrustPolicy_Status `json:"status,omitempty"`
 	Type   *TrustPolicy_Type   `json:"type,omitempty"`
 }

@@ -4,34 +4,34 @@
 package v1alpha1api20210301
 
 // Deprecated version of RedisEnterprise_Database_STATUS. Use v1beta20210301.RedisEnterprise_Database_STATUS instead
-type RedisEnterprise_Database_STATUSARM struct {
-	Id         *string                       `json:"id,omitempty"`
-	Name       *string                       `json:"name,omitempty"`
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                       `json:"type,omitempty"`
+type RedisEnterprise_Database_STATUS_ARM struct {
+	Id         *string                        `json:"id,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                        `json:"type,omitempty"`
 }
 
 // Deprecated version of DatabaseProperties_STATUS. Use v1beta20210301.DatabaseProperties_STATUS instead
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	ClientProtocol    *DatabaseProperties_ClientProtocol_STATUS   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *DatabaseProperties_ClusteringPolicy_STATUS `json:"clusteringPolicy,omitempty"`
 	EvictionPolicy    *DatabaseProperties_EvictionPolicy_STATUS   `json:"evictionPolicy,omitempty"`
-	Modules           []Module_STATUSARM                          `json:"modules,omitempty"`
-	Persistence       *Persistence_STATUSARM                      `json:"persistence,omitempty"`
+	Modules           []Module_STATUS_ARM                         `json:"modules,omitempty"`
+	Persistence       *Persistence_STATUS_ARM                     `json:"persistence,omitempty"`
 	Port              *int                                        `json:"port,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS                   `json:"provisioningState,omitempty"`
 	ResourceState     *ResourceState_STATUS                       `json:"resourceState,omitempty"`
 }
 
 // Deprecated version of Module_STATUS. Use v1beta20210301.Module_STATUS instead
-type Module_STATUSARM struct {
+type Module_STATUS_ARM struct {
 	Args    *string `json:"args,omitempty"`
 	Name    *string `json:"name,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
 // Deprecated version of Persistence_STATUS. Use v1beta20210301.Persistence_STATUS instead
-type Persistence_STATUSARM struct {
+type Persistence_STATUS_ARM struct {
 	AofEnabled   *bool                            `json:"aofEnabled,omitempty"`
 	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
 	RdbEnabled   *bool                            `json:"rdbEnabled,omitempty"`

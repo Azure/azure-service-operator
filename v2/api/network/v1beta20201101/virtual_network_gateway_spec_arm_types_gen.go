@@ -5,51 +5,51 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualNetworkGateway_SpecARM struct {
+type VirtualNetworkGateway_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of type local virtual network gateway.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network gateway.
-	Properties *VirtualNetworkGatewayPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkGatewayPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetworkGateway_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetworkGateway_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (gateway VirtualNetworkGateway_SpecARM) GetAPIVersion() string {
+func (gateway VirtualNetworkGateway_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (gateway *VirtualNetworkGateway_SpecARM) GetName() string {
+func (gateway *VirtualNetworkGateway_Spec_ARM) GetName() string {
 	return gateway.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
-func (gateway *VirtualNetworkGateway_SpecARM) GetType() string {
+func (gateway *VirtualNetworkGateway_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
-type VirtualNetworkGatewayPropertiesFormatARM struct {
+type VirtualNetworkGatewayPropertiesFormat_ARM struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
 	// BgpSettings: Virtual network gateway's BGP speaker settings.
-	BgpSettings *BgpSettingsARM `json:"bgpSettings,omitempty"`
+	BgpSettings *BgpSettings_ARM `json:"bgpSettings,omitempty"`
 
 	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
 	// the customer for virtual network gateway and VpnClient.
-	CustomRoutes *AddressSpaceARM `json:"customRoutes,omitempty"`
+	CustomRoutes *AddressSpace_ARM `json:"customRoutes,omitempty"`
 
 	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
 	EnableBgp *bool `json:"enableBgp,omitempty"`
@@ -62,22 +62,22 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 
 	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
 	// routes. Assign Null value in case of removing existing default site setting.
-	GatewayDefaultSite *SubResourceARM `json:"gatewayDefaultSite,omitempty"`
+	GatewayDefaultSite *SubResource_ARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
 	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType `json:"gatewayType,omitempty"`
 
 	// IpConfigurations: IP configurations for virtual network gateway.
-	IpConfigurations []VirtualNetworkGatewayIPConfigurationARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []VirtualNetworkGatewayIPConfiguration_ARM `json:"ipConfigurations,omitempty"`
 
 	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
 	// gateway.
-	Sku                            *VirtualNetworkGatewaySkuARM `json:"sku,omitempty"`
-	VNetExtendedLocationResourceId *string                      `json:"vNetExtendedLocationResourceId,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_ARM `json:"sku,omitempty"`
+	VNetExtendedLocationResourceId *string                       `json:"vNetExtendedLocationResourceId,omitempty"`
 
 	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
 	// configurations.
-	VpnClientConfiguration *VpnClientConfigurationARM `json:"vpnClientConfiguration,omitempty"`
+	VpnClientConfiguration *VpnClientConfiguration_ARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
 	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
@@ -86,12 +86,12 @@ type VirtualNetworkGatewayPropertiesFormatARM struct {
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType `json:"vpnType,omitempty"`
 }
 
-type AddressSpaceARM struct {
+type AddressSpace_ARM struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
-type BgpSettingsARM struct {
+type BgpSettings_ARM struct {
 	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
 
@@ -99,23 +99,23 @@ type BgpSettingsARM struct {
 	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
 
 	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
-	BgpPeeringAddresses []IPConfigurationBgpPeeringAddressARM `json:"bgpPeeringAddresses,omitempty"`
+	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress_ARM `json:"bgpPeeringAddresses,omitempty"`
 
 	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
-type VirtualNetworkGatewayIPConfigurationARM struct {
+type VirtualNetworkGatewayIPConfiguration_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network gateway ip configuration.
-	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type VirtualNetworkGatewaySkuARM struct {
+type VirtualNetworkGatewaySku_ARM struct {
 	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
 
@@ -123,7 +123,7 @@ type VirtualNetworkGatewaySkuARM struct {
 	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
 }
 
-type VpnClientConfigurationARM struct {
+type VpnClientConfiguration_ARM struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
 	AadAudience *string `json:"aadAudience,omitempty"`
@@ -143,28 +143,28 @@ type VpnClientConfigurationARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 
 	// RadiusServers: The radiusServers property for multiple radius server configuration.
-	RadiusServers []RadiusServerARM `json:"radiusServers,omitempty"`
+	RadiusServers []RadiusServer_ARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
 	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
-	VpnClientAddressPool *AddressSpaceARM `json:"vpnClientAddressPool,omitempty"`
+	VpnClientAddressPool *AddressSpace_ARM `json:"vpnClientAddressPool,omitempty"`
 
 	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
-	VpnClientIpsecPolicies []IpsecPolicyARM `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientIpsecPolicies []IpsecPolicy_ARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
 	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
-	VpnClientRevokedCertificates []VpnClientRevokedCertificateARM `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_ARM `json:"vpnClientRevokedCertificates,omitempty"`
 
 	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
-	VpnClientRootCertificates []VpnClientRootCertificateARM `json:"vpnClientRootCertificates,omitempty"`
+	VpnClientRootCertificates []VpnClientRootCertificate_ARM `json:"vpnClientRootCertificates,omitempty"`
 }
 
-type IPConfigurationBgpPeeringAddressARM struct {
+type IPConfigurationBgpPeeringAddress_ARM struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
 
@@ -172,7 +172,7 @@ type IPConfigurationBgpPeeringAddressARM struct {
 	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
 }
 
-type IpsecPolicyARM struct {
+type IpsecPolicy_ARM struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup `json:"dhGroup,omitempty"`
 
@@ -200,7 +200,7 @@ type IpsecPolicyARM struct {
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
-type RadiusServerARM struct {
+type RadiusServer_ARM struct {
 	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
@@ -211,43 +211,43 @@ type RadiusServerARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
-type VirtualNetworkGatewayIPConfigurationPropertiesFormatARM struct {
+type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *SubResourceARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *SubResourceARM `json:"subnet,omitempty"`
+	Subnet *SubResource_ARM `json:"subnet,omitempty"`
 }
 
-type VpnClientRevokedCertificateARM struct {
+type VpnClientRevokedCertificate_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vpn client revoked certificate.
-	Properties *VpnClientRevokedCertificatePropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VpnClientRevokedCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type VpnClientRootCertificateARM struct {
+type VpnClientRootCertificate_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vpn client root certificate.
-	Properties *VpnClientRootCertificatePropertiesFormatARM `json:"properties,omitempty"`
+	Properties *VpnClientRootCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type VpnClientRevokedCertificatePropertiesFormatARM struct {
+type VpnClientRevokedCertificatePropertiesFormat_ARM struct {
 	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
-type VpnClientRootCertificatePropertiesFormatARM struct {
+type VpnClientRootCertificatePropertiesFormat_ARM struct {
 	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`
 }

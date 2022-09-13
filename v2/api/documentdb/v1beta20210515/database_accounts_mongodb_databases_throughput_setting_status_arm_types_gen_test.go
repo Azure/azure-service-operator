@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM, DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator()))
+		"Round trip of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM, DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(subject DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM) string {
+// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(subject DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSett
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM
+	var actual DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_ThroughputSett
 	return ""
 }
 
-// Generator of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM instances for property testing - lazily
-// instantiated by DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator()
-var databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator gopter.Gen
+// Generator of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM instances for property testing - lazily
+// instantiated by DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator()
+var databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator gopter.Gen
 
-// DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator returns a generator of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM instances for property testing.
-// We first initialize databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator with a simplified generator based on the
+// DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator returns a generator of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM instances for property testing.
+// We first initialize databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator() gopter.Gen {
-	if databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator != nil {
-		return databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator
+func DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator() gopter.Gen {
+	if databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator != nil {
+		return databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(generators)
-	databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(generators)
+	databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(generators)
-	databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(generators)
+	databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM{}), generators)
 
-	return databaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARMGenerator
+	return databaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Throug
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ThroughputSettingsGetProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ThroughputSettingsGetProperties_STATUS_ARMGenerator())
 }

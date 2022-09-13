@@ -410,10 +410,10 @@ func AddIndependentPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Ge
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestProperties_Kind_Basic_STATUS,
-		WebTestProperties_Kind_Multistep_STATUS,
-		WebTestProperties_Kind_Ping_STATUS,
-		WebTestProperties_Kind_Standard_STATUS))
+		WebTestProperties_Kind_STATUS_Basic,
+		WebTestProperties_Kind_STATUS_Multistep,
+		WebTestProperties_Kind_STATUS_Ping,
+		WebTestProperties_Kind_STATUS_Standard))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesName"] = gen.PtrOf(gen.AlphaString())

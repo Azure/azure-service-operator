@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210401
 
-type StorageAccounts_BlobServices_Container_STATUSARM struct {
+type StorageAccounts_BlobServices_Container_STATUS_ARM struct {
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 
@@ -15,13 +15,13 @@ type StorageAccounts_BlobServices_Container_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the blob container.
-	Properties *ContainerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ContainerProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type ContainerProperties_STATUSARM struct {
+type ContainerProperties_STATUS_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
@@ -45,11 +45,11 @@ type ContainerProperties_STATUSARM struct {
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
 	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
-	ImmutabilityPolicy *ImmutabilityPolicyProperties_STATUSARM `json:"immutabilityPolicy,omitempty"`
+	ImmutabilityPolicy *ImmutabilityPolicyProperties_STATUS_ARM `json:"immutabilityPolicy,omitempty"`
 
 	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
 	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUSARM `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS_ARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	// LastModifiedTime: Returns the date and time the container was last modified.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
@@ -65,7 +65,7 @@ type ContainerProperties_STATUSARM struct {
 	LeaseStatus *ContainerProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// LegalHold: The LegalHold property of the container.
-	LegalHold *LegalHoldProperties_STATUSARM `json:"legalHold,omitempty"`
+	LegalHold *LegalHoldProperties_STATUS_ARM `json:"legalHold,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -80,18 +80,18 @@ type ContainerProperties_STATUSARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-type ImmutabilityPolicyProperties_STATUSARM struct {
+type ImmutabilityPolicyProperties_STATUS_ARM struct {
 	// Etag: ImmutabilityPolicy Etag.
 	Etag *string `json:"etag,omitempty"`
 
 	// Properties: The properties of an ImmutabilityPolicy of a blob container.
-	Properties *ImmutabilityPolicyProperty_STATUSARM `json:"properties,omitempty"`
+	Properties *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties,omitempty"`
 
 	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
-	UpdateHistory []UpdateHistoryProperty_STATUSARM `json:"updateHistory,omitempty"`
+	UpdateHistory []UpdateHistoryProperty_STATUS_ARM `json:"updateHistory,omitempty"`
 }
 
-type ImmutableStorageWithVersioning_STATUSARM struct {
+type ImmutableStorageWithVersioning_STATUS_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -102,17 +102,17 @@ type ImmutableStorageWithVersioning_STATUSARM struct {
 	TimeStamp *string `json:"timeStamp,omitempty"`
 }
 
-type LegalHoldProperties_STATUSARM struct {
+type LegalHoldProperties_STATUS_ARM struct {
 	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
 	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
 	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
 	// Tags: The list of LegalHold tags of a blob container.
-	Tags []TagProperty_STATUSARM `json:"tags,omitempty"`
+	Tags []TagProperty_STATUS_ARM `json:"tags,omitempty"`
 }
 
-type ImmutabilityPolicyProperty_STATUSARM struct {
+type ImmutabilityPolicyProperty_STATUS_ARM struct {
 	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
 	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
 	// can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
@@ -127,7 +127,7 @@ type ImmutabilityPolicyProperty_STATUSARM struct {
 	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
 }
 
-type TagProperty_STATUSARM struct {
+type TagProperty_STATUS_ARM struct {
 	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 
@@ -144,7 +144,7 @@ type TagProperty_STATUSARM struct {
 	Upn *string `json:"upn,omitempty"`
 }
 
-type UpdateHistoryProperty_STATUSARM struct {
+type UpdateHistoryProperty_STATUS_ARM struct {
 	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
 	// in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`

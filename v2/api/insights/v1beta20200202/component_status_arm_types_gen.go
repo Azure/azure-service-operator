@@ -5,7 +5,7 @@ package v1beta20200202
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type Component_STATUSARM struct {
+type Component_STATUS_ARM struct {
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
@@ -23,7 +23,7 @@ type Component_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties that define an Application Insights component resource.
-	Properties *ApplicationInsightsComponentProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ApplicationInsightsComponentProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
@@ -32,7 +32,7 @@ type Component_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ApplicationInsightsComponentProperties_STATUSARM struct {
+type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	// AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`
 
@@ -86,7 +86,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	Name *string `json:"Name,omitempty"`
 
 	// PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUSARM `json:"PrivateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS_ARM `json:"PrivateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
 	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
@@ -118,7 +118,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
-type PrivateLinkScopedResource_STATUSARM struct {
+type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`
 

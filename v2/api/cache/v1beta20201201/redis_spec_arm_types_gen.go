@@ -5,7 +5,7 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Redis_SpecARM struct {
+type Redis_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The geo-location where the resource lives
@@ -13,7 +13,7 @@ type Redis_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Redis cache properties.
-	Properties *RedisCreatePropertiesARM `json:"properties,omitempty"`
+	Properties *RedisCreateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -22,24 +22,24 @@ type Redis_SpecARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Redis_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (redis Redis_SpecARM) GetAPIVersion() string {
+func (redis Redis_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (redis *Redis_SpecARM) GetName() string {
+func (redis *Redis_Spec_ARM) GetName() string {
 	return redis.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
-func (redis *Redis_SpecARM) GetType() string {
+func (redis *Redis_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 
-type RedisCreatePropertiesARM struct {
+type RedisCreateProperties_ARM struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
@@ -70,7 +70,7 @@ type RedisCreatePropertiesARM struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	// Sku: The SKU of the Redis cache to deploy.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
 	// Network; auto assigned by default.
@@ -81,7 +81,7 @@ type RedisCreatePropertiesARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).
 	Capacity *int `json:"capacity,omitempty"`

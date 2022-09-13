@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type Domain_STATUSARM struct {
+type Domain_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,10 +14,10 @@ type Domain_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the domain.
-	Properties *DomainProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DomainProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Domain resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,25 +26,25 @@ type Domain_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type DomainProperties_STATUSARM struct {
+type DomainProperties_STATUS_ARM struct {
 	// Endpoint: Endpoint for the domain.
 	Endpoint *string `json:"endpoint,omitempty"`
 
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
+	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
-	InputSchemaMapping *InputSchemaMapping_STATUSARM `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping *InputSchemaMapping_STATUS_ARM `json:"inputSchemaMapping,omitempty"`
 
 	// MetricResourceId: Metric resource id for the domain.
 	MetricResourceId *string `json:"metricResourceId,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
 	ProvisioningState *DomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -55,7 +55,7 @@ type DomainProperties_STATUSARM struct {
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -75,7 +75,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type InboundIpRule_STATUSARM struct {
+type InboundIpRule_STATUS_ARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
 
@@ -83,12 +83,12 @@ type InboundIpRule_STATUSARM struct {
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
-type InputSchemaMapping_STATUSARM struct {
+type InputSchemaMapping_STATUS_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
@@ -96,17 +96,17 @@ type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

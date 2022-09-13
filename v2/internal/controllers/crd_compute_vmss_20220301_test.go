@@ -49,7 +49,11 @@ func newVMSS20220301(
 			UpgradePolicy: &compute2022.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
+<<<<<<< HEAD
 			VirtualMachineProfile: &compute2022.VirtualMachineScaleSetVMProfile{
+=======
+			VirtualMachineProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
+>>>>>>> main
 				StorageProfile: &compute2022.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2022.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -59,7 +63,11 @@ func newVMSS20220301(
 						//Version:   to.StringPtr("latest"),
 					},
 				},
+<<<<<<< HEAD
 				OsProfile: &compute2022.VirtualMachineScaleSetOSProfile{
+=======
+				OsProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
+>>>>>>> main
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2022.LinuxConfiguration{
@@ -74,12 +82,21 @@ func newVMSS20220301(
 						},
 					},
 				},
+<<<<<<< HEAD
 				NetworkProfile: &compute2022.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
 							IpConfigurations: []compute2022.VirtualMachineScaleSetIPConfiguration{
+=======
+				NetworkProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
+					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
+						{
+							Name:    to.StringPtr("mynicconfig"),
+							Primary: to.BoolPtr(true),
+							IpConfigurations: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
+>>>>>>> main
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2022.ApiEntityReference{
@@ -125,6 +142,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
+<<<<<<< HEAD
 	//extensionName := "mycustomextension"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSetExtensionProfile{
 		//TODO: Fix missing extensions property (bearps) (donotmerge)
@@ -142,6 +160,23 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 		//		},
 		//	},
 		//},
+=======
+	extensionName := "mycustomextension"
+	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Spec{
+		Extensions: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_Spec{
+			{
+				Name:               &extensionName,
+				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
+				Type:               to.StringPtr("CustomScript"),
+				TypeHandlerVersion: to.StringPtr("2.0"),
+				Settings: map[string]v1.JSON{
+					"commandToExecute": {
+						Raw: []byte(`"/bin/bash -c \"echo hello\""`),
+					},
+				},
+			},
+		},
+>>>>>>> main
 	}
 	tc.PatchResourceAndWait(old, vmss)
 	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())

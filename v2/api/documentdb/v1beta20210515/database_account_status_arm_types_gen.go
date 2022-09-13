@@ -3,10 +3,10 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccount_STATUSARM struct {
+type DatabaseAccount_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
-	Id       *string                           `json:"id,omitempty"`
-	Identity *ManagedServiceIdentity_STATUSARM `json:"identity,omitempty"`
+	Id       *string                            `json:"id,omitempty"`
+	Identity *ManagedServiceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
 	Kind *DatabaseAccount_Kind_STATUS `json:"kind,omitempty"`
@@ -15,9 +15,9 @@ type DatabaseAccount_STATUSARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                       `json:"tags,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *DatabaseAccountGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -26,32 +26,32 @@ type DatabaseAccount_STATUSARM struct {
 type DatabaseAccount_Kind_STATUS string
 
 const (
-	DatabaseAccount_Kind_GlobalDocumentDB_STATUS = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
-	DatabaseAccount_Kind_MongoDB_STATUS          = DatabaseAccount_Kind_STATUS("MongoDB")
-	DatabaseAccount_Kind_Parse_STATUS            = DatabaseAccount_Kind_STATUS("Parse")
+	DatabaseAccount_Kind_STATUS_GlobalDocumentDB = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
+	DatabaseAccount_Kind_STATUS_MongoDB          = DatabaseAccount_Kind_STATUS("MongoDB")
+	DatabaseAccount_Kind_STATUS_Parse            = DatabaseAccount_Kind_STATUS("Parse")
 )
 
-type DatabaseAccountGetProperties_STATUSARM struct {
+type DatabaseAccountGetProperties_STATUS_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
-	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUSARM `json:"analyticalStorageConfiguration,omitempty"`
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUS_ARM `json:"analyticalStorageConfiguration,omitempty"`
 
 	// ApiProperties: API specific properties.
-	ApiProperties *ApiProperties_STATUSARM `json:"apiProperties,omitempty"`
+	ApiProperties *ApiProperties_STATUS_ARM `json:"apiProperties,omitempty"`
 
 	// BackupPolicy: The object representing the policy for taking backups on an account.
-	BackupPolicy *BackupPolicy_STATUSARM `json:"backupPolicy,omitempty"`
+	BackupPolicy *BackupPolicy_STATUS_ARM `json:"backupPolicy,omitempty"`
 
 	// Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []Capability_STATUSARM `json:"capabilities,omitempty"`
+	Capabilities []Capability_STATUS_ARM `json:"capabilities,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
 	ConnectorOffer *ConnectorOffer_STATUS `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
-	ConsistencyPolicy *ConsistencyPolicy_STATUSARM `json:"consistencyPolicy,omitempty"`
+	ConsistencyPolicy *ConsistencyPolicy_STATUS_ARM `json:"consistencyPolicy,omitempty"`
 
 	// Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicy_STATUSARM `json:"cors,omitempty"`
+	Cors []CorsPolicy_STATUS_ARM `json:"cors,omitempty"`
 
 	// DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.
 	DatabaseAccountOfferType *DatabaseAccountOfferType_STATUS `json:"databaseAccountOfferType,omitempty"`
@@ -85,10 +85,10 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
 
 	// FailoverPolicies: An array that contains the regions ordered by their failover priorities.
-	FailoverPolicies []FailoverPolicy_STATUSARM `json:"failoverPolicies,omitempty"`
+	FailoverPolicies []FailoverPolicy_STATUS_ARM `json:"failoverPolicies,omitempty"`
 
 	// IpRules: List of IpRules.
-	IpRules []IpAddressOrRange_STATUSARM `json:"ipRules,omitempty"`
+	IpRules []IpAddressOrRange_STATUS_ARM `json:"ipRules,omitempty"`
 
 	// IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
 	IsVirtualNetworkFilterEnabled *bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -97,7 +97,7 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
 
 	// Locations: An array that contains all of the locations enabled for the Cosmos DB account.
-	Locations []Location_STATUSARM `json:"locations,omitempty"`
+	Locations []Location_STATUS_ARM `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
 	NetworkAclBypass *NetworkAclBypass_STATUS `json:"networkAclBypass,omitempty"`
@@ -106,23 +106,23 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
 	// PrivateEndpointConnections: List of Private Endpoint Connections configured for the Cosmos DB account.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *string                               `json:"provisioningState,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *string                                `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
 	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.
-	ReadLocations []Location_STATUSARM `json:"readLocations,omitempty"`
+	ReadLocations []Location_STATUS_ARM `json:"readLocations,omitempty"`
 
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
-	VirtualNetworkRules []VirtualNetworkRule_STATUSARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
 
 	// WriteLocations: An array that contains the write location for the Cosmos DB account.
-	WriteLocations []Location_STATUSARM `json:"writeLocations,omitempty"`
+	WriteLocations []Location_STATUS_ARM `json:"writeLocations,omitempty"`
 }
 
-type ManagedServiceIdentity_STATUSARM struct {
+type ManagedServiceIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
 	// identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -138,29 +138,29 @@ type ManagedServiceIdentity_STATUSARM struct {
 	// UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type AnalyticalStorageConfiguration_STATUSARM struct {
+type AnalyticalStorageConfiguration_STATUS_ARM struct {
 	SchemaType *AnalyticalStorageSchemaType_STATUS `json:"schemaType,omitempty"`
 }
 
-type ApiProperties_STATUSARM struct {
+type ApiProperties_STATUS_ARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiProperties_ServerVersion_STATUS `json:"serverVersion,omitempty"`
 }
 
-type BackupPolicy_STATUSARM struct {
+type BackupPolicy_STATUS_ARM struct {
 	Type *BackupPolicyType_STATUS `json:"type,omitempty"`
 }
 
-type Capability_STATUSARM struct {
+type Capability_STATUS_ARM struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
-type ConsistencyPolicy_STATUSARM struct {
+type ConsistencyPolicy_STATUS_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
 
@@ -175,7 +175,7 @@ type ConsistencyPolicy_STATUSARM struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
-type CorsPolicy_STATUSARM struct {
+type CorsPolicy_STATUS_ARM struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
 
@@ -193,7 +193,7 @@ type CorsPolicy_STATUSARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-type FailoverPolicy_STATUSARM struct {
+type FailoverPolicy_STATUS_ARM struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
 	// regions in which the database account exists.
@@ -207,7 +207,7 @@ type FailoverPolicy_STATUSARM struct {
 	LocationName *string `json:"locationName,omitempty"`
 }
 
-type IpAddressOrRange_STATUSARM struct {
+type IpAddressOrRange_STATUS_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
 	// 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
@@ -215,7 +215,7 @@ type IpAddressOrRange_STATUSARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-type Location_STATUSARM struct {
+type Location_STATUS_ARM struct {
 	// DocumentEndpoint: The connection endpoint for the specific region. Example:
 	// https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
 	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
@@ -239,13 +239,13 @@ type Location_STATUSARM struct {
 type ManagedServiceIdentity_Type_STATUS string
 
 const (
-	ManagedServiceIdentity_Type_None_STATUS                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_SystemAssigned_STATUS             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_SystemAssignedUserAssigned_STATUS = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_Type_UserAssigned_STATUS               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
 )
 
-type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
+type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -253,13 +253,13 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
-type VirtualNetworkRule_STATUSARM struct {
+type VirtualNetworkRule_STATUS_ARM struct {
 	// Id: Resource ID of a subnet, for example:
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
 	Id *string `json:"id,omitempty"`

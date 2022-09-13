@@ -4,25 +4,25 @@
 package v1alpha1api20201101
 
 // Deprecated version of VirtualNetworks_VirtualNetworkPeering_STATUS. Use v1beta20201101.VirtualNetworks_VirtualNetworkPeering_STATUS instead
-type VirtualNetworks_VirtualNetworkPeering_STATUSARM struct {
-	Etag       *string                                          `json:"etag,omitempty"`
-	Id         *string                                          `json:"id,omitempty"`
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *VirtualNetworkPeeringPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                          `json:"type,omitempty"`
+type VirtualNetworks_VirtualNetworkPeering_STATUS_ARM struct {
+	Etag       *string                                           `json:"etag,omitempty"`
+	Id         *string                                           `json:"id,omitempty"`
+	Name       *string                                           `json:"name,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                           `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkPeeringPropertiesFormat_STATUS. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat_STATUS instead
-type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
+type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	AllowForwardedTraffic     *bool                                                      `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                                      `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool                                                      `json:"allowVirtualNetworkAccess,omitempty"`
 	DoNotVerifyRemoteGateways *bool                                                      `json:"doNotVerifyRemoteGateways,omitempty"`
 	PeeringState              *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
 	ProvisioningState         *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
-	RemoteAddressSpace        *AddressSpace_STATUSARM                                    `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_STATUSARM                    `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork      *SubResource_STATUSARM                                     `json:"remoteVirtualNetwork,omitempty"`
+	RemoteAddressSpace        *AddressSpace_STATUS_ARM                                   `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_STATUS_ARM                   `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_STATUS_ARM                                    `json:"remoteVirtualNetwork,omitempty"`
 	ResourceGuid              *string                                                    `json:"resourceGuid,omitempty"`
 	UseRemoteGateways         *bool                                                      `json:"useRemoteGateways,omitempty"`
 }

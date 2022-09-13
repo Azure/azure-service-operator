@@ -58,6 +58,7 @@ typeFilters:
     group: keyvault
     version: v*20210401preview
     because: We want to support keyvault which is only available in preview version
+
   - action: include
     group: insights
     version: v*20180501preview
@@ -67,10 +68,12 @@ typeFilters:
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
+
   - action: include
     group: managedidentity
     version: v*20220131preview
     because: We want to export this particular preview version
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
@@ -85,6 +88,11 @@ typeFilters:
     group: resources
     because: Terrifying.
 
+  - action: prune
+    group: aadiam
+    version: v*20170401
+    because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
+    
   - action: prune
     name: Disk
     group: compute.admin
@@ -164,9 +172,18 @@ typeFilters:
     because: Some types use OneOf to model inheritance, which we don't currently support.
 
   - action: prune
+    group: hdinsight
+    name: Clusters;Clusters_Extensions
+    because: Uses one-of in a way we don't support
+    
+  - action: prune
     group: resources
     name: Tags
     because: This type is defined recursively.
+
+  - action: prune
+    group: management
+    because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
 
   - action: include
     group: compute.extensions
@@ -335,7 +352,7 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhub_Spec_Properties
+  - name: Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
     remove: true
@@ -1162,7 +1179,7 @@ objectModelConfiguration:
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-      Namespace_Spec_Properties:
+      Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
       PrivateEndpoint:

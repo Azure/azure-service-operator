@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type Namespaces_Eventhub_STATUSARM struct {
+type Namespaces_Eventhub_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,18 +15,18 @@ type Namespaces_Eventhub_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties *Namespaces_Eventhub_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
-type Namespaces_Eventhub_Properties_STATUSARM struct {
+type Namespaces_Eventhub_Properties_STATUS_ARM struct {
 	// CaptureDescription: Properties of capture description
-	CaptureDescription *CaptureDescription_STATUSARM `json:"captureDescription,omitempty"`
+	CaptureDescription *CaptureDescription_STATUS_ARM `json:"captureDescription,omitempty"`
 
 	// CreatedAt: Exact time the Event Hub was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -47,9 +47,9 @@ type Namespaces_Eventhub_Properties_STATUSARM struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-type CaptureDescription_STATUSARM struct {
+type CaptureDescription_STATUS_ARM struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
-	Destination *Destination_STATUSARM `json:"destination,omitempty"`
+	Destination *Destination_STATUS_ARM `json:"destination,omitempty"`
 
 	// Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -70,15 +70,15 @@ type CaptureDescription_STATUSARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
-type Destination_STATUSARM struct {
+type Destination_STATUS_ARM struct {
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties describing the storage account, blob container and archive name format for capture destination
-	Properties *Destination_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *Destination_Properties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type Destination_Properties_STATUSARM struct {
+type Destination_Properties_STATUS_ARM struct {
 	// ArchiveNameFormat: Blob naming convention for archive, e.g.
 	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
 	// (Namespace,EventHub .. etc) are mandatory irrespective of order

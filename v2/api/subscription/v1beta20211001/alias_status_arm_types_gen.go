@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211001
 
-type Alias_STATUSARM struct {
+type Alias_STATUS_ARM struct {
 	// Id: Fully qualified ID for the alias resource.
 	Id *string `json:"id,omitempty"`
 
@@ -11,14 +11,14 @@ type Alias_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Subscription Alias response properties.
-	Properties *SubscriptionAliasResponseProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                          `json:"systemData,omitempty"`
+	Properties *SubscriptionAliasResponseProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM                          `json:"systemData,omitempty"`
 
 	// Type: Resource type, Microsoft.Subscription/aliases.
 	Type *string `json:"type,omitempty"`
 }
 
-type SubscriptionAliasResponseProperties_STATUSARM struct {
+type SubscriptionAliasResponseProperties_STATUS_ARM struct {
 	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
 
 	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
@@ -51,7 +51,7 @@ type SubscriptionAliasResponseProperties_STATUSARM struct {
 	Workload *Workload_STATUS  `json:"workload,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -74,40 +74,40 @@ type SystemData_STATUSARM struct {
 type AcceptOwnershipState_STATUS string
 
 const (
-	AcceptOwnershipState_Completed_STATUS = AcceptOwnershipState_STATUS("Completed")
-	AcceptOwnershipState_Expired_STATUS   = AcceptOwnershipState_STATUS("Expired")
-	AcceptOwnershipState_Pending_STATUS   = AcceptOwnershipState_STATUS("Pending")
+	AcceptOwnershipState_STATUS_Completed = AcceptOwnershipState_STATUS("Completed")
+	AcceptOwnershipState_STATUS_Expired   = AcceptOwnershipState_STATUS("Expired")
+	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
 )
 
 type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
 
 const (
-	SubscriptionAliasResponseProperties_ProvisioningState_Accepted_STATUS  = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Accepted")
-	SubscriptionAliasResponseProperties_ProvisioningState_Failed_STATUS    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Failed")
-	SubscriptionAliasResponseProperties_ProvisioningState_Succeeded_STATUS = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted  = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Accepted")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Failed")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
 )
 
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 type Workload_STATUS string
 
 const (
-	Workload_DevTest_STATUS    = Workload_STATUS("DevTest")
-	Workload_Production_STATUS = Workload_STATUS("Production")
+	Workload_STATUS_DevTest    = Workload_STATUS("DevTest")
+	Workload_STATUS_Production = Workload_STATUS("Production")
 )

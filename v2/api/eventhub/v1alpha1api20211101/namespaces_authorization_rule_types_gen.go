@@ -343,7 +343,7 @@ type Namespaces_AuthorizationRule_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Required
-	Rights []Namespaces_AuthorizationRule_Spec_Properties_Rights `json:"rights,omitempty"`
+	Rights []Namespaces_AuthorizationRule_Properties_Rights_Spec `json:"rights,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_AuthorizationRule_Spec{}
@@ -353,7 +353,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 	if rule == nil {
 		return nil, nil
 	}
-	result := &Namespaces_AuthorizationRule_SpecARM{}
+	result := &Namespaces_AuthorizationRule_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
@@ -363,7 +363,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Properties’:
 	if rule.Rights != nil {
-		result.Properties = &Namespaces_AuthorizationRule_Spec_PropertiesARM{}
+		result.Properties = &Namespaces_AuthorizationRule_Properties_Spec_ARM{}
 	}
 	for _, item := range rule.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
@@ -373,14 +373,14 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *Namespaces_AuthorizationRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_AuthorizationRule_SpecARM{}
+	return &Namespaces_AuthorizationRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *Namespaces_AuthorizationRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_AuthorizationRule_SpecARM)
+	typedInput, ok := armInput.(Namespaces_AuthorizationRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -469,11 +469,11 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_
 
 	// Rights
 	if source.Rights != nil {
-		rightList := make([]Namespaces_AuthorizationRule_Spec_Properties_Rights, len(source.Rights))
+		rightList := make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = Namespaces_AuthorizationRule_Spec_Properties_Rights(rightItem)
+			rightList[rightIndex] = Namespaces_AuthorizationRule_Properties_Rights_Spec(rightItem)
 		}
 		rule.Rights = rightList
 	} else {
@@ -603,14 +603,14 @@ var _ genruntime.FromARMConverter = &Namespaces_AuthorizationRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *Namespaces_AuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_AuthorizationRule_STATUSARM{}
+	return &Namespaces_AuthorizationRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *Namespaces_AuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_AuthorizationRule_STATUSARM)
+	typedInput, ok := armInput.(Namespaces_AuthorizationRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_AuthorizationRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -765,25 +765,25 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_
 	return nil
 }
 
+// Deprecated version of Namespaces_AuthorizationRule_Properties_Rights_Spec. Use
+// v1beta20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec instead
+// +kubebuilder:validation:Enum={"Listen","Manage","Send"}
+type Namespaces_AuthorizationRule_Properties_Rights_Spec string
+
+const (
+	Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen = Namespaces_AuthorizationRule_Properties_Rights_Spec("Listen")
+	Namespaces_AuthorizationRule_Properties_Rights_Spec_Manage = Namespaces_AuthorizationRule_Properties_Rights_Spec("Manage")
+	Namespaces_AuthorizationRule_Properties_Rights_Spec_Send   = Namespaces_AuthorizationRule_Properties_Rights_Spec("Send")
+)
+
 // Deprecated version of Namespaces_AuthorizationRule_Properties_Rights_STATUS. Use
 // v1beta20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS instead
 type Namespaces_AuthorizationRule_Properties_Rights_STATUS string
 
 const (
-	Namespaces_AuthorizationRule_Properties_Rights_Listen_STATUS = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Listen")
-	Namespaces_AuthorizationRule_Properties_Rights_Manage_STATUS = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Manage")
-	Namespaces_AuthorizationRule_Properties_Rights_Send_STATUS   = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Send")
-)
-
-// Deprecated version of Namespaces_AuthorizationRule_Spec_Properties_Rights. Use
-// v1beta20211101.Namespaces_AuthorizationRule_Spec_Properties_Rights instead
-// +kubebuilder:validation:Enum={"Listen","Manage","Send"}
-type Namespaces_AuthorizationRule_Spec_Properties_Rights string
-
-const (
-	Namespaces_AuthorizationRule_Spec_Properties_Rights_Listen = Namespaces_AuthorizationRule_Spec_Properties_Rights("Listen")
-	Namespaces_AuthorizationRule_Spec_Properties_Rights_Manage = Namespaces_AuthorizationRule_Spec_Properties_Rights("Manage")
-	Namespaces_AuthorizationRule_Spec_Properties_Rights_Send   = Namespaces_AuthorizationRule_Spec_Properties_Rights("Send")
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Listen = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Listen")
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Manage = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Manage")
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Send   = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Send")
 )
 
 func init() {

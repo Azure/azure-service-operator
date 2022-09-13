@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210401
 
-type StorageAccounts_BlobService_STATUSARM struct {
+type StorageAccounts_BlobService_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,48 +12,48 @@ type StorageAccounts_BlobService_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *StorageAccounts_BlobService_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *StorageAccounts_BlobService_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: Sku name and tier.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type StorageAccounts_BlobService_Properties_STATUSARM struct {
+type StorageAccounts_BlobService_Properties_STATUS_ARM struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeed_STATUSARM `json:"changeFeed,omitempty"`
+	ChangeFeed *ChangeFeed_STATUS_ARM `json:"changeFeed,omitempty"`
 
 	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUSARM `json:"containerDeleteRetentionPolicy,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM `json:"containerDeleteRetentionPolicy,omitempty"`
 
 	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// Blob service.
-	Cors *CorsRules_STATUSARM `json:"cors,omitempty"`
+	Cors *CorsRules_STATUS_ARM `json:"cors,omitempty"`
 
 	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
 	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
 	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUSARM `json:"deleteRetentionPolicy,omitempty"`
+	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM `json:"deleteRetentionPolicy,omitempty"`
 
 	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
 	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_STATUSARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_STATUS_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	// RestorePolicy: The blob service properties for blob restore policy.
-	RestorePolicy *RestorePolicyProperties_STATUSARM `json:"restorePolicy,omitempty"`
+	RestorePolicy *RestorePolicyProperties_STATUS_ARM `json:"restorePolicy,omitempty"`
 }
 
-type ChangeFeed_STATUSARM struct {
+type ChangeFeed_STATUS_ARM struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -62,12 +62,12 @@ type ChangeFeed_STATUSARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
-type CorsRules_STATUSARM struct {
+type CorsRules_STATUS_ARM struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
-	CorsRules []CorsRule_STATUSARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_STATUS_ARM `json:"corsRules,omitempty"`
 }
 
-type DeleteRetentionPolicy_STATUSARM struct {
+type DeleteRetentionPolicy_STATUS_ARM struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
@@ -76,7 +76,7 @@ type DeleteRetentionPolicy_STATUSARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-type LastAccessTimeTrackingPolicy_STATUSARM struct {
+type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
 	BlobType []string `json:"blobType,omitempty"`
@@ -92,7 +92,7 @@ type LastAccessTimeTrackingPolicy_STATUSARM struct {
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
-type RestorePolicyProperties_STATUSARM struct {
+type RestorePolicyProperties_STATUS_ARM struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
@@ -106,7 +106,7 @@ type RestorePolicyProperties_STATUSARM struct {
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
-type CorsRule_STATUSARM struct {
+type CorsRule_STATUS_ARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`

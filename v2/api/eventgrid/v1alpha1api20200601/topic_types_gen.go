@@ -354,7 +354,7 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if topic == nil {
 		return nil, nil
 	}
-	result := &Topic_SpecARM{}
+	result := &Topic_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
@@ -380,14 +380,14 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topic_SpecARM{}
+	return &Topic_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topic_SpecARM)
+	typedInput, ok := armInput.(Topic_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -608,14 +608,14 @@ var _ genruntime.FromARMConverter = &Topic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Topic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Topic_STATUSARM{}
+	return &Topic_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Topic_STATUSARM)
+	typedInput, ok := armInput.(Topic_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1000,14 +1000,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_Topic_SubR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM{}
+	return &PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1053,9 +1053,9 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 type TopicProperties_InputSchema_STATUS string
 
 const (
-	TopicProperties_InputSchema_CloudEventSchemaV1_0_STATUS = TopicProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
-	TopicProperties_InputSchema_CustomEventSchema_STATUS    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
-	TopicProperties_InputSchema_EventGridSchema_STATUS      = TopicProperties_InputSchema_STATUS("EventGridSchema")
+	TopicProperties_InputSchema_STATUS_CloudEventSchemaV1_0 = TopicProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_STATUS_CustomEventSchema    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
+	TopicProperties_InputSchema_STATUS_EventGridSchema      = TopicProperties_InputSchema_STATUS("EventGridSchema")
 )
 
 // Deprecated version of TopicProperties_ProvisioningState_STATUS. Use
@@ -1063,12 +1063,12 @@ const (
 type TopicProperties_ProvisioningState_STATUS string
 
 const (
-	TopicProperties_ProvisioningState_Canceled_STATUS  = TopicProperties_ProvisioningState_STATUS("Canceled")
-	TopicProperties_ProvisioningState_Creating_STATUS  = TopicProperties_ProvisioningState_STATUS("Creating")
-	TopicProperties_ProvisioningState_Deleting_STATUS  = TopicProperties_ProvisioningState_STATUS("Deleting")
-	TopicProperties_ProvisioningState_Failed_STATUS    = TopicProperties_ProvisioningState_STATUS("Failed")
-	TopicProperties_ProvisioningState_Succeeded_STATUS = TopicProperties_ProvisioningState_STATUS("Succeeded")
-	TopicProperties_ProvisioningState_Updating_STATUS  = TopicProperties_ProvisioningState_STATUS("Updating")
+	TopicProperties_ProvisioningState_STATUS_Canceled  = TopicProperties_ProvisioningState_STATUS("Canceled")
+	TopicProperties_ProvisioningState_STATUS_Creating  = TopicProperties_ProvisioningState_STATUS("Creating")
+	TopicProperties_ProvisioningState_STATUS_Deleting  = TopicProperties_ProvisioningState_STATUS("Deleting")
+	TopicProperties_ProvisioningState_STATUS_Failed    = TopicProperties_ProvisioningState_STATUS("Failed")
+	TopicProperties_ProvisioningState_STATUS_Succeeded = TopicProperties_ProvisioningState_STATUS("Succeeded")
+	TopicProperties_ProvisioningState_STATUS_Updating  = TopicProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of TopicProperties_PublicNetworkAccess_STATUS. Use
@@ -1076,8 +1076,8 @@ const (
 type TopicProperties_PublicNetworkAccess_STATUS string
 
 const (
-	TopicProperties_PublicNetworkAccess_Disabled_STATUS = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
-	TopicProperties_PublicNetworkAccess_Enabled_STATUS  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
+	TopicProperties_PublicNetworkAccess_STATUS_Disabled = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
+	TopicProperties_PublicNetworkAccess_STATUS_Enabled  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 func init() {

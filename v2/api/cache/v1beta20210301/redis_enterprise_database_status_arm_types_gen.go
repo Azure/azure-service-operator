@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210301
 
-type RedisEnterprise_Database_STATUSARM struct {
+type RedisEnterprise_Database_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type RedisEnterprise_Database_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Other properties of the database.
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
 	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS `json:"clientProtocol,omitempty"`
@@ -30,10 +30,10 @@ type DatabaseProperties_STATUSARM struct {
 	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
 
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module_STATUSARM `json:"modules,omitempty"`
+	Modules []Module_STATUS_ARM `json:"modules,omitempty"`
 
 	// Persistence: Persistence settings
-	Persistence *Persistence_STATUSARM `json:"persistence,omitempty"`
+	Persistence *Persistence_STATUS_ARM `json:"persistence,omitempty"`
 
 	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
@@ -45,7 +45,7 @@ type DatabaseProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type Module_STATUSARM struct {
+type Module_STATUS_ARM struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
@@ -56,7 +56,7 @@ type Module_STATUSARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-type Persistence_STATUSARM struct {
+type Persistence_STATUS_ARM struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 

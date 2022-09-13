@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type Topic_STATUSARM struct {
+type Topic_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,10 +14,10 @@ type Topic_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the topic.
-	Properties *TopicProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *TopicProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Topic resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,24 +26,24 @@ type Topic_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type TopicProperties_STATUSARM struct {
+type TopicProperties_STATUS_ARM struct {
 	// Endpoint: Endpoint for the topic.
 	Endpoint *string `json:"endpoint,omitempty"`
 
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
+	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
 	InputSchema *TopicProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
 	// various properties of a source schema to various required properties of the EventGridEvent schema.
-	InputSchemaMapping *InputSchemaMapping_STATUSARM `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping *InputSchemaMapping_STATUS_ARM `json:"inputSchemaMapping,omitempty"`
 
 	// MetricResourceId: Metric resource id for the topic.
-	MetricResourceId           *string                                                         `json:"metricResourceId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the topic.
 	ProvisioningState *TopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -54,7 +54,7 @@ type TopicProperties_STATUSARM struct {
 	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }

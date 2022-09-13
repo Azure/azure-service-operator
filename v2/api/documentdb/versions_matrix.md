@@ -48,9 +48,9 @@
 | DatabaseAccountOfferType                                               | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountOfferType_STATUS                                        | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccount_Kind_STATUS                                            | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccount_Kind_Spec                                              | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccount_STATUS                                                 | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccount_Spec                                                   | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccount_Spec_Kind                                              | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_MongodbDatabase_STATUS                                | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_MongodbDatabase_Spec                                  | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_MongodbDatabases_Collection_STATUS                    | v1alpha1api20210515 | v1beta20210515 |

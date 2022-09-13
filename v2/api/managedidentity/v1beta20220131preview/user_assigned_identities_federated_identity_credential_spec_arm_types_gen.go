@@ -5,32 +5,32 @@ package v1beta20220131preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type UserAssignedIdentities_FederatedIdentityCredential_SpecARM struct {
+type UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the federated identity credential.
-	Properties *FederatedIdentityCredentialPropertiesARM `json:"properties,omitempty"`
+	Properties *FederatedIdentityCredentialProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_FederatedIdentityCredential_SpecARM{}
+var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-01-31-preview"
-func (credential UserAssignedIdentities_FederatedIdentityCredential_SpecARM) GetAPIVersion() string {
+func (credential UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_SpecARM) GetName() string {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) GetName() string {
 	return credential.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_SpecARM) GetType() string {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
 }
 
-type FederatedIdentityCredentialPropertiesARM struct {
+type FederatedIdentityCredentialProperties_ARM struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
 

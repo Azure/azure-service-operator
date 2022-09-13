@@ -620,18 +620,18 @@ func SubscriptionAliasResponseProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AcceptOwnershipState"] = gen.PtrOf(gen.OneConstOf(AcceptOwnershipState_Completed_STATUS, AcceptOwnershipState_Expired_STATUS, AcceptOwnershipState_Pending_STATUS))
+	gens["AcceptOwnershipState"] = gen.PtrOf(gen.OneConstOf(AcceptOwnershipState_STATUS_Completed, AcceptOwnershipState_STATUS_Expired, AcceptOwnershipState_STATUS_Pending))
 	gens["AcceptOwnershipUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["BillingScope"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagementGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(SubscriptionAliasResponseProperties_ProvisioningState_Accepted_STATUS, SubscriptionAliasResponseProperties_ProvisioningState_Failed_STATUS, SubscriptionAliasResponseProperties_ProvisioningState_Succeeded_STATUS))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted, SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed, SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded))
 	gens["ResellerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Workload"] = gen.PtrOf(gen.OneConstOf(Workload_DevTest_STATUS, Workload_Production_STATUS))
+	gens["Workload"] = gen.PtrOf(gen.OneConstOf(Workload_STATUS_DevTest, Workload_STATUS_Production))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -736,17 +736,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application_STATUS,
-		SystemData_CreatedByType_Key_STATUS,
-		SystemData_CreatedByType_ManagedIdentity_STATUS,
-		SystemData_CreatedByType_User_STATUS))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application_STATUS,
-		SystemData_LastModifiedByType_Key_STATUS,
-		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
-		SystemData_LastModifiedByType_User_STATUS))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_PutAliasRequestAdditionalProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

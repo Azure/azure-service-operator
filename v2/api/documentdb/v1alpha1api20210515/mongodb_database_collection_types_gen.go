@@ -356,7 +356,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 	if collection == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_MongodbDatabases_Collection_SpecARM{}
+	result := &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = collection.AzureName
@@ -372,22 +372,22 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 
 	// Set property ‘Properties’:
 	if collection.Options != nil || collection.Resource != nil {
-		result.Properties = &MongoDBCollectionCreateUpdatePropertiesARM{}
+		result.Properties = &MongoDBCollectionCreateUpdateProperties_ARM{}
 	}
 	if collection.Options != nil {
-		optionsARM, err := (*collection.Options).ConvertToARM(resolved)
+		options_ARM, err := (*collection.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *optionsARM.(*CreateUpdateOptionsARM)
+		options := *options_ARM.(*CreateUpdateOptions_ARM)
 		result.Properties.Options = &options
 	}
 	if collection.Resource != nil {
-		resourceARM, err := (*collection.Resource).ConvertToARM(resolved)
+		resource_ARM, err := (*collection.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*MongoDBCollectionResourceARM)
+		resource := *resource_ARM.(*MongoDBCollectionResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -403,14 +403,14 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabases_Collection_SpecARM{}
+	return &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collection_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -702,14 +702,14 @@ var _ genruntime.FromARMConverter = &DatabaseAccounts_MongodbDatabases_Collectio
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabases_Collection_STATUSARM{}
+	return &DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collection_STATUSARM)
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -900,14 +900,14 @@ var _ genruntime.FromARMConverter = &MongoDBCollectionGetProperties_Resource_STA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *MongoDBCollectionGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBCollectionGetProperties_Resource_STATUSARM{}
+	return &MongoDBCollectionGetProperties_Resource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBCollectionGetProperties_Resource_STATUSARM)
+	typedInput, ok := armInput.(MongoDBCollectionGetProperties_Resource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetProperties_Resource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -1084,7 +1084,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &MongoDBCollectionResourceARM{}
+	result := &MongoDBCollectionResource_ARM{}
 
 	// Set property ‘AnalyticalStorageTtl’:
 	if resource.AnalyticalStorageTtl != nil {
@@ -1100,11 +1100,11 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Indexes’:
 	for _, item := range resource.Indexes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Indexes = append(result.Indexes, *itemARM.(*MongoIndexARM))
+		result.Indexes = append(result.Indexes, *item_ARM.(*MongoIndex_ARM))
 	}
 
 	// Set property ‘ShardKey’:
@@ -1119,14 +1119,14 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *MongoDBCollectionResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBCollectionResourceARM{}
+	return &MongoDBCollectionResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBCollectionResourceARM)
+	typedInput, ok := armInput.(MongoDBCollectionResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionResource_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -1253,25 +1253,25 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if index == nil {
 		return nil, nil
 	}
-	result := &MongoIndexARM{}
+	result := &MongoIndex_ARM{}
 
 	// Set property ‘Key’:
 	if index.Key != nil {
-		keyARM, err := (*index.Key).ConvertToARM(resolved)
+		key_ARM, err := (*index.Key).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		key := *keyARM.(*MongoIndexKeysARM)
+		key := *key_ARM.(*MongoIndexKeys_ARM)
 		result.Key = &key
 	}
 
 	// Set property ‘Options’:
 	if index.Options != nil {
-		optionsARM, err := (*index.Options).ConvertToARM(resolved)
+		options_ARM, err := (*index.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *optionsARM.(*MongoIndexOptionsARM)
+		options := *options_ARM.(*MongoIndexOptions_ARM)
 		result.Options = &options
 	}
 	return result, nil
@@ -1279,14 +1279,14 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (index *MongoIndex) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndexARM{}
+	return &MongoIndex_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (index *MongoIndex) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndexARM)
+	typedInput, ok := armInput.(MongoIndex_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Key’:
@@ -1396,14 +1396,14 @@ var _ genruntime.FromARMConverter = &MongoIndex_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (index *MongoIndex_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndex_STATUSARM{}
+	return &MongoIndex_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (index *MongoIndex_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndex_STATUSARM)
+	typedInput, ok := armInput.(MongoIndex_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Key’:
@@ -1515,7 +1515,7 @@ func (keys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if keys == nil {
 		return nil, nil
 	}
-	result := &MongoIndexKeysARM{}
+	result := &MongoIndexKeys_ARM{}
 
 	// Set property ‘Keys’:
 	for _, item := range keys.Keys {
@@ -1526,14 +1526,14 @@ func (keys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (keys *MongoIndexKeys) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndexKeysARM{}
+	return &MongoIndexKeys_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (keys *MongoIndexKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndexKeysARM)
+	typedInput, ok := armInput.(MongoIndexKeys_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeysARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Keys’:
@@ -1583,14 +1583,14 @@ var _ genruntime.FromARMConverter = &MongoIndexKeys_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (keys *MongoIndexKeys_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndexKeys_STATUSARM{}
+	return &MongoIndexKeys_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (keys *MongoIndexKeys_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndexKeys_STATUSARM)
+	typedInput, ok := armInput.(MongoIndexKeys_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Keys’:
@@ -1644,7 +1644,7 @@ func (options *MongoIndexOptions) ConvertToARM(resolved genruntime.ConvertToARMR
 	if options == nil {
 		return nil, nil
 	}
-	result := &MongoIndexOptionsARM{}
+	result := &MongoIndexOptions_ARM{}
 
 	// Set property ‘ExpireAfterSeconds’:
 	if options.ExpireAfterSeconds != nil {
@@ -1662,14 +1662,14 @@ func (options *MongoIndexOptions) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (options *MongoIndexOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndexOptionsARM{}
+	return &MongoIndexOptions_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (options *MongoIndexOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndexOptionsARM)
+	typedInput, ok := armInput.(MongoIndexOptions_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptionsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ExpireAfterSeconds’:
@@ -1743,14 +1743,14 @@ var _ genruntime.FromARMConverter = &MongoIndexOptions_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (options *MongoIndexOptions_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoIndexOptions_STATUSARM{}
+	return &MongoIndexOptions_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (options *MongoIndexOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoIndexOptions_STATUSARM)
+	typedInput, ok := armInput.(MongoIndexOptions_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ExpireAfterSeconds’:

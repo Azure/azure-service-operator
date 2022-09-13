@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210301
 
-type RedisEnterprise_STATUSARM struct {
+type RedisEnterprise_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,10 +15,10 @@ type RedisEnterprise_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Other properties of the cluster.
-	Properties *ClusterProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ClusterProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -30,7 +30,7 @@ type RedisEnterprise_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type ClusterProperties_STATUSARM struct {
+type ClusterProperties_STATUS_ARM struct {
 	// HostName: DNS name of the cluster endpoint
 	HostName *string `json:"hostName,omitempty"`
 
@@ -38,7 +38,7 @@ type ClusterProperties_STATUSARM struct {
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the cluster
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -50,7 +50,7 @@ type ClusterProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
@@ -59,7 +59,7 @@ type Sku_STATUSARM struct {
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUSARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -68,11 +68,11 @@ type PrivateEndpointConnection_STATUSARM struct {
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_EnterpriseFlash_F1500_STATUS = Sku_Name_STATUS("EnterpriseFlash_F1500")
-	Sku_Name_EnterpriseFlash_F300_STATUS  = Sku_Name_STATUS("EnterpriseFlash_F300")
-	Sku_Name_EnterpriseFlash_F700_STATUS  = Sku_Name_STATUS("EnterpriseFlash_F700")
-	Sku_Name_Enterprise_E10_STATUS        = Sku_Name_STATUS("Enterprise_E10")
-	Sku_Name_Enterprise_E100_STATUS       = Sku_Name_STATUS("Enterprise_E100")
-	Sku_Name_Enterprise_E20_STATUS        = Sku_Name_STATUS("Enterprise_E20")
-	Sku_Name_Enterprise_E50_STATUS        = Sku_Name_STATUS("Enterprise_E50")
+	Sku_Name_STATUS_EnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
+	Sku_Name_STATUS_EnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
+	Sku_Name_STATUS_EnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
+	Sku_Name_STATUS_Enterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
+	Sku_Name_STATUS_Enterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
+	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
+	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
 )

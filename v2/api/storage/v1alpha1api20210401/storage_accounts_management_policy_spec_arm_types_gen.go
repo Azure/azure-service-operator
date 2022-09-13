@@ -6,103 +6,103 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_ManagementPolicy_Spec. Use v1beta20210401.StorageAccounts_ManagementPolicy_Spec instead
-type StorageAccounts_ManagementPolicy_SpecARM struct {
-	AzureName  string                         `json:"azureName,omitempty"`
-	Name       string                         `json:"name,omitempty"`
-	Properties *ManagementPolicyPropertiesARM `json:"properties,omitempty"`
+type StorageAccounts_ManagementPolicy_Spec_ARM struct {
+	AzureName  string                          `json:"azureName,omitempty"`
+	Name       string                          `json:"name,omitempty"`
+	Properties *ManagementPolicyProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_ManagementPolicy_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_ManagementPolicy_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (policy StorageAccounts_ManagementPolicy_SpecARM) GetAPIVersion() string {
+func (policy StorageAccounts_ManagementPolicy_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (policy *StorageAccounts_ManagementPolicy_SpecARM) GetName() string {
+func (policy *StorageAccounts_ManagementPolicy_Spec_ARM) GetName() string {
 	return policy.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/managementPolicies"
-func (policy *StorageAccounts_ManagementPolicy_SpecARM) GetType() string {
+func (policy *StorageAccounts_ManagementPolicy_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 
 // Deprecated version of ManagementPolicyProperties. Use v1beta20210401.ManagementPolicyProperties instead
-type ManagementPolicyPropertiesARM struct {
-	Policy *ManagementPolicySchemaARM `json:"policy,omitempty"`
+type ManagementPolicyProperties_ARM struct {
+	Policy *ManagementPolicySchema_ARM `json:"policy,omitempty"`
 }
 
 // Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
-type ManagementPolicySchemaARM struct {
-	Rules []ManagementPolicyRuleARM `json:"rules,omitempty"`
+type ManagementPolicySchema_ARM struct {
+	Rules []ManagementPolicyRule_ARM `json:"rules,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead
-type ManagementPolicyRuleARM struct {
-	Definition *ManagementPolicyDefinitionARM `json:"definition,omitempty"`
-	Enabled    *bool                          `json:"enabled,omitempty"`
-	Name       *string                        `json:"name,omitempty"`
-	Type       *ManagementPolicyRule_Type     `json:"type,omitempty"`
+type ManagementPolicyRule_ARM struct {
+	Definition *ManagementPolicyDefinition_ARM `json:"definition,omitempty"`
+	Enabled    *bool                           `json:"enabled,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	Type       *ManagementPolicyRule_Type      `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead
-type ManagementPolicyDefinitionARM struct {
-	Actions *ManagementPolicyActionARM `json:"actions,omitempty"`
-	Filters *ManagementPolicyFilterARM `json:"filters,omitempty"`
+type ManagementPolicyDefinition_ARM struct {
+	Actions *ManagementPolicyAction_ARM `json:"actions,omitempty"`
+	Filters *ManagementPolicyFilter_ARM `json:"filters,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
-type ManagementPolicyActionARM struct {
-	BaseBlob *ManagementPolicyBaseBlobARM `json:"baseBlob,omitempty"`
-	Snapshot *ManagementPolicySnapShotARM `json:"snapshot,omitempty"`
-	Version  *ManagementPolicyVersionARM  `json:"version,omitempty"`
+type ManagementPolicyAction_ARM struct {
+	BaseBlob *ManagementPolicyBaseBlob_ARM `json:"baseBlob,omitempty"`
+	Snapshot *ManagementPolicySnapShot_ARM `json:"snapshot,omitempty"`
+	Version  *ManagementPolicyVersion_ARM  `json:"version,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead
-type ManagementPolicyFilterARM struct {
-	BlobIndexMatch []TagFilterARM `json:"blobIndexMatch,omitempty"`
-	BlobTypes      []string       `json:"blobTypes,omitempty"`
-	PrefixMatch    []string       `json:"prefixMatch,omitempty"`
+type ManagementPolicyFilter_ARM struct {
+	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch,omitempty"`
+	BlobTypes      []string        `json:"blobTypes,omitempty"`
+	PrefixMatch    []string        `json:"prefixMatch,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead
-type ManagementPolicyBaseBlobARM struct {
-	Delete                      *DateAfterModificationARM `json:"delete,omitempty"`
-	EnableAutoTierToHotFromCool *bool                     `json:"enableAutoTierToHotFromCool,omitempty"`
-	TierToArchive               *DateAfterModificationARM `json:"tierToArchive,omitempty"`
-	TierToCool                  *DateAfterModificationARM `json:"tierToCool,omitempty"`
+type ManagementPolicyBaseBlob_ARM struct {
+	Delete                      *DateAfterModification_ARM `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                      `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification_ARM `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_ARM `json:"tierToCool,omitempty"`
 }
 
 // Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead
-type ManagementPolicySnapShotARM struct {
-	Delete        *DateAfterCreationARM `json:"delete,omitempty"`
-	TierToArchive *DateAfterCreationARM `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreationARM `json:"tierToCool,omitempty"`
+type ManagementPolicySnapShot_ARM struct {
+	Delete        *DateAfterCreation_ARM `json:"delete,omitempty"`
+	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead
-type ManagementPolicyVersionARM struct {
-	Delete        *DateAfterCreationARM `json:"delete,omitempty"`
-	TierToArchive *DateAfterCreationARM `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreationARM `json:"tierToCool,omitempty"`
+type ManagementPolicyVersion_ARM struct {
+	Delete        *DateAfterCreation_ARM `json:"delete,omitempty"`
+	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
 // Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead
-type TagFilterARM struct {
+type TagFilter_ARM struct {
 	Name  *string `json:"name,omitempty"`
 	Op    *string `json:"op,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
 // Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead
-type DateAfterCreationARM struct {
+type DateAfterCreation_ARM struct {
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
 // Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead
-type DateAfterModificationARM struct {
+type DateAfterModification_ARM struct {
 	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *int `json:"daysAfterModificationGreaterThan,omitempty"`
 }

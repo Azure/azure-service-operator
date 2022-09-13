@@ -355,7 +355,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 	if container == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_BlobServices_Container_SpecARM{}
+	result := &StorageAccounts_BlobServices_Container_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = container.AzureName
@@ -369,7 +369,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 		container.ImmutableStorageWithVersioning != nil ||
 		container.Metadata != nil ||
 		container.PublicAccess != nil {
-		result.Properties = &ContainerPropertiesARM{}
+		result.Properties = &ContainerProperties_ARM{}
 	}
 	if container.DefaultEncryptionScope != nil {
 		defaultEncryptionScope := *container.DefaultEncryptionScope
@@ -380,11 +380,11 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
 	if container.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioningARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+		immutableStorageWithVersioning_ARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
+		immutableStorageWithVersioning := *immutableStorageWithVersioning_ARM.(*ImmutableStorageWithVersioning_ARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if container.Metadata != nil {
@@ -402,14 +402,14 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (container *StorageAccounts_BlobServices_Container_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobServices_Container_SpecARM{}
+	return &StorageAccounts_BlobServices_Container_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobServices_Container_SpecARM)
+	typedInput, ok := armInput.(StorageAccounts_BlobServices_Container_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -733,14 +733,14 @@ var _ genruntime.FromARMConverter = &StorageAccounts_BlobServices_Container_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (container *StorageAccounts_BlobServices_Container_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobServices_Container_STATUSARM{}
+	return &StorageAccounts_BlobServices_Container_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobServices_Container_STATUSARM)
+	typedInput, ok := armInput.(StorageAccounts_BlobServices_Container_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1237,8 +1237,8 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 type ContainerProperties_LeaseDuration_STATUS string
 
 const (
-	ContainerProperties_LeaseDuration_Fixed_STATUS    = ContainerProperties_LeaseDuration_STATUS("Fixed")
-	ContainerProperties_LeaseDuration_Infinite_STATUS = ContainerProperties_LeaseDuration_STATUS("Infinite")
+	ContainerProperties_LeaseDuration_STATUS_Fixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
+	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
 )
 
 // Deprecated version of ContainerProperties_LeaseState_STATUS. Use v1beta20210401.ContainerProperties_LeaseState_STATUS
@@ -1246,11 +1246,11 @@ const (
 type ContainerProperties_LeaseState_STATUS string
 
 const (
-	ContainerProperties_LeaseState_Available_STATUS = ContainerProperties_LeaseState_STATUS("Available")
-	ContainerProperties_LeaseState_Breaking_STATUS  = ContainerProperties_LeaseState_STATUS("Breaking")
-	ContainerProperties_LeaseState_Broken_STATUS    = ContainerProperties_LeaseState_STATUS("Broken")
-	ContainerProperties_LeaseState_Expired_STATUS   = ContainerProperties_LeaseState_STATUS("Expired")
-	ContainerProperties_LeaseState_Leased_STATUS    = ContainerProperties_LeaseState_STATUS("Leased")
+	ContainerProperties_LeaseState_STATUS_Available = ContainerProperties_LeaseState_STATUS("Available")
+	ContainerProperties_LeaseState_STATUS_Breaking  = ContainerProperties_LeaseState_STATUS("Breaking")
+	ContainerProperties_LeaseState_STATUS_Broken    = ContainerProperties_LeaseState_STATUS("Broken")
+	ContainerProperties_LeaseState_STATUS_Expired   = ContainerProperties_LeaseState_STATUS("Expired")
+	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
 )
 
 // Deprecated version of ContainerProperties_LeaseStatus_STATUS. Use v1beta20210401.ContainerProperties_LeaseStatus_STATUS
@@ -1258,8 +1258,8 @@ const (
 type ContainerProperties_LeaseStatus_STATUS string
 
 const (
-	ContainerProperties_LeaseStatus_Locked_STATUS   = ContainerProperties_LeaseStatus_STATUS("Locked")
-	ContainerProperties_LeaseStatus_Unlocked_STATUS = ContainerProperties_LeaseStatus_STATUS("Unlocked")
+	ContainerProperties_LeaseStatus_STATUS_Locked   = ContainerProperties_LeaseStatus_STATUS("Locked")
+	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
 
 // Deprecated version of ContainerProperties_PublicAccess. Use v1beta20210401.ContainerProperties_PublicAccess instead
@@ -1277,9 +1277,9 @@ const (
 type ContainerProperties_PublicAccess_STATUS string
 
 const (
-	ContainerProperties_PublicAccess_Blob_STATUS      = ContainerProperties_PublicAccess_STATUS("Blob")
-	ContainerProperties_PublicAccess_Container_STATUS = ContainerProperties_PublicAccess_STATUS("Container")
-	ContainerProperties_PublicAccess_None_STATUS      = ContainerProperties_PublicAccess_STATUS("None")
+	ContainerProperties_PublicAccess_STATUS_Blob      = ContainerProperties_PublicAccess_STATUS("Blob")
+	ContainerProperties_PublicAccess_STATUS_Container = ContainerProperties_PublicAccess_STATUS("Container")
+	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
 // Deprecated version of ImmutabilityPolicyProperties_STATUS. Use v1beta20210401.ImmutabilityPolicyProperties_STATUS instead
@@ -1295,14 +1295,14 @@ var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ImmutabilityPolicyProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutabilityPolicyProperties_STATUSARM{}
+	return &ImmutabilityPolicyProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutabilityPolicyProperties_STATUSARM)
+	typedInput, ok := armInput.(ImmutabilityPolicyProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowProtectedAppendWrites’:
@@ -1467,7 +1467,7 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 	if versioning == nil {
 		return nil, nil
 	}
-	result := &ImmutableStorageWithVersioningARM{}
+	result := &ImmutableStorageWithVersioning_ARM{}
 
 	// Set property ‘Enabled’:
 	if versioning.Enabled != nil {
@@ -1479,14 +1479,14 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (versioning *ImmutableStorageWithVersioning) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutableStorageWithVersioningARM{}
+	return &ImmutableStorageWithVersioning_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (versioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutableStorageWithVersioningARM)
+	typedInput, ok := armInput.(ImmutableStorageWithVersioning_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioningARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1549,14 +1549,14 @@ var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (versioning *ImmutableStorageWithVersioning_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutableStorageWithVersioning_STATUSARM{}
+	return &ImmutableStorageWithVersioning_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (versioning *ImmutableStorageWithVersioning_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutableStorageWithVersioning_STATUSARM)
+	typedInput, ok := armInput.(ImmutableStorageWithVersioning_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1652,14 +1652,14 @@ var _ genruntime.FromARMConverter = &LegalHoldProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *LegalHoldProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LegalHoldProperties_STATUSARM{}
+	return &LegalHoldProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *LegalHoldProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LegalHoldProperties_STATUSARM)
+	typedInput, ok := armInput.(LegalHoldProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘HasLegalHold’:
@@ -1762,8 +1762,8 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 type ImmutabilityPolicyProperty_State_STATUS string
 
 const (
-	ImmutabilityPolicyProperty_State_Locked_STATUS   = ImmutabilityPolicyProperty_State_STATUS("Locked")
-	ImmutabilityPolicyProperty_State_Unlocked_STATUS = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
+	ImmutabilityPolicyProperty_State_STATUS_Locked   = ImmutabilityPolicyProperty_State_STATUS("Locked")
+	ImmutabilityPolicyProperty_State_STATUS_Unlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
 )
 
 // Deprecated version of ImmutableStorageWithVersioning_MigrationState_STATUS. Use
@@ -1771,8 +1771,8 @@ const (
 type ImmutableStorageWithVersioning_MigrationState_STATUS string
 
 const (
-	ImmutableStorageWithVersioning_MigrationState_Completed_STATUS  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
-	ImmutableStorageWithVersioning_MigrationState_InProgress_STATUS = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
+	ImmutableStorageWithVersioning_MigrationState_STATUS_Completed  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
+	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
 
 // Deprecated version of TagProperty_STATUS. Use v1beta20210401.TagProperty_STATUS instead
@@ -1788,14 +1788,14 @@ var _ genruntime.FromARMConverter = &TagProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *TagProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TagProperty_STATUSARM{}
+	return &TagProperty_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *TagProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TagProperty_STATUSARM)
+	typedInput, ok := armInput.(TagProperty_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ObjectIdentifier’:
@@ -1899,14 +1899,14 @@ var _ genruntime.FromARMConverter = &UpdateHistoryProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *UpdateHistoryProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UpdateHistoryProperty_STATUSARM{}
+	return &UpdateHistoryProperty_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *UpdateHistoryProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UpdateHistoryProperty_STATUSARM)
+	typedInput, ok := armInput.(UpdateHistoryProperty_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
@@ -2022,9 +2022,9 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryP
 type UpdateHistoryProperty_Update_STATUS string
 
 const (
-	UpdateHistoryProperty_Update_Extend_STATUS = UpdateHistoryProperty_Update_STATUS("extend")
-	UpdateHistoryProperty_Update_Lock_STATUS   = UpdateHistoryProperty_Update_STATUS("lock")
-	UpdateHistoryProperty_Update_Put_STATUS    = UpdateHistoryProperty_Update_STATUS("put")
+	UpdateHistoryProperty_Update_STATUS_Extend = UpdateHistoryProperty_Update_STATUS("extend")
+	UpdateHistoryProperty_Update_STATUS_Lock   = UpdateHistoryProperty_Update_STATUS("lock")
+	UpdateHistoryProperty_Update_STATUS_Put    = UpdateHistoryProperty_Update_STATUS("put")
 )
 
 func init() {

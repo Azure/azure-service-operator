@@ -388,10 +388,10 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]go
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_ForeignGroup_STATUS,
-		RoleAssignmentProperties_PrincipalType_Group_STATUS,
-		RoleAssignmentProperties_PrincipalType_ServicePrincipal_STATUS,
-		RoleAssignmentProperties_PrincipalType_User_STATUS))
+		RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
+		RoleAssignmentProperties_PrincipalType_STATUS_Group,
+		RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
+		RoleAssignmentProperties_PrincipalType_STATUS_User))
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

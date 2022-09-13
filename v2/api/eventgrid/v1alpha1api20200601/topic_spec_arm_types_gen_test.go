@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Topic_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Topic_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Topic_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopic_SpecARM, Topic_SpecARMGenerator()))
+		"Round trip of Topic_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopic_Spec_ARM, Topic_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTopic_SpecARM runs a test to see if a specific instance of Topic_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopic_SpecARM(subject Topic_SpecARM) string {
+// RunJSONSerializationTestForTopic_Spec_ARM runs a test to see if a specific instance of Topic_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopic_Spec_ARM(subject Topic_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForTopic_SpecARM(subject Topic_SpecARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual Topic_SpecARM
+	var actual Topic_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,24 @@ func RunJSONSerializationTestForTopic_SpecARM(subject Topic_SpecARM) string {
 	return ""
 }
 
-// Generator of Topic_SpecARM instances for property testing - lazily instantiated by Topic_SpecARMGenerator()
-var topic_SpecARMGenerator gopter.Gen
+// Generator of Topic_Spec_ARM instances for property testing - lazily instantiated by Topic_Spec_ARMGenerator()
+var topic_Spec_ARMGenerator gopter.Gen
 
-// Topic_SpecARMGenerator returns a generator of Topic_SpecARM instances for property testing.
-func Topic_SpecARMGenerator() gopter.Gen {
-	if topic_SpecARMGenerator != nil {
-		return topic_SpecARMGenerator
+// Topic_Spec_ARMGenerator returns a generator of Topic_Spec_ARM instances for property testing.
+func Topic_Spec_ARMGenerator() gopter.Gen {
+	if topic_Spec_ARMGenerator != nil {
+		return topic_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopic_SpecARM(generators)
-	topic_SpecARMGenerator = gen.Struct(reflect.TypeOf(Topic_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForTopic_Spec_ARM(generators)
+	topic_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Topic_Spec_ARM{}), generators)
 
-	return topic_SpecARMGenerator
+	return topic_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTopic_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopic_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTopic_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopic_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()

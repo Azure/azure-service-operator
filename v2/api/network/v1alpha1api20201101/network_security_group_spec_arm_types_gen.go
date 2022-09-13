@@ -6,38 +6,38 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
-type NetworkSecurityGroup_SpecARM struct {
-	AzureName  string                                                       `json:"azureName,omitempty"`
-	Id         *string                                                      `json:"id,omitempty"`
-	Location   *string                                                      `json:"location,omitempty"`
-	Name       string                                                       `json:"name,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
-	Tags       map[string]string                                            `json:"tags,omitempty"`
+type NetworkSecurityGroup_Spec_ARM struct {
+	AzureName  string                                                        `json:"azureName,omitempty"`
+	Id         *string                                                       `json:"id,omitempty"`
+	Location   *string                                                       `json:"location,omitempty"`
+	Name       string                                                        `json:"name,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                                             `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_SpecARM{}
+var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (group NetworkSecurityGroup_SpecARM) GetAPIVersion() string {
+func (group NetworkSecurityGroup_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (group *NetworkSecurityGroup_SpecARM) GetName() string {
+func (group *NetworkSecurityGroup_Spec_ARM) GetName() string {
 	return group.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
-func (group *NetworkSecurityGroup_SpecARM) GetType() string {
+func (group *NetworkSecurityGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded instead
-type NetworkSecurityGroupPropertiesFormat_SubResourceEmbeddedARM struct {
-	SecurityRules []SecurityRule_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
+type NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded_ARM struct {
+	SecurityRules []SecurityRule_SubResourceEmbedded_ARM `json:"securityRules,omitempty"`
 }
 
 // Deprecated version of SecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_SubResourceEmbedded instead
-type SecurityRule_SubResourceEmbeddedARM struct {
+type SecurityRule_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

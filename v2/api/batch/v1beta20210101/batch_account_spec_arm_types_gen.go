@@ -5,50 +5,50 @@ package v1beta20210101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type BatchAccount_SpecARM struct {
+type BatchAccount_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Identity: The identity of the Batch account.
-	Identity *BatchAccountIdentityARM `json:"identity,omitempty"`
+	Identity *BatchAccountIdentity_ARM `json:"identity,omitempty"`
 
 	// Location: The region in which to create the account.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: The properties of the Batch account.
-	Properties *BatchAccountCreatePropertiesARM `json:"properties,omitempty"`
+	Properties *BatchAccountCreateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &BatchAccount_SpecARM{}
+var _ genruntime.ARMResourceSpec = &BatchAccount_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
-func (account BatchAccount_SpecARM) GetAPIVersion() string {
+func (account BatchAccount_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (account *BatchAccount_SpecARM) GetName() string {
+func (account *BatchAccount_Spec_ARM) GetName() string {
 	return account.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
-func (account *BatchAccount_SpecARM) GetType() string {
+func (account *BatchAccount_Spec_ARM) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 
-type BatchAccountCreatePropertiesARM struct {
+type BatchAccountCreateProperties_ARM struct {
 	// AutoStorage: The properties related to the auto-storage account.
-	AutoStorage *AutoStorageBasePropertiesARM `json:"autoStorage,omitempty"`
+	AutoStorage *AutoStorageBaseProperties_ARM `json:"autoStorage,omitempty"`
 
 	// Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
-	Encryption *EncryptionPropertiesARM `json:"encryption,omitempty"`
+	Encryption *EncryptionProperties_ARM `json:"encryption,omitempty"`
 
 	// KeyVaultReference: A reference to the Azure key vault associated with the Batch account.
-	KeyVaultReference *KeyVaultReferenceARM `json:"keyVaultReference,omitempty"`
+	KeyVaultReference *KeyVaultReference_ARM `json:"keyVaultReference,omitempty"`
 
 	// PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
 	// mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
@@ -59,12 +59,12 @@ type BatchAccountCreatePropertiesARM struct {
 	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
 }
 
-type BatchAccountIdentityARM struct {
+type BatchAccountIdentity_ARM struct {
 	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
 }
 
-type AutoStorageBasePropertiesARM struct {
+type AutoStorageBaseProperties_ARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
@@ -77,22 +77,22 @@ const (
 	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
 )
 
-type EncryptionPropertiesARM struct {
+type EncryptionProperties_ARM struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
-	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 }
 
-type KeyVaultReferenceARM struct {
+type KeyVaultReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Url: The URL of the Azure key vault associated with the Batch account.
 	Url *string `json:"url,omitempty"`
 }
 
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
 	// prerequisites must be met:

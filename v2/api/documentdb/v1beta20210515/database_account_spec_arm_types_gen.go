@@ -5,67 +5,67 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccount_SpecARM struct {
-	AzureName string                     `json:"azureName,omitempty"`
-	Identity  *ManagedServiceIdentityARM `json:"identity,omitempty"`
+type DatabaseAccount_Spec_ARM struct {
+	AzureName string                      `json:"azureName,omitempty"`
+	Identity  *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccount_Spec_Kind `json:"kind,omitempty"`
+	Kind *DatabaseAccount_Kind_Spec `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
-	Location   *string                                   `json:"location,omitempty"`
-	Name       string                                    `json:"name,omitempty"`
-	Properties *DatabaseAccountCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       string                                     `json:"name,omitempty"`
+	Properties *DatabaseAccountCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccount_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccount_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (account DatabaseAccount_SpecARM) GetAPIVersion() string {
+func (account DatabaseAccount_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (account *DatabaseAccount_SpecARM) GetName() string {
+func (account *DatabaseAccount_Spec_ARM) GetName() string {
 	return account.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
-func (account *DatabaseAccount_SpecARM) GetType() string {
+func (account *DatabaseAccount_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccount_Spec_Kind string
+type DatabaseAccount_Kind_Spec string
 
 const (
-	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
-	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
-	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
+	DatabaseAccount_Kind_Spec_GlobalDocumentDB = DatabaseAccount_Kind_Spec("GlobalDocumentDB")
+	DatabaseAccount_Kind_Spec_MongoDB          = DatabaseAccount_Kind_Spec("MongoDB")
+	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
 )
 
-type DatabaseAccountCreateUpdatePropertiesARM struct {
+type DatabaseAccountCreateUpdateProperties_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
-	AnalyticalStorageConfiguration *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_ARM `json:"analyticalStorageConfiguration,omitempty"`
 
 	// ApiProperties: API specific properties. Currently, supported only for MongoDB API.
-	ApiProperties *ApiPropertiesARM `json:"apiProperties,omitempty"`
+	ApiProperties *ApiProperties_ARM `json:"apiProperties,omitempty"`
 
 	// BackupPolicy: The object representing the policy for taking backups on an account.
-	BackupPolicy *BackupPolicyARM `json:"backupPolicy,omitempty"`
+	BackupPolicy *BackupPolicy_ARM `json:"backupPolicy,omitempty"`
 
 	// Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []CapabilityARM `json:"capabilities,omitempty"`
+	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
 	ConnectorOffer *ConnectorOffer `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB account.
-	ConsistencyPolicy *ConsistencyPolicyARM `json:"consistencyPolicy,omitempty"`
+	ConsistencyPolicy *ConsistencyPolicy_ARM `json:"consistencyPolicy,omitempty"`
 
 	// Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicyARM `json:"cors,omitempty"`
+	Cors []CorsPolicy_ARM `json:"cors,omitempty"`
 
 	// DatabaseAccountOfferType: The offer type for the database
 	DatabaseAccountOfferType *DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
@@ -96,7 +96,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
 
 	// IpRules: List of IpRules.
-	IpRules []IpAddressOrRangeARM `json:"ipRules,omitempty"`
+	IpRules []IpAddressOrRange_ARM `json:"ipRules,omitempty"`
 
 	// IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
 	IsVirtualNetworkFilterEnabled *bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -105,7 +105,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
 
 	// Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
-	Locations []LocationARM `json:"locations,omitempty"`
+	Locations []Location_ARM `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
 	NetworkAclBypass *NetworkAclBypass `json:"networkAclBypass,omitempty"`
@@ -117,35 +117,35 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
-	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
-type ManagedServiceIdentityARM struct {
+type ManagedServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 }
 
-type AnalyticalStorageConfigurationARM struct {
+type AnalyticalStorageConfiguration_ARM struct {
 	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
 }
 
-type ApiPropertiesARM struct {
+type ApiProperties_ARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiProperties_ServerVersion `json:"serverVersion,omitempty"`
 }
 
-type BackupPolicyARM struct {
+type BackupPolicy_ARM struct {
 	Type *BackupPolicyType `json:"type,omitempty"`
 }
 
-type CapabilityARM struct {
+type Capability_ARM struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
-type ConsistencyPolicyARM struct {
+type ConsistencyPolicy_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
@@ -160,7 +160,7 @@ type ConsistencyPolicyARM struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
-type CorsPolicyARM struct {
+type CorsPolicy_ARM struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
 
@@ -178,7 +178,7 @@ type CorsPolicyARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-type IpAddressOrRangeARM struct {
+type IpAddressOrRange_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
 	// 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
@@ -186,7 +186,7 @@ type IpAddressOrRangeARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-type LocationARM struct {
+type Location_ARM struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
 	// regions in which the database account exists.
@@ -209,7 +209,7 @@ const (
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
-type VirtualNetworkRuleARM struct {
+type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.

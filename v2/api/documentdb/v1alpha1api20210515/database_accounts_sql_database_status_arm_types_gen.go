@@ -4,23 +4,23 @@
 package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccounts_SqlDatabase_STATUS. Use v1beta20210515.DatabaseAccounts_SqlDatabase_STATUS instead
-type DatabaseAccounts_SqlDatabase_STATUSARM struct {
-	Id         *string                             `json:"id,omitempty"`
-	Location   *string                             `json:"location,omitempty"`
-	Name       *string                             `json:"name,omitempty"`
-	Properties *SqlDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                   `json:"tags,omitempty"`
-	Type       *string                             `json:"type,omitempty"`
+type DatabaseAccounts_SqlDatabase_STATUS_ARM struct {
+	Id         *string                              `json:"id,omitempty"`
+	Location   *string                              `json:"location,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
+	Properties *SqlDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
+	Type       *string                              `json:"type,omitempty"`
 }
 
 // Deprecated version of SqlDatabaseGetProperties_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_STATUS instead
-type SqlDatabaseGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                   `json:"options,omitempty"`
-	Resource *SqlDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type SqlDatabaseGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                   `json:"options,omitempty"`
+	Resource *SqlDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS instead
-type SqlDatabaseGetProperties_Resource_STATUSARM struct {
+type SqlDatabaseGetProperties_Resource_STATUS_ARM struct {
 	Colls *string  `json:"_colls,omitempty"`
 	Etag  *string  `json:"_etag,omitempty"`
 	Id    *string  `json:"id,omitempty"`

@@ -6,31 +6,31 @@ package v1alpha1api20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_LinkedServer_Spec. Use v1beta20201201.Redis_LinkedServer_Spec instead
-type Redis_LinkedServer_SpecARM struct {
-	AzureName  string                                `json:"azureName,omitempty"`
-	Name       string                                `json:"name,omitempty"`
-	Properties *RedisLinkedServerCreatePropertiesARM `json:"properties,omitempty"`
+type Redis_LinkedServer_Spec_ARM struct {
+	AzureName  string                                 `json:"azureName,omitempty"`
+	Name       string                                 `json:"name,omitempty"`
+	Properties *RedisLinkedServerCreateProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_LinkedServer_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Redis_LinkedServer_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (server Redis_LinkedServer_SpecARM) GetAPIVersion() string {
+func (server Redis_LinkedServer_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (server *Redis_LinkedServer_SpecARM) GetName() string {
+func (server *Redis_LinkedServer_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/linkedServers"
-func (server *Redis_LinkedServer_SpecARM) GetType() string {
+func (server *Redis_LinkedServer_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
 // Deprecated version of RedisLinkedServerCreateProperties. Use v1beta20201201.RedisLinkedServerCreateProperties instead
-type RedisLinkedServerCreatePropertiesARM struct {
+type RedisLinkedServerCreateProperties_ARM struct {
 	LinkedRedisCacheId       *string                                       `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                       `json:"linkedRedisCacheLocation,omitempty"`
 	ServerRole               *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`

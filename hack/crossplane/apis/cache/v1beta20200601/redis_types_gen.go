@@ -297,33 +297,33 @@ type RedisLinkedServer_STATUS struct {
 type RedisProperties_MinimumTlsVersion_STATUS string
 
 const (
-	RedisProperties_MinimumTlsVersion_10_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.0")
-	RedisProperties_MinimumTlsVersion_11_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.1")
-	RedisProperties_MinimumTlsVersion_12_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.2")
+	RedisProperties_MinimumTlsVersion_STATUS_10 = RedisProperties_MinimumTlsVersion_STATUS("1.0")
+	RedisProperties_MinimumTlsVersion_STATUS_11 = RedisProperties_MinimumTlsVersion_STATUS("1.1")
+	RedisProperties_MinimumTlsVersion_STATUS_12 = RedisProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 type RedisProperties_ProvisioningState_STATUS string
 
 const (
-	RedisProperties_ProvisioningState_Creating_STATUS               = RedisProperties_ProvisioningState_STATUS("Creating")
-	RedisProperties_ProvisioningState_Deleting_STATUS               = RedisProperties_ProvisioningState_STATUS("Deleting")
-	RedisProperties_ProvisioningState_Disabled_STATUS               = RedisProperties_ProvisioningState_STATUS("Disabled")
-	RedisProperties_ProvisioningState_Failed_STATUS                 = RedisProperties_ProvisioningState_STATUS("Failed")
-	RedisProperties_ProvisioningState_Linking_STATUS                = RedisProperties_ProvisioningState_STATUS("Linking")
-	RedisProperties_ProvisioningState_Provisioning_STATUS           = RedisProperties_ProvisioningState_STATUS("Provisioning")
-	RedisProperties_ProvisioningState_RecoveringScaleFailure_STATUS = RedisProperties_ProvisioningState_STATUS("RecoveringScaleFailure")
-	RedisProperties_ProvisioningState_Scaling_STATUS                = RedisProperties_ProvisioningState_STATUS("Scaling")
-	RedisProperties_ProvisioningState_Succeeded_STATUS              = RedisProperties_ProvisioningState_STATUS("Succeeded")
-	RedisProperties_ProvisioningState_Unlinking_STATUS              = RedisProperties_ProvisioningState_STATUS("Unlinking")
-	RedisProperties_ProvisioningState_Unprovisioning_STATUS         = RedisProperties_ProvisioningState_STATUS("Unprovisioning")
-	RedisProperties_ProvisioningState_Updating_STATUS               = RedisProperties_ProvisioningState_STATUS("Updating")
+	RedisProperties_ProvisioningState_STATUS_Creating               = RedisProperties_ProvisioningState_STATUS("Creating")
+	RedisProperties_ProvisioningState_STATUS_Deleting               = RedisProperties_ProvisioningState_STATUS("Deleting")
+	RedisProperties_ProvisioningState_STATUS_Disabled               = RedisProperties_ProvisioningState_STATUS("Disabled")
+	RedisProperties_ProvisioningState_STATUS_Failed                 = RedisProperties_ProvisioningState_STATUS("Failed")
+	RedisProperties_ProvisioningState_STATUS_Linking                = RedisProperties_ProvisioningState_STATUS("Linking")
+	RedisProperties_ProvisioningState_STATUS_Provisioning           = RedisProperties_ProvisioningState_STATUS("Provisioning")
+	RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure = RedisProperties_ProvisioningState_STATUS("RecoveringScaleFailure")
+	RedisProperties_ProvisioningState_STATUS_Scaling                = RedisProperties_ProvisioningState_STATUS("Scaling")
+	RedisProperties_ProvisioningState_STATUS_Succeeded              = RedisProperties_ProvisioningState_STATUS("Succeeded")
+	RedisProperties_ProvisioningState_STATUS_Unlinking              = RedisProperties_ProvisioningState_STATUS("Unlinking")
+	RedisProperties_ProvisioningState_STATUS_Unprovisioning         = RedisProperties_ProvisioningState_STATUS("Unprovisioning")
+	RedisProperties_ProvisioningState_STATUS_Updating               = RedisProperties_ProvisioningState_STATUS("Updating")
 )
 
 type RedisProperties_PublicNetworkAccess_STATUS string
 
 const (
-	RedisProperties_PublicNetworkAccess_Disabled_STATUS = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
-	RedisProperties_PublicNetworkAccess_Enabled_STATUS  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
+	RedisProperties_PublicNetworkAccess_STATUS_Disabled = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
+	RedisProperties_PublicNetworkAccess_STATUS_Enabled  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 type RedisProperties_RedisConfiguration_STATUS struct {
@@ -398,10 +398,10 @@ type PrivateEndpoint_STATUS struct {
 type PrivateEndpointConnectionProvisioningState_STATUS string
 
 const (
-	PrivateEndpointConnectionProvisioningState_Creating_STATUS  = PrivateEndpointConnectionProvisioningState_STATUS("Creating")
-	PrivateEndpointConnectionProvisioningState_Deleting_STATUS  = PrivateEndpointConnectionProvisioningState_STATUS("Deleting")
-	PrivateEndpointConnectionProvisioningState_Failed_STATUS    = PrivateEndpointConnectionProvisioningState_STATUS("Failed")
-	PrivateEndpointConnectionProvisioningState_Succeeded_STATUS = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
+	PrivateEndpointConnectionProvisioningState_STATUS_Creating  = PrivateEndpointConnectionProvisioningState_STATUS("Creating")
+	PrivateEndpointConnectionProvisioningState_STATUS_Deleting  = PrivateEndpointConnectionProvisioningState_STATUS("Deleting")
+	PrivateEndpointConnectionProvisioningState_STATUS_Failed    = PrivateEndpointConnectionProvisioningState_STATUS("Failed")
+	PrivateEndpointConnectionProvisioningState_STATUS_Succeeded = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
 )
 
 type PrivateLinkServiceConnectionState_STATUS struct {
@@ -426,8 +426,8 @@ const (
 type Sku_Family_STATUS string
 
 const (
-	Sku_Family_C_STATUS = Sku_Family_STATUS("C")
-	Sku_Family_P_STATUS = Sku_Family_STATUS("P")
+	Sku_Family_STATUS_C = Sku_Family_STATUS("C")
+	Sku_Family_STATUS_P = Sku_Family_STATUS("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
@@ -442,17 +442,17 @@ const (
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_Basic_STATUS    = Sku_Name_STATUS("Basic")
-	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("Premium")
-	Sku_Name_Standard_STATUS = Sku_Name_STATUS("Standard")
+	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
-	PrivateEndpointServiceConnectionStatus_Approved_STATUS = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
-	PrivateEndpointServiceConnectionStatus_Pending_STATUS  = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
-	PrivateEndpointServiceConnectionStatus_Rejected_STATUS = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
+	PrivateEndpointServiceConnectionStatus_STATUS_Approved = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
+	PrivateEndpointServiceConnectionStatus_STATUS_Pending  = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
+	PrivateEndpointServiceConnectionStatus_STATUS_Rejected = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
 
 func init() {

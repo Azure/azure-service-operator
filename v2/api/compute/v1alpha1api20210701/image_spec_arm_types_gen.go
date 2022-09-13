@@ -6,43 +6,43 @@ package v1alpha1api20210701
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Image_Spec. Use v1beta20210701.Image_Spec instead
-type Image_SpecARM struct {
-	AzureName        string               `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Location         *string              `json:"location,omitempty"`
-	Name             string               `json:"name,omitempty"`
-	Properties       *ImagePropertiesARM  `json:"properties,omitempty"`
-	Tags             map[string]string    `json:"tags,omitempty"`
+type Image_Spec_ARM struct {
+	AzureName        string                `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+	Location         *string               `json:"location,omitempty"`
+	Name             string                `json:"name,omitempty"`
+	Properties       *ImageProperties_ARM  `json:"properties,omitempty"`
+	Tags             map[string]string     `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Image_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Image_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
-func (image Image_SpecARM) GetAPIVersion() string {
+func (image Image_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (image *Image_SpecARM) GetName() string {
+func (image *Image_Spec_ARM) GetName() string {
 	return image.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
-func (image *Image_SpecARM) GetType() string {
+func (image *Image_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
-type ExtendedLocationARM struct {
+type ExtendedLocation_ARM struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 // Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
-type ImagePropertiesARM struct {
-	HyperVGeneration     *HyperVGenerationType   `json:"hyperVGeneration,omitempty"`
-	SourceVirtualMachine *SubResourceARM         `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfileARM `json:"storageProfile,omitempty"`
+type ImageProperties_ARM struct {
+	HyperVGeneration     *HyperVGenerationType    `json:"hyperVGeneration,omitempty"`
+	SourceVirtualMachine *SubResource_ARM         `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_ARM `json:"storageProfile,omitempty"`
 }
 
 // Deprecated version of ExtendedLocationType. Use v1beta20210701.ExtendedLocationType instead
@@ -52,38 +52,38 @@ type ExtendedLocationType string
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
-type ImageStorageProfileARM struct {
-	DataDisks     []ImageDataDiskARM `json:"dataDisks,omitempty"`
-	OsDisk        *ImageOSDiskARM    `json:"osDisk,omitempty"`
-	ZoneResilient *bool              `json:"zoneResilient,omitempty"`
+type ImageStorageProfile_ARM struct {
+	DataDisks     []ImageDataDisk_ARM `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk_ARM    `json:"osDisk,omitempty"`
+	ZoneResilient *bool               `json:"zoneResilient,omitempty"`
 }
 
 // Deprecated version of SubResource. Use v1beta20210701.SubResource instead
-type SubResourceARM struct {
+type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
-type ImageDataDiskARM struct {
+type ImageDataDisk_ARM struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *ImageDataDisk_Caching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResourceARM        `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM       `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
 	Lun                *int                   `json:"lun,omitempty"`
-	ManagedDisk        *SubResourceARM        `json:"managedDisk,omitempty"`
-	Snapshot           *SubResourceARM        `json:"snapshot,omitempty"`
+	ManagedDisk        *SubResource_ARM       `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_ARM       `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType    `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
-type ImageOSDiskARM struct {
+type ImageOSDisk_ARM struct {
 	BlobUri            *string              `json:"blobUri,omitempty"`
 	Caching            *ImageOSDisk_Caching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResourceARM      `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM     `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                 `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResourceARM      `json:"managedDisk,omitempty"`
+	ManagedDisk        *SubResource_ARM     `json:"managedDisk,omitempty"`
 	OsState            *ImageOSDisk_OsState `json:"osState,omitempty"`
 	OsType             *ImageOSDisk_OsType  `json:"osType,omitempty"`
-	Snapshot           *SubResourceARM      `json:"snapshot,omitempty"`
+	Snapshot           *SubResource_ARM     `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType  `json:"storageAccountType,omitempty"`
 }

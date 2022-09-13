@@ -4,14 +4,14 @@
 package v1alpha1api20210401
 
 // Deprecated version of StorageAccounts_QueueService_STATUS. Use v1beta20210401.StorageAccounts_QueueService_STATUS instead
-type StorageAccounts_QueueService_STATUSARM struct {
-	Id         *string                                            `json:"id,omitempty"`
-	Name       *string                                            `json:"name,omitempty"`
-	Properties *StorageAccounts_QueueService_Properties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                            `json:"type,omitempty"`
+type StorageAccounts_QueueService_STATUS_ARM struct {
+	Id         *string                                             `json:"id,omitempty"`
+	Name       *string                                             `json:"name,omitempty"`
+	Properties *StorageAccounts_QueueService_Properties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                             `json:"type,omitempty"`
 }
 
 // Deprecated version of StorageAccounts_QueueService_Properties_STATUS. Use v1beta20210401.StorageAccounts_QueueService_Properties_STATUS instead
-type StorageAccounts_QueueService_Properties_STATUSARM struct {
-	Cors *CorsRules_STATUSARM `json:"cors,omitempty"`
+type StorageAccounts_QueueService_Properties_STATUS_ARM struct {
+	Cors *CorsRules_STATUS_ARM `json:"cors,omitempty"`
 }

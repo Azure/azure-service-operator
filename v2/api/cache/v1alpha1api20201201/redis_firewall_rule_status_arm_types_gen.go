@@ -4,15 +4,15 @@
 package v1alpha1api20201201
 
 // Deprecated version of Redis_FirewallRule_STATUS. Use v1beta20201201.Redis_FirewallRule_STATUS instead
-type Redis_FirewallRule_STATUSARM struct {
-	Id         *string                                `json:"id,omitempty"`
-	Name       *string                                `json:"name,omitempty"`
-	Properties *RedisFirewallRuleProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                `json:"type,omitempty"`
+type Redis_FirewallRule_STATUS_ARM struct {
+	Id         *string                                 `json:"id,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *RedisFirewallRuleProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
 // Deprecated version of RedisFirewallRuleProperties_STATUS. Use v1beta20201201.RedisFirewallRuleProperties_STATUS instead
-type RedisFirewallRuleProperties_STATUSARM struct {
+type RedisFirewallRuleProperties_STATUS_ARM struct {
 	EndIP   *string `json:"endIP,omitempty"`
 	StartIP *string `json:"startIP,omitempty"`
 }

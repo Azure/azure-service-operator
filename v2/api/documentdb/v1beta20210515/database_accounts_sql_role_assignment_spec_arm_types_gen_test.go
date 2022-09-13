@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccounts_SqlRoleAssignment_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlRoleAssignment_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccounts_SqlRoleAssignment_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_SpecARM, DatabaseAccounts_SqlRoleAssignment_SpecARMGenerator()))
+		"Round trip of DatabaseAccounts_SqlRoleAssignment_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_Spec_ARM, DatabaseAccounts_SqlRoleAssignment_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_SpecARM runs a test to see if a specific instance of DatabaseAccounts_SqlRoleAssignment_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_SpecARM(subject DatabaseAccounts_SqlRoleAssignment_SpecARM) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_Spec_ARM runs a test to see if a specific instance of DatabaseAccounts_SqlRoleAssignment_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(subject DatabaseAccounts_SqlRoleAssignment_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_SpecARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccounts_SqlRoleAssignment_SpecARM
+	var actual DatabaseAccounts_SqlRoleAssignment_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,57 +56,57 @@ func RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_SpecARM(subje
 	return ""
 }
 
-// Generator of DatabaseAccounts_SqlRoleAssignment_SpecARM instances for property testing - lazily instantiated by
-// DatabaseAccounts_SqlRoleAssignment_SpecARMGenerator()
-var databaseAccounts_SqlRoleAssignment_SpecARMGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlRoleAssignment_Spec_ARM instances for property testing - lazily instantiated by
+// DatabaseAccounts_SqlRoleAssignment_Spec_ARMGenerator()
+var databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator gopter.Gen
 
-// DatabaseAccounts_SqlRoleAssignment_SpecARMGenerator returns a generator of DatabaseAccounts_SqlRoleAssignment_SpecARM instances for property testing.
-// We first initialize databaseAccounts_SqlRoleAssignment_SpecARMGenerator with a simplified generator based on the
+// DatabaseAccounts_SqlRoleAssignment_Spec_ARMGenerator returns a generator of DatabaseAccounts_SqlRoleAssignment_Spec_ARM instances for property testing.
+// We first initialize databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccounts_SqlRoleAssignment_SpecARMGenerator() gopter.Gen {
-	if databaseAccounts_SqlRoleAssignment_SpecARMGenerator != nil {
-		return databaseAccounts_SqlRoleAssignment_SpecARMGenerator
+func DatabaseAccounts_SqlRoleAssignment_Spec_ARMGenerator() gopter.Gen {
+	if databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator != nil {
+		return databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM(generators)
-	databaseAccounts_SqlRoleAssignment_SpecARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlRoleAssignment_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(generators)
+	databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM(generators)
-	databaseAccounts_SqlRoleAssignment_SpecARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlRoleAssignment_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(generators)
+	databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}), generators)
 
-	return databaseAccounts_SqlRoleAssignment_SpecARMGenerator
+	return databaseAccounts_SqlRoleAssignment_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_SpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlRoleAssignmentResourceARMGenerator())
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlRoleAssignmentResource_ARMGenerator())
 }
 
-func Test_SqlRoleAssignmentResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlRoleAssignmentResource_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlRoleAssignmentResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentResourceARM, SqlRoleAssignmentResourceARMGenerator()))
+		"Round trip of SqlRoleAssignmentResource_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentResource_ARM, SqlRoleAssignmentResource_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlRoleAssignmentResourceARM runs a test to see if a specific instance of SqlRoleAssignmentResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlRoleAssignmentResourceARM(subject SqlRoleAssignmentResourceARM) string {
+// RunJSONSerializationTestForSqlRoleAssignmentResource_ARM runs a test to see if a specific instance of SqlRoleAssignmentResource_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlRoleAssignmentResource_ARM(subject SqlRoleAssignmentResource_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -114,7 +114,7 @@ func RunJSONSerializationTestForSqlRoleAssignmentResourceARM(subject SqlRoleAssi
 	}
 
 	// Deserialize back into memory
-	var actual SqlRoleAssignmentResourceARM
+	var actual SqlRoleAssignmentResource_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -132,25 +132,25 @@ func RunJSONSerializationTestForSqlRoleAssignmentResourceARM(subject SqlRoleAssi
 	return ""
 }
 
-// Generator of SqlRoleAssignmentResourceARM instances for property testing - lazily instantiated by
-// SqlRoleAssignmentResourceARMGenerator()
-var sqlRoleAssignmentResourceARMGenerator gopter.Gen
+// Generator of SqlRoleAssignmentResource_ARM instances for property testing - lazily instantiated by
+// SqlRoleAssignmentResource_ARMGenerator()
+var sqlRoleAssignmentResource_ARMGenerator gopter.Gen
 
-// SqlRoleAssignmentResourceARMGenerator returns a generator of SqlRoleAssignmentResourceARM instances for property testing.
-func SqlRoleAssignmentResourceARMGenerator() gopter.Gen {
-	if sqlRoleAssignmentResourceARMGenerator != nil {
-		return sqlRoleAssignmentResourceARMGenerator
+// SqlRoleAssignmentResource_ARMGenerator returns a generator of SqlRoleAssignmentResource_ARM instances for property testing.
+func SqlRoleAssignmentResource_ARMGenerator() gopter.Gen {
+	if sqlRoleAssignmentResource_ARMGenerator != nil {
+		return sqlRoleAssignmentResource_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlRoleAssignmentResourceARM(generators)
-	sqlRoleAssignmentResourceARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentResourceARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_ARM(generators)
+	sqlRoleAssignmentResource_ARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentResource_ARM{}), generators)
 
-	return sqlRoleAssignmentResourceARMGenerator
+	return sqlRoleAssignmentResource_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlRoleAssignmentResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlRoleAssignmentResourceARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())

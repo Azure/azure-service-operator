@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type VirtualNetworks_VirtualNetworkPeering_STATUSARM struct {
+type VirtualNetworks_VirtualNetworkPeering_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -14,13 +14,13 @@ type VirtualNetworks_VirtualNetworkPeering_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
-	Properties *VirtualNetworkPeeringPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
+type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
@@ -42,15 +42,15 @@ type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
-	RemoteAddressSpace *AddressSpace_STATUSARM `json:"remoteAddressSpace,omitempty"`
+	RemoteAddressSpace *AddressSpace_STATUS_ARM `json:"remoteAddressSpace,omitempty"`
 
 	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities_STATUSARM `json:"remoteBgpCommunities,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities_STATUS_ARM `json:"remoteBgpCommunities,omitempty"`
 
 	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork *SubResource_STATUSARM `json:"remoteVirtualNetwork,omitempty"`
+	RemoteVirtualNetwork *SubResource_STATUS_ARM `json:"remoteVirtualNetwork,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`

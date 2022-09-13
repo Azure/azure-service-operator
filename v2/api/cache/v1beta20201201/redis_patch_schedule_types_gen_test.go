@@ -615,15 +615,15 @@ func ScheduleEntry_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleEntry_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntry_STATUS(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
-		ScheduleEntry_DayOfWeek_Everyday_STATUS,
-		ScheduleEntry_DayOfWeek_Friday_STATUS,
-		ScheduleEntry_DayOfWeek_Monday_STATUS,
-		ScheduleEntry_DayOfWeek_Saturday_STATUS,
-		ScheduleEntry_DayOfWeek_Sunday_STATUS,
-		ScheduleEntry_DayOfWeek_Thursday_STATUS,
-		ScheduleEntry_DayOfWeek_Tuesday_STATUS,
-		ScheduleEntry_DayOfWeek_Wednesday_STATUS,
-		ScheduleEntry_DayOfWeek_Weekend_STATUS))
+		ScheduleEntry_DayOfWeek_STATUS_Everyday,
+		ScheduleEntry_DayOfWeek_STATUS_Friday,
+		ScheduleEntry_DayOfWeek_STATUS_Monday,
+		ScheduleEntry_DayOfWeek_STATUS_Saturday,
+		ScheduleEntry_DayOfWeek_STATUS_Sunday,
+		ScheduleEntry_DayOfWeek_STATUS_Thursday,
+		ScheduleEntry_DayOfWeek_STATUS_Tuesday,
+		ScheduleEntry_DayOfWeek_STATUS_Wednesday,
+		ScheduleEntry_DayOfWeek_STATUS_Weekend))
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }

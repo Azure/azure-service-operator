@@ -8,7 +8,6 @@ package astmodel
 import (
 	"testing"
 
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
@@ -47,14 +46,14 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"version2021 02 01", NotExported, "version20210201"},
 	}
 
-	idfactory := NewIdentifierFactory()
+	idFactory := NewIdentifierFactory()
 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			identifier := idfactory.CreateIdentifier(c.name, c.visibility)
+			identifier := idFactory.CreateIdentifier(c.name, c.visibility)
 			g.Expect(identifier).To(Equal(c.expected))
 		})
 	}
@@ -176,8 +175,8 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		// Forbidden receiver suffixes
 		{"Address" + StatusSuffix, "address"},
 		{"Address" + SpecSuffix, "address"},
-		{"Address" + StatusSuffix + ArmSuffix, "address"},
-		{"Address" + SpecSuffix + ArmSuffix, "address"},
+		{"Address" + StatusSuffix + ARMSuffix, "address"},
+		{"Address" + SpecSuffix + ARMSuffix, "address"},
 		// Real world examples
 		{"EncryptionSettingsCollection", "collection"},
 		{"RedisLinkedServer", "server"},
@@ -190,7 +189,7 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		{"DatabaseAccountsMongodbDatabasesCollections" + SpecSuffix, "collections"},
 		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings" + SpecSuffix, "settings"},
 		// Very short receiver names need more detail
-		{"SignalR" + SpecSuffix + ArmSuffix, "signalR"},
+		{"SignalR" + SpecSuffix + ARMSuffix, "signalR"},
 		{"PublicIPAddressSku" + StatusSuffix, "addressSku"},
 		{"SBSku" + StatusSuffix, "sbSku"},
 		{"ManagedClusterSKU", "clusterSKU"},
@@ -211,22 +210,4 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 			g.Expect(actual).To(Equal(c.expected))
 		})
 	}
-}
-
-func TestAppendPreservingSuffixPreservesSuffix(t *testing.T) {
-	t.Parallel()
-
-	g := gomega.NewWithT(t)
-	str := "something3456"
-	result := AppendPreservingSuffix(str, "12", "3456")
-	g.Expect(result).To(gomega.Equal("something123456"))
-}
-
-func TestAppendPreservingSuffixWithoutSuffix(t *testing.T) {
-	t.Parallel()
-
-	g := gomega.NewWithT(t)
-	str := "something_suffix"
-	result := AppendPreservingSuffix(str, "_new", "_elsewise")
-	g.Expect(result).To(gomega.Equal("something_suffix_new"))
 }

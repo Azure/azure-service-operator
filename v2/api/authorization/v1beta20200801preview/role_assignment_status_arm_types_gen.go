@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200801preview
 
-type RoleAssignment_STATUSARM struct {
+type RoleAssignment_STATUS_ARM struct {
 	// Id: The role assignment ID.
 	Id *string `json:"id,omitempty"`
 
@@ -11,13 +11,13 @@ type RoleAssignment_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Role assignment properties.
-	Properties *RoleAssignmentProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *RoleAssignmentProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The role assignment type.
 	Type *string `json:"type,omitempty"`
 }
 
-type RoleAssignmentProperties_STATUSARM struct {
+type RoleAssignmentProperties_STATUS_ARM struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
 	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
 	// 'foo_storage_container'

@@ -26,8 +26,13 @@ func Test_StorageAccount_Secret_CRUD(t *testing.T) {
 
 	storageKeysSecret := "storagekeys"
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+<<<<<<< HEAD
 	kind := storage.StorageAccount_Spec_Kind_StorageV2
 	sku := storage.SkuName_Standard_LRS
+=======
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
+>>>>>>> main
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{

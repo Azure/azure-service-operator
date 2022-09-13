@@ -350,7 +350,7 @@ func (topic *Domains_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if topic == nil {
 		return nil, nil
 	}
-	result := &Domains_Topic_SpecARM{}
+	result := &Domains_Topic_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
@@ -362,14 +362,14 @@ func (topic *Domains_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Domains_Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domains_Topic_SpecARM{}
+	return &Domains_Topic_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Domains_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domains_Topic_SpecARM)
+	typedInput, ok := armInput.(Domains_Topic_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -555,14 +555,14 @@ var _ genruntime.FromARMConverter = &Domains_Topic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Domains_Topic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domains_Topic_STATUSARM{}
+	return &Domains_Topic_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Domains_Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domains_Topic_STATUSARM)
+	typedInput, ok := armInput.(Domains_Topic_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -701,12 +701,12 @@ func (topic *Domains_Topic_STATUS) AssignProperties_To_Domains_Topic_STATUS(dest
 type DomainTopicProperties_ProvisioningState_STATUS string
 
 const (
-	DomainTopicProperties_ProvisioningState_Canceled_STATUS  = DomainTopicProperties_ProvisioningState_STATUS("Canceled")
-	DomainTopicProperties_ProvisioningState_Creating_STATUS  = DomainTopicProperties_ProvisioningState_STATUS("Creating")
-	DomainTopicProperties_ProvisioningState_Deleting_STATUS  = DomainTopicProperties_ProvisioningState_STATUS("Deleting")
-	DomainTopicProperties_ProvisioningState_Failed_STATUS    = DomainTopicProperties_ProvisioningState_STATUS("Failed")
-	DomainTopicProperties_ProvisioningState_Succeeded_STATUS = DomainTopicProperties_ProvisioningState_STATUS("Succeeded")
-	DomainTopicProperties_ProvisioningState_Updating_STATUS  = DomainTopicProperties_ProvisioningState_STATUS("Updating")
+	DomainTopicProperties_ProvisioningState_STATUS_Canceled  = DomainTopicProperties_ProvisioningState_STATUS("Canceled")
+	DomainTopicProperties_ProvisioningState_STATUS_Creating  = DomainTopicProperties_ProvisioningState_STATUS("Creating")
+	DomainTopicProperties_ProvisioningState_STATUS_Deleting  = DomainTopicProperties_ProvisioningState_STATUS("Deleting")
+	DomainTopicProperties_ProvisioningState_STATUS_Failed    = DomainTopicProperties_ProvisioningState_STATUS("Failed")
+	DomainTopicProperties_ProvisioningState_STATUS_Succeeded = DomainTopicProperties_ProvisioningState_STATUS("Succeeded")
+	DomainTopicProperties_ProvisioningState_STATUS_Updating  = DomainTopicProperties_ProvisioningState_STATUS("Updating")
 )
 
 func init() {

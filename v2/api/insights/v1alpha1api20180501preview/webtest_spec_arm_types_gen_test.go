@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Webtest_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Webtest_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Webtest_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebtest_SpecARM, Webtest_SpecARMGenerator()))
+		"Round trip of Webtest_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtest_Spec_ARM, Webtest_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebtest_SpecARM runs a test to see if a specific instance of Webtest_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebtest_SpecARM(subject Webtest_SpecARM) string {
+// RunJSONSerializationTestForWebtest_Spec_ARM runs a test to see if a specific instance of Webtest_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtest_Spec_ARM(subject Webtest_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForWebtest_SpecARM(subject Webtest_SpecARM) string 
 	}
 
 	// Deserialize back into memory
-	var actual Webtest_SpecARM
+	var actual Webtest_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,57 +56,57 @@ func RunJSONSerializationTestForWebtest_SpecARM(subject Webtest_SpecARM) string 
 	return ""
 }
 
-// Generator of Webtest_SpecARM instances for property testing - lazily instantiated by Webtest_SpecARMGenerator()
-var webtest_SpecARMGenerator gopter.Gen
+// Generator of Webtest_Spec_ARM instances for property testing - lazily instantiated by Webtest_Spec_ARMGenerator()
+var webtest_Spec_ARMGenerator gopter.Gen
 
-// Webtest_SpecARMGenerator returns a generator of Webtest_SpecARM instances for property testing.
-// We first initialize webtest_SpecARMGenerator with a simplified generator based on the
+// Webtest_Spec_ARMGenerator returns a generator of Webtest_Spec_ARM instances for property testing.
+// We first initialize webtest_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Webtest_SpecARMGenerator() gopter.Gen {
-	if webtest_SpecARMGenerator != nil {
-		return webtest_SpecARMGenerator
+func Webtest_Spec_ARMGenerator() gopter.Gen {
+	if webtest_Spec_ARMGenerator != nil {
+		return webtest_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtest_SpecARM(generators)
-	webtest_SpecARMGenerator = gen.Struct(reflect.TypeOf(Webtest_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_Spec_ARM(generators)
+	webtest_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Webtest_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtest_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForWebtest_SpecARM(generators)
-	webtest_SpecARMGenerator = gen.Struct(reflect.TypeOf(Webtest_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebtest_Spec_ARM(generators)
+	webtest_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Webtest_Spec_ARM{}), generators)
 
-	return webtest_SpecARMGenerator
+	return webtest_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebtest_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebtest_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebtest_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtest_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForWebtest_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebtest_SpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(WebTestPropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForWebtest_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebtest_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(WebTestProperties_ARMGenerator())
 }
 
-func Test_WebTestPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesARM, WebTestPropertiesARMGenerator()))
+		"Round trip of WebTestProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ARM, WebTestProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesARM runs a test to see if a specific instance of WebTestPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesARM(subject WebTestPropertiesARM) string {
+// RunJSONSerializationTestForWebTestProperties_ARM runs a test to see if a specific instance of WebTestProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ARM(subject WebTestProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -114,7 +114,7 @@ func RunJSONSerializationTestForWebTestPropertiesARM(subject WebTestPropertiesAR
 	}
 
 	// Deserialize back into memory
-	var actual WebTestPropertiesARM
+	var actual WebTestProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -132,34 +132,34 @@ func RunJSONSerializationTestForWebTestPropertiesARM(subject WebTestPropertiesAR
 	return ""
 }
 
-// Generator of WebTestPropertiesARM instances for property testing - lazily instantiated by
-// WebTestPropertiesARMGenerator()
-var webTestPropertiesARMGenerator gopter.Gen
+// Generator of WebTestProperties_ARM instances for property testing - lazily instantiated by
+// WebTestProperties_ARMGenerator()
+var webTestProperties_ARMGenerator gopter.Gen
 
-// WebTestPropertiesARMGenerator returns a generator of WebTestPropertiesARM instances for property testing.
-// We first initialize webTestPropertiesARMGenerator with a simplified generator based on the
+// WebTestProperties_ARMGenerator returns a generator of WebTestProperties_ARM instances for property testing.
+// We first initialize webTestProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestPropertiesARMGenerator() gopter.Gen {
-	if webTestPropertiesARMGenerator != nil {
-		return webTestPropertiesARMGenerator
+func WebTestProperties_ARMGenerator() gopter.Gen {
+	if webTestProperties_ARMGenerator != nil {
+		return webTestProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesARM(generators)
-	webTestPropertiesARMGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ARM(generators)
+	webTestProperties_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForWebTestPropertiesARM(generators)
-	webTestPropertiesARMGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_ARM(generators)
+	webTestProperties_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ARM{}), generators)
 
-	return webTestPropertiesARMGenerator
+	return webTestProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
@@ -174,28 +174,28 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gop
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Configuration"] = gen.PtrOf(WebTestProperties_ConfigurationARMGenerator())
-	gens["Locations"] = gen.SliceOf(WebTestGeolocationARMGenerator())
-	gens["Request"] = gen.PtrOf(WebTestProperties_RequestARMGenerator())
-	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRulesARMGenerator())
+// AddRelatedPropertyGeneratorsForWebTestProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_ARM(gens map[string]gopter.Gen) {
+	gens["Configuration"] = gen.PtrOf(WebTestProperties_Configuration_ARMGenerator())
+	gens["Locations"] = gen.SliceOf(WebTestGeolocation_ARMGenerator())
+	gens["Request"] = gen.PtrOf(WebTestProperties_Request_ARMGenerator())
+	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRules_ARMGenerator())
 }
 
-func Test_WebTestGeolocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestGeolocation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestGeolocationARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestGeolocationARM, WebTestGeolocationARMGenerator()))
+		"Round trip of WebTestGeolocation_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestGeolocation_ARM, WebTestGeolocation_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestGeolocationARM runs a test to see if a specific instance of WebTestGeolocationARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestGeolocationARM(subject WebTestGeolocationARM) string {
+// RunJSONSerializationTestForWebTestGeolocation_ARM runs a test to see if a specific instance of WebTestGeolocation_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestGeolocation_ARM(subject WebTestGeolocation_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -203,7 +203,7 @@ func RunJSONSerializationTestForWebTestGeolocationARM(subject WebTestGeolocation
 	}
 
 	// Deserialize back into memory
-	var actual WebTestGeolocationARM
+	var actual WebTestGeolocation_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -221,42 +221,42 @@ func RunJSONSerializationTestForWebTestGeolocationARM(subject WebTestGeolocation
 	return ""
 }
 
-// Generator of WebTestGeolocationARM instances for property testing - lazily instantiated by
-// WebTestGeolocationARMGenerator()
-var webTestGeolocationARMGenerator gopter.Gen
+// Generator of WebTestGeolocation_ARM instances for property testing - lazily instantiated by
+// WebTestGeolocation_ARMGenerator()
+var webTestGeolocation_ARMGenerator gopter.Gen
 
-// WebTestGeolocationARMGenerator returns a generator of WebTestGeolocationARM instances for property testing.
-func WebTestGeolocationARMGenerator() gopter.Gen {
-	if webTestGeolocationARMGenerator != nil {
-		return webTestGeolocationARMGenerator
+// WebTestGeolocation_ARMGenerator returns a generator of WebTestGeolocation_ARM instances for property testing.
+func WebTestGeolocation_ARMGenerator() gopter.Gen {
+	if webTestGeolocation_ARMGenerator != nil {
+		return webTestGeolocation_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestGeolocationARM(generators)
-	webTestGeolocationARMGenerator = gen.Struct(reflect.TypeOf(WebTestGeolocationARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestGeolocation_ARM(generators)
+	webTestGeolocation_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestGeolocation_ARM{}), generators)
 
-	return webTestGeolocationARMGenerator
+	return webTestGeolocation_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestGeolocationARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestGeolocationARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestGeolocation_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestGeolocation_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestProperties_ConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_Configuration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_ConfigurationARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ConfigurationARM, WebTestProperties_ConfigurationARMGenerator()))
+		"Round trip of WebTestProperties_Configuration_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Configuration_ARM, WebTestProperties_Configuration_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestProperties_ConfigurationARM runs a test to see if a specific instance of WebTestProperties_ConfigurationARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestProperties_ConfigurationARM(subject WebTestProperties_ConfigurationARM) string {
+// RunJSONSerializationTestForWebTestProperties_Configuration_ARM runs a test to see if a specific instance of WebTestProperties_Configuration_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Configuration_ARM(subject WebTestProperties_Configuration_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -264,7 +264,7 @@ func RunJSONSerializationTestForWebTestProperties_ConfigurationARM(subject WebTe
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_ConfigurationARM
+	var actual WebTestProperties_Configuration_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -282,42 +282,42 @@ func RunJSONSerializationTestForWebTestProperties_ConfigurationARM(subject WebTe
 	return ""
 }
 
-// Generator of WebTestProperties_ConfigurationARM instances for property testing - lazily instantiated by
-// WebTestProperties_ConfigurationARMGenerator()
-var webTestProperties_ConfigurationARMGenerator gopter.Gen
+// Generator of WebTestProperties_Configuration_ARM instances for property testing - lazily instantiated by
+// WebTestProperties_Configuration_ARMGenerator()
+var webTestProperties_Configuration_ARMGenerator gopter.Gen
 
-// WebTestProperties_ConfigurationARMGenerator returns a generator of WebTestProperties_ConfigurationARM instances for property testing.
-func WebTestProperties_ConfigurationARMGenerator() gopter.Gen {
-	if webTestProperties_ConfigurationARMGenerator != nil {
-		return webTestProperties_ConfigurationARMGenerator
+// WebTestProperties_Configuration_ARMGenerator returns a generator of WebTestProperties_Configuration_ARM instances for property testing.
+func WebTestProperties_Configuration_ARMGenerator() gopter.Gen {
+	if webTestProperties_Configuration_ARMGenerator != nil {
+		return webTestProperties_Configuration_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_ConfigurationARM(generators)
-	webTestProperties_ConfigurationARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ConfigurationARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_ARM(generators)
+	webTestProperties_Configuration_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Configuration_ARM{}), generators)
 
-	return webTestProperties_ConfigurationARMGenerator
+	return webTestProperties_Configuration_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestProperties_ConfigurationARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestProperties_ConfigurationARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_ARM(gens map[string]gopter.Gen) {
 	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestProperties_RequestARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_Request_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_RequestARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestProperties_RequestARM, WebTestProperties_RequestARMGenerator()))
+		"Round trip of WebTestProperties_Request_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Request_ARM, WebTestProperties_Request_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestProperties_RequestARM runs a test to see if a specific instance of WebTestProperties_RequestARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestProperties_RequestARM(subject WebTestProperties_RequestARM) string {
+// RunJSONSerializationTestForWebTestProperties_Request_ARM runs a test to see if a specific instance of WebTestProperties_Request_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Request_ARM(subject WebTestProperties_Request_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -325,7 +325,7 @@ func RunJSONSerializationTestForWebTestProperties_RequestARM(subject WebTestProp
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_RequestARM
+	var actual WebTestProperties_Request_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -343,34 +343,34 @@ func RunJSONSerializationTestForWebTestProperties_RequestARM(subject WebTestProp
 	return ""
 }
 
-// Generator of WebTestProperties_RequestARM instances for property testing - lazily instantiated by
-// WebTestProperties_RequestARMGenerator()
-var webTestProperties_RequestARMGenerator gopter.Gen
+// Generator of WebTestProperties_Request_ARM instances for property testing - lazily instantiated by
+// WebTestProperties_Request_ARMGenerator()
+var webTestProperties_Request_ARMGenerator gopter.Gen
 
-// WebTestProperties_RequestARMGenerator returns a generator of WebTestProperties_RequestARM instances for property testing.
-// We first initialize webTestProperties_RequestARMGenerator with a simplified generator based on the
+// WebTestProperties_Request_ARMGenerator returns a generator of WebTestProperties_Request_ARM instances for property testing.
+// We first initialize webTestProperties_Request_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestProperties_RequestARMGenerator() gopter.Gen {
-	if webTestProperties_RequestARMGenerator != nil {
-		return webTestProperties_RequestARMGenerator
+func WebTestProperties_Request_ARMGenerator() gopter.Gen {
+	if webTestProperties_Request_ARMGenerator != nil {
+		return webTestProperties_Request_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_RequestARM(generators)
-	webTestProperties_RequestARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_RequestARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request_ARM(generators)
+	webTestProperties_Request_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_RequestARM(generators)
-	AddRelatedPropertyGeneratorsForWebTestProperties_RequestARM(generators)
-	webTestProperties_RequestARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_RequestARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_Request_ARM(generators)
+	webTestProperties_Request_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request_ARM{}), generators)
 
-	return webTestProperties_RequestARMGenerator
+	return webTestProperties_Request_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestProperties_RequestARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestProperties_RequestARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_Request_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Request_ARM(gens map[string]gopter.Gen) {
 	gens["FollowRedirects"] = gen.PtrOf(gen.Bool())
 	gens["HttpVerb"] = gen.PtrOf(gen.AlphaString())
 	gens["ParseDependentRequests"] = gen.PtrOf(gen.Bool())
@@ -378,25 +378,25 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_RequestARM(gens map[st
 	gens["RequestUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestProperties_RequestARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestProperties_RequestARM(gens map[string]gopter.Gen) {
-	gens["Headers"] = gen.SliceOf(HeaderFieldARMGenerator())
+// AddRelatedPropertyGeneratorsForWebTestProperties_Request_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_Request_ARM(gens map[string]gopter.Gen) {
+	gens["Headers"] = gen.SliceOf(HeaderField_ARMGenerator())
 }
 
-func Test_WebTestProperties_ValidationRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_ValidationRulesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRulesARM, WebTestProperties_ValidationRulesARMGenerator()))
+		"Round trip of WebTestProperties_ValidationRules_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_ARM, WebTestProperties_ValidationRules_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestProperties_ValidationRulesARM runs a test to see if a specific instance of WebTestProperties_ValidationRulesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestProperties_ValidationRulesARM(subject WebTestProperties_ValidationRulesARM) string {
+// RunJSONSerializationTestForWebTestProperties_ValidationRules_ARM runs a test to see if a specific instance of WebTestProperties_ValidationRules_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules_ARM(subject WebTestProperties_ValidationRules_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -404,7 +404,7 @@ func RunJSONSerializationTestForWebTestProperties_ValidationRulesARM(subject Web
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_ValidationRulesARM
+	var actual WebTestProperties_ValidationRules_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -422,59 +422,59 @@ func RunJSONSerializationTestForWebTestProperties_ValidationRulesARM(subject Web
 	return ""
 }
 
-// Generator of WebTestProperties_ValidationRulesARM instances for property testing - lazily instantiated by
-// WebTestProperties_ValidationRulesARMGenerator()
-var webTestProperties_ValidationRulesARMGenerator gopter.Gen
+// Generator of WebTestProperties_ValidationRules_ARM instances for property testing - lazily instantiated by
+// WebTestProperties_ValidationRules_ARMGenerator()
+var webTestProperties_ValidationRules_ARMGenerator gopter.Gen
 
-// WebTestProperties_ValidationRulesARMGenerator returns a generator of WebTestProperties_ValidationRulesARM instances for property testing.
-// We first initialize webTestProperties_ValidationRulesARMGenerator with a simplified generator based on the
+// WebTestProperties_ValidationRules_ARMGenerator returns a generator of WebTestProperties_ValidationRules_ARM instances for property testing.
+// We first initialize webTestProperties_ValidationRules_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestProperties_ValidationRulesARMGenerator() gopter.Gen {
-	if webTestProperties_ValidationRulesARMGenerator != nil {
-		return webTestProperties_ValidationRulesARMGenerator
+func WebTestProperties_ValidationRules_ARMGenerator() gopter.Gen {
+	if webTestProperties_ValidationRules_ARMGenerator != nil {
+		return webTestProperties_ValidationRules_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRulesARM(generators)
-	webTestProperties_ValidationRulesARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRulesARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ARM(generators)
+	webTestProperties_ValidationRules_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRulesARM(generators)
-	AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRulesARM(generators)
-	webTestProperties_ValidationRulesARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRulesARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_ARM(generators)
+	webTestProperties_ValidationRules_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ARM{}), generators)
 
-	return webTestProperties_ValidationRulesARMGenerator
+	return webTestProperties_ValidationRules_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRulesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRulesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ARM(gens map[string]gopter.Gen) {
 	gens["ExpectedHttpStatusCode"] = gen.PtrOf(gen.Int())
 	gens["IgnoreHttpsStatusCode"] = gen.PtrOf(gen.Bool())
 	gens["SSLCertRemainingLifetimeCheck"] = gen.PtrOf(gen.Int())
 	gens["SSLCheck"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRulesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRulesARM(gens map[string]gopter.Gen) {
-	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidationARMGenerator())
+// AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_ARM(gens map[string]gopter.Gen) {
+	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidation_ARMGenerator())
 }
 
-func Test_HeaderFieldARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_HeaderField_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of HeaderFieldARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHeaderFieldARM, HeaderFieldARMGenerator()))
+		"Round trip of HeaderField_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHeaderField_ARM, HeaderField_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForHeaderFieldARM runs a test to see if a specific instance of HeaderFieldARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForHeaderFieldARM(subject HeaderFieldARM) string {
+// RunJSONSerializationTestForHeaderField_ARM runs a test to see if a specific instance of HeaderField_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForHeaderField_ARM(subject HeaderField_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -482,7 +482,7 @@ func RunJSONSerializationTestForHeaderFieldARM(subject HeaderFieldARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual HeaderFieldARM
+	var actual HeaderField_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -500,42 +500,42 @@ func RunJSONSerializationTestForHeaderFieldARM(subject HeaderFieldARM) string {
 	return ""
 }
 
-// Generator of HeaderFieldARM instances for property testing - lazily instantiated by HeaderFieldARMGenerator()
-var headerFieldARMGenerator gopter.Gen
+// Generator of HeaderField_ARM instances for property testing - lazily instantiated by HeaderField_ARMGenerator()
+var headerField_ARMGenerator gopter.Gen
 
-// HeaderFieldARMGenerator returns a generator of HeaderFieldARM instances for property testing.
-func HeaderFieldARMGenerator() gopter.Gen {
-	if headerFieldARMGenerator != nil {
-		return headerFieldARMGenerator
+// HeaderField_ARMGenerator returns a generator of HeaderField_ARM instances for property testing.
+func HeaderField_ARMGenerator() gopter.Gen {
+	if headerField_ARMGenerator != nil {
+		return headerField_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHeaderFieldARM(generators)
-	headerFieldARMGenerator = gen.Struct(reflect.TypeOf(HeaderFieldARM{}), generators)
+	AddIndependentPropertyGeneratorsForHeaderField_ARM(generators)
+	headerField_ARMGenerator = gen.Struct(reflect.TypeOf(HeaderField_ARM{}), generators)
 
-	return headerFieldARMGenerator
+	return headerField_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHeaderFieldARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHeaderFieldARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForHeaderField_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHeaderField_ARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestProperties_ValidationRules_ContentValidationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ContentValidation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_ValidationRules_ContentValidationARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidationARM, WebTestProperties_ValidationRules_ContentValidationARMGenerator()))
+		"Round trip of WebTestProperties_ValidationRules_ContentValidation_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_ARM, WebTestProperties_ValidationRules_ContentValidation_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidationARM runs a test to see if a specific instance of WebTestProperties_ValidationRules_ContentValidationARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidationARM(subject WebTestProperties_ValidationRules_ContentValidationARM) string {
+// RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_ARM runs a test to see if a specific instance of WebTestProperties_ValidationRules_ContentValidation_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_ARM(subject WebTestProperties_ValidationRules_ContentValidation_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -543,7 +543,7 @@ func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidat
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_ValidationRules_ContentValidationARM
+	var actual WebTestProperties_ValidationRules_ContentValidation_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -561,25 +561,25 @@ func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidat
 	return ""
 }
 
-// Generator of WebTestProperties_ValidationRules_ContentValidationARM instances for property testing - lazily
-// instantiated by WebTestProperties_ValidationRules_ContentValidationARMGenerator()
-var webTestProperties_ValidationRules_ContentValidationARMGenerator gopter.Gen
+// Generator of WebTestProperties_ValidationRules_ContentValidation_ARM instances for property testing - lazily
+// instantiated by WebTestProperties_ValidationRules_ContentValidation_ARMGenerator()
+var webTestProperties_ValidationRules_ContentValidation_ARMGenerator gopter.Gen
 
-// WebTestProperties_ValidationRules_ContentValidationARMGenerator returns a generator of WebTestProperties_ValidationRules_ContentValidationARM instances for property testing.
-func WebTestProperties_ValidationRules_ContentValidationARMGenerator() gopter.Gen {
-	if webTestProperties_ValidationRules_ContentValidationARMGenerator != nil {
-		return webTestProperties_ValidationRules_ContentValidationARMGenerator
+// WebTestProperties_ValidationRules_ContentValidation_ARMGenerator returns a generator of WebTestProperties_ValidationRules_ContentValidation_ARM instances for property testing.
+func WebTestProperties_ValidationRules_ContentValidation_ARMGenerator() gopter.Gen {
+	if webTestProperties_ValidationRules_ContentValidation_ARMGenerator != nil {
+		return webTestProperties_ValidationRules_ContentValidation_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidationARM(generators)
-	webTestProperties_ValidationRules_ContentValidationARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ContentValidationARM{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_ARM(generators)
+	webTestProperties_ValidationRules_ContentValidation_ARMGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ContentValidation_ARM{}), generators)
 
-	return webTestProperties_ValidationRules_ContentValidationARMGenerator
+	return webTestProperties_ValidationRules_ContentValidation_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidationARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidationARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_ARM(gens map[string]gopter.Gen) {
 	gens["ContentMatch"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
 	gens["PassIfTextFound"] = gen.PtrOf(gen.Bool())

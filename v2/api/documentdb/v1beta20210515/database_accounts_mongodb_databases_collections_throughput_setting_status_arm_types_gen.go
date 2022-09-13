@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM struct {
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,21 +14,21 @@ type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM s
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB resource throughput
-	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	Properties *ThroughputSettingsGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type ThroughputSettingsGetProperties_STATUSARM struct {
-	Resource *ThroughputSettingsGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type ThroughputSettingsGetProperties_STATUS_ARM struct {
+	Resource *ThroughputSettingsGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type ThroughputSettingsGetProperties_Resource_STATUSARM struct {
+type ThroughputSettingsGetProperties_Resource_STATUS_ARM struct {
 	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
 	// required, but not both.
-	AutoscaleSettings *AutoscaleSettingsResource_STATUSARM `json:"autoscaleSettings,omitempty"`
+	AutoscaleSettings *AutoscaleSettingsResource_STATUS_ARM `json:"autoscaleSettings,omitempty"`
 
 	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
@@ -50,9 +50,9 @@ type ThroughputSettingsGetProperties_Resource_STATUSARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
-type AutoscaleSettingsResource_STATUSARM struct {
+type AutoscaleSettingsResource_STATUS_ARM struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
-	AutoUpgradePolicy *AutoUpgradePolicyResource_STATUSARM `json:"autoUpgradePolicy,omitempty"`
+	AutoUpgradePolicy *AutoUpgradePolicyResource_STATUS_ARM `json:"autoUpgradePolicy,omitempty"`
 
 	// MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
@@ -62,12 +62,12 @@ type AutoscaleSettingsResource_STATUSARM struct {
 	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
-type AutoUpgradePolicyResource_STATUSARM struct {
+type AutoUpgradePolicyResource_STATUS_ARM struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
-	ThroughputPolicy *ThroughputPolicyResource_STATUSARM `json:"throughputPolicy,omitempty"`
+	ThroughputPolicy *ThroughputPolicyResource_STATUS_ARM `json:"throughputPolicy,omitempty"`
 }
 
-type ThroughputPolicyResource_STATUSARM struct {
+type ThroughputPolicyResource_STATUS_ARM struct {
 	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`
 

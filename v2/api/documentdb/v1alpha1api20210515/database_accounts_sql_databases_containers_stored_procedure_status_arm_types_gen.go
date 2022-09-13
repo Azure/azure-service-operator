@@ -4,22 +4,22 @@
 package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS instead
-type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM struct {
-	Id         *string                                    `json:"id,omitempty"`
-	Location   *string                                    `json:"location,omitempty"`
-	Name       *string                                    `json:"name,omitempty"`
-	Properties *SqlStoredProcedureGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
-	Type       *string                                    `json:"type,omitempty"`
+type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_ARM struct {
+	Id         *string                                     `json:"id,omitempty"`
+	Location   *string                                     `json:"location,omitempty"`
+	Name       *string                                     `json:"name,omitempty"`
+	Properties *SqlStoredProcedureGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
+	Type       *string                                     `json:"type,omitempty"`
 }
 
 // Deprecated version of SqlStoredProcedureGetProperties_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_STATUS instead
-type SqlStoredProcedureGetProperties_STATUSARM struct {
-	Resource *SqlStoredProcedureGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
+type SqlStoredProcedureGetProperties_STATUS_ARM struct {
+	Resource *SqlStoredProcedureGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of SqlStoredProcedureGetProperties_Resource_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS instead
-type SqlStoredProcedureGetProperties_Resource_STATUSARM struct {
+type SqlStoredProcedureGetProperties_Resource_STATUS_ARM struct {
 	Body *string  `json:"body,omitempty"`
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`

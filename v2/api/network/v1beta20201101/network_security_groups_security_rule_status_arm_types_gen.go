@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type NetworkSecurityGroups_SecurityRule_STATUSARM struct {
+type NetworkSecurityGroups_SecurityRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -14,13 +14,13 @@ type NetworkSecurityGroups_SecurityRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the security rule.
-	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
+type SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
@@ -35,7 +35,7 @@ type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	DestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
 
 	// DestinationApplicationSecurityGroups: The application security group specified as destination.
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"destinationApplicationSecurityGroups,omitempty"`
 
 	// DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used
 	// to match all ports.
@@ -66,7 +66,7 @@ type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	SourceAddressPrefixes []string `json:"sourceAddressPrefixes,omitempty"`
 
 	// SourceApplicationSecurityGroups: The application security group specified as source.
-	SourceApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourceApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"sourceApplicationSecurityGroups,omitempty"`
 
 	// SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match
 	// all ports.
@@ -76,7 +76,7 @@ type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
-type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM struct {
+type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

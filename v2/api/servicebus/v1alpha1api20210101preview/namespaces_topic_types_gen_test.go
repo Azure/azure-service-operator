@@ -400,15 +400,15 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS(gens map[string]
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_Active_STATUS,
-		EntityStatus_Creating_STATUS,
-		EntityStatus_Deleting_STATUS,
-		EntityStatus_Disabled_STATUS,
-		EntityStatus_ReceiveDisabled_STATUS,
-		EntityStatus_Renaming_STATUS,
-		EntityStatus_Restoring_STATUS,
-		EntityStatus_SendDisabled_STATUS,
-		EntityStatus_Unknown_STATUS))
+		EntityStatus_STATUS_Active,
+		EntityStatus_STATUS_Creating,
+		EntityStatus_STATUS_Deleting,
+		EntityStatus_STATUS_Disabled,
+		EntityStatus_STATUS_ReceiveDisabled,
+		EntityStatus_STATUS_Renaming,
+		EntityStatus_STATUS_Restoring,
+		EntityStatus_STATUS_SendDisabled,
+		EntityStatus_STATUS_Unknown))
 	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

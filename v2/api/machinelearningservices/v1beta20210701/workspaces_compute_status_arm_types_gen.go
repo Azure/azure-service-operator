@@ -5,13 +5,13 @@ package v1beta20210701
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type Workspaces_Compute_STATUSARM struct {
+type Workspaces_Compute_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -20,13 +20,13 @@ type Workspaces_Compute_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Compute properties
-	Properties *Compute_STATUSARM `json:"properties,omitempty"`
+	Properties *Compute_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,7 +35,7 @@ type Workspaces_Compute_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type Compute_STATUSARM struct {
+type Compute_STATUS_ARM struct {
 	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
@@ -60,7 +60,7 @@ type Compute_STATUSARM struct {
 	ModifiedOn *string `json:"modifiedOn,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUSARM `json:"provisioningErrors,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
 
 	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
 	// Failed.
@@ -73,44 +73,44 @@ type Compute_STATUSARM struct {
 type Compute_ProvisioningState_STATUS string
 
 const (
-	Compute_ProvisioningState_Canceled_STATUS  = Compute_ProvisioningState_STATUS("Canceled")
-	Compute_ProvisioningState_Creating_STATUS  = Compute_ProvisioningState_STATUS("Creating")
-	Compute_ProvisioningState_Deleting_STATUS  = Compute_ProvisioningState_STATUS("Deleting")
-	Compute_ProvisioningState_Failed_STATUS    = Compute_ProvisioningState_STATUS("Failed")
-	Compute_ProvisioningState_Succeeded_STATUS = Compute_ProvisioningState_STATUS("Succeeded")
-	Compute_ProvisioningState_Unknown_STATUS   = Compute_ProvisioningState_STATUS("Unknown")
-	Compute_ProvisioningState_Updating_STATUS  = Compute_ProvisioningState_STATUS("Updating")
+	Compute_ProvisioningState_STATUS_Canceled  = Compute_ProvisioningState_STATUS("Canceled")
+	Compute_ProvisioningState_STATUS_Creating  = Compute_ProvisioningState_STATUS("Creating")
+	Compute_ProvisioningState_STATUS_Deleting  = Compute_ProvisioningState_STATUS("Deleting")
+	Compute_ProvisioningState_STATUS_Failed    = Compute_ProvisioningState_STATUS("Failed")
+	Compute_ProvisioningState_STATUS_Succeeded = Compute_ProvisioningState_STATUS("Succeeded")
+	Compute_ProvisioningState_STATUS_Unknown   = Compute_ProvisioningState_STATUS("Unknown")
+	Compute_ProvisioningState_STATUS_Updating  = Compute_ProvisioningState_STATUS("Updating")
 )
 
 type ComputeType_STATUS string
 
 const (
-	ComputeType_AKS_STATUS               = ComputeType_STATUS("AKS")
-	ComputeType_AmlCompute_STATUS        = ComputeType_STATUS("AmlCompute")
-	ComputeType_ComputeInstance_STATUS   = ComputeType_STATUS("ComputeInstance")
-	ComputeType_DataFactory_STATUS       = ComputeType_STATUS("DataFactory")
-	ComputeType_DataLakeAnalytics_STATUS = ComputeType_STATUS("DataLakeAnalytics")
-	ComputeType_Databricks_STATUS        = ComputeType_STATUS("Databricks")
-	ComputeType_HDInsight_STATUS         = ComputeType_STATUS("HDInsight")
-	ComputeType_Kubernetes_STATUS        = ComputeType_STATUS("Kubernetes")
-	ComputeType_SynapseSpark_STATUS      = ComputeType_STATUS("SynapseSpark")
-	ComputeType_VirtualMachine_STATUS    = ComputeType_STATUS("VirtualMachine")
+	ComputeType_STATUS_AKS               = ComputeType_STATUS("AKS")
+	ComputeType_STATUS_AmlCompute        = ComputeType_STATUS("AmlCompute")
+	ComputeType_STATUS_ComputeInstance   = ComputeType_STATUS("ComputeInstance")
+	ComputeType_STATUS_DataFactory       = ComputeType_STATUS("DataFactory")
+	ComputeType_STATUS_DataLakeAnalytics = ComputeType_STATUS("DataLakeAnalytics")
+	ComputeType_STATUS_Databricks        = ComputeType_STATUS("Databricks")
+	ComputeType_STATUS_HDInsight         = ComputeType_STATUS("HDInsight")
+	ComputeType_STATUS_Kubernetes        = ComputeType_STATUS("Kubernetes")
+	ComputeType_STATUS_SynapseSpark      = ComputeType_STATUS("SynapseSpark")
+	ComputeType_STATUS_VirtualMachine    = ComputeType_STATUS("VirtualMachine")
 )
 
-type ErrorResponse_STATUSARM struct {
+type ErrorResponse_STATUS_ARM struct {
 	// Error: The error object.
-	Error *ErrorDetail_STATUSARM `json:"error,omitempty"`
+	Error *ErrorDetail_STATUS_ARM `json:"error,omitempty"`
 }
 
-type ErrorDetail_STATUSARM struct {
+type ErrorDetail_STATUS_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUSARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
 
 	// Details: The error details.
-	Details []ErrorDetail_STATUS_UnrolledARM `json:"details,omitempty"`
+	Details []ErrorDetail_STATUS_Unrolled_ARM `json:"details,omitempty"`
 
 	// Message: The error message.
 	Message *string `json:"message,omitempty"`
@@ -119,7 +119,7 @@ type ErrorDetail_STATUSARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
-type ErrorAdditionalInfo_STATUSARM struct {
+type ErrorAdditionalInfo_STATUS_ARM struct {
 	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
 
@@ -127,9 +127,9 @@ type ErrorAdditionalInfo_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ErrorDetail_STATUS_UnrolledARM struct {
+type ErrorDetail_STATUS_Unrolled_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUSARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`

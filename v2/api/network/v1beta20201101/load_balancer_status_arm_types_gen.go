@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type LoadBalancer_STATUSARM struct {
+type LoadBalancer_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -20,10 +20,10 @@ type LoadBalancer_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer.
-	Properties *LoadBalancerPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *LoadBalancerPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The load balancer SKU.
-	Sku *LoadBalancerSku_STATUSARM `json:"sku,omitempty"`
+	Sku *LoadBalancerSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -32,7 +32,7 @@ type LoadBalancer_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ExtendedLocation_STATUSARM struct {
+type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -40,34 +40,34 @@ type ExtendedLocation_STATUSARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
-type LoadBalancerPropertiesFormat_STATUSARM struct {
+type LoadBalancerPropertiesFormat_STATUS_ARM struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
-	BackendAddressPools []BackendAddressPool_STATUSARM `json:"backendAddressPools,omitempty"`
+	BackendAddressPools []BackendAddressPool_STATUS_ARM `json:"backendAddressPools,omitempty"`
 
 	// FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
-	FrontendIPConfigurations []FrontendIPConfiguration_STATUSARM `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_ARM `json:"frontendIPConfigurations,omitempty"`
 
 	// InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
 	// balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
 	// port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
 	// rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
 	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
-	InboundNatPools []InboundNatPool_STATUSARM `json:"inboundNatPools,omitempty"`
+	InboundNatPools []InboundNatPool_STATUS_ARM `json:"inboundNatPools,omitempty"`
 
 	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
 	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
 	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
 	// reference individual inbound NAT rules.
-	InboundNatRules []InboundNatRule_STATUSARM `json:"inboundNatRules,omitempty"`
+	InboundNatRules []InboundNatRule_STATUS_ARM `json:"inboundNatRules,omitempty"`
 
 	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
-	LoadBalancingRules []LoadBalancingRule_STATUSARM `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []LoadBalancingRule_STATUS_ARM `json:"loadBalancingRules,omitempty"`
 
 	// OutboundRules: The outbound rules.
-	OutboundRules []OutboundRule_STATUSARM `json:"outboundRules,omitempty"`
+	OutboundRules []OutboundRule_STATUS_ARM `json:"outboundRules,omitempty"`
 
 	// Probes: Collection of probe objects used in the load balancer.
-	Probes []Probe_STATUSARM `json:"probes,omitempty"`
+	Probes []Probe_STATUS_ARM `json:"probes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancer resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -76,7 +76,7 @@ type LoadBalancerPropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-type LoadBalancerSku_STATUSARM struct {
+type LoadBalancerSku_STATUS_ARM struct {
 	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
 
@@ -84,7 +84,7 @@ type LoadBalancerSku_STATUSARM struct {
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type BackendAddressPool_STATUSARM struct {
+type BackendAddressPool_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -96,7 +96,7 @@ type BackendAddressPool_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer backend address pool.
-	Properties *BackendAddressPoolPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *BackendAddressPoolPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -104,9 +104,9 @@ type BackendAddressPool_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
-type FrontendIPConfiguration_STATUSARM struct {
+type FrontendIPConfiguration_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -118,7 +118,7 @@ type FrontendIPConfiguration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the load balancer probe.
-	Properties *FrontendIPConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *FrontendIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -127,7 +127,7 @@ type FrontendIPConfiguration_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type InboundNatPool_STATUSARM struct {
+type InboundNatPool_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -139,13 +139,13 @@ type InboundNatPool_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer inbound nat pool.
-	Properties *InboundNatPoolPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *InboundNatPoolPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type InboundNatRule_STATUSARM struct {
+type InboundNatRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -157,7 +157,7 @@ type InboundNatRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer inbound nat rule.
-	Properties *InboundNatRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *InboundNatRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -166,18 +166,18 @@ type InboundNatRule_STATUSARM struct {
 type LoadBalancerSku_Name_STATUS string
 
 const (
-	LoadBalancerSku_Name_Basic_STATUS    = LoadBalancerSku_Name_STATUS("Basic")
-	LoadBalancerSku_Name_Standard_STATUS = LoadBalancerSku_Name_STATUS("Standard")
+	LoadBalancerSku_Name_STATUS_Basic    = LoadBalancerSku_Name_STATUS("Basic")
+	LoadBalancerSku_Name_STATUS_Standard = LoadBalancerSku_Name_STATUS("Standard")
 )
 
 type LoadBalancerSku_Tier_STATUS string
 
 const (
-	LoadBalancerSku_Tier_Global_STATUS   = LoadBalancerSku_Tier_STATUS("Global")
-	LoadBalancerSku_Tier_Regional_STATUS = LoadBalancerSku_Tier_STATUS("Regional")
+	LoadBalancerSku_Tier_STATUS_Global   = LoadBalancerSku_Tier_STATUS("Global")
+	LoadBalancerSku_Tier_STATUS_Regional = LoadBalancerSku_Tier_STATUS("Regional")
 )
 
-type LoadBalancingRule_STATUSARM struct {
+type LoadBalancingRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -189,13 +189,13 @@ type LoadBalancingRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer load balancing rule.
-	Properties *LoadBalancingRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *LoadBalancingRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type OutboundRule_STATUSARM struct {
+type OutboundRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -207,13 +207,13 @@ type OutboundRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer outbound rule.
-	Properties *OutboundRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *OutboundRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type Probe_STATUSARM struct {
+type Probe_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -225,44 +225,44 @@ type Probe_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer probe.
-	Properties *ProbePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *ProbePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type BackendAddressPoolPropertiesFormat_STATUSARM struct {
+type BackendAddressPoolPropertiesFormat_STATUS_ARM struct {
 	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
-	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUSARM `json:"backendIPConfigurations,omitempty"`
+	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS_ARM `json:"backendIPConfigurations,omitempty"`
 
 	// LoadBalancerBackendAddresses: An array of backend addresses.
-	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_STATUSARM `json:"loadBalancerBackendAddresses,omitempty"`
+	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_STATUS_ARM `json:"loadBalancerBackendAddresses,omitempty"`
 
 	// LoadBalancingRules: An array of references to load balancing rules that use this backend address pool.
-	LoadBalancingRules []SubResource_STATUSARM `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []SubResource_STATUS_ARM `json:"loadBalancingRules,omitempty"`
 
 	// OutboundRule: A reference to an outbound rule that uses this backend address pool.
-	OutboundRule *SubResource_STATUSARM `json:"outboundRule,omitempty"`
+	OutboundRule *SubResource_STATUS_ARM `json:"outboundRule,omitempty"`
 
 	// OutboundRules: An array of references to outbound rules that use this backend address pool.
-	OutboundRules []SubResource_STATUSARM `json:"outboundRules,omitempty"`
+	OutboundRules []SubResource_STATUS_ARM `json:"outboundRules,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type FrontendIPConfigurationPropertiesFormat_STATUSARM struct {
+type FrontendIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// InboundNatPools: An array of references to inbound pools that use this frontend IP.
-	InboundNatPools []SubResource_STATUSARM `json:"inboundNatPools,omitempty"`
+	InboundNatPools []SubResource_STATUS_ARM `json:"inboundNatPools,omitempty"`
 
 	// InboundNatRules: An array of references to inbound rules that use this frontend IP.
-	InboundNatRules []SubResource_STATUSARM `json:"inboundNatRules,omitempty"`
+	InboundNatRules []SubResource_STATUS_ARM `json:"inboundNatRules,omitempty"`
 
 	// LoadBalancingRules: An array of references to load balancing rules that use this frontend IP.
-	LoadBalancingRules []SubResource_STATUSARM `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []SubResource_STATUS_ARM `json:"loadBalancingRules,omitempty"`
 
 	// OutboundRules: An array of references to outbound rules that use this frontend IP.
-	OutboundRules []SubResource_STATUSARM `json:"outboundRules,omitempty"`
+	OutboundRules []SubResource_STATUS_ARM `json:"outboundRules,omitempty"`
 
 	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
@@ -277,16 +277,16 @@ type FrontendIPConfigurationPropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *PublicIPAddress_STATUSARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddress_STATUS_ARM `json:"publicIPAddress,omitempty"`
 
 	// PublicIPPrefix: The reference to the Public IP Prefix resource.
-	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_STATUSARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_ARM `json:"subnet,omitempty"`
 }
 
-type InboundNatPoolPropertiesFormat_STATUSARM struct {
+type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
 
@@ -300,7 +300,7 @@ type InboundNatPoolPropertiesFormat_STATUSARM struct {
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUSARM `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS_ARM `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
 	// NICs associated with a load balancer. Acceptable values range between 1 and 65535.
@@ -321,10 +321,10 @@ type InboundNatPoolPropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type InboundNatRulePropertiesFormat_STATUSARM struct {
+type InboundNatRulePropertiesFormat_STATUS_ARM struct {
 	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
 	// frontend port of each of the frontend IP configurations is forwarded to the backend IP.
-	BackendIPConfiguration *NetworkInterfaceIPConfiguration_STATUSARM `json:"backendIPConfiguration,omitempty"`
+	BackendIPConfiguration *NetworkInterfaceIPConfiguration_STATUS_ARM `json:"backendIPConfiguration,omitempty"`
 
 	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -339,7 +339,7 @@ type InboundNatRulePropertiesFormat_STATUSARM struct {
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUSARM `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS_ARM `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	// Acceptable values range from 1 to 65534.
@@ -356,10 +356,10 @@ type InboundNatRulePropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type LoadBalancingRulePropertiesFormat_STATUSARM struct {
+type LoadBalancingRulePropertiesFormat_STATUS_ARM struct {
 	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
-	BackendAddressPool *SubResource_STATUSARM `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource_STATUS_ARM `json:"backendAddressPool,omitempty"`
 
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
 	// that value 0 enables "Any Port".
@@ -379,7 +379,7 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUSARM `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS_ARM `json:"frontendIPConfiguration,omitempty"`
 
 	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
 	// Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
@@ -393,7 +393,7 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
-	Probe *SubResource_STATUSARM `json:"probe,omitempty"`
+	Probe *SubResource_STATUS_ARM `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
@@ -402,20 +402,20 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type OutboundRulePropertiesFormat_STATUSARM struct {
+type OutboundRulePropertiesFormat_STATUS_ARM struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
 	// BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
-	BackendAddressPool *SubResource_STATUSARM `json:"backendAddressPool,omitempty"`
+	BackendAddressPool *SubResource_STATUS_ARM `json:"backendAddressPool,omitempty"`
 
 	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
 	// element is only used when the protocol is set to TCP.
 	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
 
 	// FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
-	FrontendIPConfigurations []SubResource_STATUSARM `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []SubResource_STATUS_ARM `json:"frontendIPConfigurations,omitempty"`
 
 	// IdleTimeoutInMinutes: The timeout for the TCP idle connection.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
@@ -427,14 +427,14 @@ type OutboundRulePropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type ProbePropertiesFormat_STATUSARM struct {
+type ProbePropertiesFormat_STATUS_ARM struct {
 	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
 	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
 	// the instance out of rotation. The default value is 15, the minimum value is 5.
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
 	// LoadBalancingRules: The load balancer rules that use this probe.
-	LoadBalancingRules []SubResource_STATUSARM `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []SubResource_STATUS_ARM `json:"loadBalancingRules,omitempty"`
 
 	// NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
 	// to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
@@ -457,20 +457,20 @@ type ProbePropertiesFormat_STATUSARM struct {
 	RequestPath *string `json:"requestPath,omitempty"`
 }
 
-type LoadBalancerBackendAddress_STATUSARM struct {
+type LoadBalancerBackendAddress_STATUS_ARM struct {
 	// Name: Name of the backend address.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer backend address pool.
-	Properties *LoadBalancerBackendAddressPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type PublicIPAddress_STATUSARM struct {
+type PublicIPAddress_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -482,10 +482,10 @@ type PublicIPAddress_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_STATUSARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -497,7 +497,7 @@ type PublicIPAddress_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type Subnet_STATUSARM struct {
+type Subnet_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -508,35 +508,35 @@ type Subnet_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the subnet.
-	Properties *SubnetPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *SubnetPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type LoadBalancerBackendAddressPropertiesFormat_STATUSARM struct {
+type LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.
-	LoadBalancerFrontendIPConfiguration *SubResource_STATUSARM `json:"loadBalancerFrontendIPConfiguration,omitempty"`
+	LoadBalancerFrontendIPConfiguration *SubResource_STATUS_ARM `json:"loadBalancerFrontendIPConfiguration,omitempty"`
 
 	// NetworkInterfaceIPConfiguration: Reference to IP address defined in network interfaces.
-	NetworkInterfaceIPConfiguration *SubResource_STATUSARM `json:"networkInterfaceIPConfiguration,omitempty"`
+	NetworkInterfaceIPConfiguration *SubResource_STATUS_ARM `json:"networkInterfaceIPConfiguration,omitempty"`
 
 	// Subnet: Reference to an existing subnet.
-	Subnet *SubResource_STATUSARM `json:"subnet,omitempty"`
+	Subnet *SubResource_STATUS_ARM `json:"subnet,omitempty"`
 
 	// VirtualNetwork: Reference to an existing virtual network.
-	VirtualNetwork *SubResource_STATUSARM `json:"virtualNetwork,omitempty"`
+	VirtualNetwork *SubResource_STATUS_ARM `json:"virtualNetwork,omitempty"`
 }
 
-type PublicIPAddressPropertiesFormat_STATUSARM struct {
+type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettings_STATUSARM `json:"ddosSettings,omitempty"`
+	DdosSettings *DdosSettings_STATUS_ARM `json:"ddosSettings,omitempty"`
 
 	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettings_STATUSARM `json:"dnsSettings,omitempty"`
+	DnsSettings *PublicIPAddressDnsSettings_STATUS_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
@@ -545,19 +545,19 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpConfiguration: The IP configuration associated with the public IP address.
-	IpConfiguration *IPConfiguration_STATUSARM `json:"ipConfiguration,omitempty"`
+	IpConfiguration *IPConfiguration_STATUS_ARM `json:"ipConfiguration,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTag_STATUSARM `json:"ipTags,omitempty"`
+	IpTags []IpTag_STATUS_ARM `json:"ipTags,omitempty"`
 
 	// LinkedPublicIPAddress: The linked public IP address of the public IP address resource.
-	LinkedPublicIPAddress *PublicIPAddress_STATUSARM `json:"linkedPublicIPAddress,omitempty"`
+	LinkedPublicIPAddress *PublicIPAddress_STATUS_ARM `json:"linkedPublicIPAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
 	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
 
 	// NatGateway: The NatGateway for the Public IP address.
-	NatGateway *NatGateway_STATUSARM `json:"natGateway,omitempty"`
+	NatGateway *NatGateway_STATUS_ARM `json:"natGateway,omitempty"`
 
 	// ProvisioningState: The provisioning state of the public IP address resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -569,16 +569,16 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	PublicIPAllocationMethod *IPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_STATUS_ARM `json:"publicIPPrefix,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the public IP address resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// ServicePublicIPAddress: The service public IP address of the public IP address resource.
-	ServicePublicIPAddress *PublicIPAddress_STATUSARM `json:"servicePublicIPAddress,omitempty"`
+	ServicePublicIPAddress *PublicIPAddress_STATUS_ARM `json:"servicePublicIPAddress,omitempty"`
 }
 
-type NatGateway_STATUSARM struct {
+type NatGateway_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -592,10 +592,10 @@ type NatGateway_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Nat Gateway properties.
-	Properties *NatGatewayPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NatGatewayPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The nat gateway SKU.
-	Sku *NatGatewaySku_STATUSARM `json:"sku,omitempty"`
+	Sku *NatGatewaySku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -607,7 +607,7 @@ type NatGateway_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type NatGatewayPropertiesFormat_STATUSARM struct {
+type NatGatewayPropertiesFormat_STATUS_ARM struct {
 	// IdleTimeoutInMinutes: The idle timeout of the nat gateway.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
@@ -615,14 +615,14 @@ type NatGatewayPropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
-	PublicIpAddresses []SubResource_STATUSARM `json:"publicIpAddresses,omitempty"`
+	PublicIpAddresses []SubResource_STATUS_ARM `json:"publicIpAddresses,omitempty"`
 
 	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
-	PublicIpPrefixes []SubResource_STATUSARM `json:"publicIpPrefixes,omitempty"`
+	PublicIpPrefixes []SubResource_STATUS_ARM `json:"publicIpPrefixes,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the NAT gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// Subnets: An array of references to the subnets using this nat gateway resource.
-	Subnets []SubResource_STATUSARM `json:"subnets,omitempty"`
+	Subnets []SubResource_STATUS_ARM `json:"subnets,omitempty"`
 }

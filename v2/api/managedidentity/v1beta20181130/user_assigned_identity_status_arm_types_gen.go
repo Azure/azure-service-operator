@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20181130
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,7 +15,7 @@ type UserAssignedIdentity_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the identity.
-	Properties *UserAssignedIdentityProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *UserAssignedIdentityProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -24,7 +24,7 @@ type UserAssignedIdentity_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type UserAssignedIdentityProperties_STATUSARM struct {
+type UserAssignedIdentityProperties_STATUS_ARM struct {
 	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`
 

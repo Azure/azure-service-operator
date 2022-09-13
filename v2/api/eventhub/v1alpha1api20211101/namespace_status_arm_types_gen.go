@@ -4,54 +4,54 @@
 package v1alpha1api20211101
 
 // Deprecated version of Namespace_STATUS. Use v1beta20211101.Namespace_STATUS instead
-type Namespace_STATUSARM struct {
-	Id         *string                         `json:"id,omitempty"`
-	Identity   *Identity_STATUSARM             `json:"identity,omitempty"`
-	Location   *string                         `json:"location,omitempty"`
-	Name       *string                         `json:"name,omitempty"`
-	Properties *Namespace_Properties_STATUSARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUSARM                  `json:"sku,omitempty"`
-	SystemData *SystemData_STATUSARM           `json:"systemData,omitempty"`
-	Tags       map[string]string               `json:"tags,omitempty"`
-	Type       *string                         `json:"type,omitempty"`
+type Namespace_STATUS_ARM struct {
+	Id         *string                          `json:"id,omitempty"`
+	Identity   *Identity_STATUS_ARM             `json:"identity,omitempty"`
+	Location   *string                          `json:"location,omitempty"`
+	Name       *string                          `json:"name,omitempty"`
+	Properties *Namespace_Properties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *Sku_STATUS_ARM                  `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM           `json:"systemData,omitempty"`
+	Tags       map[string]string                `json:"tags,omitempty"`
+	Type       *string                          `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity_STATUS. Use v1beta20211101.Identity_STATUS instead
-type Identity_STATUSARM struct {
-	PrincipalId            *string                                   `json:"principalId,omitempty"`
-	TenantId               *string                                   `json:"tenantId,omitempty"`
-	Type                   *Identity_Type_STATUS                     `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+type Identity_STATUS_ARM struct {
+	PrincipalId            *string                                    `json:"principalId,omitempty"`
+	TenantId               *string                                    `json:"tenantId,omitempty"`
+	Type                   *Identity_Type_STATUS                      `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Namespace_Properties_STATUS. Use v1beta20211101.Namespace_Properties_STATUS instead
-type Namespace_Properties_STATUSARM struct {
-	AlternateName              *string                               `json:"alternateName,omitempty"`
-	ClusterArmId               *string                               `json:"clusterArmId,omitempty"`
-	CreatedAt                  *string                               `json:"createdAt,omitempty"`
-	DisableLocalAuth           *bool                                 `json:"disableLocalAuth,omitempty"`
-	Encryption                 *Encryption_STATUSARM                 `json:"encryption,omitempty"`
-	IsAutoInflateEnabled       *bool                                 `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled               *bool                                 `json:"kafkaEnabled,omitempty"`
-	MaximumThroughputUnits     *int                                  `json:"maximumThroughputUnits,omitempty"`
-	MetricId                   *string                               `json:"metricId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *string                               `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                               `json:"serviceBusEndpoint,omitempty"`
-	Status                     *string                               `json:"status,omitempty"`
-	UpdatedAt                  *string                               `json:"updatedAt,omitempty"`
-	ZoneRedundant              *bool                                 `json:"zoneRedundant,omitempty"`
+type Namespace_Properties_STATUS_ARM struct {
+	AlternateName              *string                                `json:"alternateName,omitempty"`
+	ClusterArmId               *string                                `json:"clusterArmId,omitempty"`
+	CreatedAt                  *string                                `json:"createdAt,omitempty"`
+	DisableLocalAuth           *bool                                  `json:"disableLocalAuth,omitempty"`
+	Encryption                 *Encryption_STATUS_ARM                 `json:"encryption,omitempty"`
+	IsAutoInflateEnabled       *bool                                  `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled               *bool                                  `json:"kafkaEnabled,omitempty"`
+	MaximumThroughputUnits     *int                                   `json:"maximumThroughputUnits,omitempty"`
+	MetricId                   *string                                `json:"metricId,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *string                                `json:"provisioningState,omitempty"`
+	ServiceBusEndpoint         *string                                `json:"serviceBusEndpoint,omitempty"`
+	Status                     *string                                `json:"status,omitempty"`
+	UpdatedAt                  *string                                `json:"updatedAt,omitempty"`
+	ZoneRedundant              *bool                                  `json:"zoneRedundant,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20211101.Sku_STATUS instead
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Capacity *int             `json:"capacity,omitempty"`
 	Name     *Sku_Name_STATUS `json:"name,omitempty"`
 	Tier     *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20211101.SystemData_STATUS instead
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
 	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
@@ -61,54 +61,54 @@ type SystemData_STATUSARM struct {
 }
 
 // Deprecated version of Encryption_STATUS. Use v1beta20211101.Encryption_STATUS instead
-type Encryption_STATUSARM struct {
-	KeySource                       *Encryption_KeySource_STATUS   `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
-	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
+type Encryption_STATUS_ARM struct {
+	KeySource                       *Encryption_KeySource_STATUS    `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                           `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 // Deprecated version of Identity_Type_STATUS. Use v1beta20211101.Identity_Type_STATUS instead
 type Identity_Type_STATUS string
 
 const (
-	Identity_Type_None_STATUS                       = Identity_Type_STATUS("None")
-	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned, UserAssigned")
-	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20211101.PrivateEndpointConnection_STATUS instead
-type PrivateEndpointConnection_STATUSARM struct {
-	Id         *string               `json:"id,omitempty"`
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+type PrivateEndpointConnection_STATUS_ARM struct {
+	Id         *string                `json:"id,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 // Deprecated version of Sku_Name_STATUS. Use v1beta20211101.Sku_Name_STATUS instead
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_Basic_STATUS    = Sku_Name_STATUS("Basic")
-	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("Premium")
-	Sku_Name_Standard_STATUS = Sku_Name_STATUS("Standard")
+	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
 // Deprecated version of Sku_Tier_STATUS. Use v1beta20211101.Sku_Tier_STATUS instead
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_Basic_STATUS    = Sku_Tier_STATUS("Basic")
-	Sku_Tier_Premium_STATUS  = Sku_Tier_STATUS("Premium")
-	Sku_Tier_Standard_STATUS = Sku_Tier_STATUS("Standard")
+	Sku_Tier_STATUS_Basic    = Sku_Tier_STATUS("Basic")
+	Sku_Tier_STATUS_Premium  = Sku_Tier_STATUS("Premium")
+	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
 )
 
 // Deprecated version of SystemData_CreatedByType_STATUS. Use v1beta20211101.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20211101.SystemData_LastModifiedByType_STATUS
@@ -116,27 +116,27 @@ const (
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20211101.UserAssignedIdentity_STATUS instead
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20211101.KeyVaultProperties_STATUS instead
-type KeyVaultProperties_STATUSARM struct {
-	Identity    *UserAssignedIdentityProperties_STATUSARM `json:"identity,omitempty"`
-	KeyName     *string                                   `json:"keyName,omitempty"`
-	KeyVaultUri *string                                   `json:"keyVaultUri,omitempty"`
-	KeyVersion  *string                                   `json:"keyVersion,omitempty"`
+type KeyVaultProperties_STATUS_ARM struct {
+	Identity    *UserAssignedIdentityProperties_STATUS_ARM `json:"identity,omitempty"`
+	KeyName     *string                                    `json:"keyName,omitempty"`
+	KeyVaultUri *string                                    `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                                    `json:"keyVersion,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentityProperties_STATUS. Use v1beta20211101.UserAssignedIdentityProperties_STATUS instead
-type UserAssignedIdentityProperties_STATUSARM struct {
+type UserAssignedIdentityProperties_STATUS_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

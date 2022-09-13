@@ -5,14 +5,14 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualMachineScaleSet_SpecARM struct {
+type VirtualMachineScaleSet_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Identity: The identity of the virtual machine scale set, if configured.
-	Identity *VirtualMachineScaleSetIdentityARM `json:"identity,omitempty"`
+	Identity *VirtualMachineScaleSetIdentity_ARM `json:"identity,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
@@ -22,11 +22,11 @@ type VirtualMachineScaleSet_SpecARM struct {
 	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
 	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
 	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan       *PlanARM                             `json:"plan,omitempty"`
-	Properties *VirtualMachineScaleSetPropertiesARM `json:"properties,omitempty"`
+	Plan       *Plan_ARM                             `json:"plan,omitempty"`
+	Properties *VirtualMachineScaleSetProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The virtual machine scale set sku.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,24 +35,24 @@ type VirtualMachineScaleSet_SpecARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSet_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSet_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (scaleSet VirtualMachineScaleSet_SpecARM) GetAPIVersion() string {
+func (scaleSet VirtualMachineScaleSet_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (scaleSet *VirtualMachineScaleSet_SpecARM) GetName() string {
+func (scaleSet *VirtualMachineScaleSet_Spec_ARM) GetName() string {
 	return scaleSet.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
-func (scaleSet *VirtualMachineScaleSet_SpecARM) GetType() string {
+func (scaleSet *VirtualMachineScaleSet_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
-type ExtendedLocationARM struct {
+type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -60,7 +60,7 @@ type ExtendedLocationARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-type PlanARM struct {
+type Plan_ARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
@@ -75,7 +75,7 @@ type PlanARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -89,21 +89,21 @@ type SkuARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type VirtualMachineScaleSetIdentityARM struct {
+type VirtualMachineScaleSetIdentity_ARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
 	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
 }
 
-type VirtualMachineScaleSetPropertiesARM struct {
+type VirtualMachineScaleSetProperties_ARM struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
 	// Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data
 	// disks with UltraSSD_LRS storage account type.
-	AdditionalCapabilities *AdditionalCapabilitiesARM `json:"additionalCapabilities,omitempty"`
+	AdditionalCapabilities *AdditionalCapabilities_ARM `json:"additionalCapabilities,omitempty"`
 
 	// AutomaticRepairsPolicy: Policy for automatic repairs.
-	AutomaticRepairsPolicy *AutomaticRepairsPolicyARM `json:"automaticRepairsPolicy,omitempty"`
+	AutomaticRepairsPolicy *AutomaticRepairsPolicy_ARM `json:"automaticRepairsPolicy,omitempty"`
 
 	// DoNotRunExtensionsOnOverprovisionedVMs: When Overprovision is enabled, extensions are launched only on the requested
 	// number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra
@@ -112,7 +112,7 @@ type VirtualMachineScaleSetPropertiesARM struct {
 
 	// HostGroup: Specifies information about the dedicated host group that the virtual machine scale set resides in.
 	// Minimum api-version: 2020-06-01.
-	HostGroup *SubResourceARM `json:"hostGroup,omitempty"`
+	HostGroup *SubResource_ARM `json:"hostGroup,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
 	OrchestrationMode *OrchestrationMode `json:"orchestrationMode,omitempty"`
@@ -126,11 +126,11 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine scale set
 	// should be assigned to.
 	// Minimum api-version: 2018-04-01.
-	ProximityPlacementGroup *SubResourceARM `json:"proximityPlacementGroup,omitempty"`
+	ProximityPlacementGroup *SubResource_ARM `json:"proximityPlacementGroup,omitempty"`
 
 	// ScaleInPolicy: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual
 	// Machine Scale Set is scaled-in.
-	ScaleInPolicy *ScaleInPolicyARM `json:"scaleInPolicy,omitempty"`
+	ScaleInPolicy *ScaleInPolicy_ARM `json:"scaleInPolicy,omitempty"`
 
 	// SinglePlacementGroup: When true this limits the scale set to a single placement group, of max size 100 virtual machines.
 	// NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may
@@ -138,23 +138,23 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
 
 	// UpgradePolicy: The upgrade policy.
-	UpgradePolicy *UpgradePolicyARM `json:"upgradePolicy,omitempty"`
+	UpgradePolicy *UpgradePolicy_ARM `json:"upgradePolicy,omitempty"`
 
 	// VirtualMachineProfile: The virtual machine profile.
-	VirtualMachineProfile *VirtualMachineScaleSetVMProfileARM `json:"virtualMachineProfile,omitempty"`
+	VirtualMachineProfile *VirtualMachineScaleSetVMProfile_ARM `json:"virtualMachineProfile,omitempty"`
 
 	// ZoneBalance: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
 	ZoneBalance *bool `json:"zoneBalance,omitempty"`
 }
 
-type AdditionalCapabilitiesARM struct {
+type AdditionalCapabilities_ARM struct {
 	// UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS
 	// storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual
 	// machine or virtual machine scale set only if this property is enabled.
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
-type AutomaticRepairsPolicyARM struct {
+type AutomaticRepairsPolicy_ARM struct {
 	// Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
 	// false.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -171,7 +171,7 @@ type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
-type ScaleInPolicyARM struct {
+type ScaleInPolicy_ARM struct {
 	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
 	// Possible values are:
 	// Default When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a
@@ -186,13 +186,13 @@ type ScaleInPolicyARM struct {
 	Rules []ScaleInPolicy_Rules `json:"rules,omitempty"`
 }
 
-type SubResourceARM struct {
+type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type UpgradePolicyARM struct {
+type UpgradePolicy_ARM struct {
 	// AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic OS Upgrade.
-	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicyARM `json:"automaticOSUpgradePolicy,omitempty"`
+	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_ARM `json:"automaticOSUpgradePolicy,omitempty"`
 
 	// Mode: Specifies the mode of an upgrade to virtual machines in the scale set.
 	// Possible values are:
@@ -202,7 +202,7 @@ type UpgradePolicyARM struct {
 	Mode *UpgradePolicy_Mode `json:"mode,omitempty"`
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
-	RollingUpgradePolicy *RollingUpgradePolicyARM `json:"rollingUpgradePolicy,omitempty"`
+	RollingUpgradePolicy *RollingUpgradePolicy_ARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
@@ -215,14 +215,14 @@ const (
 	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
 )
 
-type VirtualMachineScaleSetVMProfileARM struct {
+type VirtualMachineScaleSetVMProfile_ARM struct {
 	// BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
 	// Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfileARM `json:"billingProfile,omitempty"`
+	BillingProfile *BillingProfile_ARM `json:"billingProfile,omitempty"`
 
 	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
 	// Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfileARM `json:"diagnosticsProfile,omitempty"`
+	DiagnosticsProfile *DiagnosticsProfile_ARM `json:"diagnosticsProfile,omitempty"`
 
 	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
@@ -231,7 +231,7 @@ type VirtualMachineScaleSetVMProfileARM struct {
 	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
 
 	// ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
-	ExtensionProfile *VirtualMachineScaleSetExtensionProfileARM `json:"extensionProfile,omitempty"`
+	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_ARM `json:"extensionProfile,omitempty"`
 
 	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
 	// Possible values for Windows Server operating system are:
@@ -248,26 +248,26 @@ type VirtualMachineScaleSetVMProfileARM struct {
 	LicenseType *string `json:"licenseType,omitempty"`
 
 	// NetworkProfile: Specifies properties of the network interfaces of the virtual machines in the scale set.
-	NetworkProfile *VirtualMachineScaleSetNetworkProfileARM `json:"networkProfile,omitempty"`
+	NetworkProfile *VirtualMachineScaleSetNetworkProfile_ARM `json:"networkProfile,omitempty"`
 
 	// OsProfile: Specifies the operating system settings for the virtual machines in the scale set.
-	OsProfile *VirtualMachineScaleSetOSProfileARM `json:"osProfile,omitempty"`
+	OsProfile *VirtualMachineScaleSetOSProfile_ARM `json:"osProfile,omitempty"`
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview
 	Priority *Priority `json:"priority,omitempty"`
 
 	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
-	ScheduledEventsProfile *ScheduledEventsProfileARM `json:"scheduledEventsProfile,omitempty"`
+	ScheduledEventsProfile *ScheduledEventsProfile_ARM `json:"scheduledEventsProfile,omitempty"`
 
 	// SecurityProfile: Specifies the Security related profile settings for the virtual machines in the scale set.
-	SecurityProfile *SecurityProfileARM `json:"securityProfile,omitempty"`
+	SecurityProfile *SecurityProfile_ARM `json:"securityProfile,omitempty"`
 
 	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *VirtualMachineScaleSetStorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *VirtualMachineScaleSetStorageProfile_ARM `json:"storageProfile,omitempty"`
 }
 
-type AutomaticOSUpgradePolicyARM struct {
+type AutomaticOSUpgradePolicy_ARM struct {
 	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 
@@ -279,7 +279,7 @@ type AutomaticOSUpgradePolicyARM struct {
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
 }
 
-type RollingUpgradePolicyARM struct {
+type RollingUpgradePolicy_ARM struct {
 	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
 	// the Update Domain and maxBatchInstancePercent to determine the batch size.
 	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
@@ -308,12 +308,12 @@ type RollingUpgradePolicyARM struct {
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
-type ScheduledEventsProfileARM struct {
+type ScheduledEventsProfile_ARM struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
-	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
+	TerminateNotificationProfile *TerminateNotificationProfile_ARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-type VirtualMachineScaleSetExtensionProfileARM struct {
+type VirtualMachineScaleSetExtensionProfile_ARM struct {
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
 	// (PT1H30M).
@@ -321,17 +321,17 @@ type VirtualMachineScaleSetExtensionProfileARM struct {
 	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
 }
 
-type VirtualMachineScaleSetNetworkProfileARM struct {
+type VirtualMachineScaleSetNetworkProfile_ARM struct {
 	// HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
 	// scale set. The reference will be in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
-	HealthProbe *ApiEntityReferenceARM `json:"healthProbe,omitempty"`
+	HealthProbe *ApiEntityReference_ARM `json:"healthProbe,omitempty"`
 
 	// NetworkInterfaceConfigurations: The list of network configurations.
-	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfigurationARM `json:"networkInterfaceConfigurations,omitempty"`
+	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_ARM `json:"networkInterfaceConfigurations,omitempty"`
 }
 
-type VirtualMachineScaleSetOSProfileARM struct {
+type VirtualMachineScaleSetOSProfile_ARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -380,37 +380,37 @@ type VirtualMachineScaleSetOSProfileARM struct {
 	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
 	// For running non-endorsed distributions, see [Information for Non-Endorsed
 	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-	LinuxConfiguration *LinuxConfigurationARM `json:"linuxConfiguration,omitempty"`
+	LinuxConfiguration *LinuxConfiguration_ARM `json:"linuxConfiguration,omitempty"`
 
 	// Secrets: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
-	Secrets []VaultSecretGroupARM `json:"secrets,omitempty"`
+	Secrets []VaultSecretGroup_ARM `json:"secrets,omitempty"`
 
 	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
+	WindowsConfiguration *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
 }
 
-type VirtualMachineScaleSetStorageProfileARM struct {
+type VirtualMachineScaleSetStorageProfile_ARM struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
 	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	DataDisks []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
+	DataDisks []VirtualMachineScaleSetDataDisk_ARM `json:"dataDisks,omitempty"`
 
 	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
 	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
 	// marketplace image, or virtual machine image, but is not used in other creation operations.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
+	ImageReference *ImageReference_ARM `json:"imageReference,omitempty"`
 
 	// OsDisk: Specifies information about the operating system disk used by the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
 	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
+	OsDisk *VirtualMachineScaleSetOSDisk_ARM `json:"osDisk,omitempty"`
 }
 
-type ApiEntityReferenceARM struct {
+type ApiEntityReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type TerminateNotificationProfileARM struct {
+type TerminateNotificationProfile_ARM struct {
 	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
 
@@ -420,7 +420,7 @@ type TerminateNotificationProfileARM struct {
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
-type VirtualMachineScaleSetDataDiskARM struct {
+type VirtualMachineScaleSetDataDisk_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
 	// None
@@ -450,7 +450,7 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	Lun *int `json:"lun,omitempty"`
 
 	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParametersARM `json:"managedDisk,omitempty"`
+	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_ARM `json:"managedDisk,omitempty"`
 
 	// Name: The disk name.
 	Name *string `json:"name,omitempty"`
@@ -459,15 +459,15 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type VirtualMachineScaleSetNetworkConfigurationARM struct {
+type VirtualMachineScaleSetNetworkConfiguration_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The network configuration name.
-	Name       *string                                                  `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetNetworkConfigurationPropertiesARM `json:"properties,omitempty"`
+	Name       *string                                                   `json:"name,omitempty"`
+	Properties *VirtualMachineScaleSetNetworkConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
-type VirtualMachineScaleSetOSDiskARM struct {
+type VirtualMachineScaleSetOSDisk_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
 	// None
@@ -484,7 +484,7 @@ type VirtualMachineScaleSetOSDiskARM struct {
 
 	// DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	// set.
-	DiffDiskSettings *DiffDiskSettingsARM `json:"diffDiskSettings,omitempty"`
+	DiffDiskSettings *DiffDiskSettings_ARM `json:"diffDiskSettings,omitempty"`
 
 	// DiskSizeGB: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size
 	// of the disk in a virtual machine image.
@@ -492,10 +492,10 @@ type VirtualMachineScaleSetOSDiskARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// Image: Specifies information about the unmanaged user image to base the scale set on.
-	Image *VirtualHardDiskARM `json:"image,omitempty"`
+	Image *VirtualHardDisk_ARM `json:"image,omitempty"`
 
 	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *VirtualMachineScaleSetManagedDiskParametersARM `json:"managedDisk,omitempty"`
+	ManagedDisk *VirtualMachineScaleSetManagedDiskParameters_ARM `json:"managedDisk,omitempty"`
 
 	// Name: The disk name.
 	Name *string `json:"name,omitempty"`
@@ -514,18 +514,18 @@ type VirtualMachineScaleSetOSDiskARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type VirtualMachineScaleSetManagedDiskParametersARM struct {
+type VirtualMachineScaleSetManagedDiskParameters_ARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
-	DiskEncryptionSet *SubResourceARM `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet *SubResource_ARM `json:"diskEncryptionSet,omitempty"`
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
 	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
-type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
+type VirtualMachineScaleSetNetworkConfigurationProperties_ARM struct {
 	// DnsSettings: The dns settings to be applied on the network interfaces.
-	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM `json:"dnsSettings,omitempty"`
+	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_ARM `json:"dnsSettings,omitempty"`
 
 	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
@@ -537,46 +537,46 @@ type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	// IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations []VirtualMachineScaleSetIPConfigurationARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []VirtualMachineScaleSetIPConfiguration_ARM `json:"ipConfigurations,omitempty"`
 
 	// NetworkSecurityGroup: The network security group.
-	NetworkSecurityGroup *SubResourceARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *SubResource_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
-type VirtualMachineScaleSetIPConfigurationARM struct {
+type VirtualMachineScaleSetIPConfiguration_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The IP configuration name.
-	Name       *string                                             `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetIPConfigurationPropertiesARM `json:"properties,omitempty"`
+	Name       *string                                              `json:"name,omitempty"`
+	Properties *VirtualMachineScaleSetIPConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
-type VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM struct {
+type VirtualMachineScaleSetNetworkConfigurationDnsSettings_ARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-type VirtualMachineScaleSetIPConfigurationPropertiesARM struct {
+type VirtualMachineScaleSetIPConfigurationProperties_ARM struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
 	// use the same application gateway.
-	ApplicationGatewayBackendAddressPools []SubResourceARM `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationGatewayBackendAddressPools []SubResource_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 
 	// ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResourceARM `json:"applicationSecurityGroups,omitempty"`
+	ApplicationSecurityGroups []SubResource_ARM `json:"applicationSecurityGroups,omitempty"`
 
 	// LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A scale
 	// set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the
 	// same basic sku load balancer.
-	LoadBalancerBackendAddressPools []SubResourceARM `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerBackendAddressPools []SubResource_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	// LoadBalancerInboundNatPools: Specifies an array of references to inbound Nat pools of the load balancers. A scale set
 	// can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same
 	// basic sku load balancer.
-	LoadBalancerInboundNatPools []SubResourceARM `json:"loadBalancerInboundNatPools,omitempty"`
+	LoadBalancerInboundNatPools []SubResource_ARM `json:"loadBalancerInboundNatPools,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -586,37 +586,37 @@ type VirtualMachineScaleSetIPConfigurationPropertiesARM struct {
 	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
-	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfigurationARM `json:"publicIPAddressConfiguration,omitempty"`
+	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_ARM `json:"publicIPAddressConfiguration,omitempty"`
 
 	// Subnet: Specifies the identifier of the subnet.
-	Subnet *ApiEntityReferenceARM `json:"subnet,omitempty"`
+	Subnet *ApiEntityReference_ARM `json:"subnet,omitempty"`
 }
 
-type VirtualMachineScaleSetPublicIPAddressConfigurationARM struct {
+type VirtualMachineScaleSetPublicIPAddressConfiguration_ARM struct {
 	// Name: The publicIP address configuration name.
-	Name       *string                                                          `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM `json:"properties,omitempty"`
+	Name       *string                                                           `json:"name,omitempty"`
+	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
-type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM struct {
+type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_ARM struct {
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
-	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM `json:"dnsSettings,omitempty"`
+	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineScaleSetIpTagARM `json:"ipTags,omitempty"`
+	IpTags []VirtualMachineScaleSetIpTag_ARM `json:"ipTags,omitempty"`
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 }
 
-type VirtualMachineScaleSetIpTagARM struct {
+type VirtualMachineScaleSetIpTag_ARM struct {
 	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
@@ -624,7 +624,7 @@ type VirtualMachineScaleSetIpTagARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM struct {
+type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_ARM struct {
 	// DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	// labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`

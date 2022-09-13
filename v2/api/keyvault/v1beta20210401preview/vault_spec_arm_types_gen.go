@@ -5,7 +5,7 @@ package v1beta20210401preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Vault_SpecARM struct {
+type Vault_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The supported Azure location where the key vault should be created.
@@ -13,34 +13,34 @@ type Vault_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the vault
-	Properties *VaultPropertiesARM `json:"properties,omitempty"`
+	Properties *VaultProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: The tags that will be assigned to the key vault.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Vault_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Vault_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
-func (vault Vault_SpecARM) GetAPIVersion() string {
+func (vault Vault_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (vault *Vault_SpecARM) GetName() string {
+func (vault *Vault_Spec_ARM) GetName() string {
 	return vault.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults"
-func (vault *Vault_SpecARM) GetType() string {
+func (vault *Vault_Spec_ARM) GetType() string {
 	return "Microsoft.KeyVault/vaults"
 }
 
-type VaultPropertiesARM struct {
+type VaultProperties_ARM struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
 	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
 	// required. Otherwise, access policies are required.
-	AccessPolicies []AccessPolicyEntryARM `json:"accessPolicies,omitempty"`
+	AccessPolicies []AccessPolicyEntry_ARM `json:"accessPolicies,omitempty"`
 
 	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
 	CreateMode *VaultProperties_CreateMode `json:"createMode,omitempty"`
@@ -76,13 +76,13 @@ type VaultPropertiesARM struct {
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
 	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
-	NetworkAcls *NetworkRuleSetARM `json:"networkAcls,omitempty"`
+	NetworkAcls *NetworkRuleSet_ARM `json:"networkAcls,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
 	ProvisioningState *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// Sku: SKU details
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// SoftDeleteRetentionInDays: softDelete data retention days. It accepts >=7 and <=90.
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
@@ -94,7 +94,7 @@ type VaultPropertiesARM struct {
 	VaultUri *string `json:"vaultUri,omitempty"`
 }
 
-type AccessPolicyEntryARM struct {
+type AccessPolicyEntry_ARM struct {
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
 	ApplicationId *string `json:"applicationId,omitempty"`
 
@@ -103,13 +103,13 @@ type AccessPolicyEntryARM struct {
 	ObjectId *string `json:"objectId,omitempty"`
 
 	// Permissions: Permissions the identity has for keys, secrets and certificates.
-	Permissions *PermissionsARM `json:"permissions,omitempty"`
+	Permissions *Permissions_ARM `json:"permissions,omitempty"`
 
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-type NetworkRuleSetARM struct {
+type NetworkRuleSet_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
 	Bypass *NetworkRuleSet_Bypass `json:"bypass,omitempty"`
@@ -119,13 +119,13 @@ type NetworkRuleSetARM struct {
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
 
 	// IpRules: The list of IP address rules.
-	IpRules []IPRuleARM `json:"ipRules,omitempty"`
+	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
 
 	// VirtualNetworkRules: The list of virtual network rules.
-	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
-type SkuARM struct {
+type Sku_ARM struct {
 	// Family: SKU family name
 	Family *Sku_Family `json:"family,omitempty"`
 
@@ -149,7 +149,7 @@ const (
 	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
 
-type IPRuleARM struct {
+type IPRule_ARM struct {
 	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
 	// addresses that start with 124.56.78).
 	Value *string `json:"value,omitempty"`
@@ -171,7 +171,7 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
-type PermissionsARM struct {
+type Permissions_ARM struct {
 	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
 
@@ -198,7 +198,7 @@ const (
 	Sku_Name_Standard = Sku_Name("standard")
 )
 
-type VirtualNetworkRuleARM struct {
+type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has

@@ -5,32 +5,32 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Eventhubs_Consumergroup_SpecARM struct {
+type Namespaces_Eventhubs_Consumergroup_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Single item in List or Get Consumer group operation
-	Properties *Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM `json:"properties,omitempty"`
+	Properties *Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (consumergroup Namespaces_Eventhubs_Consumergroup_SpecARM) GetAPIVersion() string {
+func (consumergroup Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_SpecARM) GetName() string {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetName() string {
 	return consumergroup.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_SpecARM) GetType() string {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
-type Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM struct {
+type Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM struct {
 	// UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
 	// used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	// settings can be stored.

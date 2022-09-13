@@ -5,12 +5,12 @@ package v1beta20211001
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type ContainerGroup_STATUSARM struct {
+type ContainerGroup_STATUS_ARM struct {
 	// Id: The resource id.
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the container group, if configured.
-	Identity *ContainerGroupIdentity_STATUSARM `json:"identity,omitempty"`
+	Identity *ContainerGroupIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: The resource location.
 	Location *string `json:"location,omitempty"`
@@ -19,7 +19,7 @@ type ContainerGroup_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The container group properties
-	Properties *ContainerGroup_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *ContainerGroup_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: The resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -31,30 +31,30 @@ type ContainerGroup_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type ContainerGroup_Properties_STATUSARM struct {
+type ContainerGroup_Properties_STATUS_ARM struct {
 	// Containers: The containers within the container group.
-	Containers []Container_STATUSARM `json:"containers,omitempty"`
+	Containers []Container_STATUS_ARM `json:"containers,omitempty"`
 
 	// Diagnostics: The diagnostic information for a container group.
-	Diagnostics *ContainerGroupDiagnostics_STATUSARM `json:"diagnostics,omitempty"`
+	Diagnostics *ContainerGroupDiagnostics_STATUS_ARM `json:"diagnostics,omitempty"`
 
 	// DnsConfig: The DNS config information for a container group.
-	DnsConfig *DnsConfiguration_STATUSARM `json:"dnsConfig,omitempty"`
+	DnsConfig *DnsConfiguration_STATUS_ARM `json:"dnsConfig,omitempty"`
 
 	// EncryptionProperties: The encryption properties for a container group.
-	EncryptionProperties *EncryptionProperties_STATUSARM `json:"encryptionProperties,omitempty"`
+	EncryptionProperties *EncryptionProperties_STATUS_ARM `json:"encryptionProperties,omitempty"`
 
 	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential_STATUSARM `json:"imageRegistryCredentials,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential_STATUS_ARM `json:"imageRegistryCredentials,omitempty"`
 
 	// InitContainers: The init containers for a container group.
-	InitContainers []InitContainerDefinition_STATUSARM `json:"initContainers,omitempty"`
+	InitContainers []InitContainerDefinition_STATUS_ARM `json:"initContainers,omitempty"`
 
 	// InstanceView: The instance view of the container group. Only valid in response.
-	InstanceView *ContainerGroup_Properties_InstanceView_STATUSARM `json:"instanceView,omitempty"`
+	InstanceView *ContainerGroup_Properties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
 
 	// IpAddress: The IP address type of the container group.
-	IpAddress *IpAddress_STATUSARM `json:"ipAddress,omitempty"`
+	IpAddress *IpAddress_STATUS_ARM `json:"ipAddress,omitempty"`
 
 	// OsType: The operating system type required by the containers in the container group.
 	OsType *ContainerGroup_Properties_OsType_STATUS `json:"osType,omitempty"`
@@ -72,13 +72,13 @@ type ContainerGroup_Properties_STATUSARM struct {
 	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
 
 	// SubnetIds: The subnet resource IDs for a container group.
-	SubnetIds []ContainerGroupSubnetId_STATUSARM `json:"subnetIds,omitempty"`
+	SubnetIds []ContainerGroupSubnetId_STATUS_ARM `json:"subnetIds,omitempty"`
 
 	// Volumes: The list of volumes that can be mounted by containers in this container group.
-	Volumes []Volume_STATUSARM `json:"volumes,omitempty"`
+	Volumes []Volume_STATUS_ARM `json:"volumes,omitempty"`
 }
 
-type ContainerGroupIdentity_STATUSARM struct {
+type ContainerGroupIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
 	// identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -95,40 +95,40 @@ type ContainerGroupIdentity_STATUSARM struct {
 	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
 	// key references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ContainerGroupIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Container_STATUSARM struct {
+type Container_STATUS_ARM struct {
 	// Name: The user-provided name of the container instance.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of the container instance.
-	Properties *ContainerProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ContainerProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type ContainerGroup_Properties_InstanceView_STATUSARM struct {
+type ContainerGroup_Properties_InstanceView_STATUS_ARM struct {
 	// Events: The events of this container group.
-	Events []Event_STATUSARM `json:"events,omitempty"`
+	Events []Event_STATUS_ARM `json:"events,omitempty"`
 
 	// State: The state of the container group. Only valid in response.
 	State *string `json:"state,omitempty"`
 }
 
-type ContainerGroupDiagnostics_STATUSARM struct {
+type ContainerGroupDiagnostics_STATUS_ARM struct {
 	// LogAnalytics: Container group log analytics information.
-	LogAnalytics *LogAnalytics_STATUSARM `json:"logAnalytics,omitempty"`
+	LogAnalytics *LogAnalytics_STATUS_ARM `json:"logAnalytics,omitempty"`
 }
 
 type ContainerGroupIdentity_Type_STATUS string
 
 const (
-	ContainerGroupIdentity_Type_None_STATUS                       = ContainerGroupIdentity_Type_STATUS("None")
-	ContainerGroupIdentity_Type_SystemAssigned_STATUS             = ContainerGroupIdentity_Type_STATUS("SystemAssigned")
-	ContainerGroupIdentity_Type_SystemAssignedUserAssigned_STATUS = ContainerGroupIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ContainerGroupIdentity_Type_UserAssigned_STATUS               = ContainerGroupIdentity_Type_STATUS("UserAssigned")
+	ContainerGroupIdentity_Type_STATUS_None                       = ContainerGroupIdentity_Type_STATUS("None")
+	ContainerGroupIdentity_Type_STATUS_SystemAssigned             = ContainerGroupIdentity_Type_STATUS("SystemAssigned")
+	ContainerGroupIdentity_Type_STATUS_SystemAssignedUserAssigned = ContainerGroupIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ContainerGroupIdentity_Type_STATUS_UserAssigned               = ContainerGroupIdentity_Type_STATUS("UserAssigned")
 )
 
-type ContainerGroupIdentity_UserAssignedIdentities_STATUSARM struct {
+type ContainerGroupIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -136,7 +136,7 @@ type ContainerGroupIdentity_UserAssignedIdentities_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type ContainerGroupSubnetId_STATUSARM struct {
+type ContainerGroupSubnetId_STATUS_ARM struct {
 	// Id: Resource ID of virtual network and subnet.
 	Id *string `json:"id,omitempty"`
 
@@ -144,7 +144,7 @@ type ContainerGroupSubnetId_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-type DnsConfiguration_STATUSARM struct {
+type DnsConfiguration_STATUS_ARM struct {
 	// NameServers: The DNS servers for the container group.
 	NameServers []string `json:"nameServers,omitempty"`
 
@@ -155,7 +155,7 @@ type DnsConfiguration_STATUSARM struct {
 	SearchDomains *string `json:"searchDomains,omitempty"`
 }
 
-type EncryptionProperties_STATUSARM struct {
+type EncryptionProperties_STATUS_ARM struct {
 	// KeyName: The encryption key name.
 	KeyName *string `json:"keyName,omitempty"`
 
@@ -166,7 +166,7 @@ type EncryptionProperties_STATUSARM struct {
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
-type ImageRegistryCredential_STATUSARM struct {
+type ImageRegistryCredential_STATUS_ARM struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
 
@@ -180,15 +180,15 @@ type ImageRegistryCredential_STATUSARM struct {
 	Username *string `json:"username,omitempty"`
 }
 
-type InitContainerDefinition_STATUSARM struct {
+type InitContainerDefinition_STATUS_ARM struct {
 	// Name: The name for the init container.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties for the init container.
-	Properties *InitContainerPropertiesDefinition_STATUSARM `json:"properties,omitempty"`
+	Properties *InitContainerPropertiesDefinition_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type IpAddress_STATUSARM struct {
+type IpAddress_STATUS_ARM struct {
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
 
@@ -202,21 +202,21 @@ type IpAddress_STATUSARM struct {
 	Ip *string `json:"ip,omitempty"`
 
 	// Ports: The list of ports exposed on the container group.
-	Ports []Port_STATUSARM `json:"ports,omitempty"`
+	Ports []Port_STATUS_ARM `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
 	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
 }
 
-type Volume_STATUSARM struct {
+type Volume_STATUS_ARM struct {
 	// AzureFile: The Azure File volume.
-	AzureFile *AzureFileVolume_STATUSARM `json:"azureFile,omitempty"`
+	AzureFile *AzureFileVolume_STATUS_ARM `json:"azureFile,omitempty"`
 
 	// EmptyDir: The empty directory volume.
 	EmptyDir map[string]v1.JSON `json:"emptyDir,omitempty"`
 
 	// GitRepo: The git repo volume.
-	GitRepo *GitRepoVolume_STATUSARM `json:"gitRepo,omitempty"`
+	GitRepo *GitRepoVolume_STATUS_ARM `json:"gitRepo,omitempty"`
 
 	// Name: The name of the volume.
 	Name *string `json:"name,omitempty"`
@@ -225,7 +225,7 @@ type Volume_STATUSARM struct {
 	Secret map[string]string `json:"secret,omitempty"`
 }
 
-type AzureFileVolume_STATUSARM struct {
+type AzureFileVolume_STATUS_ARM struct {
 	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
 	ReadOnly *bool `json:"readOnly,omitempty"`
 
@@ -239,36 +239,36 @@ type AzureFileVolume_STATUSARM struct {
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
-type ContainerProperties_STATUSARM struct {
+type ContainerProperties_STATUS_ARM struct {
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
 
 	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []EnvironmentVariable_STATUSARM `json:"environmentVariables,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS_ARM `json:"environmentVariables,omitempty"`
 
 	// Image: The name of the image used to create the container instance.
 	Image *string `json:"image,omitempty"`
 
 	// InstanceView: The instance view of the container instance. Only valid in response.
-	InstanceView *ContainerProperties_InstanceView_STATUSARM `json:"instanceView,omitempty"`
+	InstanceView *ContainerProperties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
 
 	// LivenessProbe: The liveness probe.
-	LivenessProbe *ContainerProbe_STATUSARM `json:"livenessProbe,omitempty"`
+	LivenessProbe *ContainerProbe_STATUS_ARM `json:"livenessProbe,omitempty"`
 
 	// Ports: The exposed ports on the container instance.
-	Ports []ContainerPort_STATUSARM `json:"ports,omitempty"`
+	Ports []ContainerPort_STATUS_ARM `json:"ports,omitempty"`
 
 	// ReadinessProbe: The readiness probe.
-	ReadinessProbe *ContainerProbe_STATUSARM `json:"readinessProbe,omitempty"`
+	ReadinessProbe *ContainerProbe_STATUS_ARM `json:"readinessProbe,omitempty"`
 
 	// Resources: The resource requirements of the container instance.
-	Resources *ResourceRequirements_STATUSARM `json:"resources,omitempty"`
+	Resources *ResourceRequirements_STATUS_ARM `json:"resources,omitempty"`
 
 	// VolumeMounts: The volume mounts available to the container instance.
-	VolumeMounts []VolumeMount_STATUSARM `json:"volumeMounts,omitempty"`
+	VolumeMounts []VolumeMount_STATUS_ARM `json:"volumeMounts,omitempty"`
 }
 
-type Event_STATUSARM struct {
+type Event_STATUS_ARM struct {
 	// Count: The count of the event.
 	Count *int `json:"count,omitempty"`
 
@@ -288,7 +288,7 @@ type Event_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type GitRepoVolume_STATUSARM struct {
+type GitRepoVolume_STATUS_ARM struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
 	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
 	// given name.
@@ -301,24 +301,24 @@ type GitRepoVolume_STATUSARM struct {
 	Revision *string `json:"revision,omitempty"`
 }
 
-type InitContainerPropertiesDefinition_STATUSARM struct {
+type InitContainerPropertiesDefinition_STATUS_ARM struct {
 	// Command: The command to execute within the init container in exec form.
 	Command []string `json:"command,omitempty"`
 
 	// EnvironmentVariables: The environment variables to set in the init container.
-	EnvironmentVariables []EnvironmentVariable_STATUSARM `json:"environmentVariables,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS_ARM `json:"environmentVariables,omitempty"`
 
 	// Image: The image of the init container.
 	Image *string `json:"image,omitempty"`
 
 	// InstanceView: The instance view of the init container. Only valid in response.
-	InstanceView *InitContainerPropertiesDefinition_InstanceView_STATUSARM `json:"instanceView,omitempty"`
+	InstanceView *InitContainerPropertiesDefinition_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
 
 	// VolumeMounts: The volume mounts available to the init container.
-	VolumeMounts []VolumeMount_STATUSARM `json:"volumeMounts,omitempty"`
+	VolumeMounts []VolumeMount_STATUS_ARM `json:"volumeMounts,omitempty"`
 }
 
-type LogAnalytics_STATUSARM struct {
+type LogAnalytics_STATUS_ARM struct {
 	// LogType: The log type to be used.
 	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
 
@@ -335,7 +335,7 @@ type LogAnalytics_STATUSARM struct {
 	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
 }
 
-type Port_STATUSARM struct {
+type Port_STATUS_ARM struct {
 	// Port: The port number.
 	Port *int `json:"port,omitempty"`
 
@@ -343,7 +343,7 @@ type Port_STATUSARM struct {
 	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
-type ContainerPort_STATUSARM struct {
+type ContainerPort_STATUS_ARM struct {
 	// Port: The port number exposed within the container group.
 	Port *int `json:"port,omitempty"`
 
@@ -351,15 +351,15 @@ type ContainerPort_STATUSARM struct {
 	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
-type ContainerProbe_STATUSARM struct {
+type ContainerProbe_STATUS_ARM struct {
 	// Exec: The execution command to probe
-	Exec *ContainerExec_STATUSARM `json:"exec,omitempty"`
+	Exec *ContainerExec_STATUS_ARM `json:"exec,omitempty"`
 
 	// FailureThreshold: The failure threshold.
 	FailureThreshold *int `json:"failureThreshold,omitempty"`
 
 	// HttpGet: The Http Get settings to probe
-	HttpGet *ContainerHttpGet_STATUSARM `json:"httpGet,omitempty"`
+	HttpGet *ContainerHttpGet_STATUS_ARM `json:"httpGet,omitempty"`
 
 	// InitialDelaySeconds: The initial delay seconds.
 	InitialDelaySeconds *int `json:"initialDelaySeconds,omitempty"`
@@ -374,21 +374,21 @@ type ContainerProbe_STATUSARM struct {
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
 }
 
-type ContainerProperties_InstanceView_STATUSARM struct {
+type ContainerProperties_InstanceView_STATUS_ARM struct {
 	// CurrentState: Current container instance state.
-	CurrentState *ContainerState_STATUSARM `json:"currentState,omitempty"`
+	CurrentState *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
 
 	// Events: The events of the container instance.
-	Events []Event_STATUSARM `json:"events,omitempty"`
+	Events []Event_STATUS_ARM `json:"events,omitempty"`
 
 	// PreviousState: Previous container instance state.
-	PreviousState *ContainerState_STATUSARM `json:"previousState,omitempty"`
+	PreviousState *ContainerState_STATUS_ARM `json:"previousState,omitempty"`
 
 	// RestartCount: The number of times that the container instance has been restarted.
 	RestartCount *int `json:"restartCount,omitempty"`
 }
 
-type EnvironmentVariable_STATUSARM struct {
+type EnvironmentVariable_STATUS_ARM struct {
 	// Name: The name of the environment variable.
 	Name *string `json:"name,omitempty"`
 
@@ -399,29 +399,29 @@ type EnvironmentVariable_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type InitContainerPropertiesDefinition_InstanceView_STATUSARM struct {
+type InitContainerPropertiesDefinition_InstanceView_STATUS_ARM struct {
 	// CurrentState: The current state of the init container.
-	CurrentState *ContainerState_STATUSARM `json:"currentState,omitempty"`
+	CurrentState *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
 
 	// Events: The events of the init container.
-	Events []Event_STATUSARM `json:"events,omitempty"`
+	Events []Event_STATUS_ARM `json:"events,omitempty"`
 
 	// PreviousState: The previous state of the init container.
-	PreviousState *ContainerState_STATUSARM `json:"previousState,omitempty"`
+	PreviousState *ContainerState_STATUS_ARM `json:"previousState,omitempty"`
 
 	// RestartCount: The number of times that the init container has been restarted.
 	RestartCount *int `json:"restartCount,omitempty"`
 }
 
-type ResourceRequirements_STATUSARM struct {
+type ResourceRequirements_STATUS_ARM struct {
 	// Limits: The resource limits of this container instance.
-	Limits *ResourceLimits_STATUSARM `json:"limits,omitempty"`
+	Limits *ResourceLimits_STATUS_ARM `json:"limits,omitempty"`
 
 	// Requests: The resource requests of this container instance.
-	Requests *ResourceRequests_STATUSARM `json:"requests,omitempty"`
+	Requests *ResourceRequests_STATUS_ARM `json:"requests,omitempty"`
 }
 
-type VolumeMount_STATUSARM struct {
+type VolumeMount_STATUS_ARM struct {
 	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
 	MountPath *string `json:"mountPath,omitempty"`
 
@@ -432,14 +432,14 @@ type VolumeMount_STATUSARM struct {
 	ReadOnly *bool `json:"readOnly,omitempty"`
 }
 
-type ContainerExec_STATUSARM struct {
+type ContainerExec_STATUS_ARM struct {
 	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
 }
 
-type ContainerHttpGet_STATUSARM struct {
+type ContainerHttpGet_STATUS_ARM struct {
 	// HttpHeaders: The HTTP headers.
-	HttpHeaders []HttpHeader_STATUSARM `json:"httpHeaders,omitempty"`
+	HttpHeaders []HttpHeader_STATUS_ARM `json:"httpHeaders,omitempty"`
 
 	// Path: The path to probe.
 	Path *string `json:"path,omitempty"`
@@ -451,7 +451,7 @@ type ContainerHttpGet_STATUSARM struct {
 	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
 }
 
-type ContainerState_STATUSARM struct {
+type ContainerState_STATUS_ARM struct {
 	// DetailStatus: The human-readable status of the container instance state.
 	DetailStatus *string `json:"detailStatus,omitempty"`
 
@@ -468,29 +468,29 @@ type ContainerState_STATUSARM struct {
 	State *string `json:"state,omitempty"`
 }
 
-type ResourceLimits_STATUSARM struct {
+type ResourceLimits_STATUS_ARM struct {
 	// Cpu: The CPU limit of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
 
 	// Gpu: The GPU limit of this container instance.
-	Gpu *GpuResource_STATUSARM `json:"gpu,omitempty"`
+	Gpu *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
 
 	// MemoryInGB: The memory limit in GB of this container instance.
 	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
 }
 
-type ResourceRequests_STATUSARM struct {
+type ResourceRequests_STATUS_ARM struct {
 	// Cpu: The CPU request of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
 
 	// Gpu: The GPU request of this container instance.
-	Gpu *GpuResource_STATUSARM `json:"gpu,omitempty"`
+	Gpu *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
 
 	// MemoryInGB: The memory request in GB of this container instance.
 	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
 }
 
-type GpuResource_STATUSARM struct {
+type GpuResource_STATUS_ARM struct {
 	// Count: The count of the GPU resource.
 	Count *int `json:"count,omitempty"`
 
@@ -498,7 +498,7 @@ type GpuResource_STATUSARM struct {
 	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
 }
 
-type HttpHeader_STATUSARM struct {
+type HttpHeader_STATUS_ARM struct {
 	// Name: The header name.
 	Name *string `json:"name,omitempty"`
 

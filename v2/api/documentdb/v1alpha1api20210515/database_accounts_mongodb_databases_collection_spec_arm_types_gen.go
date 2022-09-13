@@ -6,58 +6,58 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_Spec. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collection_Spec instead
-type DatabaseAccounts_MongodbDatabases_Collection_SpecARM struct {
-	AzureName  string                                      `json:"azureName,omitempty"`
-	Location   *string                                     `json:"location,omitempty"`
-	Name       string                                      `json:"name,omitempty"`
-	Properties *MongoDBCollectionCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                           `json:"tags,omitempty"`
+type DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM struct {
+	AzureName  string                                       `json:"azureName,omitempty"`
+	Location   *string                                      `json:"location,omitempty"`
+	Name       string                                       `json:"name,omitempty"`
+	Properties *MongoDBCollectionCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                            `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collection_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (collection DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetAPIVersion() string {
+func (collection DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (collection *DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetName() string {
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetName() string {
 	return collection.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
-func (collection *DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetType() string {
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
 // Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties instead
-type MongoDBCollectionCreateUpdatePropertiesARM struct {
-	Options  *CreateUpdateOptionsARM       `json:"options,omitempty"`
-	Resource *MongoDBCollectionResourceARM `json:"resource,omitempty"`
+type MongoDBCollectionCreateUpdateProperties_ARM struct {
+	Options  *CreateUpdateOptions_ARM       `json:"options,omitempty"`
+	Resource *MongoDBCollectionResource_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
-type MongoDBCollectionResourceARM struct {
+type MongoDBCollectionResource_ARM struct {
 	AnalyticalStorageTtl *int              `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string           `json:"id,omitempty"`
-	Indexes              []MongoIndexARM   `json:"indexes,omitempty"`
+	Indexes              []MongoIndex_ARM  `json:"indexes,omitempty"`
 	ShardKey             map[string]string `json:"shardKey,omitempty"`
 }
 
 // Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
-type MongoIndexARM struct {
-	Key     *MongoIndexKeysARM    `json:"key,omitempty"`
-	Options *MongoIndexOptionsARM `json:"options,omitempty"`
+type MongoIndex_ARM struct {
+	Key     *MongoIndexKeys_ARM    `json:"key,omitempty"`
+	Options *MongoIndexOptions_ARM `json:"options,omitempty"`
 }
 
 // Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
-type MongoIndexKeysARM struct {
+type MongoIndexKeys_ARM struct {
 	Keys []string `json:"keys,omitempty"`
 }
 
 // Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
-type MongoIndexOptionsARM struct {
+type MongoIndexOptions_ARM struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`
 }

@@ -6,122 +6,122 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetworks_Subnet_Spec. Use v1beta20201101.VirtualNetworks_Subnet_Spec instead
-type VirtualNetworks_Subnet_SpecARM struct {
-	AzureName  string                     `json:"azureName,omitempty"`
-	Id         *string                    `json:"id,omitempty"`
-	Name       string                     `json:"name,omitempty"`
-	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                    `json:"type,omitempty"`
+type VirtualNetworks_Subnet_Spec_ARM struct {
+	AzureName  string                      `json:"azureName,omitempty"`
+	Id         *string                     `json:"id,omitempty"`
+	Name       string                      `json:"name,omitempty"`
+	Properties *SubnetPropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetworks_Subnet_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetworks_Subnet_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (subnet VirtualNetworks_Subnet_SpecARM) GetAPIVersion() string {
+func (subnet VirtualNetworks_Subnet_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (subnet *VirtualNetworks_Subnet_SpecARM) GetName() string {
+func (subnet *VirtualNetworks_Subnet_Spec_ARM) GetName() string {
 	return subnet.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
-func (subnet *VirtualNetworks_Subnet_SpecARM) GetType() string {
+func (subnet *VirtualNetworks_Subnet_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
 // Deprecated version of SubnetPropertiesFormat. Use v1beta20201101.SubnetPropertiesFormat instead
-type SubnetPropertiesFormatARM struct {
+type SubnetPropertiesFormat_ARM struct {
 	AddressPrefix                      *string                                                   `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                  `json:"addressPrefixes,omitempty"`
-	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfigurationARM                    `json:"applicationGatewayIpConfigurations,omitempty"`
-	Delegations                        []DelegationARM                                           `json:"delegations,omitempty"`
-	IpAllocations                      []SubResourceARM                                          `json:"ipAllocations,omitempty"`
-	NatGateway                         *SubResourceARM                                           `json:"natGateway,omitempty"`
-	NetworkSecurityGroup               *NetworkSecurityGroupSpecARM                              `json:"networkSecurityGroup,omitempty"`
+	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_ARM                   `json:"applicationGatewayIpConfigurations,omitempty"`
+	Delegations                        []Delegation_ARM                                          `json:"delegations,omitempty"`
+	IpAllocations                      []SubResource_ARM                                         `json:"ipAllocations,omitempty"`
+	NatGateway                         *SubResource_ARM                                          `json:"natGateway,omitempty"`
+	NetworkSecurityGroup               *NetworkSecurityGroupSpec_ARM                             `json:"networkSecurityGroup,omitempty"`
 	PrivateEndpointNetworkPolicies     *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies    `json:"privateEndpointNetworkPolicies,omitempty"`
 	PrivateLinkServiceNetworkPolicies  *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	RouteTable                         *RouteTableSpecARM                                        `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies            []ServiceEndpointPolicySpecARM                            `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                   []ServiceEndpointPropertiesFormatARM                      `json:"serviceEndpoints,omitempty"`
+	RouteTable                         *RouteTableSpec_ARM                                       `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies            []ServiceEndpointPolicySpec_ARM                           `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_ARM                     `json:"serviceEndpoints,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfiguration. Use v1beta20201101.ApplicationGatewayIPConfiguration instead
-type ApplicationGatewayIPConfigurationARM struct {
-	Id         *string                                               `json:"id,omitempty"`
-	Name       *string                                               `json:"name,omitempty"`
-	Properties *ApplicationGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
+type ApplicationGatewayIPConfiguration_ARM struct {
+	Id         *string                                                `json:"id,omitempty"`
+	Name       *string                                                `json:"name,omitempty"`
+	Properties *ApplicationGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of Delegation. Use v1beta20201101.Delegation instead
-type DelegationARM struct {
-	Id         *string                               `json:"id,omitempty"`
-	Name       *string                               `json:"name,omitempty"`
-	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                               `json:"type,omitempty"`
+type Delegation_ARM struct {
+	Id         *string                                `json:"id,omitempty"`
+	Name       *string                                `json:"name,omitempty"`
+	Properties *ServiceDelegationPropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                                `json:"type,omitempty"`
 }
 
 // Deprecated version of RouteTableSpec. Use v1beta20201101.RouteTableSpec instead
-type RouteTableSpecARM struct {
-	Id         *string                        `json:"id,omitempty"`
-	Location   *string                        `json:"location,omitempty"`
-	Properties *RouteTablePropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string              `json:"tags,omitempty"`
+type RouteTableSpec_ARM struct {
+	Id         *string                         `json:"id,omitempty"`
+	Location   *string                         `json:"location,omitempty"`
+	Properties *RouteTablePropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicySpec. Use v1beta20201101.ServiceEndpointPolicySpec instead
-type ServiceEndpointPolicySpecARM struct {
-	Id         *string                                   `json:"id,omitempty"`
-	Location   *string                                   `json:"location,omitempty"`
-	Properties *ServiceEndpointPolicyPropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+type ServiceEndpointPolicySpec_ARM struct {
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Properties *ServiceEndpointPolicyPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
-type ServiceEndpointPropertiesFormatARM struct {
+type ServiceEndpointPropertiesFormat_ARM struct {
 	Locations []string `json:"locations,omitempty"`
 	Service   *string  `json:"service,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.ApplicationGatewayIPConfigurationPropertiesFormat instead
-type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
-	Subnet *SubResourceARM `json:"subnet,omitempty"`
+type ApplicationGatewayIPConfigurationPropertiesFormat_ARM struct {
+	Subnet *SubResource_ARM `json:"subnet,omitempty"`
 }
 
 // Deprecated version of RouteTablePropertiesFormat. Use v1beta20201101.RouteTablePropertiesFormat instead
-type RouteTablePropertiesFormatARM struct {
-	DisableBgpRoutePropagation *bool      `json:"disableBgpRoutePropagation,omitempty"`
-	Routes                     []RouteARM `json:"routes,omitempty"`
+type RouteTablePropertiesFormat_ARM struct {
+	DisableBgpRoutePropagation *bool       `json:"disableBgpRoutePropagation,omitempty"`
+	Routes                     []Route_ARM `json:"routes,omitempty"`
 }
 
 // Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
-type ServiceDelegationPropertiesFormatARM struct {
+type ServiceDelegationPropertiesFormat_ARM struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicyPropertiesFormat. Use v1beta20201101.ServiceEndpointPolicyPropertiesFormat instead
-type ServiceEndpointPolicyPropertiesFormatARM struct {
-	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinitionARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
+type ServiceEndpointPolicyPropertiesFormat_ARM struct {
+	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_ARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
 }
 
 // Deprecated version of Route. Use v1beta20201101.Route instead
-type RouteARM struct {
-	Id         *string                   `json:"id,omitempty"`
-	Name       *string                   `json:"name,omitempty"`
-	Properties *RoutePropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                   `json:"type,omitempty"`
+type Route_ARM struct {
+	Id         *string                    `json:"id,omitempty"`
+	Name       *string                    `json:"name,omitempty"`
+	Properties *RoutePropertiesFormat_ARM `json:"properties,omitempty"`
+	Type       *string                    `json:"type,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicyDefinition. Use v1beta20201101.ServiceEndpointPolicyDefinition instead
-type ServiceEndpointPolicyDefinitionARM struct {
-	Id         *string                                             `json:"id,omitempty"`
-	Name       *string                                             `json:"name,omitempty"`
-	Properties *ServiceEndpointPolicyDefinitionPropertiesFormatARM `json:"properties,omitempty"`
+type ServiceEndpointPolicyDefinition_ARM struct {
+	Id         *string                                              `json:"id,omitempty"`
+	Name       *string                                              `json:"name,omitempty"`
+	Properties *ServiceEndpointPolicyDefinitionPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of RoutePropertiesFormat. Use v1beta20201101.RoutePropertiesFormat instead
-type RoutePropertiesFormatARM struct {
+type RoutePropertiesFormat_ARM struct {
 	AddressPrefix    *string           `json:"addressPrefix,omitempty"`
 	HasBgpOverride   *bool             `json:"hasBgpOverride,omitempty"`
 	NextHopIpAddress *string           `json:"nextHopIpAddress,omitempty"`
@@ -129,7 +129,7 @@ type RoutePropertiesFormatARM struct {
 }
 
 // Deprecated version of ServiceEndpointPolicyDefinitionPropertiesFormat. Use v1beta20201101.ServiceEndpointPolicyDefinitionPropertiesFormat instead
-type ServiceEndpointPolicyDefinitionPropertiesFormatARM struct {
+type ServiceEndpointPolicyDefinitionPropertiesFormat_ARM struct {
 	Description      *string  `json:"description,omitempty"`
 	Service          *string  `json:"service,omitempty"`
 	ServiceResources []string `json:"serviceResources,omitempty"`

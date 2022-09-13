@@ -5,32 +5,32 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_SqlRoleAssignment_SpecARM struct {
+type DatabaseAccounts_SqlRoleAssignment_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties to create and update an Azure Cosmos DB SQL Role Assignment.
-	Properties *SqlRoleAssignmentResourceARM `json:"properties,omitempty"`
+	Properties *SqlRoleAssignmentResource_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlRoleAssignment_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (assignment DatabaseAccounts_SqlRoleAssignment_SpecARM) GetAPIVersion() string {
+func (assignment DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (assignment *DatabaseAccounts_SqlRoleAssignment_SpecARM) GetName() string {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetName() string {
 	return assignment.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"
-func (assignment *DatabaseAccounts_SqlRoleAssignment_SpecARM) GetType() string {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"
 }
 
-type SqlRoleAssignmentResourceARM struct {
+type SqlRoleAssignmentResource_ARM struct {
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
 	PrincipalId *string `json:"principalId,omitempty"`

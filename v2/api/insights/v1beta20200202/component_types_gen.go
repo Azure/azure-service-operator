@@ -409,7 +409,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component == nil {
 		return nil, nil
 	}
-	result := &Component_SpecARM{}
+	result := &Component_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = component.AzureName
@@ -450,11 +450,11 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
 		component.WorkspaceResourceReference != nil {
-		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
+		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
 	}
 	if component.Application_Type != nil {
-		application_Type := *component.Application_Type
-		result.Properties.Application_Type = &application_Type
+		applicationType := *component.Application_Type
+		result.Properties.Application_Type = &applicationType
 	}
 	if component.DisableIpMasking != nil {
 		disableIpMasking := *component.DisableIpMasking
@@ -465,8 +465,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
 	if component.Flow_Type != nil {
-		flow_Type := *component.Flow_Type
-		result.Properties.Flow_Type = &flow_Type
+		flowType := *component.Flow_Type
+		result.Properties.Flow_Type = &flowType
 	}
 	if component.ForceCustomerStorageForProfiler != nil {
 		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
@@ -493,8 +493,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
-		request_Source := *component.Request_Source
-		result.Properties.Request_Source = &request_Source
+		requestSource := *component.Request_Source
+		result.Properties.Request_Source = &requestSource
 	}
 	if component.RetentionInDays != nil {
 		retentionInDays := *component.RetentionInDays
@@ -523,22 +523,22 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_SpecARM{}
+	return &Component_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_SpecARM)
+	typedInput, ok := armInput.(Component_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Application_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			application_Type := *typedInput.Properties.Application_Type
-			component.Application_Type = &application_Type
+			applicationType := *typedInput.Properties.Application_Type
+			component.Application_Type = &applicationType
 		}
 	}
 
@@ -573,8 +573,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flow_Type := *typedInput.Properties.Flow_Type
-			component.Flow_Type = &flow_Type
+			flowType := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flowType
 		}
 	}
 
@@ -653,8 +653,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			request_Source := *typedInput.Properties.Request_Source
-			component.Request_Source = &request_Source
+			requestSource := *typedInput.Properties.Request_Source
+			component.Request_Source = &requestSource
 		}
 	}
 
@@ -743,8 +743,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Application_Type
 	if source.Application_Type != nil {
-		application_Type := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
-		component.Application_Type = &application_Type
+		applicationType := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
+		component.Application_Type = &applicationType
 	} else {
 		component.Application_Type = nil
 	}
@@ -773,8 +773,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flow_Type := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
-		component.Flow_Type = &flow_Type
+		flowType := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
+		component.Flow_Type = &flowType
 	} else {
 		component.Flow_Type = nil
 	}
@@ -838,8 +838,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Request_Source
 	if source.Request_Source != nil {
-		request_Source := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
-		component.Request_Source = &request_Source
+		requestSource := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
+		component.Request_Source = &requestSource
 	} else {
 		component.Request_Source = nil
 	}
@@ -882,8 +882,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Application_Type
 	if component.Application_Type != nil {
-		application_Type := string(*component.Application_Type)
-		destination.Application_Type = &application_Type
+		applicationType := string(*component.Application_Type)
+		destination.Application_Type = &applicationType
 	} else {
 		destination.Application_Type = nil
 	}
@@ -912,8 +912,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Flow_Type
 	if component.Flow_Type != nil {
-		flow_Type := string(*component.Flow_Type)
-		destination.Flow_Type = &flow_Type
+		flowType := string(*component.Flow_Type)
+		destination.Flow_Type = &flowType
 	} else {
 		destination.Flow_Type = nil
 	}
@@ -980,8 +980,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Request_Source
 	if component.Request_Source != nil {
-		request_Source := string(*component.Request_Source)
-		destination.Request_Source = &request_Source
+		requestSource := string(*component.Request_Source)
+		destination.Request_Source = &requestSource
 	} else {
 		destination.Request_Source = nil
 	}
@@ -1197,14 +1197,14 @@ var _ genruntime.FromARMConverter = &Component_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_STATUSARM{}
+	return &Component_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_STATUSARM)
+	typedInput, ok := armInput.(Component_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AppId’:
@@ -1229,8 +1229,8 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			application_Type := *typedInput.Properties.Application_Type
-			component.Application_Type = &application_Type
+			applicationType := *typedInput.Properties.Application_Type
+			component.Application_Type = &applicationType
 		}
 	}
 
@@ -1282,8 +1282,8 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flow_Type := *typedInput.Properties.Flow_Type
-			component.Flow_Type = &flow_Type
+			flowType := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flowType
 		}
 	}
 
@@ -1427,8 +1427,8 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			request_Source := *typedInput.Properties.Request_Source
-			component.Request_Source = &request_Source
+			requestSource := *typedInput.Properties.Request_Source
+			component.Request_Source = &requestSource
 		}
 	}
 
@@ -1495,8 +1495,8 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// Application_Type
 	if source.Application_Type != nil {
-		application_Type := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
-		component.Application_Type = &application_Type
+		applicationType := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
+		component.Application_Type = &applicationType
 	} else {
 		component.Application_Type = nil
 	}
@@ -1531,8 +1531,8 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flow_Type := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
-		component.Flow_Type = &flow_Type
+		flowType := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
+		component.Flow_Type = &flowType
 	} else {
 		component.Flow_Type = nil
 	}
@@ -1627,8 +1627,8 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// Request_Source
 	if source.Request_Source != nil {
-		request_Source := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
-		component.Request_Source = &request_Source
+		requestSource := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
+		component.Request_Source = &requestSource
 	} else {
 		component.Request_Source = nil
 	}
@@ -1678,8 +1678,8 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 
 	// Application_Type
 	if component.Application_Type != nil {
-		application_Type := string(*component.Application_Type)
-		destination.Application_Type = &application_Type
+		applicationType := string(*component.Application_Type)
+		destination.Application_Type = &applicationType
 	} else {
 		destination.Application_Type = nil
 	}
@@ -1714,8 +1714,8 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 
 	// Flow_Type
 	if component.Flow_Type != nil {
-		flow_Type := string(*component.Flow_Type)
-		destination.Flow_Type = &flow_Type
+		flowType := string(*component.Flow_Type)
+		destination.Flow_Type = &flowType
 	} else {
 		destination.Flow_Type = nil
 	}
@@ -1810,8 +1810,8 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 
 	// Request_Source
 	if component.Request_Source != nil {
-		request_Source := string(*component.Request_Source)
-		destination.Request_Source = &request_Source
+		requestSource := string(*component.Request_Source)
+		destination.Request_Source = &requestSource
 	} else {
 		destination.Request_Source = nil
 	}
@@ -1866,8 +1866,8 @@ const (
 type ApplicationInsightsComponentProperties_Application_Type_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_Application_Type_Other_STATUS = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
-	ApplicationInsightsComponentProperties_Application_Type_Web_STATUS   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_Other = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_Web   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
 )
 
 // +kubebuilder:validation:Enum={"Bluefield"}
@@ -1877,7 +1877,7 @@ const ApplicationInsightsComponentProperties_Flow_Type_Bluefield = ApplicationIn
 
 type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
 
-const ApplicationInsightsComponentProperties_Flow_Type_Bluefield_STATUS = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_STATUS_Bluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentProperties_IngestionMode string
@@ -1891,9 +1891,9 @@ const (
 type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights_STATUS                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings_STATUS = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics_STATUS                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
 )
 
 // +kubebuilder:validation:Enum={"rest"}
@@ -1903,7 +1903,7 @@ const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationIn
 
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
-const ApplicationInsightsComponentProperties_Request_Source_Rest_STATUS = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
+const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
 type PrivateLinkScopedResource_STATUS struct {
 	// ResourceId: The full resource Id of the private link scope resource.
@@ -1917,14 +1917,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUSARM{}
+	return &PrivateLinkScopedResource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUSARM)
+	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ResourceId’:
@@ -1989,8 +1989,8 @@ const (
 type PublicNetworkAccessType_STATUS string
 
 const (
-	PublicNetworkAccessType_Disabled_STATUS = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_Enabled_STATUS  = PublicNetworkAccessType_STATUS("Enabled")
+	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 func init() {

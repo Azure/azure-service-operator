@@ -5,32 +5,32 @@ package v1beta20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Topic_SpecARM struct {
+type Namespaces_Topic_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of topic resource.
-	Properties *SBTopicPropertiesARM `json:"properties,omitempty"`
+	Properties *SBTopicProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Topic_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Topic_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (topic Namespaces_Topic_SpecARM) GetAPIVersion() string {
+func (topic Namespaces_Topic_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (topic *Namespaces_Topic_SpecARM) GetName() string {
+func (topic *Namespaces_Topic_Spec_ARM) GetName() string {
 	return topic.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (topic *Namespaces_Topic_SpecARM) GetType() string {
+func (topic *Namespaces_Topic_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
-type SBTopicPropertiesARM struct {
+type SBTopicProperties_ARM struct {
 	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`

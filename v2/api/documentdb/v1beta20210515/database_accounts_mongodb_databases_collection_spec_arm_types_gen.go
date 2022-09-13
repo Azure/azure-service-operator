@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_MongodbDatabases_Collection_SpecARM struct {
+type DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
@@ -13,37 +13,37 @@ type DatabaseAccounts_MongodbDatabases_Collection_SpecARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
-	Properties *MongoDBCollectionCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                           `json:"tags,omitempty"`
+	Properties *MongoDBCollectionCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                            `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collection_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (collection DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetAPIVersion() string {
+func (collection DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (collection *DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetName() string {
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetName() string {
 	return collection.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
-func (collection *DatabaseAccounts_MongodbDatabases_Collection_SpecARM) GetType() string {
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
-type MongoDBCollectionCreateUpdatePropertiesARM struct {
+type MongoDBCollectionCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
 	// Resource: The standard JSON format of a MongoDB collection
-	Resource *MongoDBCollectionResourceARM `json:"resource,omitempty"`
+	Resource *MongoDBCollectionResource_ARM `json:"resource,omitempty"`
 }
 
-type MongoDBCollectionResourceARM struct {
+type MongoDBCollectionResource_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -51,26 +51,26 @@ type MongoDBCollectionResourceARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Indexes: List of index keys
-	Indexes []MongoIndexARM `json:"indexes,omitempty"`
+	Indexes []MongoIndex_ARM `json:"indexes,omitempty"`
 
 	// ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
-type MongoIndexARM struct {
+type MongoIndex_ARM struct {
 	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeysARM `json:"key,omitempty"`
+	Key *MongoIndexKeys_ARM `json:"key,omitempty"`
 
 	// Options: Cosmos DB MongoDB collection index key options
-	Options *MongoIndexOptionsARM `json:"options,omitempty"`
+	Options *MongoIndexOptions_ARM `json:"options,omitempty"`
 }
 
-type MongoIndexKeysARM struct {
+type MongoIndexKeys_ARM struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-type MongoIndexOptionsARM struct {
+type MongoIndexOptions_ARM struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
 

@@ -356,7 +356,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	if function == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM{}
+	result := &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = function.AzureName
@@ -372,22 +372,22 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 
 	// Set property ‘Properties’:
 	if function.Options != nil || function.Resource != nil {
-		result.Properties = &SqlUserDefinedFunctionCreateUpdatePropertiesARM{}
+		result.Properties = &SqlUserDefinedFunctionCreateUpdateProperties_ARM{}
 	}
 	if function.Options != nil {
-		optionsARM, err := (*function.Options).ConvertToARM(resolved)
+		options_ARM, err := (*function.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *optionsARM.(*CreateUpdateOptionsARM)
+		options := *options_ARM.(*CreateUpdateOptions_ARM)
 		result.Properties.Options = &options
 	}
 	if function.Resource != nil {
-		resourceARM, err := (*function.Resource).ConvertToARM(resolved)
+		resource_ARM, err := (*function.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*SqlUserDefinedFunctionResourceARM)
+		resource := *resource_ARM.(*SqlUserDefinedFunctionResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -403,14 +403,14 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM{}
+	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -701,14 +701,14 @@ var _ genruntime.FromARMConverter = &DatabaseAccounts_SqlDatabases_Containers_Us
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUSARM{}
+	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUSARM)
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -859,14 +859,14 @@ var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionGetProperties_Resourc
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionGetProperties_Resource_STATUSARM{}
+	return &SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionGetProperties_Resource_STATUSARM)
+	typedInput, ok := armInput.(SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionGetProperties_Resource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Body’:
@@ -981,7 +981,7 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SqlUserDefinedFunctionResourceARM{}
+	result := &SqlUserDefinedFunctionResource_ARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {
@@ -999,14 +999,14 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlUserDefinedFunctionResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionResourceARM{}
+	return &SqlUserDefinedFunctionResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlUserDefinedFunctionResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionResourceARM)
+	typedInput, ok := armInput.(SqlUserDefinedFunctionResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResource_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Body’:

@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type VirtualNetworkGateway_STATUSARM struct {
+type VirtualNetworkGateway_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of type local virtual network gateway.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -20,7 +20,7 @@ type VirtualNetworkGateway_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network gateway.
-	Properties *VirtualNetworkGatewayPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkGatewayPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,16 +29,16 @@ type VirtualNetworkGateway_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
+type VirtualNetworkGatewayPropertiesFormat_STATUS_ARM struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
 	// BgpSettings: Virtual network gateway's BGP speaker settings.
-	BgpSettings *BgpSettings_STATUSARM `json:"bgpSettings,omitempty"`
+	BgpSettings *BgpSettings_STATUS_ARM `json:"bgpSettings,omitempty"`
 
 	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
 	// the customer for virtual network gateway and VpnClient.
-	CustomRoutes *AddressSpace_STATUSARM `json:"customRoutes,omitempty"`
+	CustomRoutes *AddressSpace_STATUS_ARM `json:"customRoutes,omitempty"`
 
 	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
 	EnableBgp *bool `json:"enableBgp,omitempty"`
@@ -51,7 +51,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 
 	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
 	// routes. Assign Null value in case of removing existing default site setting.
-	GatewayDefaultSite *SubResource_STATUSARM `json:"gatewayDefaultSite,omitempty"`
+	GatewayDefaultSite *SubResource_STATUS_ARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
 	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS `json:"gatewayType,omitempty"`
@@ -60,7 +60,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	InboundDnsForwardingEndpoint *string `json:"inboundDnsForwardingEndpoint,omitempty"`
 
 	// IpConfigurations: IP configurations for virtual network gateway.
-	IpConfigurations []VirtualNetworkGatewayIPConfiguration_STATUSARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []VirtualNetworkGatewayIPConfiguration_STATUS_ARM `json:"ipConfigurations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network gateway resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -70,7 +70,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 
 	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
 	// gateway.
-	Sku *VirtualNetworkGatewaySku_STATUSARM `json:"sku,omitempty"`
+	Sku *VirtualNetworkGatewaySku_STATUS_ARM `json:"sku,omitempty"`
 
 	// VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
 	// with the customer vnet.
@@ -78,7 +78,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 
 	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
 	// configurations.
-	VpnClientConfiguration *VpnClientConfiguration_STATUSARM `json:"vpnClientConfiguration,omitempty"`
+	VpnClientConfiguration *VpnClientConfiguration_STATUS_ARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
 	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
@@ -87,12 +87,12 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS `json:"vpnType,omitempty"`
 }
 
-type AddressSpace_STATUSARM struct {
+type AddressSpace_STATUS_ARM struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
-type BgpSettings_STATUSARM struct {
+type BgpSettings_STATUS_ARM struct {
 	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
 
@@ -100,13 +100,13 @@ type BgpSettings_STATUSARM struct {
 	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
 
 	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
-	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress_STATUSARM `json:"bgpPeeringAddresses,omitempty"`
+	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress_STATUS_ARM `json:"bgpPeeringAddresses,omitempty"`
 
 	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
-type VirtualNetworkGatewayIPConfiguration_STATUSARM struct {
+type VirtualNetworkGatewayIPConfiguration_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -117,10 +117,10 @@ type VirtualNetworkGatewayIPConfiguration_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network gateway ip configuration.
-	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type VirtualNetworkGatewaySku_STATUSARM struct {
+type VirtualNetworkGatewaySku_STATUS_ARM struct {
 	// Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -131,7 +131,7 @@ type VirtualNetworkGatewaySku_STATUSARM struct {
 	Tier *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type VpnClientConfiguration_STATUSARM struct {
+type VpnClientConfiguration_STATUS_ARM struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
 	AadAudience *string `json:"aadAudience,omitempty"`
@@ -151,28 +151,28 @@ type VpnClientConfiguration_STATUSARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 
 	// RadiusServers: The radiusServers property for multiple radius server configuration.
-	RadiusServers []RadiusServer_STATUSARM `json:"radiusServers,omitempty"`
+	RadiusServers []RadiusServer_STATUS_ARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
 	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
-	VpnClientAddressPool *AddressSpace_STATUSARM `json:"vpnClientAddressPool,omitempty"`
+	VpnClientAddressPool *AddressSpace_STATUS_ARM `json:"vpnClientAddressPool,omitempty"`
 
 	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
-	VpnClientIpsecPolicies []IpsecPolicy_STATUSARM `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientIpsecPolicies []IpsecPolicy_STATUS_ARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
 	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_STATUS `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
-	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUSARM `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUS_ARM `json:"vpnClientRevokedCertificates,omitempty"`
 
 	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
-	VpnClientRootCertificates []VpnClientRootCertificate_STATUSARM `json:"vpnClientRootCertificates,omitempty"`
+	VpnClientRootCertificates []VpnClientRootCertificate_STATUS_ARM `json:"vpnClientRootCertificates,omitempty"`
 }
 
-type IPConfigurationBgpPeeringAddress_STATUSARM struct {
+type IPConfigurationBgpPeeringAddress_STATUS_ARM struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
 
@@ -186,7 +186,7 @@ type IPConfigurationBgpPeeringAddress_STATUSARM struct {
 	TunnelIpAddresses []string `json:"tunnelIpAddresses,omitempty"`
 }
 
-type IpsecPolicy_STATUSARM struct {
+type IpsecPolicy_STATUS_ARM struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup_STATUS `json:"dhGroup,omitempty"`
 
@@ -214,7 +214,7 @@ type IpsecPolicy_STATUSARM struct {
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
-type RadiusServer_STATUSARM struct {
+type RadiusServer_STATUS_ARM struct {
 	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
@@ -225,7 +225,7 @@ type RadiusServer_STATUSARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
-type VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUSARM struct {
+type VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// PrivateIPAddress: Private IP Address for this gateway.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
@@ -236,13 +236,13 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUSARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *SubResource_STATUSARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *SubResource_STATUS_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *SubResource_STATUSARM `json:"subnet,omitempty"`
+	Subnet *SubResource_STATUS_ARM `json:"subnet,omitempty"`
 }
 
-type VpnClientRevokedCertificate_STATUSARM struct {
+type VpnClientRevokedCertificate_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -253,10 +253,10 @@ type VpnClientRevokedCertificate_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vpn client revoked certificate.
-	Properties *VpnClientRevokedCertificatePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type VpnClientRootCertificate_STATUSARM struct {
+type VpnClientRootCertificate_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -267,10 +267,10 @@ type VpnClientRootCertificate_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vpn client root certificate.
-	Properties *VpnClientRootCertificatePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VpnClientRootCertificatePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type VpnClientRevokedCertificatePropertiesFormat_STATUSARM struct {
+type VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the VPN client revoked certificate resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
@@ -278,7 +278,7 @@ type VpnClientRevokedCertificatePropertiesFormat_STATUSARM struct {
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
-type VpnClientRootCertificatePropertiesFormat_STATUSARM struct {
+type VpnClientRootCertificatePropertiesFormat_STATUS_ARM struct {
 	// ProvisioningState: The provisioning state of the VPN client root certificate resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 

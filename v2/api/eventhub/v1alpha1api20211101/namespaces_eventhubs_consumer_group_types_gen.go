@@ -351,7 +351,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resol
 	if consumergroup == nil {
 		return nil, nil
 	}
-	result := &Namespaces_Eventhubs_Consumergroup_SpecARM{}
+	result := &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = consumergroup.AzureName
@@ -361,7 +361,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resol
 
 	// Set property ‘Properties’:
 	if consumergroup.UserMetadata != nil {
-		result.Properties = &Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM{}
+		result.Properties = &Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM{}
 	}
 	if consumergroup.UserMetadata != nil {
 		userMetadata := *consumergroup.UserMetadata
@@ -372,14 +372,14 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Eventhubs_Consumergroup_SpecARM{}
+	return &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_SpecARM)
+	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -585,14 +585,14 @@ var _ genruntime.FromARMConverter = &Namespaces_Eventhubs_Consumergroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Eventhubs_Consumergroup_STATUSARM{}
+	return &Namespaces_Eventhubs_Consumergroup_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_STATUSARM)
+	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

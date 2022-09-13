@@ -20,13 +20,13 @@
 | ContainerGroupSubnetId_STATUS                         | v1beta20211001 |
 | ContainerGroup_Properties_InstanceView_STATUS         | v1beta20211001 |
 | ContainerGroup_Properties_OsType_STATUS               | v1beta20211001 |
+| ContainerGroup_Properties_OsType_Spec                 | v1beta20211001 |
 | ContainerGroup_Properties_RestartPolicy_STATUS        | v1beta20211001 |
+| ContainerGroup_Properties_RestartPolicy_Spec          | v1beta20211001 |
 | ContainerGroup_Properties_STATUS                      | v1beta20211001 |
+| ContainerGroup_Properties_Spec                        | v1beta20211001 |
 | ContainerGroup_STATUS                                 | v1beta20211001 |
 | ContainerGroup_Spec                                   | v1beta20211001 |
-| ContainerGroup_Spec_Properties                        | v1beta20211001 |
-| ContainerGroup_Spec_Properties_OsType                 | v1beta20211001 |
-| ContainerGroup_Spec_Properties_RestartPolicy          | v1beta20211001 |
 | ContainerHttpGet                                      | v1beta20211001 |
 | ContainerHttpGet_STATUS                               | v1beta20211001 |
 | ContainerHttpGet_Scheme                               | v1beta20211001 |

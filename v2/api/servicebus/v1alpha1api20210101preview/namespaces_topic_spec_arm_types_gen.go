@@ -6,31 +6,31 @@ package v1alpha1api20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Topic_Spec. Use v1beta20210101preview.Namespaces_Topic_Spec instead
-type Namespaces_Topic_SpecARM struct {
-	AzureName  string                `json:"azureName,omitempty"`
-	Name       string                `json:"name,omitempty"`
-	Properties *SBTopicPropertiesARM `json:"properties,omitempty"`
+type Namespaces_Topic_Spec_ARM struct {
+	AzureName  string                 `json:"azureName,omitempty"`
+	Name       string                 `json:"name,omitempty"`
+	Properties *SBTopicProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Topic_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Topic_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (topic Namespaces_Topic_SpecARM) GetAPIVersion() string {
+func (topic Namespaces_Topic_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (topic *Namespaces_Topic_SpecARM) GetName() string {
+func (topic *Namespaces_Topic_Spec_ARM) GetName() string {
 	return topic.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (topic *Namespaces_Topic_SpecARM) GetType() string {
+func (topic *Namespaces_Topic_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
 // Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead
-type SBTopicPropertiesARM struct {
+type SBTopicProperties_ARM struct {
 	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`

@@ -6,46 +6,46 @@ package v1alpha1api20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Domain_Spec. Use v1beta20200601.Domain_Spec instead
-type Domain_SpecARM struct {
-	AzureName  string               `json:"azureName,omitempty"`
-	Location   *string              `json:"location,omitempty"`
-	Name       string               `json:"name,omitempty"`
-	Properties *DomainPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string    `json:"tags,omitempty"`
+type Domain_Spec_ARM struct {
+	AzureName  string                `json:"azureName,omitempty"`
+	Location   *string               `json:"location,omitempty"`
+	Name       string                `json:"name,omitempty"`
+	Properties *DomainProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string     `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Domain_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Domain_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (domain Domain_SpecARM) GetAPIVersion() string {
+func (domain Domain_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (domain *Domain_SpecARM) GetName() string {
+func (domain *Domain_Spec_ARM) GetName() string {
 	return domain.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
-func (domain *Domain_SpecARM) GetType() string {
+func (domain *Domain_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
 // Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead
-type DomainPropertiesARM struct {
-	InboundIpRules      []InboundIpRuleARM                    `json:"inboundIpRules,omitempty"`
+type DomainProperties_ARM struct {
+	InboundIpRules      []InboundIpRule_ARM                   `json:"inboundIpRules,omitempty"`
 	InputSchema         *DomainProperties_InputSchema         `json:"inputSchema,omitempty"`
-	InputSchemaMapping  *InputSchemaMappingARM                `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping  *InputSchemaMapping_ARM               `json:"inputSchemaMapping,omitempty"`
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
-type InboundIpRuleARM struct {
+type InboundIpRule_ARM struct {
 	Action *InboundIpRule_Action `json:"action,omitempty"`
 	IpMask *string               `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
-type InputSchemaMappingARM struct {
+type InputSchemaMapping_ARM struct {
 	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }

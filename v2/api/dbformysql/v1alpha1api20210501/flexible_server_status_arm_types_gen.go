@@ -6,20 +6,20 @@ package v1alpha1api20210501
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 // Deprecated version of FlexibleServer_STATUS. Use v1beta20210501.FlexibleServer_STATUS instead
-type FlexibleServer_STATUSARM struct {
-	Id         *string                     `json:"id,omitempty"`
-	Identity   *Identity_STATUSARM         `json:"identity,omitempty"`
-	Location   *string                     `json:"location,omitempty"`
-	Name       *string                     `json:"name,omitempty"`
-	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUSARM              `json:"sku,omitempty"`
-	SystemData *SystemData_STATUSARM       `json:"systemData,omitempty"`
-	Tags       map[string]string           `json:"tags,omitempty"`
-	Type       *string                     `json:"type,omitempty"`
+type FlexibleServer_STATUS_ARM struct {
+	Id         *string                      `json:"id,omitempty"`
+	Identity   *Identity_STATUS_ARM         `json:"identity,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
+	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *Sku_STATUS_ARM              `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM       `json:"systemData,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity_STATUS. Use v1beta20210501.Identity_STATUS instead
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	PrincipalId            *string               `json:"principalId,omitempty"`
 	TenantId               *string               `json:"tenantId,omitempty"`
 	Type                   *Identity_Type_STATUS `json:"type,omitempty"`
@@ -27,33 +27,33 @@ type Identity_STATUSARM struct {
 }
 
 // Deprecated version of ServerProperties_STATUS. Use v1beta20210501.ServerProperties_STATUS instead
-type ServerProperties_STATUSARM struct {
+type ServerProperties_STATUS_ARM struct {
 	AdministratorLogin       *string                             `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                             `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_STATUSARM                   `json:"backup,omitempty"`
+	Backup                   *Backup_STATUS_ARM                  `json:"backup,omitempty"`
 	CreateMode               *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-	DataEncryption           *DataEncryption_STATUSARM           `json:"dataEncryption,omitempty"`
+	DataEncryption           *DataEncryption_STATUS_ARM          `json:"dataEncryption,omitempty"`
 	FullyQualifiedDomainName *string                             `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_STATUSARM         `json:"highAvailability,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_STATUSARM        `json:"maintenanceWindow,omitempty"`
-	Network                  *Network_STATUSARM                  `json:"network,omitempty"`
+	HighAvailability         *HighAvailability_STATUS_ARM        `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUS_ARM       `json:"maintenanceWindow,omitempty"`
+	Network                  *Network_STATUS_ARM                 `json:"network,omitempty"`
 	ReplicaCapacity          *int                                `json:"replicaCapacity,omitempty"`
 	ReplicationRole          *ReplicationRole_STATUS             `json:"replicationRole,omitempty"`
 	RestorePointInTime       *string                             `json:"restorePointInTime,omitempty"`
 	SourceServerResourceId   *string                             `json:"sourceServerResourceId,omitempty"`
 	State                    *ServerProperties_State_STATUS      `json:"state,omitempty"`
-	Storage                  *Storage_STATUSARM                  `json:"storage,omitempty"`
+	Storage                  *Storage_STATUS_ARM                 `json:"storage,omitempty"`
 	Version                  *ServerVersion_STATUS               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210501.Sku_STATUS instead
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Name *string          `json:"name,omitempty"`
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210501.SystemData_STATUS instead
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
 	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
@@ -63,14 +63,14 @@ type SystemData_STATUSARM struct {
 }
 
 // Deprecated version of Backup_STATUS. Use v1beta20210501.Backup_STATUS instead
-type Backup_STATUSARM struct {
+type Backup_STATUS_ARM struct {
 	BackupRetentionDays *int                     `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                  `json:"earliestRestoreDate,omitempty"`
 	GeoRedundantBackup  *EnableStatusEnum_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
 // Deprecated version of DataEncryption_STATUS. Use v1beta20210501.DataEncryption_STATUS instead
-type DataEncryption_STATUSARM struct {
+type DataEncryption_STATUS_ARM struct {
 	GeoBackupKeyUri                 *string                     `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                     `json:"geoBackupUserAssignedIdentityId,omitempty"`
 	PrimaryKeyUri                   *string                     `json:"primaryKeyUri,omitempty"`
@@ -79,7 +79,7 @@ type DataEncryption_STATUSARM struct {
 }
 
 // Deprecated version of HighAvailability_STATUS. Use v1beta20210501.HighAvailability_STATUS instead
-type HighAvailability_STATUSARM struct {
+type HighAvailability_STATUS_ARM struct {
 	Mode                    *HighAvailability_Mode_STATUS  `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string                        `json:"standbyAvailabilityZone,omitempty"`
 	State                   *HighAvailability_State_STATUS `json:"state,omitempty"`
@@ -88,10 +88,10 @@ type HighAvailability_STATUSARM struct {
 // Deprecated version of Identity_Type_STATUS. Use v1beta20210501.Identity_Type_STATUS instead
 type Identity_Type_STATUS string
 
-const Identity_Type_UserAssigned_STATUS = Identity_Type_STATUS("UserAssigned")
+const Identity_Type_STATUS_UserAssigned = Identity_Type_STATUS("UserAssigned")
 
 // Deprecated version of MaintenanceWindow_STATUS. Use v1beta20210501.MaintenanceWindow_STATUS instead
-type MaintenanceWindow_STATUSARM struct {
+type MaintenanceWindow_STATUS_ARM struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
 	StartHour    *int    `json:"startHour,omitempty"`
@@ -99,7 +99,7 @@ type MaintenanceWindow_STATUSARM struct {
 }
 
 // Deprecated version of Network_STATUS. Use v1beta20210501.Network_STATUS instead
-type Network_STATUSARM struct {
+type Network_STATUS_ARM struct {
 	DelegatedSubnetResourceId *string                  `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                  `json:"privateDnsZoneResourceId,omitempty"`
 	PublicNetworkAccess       *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
@@ -109,13 +109,13 @@ type Network_STATUSARM struct {
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_Burstable_STATUS       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
+	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
 // Deprecated version of Storage_STATUS. Use v1beta20210501.Storage_STATUS instead
-type Storage_STATUSARM struct {
+type Storage_STATUS_ARM struct {
 	AutoGrow      *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`
 	Iops          *int                     `json:"iops,omitempty"`
 	StorageSizeGB *int                     `json:"storageSizeGB,omitempty"`
@@ -126,10 +126,10 @@ type Storage_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20210501.SystemData_LastModifiedByType_STATUS
@@ -137,8 +137,8 @@ const (
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

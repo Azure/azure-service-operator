@@ -6,73 +6,73 @@ package v1alpha1api20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of ManagedClusters_AgentPool_Spec. Use v1beta20210501.ManagedClusters_AgentPool_Spec instead
-type ManagedClusters_AgentPool_SpecARM struct {
-	AzureName  string                                       `json:"azureName,omitempty"`
-	Name       string                                       `json:"name,omitempty"`
-	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
+type ManagedClusters_AgentPool_Spec_ARM struct {
+	AzureName  string                                        `json:"azureName,omitempty"`
+	Name       string                                        `json:"name,omitempty"`
+	Properties *ManagedClusterAgentPoolProfileProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (pool ManagedClusters_AgentPool_SpecARM) GetAPIVersion() string {
+func (pool ManagedClusters_AgentPool_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (pool *ManagedClusters_AgentPool_SpecARM) GetName() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetName() string {
 	return pool.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (pool *ManagedClusters_AgentPool_SpecARM) GetType() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
 // Deprecated version of ManagedClusterAgentPoolProfileProperties. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties instead
-type ManagedClusterAgentPoolProfilePropertiesARM struct {
-	AvailabilityZones         []string                     `json:"availabilityZones,omitempty"`
-	Count                     *int                         `json:"count,omitempty"`
-	EnableAutoScaling         *bool                        `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost    *bool                        `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS                *bool                        `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP        *bool                        `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD            *bool                        `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *GPUInstanceProfile          `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig             *KubeletConfigARM            `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *KubeletDiskType             `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig             *LinuxOSConfigARM            `json:"linuxOSConfig,omitempty"`
-	MaxCount                  *int                         `json:"maxCount,omitempty"`
-	MaxPods                   *int                         `json:"maxPods,omitempty"`
-	MinCount                  *int                         `json:"minCount,omitempty"`
-	Mode                      *AgentPoolMode               `json:"mode,omitempty"`
-	NodeLabels                map[string]string            `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixID      *string                      `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                     `json:"nodeTaints,omitempty"`
-	OrchestratorVersion       *string                      `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *ContainerServiceOSDisk      `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *OSDiskType                  `json:"osDiskType,omitempty"`
-	OsSKU                     *OSSKU                       `json:"osSKU,omitempty"`
-	OsType                    *OSType                      `json:"osType,omitempty"`
-	PodSubnetID               *string                      `json:"podSubnetID,omitempty"`
-	ProximityPlacementGroupID *string                      `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy      `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ScaleSetPriority            `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                     `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string            `json:"tags,omitempty"`
-	Type                      *AgentPoolType               `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettingsARM `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                      `json:"vmSize,omitempty"`
-	VnetSubnetID              *string                      `json:"vnetSubnetID,omitempty"`
+type ManagedClusterAgentPoolProfileProperties_ARM struct {
+	AvailabilityZones         []string                      `json:"availabilityZones,omitempty"`
+	Count                     *int                          `json:"count,omitempty"`
+	EnableAutoScaling         *bool                         `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost    *bool                         `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                *bool                         `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP        *bool                         `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD            *bool                         `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile        *GPUInstanceProfile           `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig             *KubeletConfig_ARM            `json:"kubeletConfig,omitempty"`
+	KubeletDiskType           *KubeletDiskType              `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig_ARM            `json:"linuxOSConfig,omitempty"`
+	MaxCount                  *int                          `json:"maxCount,omitempty"`
+	MaxPods                   *int                          `json:"maxPods,omitempty"`
+	MinCount                  *int                          `json:"minCount,omitempty"`
+	Mode                      *AgentPoolMode                `json:"mode,omitempty"`
+	NodeLabels                map[string]string             `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixID      *string                       `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints                []string                      `json:"nodeTaints,omitempty"`
+	OrchestratorVersion       *string                       `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB              *ContainerServiceOSDisk       `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                *OSDiskType                   `json:"osDiskType,omitempty"`
+	OsSKU                     *OSSKU                        `json:"osSKU,omitempty"`
+	OsType                    *OSType                       `json:"osType,omitempty"`
+	PodSubnetID               *string                       `json:"podSubnetID,omitempty"`
+	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty"`
+	Type                      *AgentPoolType                `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                       `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                       `json:"vnetSubnetID,omitempty"`
 }
 
 // Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
-type AgentPoolUpgradeSettingsARM struct {
+type AgentPoolUpgradeSettings_ARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
 // Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
-type KubeletConfigARM struct {
+type KubeletConfig_ARM struct {
 	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
 	ContainerLogMaxSizeMB *int     `json:"containerLogMaxSizeMB,omitempty"`
@@ -87,15 +87,15 @@ type KubeletConfigARM struct {
 }
 
 // Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
-type LinuxOSConfigARM struct {
-	SwapFileSizeMB             *int             `json:"swapFileSizeMB,omitempty"`
-	Sysctls                    *SysctlConfigARM `json:"sysctls,omitempty"`
-	TransparentHugePageDefrag  *string          `json:"transparentHugePageDefrag,omitempty"`
-	TransparentHugePageEnabled *string          `json:"transparentHugePageEnabled,omitempty"`
+type LinuxOSConfig_ARM struct {
+	SwapFileSizeMB             *int              `json:"swapFileSizeMB,omitempty"`
+	Sysctls                    *SysctlConfig_ARM `json:"sysctls,omitempty"`
+	TransparentHugePageDefrag  *string           `json:"transparentHugePageDefrag,omitempty"`
+	TransparentHugePageEnabled *string           `json:"transparentHugePageEnabled,omitempty"`
 }
 
 // Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
-type SysctlConfigARM struct {
+type SysctlConfig_ARM struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int    `json:"fsFileMax,omitempty"`
 	FsInotifyMaxUserWatches        *int    `json:"fsInotifyMaxUserWatches,omitempty"`
