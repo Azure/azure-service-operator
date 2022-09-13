@@ -668,6 +668,7 @@ tasks:
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
       # Wait for all the operator pods to be ready.
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
       - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
       # Wait for the webhook client config caBundles to be set on the
       # ASO CRDs.
