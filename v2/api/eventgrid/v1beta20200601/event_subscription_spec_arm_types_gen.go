@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type EventSubscription_SpecARM struct {
+type EventSubscription_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -17,38 +17,38 @@ type EventSubscription_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the Event Subscription.
-	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
+	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
+var _ genruntime.ARMResourceSpec = &EventSubscription_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (subscription EventSubscription_SpecARM) GetAPIVersion() string {
+func (subscription EventSubscription_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (subscription *EventSubscription_SpecARM) GetName() string {
+func (subscription *EventSubscription_Spec_ARM) GetName() string {
 	return subscription.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (subscription *EventSubscription_SpecARM) GetType() string {
+func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionProperties
-type EventSubscriptionPropertiesARM struct {
+type EventSubscriptionProperties_ARM struct {
 	// DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
 	// deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
 	// class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.
-	DeadLetterDestination *StorageBlobDeadLetterDestinationARM `json:"deadLetterDestination,omitempty"`
+	DeadLetterDestination *StorageBlobDeadLetterDestination_ARM `json:"deadLetterDestination,omitempty"`
 
 	// Destination: Information about the destination for an event subscription.
-	Destination *EventSubscriptionDestinationARM `json:"destination,omitempty"`
+	Destination *EventSubscriptionDestination_ARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
 	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
@@ -57,41 +57,41 @@ type EventSubscriptionPropertiesARM struct {
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
 
 	// Filter: Filter for the Event Subscription.
-	Filter *EventSubscriptionFilterARM `json:"filter,omitempty"`
+	Filter *EventSubscriptionFilter_ARM `json:"filter,omitempty"`
 
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
 	// RetryPolicy: Information about the retry policy for an event subscription.
-	RetryPolicy *RetryPolicyARM `json:"retryPolicy,omitempty"`
+	RetryPolicy *RetryPolicy_ARM `json:"retryPolicy,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination
-type EventSubscriptionDestinationARM struct {
+type EventSubscriptionDestination_ARM struct {
 	// AzureFunction: Mutually exclusive with all other properties
-	AzureFunction *AzureFunctionEventSubscriptionDestinationARM `json:"azureFunctionEventSubscriptionDestination,omitempty"`
+	AzureFunction *AzureFunctionEventSubscriptionDestination_ARM `json:"azureFunctionEventSubscriptionDestination,omitempty"`
 
 	// EventHub: Mutually exclusive with all other properties
-	EventHub *EventHubEventSubscriptionDestinationARM `json:"eventHubEventSubscriptionDestination,omitempty"`
+	EventHub *EventHubEventSubscriptionDestination_ARM `json:"eventHubEventSubscriptionDestination,omitempty"`
 
 	// HybridConnection: Mutually exclusive with all other properties
-	HybridConnection *HybridConnectionEventSubscriptionDestinationARM `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_ARM `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
 
 	// ServiceBusQueue: Mutually exclusive with all other properties
-	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestinationARM `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
+	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination_ARM `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
 
 	// ServiceBusTopic: Mutually exclusive with all other properties
-	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestinationARM `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
+	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination_ARM `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
 
 	// StorageQueue: Mutually exclusive with all other properties
-	StorageQueue *StorageQueueEventSubscriptionDestinationARM `json:"storageQueueEventSubscriptionDestination,omitempty"`
+	StorageQueue *StorageQueueEventSubscriptionDestination_ARM `json:"storageQueueEventSubscriptionDestination,omitempty"`
 
 	// WebHook: Mutually exclusive with all other properties
-	WebHook *WebHookEventSubscriptionDestinationARM `json:"webHookEventSubscriptionDestination,omitempty"`
+	WebHook *WebHookEventSubscriptionDestination_ARM `json:"webHookEventSubscriptionDestination,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestinationARM represents a discriminated union (JSON OneOf)
-func (destination EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestination_ARM represents a discriminated union (JSON OneOf)
+func (destination EventSubscriptionDestination_ARM) MarshalJSON() ([]byte, error) {
 	if destination.AzureFunction != nil {
 		return json.Marshal(destination.AzureFunction)
 	}
@@ -116,8 +116,8 @@ func (destination EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error)
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the EventSubscriptionDestinationARM
-func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the EventSubscriptionDestination_ARM
+func (destination *EventSubscriptionDestination_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -125,31 +125,31 @@ func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) e
 	}
 	discriminator := rawJson["endpointType"]
 	if discriminator == "AzureFunction" {
-		destination.AzureFunction = &AzureFunctionEventSubscriptionDestinationARM{}
+		destination.AzureFunction = &AzureFunctionEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.AzureFunction)
 	}
 	if discriminator == "EventHub" {
-		destination.EventHub = &EventHubEventSubscriptionDestinationARM{}
+		destination.EventHub = &EventHubEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.EventHub)
 	}
 	if discriminator == "HybridConnection" {
-		destination.HybridConnection = &HybridConnectionEventSubscriptionDestinationARM{}
+		destination.HybridConnection = &HybridConnectionEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.HybridConnection)
 	}
 	if discriminator == "ServiceBusQueue" {
-		destination.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestinationARM{}
+		destination.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.ServiceBusQueue)
 	}
 	if discriminator == "ServiceBusTopic" {
-		destination.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestinationARM{}
+		destination.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.ServiceBusTopic)
 	}
 	if discriminator == "StorageQueue" {
-		destination.StorageQueue = &StorageQueueEventSubscriptionDestinationARM{}
+		destination.StorageQueue = &StorageQueueEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.StorageQueue)
 	}
 	if discriminator == "WebHook" {
-		destination.WebHook = &WebHookEventSubscriptionDestinationARM{}
+		destination.WebHook = &WebHookEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.WebHook)
 	}
 
@@ -158,9 +158,9 @@ func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) e
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter
-type EventSubscriptionFilterARM struct {
+type EventSubscriptionFilter_ARM struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilterARM `json:"advancedFilters,omitempty"`
+	AdvancedFilters []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
 
 	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
 	// subscribe to all default event types, set the IncludedEventTypes to null.
@@ -181,7 +181,7 @@ type EventSubscriptionFilterARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy
-type RetryPolicyARM struct {
+type RetryPolicy_ARM struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 
@@ -190,54 +190,54 @@ type RetryPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination
-type StorageBlobDeadLetterDestinationARM struct {
+type StorageBlobDeadLetterDestination_ARM struct {
 	EndpointType *StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: Properties of the storage blob based dead letter destination.
-	Properties *StorageBlobDeadLetterDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *StorageBlobDeadLetterDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter
-type AdvancedFilterARM struct {
+type AdvancedFilter_ARM struct {
 	// BoolEquals: Mutually exclusive with all other properties
-	BoolEquals *AdvancedFilter_BoolEqualsARM `json:"boolEqualsAdvancedFilter,omitempty"`
+	BoolEquals *AdvancedFilter_BoolEquals_ARM `json:"boolEqualsAdvancedFilter,omitempty"`
 
 	// NumberGreaterThan: Mutually exclusive with all other properties
-	NumberGreaterThan *AdvancedFilter_NumberGreaterThanARM `json:"numberGreaterThanAdvancedFilter,omitempty"`
+	NumberGreaterThan *AdvancedFilter_NumberGreaterThan_ARM `json:"numberGreaterThanAdvancedFilter,omitempty"`
 
 	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
-	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEqualsARM `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
+	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals_ARM `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
 
 	// NumberIn: Mutually exclusive with all other properties
-	NumberIn *AdvancedFilter_NumberInARM `json:"numberInAdvancedFilter,omitempty"`
+	NumberIn *AdvancedFilter_NumberIn_ARM `json:"numberInAdvancedFilter,omitempty"`
 
 	// NumberLessThan: Mutually exclusive with all other properties
-	NumberLessThan *AdvancedFilter_NumberLessThanARM `json:"numberLessThanAdvancedFilter,omitempty"`
+	NumberLessThan *AdvancedFilter_NumberLessThan_ARM `json:"numberLessThanAdvancedFilter,omitempty"`
 
 	// NumberLessThanOrEquals: Mutually exclusive with all other properties
-	NumberLessThanOrEquals *AdvancedFilter_NumberLessThanOrEqualsARM `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
+	NumberLessThanOrEquals *AdvancedFilter_NumberLessThanOrEquals_ARM `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
 
 	// NumberNotIn: Mutually exclusive with all other properties
-	NumberNotIn *AdvancedFilter_NumberNotInARM `json:"numberNotInAdvancedFilter,omitempty"`
+	NumberNotIn *AdvancedFilter_NumberNotIn_ARM `json:"numberNotInAdvancedFilter,omitempty"`
 
 	// StringBeginsWith: Mutually exclusive with all other properties
-	StringBeginsWith *AdvancedFilter_StringBeginsWithARM `json:"stringBeginsWithAdvancedFilter,omitempty"`
+	StringBeginsWith *AdvancedFilter_StringBeginsWith_ARM `json:"stringBeginsWithAdvancedFilter,omitempty"`
 
 	// StringContains: Mutually exclusive with all other properties
-	StringContains *AdvancedFilter_StringContainsARM `json:"stringContainsAdvancedFilter,omitempty"`
+	StringContains *AdvancedFilter_StringContains_ARM `json:"stringContainsAdvancedFilter,omitempty"`
 
 	// StringEndsWith: Mutually exclusive with all other properties
-	StringEndsWith *AdvancedFilter_StringEndsWithARM `json:"stringEndsWithAdvancedFilter,omitempty"`
+	StringEndsWith *AdvancedFilter_StringEndsWith_ARM `json:"stringEndsWithAdvancedFilter,omitempty"`
 
 	// StringIn: Mutually exclusive with all other properties
-	StringIn *AdvancedFilter_StringInARM `json:"stringInAdvancedFilter,omitempty"`
+	StringIn *AdvancedFilter_StringIn_ARM `json:"stringInAdvancedFilter,omitempty"`
 
 	// StringNotIn: Mutually exclusive with all other properties
-	StringNotIn *AdvancedFilter_StringNotInARM `json:"stringNotInAdvancedFilter,omitempty"`
+	StringNotIn *AdvancedFilter_StringNotIn_ARM `json:"stringNotInAdvancedFilter,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilterARM represents a discriminated union (JSON OneOf)
-func (filter AdvancedFilterARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilter_ARM represents a discriminated union (JSON OneOf)
+func (filter AdvancedFilter_ARM) MarshalJSON() ([]byte, error) {
 	if filter.BoolEquals != nil {
 		return json.Marshal(filter.BoolEquals)
 	}
@@ -277,8 +277,8 @@ func (filter AdvancedFilterARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the AdvancedFilterARM
-func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the AdvancedFilter_ARM
+func (filter *AdvancedFilter_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -286,51 +286,51 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["operatorType"]
 	if discriminator == "BoolEquals" {
-		filter.BoolEquals = &AdvancedFilter_BoolEqualsARM{}
+		filter.BoolEquals = &AdvancedFilter_BoolEquals_ARM{}
 		return json.Unmarshal(data, filter.BoolEquals)
 	}
 	if discriminator == "NumberGreaterThan" {
-		filter.NumberGreaterThan = &AdvancedFilter_NumberGreaterThanARM{}
+		filter.NumberGreaterThan = &AdvancedFilter_NumberGreaterThan_ARM{}
 		return json.Unmarshal(data, filter.NumberGreaterThan)
 	}
 	if discriminator == "NumberGreaterThanOrEquals" {
-		filter.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEqualsARM{}
+		filter.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEquals_ARM{}
 		return json.Unmarshal(data, filter.NumberGreaterThanOrEquals)
 	}
 	if discriminator == "NumberIn" {
-		filter.NumberIn = &AdvancedFilter_NumberInARM{}
+		filter.NumberIn = &AdvancedFilter_NumberIn_ARM{}
 		return json.Unmarshal(data, filter.NumberIn)
 	}
 	if discriminator == "NumberLessThan" {
-		filter.NumberLessThan = &AdvancedFilter_NumberLessThanARM{}
+		filter.NumberLessThan = &AdvancedFilter_NumberLessThan_ARM{}
 		return json.Unmarshal(data, filter.NumberLessThan)
 	}
 	if discriminator == "NumberLessThanOrEquals" {
-		filter.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEqualsARM{}
+		filter.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEquals_ARM{}
 		return json.Unmarshal(data, filter.NumberLessThanOrEquals)
 	}
 	if discriminator == "NumberNotIn" {
-		filter.NumberNotIn = &AdvancedFilter_NumberNotInARM{}
+		filter.NumberNotIn = &AdvancedFilter_NumberNotIn_ARM{}
 		return json.Unmarshal(data, filter.NumberNotIn)
 	}
 	if discriminator == "StringBeginsWith" {
-		filter.StringBeginsWith = &AdvancedFilter_StringBeginsWithARM{}
+		filter.StringBeginsWith = &AdvancedFilter_StringBeginsWith_ARM{}
 		return json.Unmarshal(data, filter.StringBeginsWith)
 	}
 	if discriminator == "StringContains" {
-		filter.StringContains = &AdvancedFilter_StringContainsARM{}
+		filter.StringContains = &AdvancedFilter_StringContains_ARM{}
 		return json.Unmarshal(data, filter.StringContains)
 	}
 	if discriminator == "StringEndsWith" {
-		filter.StringEndsWith = &AdvancedFilter_StringEndsWithARM{}
+		filter.StringEndsWith = &AdvancedFilter_StringEndsWith_ARM{}
 		return json.Unmarshal(data, filter.StringEndsWith)
 	}
 	if discriminator == "StringIn" {
-		filter.StringIn = &AdvancedFilter_StringInARM{}
+		filter.StringIn = &AdvancedFilter_StringIn_ARM{}
 		return json.Unmarshal(data, filter.StringIn)
 	}
 	if discriminator == "StringNotIn" {
-		filter.StringNotIn = &AdvancedFilter_StringNotInARM{}
+		filter.StringNotIn = &AdvancedFilter_StringNotIn_ARM{}
 		return json.Unmarshal(data, filter.StringNotIn)
 	}
 
@@ -339,69 +339,69 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination
-type AzureFunctionEventSubscriptionDestinationARM struct {
+type AzureFunctionEventSubscriptionDestination_ARM struct {
 	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties that represent the Azure Function destination of an event subscription.
-	Properties *AzureFunctionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *AzureFunctionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination
-type EventHubEventSubscriptionDestinationARM struct {
+type EventHubEventSubscriptionDestination_ARM struct {
 	EndpointType EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties for a event hub destination.
-	Properties *EventHubEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *EventHubEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination
-type HybridConnectionEventSubscriptionDestinationARM struct {
+type HybridConnectionEventSubscriptionDestination_ARM struct {
 	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties for a hybrid connection destination.
-	Properties *HybridConnectionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *HybridConnectionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination
-type ServiceBusQueueEventSubscriptionDestinationARM struct {
+type ServiceBusQueueEventSubscriptionDestination_ARM struct {
 	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties that represent the Service Bus destination of an event subscription.
-	Properties *ServiceBusQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *ServiceBusQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination
-type ServiceBusTopicEventSubscriptionDestinationARM struct {
+type ServiceBusTopicEventSubscriptionDestination_ARM struct {
 	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties that represent the Service Bus Topic destination of an event subscription.
-	Properties *ServiceBusTopicEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *ServiceBusTopicEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties
-type StorageBlobDeadLetterDestinationPropertiesARM struct {
+type StorageBlobDeadLetterDestinationProperties_ARM struct {
 	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination
-type StorageQueueEventSubscriptionDestinationARM struct {
+type StorageQueueEventSubscriptionDestination_ARM struct {
 	EndpointType StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: The properties for a storage queue destination.
-	Properties *StorageQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *StorageQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination
-type WebHookEventSubscriptionDestinationARM struct {
+type WebHookEventSubscriptionDestination_ARM struct {
 	EndpointType WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// Properties: Information about the webhook destination properties for an event subscription.
-	Properties *WebHookEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+	Properties *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
-type AdvancedFilter_BoolEqualsARM struct {
+type AdvancedFilter_BoolEquals_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                `json:"key,omitempty"`
 	OperatorType AdvancedFilter_BoolEquals_OperatorType `json:"operatorType,omitempty"`
@@ -410,7 +410,7 @@ type AdvancedFilter_BoolEqualsARM struct {
 	Value *bool `json:"value,omitempty"`
 }
 
-type AdvancedFilter_NumberGreaterThanARM struct {
+type AdvancedFilter_NumberGreaterThan_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                       `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberGreaterThan_OperatorType `json:"operatorType,omitempty"`
@@ -419,7 +419,7 @@ type AdvancedFilter_NumberGreaterThanARM struct {
 	Value *float64 `json:"value,omitempty"`
 }
 
-type AdvancedFilter_NumberGreaterThanOrEqualsARM struct {
+type AdvancedFilter_NumberGreaterThanOrEquals_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                               `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberGreaterThanOrEquals_OperatorType `json:"operatorType,omitempty"`
@@ -428,7 +428,7 @@ type AdvancedFilter_NumberGreaterThanOrEqualsARM struct {
 	Value *float64 `json:"value,omitempty"`
 }
 
-type AdvancedFilter_NumberInARM struct {
+type AdvancedFilter_NumberIn_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                              `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberIn_OperatorType `json:"operatorType,omitempty"`
@@ -437,7 +437,7 @@ type AdvancedFilter_NumberInARM struct {
 	Values []float64 `json:"values,omitempty"`
 }
 
-type AdvancedFilter_NumberLessThanARM struct {
+type AdvancedFilter_NumberLessThan_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberLessThan_OperatorType `json:"operatorType,omitempty"`
@@ -446,7 +446,7 @@ type AdvancedFilter_NumberLessThanARM struct {
 	Value *float64 `json:"value,omitempty"`
 }
 
-type AdvancedFilter_NumberLessThanOrEqualsARM struct {
+type AdvancedFilter_NumberLessThanOrEquals_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                            `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberLessThanOrEquals_OperatorType `json:"operatorType,omitempty"`
@@ -455,7 +455,7 @@ type AdvancedFilter_NumberLessThanOrEqualsARM struct {
 	Value *float64 `json:"value,omitempty"`
 }
 
-type AdvancedFilter_NumberNotInARM struct {
+type AdvancedFilter_NumberNotIn_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                 `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberNotIn_OperatorType `json:"operatorType,omitempty"`
@@ -464,7 +464,7 @@ type AdvancedFilter_NumberNotInARM struct {
 	Values []float64 `json:"values,omitempty"`
 }
 
-type AdvancedFilter_StringBeginsWithARM struct {
+type AdvancedFilter_StringBeginsWith_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                      `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringBeginsWith_OperatorType `json:"operatorType,omitempty"`
@@ -473,7 +473,7 @@ type AdvancedFilter_StringBeginsWithARM struct {
 	Values []string `json:"values,omitempty"`
 }
 
-type AdvancedFilter_StringContainsARM struct {
+type AdvancedFilter_StringContains_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringContains_OperatorType `json:"operatorType,omitempty"`
@@ -482,7 +482,7 @@ type AdvancedFilter_StringContainsARM struct {
 	Values []string `json:"values,omitempty"`
 }
 
-type AdvancedFilter_StringEndsWithARM struct {
+type AdvancedFilter_StringEndsWith_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringEndsWith_OperatorType `json:"operatorType,omitempty"`
@@ -491,7 +491,7 @@ type AdvancedFilter_StringEndsWithARM struct {
 	Values []string `json:"values,omitempty"`
 }
 
-type AdvancedFilter_StringInARM struct {
+type AdvancedFilter_StringIn_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                              `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringIn_OperatorType `json:"operatorType,omitempty"`
@@ -500,7 +500,7 @@ type AdvancedFilter_StringInARM struct {
 	Values []string `json:"values,omitempty"`
 }
 
-type AdvancedFilter_StringNotInARM struct {
+type AdvancedFilter_StringNotIn_ARM struct {
 	// Key: The field/property in the event based on which you want to filter.
 	Key          *string                                 `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringNotIn_OperatorType `json:"operatorType,omitempty"`
@@ -510,7 +510,7 @@ type AdvancedFilter_StringNotInARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties
-type AzureFunctionEventSubscriptionDestinationPropertiesARM struct {
+type AzureFunctionEventSubscriptionDestinationProperties_ARM struct {
 	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
 
@@ -520,34 +520,34 @@ type AzureFunctionEventSubscriptionDestinationPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties
-type EventHubEventSubscriptionDestinationPropertiesARM struct {
+type EventHubEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties
-type HybridConnectionEventSubscriptionDestinationPropertiesARM struct {
+type HybridConnectionEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties
-type ServiceBusQueueEventSubscriptionDestinationPropertiesARM struct {
+type ServiceBusQueueEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties
-type ServiceBusTopicEventSubscriptionDestinationPropertiesARM struct {
+type ServiceBusTopicEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties
-type StorageQueueEventSubscriptionDestinationPropertiesARM struct {
+type StorageQueueEventSubscriptionDestinationProperties_ARM struct {
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName  *string `json:"queueName,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties
-type WebHookEventSubscriptionDestinationPropertiesARM struct {
+type WebHookEventSubscriptionDestinationProperties_ARM struct {
 	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
 	// will be included as the bearer token in delivery requests.
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`

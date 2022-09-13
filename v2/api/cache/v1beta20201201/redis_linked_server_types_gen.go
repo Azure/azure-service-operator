@@ -354,7 +354,7 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if server == nil {
 		return nil, nil
 	}
-	result := &Redis_LinkedServer_SpecARM{}
+	result := &Redis_LinkedServer_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if server.Location != nil {
@@ -369,7 +369,7 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if server.LinkedRedisCacheLocation != nil ||
 		server.LinkedRedisCacheReference != nil ||
 		server.ServerRole != nil {
-		result.Properties = &RedisLinkedServerCreatePropertiesARM{}
+		result.Properties = &RedisLinkedServerCreateProperties_ARM{}
 	}
 	if server.LinkedRedisCacheLocation != nil {
 		linkedRedisCacheLocation := *server.LinkedRedisCacheLocation
@@ -400,14 +400,14 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Redis_LinkedServer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_LinkedServer_SpecARM{}
+	return &Redis_LinkedServer_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_LinkedServer_SpecARM)
+	typedInput, ok := armInput.(Redis_LinkedServer_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -633,7 +633,7 @@ type RedisLinkedServerWithProperties_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerProperties_STATUS_ServerRole `json:"serverRole,omitempty"`
+	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -693,14 +693,14 @@ var _ genruntime.FromARMConverter = &RedisLinkedServerWithProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RedisLinkedServerWithProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisLinkedServerWithProperties_STATUSARM{}
+	return &RedisLinkedServerWithProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RedisLinkedServerWithProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisLinkedServerWithProperties_STATUSARM)
+	typedInput, ok := armInput.(RedisLinkedServerWithProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServerWithProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServerWithProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -786,7 +786,7 @@ func (properties *RedisLinkedServerWithProperties_STATUS) AssignProperties_From_
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerProperties_STATUS_ServerRole(*source.ServerRole)
+		serverRole := RedisLinkedServerProperties_ServerRole_STATUS(*source.ServerRole)
 		properties.ServerRole = &serverRole
 	} else {
 		properties.ServerRole = nil
@@ -852,11 +852,11 @@ const (
 	RedisLinkedServerCreateProperties_ServerRole_Secondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
 )
 
-type RedisLinkedServerProperties_STATUS_ServerRole string
+type RedisLinkedServerProperties_ServerRole_STATUS string
 
 const (
-	RedisLinkedServerProperties_STATUS_ServerRole_Primary   = RedisLinkedServerProperties_STATUS_ServerRole("Primary")
-	RedisLinkedServerProperties_STATUS_ServerRole_Secondary = RedisLinkedServerProperties_STATUS_ServerRole("Secondary")
+	RedisLinkedServerProperties_ServerRole_STATUS_Primary   = RedisLinkedServerProperties_ServerRole_STATUS("Primary")
+	RedisLinkedServerProperties_ServerRole_STATUS_Secondary = RedisLinkedServerProperties_ServerRole_STATUS("Secondary")
 )
 
 func init() {

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type SqlDatabaseGetResults_STATUSARM struct {
+type SqlDatabaseGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,19 +14,19 @@ type SqlDatabaseGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB SQL database
-	Properties *SqlDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                   `json:"tags,omitempty"`
+	Properties *SqlDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlDatabaseGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                   `json:"options,omitempty"`
-	Resource *SqlDatabaseGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlDatabaseGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                   `json:"options,omitempty"`
+	Resource *SqlDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type SqlDatabaseGetProperties_STATUS_ResourceARM struct {
+type SqlDatabaseGetProperties_Resource_STATUS_ARM struct {
 	// Colls: A system generated property that specified the addressable path of the collections resource.
 	Colls *string `json:"_colls,omitempty"`
 

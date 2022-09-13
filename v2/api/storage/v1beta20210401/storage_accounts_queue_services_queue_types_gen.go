@@ -347,7 +347,7 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 	if queue == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_QueueServices_Queue_SpecARM{}
+	result := &StorageAccounts_QueueServices_Queue_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if queue.Location != nil {
@@ -360,7 +360,7 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 
 	// Set property ‘Properties’:
 	if queue.Metadata != nil {
-		result.Properties = &QueuePropertiesARM{}
+		result.Properties = &QueueProperties_ARM{}
 	}
 	if queue.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string, len(queue.Metadata))
@@ -381,14 +381,14 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (queue *StorageAccounts_QueueServices_Queue_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_QueueServices_Queue_SpecARM{}
+	return &StorageAccounts_QueueServices_Queue_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_QueueServices_Queue_SpecARM)
+	typedInput, ok := armInput.(StorageAccounts_QueueServices_Queue_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueServices_Queue_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueServices_Queue_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -630,14 +630,14 @@ var _ genruntime.FromARMConverter = &StorageQueue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (queue *StorageQueue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageQueue_STATUSARM{}
+	return &StorageQueue_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (queue *StorageQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageQueue_STATUSARM)
+	typedInput, ok := armInput.(StorageQueue_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueue_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueue_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ApproximateMessageCount’:

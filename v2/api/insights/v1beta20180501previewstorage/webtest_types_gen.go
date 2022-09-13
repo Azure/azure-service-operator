@@ -188,7 +188,7 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 // Storage version of v1beta20180501preview.WebTest_STATUS
 type WebTest_STATUS struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
-	Configuration      *WebTestProperties_STATUS_Configuration   `json:"Configuration,omitempty"`
+	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
 	Description        *string                                   `json:"Description,omitempty"`
 	Enabled            *bool                                     `json:"Enabled,omitempty"`
 	Frequency          *int                                      `json:"Frequency,omitempty"`
@@ -200,13 +200,13 @@ type WebTest_STATUS struct {
 	PropertiesName     *string                                   `json:"properties_name,omitempty"`
 	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
-	Request            *WebTestProperties_STATUS_Request         `json:"Request,omitempty"`
+	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                                  `json:"tags,omitempty"`
 	Timeout            *int                                      `json:"Timeout,omitempty"`
 	Type               *string                                   `json:"type,omitempty"`
-	ValidationRules    *WebTestProperties_STATUS_ValidationRules `json:"ValidationRules,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
@@ -242,14 +242,14 @@ type WebTestGeolocation_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_Configuration
-type WebTestProperties_STATUS_Configuration struct {
+// Storage version of v1beta20180501preview.WebTestProperties_Configuration_STATUS
+type WebTestProperties_Configuration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_Request
-type WebTestProperties_STATUS_Request struct {
+// Storage version of v1beta20180501preview.WebTestProperties_Request_STATUS
+type WebTestProperties_Request_STATUS struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_STATUS   `json:"Headers,omitempty"`
 	HttpVerb               *string                `json:"HttpVerb,omitempty"`
@@ -259,9 +259,9 @@ type WebTestProperties_STATUS_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_ValidationRules
-type WebTestProperties_STATUS_ValidationRules struct {
-	ContentValidation             *WebTestProperties_STATUS_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+// Storage version of v1beta20180501preview.WebTestProperties_ValidationRules_STATUS
+type WebTestProperties_ValidationRules_STATUS struct {
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
 	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
 	PropertyBag                   genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
@@ -314,8 +314,8 @@ type HeaderField_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_ValidationRules_ContentValidation
-type WebTestProperties_STATUS_ValidationRules_ContentValidation struct {
+// Storage version of v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS
+type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`

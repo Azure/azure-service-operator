@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
 	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -20,7 +20,7 @@ type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the network interface.
-	Properties *NetworkInterfacePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *NetworkInterfacePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,12 +29,12 @@ type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkInterfacePropertiesFormat_STATUSARM struct {
+type NetworkInterfacePropertiesFormat_STATUS_ARM struct {
 	// DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings_STATUSARM `json:"dnsSettings,omitempty"`
+	DnsSettings *NetworkInterfaceDnsSettings_STATUS_ARM `json:"dnsSettings,omitempty"`
 
 	// DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.
-	DscpConfiguration *SubResource_STATUSARM `json:"dscpConfiguration,omitempty"`
+	DscpConfiguration *SubResource_STATUS_ARM `json:"dscpConfiguration,omitempty"`
 
 	// EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
 	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
@@ -46,28 +46,28 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	HostedWorkloads []string `json:"hostedWorkloads,omitempty"`
 
 	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"ipConfigurations,omitempty"`
 
 	// MacAddress: The MAC address of the network interface.
 	MacAddress *string `json:"macAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormat_STATUS_MigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_STATUS_NicType `json:"nicType,omitempty"`
+	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS `json:"nicType,omitempty"`
 
 	// Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`
 
 	// PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.
-	PrivateEndpoint *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"privateEndpoint,omitempty"`
 
 	// PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"privateLinkService,omitempty"`
+	PrivateLinkService *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"privateLinkService,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -76,13 +76,13 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// TapConfigurations: A list of TapConfigurations of the network interface.
-	TapConfigurations []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"tapConfigurations,omitempty"`
+	TapConfigurations []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"tapConfigurations,omitempty"`
 
 	// VirtualMachine: The reference to a virtual machine.
-	VirtualMachine *SubResource_STATUSARM `json:"virtualMachine,omitempty"`
+	VirtualMachine *SubResource_STATUS_ARM `json:"virtualMachine,omitempty"`
 }
 
-type NetworkInterfaceDnsSettings_STATUSARM struct {
+type NetworkInterfaceDnsSettings_STATUS_ARM struct {
 	// AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
 	// all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
 	// those VMs.
@@ -104,7 +104,7 @@ type NetworkInterfaceDnsSettings_STATUSARM struct {
 	InternalFqdn *string `json:"internalFqdn,omitempty"`
 }
 
-type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -115,55 +115,55 @@ type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Network interface IP configuration properties.
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type SubResource_STATUSARM struct {
+type SubResource_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 
 	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"applicationSecurityGroups,omitempty"`
+	ApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationSecurityGroups,omitempty"`
 
 	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerBackendAddressPools []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerInboundNatRules,omitempty"`
+	LoadBalancerInboundNatRules []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerInboundNatRules,omitempty"`
 
 	// Primary: Whether this is a primary customer address on the network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -178,22 +178,22 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_Sub
 	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
-	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM `json:"privateLinkConnectionProperties,omitempty"`
+	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM `json:"privateLinkConnectionProperties,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface IP configuration.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+	Subnet *Subnet_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 
 	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"virtualNetworkTaps,omitempty"`
+	VirtualNetworkTaps []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"virtualNetworkTaps,omitempty"`
 }
 
-type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -204,28 +204,28 @@ type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmb
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the application gateway backend address pool.
-	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM struct {
+type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM struct {
 	// Fqdns: List of FQDNs for current private link connection.
 	Fqdns []string `json:"fqdns,omitempty"`
 
@@ -236,39 +236,39 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSARM st
 	RequiredMemberName *string `json:"requiredMemberName,omitempty"`
 }
 
-type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_STATUSARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
-type Subnet_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type Subnet_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM struct {
+type ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// BackendAddresses: Backend addresses.
-	BackendAddresses []ApplicationGatewayBackendAddress_STATUSARM `json:"backendAddresses,omitempty"`
+	BackendAddresses []ApplicationGatewayBackendAddress_STATUS_ARM `json:"backendAddresses,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type ApplicationGatewayBackendAddress_STATUSARM struct {
+type ApplicationGatewayBackendAddress_STATUS_ARM struct {
 	// Fqdn: Fully qualified domain name (FQDN).
 	Fqdn *string `json:"fqdn,omitempty"`
 

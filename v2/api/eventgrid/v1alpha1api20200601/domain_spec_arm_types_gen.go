@@ -6,67 +6,67 @@ package v1alpha1api20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Domain_Spec. Use v1beta20200601.Domain_Spec instead
-type Domain_SpecARM struct {
-	Location   *string              `json:"location,omitempty"`
-	Name       string               `json:"name,omitempty"`
-	Properties *DomainPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string    `json:"tags,omitempty"`
+type Domain_Spec_ARM struct {
+	Location   *string               `json:"location,omitempty"`
+	Name       string                `json:"name,omitempty"`
+	Properties *DomainProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string     `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Domain_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Domain_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (domain Domain_SpecARM) GetAPIVersion() string {
+func (domain Domain_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (domain *Domain_SpecARM) GetName() string {
+func (domain *Domain_Spec_ARM) GetName() string {
 	return domain.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
-func (domain *Domain_SpecARM) GetType() string {
+func (domain *Domain_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
 // Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead
-type DomainPropertiesARM struct {
-	InboundIpRules      []InboundIpRuleARM                    `json:"inboundIpRules,omitempty"`
+type DomainProperties_ARM struct {
+	InboundIpRules      []InboundIpRule_ARM                   `json:"inboundIpRules,omitempty"`
 	InputSchema         *DomainProperties_InputSchema         `json:"inputSchema,omitempty"`
-	InputSchemaMapping  *JsonInputSchemaMappingARM            `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping  *JsonInputSchemaMapping_ARM           `json:"inputSchemaMapping,omitempty"`
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
-type InboundIpRuleARM struct {
+type InboundIpRule_ARM struct {
 	Action *InboundIpRule_Action `json:"action,omitempty"`
 	IpMask *string               `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
-type JsonInputSchemaMappingARM struct {
+type JsonInputSchemaMapping_ARM struct {
 	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingPropertiesARM           `json:"properties,omitempty"`
+	Properties             *JsonInputSchemaMappingProperties_ARM          `json:"properties,omitempty"`
 }
 
 // Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
-type JsonInputSchemaMappingPropertiesARM struct {
-	DataVersion *JsonFieldWithDefaultARM `json:"dataVersion,omitempty"`
-	EventTime   *JsonFieldARM            `json:"eventTime,omitempty"`
-	EventType   *JsonFieldWithDefaultARM `json:"eventType,omitempty"`
-	Id          *JsonFieldARM            `json:"id,omitempty"`
-	Subject     *JsonFieldWithDefaultARM `json:"subject,omitempty"`
-	Topic       *JsonFieldARM            `json:"topic,omitempty"`
+type JsonInputSchemaMappingProperties_ARM struct {
+	DataVersion *JsonFieldWithDefault_ARM `json:"dataVersion,omitempty"`
+	EventTime   *JsonField_ARM            `json:"eventTime,omitempty"`
+	EventType   *JsonFieldWithDefault_ARM `json:"eventType,omitempty"`
+	Id          *JsonField_ARM            `json:"id,omitempty"`
+	Subject     *JsonFieldWithDefault_ARM `json:"subject,omitempty"`
+	Topic       *JsonField_ARM            `json:"topic,omitempty"`
 }
 
 // Deprecated version of JsonField. Use v1beta20200601.JsonField instead
-type JsonFieldARM struct {
+type JsonField_ARM struct {
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
 // Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
-type JsonFieldWithDefaultARM struct {
+type JsonFieldWithDefault_ARM struct {
 	DefaultValue *string `json:"defaultValue,omitempty"`
 	SourceField  *string `json:"sourceField,omitempty"`
 }

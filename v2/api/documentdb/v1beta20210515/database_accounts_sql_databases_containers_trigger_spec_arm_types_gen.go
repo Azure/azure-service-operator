@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM struct {
+type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -13,7 +13,7 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB trigger.
-	Properties *SqlTriggerCreateUpdatePropertiesARM `json:"properties,omitempty"`
+	Properties *SqlTriggerCreateUpdateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -23,35 +23,35 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (trigger DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM) GetAPIVersion() string {
+func (trigger DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM) GetName() string {
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM) GetName() string {
 	return trigger.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_SpecARM) GetType() string {
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties
-type SqlTriggerCreateUpdatePropertiesARM struct {
+type SqlTriggerCreateUpdateProperties_ARM struct {
 	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
 	// "If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
 	// Resource: Cosmos DB SQL trigger resource object
-	Resource *SqlTriggerResourceARM `json:"resource,omitempty"`
+	Resource *SqlTriggerResource_ARM `json:"resource,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
-type SqlTriggerResourceARM struct {
+type SqlTriggerResource_ARM struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 

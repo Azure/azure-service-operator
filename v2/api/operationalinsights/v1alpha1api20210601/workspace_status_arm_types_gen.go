@@ -4,47 +4,47 @@
 package v1alpha1api20210601
 
 // Deprecated version of Workspace_STATUS. Use v1beta20210601.Workspace_STATUS instead
-type Workspace_STATUSARM struct {
-	Etag       *string                        `json:"etag,omitempty"`
-	Id         *string                        `json:"id,omitempty"`
-	Location   *string                        `json:"location,omitempty"`
-	Name       *string                        `json:"name,omitempty"`
-	Properties *WorkspaceProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string              `json:"tags,omitempty"`
-	Type       *string                        `json:"type,omitempty"`
+type Workspace_STATUS_ARM struct {
+	Etag       *string                         `json:"etag,omitempty"`
+	Id         *string                         `json:"id,omitempty"`
+	Location   *string                         `json:"location,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	Properties *WorkspaceProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
+	Type       *string                         `json:"type,omitempty"`
 }
 
 // Deprecated version of WorkspaceProperties_STATUS. Use v1beta20210601.WorkspaceProperties_STATUS instead
-type WorkspaceProperties_STATUSARM struct {
+type WorkspaceProperties_STATUS_ARM struct {
 	CreatedDate                     *string                                       `json:"createdDate,omitempty"`
 	CustomerId                      *string                                       `json:"customerId,omitempty"`
-	Features                        *WorkspaceFeatures_STATUSARM                  `json:"features,omitempty"`
+	Features                        *WorkspaceFeatures_STATUS_ARM                 `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                                         `json:"forceCmkForQuery,omitempty"`
 	ModifiedDate                    *string                                       `json:"modifiedDate,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM         `json:"privateLinkScopedResources,omitempty"`
-	ProvisioningState               *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS_ARM        `json:"privateLinkScopedResources,omitempty"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForQuery,omitempty"`
 	RetentionInDays                 *int                                          `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_STATUSARM                       `json:"sku,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_STATUSARM                   `json:"workspaceCapping,omitempty"`
+	Sku                             *WorkspaceSku_STATUS_ARM                      `json:"sku,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_STATUS_ARM                  `json:"workspaceCapping,omitempty"`
 }
 
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20210601.PrivateLinkScopedResource_STATUS instead
-type PrivateLinkScopedResource_STATUSARM struct {
+type PrivateLinkScopedResource_STATUS_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	ScopeId    *string `json:"scopeId,omitempty"`
 }
 
 // Deprecated version of WorkspaceCapping_STATUS. Use v1beta20210601.WorkspaceCapping_STATUS instead
-type WorkspaceCapping_STATUSARM struct {
+type WorkspaceCapping_STATUS_ARM struct {
 	DailyQuotaGb        *float64                                     `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCapping_STATUS_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
 	QuotaNextResetTime  *string                                      `json:"quotaNextResetTime,omitempty"`
 }
 
 // Deprecated version of WorkspaceFeatures_STATUS. Use v1beta20210601.WorkspaceFeatures_STATUS instead
-type WorkspaceFeatures_STATUSARM struct {
+type WorkspaceFeatures_STATUS_ARM struct {
 	ClusterResourceId                           *string `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool   `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool   `json:"enableDataExport,omitempty"`
@@ -53,8 +53,8 @@ type WorkspaceFeatures_STATUSARM struct {
 }
 
 // Deprecated version of WorkspaceSku_STATUS. Use v1beta20210601.WorkspaceSku_STATUS instead
-type WorkspaceSku_STATUSARM struct {
-	CapacityReservationLevel *WorkspaceSku_STATUS_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+type WorkspaceSku_STATUS_ARM struct {
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                                       `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSku_STATUS_Name                     `json:"name,omitempty"`
+	Name                     *WorkspaceSku_Name_STATUS                     `json:"name,omitempty"`
 }

@@ -277,7 +277,7 @@ func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRule_STATUS_Properties_Rights_Listen, AuthorizationRule_STATUS_Properties_Rights_Manage, AuthorizationRule_STATUS_Properties_Rights_Send))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRule_Properties_Rights_STATUS_Listen, AuthorizationRule_Properties_Rights_STATUS_Manage, AuthorizationRule_Properties_Rights_STATUS_Send))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

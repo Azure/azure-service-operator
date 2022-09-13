@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_SBTopic_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SBTopic_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBTopic_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBTopic_STATUSARM, SBTopic_STATUSARMGenerator()))
+		"Round trip of SBTopic_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBTopic_STATUS_ARM, SBTopic_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBTopic_STATUSARM runs a test to see if a specific instance of SBTopic_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBTopic_STATUSARM(subject SBTopic_STATUSARM) string {
+// RunJSONSerializationTestForSBTopic_STATUS_ARM runs a test to see if a specific instance of SBTopic_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBTopic_STATUS_ARM(subject SBTopic_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForSBTopic_STATUSARM(subject SBTopic_STATUSARM) str
 	}
 
 	// Deserialize back into memory
-	var actual SBTopic_STATUSARM
+	var actual SBTopic_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,58 +56,58 @@ func RunJSONSerializationTestForSBTopic_STATUSARM(subject SBTopic_STATUSARM) str
 	return ""
 }
 
-// Generator of SBTopic_STATUSARM instances for property testing - lazily instantiated by SBTopic_STATUSARMGenerator()
-var sbTopic_STATUSARMGenerator gopter.Gen
+// Generator of SBTopic_STATUS_ARM instances for property testing - lazily instantiated by SBTopic_STATUS_ARMGenerator()
+var sbTopic_STATUS_ARMGenerator gopter.Gen
 
-// SBTopic_STATUSARMGenerator returns a generator of SBTopic_STATUSARM instances for property testing.
-// We first initialize sbTopic_STATUSARMGenerator with a simplified generator based on the
+// SBTopic_STATUS_ARMGenerator returns a generator of SBTopic_STATUS_ARM instances for property testing.
+// We first initialize sbTopic_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBTopic_STATUSARMGenerator() gopter.Gen {
-	if sbTopic_STATUSARMGenerator != nil {
-		return sbTopic_STATUSARMGenerator
+func SBTopic_STATUS_ARMGenerator() gopter.Gen {
+	if sbTopic_STATUS_ARMGenerator != nil {
+		return sbTopic_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopic_STATUSARM(generators)
-	sbTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopic_STATUS_ARM(generators)
+	sbTopic_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopic_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForSBTopic_STATUSARM(generators)
-	sbTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopic_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForSBTopic_STATUS_ARM(generators)
+	sbTopic_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS_ARM{}), generators)
 
-	return sbTopic_STATUSARMGenerator
+	return sbTopic_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBTopic_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBTopic_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSBTopic_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBTopic_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBTopic_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBTopic_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SBTopicProperties_STATUSARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForSBTopic_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSBTopic_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SBTopicProperties_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
-func Test_SBTopicProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SBTopicProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBTopicProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBTopicProperties_STATUSARM, SBTopicProperties_STATUSARMGenerator()))
+		"Round trip of SBTopicProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBTopicProperties_STATUS_ARM, SBTopicProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBTopicProperties_STATUSARM runs a test to see if a specific instance of SBTopicProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBTopicProperties_STATUSARM(subject SBTopicProperties_STATUSARM) string {
+// RunJSONSerializationTestForSBTopicProperties_STATUS_ARM runs a test to see if a specific instance of SBTopicProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBTopicProperties_STATUS_ARM(subject SBTopicProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForSBTopicProperties_STATUSARM(subject SBTopicPrope
 	}
 
 	// Deserialize back into memory
-	var actual SBTopicProperties_STATUSARM
+	var actual SBTopicProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,34 +133,34 @@ func RunJSONSerializationTestForSBTopicProperties_STATUSARM(subject SBTopicPrope
 	return ""
 }
 
-// Generator of SBTopicProperties_STATUSARM instances for property testing - lazily instantiated by
-// SBTopicProperties_STATUSARMGenerator()
-var sbTopicProperties_STATUSARMGenerator gopter.Gen
+// Generator of SBTopicProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// SBTopicProperties_STATUS_ARMGenerator()
+var sbTopicProperties_STATUS_ARMGenerator gopter.Gen
 
-// SBTopicProperties_STATUSARMGenerator returns a generator of SBTopicProperties_STATUSARM instances for property testing.
-// We first initialize sbTopicProperties_STATUSARMGenerator with a simplified generator based on the
+// SBTopicProperties_STATUS_ARMGenerator returns a generator of SBTopicProperties_STATUS_ARM instances for property testing.
+// We first initialize sbTopicProperties_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBTopicProperties_STATUSARMGenerator() gopter.Gen {
-	if sbTopicProperties_STATUSARMGenerator != nil {
-		return sbTopicProperties_STATUSARMGenerator
+func SBTopicProperties_STATUS_ARMGenerator() gopter.Gen {
+	if sbTopicProperties_STATUS_ARMGenerator != nil {
+		return sbTopicProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopicProperties_STATUSARM(generators)
-	sbTopicProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SBTopicProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopicProperties_STATUS_ARM(generators)
+	sbTopicProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBTopicProperties_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopicProperties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForSBTopicProperties_STATUSARM(generators)
-	sbTopicProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SBTopicProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSBTopicProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForSBTopicProperties_STATUS_ARM(generators)
+	sbTopicProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBTopicProperties_STATUS_ARM{}), generators)
 
-	return sbTopicProperties_STATUSARMGenerator
+	return sbTopicProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBTopicProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBTopicProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSBTopicProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -187,7 +187,7 @@ func AddIndependentPropertyGeneratorsForSBTopicProperties_STATUSARM(gens map[str
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBTopicProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBTopicProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForSBTopicProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSBTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUS_ARMGenerator())
 }

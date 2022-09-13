@@ -4,17 +4,17 @@
 package v1alpha1api20181130
 
 // Deprecated version of Identity_STATUS. Use v1beta20181130.Identity_STATUS instead
-type Identity_STATUSARM struct {
-	Id         *string                                   `json:"id,omitempty"`
-	Location   *string                                   `json:"location,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *UserAssignedIdentityProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+type Identity_STATUS_ARM struct {
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *UserAssignedIdentityProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentityProperties_STATUS. Use v1beta20181130.UserAssignedIdentityProperties_STATUS instead
-type UserAssignedIdentityProperties_STATUSARM struct {
+type UserAssignedIdentityProperties_STATUS_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 	TenantId    *string `json:"tenantId,omitempty"`

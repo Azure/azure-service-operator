@@ -177,7 +177,7 @@ type Workspace_Spec struct {
 	PropertyBag                          genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess                  *string                                                `json:"publicNetworkAccess,omitempty"`
 	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings                       `json:"serviceManagedResourcesSettings,omitempty"`
-	SharedPrivateLinkResources           []Workspace_Spec_Properties_SharedPrivateLinkResources `json:"sharedPrivateLinkResources,omitempty"`
+	SharedPrivateLinkResources           []Workspace_Properties_SharedPrivateLinkResources_Spec `json:"sharedPrivateLinkResources,omitempty"`
 	Sku                                  *Sku                                                   `json:"sku,omitempty"`
 
 	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
@@ -377,8 +377,8 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210701.Workspace_Spec_Properties_SharedPrivateLinkResources
-type Workspace_Spec_Properties_SharedPrivateLinkResources struct {
+// Storage version of v1beta20210701.Workspace_Properties_SharedPrivateLinkResources_Spec
+type Workspace_Properties_SharedPrivateLinkResources_Spec struct {
 	GroupId *string `json:"groupId,omitempty"`
 	Name    *string `json:"name,omitempty"`
 

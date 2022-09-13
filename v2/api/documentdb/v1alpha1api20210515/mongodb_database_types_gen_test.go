@@ -404,7 +404,7 @@ func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetResults_STATUS(gens ma
 // AddRelatedPropertyGeneratorsForMongoDBDatabaseGetResults_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongoDBDatabaseGetResults_STATUS(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(OptionsResource_STATUSGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_STATUS_ResourceGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_Resource_STATUSGenerator())
 }
 
 func Test_CreateUpdateOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -524,32 +524,32 @@ func AddRelatedPropertyGeneratorsForCreateUpdateOptions(gens map[string]gopter.G
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsGenerator())
 }
 
-func Test_MongoDBDatabaseGetProperties_STATUS_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MongoDBDatabaseGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MongoDBDatabaseGetProperties_STATUS_Resource to MongoDBDatabaseGetProperties_STATUS_Resource via AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource & AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_STATUS_Resource, MongoDBDatabaseGetProperties_STATUS_ResourceGenerator()))
+		"Round trip from MongoDBDatabaseGetProperties_Resource_STATUS to MongoDBDatabaseGetProperties_Resource_STATUS via AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS & AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS, MongoDBDatabaseGetProperties_Resource_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_STATUS_Resource tests if a specific instance of MongoDBDatabaseGetProperties_STATUS_Resource can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_STATUS_Resource(subject MongoDBDatabaseGetProperties_STATUS_Resource) string {
+// RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS tests if a specific instance of MongoDBDatabaseGetProperties_Resource_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS(subject MongoDBDatabaseGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210515s.MongoDBDatabaseGetProperties_STATUS_Resource
-	err := copied.AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource(&other)
+	var other alpha20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
+	err := copied.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoDBDatabaseGetProperties_STATUS_Resource
-	err = actual.AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource(&other)
+	var actual MongoDBDatabaseGetProperties_Resource_STATUS
+	err = actual.AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -566,20 +566,20 @@ func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_STATUS_Resource(su
 	return ""
 }
 
-func Test_MongoDBDatabaseGetProperties_STATUS_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBDatabaseGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoDBDatabaseGetProperties_STATUS_Resource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUS_Resource, MongoDBDatabaseGetProperties_STATUS_ResourceGenerator()))
+		"Round trip of MongoDBDatabaseGetProperties_Resource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUS, MongoDBDatabaseGetProperties_Resource_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUS_Resource runs a test to see if a specific instance of MongoDBDatabaseGetProperties_STATUS_Resource round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUS_Resource(subject MongoDBDatabaseGetProperties_STATUS_Resource) string {
+// RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUS runs a test to see if a specific instance of MongoDBDatabaseGetProperties_Resource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUS(subject MongoDBDatabaseGetProperties_Resource_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -587,7 +587,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUS_Resource(sub
 	}
 
 	// Deserialize back into memory
-	var actual MongoDBDatabaseGetProperties_STATUS_Resource
+	var actual MongoDBDatabaseGetProperties_Resource_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -605,25 +605,25 @@ func RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUS_Resource(sub
 	return ""
 }
 
-// Generator of MongoDBDatabaseGetProperties_STATUS_Resource instances for property testing - lazily instantiated by
-// MongoDBDatabaseGetProperties_STATUS_ResourceGenerator()
-var mongoDBDatabaseGetProperties_STATUS_ResourceGenerator gopter.Gen
+// Generator of MongoDBDatabaseGetProperties_Resource_STATUS instances for property testing - lazily instantiated by
+// MongoDBDatabaseGetProperties_Resource_STATUSGenerator()
+var mongoDBDatabaseGetProperties_Resource_STATUSGenerator gopter.Gen
 
-// MongoDBDatabaseGetProperties_STATUS_ResourceGenerator returns a generator of MongoDBDatabaseGetProperties_STATUS_Resource instances for property testing.
-func MongoDBDatabaseGetProperties_STATUS_ResourceGenerator() gopter.Gen {
-	if mongoDBDatabaseGetProperties_STATUS_ResourceGenerator != nil {
-		return mongoDBDatabaseGetProperties_STATUS_ResourceGenerator
+// MongoDBDatabaseGetProperties_Resource_STATUSGenerator returns a generator of MongoDBDatabaseGetProperties_Resource_STATUS instances for property testing.
+func MongoDBDatabaseGetProperties_Resource_STATUSGenerator() gopter.Gen {
+	if mongoDBDatabaseGetProperties_Resource_STATUSGenerator != nil {
+		return mongoDBDatabaseGetProperties_Resource_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUS_Resource(generators)
-	mongoDBDatabaseGetProperties_STATUS_ResourceGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseGetProperties_STATUS_Resource{}), generators)
+	AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUS(generators)
+	mongoDBDatabaseGetProperties_Resource_STATUSGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseGetProperties_Resource_STATUS{}), generators)
 
-	return mongoDBDatabaseGetProperties_STATUS_ResourceGenerator
+	return mongoDBDatabaseGetProperties_Resource_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUS_Resource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUS_Resource(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())

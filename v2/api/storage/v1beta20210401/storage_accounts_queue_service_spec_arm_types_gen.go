@@ -5,7 +5,7 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type StorageAccounts_QueueService_SpecARM struct {
+type StorageAccounts_QueueService_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,31 +13,31 @@ type StorageAccounts_QueueService_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Queue service.
-	Properties *QueueServicePropertiesPropertiesARM `json:"properties,omitempty"`
+	Properties *QueueServicePropertiesProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueService_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueService_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (service StorageAccounts_QueueService_SpecARM) GetAPIVersion() string {
+func (service StorageAccounts_QueueService_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (service *StorageAccounts_QueueService_SpecARM) GetName() string {
+func (service *StorageAccounts_QueueService_Spec_ARM) GetName() string {
 	return service.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
-func (service *StorageAccounts_QueueService_SpecARM) GetType() string {
+func (service *StorageAccounts_QueueService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueServicePropertiesProperties
-type QueueServicePropertiesPropertiesARM struct {
+type QueueServicePropertiesProperties_ARM struct {
 	// Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
-	Cors *CorsRulesARM `json:"cors,omitempty"`
+	Cors *CorsRules_ARM `json:"cors,omitempty"`
 }

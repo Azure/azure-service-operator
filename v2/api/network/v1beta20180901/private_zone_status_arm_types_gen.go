@@ -3,15 +3,15 @@
 // Licensed under the MIT license.
 package v1beta20180901
 
-type PrivateZone_STATUSARM struct {
+type PrivateZone_STATUS_ARM struct {
 	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 
 	// Properties: Properties of the Private DNS zone.
-	Properties *PrivateZoneProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *PrivateZoneProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type PrivateZoneProperties_STATUSARM struct {
+type PrivateZoneProperties_STATUS_ARM struct {
 	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
 	// read-only property and any attempt to set this value will be ignored.
 	MaxNumberOfRecordSets *int `json:"maxNumberOfRecordSets,omitempty"`
@@ -39,5 +39,5 @@ type PrivateZoneProperties_STATUSARM struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-	ProvisioningState *PrivateZoneProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }

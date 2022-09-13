@@ -276,7 +276,7 @@ func AddIndependentPropertyGeneratorsForCluster_STATUS(gens map[string]gopter.Ge
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_STATUS_MinimumTlsVersion_10, ClusterProperties_STATUS_MinimumTlsVersion_11, ClusterProperties_STATUS_MinimumTlsVersion_12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_STATUS_10, ClusterProperties_MinimumTlsVersion_STATUS_11, ClusterProperties_MinimumTlsVersion_STATUS_12))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Canceled,
@@ -745,11 +745,11 @@ func Sku_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Name_EnterpriseFlash_F1500,
-		Sku_STATUS_Name_EnterpriseFlash_F300,
-		Sku_STATUS_Name_EnterpriseFlash_F700,
-		Sku_STATUS_Name_Enterprise_E10,
-		Sku_STATUS_Name_Enterprise_E100,
-		Sku_STATUS_Name_Enterprise_E20,
-		Sku_STATUS_Name_Enterprise_E50))
+		Sku_Name_STATUS_EnterpriseFlash_F1500,
+		Sku_Name_STATUS_EnterpriseFlash_F300,
+		Sku_Name_STATUS_EnterpriseFlash_F700,
+		Sku_Name_STATUS_Enterprise_E10,
+		Sku_Name_STATUS_Enterprise_E100,
+		Sku_Name_STATUS_Enterprise_E20,
+		Sku_Name_STATUS_Enterprise_E50))
 }

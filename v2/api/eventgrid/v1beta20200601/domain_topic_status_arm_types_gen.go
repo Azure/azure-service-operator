@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-type DomainTopic_STATUSARM struct {
+type DomainTopic_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
@@ -11,21 +11,21 @@ type DomainTopic_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the Domain Topic.
-	Properties *DomainTopicProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *DomainTopicProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system metadata relating to Domain Topic resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type DomainTopicProperties_STATUSARM struct {
+type DomainTopicProperties_STATUS_ARM struct {
 	// ProvisioningState: Provisioning state of the domain topic.
-	ProvisioningState *DomainTopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -33,7 +33,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -42,34 +42,34 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type DomainTopicProperties_STATUS_ProvisioningState string
+type DomainTopicProperties_ProvisioningState_STATUS string
 
 const (
-	DomainTopicProperties_STATUS_ProvisioningState_Canceled  = DomainTopicProperties_STATUS_ProvisioningState("Canceled")
-	DomainTopicProperties_STATUS_ProvisioningState_Creating  = DomainTopicProperties_STATUS_ProvisioningState("Creating")
-	DomainTopicProperties_STATUS_ProvisioningState_Deleting  = DomainTopicProperties_STATUS_ProvisioningState("Deleting")
-	DomainTopicProperties_STATUS_ProvisioningState_Failed    = DomainTopicProperties_STATUS_ProvisioningState("Failed")
-	DomainTopicProperties_STATUS_ProvisioningState_Succeeded = DomainTopicProperties_STATUS_ProvisioningState("Succeeded")
-	DomainTopicProperties_STATUS_ProvisioningState_Updating  = DomainTopicProperties_STATUS_ProvisioningState("Updating")
+	DomainTopicProperties_ProvisioningState_STATUS_Canceled  = DomainTopicProperties_ProvisioningState_STATUS("Canceled")
+	DomainTopicProperties_ProvisioningState_STATUS_Creating  = DomainTopicProperties_ProvisioningState_STATUS("Creating")
+	DomainTopicProperties_ProvisioningState_STATUS_Deleting  = DomainTopicProperties_ProvisioningState_STATUS("Deleting")
+	DomainTopicProperties_ProvisioningState_STATUS_Failed    = DomainTopicProperties_ProvisioningState_STATUS("Failed")
+	DomainTopicProperties_ProvisioningState_STATUS_Succeeded = DomainTopicProperties_ProvisioningState_STATUS("Succeeded")
+	DomainTopicProperties_ProvisioningState_STATUS_Updating  = DomainTopicProperties_ProvisioningState_STATUS("Updating")
 )
 
-type SystemData_STATUS_CreatedByType string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

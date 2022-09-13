@@ -4,45 +4,45 @@
 package v1alpha1api20201101
 
 // Deprecated version of LoadBalancer_STATUS. Use v1beta20201101.LoadBalancer_STATUS instead
-type LoadBalancer_STATUSARM struct {
-	Etag             *string                                 `json:"etag,omitempty"`
-	ExtendedLocation *ExtendedLocation_STATUSARM             `json:"extendedLocation,omitempty"`
-	Id               *string                                 `json:"id,omitempty"`
-	Location         *string                                 `json:"location,omitempty"`
-	Name             *string                                 `json:"name,omitempty"`
-	Properties       *LoadBalancerPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Sku              *LoadBalancerSku_STATUSARM              `json:"sku,omitempty"`
-	Tags             map[string]string                       `json:"tags,omitempty"`
-	Type             *string                                 `json:"type,omitempty"`
+type LoadBalancer_STATUS_ARM struct {
+	Etag             *string                                  `json:"etag,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM             `json:"extendedLocation,omitempty"`
+	Id               *string                                  `json:"id,omitempty"`
+	Location         *string                                  `json:"location,omitempty"`
+	Name             *string                                  `json:"name,omitempty"`
+	Properties       *LoadBalancerPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Sku              *LoadBalancerSku_STATUS_ARM              `json:"sku,omitempty"`
+	Tags             map[string]string                        `json:"tags,omitempty"`
+	Type             *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of ExtendedLocation_STATUS. Use v1beta20201101.ExtendedLocation_STATUS instead
-type ExtendedLocation_STATUSARM struct {
+type ExtendedLocation_STATUS_ARM struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
 // Deprecated version of LoadBalancerPropertiesFormat_STATUS. Use v1beta20201101.LoadBalancerPropertiesFormat_STATUS instead
-type LoadBalancerPropertiesFormat_STATUSARM struct {
-	BackendAddressPools      []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM      `json:"backendAddressPools,omitempty"`
-	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedARM `json:"frontendIPConfigurations,omitempty"`
-	InboundNatPools          []InboundNatPool_STATUSARM                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM          `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules       []LoadBalancingRule_STATUSARM                                        `json:"loadBalancingRules,omitempty"`
-	OutboundRules            []OutboundRule_STATUSARM                                             `json:"outboundRules,omitempty"`
-	Probes                   []Probe_STATUSARM                                                    `json:"probes,omitempty"`
-	ProvisioningState        *ProvisioningState_STATUS                                            `json:"provisioningState,omitempty"`
-	ResourceGuid             *string                                                              `json:"resourceGuid,omitempty"`
+type LoadBalancerPropertiesFormat_STATUS_ARM struct {
+	BackendAddressPools      []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM      `json:"backendAddressPools,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"frontendIPConfigurations,omitempty"`
+	InboundNatPools          []InboundNatPool_STATUS_ARM                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule_STATUS_ARM                                        `json:"loadBalancingRules,omitempty"`
+	OutboundRules            []OutboundRule_STATUS_ARM                                             `json:"outboundRules,omitempty"`
+	Probes                   []Probe_STATUS_ARM                                                    `json:"probes,omitempty"`
+	ProvisioningState        *ProvisioningState_STATUS                                             `json:"provisioningState,omitempty"`
+	ResourceGuid             *string                                                               `json:"resourceGuid,omitempty"`
 }
 
 // Deprecated version of LoadBalancerSku_STATUS. Use v1beta20201101.LoadBalancerSku_STATUS instead
-type LoadBalancerSku_STATUSARM struct {
-	Name *LoadBalancerSku_STATUS_Name `json:"name,omitempty"`
-	Tier *LoadBalancerSku_STATUS_Tier `json:"tier,omitempty"`
+type LoadBalancerSku_STATUS_ARM struct {
+	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
+	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 // Deprecated version of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instead
-type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
+type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -52,93 +52,93 @@ type ExtendedLocationType_STATUS string
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instead
-type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
-	Etag       *string                                                                             `json:"etag,omitempty"`
-	Id         *string                                                                             `json:"id,omitempty"`
-	Name       *string                                                                             `json:"name,omitempty"`
-	Properties *FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbeddedARM `json:"properties,omitempty"`
-	Type       *string                                                                             `json:"type,omitempty"`
-	Zones      []string                                                                            `json:"zones,omitempty"`
+type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
+	Etag       *string                                                                              `json:"etag,omitempty"`
+	Id         *string                                                                              `json:"id,omitempty"`
+	Name       *string                                                                              `json:"name,omitempty"`
+	Properties *FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Type       *string                                                                              `json:"type,omitempty"`
+	Zones      []string                                                                             `json:"zones,omitempty"`
 }
 
 // Deprecated version of InboundNatPool_STATUS. Use v1beta20201101.InboundNatPool_STATUS instead
-type InboundNatPool_STATUSARM struct {
-	Etag       *string                                   `json:"etag,omitempty"`
-	Id         *string                                   `json:"id,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *InboundNatPoolPropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+type InboundNatPool_STATUS_ARM struct {
+	Etag       *string                                    `json:"etag,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *InboundNatPoolPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 // Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
-type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
+type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Deprecated version of LoadBalancerSku_STATUS_Name. Use v1beta20201101.LoadBalancerSku_STATUS_Name instead
-type LoadBalancerSku_STATUS_Name string
+// Deprecated version of LoadBalancerSku_Name_STATUS. Use v1beta20201101.LoadBalancerSku_Name_STATUS instead
+type LoadBalancerSku_Name_STATUS string
 
 const (
-	LoadBalancerSku_STATUS_Name_Basic    = LoadBalancerSku_STATUS_Name("Basic")
-	LoadBalancerSku_STATUS_Name_Standard = LoadBalancerSku_STATUS_Name("Standard")
+	LoadBalancerSku_Name_STATUS_Basic    = LoadBalancerSku_Name_STATUS("Basic")
+	LoadBalancerSku_Name_STATUS_Standard = LoadBalancerSku_Name_STATUS("Standard")
 )
 
-// Deprecated version of LoadBalancerSku_STATUS_Tier. Use v1beta20201101.LoadBalancerSku_STATUS_Tier instead
-type LoadBalancerSku_STATUS_Tier string
+// Deprecated version of LoadBalancerSku_Tier_STATUS. Use v1beta20201101.LoadBalancerSku_Tier_STATUS instead
+type LoadBalancerSku_Tier_STATUS string
 
 const (
-	LoadBalancerSku_STATUS_Tier_Global   = LoadBalancerSku_STATUS_Tier("Global")
-	LoadBalancerSku_STATUS_Tier_Regional = LoadBalancerSku_STATUS_Tier("Regional")
+	LoadBalancerSku_Tier_STATUS_Global   = LoadBalancerSku_Tier_STATUS("Global")
+	LoadBalancerSku_Tier_STATUS_Regional = LoadBalancerSku_Tier_STATUS("Regional")
 )
 
 // Deprecated version of LoadBalancingRule_STATUS. Use v1beta20201101.LoadBalancingRule_STATUS instead
-type LoadBalancingRule_STATUSARM struct {
-	Etag       *string                                      `json:"etag,omitempty"`
-	Id         *string                                      `json:"id,omitempty"`
-	Name       *string                                      `json:"name,omitempty"`
-	Properties *LoadBalancingRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
+type LoadBalancingRule_STATUS_ARM struct {
+	Etag       *string                                       `json:"etag,omitempty"`
+	Id         *string                                       `json:"id,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Properties *LoadBalancingRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
 // Deprecated version of OutboundRule_STATUS. Use v1beta20201101.OutboundRule_STATUS instead
-type OutboundRule_STATUSARM struct {
-	Etag       *string                                 `json:"etag,omitempty"`
-	Id         *string                                 `json:"id,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *OutboundRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+type OutboundRule_STATUS_ARM struct {
+	Etag       *string                                  `json:"etag,omitempty"`
+	Id         *string                                  `json:"id,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *OutboundRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of Probe_STATUS. Use v1beta20201101.Probe_STATUS instead
-type Probe_STATUSARM struct {
-	Etag       *string                          `json:"etag,omitempty"`
-	Id         *string                          `json:"id,omitempty"`
-	Name       *string                          `json:"name,omitempty"`
-	Properties *ProbePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                          `json:"type,omitempty"`
+type Probe_STATUS_ARM struct {
+	Etag       *string                           `json:"etag,omitempty"`
+	Id         *string                           `json:"id,omitempty"`
+	Name       *string                           `json:"name,omitempty"`
+	Properties *ProbePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                           `json:"type,omitempty"`
 }
 
 // Deprecated version of FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded instead
-type FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
-	InboundNatPools           []SubResource_STATUSARM                                     `json:"inboundNatPools,omitempty"`
-	InboundNatRules           []SubResource_STATUSARM                                     `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules        []SubResource_STATUSARM                                     `json:"loadBalancingRules,omitempty"`
-	OutboundRules             []SubResource_STATUSARM                                     `json:"outboundRules,omitempty"`
-	PrivateIPAddress          *string                                                     `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *IPVersion_STATUS                                           `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS                                  `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_STATUS                                   `json:"provisioningState,omitempty"`
-	PublicIPAddress           *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-	PublicIPPrefix            *SubResource_STATUSARM                                      `json:"publicIPPrefix,omitempty"`
-	Subnet                    *Subnet_STATUS_LoadBalancer_SubResourceEmbeddedARM          `json:"subnet,omitempty"`
+type FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
+	InboundNatPools           []SubResource_STATUS_ARM                                     `json:"inboundNatPools,omitempty"`
+	InboundNatRules           []SubResource_STATUS_ARM                                     `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules        []SubResource_STATUS_ARM                                     `json:"loadBalancingRules,omitempty"`
+	OutboundRules             []SubResource_STATUS_ARM                                     `json:"outboundRules,omitempty"`
+	PrivateIPAddress          *string                                                      `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *IPVersion_STATUS                                            `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS                                   `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *ProvisioningState_STATUS                                    `json:"provisioningState,omitempty"`
+	PublicIPAddress           *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResource_STATUS_ARM                                      `json:"publicIPPrefix,omitempty"`
+	Subnet                    *Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM          `json:"subnet,omitempty"`
 }
 
 // Deprecated version of InboundNatPoolPropertiesFormat_STATUS. Use v1beta20201101.InboundNatPoolPropertiesFormat_STATUS instead
-type InboundNatPoolPropertiesFormat_STATUSARM struct {
+type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	BackendPort             *int                      `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                     `json:"enableFloatingIP,omitempty"`
 	EnableTcpReset          *bool                     `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_STATUSARM    `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS_ARM   `json:"frontendIPConfiguration,omitempty"`
 	FrontendPortRangeEnd    *int                      `json:"frontendPortRangeEnd,omitempty"`
 	FrontendPortRangeStart  *int                      `json:"frontendPortRangeStart,omitempty"`
 	IdleTimeoutInMinutes    *int                      `json:"idleTimeoutInMinutes,omitempty"`
@@ -147,52 +147,52 @@ type InboundNatPoolPropertiesFormat_STATUSARM struct {
 }
 
 // Deprecated version of LoadBalancingRulePropertiesFormat_STATUS. Use v1beta20201101.LoadBalancingRulePropertiesFormat_STATUS instead
-type LoadBalancingRulePropertiesFormat_STATUSARM struct {
-	BackendAddressPool      *SubResource_STATUSARM                                     `json:"backendAddressPool,omitempty"`
+type LoadBalancingRulePropertiesFormat_STATUS_ARM struct {
+	BackendAddressPool      *SubResource_STATUS_ARM                                    `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                                                       `json:"backendPort,omitempty"`
 	DisableOutboundSnat     *bool                                                      `json:"disableOutboundSnat,omitempty"`
 	EnableFloatingIP        *bool                                                      `json:"enableFloatingIP,omitempty"`
 	EnableTcpReset          *bool                                                      `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_STATUSARM                                     `json:"frontendIPConfiguration,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS_ARM                                    `json:"frontendIPConfiguration,omitempty"`
 	FrontendPort            *int                                                       `json:"frontendPort,omitempty"`
 	IdleTimeoutInMinutes    *int                                                       `json:"idleTimeoutInMinutes,omitempty"`
-	LoadDistribution        *LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution `json:"loadDistribution,omitempty"`
-	Probe                   *SubResource_STATUSARM                                     `json:"probe,omitempty"`
+	LoadDistribution        *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
+	Probe                   *SubResource_STATUS_ARM                                    `json:"probe,omitempty"`
 	Protocol                *TransportProtocol_STATUS                                  `json:"protocol,omitempty"`
 	ProvisioningState       *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of OutboundRulePropertiesFormat_STATUS. Use v1beta20201101.OutboundRulePropertiesFormat_STATUS instead
-type OutboundRulePropertiesFormat_STATUSARM struct {
+type OutboundRulePropertiesFormat_STATUS_ARM struct {
 	AllocatedOutboundPorts   *int                                          `json:"allocatedOutboundPorts,omitempty"`
-	BackendAddressPool       *SubResource_STATUSARM                        `json:"backendAddressPool,omitempty"`
+	BackendAddressPool       *SubResource_STATUS_ARM                       `json:"backendAddressPool,omitempty"`
 	EnableTcpReset           *bool                                         `json:"enableTcpReset,omitempty"`
-	FrontendIPConfigurations []SubResource_STATUSARM                       `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []SubResource_STATUS_ARM                      `json:"frontendIPConfigurations,omitempty"`
 	IdleTimeoutInMinutes     *int                                          `json:"idleTimeoutInMinutes,omitempty"`
-	Protocol                 *OutboundRulePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+	Protocol                 *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
 	ProvisioningState        *ProvisioningState_STATUS                     `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of ProbePropertiesFormat_STATUS. Use v1beta20201101.ProbePropertiesFormat_STATUS instead
-type ProbePropertiesFormat_STATUSARM struct {
+type ProbePropertiesFormat_STATUS_ARM struct {
 	IntervalInSeconds  *int                                   `json:"intervalInSeconds,omitempty"`
-	LoadBalancingRules []SubResource_STATUSARM                `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []SubResource_STATUS_ARM               `json:"loadBalancingRules,omitempty"`
 	NumberOfProbes     *int                                   `json:"numberOfProbes,omitempty"`
 	Port               *int                                   `json:"port,omitempty"`
-	Protocol           *ProbePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+	Protocol           *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
 	ProvisioningState  *ProvisioningState_STATUS              `json:"provisioningState,omitempty"`
 	RequestPath        *string                                `json:"requestPath,omitempty"`
 }
 
 // Deprecated version of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instead
-type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocation_STATUSARM   `json:"extendedLocation,omitempty"`
-	Id               *string                       `json:"id,omitempty"`
-	Sku              *PublicIPAddressSku_STATUSARM `json:"sku,omitempty"`
-	Zones            []string                      `json:"zones,omitempty"`
+type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
+	ExtendedLocation *ExtendedLocation_STATUS_ARM   `json:"extendedLocation,omitempty"`
+	Id               *string                        `json:"id,omitempty"`
+	Sku              *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
+	Zones            []string                       `json:"zones,omitempty"`
 }
 
 // Deprecated version of Subnet_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_LoadBalancer_SubResourceEmbedded instead
-type Subnet_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
+type Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

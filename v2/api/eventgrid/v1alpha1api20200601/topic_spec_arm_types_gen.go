@@ -6,25 +6,25 @@ package v1alpha1api20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Topic_Spec. Use v1beta20200601.Topic_Spec instead
-type Topic_SpecARM struct {
+type Topic_Spec_ARM struct {
 	Location *string           `json:"location,omitempty"`
 	Name     string            `json:"name,omitempty"`
 	Tags     map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Topic_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Topic_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (topic Topic_SpecARM) GetAPIVersion() string {
+func (topic Topic_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (topic *Topic_SpecARM) GetName() string {
+func (topic *Topic_Spec_ARM) GetName() string {
 	return topic.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
-func (topic *Topic_SpecARM) GetType() string {
+func (topic *Topic_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/topics"
 }

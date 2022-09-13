@@ -5,7 +5,7 @@ package v1beta20200202
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type ApplicationInsightsComponent_STATUSARM struct {
+type ApplicationInsightsComponent_STATUS_ARM struct {
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
@@ -23,7 +23,7 @@ type ApplicationInsightsComponent_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties that define an Application Insights component resource.
-	Properties *ApplicationInsightsComponentProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *ApplicationInsightsComponentProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
@@ -32,7 +32,7 @@ type ApplicationInsightsComponent_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ApplicationInsightsComponentProperties_STATUSARM struct {
+type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	// AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`
 
@@ -40,7 +40,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	// Application_Type: Type of application being monitored.
-	Application_Type *ApplicationInsightsComponentProperties_STATUS_Application_Type `json:"Application_Type,omitempty"`
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_STATUS `json:"Application_Type,omitempty"`
 
 	// ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`
@@ -56,7 +56,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 
 	// Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
 	// to be set to 'Bluefield' when creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_STATUS_Flow_Type `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_STATUS `json:"Flow_Type,omitempty"`
 
 	// ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
@@ -72,7 +72,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_STATUS_IngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_STATUS `json:"IngestionMode,omitempty"`
 
 	// InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
 	// the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
@@ -86,7 +86,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	Name *string `json:"Name,omitempty"`
 
 	// PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUSARM `json:"PrivateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS_ARM `json:"PrivateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
 	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
@@ -101,7 +101,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_STATUS_Request_Source `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_STATUS `json:"Request_Source,omitempty"`
 
 	// RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -118,30 +118,30 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
-type ApplicationInsightsComponentProperties_STATUS_Application_Type string
+type ApplicationInsightsComponentProperties_Application_Type_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_STATUS_Application_Type_Other = ApplicationInsightsComponentProperties_STATUS_Application_Type("other")
-	ApplicationInsightsComponentProperties_STATUS_Application_Type_Web   = ApplicationInsightsComponentProperties_STATUS_Application_Type("web")
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_Other = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_Web   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
 )
 
-type ApplicationInsightsComponentProperties_STATUS_Flow_Type string
+type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
 
-const ApplicationInsightsComponentProperties_STATUS_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_STATUS_Flow_Type("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_STATUS_Bluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
 
-type ApplicationInsightsComponentProperties_STATUS_IngestionMode string
+type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsights                       = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_STATUS_IngestionMode("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
 )
 
-type ApplicationInsightsComponentProperties_STATUS_Request_Source string
+type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
-const ApplicationInsightsComponentProperties_STATUS_Request_Source_Rest = ApplicationInsightsComponentProperties_STATUS_Request_Source("rest")
+const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
-type PrivateLinkScopedResource_STATUSARM struct {
+type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`
 

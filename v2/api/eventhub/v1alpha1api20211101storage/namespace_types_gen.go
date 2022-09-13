@@ -628,7 +628,7 @@ type Namespace_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []Namespace_Spec_Properties_PrivateEndpointConnections `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []Namespace_Properties_PrivateEndpointConnections_Spec `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	Sku                        *Sku                                                   `json:"sku,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
@@ -771,14 +771,14 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]Namespace_Spec_Properties_PrivateEndpointConnections, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]Namespace_Properties_PrivateEndpointConnections_Spec, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection Namespace_Spec_Properties_PrivateEndpointConnections
-			err := privateEndpointConnection.AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections(&privateEndpointConnectionItem)
+			var privateEndpointConnection Namespace_Properties_PrivateEndpointConnections_Spec
+			err := privateEndpointConnection.AssignProperties_From_Namespace_Properties_PrivateEndpointConnections_Spec(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_Namespace_Properties_PrivateEndpointConnections_Spec() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -907,14 +907,14 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// PrivateEndpointConnections
 	if namespace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20211101s.Namespace_Spec_Properties_PrivateEndpointConnections, len(namespace.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20211101s.Namespace_Properties_PrivateEndpointConnections_Spec, len(namespace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20211101s.Namespace_Spec_Properties_PrivateEndpointConnections
-			err := privateEndpointConnectionItem.AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections(&privateEndpointConnection)
+			var privateEndpointConnection v20211101s.Namespace_Properties_PrivateEndpointConnections_Spec
+			err := privateEndpointConnectionItem.AssignProperties_To_Namespace_Properties_PrivateEndpointConnections_Spec(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_Namespace_Properties_PrivateEndpointConnections_Spec() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1296,15 +1296,15 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20211101.Namespace_Spec_Properties_PrivateEndpointConnections
-// Deprecated version of Namespace_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespace_Spec_Properties_PrivateEndpointConnections instead
-type Namespace_Spec_Properties_PrivateEndpointConnections struct {
+// Storage version of v1alpha1api20211101.Namespace_Properties_PrivateEndpointConnections_Spec
+// Deprecated version of Namespace_Properties_PrivateEndpointConnections_Spec. Use v1beta20211101.Namespace_Properties_PrivateEndpointConnections_Spec instead
+type Namespace_Properties_PrivateEndpointConnections_Spec struct {
 	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections populates our Namespace_Spec_Properties_PrivateEndpointConnections from the provided source Namespace_Spec_Properties_PrivateEndpointConnections
-func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) AssignProperties_From_Namespace_Spec_Properties_PrivateEndpointConnections(source *v20211101s.Namespace_Spec_Properties_PrivateEndpointConnections) error {
+// AssignProperties_From_Namespace_Properties_PrivateEndpointConnections_Spec populates our Namespace_Properties_PrivateEndpointConnections_Spec from the provided source Namespace_Properties_PrivateEndpointConnections_Spec
+func (connections *Namespace_Properties_PrivateEndpointConnections_Spec) AssignProperties_From_Namespace_Properties_PrivateEndpointConnections_Spec(source *v20211101s.Namespace_Properties_PrivateEndpointConnections_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1331,8 +1331,8 @@ func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) AssignP
 	return nil
 }
 
-// AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections populates the provided destination Namespace_Spec_Properties_PrivateEndpointConnections from our Namespace_Spec_Properties_PrivateEndpointConnections
-func (connections *Namespace_Spec_Properties_PrivateEndpointConnections) AssignProperties_To_Namespace_Spec_Properties_PrivateEndpointConnections(destination *v20211101s.Namespace_Spec_Properties_PrivateEndpointConnections) error {
+// AssignProperties_To_Namespace_Properties_PrivateEndpointConnections_Spec populates the provided destination Namespace_Properties_PrivateEndpointConnections_Spec from our Namespace_Properties_PrivateEndpointConnections_Spec
+func (connections *Namespace_Properties_PrivateEndpointConnections_Spec) AssignProperties_To_Namespace_Properties_PrivateEndpointConnections_Spec(destination *v20211101s.Namespace_Properties_PrivateEndpointConnections_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connections.PropertyBag)
 

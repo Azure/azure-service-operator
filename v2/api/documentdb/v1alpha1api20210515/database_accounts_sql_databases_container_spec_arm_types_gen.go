@@ -6,78 +6,78 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_SqlDatabases_Container_Spec. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Container_Spec instead
-type DatabaseAccounts_SqlDatabases_Container_SpecARM struct {
-	Location   *string                                `json:"location,omitempty"`
-	Name       string                                 `json:"name,omitempty"`
-	Properties *SqlContainerCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                      `json:"tags,omitempty"`
+type DatabaseAccounts_SqlDatabases_Container_Spec_ARM struct {
+	Location   *string                                 `json:"location,omitempty"`
+	Name       string                                  `json:"name,omitempty"`
+	Properties *SqlContainerCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Container_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (container DatabaseAccounts_SqlDatabases_Container_SpecARM) GetAPIVersion() string {
+func (container DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (container *DatabaseAccounts_SqlDatabases_Container_SpecARM) GetName() string {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetName() string {
 	return container.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (container *DatabaseAccounts_SqlDatabases_Container_SpecARM) GetType() string {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // Deprecated version of SqlContainerCreateUpdateProperties. Use v1beta20210515.SqlContainerCreateUpdateProperties instead
-type SqlContainerCreateUpdatePropertiesARM struct {
-	Options  *CreateUpdateOptionsARM  `json:"options,omitempty"`
-	Resource *SqlContainerResourceARM `json:"resource,omitempty"`
+type SqlContainerCreateUpdateProperties_ARM struct {
+	Options  *CreateUpdateOptions_ARM  `json:"options,omitempty"`
+	Resource *SqlContainerResource_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
-type SqlContainerResourceARM struct {
-	AnalyticalStorageTtl     *int                         `json:"analyticalStorageTtl,omitempty"`
-	ConflictResolutionPolicy *ConflictResolutionPolicyARM `json:"conflictResolutionPolicy,omitempty"`
-	DefaultTtl               *int                         `json:"defaultTtl,omitempty"`
-	Id                       *string                      `json:"id,omitempty"`
-	IndexingPolicy           *IndexingPolicyARM           `json:"indexingPolicy,omitempty"`
-	PartitionKey             *ContainerPartitionKeyARM    `json:"partitionKey,omitempty"`
-	UniqueKeyPolicy          *UniqueKeyPolicyARM          `json:"uniqueKeyPolicy,omitempty"`
+type SqlContainerResource_ARM struct {
+	AnalyticalStorageTtl     *int                          `json:"analyticalStorageTtl,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy_ARM `json:"conflictResolutionPolicy,omitempty"`
+	DefaultTtl               *int                          `json:"defaultTtl,omitempty"`
+	Id                       *string                       `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_ARM           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_ARM    `json:"partitionKey,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_ARM          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 // Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
-type ConflictResolutionPolicyARM struct {
+type ConflictResolutionPolicy_ARM struct {
 	ConflictResolutionPath      *string                        `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                        `json:"conflictResolutionProcedure,omitempty"`
 	Mode                        *ConflictResolutionPolicy_Mode `json:"mode,omitempty"`
 }
 
 // Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
-type ContainerPartitionKeyARM struct {
+type ContainerPartitionKey_ARM struct {
 	Kind    *ContainerPartitionKey_Kind `json:"kind,omitempty"`
 	Paths   []string                    `json:"paths,omitempty"`
 	Version *int                        `json:"version,omitempty"`
 }
 
 // Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
-type IndexingPolicyARM struct {
+type IndexingPolicy_ARM struct {
 	Automatic        *bool                        `json:"automatic,omitempty"`
-	CompositeIndexes [][]CompositePathARM         `json:"compositeIndexes,omitempty"`
-	ExcludedPaths    []ExcludedPathARM            `json:"excludedPaths,omitempty"`
-	IncludedPaths    []IncludedPathARM            `json:"includedPaths,omitempty"`
+	CompositeIndexes [][]CompositePath_ARM        `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_ARM           `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_ARM           `json:"includedPaths,omitempty"`
 	IndexingMode     *IndexingPolicy_IndexingMode `json:"indexingMode,omitempty"`
-	SpatialIndexes   []SpatialSpecARM             `json:"spatialIndexes,omitempty"`
+	SpatialIndexes   []SpatialSpec_ARM            `json:"spatialIndexes,omitempty"`
 }
 
 // Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
-type UniqueKeyPolicyARM struct {
-	UniqueKeys []UniqueKeyARM `json:"uniqueKeys,omitempty"`
+type UniqueKeyPolicy_ARM struct {
+	UniqueKeys []UniqueKey_ARM `json:"uniqueKeys,omitempty"`
 }
 
 // Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
-type CompositePathARM struct {
+type CompositePath_ARM struct {
 	Order *CompositePath_Order `json:"order,omitempty"`
 	Path  *string              `json:"path,omitempty"`
 }
@@ -102,14 +102,14 @@ const (
 )
 
 // Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
-type ExcludedPathARM struct {
+type ExcludedPath_ARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
 // Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
-type IncludedPathARM struct {
-	Indexes []IndexesARM `json:"indexes,omitempty"`
-	Path    *string      `json:"path,omitempty"`
+type IncludedPath_ARM struct {
+	Indexes []Indexes_ARM `json:"indexes,omitempty"`
+	Path    *string       `json:"path,omitempty"`
 }
 
 // Deprecated version of IndexingPolicy_IndexingMode. Use v1beta20210515.IndexingPolicy_IndexingMode instead
@@ -123,13 +123,13 @@ const (
 )
 
 // Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
-type SpatialSpecARM struct {
+type SpatialSpec_ARM struct {
 	Path  *string             `json:"path,omitempty"`
 	Types []SpatialSpec_Types `json:"types,omitempty"`
 }
 
 // Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
-type UniqueKeyARM struct {
+type UniqueKey_ARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -143,7 +143,7 @@ const (
 )
 
 // Deprecated version of Indexes. Use v1beta20210515.Indexes instead
-type IndexesARM struct {
+type Indexes_ARM struct {
 	DataType  *Indexes_DataType `json:"dataType,omitempty"`
 	Kind      *Indexes_Kind     `json:"kind,omitempty"`
 	Precision *int              `json:"precision,omitempty"`

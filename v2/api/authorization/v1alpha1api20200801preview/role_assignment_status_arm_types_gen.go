@@ -4,15 +4,15 @@
 package v1alpha1api20200801preview
 
 // Deprecated version of RoleAssignment_STATUS. Use v1beta20200801preview.RoleAssignment_STATUS instead
-type RoleAssignment_STATUSARM struct {
-	Id         *string                             `json:"id,omitempty"`
-	Name       *string                             `json:"name,omitempty"`
-	Properties *RoleAssignmentProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                             `json:"type,omitempty"`
+type RoleAssignment_STATUS_ARM struct {
+	Id         *string                              `json:"id,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
+	Properties *RoleAssignmentProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                              `json:"type,omitempty"`
 }
 
 // Deprecated version of RoleAssignmentProperties_STATUS. Use v1beta20200801preview.RoleAssignmentProperties_STATUS instead
-type RoleAssignmentProperties_STATUSARM struct {
+type RoleAssignmentProperties_STATUS_ARM struct {
 	Condition                          *string                                        `json:"condition,omitempty"`
 	ConditionVersion                   *string                                        `json:"conditionVersion,omitempty"`
 	CreatedBy                          *string                                        `json:"createdBy,omitempty"`
@@ -20,7 +20,7 @@ type RoleAssignmentProperties_STATUSARM struct {
 	DelegatedManagedIdentityResourceId *string                                        `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                                        `json:"description,omitempty"`
 	PrincipalId                        *string                                        `json:"principalId,omitempty"`
-	PrincipalType                      *RoleAssignmentProperties_STATUS_PrincipalType `json:"principalType,omitempty"`
+	PrincipalType                      *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
 	RoleDefinitionId                   *string                                        `json:"roleDefinitionId,omitempty"`
 	Scope                              *string                                        `json:"scope,omitempty"`
 	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`

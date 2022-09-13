@@ -340,7 +340,7 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 	if setting == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_SpecARM{}
+	result := &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if setting.Location != nil {
@@ -353,14 +353,14 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 
 	// Set property ‘Properties’:
 	if setting.Resource != nil {
-		result.Properties = &ThroughputSettingsUpdatePropertiesARM{}
+		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
 	}
 	if setting.Resource != nil {
-		resourceARM, err := (*setting.Resource).ConvertToARM(resolved)
+		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*ThroughputSettingsResourceARM)
+		resource := *resource_ARM.(*ThroughputSettingsResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -376,14 +376,14 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_SpecARM{}
+	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_SpecARM)
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Location’:

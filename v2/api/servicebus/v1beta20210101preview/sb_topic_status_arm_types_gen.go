@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210101preview
 
-type SBTopic_STATUSARM struct {
+type SBTopic_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
@@ -11,16 +11,16 @@ type SBTopic_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of topic resource.
-	Properties *SBTopicProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *SBTopicProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 }
 
-type SBTopicProperties_STATUSARM struct {
+type SBTopicProperties_STATUS_ARM struct {
 	// AccessedAt: Last time the message was sent, or a request was received, for this topic.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
@@ -29,7 +29,7 @@ type SBTopicProperties_STATUSARM struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// CountDetails: Message count details
-	CountDetails *MessageCountDetails_STATUSARM `json:"countDetails,omitempty"`
+	CountDetails *MessageCountDetails_STATUS_ARM `json:"countDetails,omitempty"`
 
 	// CreatedAt: Exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`

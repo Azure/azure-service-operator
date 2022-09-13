@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type MongoDBDatabaseGetResults_STATUSARM struct {
+type MongoDBDatabaseGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,19 +14,19 @@ type MongoDBDatabaseGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB MongoDB database
-	Properties *MongoDBDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                       `json:"tags,omitempty"`
+	Properties *MongoDBDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type MongoDBDatabaseGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                       `json:"options,omitempty"`
-	Resource *MongoDBDatabaseGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type MongoDBDatabaseGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                       `json:"options,omitempty"`
+	Resource *MongoDBDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type MongoDBDatabaseGetProperties_STATUS_ResourceARM struct {
+type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
 	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 

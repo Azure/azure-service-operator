@@ -6,103 +6,103 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccount_Spec. Use v1beta20210401.StorageAccount_Spec instead
-type StorageAccount_SpecARM struct {
-	ExtendedLocation *ExtendedLocationARM                         `json:"extendedLocation,omitempty"`
-	Identity         *IdentityARM                                 `json:"identity,omitempty"`
-	Kind             *StorageAccount_Spec_Kind                    `json:"kind,omitempty"`
-	Location         *string                                      `json:"location,omitempty"`
-	Name             string                                       `json:"name,omitempty"`
-	Properties       *StorageAccountPropertiesCreateParametersARM `json:"properties,omitempty"`
-	Sku              *SkuARM                                      `json:"sku,omitempty"`
-	Tags             map[string]string                            `json:"tags,omitempty"`
+type StorageAccount_Spec_ARM struct {
+	ExtendedLocation *ExtendedLocation_ARM                         `json:"extendedLocation,omitempty"`
+	Identity         *Identity_ARM                                 `json:"identity,omitempty"`
+	Kind             *StorageAccount_Kind_Spec                     `json:"kind,omitempty"`
+	Location         *string                                       `json:"location,omitempty"`
+	Name             string                                        `json:"name,omitempty"`
+	Properties       *StorageAccountPropertiesCreateParameters_ARM `json:"properties,omitempty"`
+	Sku              *Sku_ARM                                      `json:"sku,omitempty"`
+	Tags             map[string]string                             `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccount_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccount_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (account StorageAccount_SpecARM) GetAPIVersion() string {
+func (account StorageAccount_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (account *StorageAccount_SpecARM) GetName() string {
+func (account *StorageAccount_Spec_ARM) GetName() string {
 	return account.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
-func (account *StorageAccount_SpecARM) GetType() string {
+func (account *StorageAccount_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
 // Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
-type ExtendedLocationARM struct {
+type ExtendedLocation_ARM struct {
 	Name *string                `json:"name,omitempty"`
 	Type *ExtendedLocation_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity. Use v1beta20210401.Identity instead
-type IdentityARM struct {
+type Identity_ARM struct {
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210401.Sku instead
-type SkuARM struct {
+type Sku_ARM struct {
 	Name *Sku_Name `json:"name,omitempty"`
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-// Deprecated version of StorageAccount_Spec_Kind. Use v1beta20210401.StorageAccount_Spec_Kind instead
+// Deprecated version of StorageAccount_Kind_Spec. Use v1beta20210401.StorageAccount_Kind_Spec instead
 // +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccount_Spec_Kind string
+type StorageAccount_Kind_Spec string
 
 const (
-	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
-	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
-	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
-	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
-	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
+	StorageAccount_Kind_Spec_BlobStorage      = StorageAccount_Kind_Spec("BlobStorage")
+	StorageAccount_Kind_Spec_BlockBlobStorage = StorageAccount_Kind_Spec("BlockBlobStorage")
+	StorageAccount_Kind_Spec_FileStorage      = StorageAccount_Kind_Spec("FileStorage")
+	StorageAccount_Kind_Spec_Storage          = StorageAccount_Kind_Spec("Storage")
+	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
 )
 
 // Deprecated version of StorageAccountPropertiesCreateParameters. Use v1beta20210401.StorageAccountPropertiesCreateParameters instead
-type StorageAccountPropertiesCreateParametersARM struct {
+type StorageAccountPropertiesCreateParameters_ARM struct {
 	AccessTier                            *StorageAccountPropertiesCreateParameters_AccessTier           `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                                          `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                                          `json:"allowCrossTenantReplication,omitempty"`
 	AllowSharedKeyAccess                  *bool                                                          `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticationARM                      `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-	CustomDomain                          *CustomDomainARM                                               `json:"customDomain,omitempty"`
-	Encryption                            *EncryptionARM                                                 `json:"encryption,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_ARM                     `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	CustomDomain                          *CustomDomain_ARM                                              `json:"customDomain,omitempty"`
+	Encryption                            *Encryption_ARM                                                `json:"encryption,omitempty"`
 	IsHnsEnabled                          *bool                                                          `json:"isHnsEnabled,omitempty"`
 	IsNfsV3Enabled                        *bool                                                          `json:"isNfsV3Enabled,omitempty"`
-	KeyPolicy                             *KeyPolicyARM                                                  `json:"keyPolicy,omitempty"`
+	KeyPolicy                             *KeyPolicy_ARM                                                 `json:"keyPolicy,omitempty"`
 	LargeFileSharesState                  *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
 	MinimumTlsVersion                     *StorageAccountPropertiesCreateParameters_MinimumTlsVersion    `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls                           *NetworkRuleSetARM                                             `json:"networkAcls,omitempty"`
-	RoutingPreference                     *RoutingPreferenceARM                                          `json:"routingPreference,omitempty"`
-	SasPolicy                             *SasPolicyARM                                                  `json:"sasPolicy,omitempty"`
+	NetworkAcls                           *NetworkRuleSet_ARM                                            `json:"networkAcls,omitempty"`
+	RoutingPreference                     *RoutingPreference_ARM                                         `json:"routingPreference,omitempty"`
+	SasPolicy                             *SasPolicy_ARM                                                 `json:"sasPolicy,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                                          `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
-type AzureFilesIdentityBasedAuthenticationARM struct {
-	ActiveDirectoryProperties *ActiveDirectoryPropertiesARM                                  `json:"activeDirectoryProperties,omitempty"`
+type AzureFilesIdentityBasedAuthentication_ARM struct {
+	ActiveDirectoryProperties *ActiveDirectoryProperties_ARM                                 `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *AzureFilesIdentityBasedAuthentication_DefaultSharePermission  `json:"defaultSharePermission,omitempty"`
 	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
 // Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
-type CustomDomainARM struct {
+type CustomDomain_ARM struct {
 	Name             *string `json:"name,omitempty"`
 	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
 }
 
 // Deprecated version of Encryption. Use v1beta20210401.Encryption instead
-type EncryptionARM struct {
-	Identity                        *EncryptionIdentityARM `json:"identity,omitempty"`
-	KeySource                       *Encryption_KeySource  `json:"keySource,omitempty"`
-	Keyvaultproperties              *KeyVaultPropertiesARM `json:"keyvaultproperties,omitempty"`
-	RequireInfrastructureEncryption *bool                  `json:"requireInfrastructureEncryption,omitempty"`
-	Services                        *EncryptionServicesARM `json:"services,omitempty"`
+type Encryption_ARM struct {
+	Identity                        *EncryptionIdentity_ARM `json:"identity,omitempty"`
+	KeySource                       *Encryption_KeySource   `json:"keySource,omitempty"`
+	Keyvaultproperties              *KeyVaultProperties_ARM `json:"keyvaultproperties,omitempty"`
+	RequireInfrastructureEncryption *bool                   `json:"requireInfrastructureEncryption,omitempty"`
+	Services                        *EncryptionServices_ARM `json:"services,omitempty"`
 }
 
 // Deprecated version of ExtendedLocation_Type. Use v1beta20210401.ExtendedLocation_Type instead
@@ -123,28 +123,28 @@ const (
 )
 
 // Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
-type KeyPolicyARM struct {
+type KeyPolicy_ARM struct {
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 // Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead
-type NetworkRuleSetARM struct {
+type NetworkRuleSet_ARM struct {
 	Bypass              *NetworkRuleSet_Bypass        `json:"bypass,omitempty"`
 	DefaultAction       *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-	IpRules             []IPRuleARM                   `json:"ipRules,omitempty"`
-	ResourceAccessRules []ResourceAccessRuleARM       `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRuleARM       `json:"virtualNetworkRules,omitempty"`
+	IpRules             []IPRule_ARM                  `json:"ipRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_ARM      `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM      `json:"virtualNetworkRules,omitempty"`
 }
 
 // Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead
-type RoutingPreferenceARM struct {
+type RoutingPreference_ARM struct {
 	PublishInternetEndpoints  *bool                            `json:"publishInternetEndpoints,omitempty"`
 	PublishMicrosoftEndpoints *bool                            `json:"publishMicrosoftEndpoints,omitempty"`
 	RoutingChoice             *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
 }
 
 // Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead
-type SasPolicyARM struct {
+type SasPolicy_ARM struct {
 	ExpirationAction    *SasPolicy_ExpirationAction `json:"expirationAction,omitempty"`
 	SasExpirationPeriod *string                     `json:"sasExpirationPeriod,omitempty"`
 }
@@ -174,7 +174,7 @@ const (
 )
 
 // Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
-type ActiveDirectoryPropertiesARM struct {
+type ActiveDirectoryProperties_ARM struct {
 	AzureStorageSid   *string `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string `json:"domainGuid,omitempty"`
 	DomainName        *string `json:"domainName,omitempty"`
@@ -184,46 +184,46 @@ type ActiveDirectoryPropertiesARM struct {
 }
 
 // Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
-type EncryptionIdentityARM struct {
+type EncryptionIdentity_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
 // Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
-type EncryptionServicesARM struct {
-	Blob  *EncryptionServiceARM `json:"blob,omitempty"`
-	File  *EncryptionServiceARM `json:"file,omitempty"`
-	Queue *EncryptionServiceARM `json:"queue,omitempty"`
-	Table *EncryptionServiceARM `json:"table,omitempty"`
+type EncryptionServices_ARM struct {
+	Blob  *EncryptionService_ARM `json:"blob,omitempty"`
+	File  *EncryptionService_ARM `json:"file,omitempty"`
+	Queue *EncryptionService_ARM `json:"queue,omitempty"`
+	Table *EncryptionService_ARM `json:"table,omitempty"`
 }
 
 // Deprecated version of IPRule. Use v1beta20210401.IPRule instead
-type IPRuleARM struct {
+type IPRule_ARM struct {
 	Action *IPRule_Action `json:"action,omitempty"`
 	Value  *string        `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	Keyname     *string `json:"keyname,omitempty"`
 	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
 	Keyversion  *string `json:"keyversion,omitempty"`
 }
 
 // Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
-type ResourceAccessRuleARM struct {
+type ResourceAccessRule_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	TenantId   *string `json:"tenantId,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead
-type VirtualNetworkRuleARM struct {
+type VirtualNetworkRule_ARM struct {
 	Action *VirtualNetworkRule_Action `json:"action,omitempty"`
 	Id     *string                    `json:"id,omitempty"`
 	State  *VirtualNetworkRule_State  `json:"state,omitempty"`
 }
 
 // Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
-type EncryptionServiceARM struct {
+type EncryptionService_ARM struct {
 	Enabled *bool                      `json:"enabled,omitempty"`
 	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
 }

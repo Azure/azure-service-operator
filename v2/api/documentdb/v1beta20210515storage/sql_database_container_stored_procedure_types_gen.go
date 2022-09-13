@@ -175,7 +175,7 @@ type SqlStoredProcedureGetResults_STATUS struct {
 	Location    *string                                          `json:"location,omitempty"`
 	Name        *string                                          `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlStoredProcedureGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                `json:"tags,omitempty"`
 	Type        *string                                          `json:"type,omitempty"`
 }
@@ -200,8 +200,8 @@ func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusTo(destination 
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_STATUS_Resource
-type SqlStoredProcedureGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS
+type SqlStoredProcedureGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`

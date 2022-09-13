@@ -176,7 +176,7 @@ type MongoDBCollectionGetResults_STATUS struct {
 	Name        *string                                         `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                         `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBCollectionGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                               `json:"tags,omitempty"`
 	Type        *string                                         `json:"type,omitempty"`
 }
@@ -201,8 +201,8 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusTo(destination g
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.MongoDBCollectionGetProperties_STATUS_Resource
-type MongoDBCollectionGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS
+type MongoDBCollectionGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Etag                 *string                `json:"_etag,omitempty"`
 	Id                   *string                `json:"id,omitempty"`

@@ -343,7 +343,7 @@ type WorkspaceConnection_STATUS struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
-	ValueFormat *WorkspaceConnectionProps_STATUS_ValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_ValueFormat_STATUS `json:"valueFormat,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &WorkspaceConnection_STATUS{}
@@ -400,14 +400,14 @@ var _ genruntime.FromARMConverter = &WorkspaceConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *WorkspaceConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceConnection_STATUSARM{}
+	return &WorkspaceConnection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *WorkspaceConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnection_STATUSARM)
+	typedInput, ok := armInput.(WorkspaceConnection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnection_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnection_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AuthType’:
@@ -508,7 +508,7 @@ func (connection *WorkspaceConnection_STATUS) AssignProperties_From_WorkspaceCon
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionProps_STATUS_ValueFormat(*source.ValueFormat)
+		valueFormat := WorkspaceConnectionProps_ValueFormat_STATUS(*source.ValueFormat)
 		connection.ValueFormat = &valueFormat
 	} else {
 		connection.ValueFormat = nil
@@ -606,7 +606,7 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 	if connection == nil {
 		return nil, nil
 	}
-	result := &Workspaces_Connection_SpecARM{}
+	result := &Workspaces_Connection_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if connection.Location != nil {
@@ -623,7 +623,7 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 		connection.Target != nil ||
 		connection.Value != nil ||
 		connection.ValueFormat != nil {
-		result.Properties = &WorkspaceConnectionPropsARM{}
+		result.Properties = &WorkspaceConnectionProps_ARM{}
 	}
 	if connection.AuthType != nil {
 		authType := *connection.AuthType
@@ -658,14 +658,14 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *Workspaces_Connection_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Connection_SpecARM{}
+	return &Workspaces_Connection_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Connection_SpecARM)
+	typedInput, ok := armInput.(Workspaces_Connection_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AuthType’:

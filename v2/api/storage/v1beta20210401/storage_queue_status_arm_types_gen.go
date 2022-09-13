@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210401
 
-type StorageQueue_STATUSARM struct {
+type StorageQueue_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type StorageQueue_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Queue resource properties.
-	Properties *QueueProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *QueueProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type QueueProperties_STATUSARM struct {
+type QueueProperties_STATUS_ARM struct {
 	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
 	// than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`

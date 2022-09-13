@@ -4,23 +4,23 @@
 package v1alpha1api20210515
 
 // Deprecated version of MongoDBDatabaseGetResults_STATUS. Use v1beta20210515.MongoDBDatabaseGetResults_STATUS instead
-type MongoDBDatabaseGetResults_STATUSARM struct {
-	Id         *string                                 `json:"id,omitempty"`
-	Location   *string                                 `json:"location,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *MongoDBDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                       `json:"tags,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+type MongoDBDatabaseGetResults_STATUS_ARM struct {
+	Id         *string                                  `json:"id,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *MongoDBDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of MongoDBDatabaseGetProperties_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_STATUS instead
-type MongoDBDatabaseGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                       `json:"options,omitempty"`
-	Resource *MongoDBDatabaseGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type MongoDBDatabaseGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                       `json:"options,omitempty"`
+	Resource *MongoDBDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of MongoDBDatabaseGetProperties_STATUS_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_STATUS_Resource instead
-type MongoDBDatabaseGetProperties_STATUS_ResourceARM struct {
+// Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
+type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`
 	Rid  *string  `json:"_rid,omitempty"`

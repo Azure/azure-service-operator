@@ -6,83 +6,83 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetwork_Spec. Use v1beta20201101.VirtualNetwork_Spec instead
-type VirtualNetwork_SpecARM struct {
-	ExtendedLocation *ExtendedLocationARM               `json:"extendedLocation,omitempty"`
-	Location         *string                            `json:"location,omitempty"`
-	Name             string                             `json:"name,omitempty"`
-	Properties       *VirtualNetwork_Spec_PropertiesARM `json:"properties,omitempty"`
-	Tags             map[string]string                  `json:"tags,omitempty"`
+type VirtualNetwork_Spec_ARM struct {
+	ExtendedLocation *ExtendedLocation_ARM               `json:"extendedLocation,omitempty"`
+	Location         *string                             `json:"location,omitempty"`
+	Name             string                              `json:"name,omitempty"`
+	Properties       *VirtualNetwork_Properties_Spec_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                   `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetwork_SpecARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetwork_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (network VirtualNetwork_SpecARM) GetAPIVersion() string {
+func (network VirtualNetwork_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (network *VirtualNetwork_SpecARM) GetName() string {
+func (network *VirtualNetwork_Spec_ARM) GetName() string {
 	return network.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (network *VirtualNetwork_SpecARM) GetType() string {
+func (network *VirtualNetwork_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
-// Deprecated version of VirtualNetwork_Spec_Properties. Use v1beta20201101.VirtualNetwork_Spec_Properties instead
-type VirtualNetwork_Spec_PropertiesARM struct {
-	AddressSpace           *AddressSpaceARM                                           `json:"addressSpace,omitempty"`
-	BgpCommunities         *VirtualNetworkBgpCommunitiesARM                           `json:"bgpCommunities,omitempty"`
-	DdosProtectionPlan     *SubResourceARM                                            `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions            *DhcpOptionsARM                                            `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection   *bool                                                      `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection     *bool                                                      `json:"enableVmProtection,omitempty"`
-	IpAllocations          []SubResourceARM                                           `json:"ipAllocations,omitempty"`
-	Subnets                []VirtualNetwork_Spec_Properties_SubnetsARM                `json:"subnets,omitempty"`
-	VirtualNetworkPeerings []VirtualNetwork_Spec_Properties_VirtualNetworkPeeringsARM `json:"virtualNetworkPeerings,omitempty"`
+// Deprecated version of VirtualNetwork_Properties_Spec. Use v1beta20201101.VirtualNetwork_Properties_Spec instead
+type VirtualNetwork_Properties_Spec_ARM struct {
+	AddressSpace           *AddressSpace_ARM                                           `json:"addressSpace,omitempty"`
+	BgpCommunities         *VirtualNetworkBgpCommunities_ARM                           `json:"bgpCommunities,omitempty"`
+	DdosProtectionPlan     *SubResource_ARM                                            `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions            *DhcpOptions_ARM                                            `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection   *bool                                                       `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection     *bool                                                       `json:"enableVmProtection,omitempty"`
+	IpAllocations          []SubResource_ARM                                           `json:"ipAllocations,omitempty"`
+	Subnets                []VirtualNetwork_Properties_Subnets_Spec_ARM                `json:"subnets,omitempty"`
+	VirtualNetworkPeerings []VirtualNetwork_Properties_VirtualNetworkPeerings_Spec_ARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
 // Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
-type DhcpOptionsARM struct {
+type DhcpOptions_ARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-// Deprecated version of VirtualNetwork_Spec_Properties_Subnets. Use v1beta20201101.VirtualNetwork_Spec_Properties_Subnets instead
-type VirtualNetwork_Spec_Properties_SubnetsARM struct {
-	Name       *string                                               `json:"name,omitempty"`
-	Properties *VirtualNetwork_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
+// Deprecated version of VirtualNetwork_Properties_Subnets_Spec. Use v1beta20201101.VirtualNetwork_Properties_Subnets_Spec instead
+type VirtualNetwork_Properties_Subnets_Spec_ARM struct {
+	Name       *string                                                `json:"name,omitempty"`
+	Properties *VirtualNetwork_Properties_Subnets_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-// Deprecated version of VirtualNetwork_Spec_Properties_VirtualNetworkPeerings. Use v1beta20201101.VirtualNetwork_Spec_Properties_VirtualNetworkPeerings instead
-type VirtualNetwork_Spec_Properties_VirtualNetworkPeeringsARM struct {
-	Name       *string                                   `json:"name,omitempty"`
-	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
+// Deprecated version of VirtualNetwork_Properties_VirtualNetworkPeerings_Spec. Use v1beta20201101.VirtualNetwork_Properties_VirtualNetworkPeerings_Spec instead
+type VirtualNetwork_Properties_VirtualNetworkPeerings_Spec_ARM struct {
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
-type VirtualNetworkBgpCommunitiesARM struct {
+type VirtualNetworkBgpCommunities_ARM struct {
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
-// Deprecated version of VirtualNetwork_Spec_Properties_Subnets_Properties. Use v1beta20201101.VirtualNetwork_Spec_Properties_Subnets_Properties instead
-type VirtualNetwork_Spec_Properties_Subnets_PropertiesARM struct {
-	AddressPrefix                     *string                                                            `json:"addressPrefix,omitempty"`
-	AddressPrefixes                   []string                                                           `json:"addressPrefixes,omitempty"`
-	Delegations                       []VirtualNetwork_Spec_Properties_Subnets_Properties_DelegationsARM `json:"delegations,omitempty"`
-	IpAllocations                     []SubResourceARM                                                   `json:"ipAllocations,omitempty"`
-	NatGateway                        *SubResourceARM                                                    `json:"natGateway,omitempty"`
-	NetworkSecurityGroup              *SubResourceARM                                                    `json:"networkSecurityGroup,omitempty"`
-	PrivateEndpointNetworkPolicies    *string                                                            `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateLinkServiceNetworkPolicies *string                                                            `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	RouteTable                        *SubResourceARM                                                    `json:"routeTable,omitempty"`
-	ServiceEndpointPolicies           []SubResourceARM                                                   `json:"serviceEndpointPolicies,omitempty"`
-	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                               `json:"serviceEndpoints,omitempty"`
+// Deprecated version of VirtualNetwork_Properties_Subnets_Properties_Spec. Use v1beta20201101.VirtualNetwork_Properties_Subnets_Properties_Spec instead
+type VirtualNetwork_Properties_Subnets_Properties_Spec_ARM struct {
+	AddressPrefix                     *string                                                             `json:"addressPrefix,omitempty"`
+	AddressPrefixes                   []string                                                            `json:"addressPrefixes,omitempty"`
+	Delegations                       []VirtualNetwork_Properties_Subnets_Properties_Delegations_Spec_ARM `json:"delegations,omitempty"`
+	IpAllocations                     []SubResource_ARM                                                   `json:"ipAllocations,omitempty"`
+	NatGateway                        *SubResource_ARM                                                    `json:"natGateway,omitempty"`
+	NetworkSecurityGroup              *SubResource_ARM                                                    `json:"networkSecurityGroup,omitempty"`
+	PrivateEndpointNetworkPolicies    *string                                                             `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string                                                             `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	RouteTable                        *SubResource_ARM                                                    `json:"routeTable,omitempty"`
+	ServiceEndpointPolicies           []SubResource_ARM                                                   `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                  []ServiceEndpointPropertiesFormat_ARM                               `json:"serviceEndpoints,omitempty"`
 }
 
-// Deprecated version of VirtualNetwork_Spec_Properties_Subnets_Properties_Delegations. Use v1beta20201101.VirtualNetwork_Spec_Properties_Subnets_Properties_Delegations instead
-type VirtualNetwork_Spec_Properties_Subnets_Properties_DelegationsARM struct {
-	Name       *string                               `json:"name,omitempty"`
-	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
+// Deprecated version of VirtualNetwork_Properties_Subnets_Properties_Delegations_Spec. Use v1beta20201101.VirtualNetwork_Properties_Subnets_Properties_Delegations_Spec instead
+type VirtualNetwork_Properties_Subnets_Properties_Delegations_Spec_ARM struct {
+	Name       *string                                `json:"name,omitempty"`
+	Properties *ServiceDelegationPropertiesFormat_ARM `json:"properties,omitempty"`
 }

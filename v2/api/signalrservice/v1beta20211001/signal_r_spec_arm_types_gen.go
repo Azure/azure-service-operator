@@ -8,10 +8,10 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type SignalR_SpecARM struct {
+type SignalR_Spec_ARM struct {
 	// Identity: A class represent managed identities used for request and response
-	Identity *ManagedIdentityARM `json:"identity,omitempty"`
-	Kind     *SignalR_Spec_Kind  `json:"kind,omitempty"`
+	Identity *ManagedIdentity_ARM `json:"identity,omitempty"`
+	Kind     *SignalR_Kind_Spec   `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
@@ -20,34 +20,34 @@ type SignalR_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: A class that describes the properties of the resource
-	Properties *SignalRPropertiesARM `json:"properties,omitempty"`
+	Properties *SignalRProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The billing information of the resource.
-	Sku *ResourceSkuARM `json:"sku,omitempty"`
+	Sku *ResourceSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Tags of the service which is a list of key value pairs that describe the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
+var _ genruntime.ARMResourceSpec = &SignalR_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
-func (signalR SignalR_SpecARM) GetAPIVersion() string {
+func (signalR SignalR_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (signalR *SignalR_SpecARM) GetName() string {
+func (signalR *SignalR_Spec_ARM) GetName() string {
 	return signalR.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
-func (signalR *SignalR_SpecARM) GetType() string {
+func (signalR *SignalR_Spec_ARM) GetType() string {
 	return "Microsoft.SignalRService/signalR"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity
-type ManagedIdentityARM struct {
+type ManagedIdentity_ARM struct {
 	Type *ManagedIdentity_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Get or set the user assigned identities
@@ -55,7 +55,7 @@ type ManagedIdentityARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku
-type ResourceSkuARM struct {
+type ResourceSku_ARM struct {
 	// Capacity: Optional, integer. The unit count of the resource. 1 by default.
 	// If present, following values are allowed:
 	// Free: 1
@@ -69,17 +69,17 @@ type ResourceSkuARM struct {
 }
 
 // +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type SignalR_Spec_Kind string
+type SignalR_Kind_Spec string
 
 const (
-	SignalR_Spec_Kind_RawWebSockets = SignalR_Spec_Kind("RawWebSockets")
-	SignalR_Spec_Kind_SignalR       = SignalR_Spec_Kind("SignalR")
+	SignalR_Kind_Spec_RawWebSockets = SignalR_Kind_Spec("RawWebSockets")
+	SignalR_Kind_Spec_SignalR       = SignalR_Kind_Spec("SignalR")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRProperties
-type SignalRPropertiesARM struct {
+type SignalRProperties_ARM struct {
 	// Cors: Cross-Origin Resource Sharing (CORS) settings.
-	Cors *SignalRCorsSettingsARM `json:"cors,omitempty"`
+	Cors *SignalRCorsSettings_ARM `json:"cors,omitempty"`
 
 	// DisableAadAuth: DisableLocalAuth
 	// Enable or disable aad auth
@@ -96,10 +96,10 @@ type SignalRPropertiesARM struct {
 	// And the response will only include featureFlags that are explicitly set.
 	// When a featureFlag is not explicitly set, its globally default value will be used
 	// But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
-	Features []SignalRFeatureARM `json:"features,omitempty"`
+	Features []SignalRFeature_ARM `json:"features,omitempty"`
 
 	// NetworkACLs: Network ACLs for the resource
-	NetworkACLs *SignalRNetworkACLsARM `json:"networkACLs,omitempty"`
+	NetworkACLs *SignalRNetworkACLs_ARM `json:"networkACLs,omitempty"`
 
 	// PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	// When it's Enabled, network ACLs still apply.
@@ -107,13 +107,13 @@ type SignalRPropertiesARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
-	ResourceLogConfiguration *ResourceLogConfigurationARM `json:"resourceLogConfiguration,omitempty"`
+	ResourceLogConfiguration *ResourceLogConfiguration_ARM `json:"resourceLogConfiguration,omitempty"`
 
 	// Tls: TLS settings for the resource
-	Tls *SignalRTlsSettingsARM `json:"tls,omitempty"`
+	Tls *SignalRTlsSettings_ARM `json:"tls,omitempty"`
 
 	// Upstream: The settings for the Upstream when the service is in server-less mode.
-	Upstream *ServerlessUpstreamSettingsARM `json:"upstream,omitempty"`
+	Upstream *ServerlessUpstreamSettings_ARM `json:"upstream,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
@@ -126,9 +126,9 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration
-type ResourceLogConfigurationARM struct {
+type ResourceLogConfiguration_ARM struct {
 	// Categories: Gets or sets the list of category configurations.
-	Categories []ResourceLogCategoryARM `json:"categories,omitempty"`
+	Categories []ResourceLogCategory_ARM `json:"categories,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
@@ -142,20 +142,20 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings
-type ServerlessUpstreamSettingsARM struct {
+type ServerlessUpstreamSettings_ARM struct {
 	// Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
-	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
+	Templates []UpstreamTemplate_ARM `json:"templates,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings
-type SignalRCorsSettingsARM struct {
+type SignalRCorsSettings_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
 	// http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
-type SignalRFeatureARM struct {
+type SignalRFeature_ARM struct {
 	Flag *SignalRFeature_Flag `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
@@ -167,24 +167,24 @@ type SignalRFeatureARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs
-type SignalRNetworkACLsARM struct {
+type SignalRNetworkACLs_ARM struct {
 	DefaultAction *SignalRNetworkACLs_DefaultAction `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
-	PrivateEndpoints []PrivateEndpointACLARM `json:"privateEndpoints,omitempty"`
+	PrivateEndpoints []PrivateEndpointACL_ARM `json:"privateEndpoints,omitempty"`
 
 	// PublicNetwork: Network ACL
-	PublicNetwork *NetworkACLARM `json:"publicNetwork,omitempty"`
+	PublicNetwork *NetworkACL_ARM `json:"publicNetwork,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings
-type SignalRTlsSettingsARM struct {
+type SignalRTlsSettings_ARM struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL
-type NetworkACLARM struct {
+type NetworkACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []NetworkACL_Allow `json:"allow,omitempty"`
 
@@ -193,7 +193,7 @@ type NetworkACLARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL
-type PrivateEndpointACLARM struct {
+type PrivateEndpointACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []PrivateEndpointACL_Allow `json:"allow,omitempty"`
 
@@ -205,7 +205,7 @@ type PrivateEndpointACLARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory
-type ResourceLogCategoryARM struct {
+type ResourceLogCategory_ARM struct {
 	// Enabled: Indicates whether or the resource log category is enabled.
 	// Available values: true, false.
 	// Case insensitive.
@@ -218,9 +218,9 @@ type ResourceLogCategoryARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate
-type UpstreamTemplateARM struct {
+type UpstreamTemplate_ARM struct {
 	// Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
-	Auth *UpstreamAuthSettingsARM `json:"auth,omitempty"`
+	Auth *UpstreamAuthSettings_ARM `json:"auth,omitempty"`
 
 	// CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
 	// There are 3 kind of patterns supported:
@@ -252,14 +252,14 @@ type UpstreamTemplateARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings
-type UpstreamAuthSettingsARM struct {
+type UpstreamAuthSettings_ARM struct {
 	// ManagedIdentity: Managed identity settings for upstream.
-	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthSettings_Type  `json:"type,omitempty"`
+	ManagedIdentity *ManagedIdentitySettings_ARM `json:"managedIdentity,omitempty"`
+	Type            *UpstreamAuthSettings_Type   `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings
-type ManagedIdentitySettingsARM struct {
+type ManagedIdentitySettings_ARM struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.
 	Resource *string `json:"resource,omitempty"`

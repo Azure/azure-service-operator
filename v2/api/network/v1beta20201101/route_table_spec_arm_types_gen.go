@@ -5,7 +5,7 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type RouteTable_SpecARM struct {
+type RouteTable_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,41 +13,41 @@ type RouteTable_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the route table.
-	Properties *RouteTable_Spec_PropertiesARM `json:"properties,omitempty"`
+	Properties *RouteTable_Properties_Spec_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &RouteTable_SpecARM{}
+var _ genruntime.ARMResourceSpec = &RouteTable_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (table RouteTable_SpecARM) GetAPIVersion() string {
+func (table RouteTable_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (table *RouteTable_SpecARM) GetName() string {
+func (table *RouteTable_Spec_ARM) GetName() string {
 	return table.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/routeTables"
-func (table *RouteTable_SpecARM) GetType() string {
+func (table *RouteTable_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables"
 }
 
-type RouteTable_Spec_PropertiesARM struct {
+type RouteTable_Properties_Spec_ARM struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
 	// Routes: Collection of routes contained within a route table.
-	Routes []RouteTable_Spec_Properties_RoutesARM `json:"routes,omitempty"`
+	Routes []RouteTable_Properties_Routes_Spec_ARM `json:"routes,omitempty"`
 }
 
-type RouteTable_Spec_Properties_RoutesARM struct {
+type RouteTable_Properties_Routes_Spec_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the route.
-	Properties *RoutePropertiesFormatARM `json:"properties,omitempty"`
+	Properties *RoutePropertiesFormat_ARM `json:"properties,omitempty"`
 }

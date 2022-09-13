@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210401
 
-type BlobServiceProperties_STATUSARM struct {
+type BlobServiceProperties_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,53 +12,53 @@ type BlobServiceProperties_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *BlobServiceProperties_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *BlobServiceProperties_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: Sku name and tier.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type BlobServiceProperties_STATUS_PropertiesARM struct {
+type BlobServiceProperties_Properties_STATUS_ARM struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeed_STATUSARM `json:"changeFeed,omitempty"`
+	ChangeFeed *ChangeFeed_STATUS_ARM `json:"changeFeed,omitempty"`
 
 	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUSARM `json:"containerDeleteRetentionPolicy,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM `json:"containerDeleteRetentionPolicy,omitempty"`
 
 	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// Blob service.
-	Cors *CorsRules_STATUSARM `json:"cors,omitempty"`
+	Cors *CorsRules_STATUS_ARM `json:"cors,omitempty"`
 
 	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
 	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
 	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUSARM `json:"deleteRetentionPolicy,omitempty"`
+	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM `json:"deleteRetentionPolicy,omitempty"`
 
 	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
 	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_STATUSARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_STATUS_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	// RestorePolicy: The blob service properties for blob restore policy.
-	RestorePolicy *RestorePolicyProperties_STATUSARM `json:"restorePolicy,omitempty"`
+	RestorePolicy *RestorePolicyProperties_STATUS_ARM `json:"restorePolicy,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Name *SkuName_STATUS `json:"name,omitempty"`
 	Tier *Tier_STATUS    `json:"tier,omitempty"`
 }
 
-type ChangeFeed_STATUSARM struct {
+type ChangeFeed_STATUS_ARM struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -67,12 +67,12 @@ type ChangeFeed_STATUSARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
-type CorsRules_STATUSARM struct {
+type CorsRules_STATUS_ARM struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
-	CorsRules []CorsRule_STATUSARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_STATUS_ARM `json:"corsRules,omitempty"`
 }
 
-type DeleteRetentionPolicy_STATUSARM struct {
+type DeleteRetentionPolicy_STATUS_ARM struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
@@ -81,7 +81,7 @@ type DeleteRetentionPolicy_STATUSARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-type LastAccessTimeTrackingPolicy_STATUSARM struct {
+type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
 	BlobType []string `json:"blobType,omitempty"`
@@ -90,14 +90,14 @@ type LastAccessTimeTrackingPolicy_STATUSARM struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_STATUS_Name `json:"name,omitempty"`
+	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
-type RestorePolicyProperties_STATUSARM struct {
+type RestorePolicyProperties_STATUS_ARM struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
@@ -131,14 +131,14 @@ const (
 	Tier_STATUS_Standard = Tier_STATUS("Standard")
 )
 
-type CorsRule_STATUSARM struct {
+type CorsRule_STATUS_ARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_STATUS_AllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -152,18 +152,18 @@ type CorsRule_STATUSARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-type LastAccessTimeTrackingPolicy_STATUS_Name string
+type LastAccessTimeTrackingPolicy_Name_STATUS string
 
-const LastAccessTimeTrackingPolicy_STATUS_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_STATUS_Name("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
 
-type CorsRule_STATUS_AllowedMethods string
+type CorsRule_AllowedMethods_STATUS string
 
 const (
-	CorsRule_STATUS_AllowedMethods_DELETE  = CorsRule_STATUS_AllowedMethods("DELETE")
-	CorsRule_STATUS_AllowedMethods_GET     = CorsRule_STATUS_AllowedMethods("GET")
-	CorsRule_STATUS_AllowedMethods_HEAD    = CorsRule_STATUS_AllowedMethods("HEAD")
-	CorsRule_STATUS_AllowedMethods_MERGE   = CorsRule_STATUS_AllowedMethods("MERGE")
-	CorsRule_STATUS_AllowedMethods_OPTIONS = CorsRule_STATUS_AllowedMethods("OPTIONS")
-	CorsRule_STATUS_AllowedMethods_POST    = CorsRule_STATUS_AllowedMethods("POST")
-	CorsRule_STATUS_AllowedMethods_PUT     = CorsRule_STATUS_AllowedMethods("PUT")
+	CorsRule_AllowedMethods_STATUS_DELETE  = CorsRule_AllowedMethods_STATUS("DELETE")
+	CorsRule_AllowedMethods_STATUS_GET     = CorsRule_AllowedMethods_STATUS("GET")
+	CorsRule_AllowedMethods_STATUS_HEAD    = CorsRule_AllowedMethods_STATUS("HEAD")
+	CorsRule_AllowedMethods_STATUS_MERGE   = CorsRule_AllowedMethods_STATUS("MERGE")
+	CorsRule_AllowedMethods_STATUS_OPTIONS = CorsRule_AllowedMethods_STATUS("OPTIONS")
+	CorsRule_AllowedMethods_STATUS_POST    = CorsRule_AllowedMethods_STATUS("POST")
+	CorsRule_AllowedMethods_STATUS_PUT     = CorsRule_AllowedMethods_STATUS("PUT")
 )

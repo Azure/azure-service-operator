@@ -388,14 +388,14 @@ var _ genruntime.FromARMConverter = &QueueServiceProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *QueueServiceProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &QueueServiceProperties_STATUSARM{}
+	return &QueueServiceProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *QueueServiceProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(QueueServiceProperties_STATUSARM)
+	typedInput, ok := armInput.(QueueServiceProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected QueueServiceProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected QueueServiceProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -526,7 +526,7 @@ func (service *StorageAccounts_QueueService_Spec) ConvertToARM(resolved genrunti
 	if service == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_QueueService_SpecARM{}
+	result := &StorageAccounts_QueueService_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if service.Location != nil {
@@ -539,14 +539,14 @@ func (service *StorageAccounts_QueueService_Spec) ConvertToARM(resolved genrunti
 
 	// Set property ‘Properties’:
 	if service.Cors != nil {
-		result.Properties = &QueueServicePropertiesPropertiesARM{}
+		result.Properties = &QueueServicePropertiesProperties_ARM{}
 	}
 	if service.Cors != nil {
-		corsARM, err := (*service.Cors).ConvertToARM(resolved)
+		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cors := *corsARM.(*CorsRulesARM)
+		cors := *cors_ARM.(*CorsRules_ARM)
 		result.Properties.Cors = &cors
 	}
 
@@ -562,14 +562,14 @@ func (service *StorageAccounts_QueueService_Spec) ConvertToARM(resolved genrunti
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *StorageAccounts_QueueService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_QueueService_SpecARM{}
+	return &StorageAccounts_QueueService_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_QueueService_SpecARM)
+	typedInput, ok := armInput.(StorageAccounts_QueueService_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueService_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueService_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Cors’:

@@ -5,9 +5,9 @@ package v1beta20210901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Registry_SpecARM struct {
+type Registry_Spec_ARM struct {
 	// Identity: Managed identity for the resource.
-	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
+	Identity *IdentityProperties_ARM `json:"identity,omitempty"`
 
 	// Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
@@ -16,34 +16,34 @@ type Registry_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a container registry.
-	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
+	Properties *RegistryProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU of a container registry.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Registry_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Registry_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
-func (registry Registry_SpecARM) GetAPIVersion() string {
+func (registry Registry_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (registry *Registry_SpecARM) GetName() string {
+func (registry *Registry_Spec_ARM) GetName() string {
 	return registry.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries"
-func (registry *Registry_SpecARM) GetType() string {
+func (registry *Registry_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
-type IdentityPropertiesARM struct {
+type IdentityProperties_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -57,26 +57,26 @@ type IdentityPropertiesARM struct {
 	// dictionary key references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
 	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserIdentityPropertiesARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RegistryProperties
-type RegistryPropertiesARM struct {
+type RegistryProperties_ARM struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool                  `json:"dataEndpointEnabled,omitempty"`
-	Encryption          *EncryptionPropertyARM `json:"encryption,omitempty"`
+	DataEndpointEnabled *bool                   `json:"dataEndpointEnabled,omitempty"`
+	Encryption          *EncryptionProperty_ARM `json:"encryption,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 
 	// NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSetARM `json:"networkRuleSet,omitempty"`
+	NetworkRuleSet *NetworkRuleSet_ARM `json:"networkRuleSet,omitempty"`
 
 	// Policies: The policies for a container registry.
-	Policies *PoliciesARM `json:"policies,omitempty"`
+	Policies *Policies_ARM `json:"policies,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -86,14 +86,14 @@ type RegistryPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
-type SkuARM struct {
+type Sku_ARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
-type EncryptionPropertyARM struct {
-	KeyVaultProperties *KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+type EncryptionProperty_ARM struct {
+	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for container registry.
 	Status *EncryptionProperty_Status `json:"status,omitempty"`
@@ -110,27 +110,27 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
-type NetworkRuleSetARM struct {
+type NetworkRuleSet_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
 
 	// IpRules: The IP ACL rules.
-	IpRules []IPRuleARM `json:"ipRules,omitempty"`
+	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
-type PoliciesARM struct {
+type Policies_ARM struct {
 	// ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicyARM `json:"exportPolicy,omitempty"`
+	ExportPolicy *ExportPolicy_ARM `json:"exportPolicy,omitempty"`
 
 	// QuarantinePolicy: The quarantine policy for a container registry.
-	QuarantinePolicy *QuarantinePolicyARM `json:"quarantinePolicy,omitempty"`
+	QuarantinePolicy *QuarantinePolicy_ARM `json:"quarantinePolicy,omitempty"`
 
 	// RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicyARM `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *RetentionPolicy_ARM `json:"retentionPolicy,omitempty"`
 
 	// TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicyARM `json:"trustPolicy,omitempty"`
+	TrustPolicy *TrustPolicy_ARM `json:"trustPolicy,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
@@ -144,7 +144,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
-type UserIdentityPropertiesARM struct {
+type UserIdentityProperties_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -153,13 +153,13 @@ type UserIdentityPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
-type ExportPolicyARM struct {
+type ExportPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
-type IPRuleARM struct {
+type IPRule_ARM struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
 
@@ -168,7 +168,7 @@ type IPRuleARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
-type KeyVaultPropertiesARM struct {
+type KeyVaultProperties_ARM struct {
 	// Identity: The client id of the identity which will be used to access key vault.
 	Identity *string `json:"identity,omitempty"`
 
@@ -177,13 +177,13 @@ type KeyVaultPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
-type QuarantinePolicyARM struct {
+type QuarantinePolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
-type RetentionPolicyARM struct {
+type RetentionPolicy_ARM struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
 
@@ -192,7 +192,7 @@ type RetentionPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
-type TrustPolicyARM struct {
+type TrustPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status `json:"status,omitempty"`
 

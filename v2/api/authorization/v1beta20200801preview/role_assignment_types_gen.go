@@ -371,7 +371,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if assignment == nil {
 		return nil, nil
 	}
-	result := &RoleAssignment_SpecARM{}
+	result := &RoleAssignment_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if assignment.Location != nil {
@@ -390,7 +390,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		assignment.PrincipalId != nil ||
 		assignment.PrincipalType != nil ||
 		assignment.RoleDefinitionReference != nil {
-		result.Properties = &RoleAssignmentPropertiesARM{}
+		result.Properties = &RoleAssignmentProperties_ARM{}
 	}
 	if assignment.Condition != nil {
 		condition := *assignment.Condition
@@ -437,14 +437,14 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *RoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleAssignment_SpecARM{}
+	return &RoleAssignment_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleAssignment_SpecARM)
+	typedInput, ok := armInput.(RoleAssignment_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -743,7 +743,7 @@ type RoleAssignment_STATUS struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentProperties_STATUS_PrincipalType `json:"principalType,omitempty"`
+	PrincipalType *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
 
 	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
@@ -815,14 +815,14 @@ var _ genruntime.FromARMConverter = &RoleAssignment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *RoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleAssignment_STATUSARM{}
+	return &RoleAssignment_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleAssignment_STATUSARM)
+	typedInput, ok := armInput.(RoleAssignment_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Condition’:
@@ -992,7 +992,7 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_ST
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_STATUS_PrincipalType(*source.PrincipalType)
+		principalType := RoleAssignmentProperties_PrincipalType_STATUS(*source.PrincipalType)
 		assignment.PrincipalType = &principalType
 	} else {
 		assignment.PrincipalType = nil
@@ -1096,13 +1096,13 @@ const (
 	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
-type RoleAssignmentProperties_STATUS_PrincipalType string
+type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (
-	RoleAssignmentProperties_STATUS_PrincipalType_ForeignGroup     = RoleAssignmentProperties_STATUS_PrincipalType("ForeignGroup")
-	RoleAssignmentProperties_STATUS_PrincipalType_Group            = RoleAssignmentProperties_STATUS_PrincipalType("Group")
-	RoleAssignmentProperties_STATUS_PrincipalType_ServicePrincipal = RoleAssignmentProperties_STATUS_PrincipalType("ServicePrincipal")
-	RoleAssignmentProperties_STATUS_PrincipalType_User             = RoleAssignmentProperties_STATUS_PrincipalType("User")
+	RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup     = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_STATUS_Group            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
+	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_User             = RoleAssignmentProperties_PrincipalType_STATUS("User")
 )
 
 func init() {

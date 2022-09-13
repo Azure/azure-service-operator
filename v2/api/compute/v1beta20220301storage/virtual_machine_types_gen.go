@@ -151,9 +151,9 @@ type VirtualMachine_Spec struct {
 	Identity             *VirtualMachineIdentity                        `json:"identity,omitempty"`
 	LicenseType          *string                                        `json:"licenseType,omitempty"`
 	Location             *string                                        `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachine_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
+	NetworkProfile       *VirtualMachine_Properties_NetworkProfile_Spec `json:"networkProfile,omitempty"`
 	OriginalVersion      string                                         `json:"originalVersion,omitempty"`
-	OsProfile            *VirtualMachine_Spec_Properties_OsProfile      `json:"osProfile,omitempty"`
+	OsProfile            *VirtualMachine_Properties_OsProfile_Spec      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -425,16 +425,16 @@ type StorageProfile_STATUS struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_NetworkProfile
-type VirtualMachine_Spec_Properties_NetworkProfile struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_NetworkProfile_Spec
+type VirtualMachine_Properties_NetworkProfile_Spec struct {
 	NetworkApiVersion              *string                                                                        `json:"networkApiVersion,omitempty"`
-	NetworkInterfaceConfigurations []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
-	NetworkInterfaces              []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces              `json:"networkInterfaces,omitempty"`
+	NetworkInterfaceConfigurations []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec `json:"networkInterfaceConfigurations,omitempty"`
+	NetworkInterfaces              []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec              `json:"networkInterfaces,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                                                         `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_OsProfile
-type VirtualMachine_Spec_Properties_OsProfile struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_OsProfile_Spec
+type VirtualMachine_Properties_OsProfile_Spec struct {
 	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername               *string                     `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
@@ -730,23 +730,23 @@ type VaultSecretGroup_STATUS struct {
 	VaultCertificates []VaultCertificate_STATUS `json:"vaultCertificates,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec struct {
 	DeleteOption                *string                                                                                                    `json:"deleteOption,omitempty"`
 	DnsSettings                 *VirtualMachineNetworkInterfaceDnsSettingsConfiguration                                                    `json:"dnsSettings,omitempty"`
 	DscpConfiguration           *SubResource                                                                                               `json:"dscpConfiguration,omitempty"`
 	EnableAcceleratedNetworking *bool                                                                                                      `json:"enableAcceleratedNetworking,omitempty"`
 	EnableFpga                  *bool                                                                                                      `json:"enableFpga,omitempty"`
 	EnableIPForwarding          *bool                                                                                                      `json:"enableIPForwarding,omitempty"`
-	IpConfigurations            []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
+	IpConfigurations            []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
 	Name                        *string                                                                                                    `json:"name,omitempty"`
 	NetworkSecurityGroup        *SubResource                                                                                               `json:"networkSecurityGroup,omitempty"`
 	Primary                     *bool                                                                                                      `json:"primary,omitempty"`
 	PropertyBag                 genruntime.PropertyBag                                                                                     `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec struct {
 	DeleteOption *string                `json:"deleteOption,omitempty"`
 	Primary      *bool                  `json:"primary,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1045,8 +1045,8 @@ type VirtualHardDisk_STATUS struct {
 	Uri         *string                `json:"uri,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec struct {
 	ApplicationGatewayBackendAddressPools []SubResource                                                                                                                                     `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource                                                                                                                                     `json:"applicationSecurityGroups,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource                                                                                                                                     `json:"loadBalancerBackendAddressPools,omitempty"`
@@ -1054,7 +1054,7 @@ type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfiguration
 	Primary                               *bool                                                                                                                                             `json:"primary,omitempty"`
 	PrivateIPAddressVersion               *string                                                                                                                                           `json:"privateIPAddressVersion,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                                                                                                                            `json:"$propertyBag,omitempty"`
-	PublicIPAddressConfiguration          *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
+	PublicIPAddressConfiguration          *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec `json:"publicIPAddressConfiguration,omitempty"`
 	Subnet                                *SubResource                                                                                                                                      `json:"subnet,omitempty"`
 }
 
@@ -1173,8 +1173,8 @@ type SshPublicKey_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
+// Storage version of v1beta20220301.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec struct {
 	DeleteOption             *string                                                `json:"deleteOption,omitempty"`
 	DnsSettings              *VirtualMachinePublicIPAddressDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes     *int                                                   `json:"idleTimeoutInMinutes,omitempty"`

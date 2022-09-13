@@ -5,13 +5,13 @@ package v1beta20210701
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type ComputeResource_STATUSARM struct {
+type ComputeResource_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -20,13 +20,13 @@ type ComputeResource_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Compute properties
-	Properties *Compute_STATUSARM `json:"properties,omitempty"`
+	Properties *Compute_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,7 +35,7 @@ type ComputeResource_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type Compute_STATUSARM struct {
+type Compute_STATUS_ARM struct {
 	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
@@ -60,17 +60,17 @@ type Compute_STATUSARM struct {
 	ModifiedOn *string `json:"modifiedOn,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUSARM `json:"provisioningErrors,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
 
 	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
 	// Failed.
-	ProvisioningState *Compute_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *Compute_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ResourceId: ARM resource id of the underlying compute
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -78,13 +78,13 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
+	Type *Identity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The user assigned identities associated with the resource.
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
 
@@ -92,7 +92,7 @@ type Sku_STATUSARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -100,7 +100,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -109,19 +109,19 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type Compute_STATUS_ProvisioningState string
+type Compute_ProvisioningState_STATUS string
 
 const (
-	Compute_STATUS_ProvisioningState_Canceled  = Compute_STATUS_ProvisioningState("Canceled")
-	Compute_STATUS_ProvisioningState_Creating  = Compute_STATUS_ProvisioningState("Creating")
-	Compute_STATUS_ProvisioningState_Deleting  = Compute_STATUS_ProvisioningState("Deleting")
-	Compute_STATUS_ProvisioningState_Failed    = Compute_STATUS_ProvisioningState("Failed")
-	Compute_STATUS_ProvisioningState_Succeeded = Compute_STATUS_ProvisioningState("Succeeded")
-	Compute_STATUS_ProvisioningState_Unknown   = Compute_STATUS_ProvisioningState("Unknown")
-	Compute_STATUS_ProvisioningState_Updating  = Compute_STATUS_ProvisioningState("Updating")
+	Compute_ProvisioningState_STATUS_Canceled  = Compute_ProvisioningState_STATUS("Canceled")
+	Compute_ProvisioningState_STATUS_Creating  = Compute_ProvisioningState_STATUS("Creating")
+	Compute_ProvisioningState_STATUS_Deleting  = Compute_ProvisioningState_STATUS("Deleting")
+	Compute_ProvisioningState_STATUS_Failed    = Compute_ProvisioningState_STATUS("Failed")
+	Compute_ProvisioningState_STATUS_Succeeded = Compute_ProvisioningState_STATUS("Succeeded")
+	Compute_ProvisioningState_STATUS_Unknown   = Compute_ProvisioningState_STATUS("Unknown")
+	Compute_ProvisioningState_STATUS_Updating  = Compute_ProvisioningState_STATUS("Updating")
 )
 
 type ComputeType_STATUS string
@@ -139,39 +139,39 @@ const (
 	ComputeType_STATUS_VirtualMachine    = ComputeType_STATUS("VirtualMachine")
 )
 
-type ErrorResponse_STATUSARM struct {
+type ErrorResponse_STATUS_ARM struct {
 	// Error: The error object.
-	Error *ErrorDetail_STATUSARM `json:"error,omitempty"`
+	Error *ErrorDetail_STATUS_ARM `json:"error,omitempty"`
 }
 
-type Identity_STATUS_Type string
+type Identity_Type_STATUS string
 
 const (
-	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
-	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
-	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned,UserAssigned")
-	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
-type SystemData_STATUS_CreatedByType string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -182,15 +182,15 @@ type UserAssignedIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-type ErrorDetail_STATUSARM struct {
+type ErrorDetail_STATUS_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUSARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
 
 	// Details: The error details.
-	Details []ErrorDetail_STATUS_UnrolledARM `json:"details,omitempty"`
+	Details []ErrorDetail_STATUS_Unrolled_ARM `json:"details,omitempty"`
 
 	// Message: The error message.
 	Message *string `json:"message,omitempty"`
@@ -199,7 +199,7 @@ type ErrorDetail_STATUSARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
-type ErrorAdditionalInfo_STATUSARM struct {
+type ErrorAdditionalInfo_STATUS_ARM struct {
 	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
 
@@ -207,9 +207,9 @@ type ErrorAdditionalInfo_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ErrorDetail_STATUS_UnrolledARM struct {
+type ErrorDetail_STATUS_Unrolled_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUSARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`

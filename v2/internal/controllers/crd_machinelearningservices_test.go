@@ -203,7 +203,7 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterface_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.NetworkInterface_Properties_IpConfigurations_Spec{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
 				Subnet: &network.SubResource{
