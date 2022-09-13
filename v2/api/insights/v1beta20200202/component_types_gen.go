@@ -520,8 +520,8 @@ func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			application_Type := *typedInput.Properties.Application_Type
-			component.Application_Type = &application_Type
+			applicationType := *typedInput.Properties.Application_Type
+			component.Application_Type = &applicationType
 		}
 	}
 
@@ -573,8 +573,8 @@ func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flow_Type := *typedInput.Properties.Flow_Type
-			component.Flow_Type = &flow_Type
+			flowType := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flowType
 		}
 	}
 
@@ -718,8 +718,8 @@ func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			request_Source := *typedInput.Properties.Request_Source
-			component.Request_Source = &request_Source
+			requestSource := *typedInput.Properties.Request_Source
+			component.Request_Source = &requestSource
 		}
 	}
 
@@ -786,8 +786,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Application_Type
 	if source.Application_Type != nil {
-		application_Type := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
-		component.Application_Type = &application_Type
+		applicationType := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
+		component.Application_Type = &applicationType
 	} else {
 		component.Application_Type = nil
 	}
@@ -822,8 +822,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flow_Type := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
-		component.Flow_Type = &flow_Type
+		flowType := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
+		component.Flow_Type = &flowType
 	} else {
 		component.Flow_Type = nil
 	}
@@ -918,8 +918,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_Appl
 
 	// Request_Source
 	if source.Request_Source != nil {
-		request_Source := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
-		component.Request_Source = &request_Source
+		requestSource := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
+		component.Request_Source = &requestSource
 	} else {
 		component.Request_Source = nil
 	}
@@ -969,8 +969,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_To_Applic
 
 	// Application_Type
 	if component.Application_Type != nil {
-		application_Type := string(*component.Application_Type)
-		destination.Application_Type = &application_Type
+		applicationType := string(*component.Application_Type)
+		destination.Application_Type = &applicationType
 	} else {
 		destination.Application_Type = nil
 	}
@@ -1005,8 +1005,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_To_Applic
 
 	// Flow_Type
 	if component.Flow_Type != nil {
-		flow_Type := string(*component.Flow_Type)
-		destination.Flow_Type = &flow_Type
+		flowType := string(*component.Flow_Type)
+		destination.Flow_Type = &flowType
 	} else {
 		destination.Flow_Type = nil
 	}
@@ -1101,8 +1101,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignProperties_To_Applic
 
 	// Request_Source
 	if component.Request_Source != nil {
-		request_Source := string(*component.Request_Source)
-		destination.Request_Source = &request_Source
+		requestSource := string(*component.Request_Source)
+		destination.Request_Source = &requestSource
 	} else {
 		destination.Request_Source = nil
 	}
@@ -1268,8 +1268,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
 	}
 	if component.Application_Type != nil {
-		application_Type := *component.Application_Type
-		result.Properties.Application_Type = &application_Type
+		applicationType := *component.Application_Type
+		result.Properties.Application_Type = &applicationType
 	}
 	if component.DisableIpMasking != nil {
 		disableIpMasking := *component.DisableIpMasking
@@ -1280,8 +1280,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
 	if component.Flow_Type != nil {
-		flow_Type := *component.Flow_Type
-		result.Properties.Flow_Type = &flow_Type
+		flowType := *component.Flow_Type
+		result.Properties.Flow_Type = &flowType
 	}
 	if component.ForceCustomerStorageForProfiler != nil {
 		forceCustomerStorageForProfiler := *component.ForceCustomerStorageForProfiler
@@ -1308,8 +1308,8 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
-		request_Source := *component.Request_Source
-		result.Properties.Request_Source = &request_Source
+		requestSource := *component.Request_Source
+		result.Properties.Request_Source = &requestSource
 	}
 	if component.RetentionInDays != nil {
 		retentionInDays := *component.RetentionInDays
@@ -1354,8 +1354,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			application_Type := *typedInput.Properties.Application_Type
-			component.Application_Type = &application_Type
+			applicationType := *typedInput.Properties.Application_Type
+			component.Application_Type = &applicationType
 		}
 	}
 
@@ -1390,8 +1390,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flow_Type := *typedInput.Properties.Flow_Type
-			component.Flow_Type = &flow_Type
+			flowType := *typedInput.Properties.Flow_Type
+			component.Flow_Type = &flowType
 		}
 	}
 
@@ -1470,8 +1470,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			request_Source := *typedInput.Properties.Request_Source
-			component.Request_Source = &request_Source
+			requestSource := *typedInput.Properties.Request_Source
+			component.Request_Source = &requestSource
 		}
 	}
 
@@ -1562,8 +1562,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Application_Type
 	if source.Application_Type != nil {
-		application_Type := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
-		component.Application_Type = &application_Type
+		applicationType := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
+		component.Application_Type = &applicationType
 	} else {
 		component.Application_Type = nil
 	}
@@ -1592,8 +1592,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flow_Type := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
-		component.Flow_Type = &flow_Type
+		flowType := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
+		component.Flow_Type = &flowType
 	} else {
 		component.Flow_Type = nil
 	}
@@ -1657,8 +1657,8 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Request_Source
 	if source.Request_Source != nil {
-		request_Source := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
-		component.Request_Source = &request_Source
+		requestSource := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
+		component.Request_Source = &requestSource
 	} else {
 		component.Request_Source = nil
 	}
@@ -1696,8 +1696,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Application_Type
 	if component.Application_Type != nil {
-		application_Type := string(*component.Application_Type)
-		destination.Application_Type = &application_Type
+		applicationType := string(*component.Application_Type)
+		destination.Application_Type = &applicationType
 	} else {
 		destination.Application_Type = nil
 	}
@@ -1726,8 +1726,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Flow_Type
 	if component.Flow_Type != nil {
-		flow_Type := string(*component.Flow_Type)
-		destination.Flow_Type = &flow_Type
+		flowType := string(*component.Flow_Type)
+		destination.Flow_Type = &flowType
 	} else {
 		destination.Flow_Type = nil
 	}
@@ -1794,8 +1794,8 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Request_Source
 	if component.Request_Source != nil {
-		request_Source := string(*component.Request_Source)
-		destination.Request_Source = &request_Source
+		requestSource := string(*component.Request_Source)
+		destination.Request_Source = &requestSource
 	} else {
 		destination.Request_Source = nil
 	}

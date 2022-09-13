@@ -274,7 +274,7 @@ func createForbiddenReceiverSuffixes() set.Set[string] {
 	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
 	status := strings.TrimPrefix(StatusSuffix, "_")
 	spec := strings.TrimPrefix(SpecSuffix, "_")
-	arm := strings.TrimPrefix(ArmSuffix, "_")
+	arm := strings.TrimPrefix(ARMSuffix, "_")
 	return set.Make(status, spec, arm, status+arm, spec+arm)
 }
 

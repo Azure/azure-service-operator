@@ -204,7 +204,7 @@ func newNameHint(name astmodel.TypeName) nameHint {
 	suffixesToFloat := []string{
 		astmodel.SpecSuffix,
 		astmodel.StatusSuffix,
-		astmodel.ArmSuffix,
+		astmodel.ARMSuffix,
 	}
 
 	baseName := name.Name()

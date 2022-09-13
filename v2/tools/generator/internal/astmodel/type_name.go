@@ -227,8 +227,8 @@ const (
 	SpecSuffix = "_Spec"
 	// StatusSuffix is the suffix used for all Status types
 	StatusSuffix = "_STATUS"
-	// ArmSuffix is the suffix used for all ARM types
-	ArmSuffix = "_ARM"
+	// ARMSuffix is the suffix used for all ARM types
+	ARMSuffix = "_ARM"
 )
 
 // IsSpec returns true if the type name specifies a spec
@@ -245,5 +245,5 @@ func (typeName TypeName) IsStatus() bool {
 
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name TypeName) TypeName {
-	return MakeTypeName(name.PackageReference, name.Name()+ArmSuffix)
+	return MakeTypeName(name.PackageReference, name.Name()+ARMSuffix)
 }

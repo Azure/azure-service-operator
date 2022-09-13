@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"fmt"
+	"go/token"
+
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"go/token"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )

@@ -883,18 +883,18 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_From_VirtualMach
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash v20200930s.ExtendedLocation_STATUS
-		err := extendedLocation_STATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		var extendedLocationSTATUSStash v20200930s.ExtendedLocation_STATUS
+		err := extendedLocationSTATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation ExtendedLocation_STATUS
-		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -905,13 +905,13 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_From_VirtualMach
 
 	// HostGroup
 	if source.HostGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.HostGroup)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.HostGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
 		var hostGroup SubResource_STATUS
-		err = hostGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = hostGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
@@ -972,13 +972,13 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_From_VirtualMach
 
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
 		var proximityPlacementGroup SubResource_STATUS
-		err = proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
@@ -1116,18 +1116,18 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_To_VirtualMachin
 
 	// ExtendedLocation
 	if scaleSet.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash alpha20210701s.ExtendedLocation_STATUS
-		err := scaleSet.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStash alpha20210701s.ExtendedLocation_STATUS
+		err := scaleSet.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal v20200930s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		var extendedLocationSTATUSStashLocal v20200930s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation v20201201s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err = extendedLocationSTATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -1138,13 +1138,13 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_To_VirtualMachin
 
 	// HostGroup
 	if scaleSet.HostGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := scaleSet.HostGroup.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := scaleSet.HostGroup.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
 		var hostGroup v20201201s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&hostGroup)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&hostGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
@@ -1205,13 +1205,13 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_To_VirtualMachin
 
 	// ProximityPlacementGroup
 	if scaleSet.ProximityPlacementGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := scaleSet.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := scaleSet.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
 		var proximityPlacementGroup v20201201s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
@@ -4907,13 +4907,13 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_STATUS) AssignPr
 
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.NetworkSecurityGroup)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.NetworkSecurityGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkSecurityGroup")
 		}
 		var networkSecurityGroup SubResource_STATUS
-		err = networkSecurityGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = networkSecurityGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field NetworkSecurityGroup from SubResource_STATUSStash")
 		}
@@ -5008,13 +5008,13 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_STATUS) AssignPr
 
 	// NetworkSecurityGroup
 	if configuration.NetworkSecurityGroup != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := configuration.NetworkSecurityGroup.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := configuration.NetworkSecurityGroup.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkSecurityGroup")
 		}
 		var networkSecurityGroup v20201201s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&networkSecurityGroup)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&networkSecurityGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field NetworkSecurityGroup from SubResource_STATUSStash")
 		}
@@ -5727,13 +5727,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(&applicationGatewayBackendAddressPoolItem)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ApplicationGatewayBackendAddressPools")
 			}
 			var applicationGatewayBackendAddressPool SubResource_STATUS
-			err = applicationGatewayBackendAddressPool.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+			err = applicationGatewayBackendAddressPool.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ApplicationGatewayBackendAddressPools from SubResource_STATUSStash")
 			}
@@ -5750,13 +5750,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(&applicationSecurityGroupItem)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&applicationSecurityGroupItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ApplicationSecurityGroups")
 			}
 			var applicationSecurityGroup SubResource_STATUS
-			err = applicationSecurityGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+			err = applicationSecurityGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ApplicationSecurityGroups from SubResource_STATUSStash")
 			}
@@ -5776,13 +5776,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancerBackendAddressPoolItem)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerBackendAddressPools")
 			}
 			var loadBalancerBackendAddressPool SubResource_STATUS
-			err = loadBalancerBackendAddressPool.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+			err = loadBalancerBackendAddressPool.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancerBackendAddressPools from SubResource_STATUSStash")
 			}
@@ -5799,13 +5799,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancerInboundNatPoolItem)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancerInboundNatPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerInboundNatPools")
 			}
 			var loadBalancerInboundNatPool SubResource_STATUS
-			err = loadBalancerInboundNatPool.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+			err = loadBalancerInboundNatPool.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancerInboundNatPools from SubResource_STATUSStash")
 			}
@@ -5876,13 +5876,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configuration.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ApplicationGatewayBackendAddressPools")
 			}
 			var applicationGatewayBackendAddressPool v20201201s.SubResource_STATUS
-			err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&applicationGatewayBackendAddressPool)
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&applicationGatewayBackendAddressPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ApplicationGatewayBackendAddressPools from SubResource_STATUSStash")
 			}
@@ -5899,13 +5899,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configuration.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := applicationSecurityGroupItem.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := applicationSecurityGroupItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ApplicationSecurityGroups")
 			}
 			var applicationSecurityGroup v20201201s.SubResource_STATUS
-			err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&applicationSecurityGroup)
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ApplicationSecurityGroups from SubResource_STATUSStash")
 			}
@@ -5925,13 +5925,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configuration.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerBackendAddressPools")
 			}
 			var loadBalancerBackendAddressPool v20201201s.SubResource_STATUS
-			err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&loadBalancerBackendAddressPool)
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&loadBalancerBackendAddressPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancerBackendAddressPools from SubResource_STATUSStash")
 			}
@@ -5948,13 +5948,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range configuration.LoadBalancerInboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-			var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-			err := loadBalancerInboundNatPoolItem.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+			var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+			err := loadBalancerInboundNatPoolItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerInboundNatPools")
 			}
 			var loadBalancerInboundNatPool v20201201s.SubResource_STATUS
-			err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&loadBalancerInboundNatPool)
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&loadBalancerInboundNatPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancerInboundNatPools from SubResource_STATUSStash")
 			}
@@ -6109,13 +6109,13 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_STATUS) AssignProp
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet SubResource_STATUS
-		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -6145,13 +6145,13 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_STATUS) AssignProp
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet v20201201s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -6478,13 +6478,13 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) 
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPPrefix)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
 		var publicIPPrefix SubResource_STATUS
-		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
@@ -6550,13 +6550,13 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) 
 
 	// PublicIPPrefix
 	if configuration.PublicIPPrefix != nil {
-		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
-		err := configuration.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash alpha20210701s.SubResource_STATUS
+		err := configuration.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
 		var publicIPPrefix v20201201s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
