@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package pipeline
 
 import (
 	"fmt"
@@ -16,26 +16,25 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 )
 
-type debugDiagram struct {
-	debugDir   string                       // The directory to write the diagram to
-	stageIds   map[*pipeline.Stage]string   // Map of stages to their unique IDs
-	stageNames map[string][]*pipeline.Stage // Map of stage names to stages
+type PipelineDiagram struct {
+	debugDir   string              // The directory to write the diagram to
+	stageIds   map[*Stage]string   // Map of stages to their unique IDs
+	stageNames map[string][]*Stage // Map of stage names to stages
 }
 
-// newDebugDiagram creates a new debugDiagram to write into the specified directory.
-func newDebugDiagram(debugDir string) *debugDiagram {
-	return &debugDiagram{
+// NewPipelineDiagram creates a new PipelineDiagram to write into the specified directory.
+func NewPipelineDiagram(debugDir string) *PipelineDiagram {
+	return &PipelineDiagram{
 		debugDir:   debugDir,
-		stageIds:   make(map[*pipeline.Stage]string, 70),
-		stageNames: make(map[string][]*pipeline.Stage, 70),
+		stageIds:   make(map[*Stage]string, 70),
+		stageNames: make(map[string][]*Stage, 70),
 	}
 }
 
-// writeDiagram writes a diagram of the pipeline to pipeline.dot
-func (diagram *debugDiagram) writeDiagram(stages []*pipeline.Stage) error {
+// WriteDiagram writes a diagram of the pipeline to pipeline.dot
+func (diagram *PipelineDiagram) WriteDiagram(stages []*Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
 	err := ioutil.WriteFile(filename, dotsrc, 0600)
@@ -44,7 +43,7 @@ func (diagram *debugDiagram) writeDiagram(stages []*pipeline.Stage) error {
 }
 
 // createDiagram creates a dot file for the pipeline
-func (diagram *debugDiagram) createDiagram(stages []*pipeline.Stage) []byte {
+func (diagram *PipelineDiagram) createDiagram(stages []*Stage) []byte {
 	var b strings.Builder
 
 	b.WriteString("// Render with\n")
@@ -103,7 +102,7 @@ func (diagram *debugDiagram) createDiagram(stages []*pipeline.Stage) []byte {
 	return []byte(b.String())
 }
 
-func (diagram *debugDiagram) idFor(stage *pipeline.Stage) string {
+func (diagram *PipelineDiagram) idFor(stage *Stage) string {
 	if id, ok := diagram.stageIds[stage]; ok {
 		return id
 	}
@@ -127,7 +126,7 @@ func (diagram *debugDiagram) idFor(stage *pipeline.Stage) string {
 }
 
 // safeId returns a string containing only alphanumeric characters
-func (diagram *debugDiagram) safeId(id string) string {
+func (diagram *PipelineDiagram) safeId(id string) string {
 	var b strings.Builder
 	for _, r := range id {
 		if unicode.IsLetter(r) || unicode.IsNumber(r) {
@@ -138,7 +137,7 @@ func (diagram *debugDiagram) safeId(id string) string {
 }
 
 // safeDescription returns a string that can be used as a graphviz label
-func (diagram *debugDiagram) safeDescription(description string) string {
+func (diagram *PipelineDiagram) safeDescription(description string) string {
 	var b strings.Builder
 	for _, r := range description {
 		if r == '"' {
