@@ -1854,7 +1854,7 @@ func (resource *BResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1937,7 +1937,7 @@ func (resource *CResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}

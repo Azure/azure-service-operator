@@ -1592,7 +1592,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2901,7 +2901,7 @@ func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Id’:
 	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*parameters.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.Reference)
 		if err != nil {
 			return nil, err
 		}

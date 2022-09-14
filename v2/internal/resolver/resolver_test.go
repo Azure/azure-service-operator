@@ -463,7 +463,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 	resolvedSecrets, err := test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).ToNot(HaveOccurred())
 
-	actualSecret, err := resolvedSecrets.LookupSecret(ref)
+	actualSecret, err := resolvedSecrets.Lookup(ref)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(actualSecret).To(Equal(secretValue))
 }

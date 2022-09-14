@@ -496,7 +496,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.StaticIP = &staticIP
 	}
 	if redis.SubnetReference != nil {
-		subnetIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*redis.SubnetReference)
+		subnetIdARMID, err := resolved.ResolvedReferences.Lookup(*redis.SubnetReference)
 		if err != nil {
 			return nil, err
 		}

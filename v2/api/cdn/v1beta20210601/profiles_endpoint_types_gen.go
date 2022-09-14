@@ -3006,7 +3006,7 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 
 	// Set property ‘Id’:
 	if link.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*link.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*link.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3702,7 +3702,7 @@ func (origins *Profiles_Endpoint_Properties_Origins_Spec) ConvertToARM(resolved 
 		result.Properties.PrivateLinkApprovalMessage = &privateLinkApprovalMessage
 	}
 	if origins.PrivateLinkLocationReference != nil {
-		privateLinkLocationARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origins.PrivateLinkLocationReference)
+		privateLinkLocationARMID, err := resolved.ResolvedReferences.Lookup(*origins.PrivateLinkLocationReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3710,7 +3710,7 @@ func (origins *Profiles_Endpoint_Properties_Origins_Spec) ConvertToARM(resolved 
 		result.Properties.PrivateLinkLocation = &privateLinkLocation
 	}
 	if origins.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origins.PrivateLinkResourceReference)
+		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*origins.PrivateLinkResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -4023,7 +4023,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}
