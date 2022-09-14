@@ -28,13 +28,8 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// requirements - no hyphens allowed.
 
 	// Create a Cosmos DB account
-<<<<<<< HEAD
 	offerType := documentdb.DatabaseAccountOfferType_Standard
-	kind := documentdb.DatabaseAccount_Spec_Kind_GlobalDocumentDB
-=======
-	offerType := documentdb.DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard
 	kind := documentdb.DatabaseAccount_Kind_Spec_GlobalDocumentDB
->>>>>>> main
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccount_Spec{

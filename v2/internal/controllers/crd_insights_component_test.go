@@ -118,11 +118,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-<<<<<<< HEAD
-	expectedKind := insightswebtest.WebTestProperties_Kind_Standard_STATUS
-=======
 	expectedKind := insightswebtest.WebTestProperties_Kind_STATUS_Standard
->>>>>>> main
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())

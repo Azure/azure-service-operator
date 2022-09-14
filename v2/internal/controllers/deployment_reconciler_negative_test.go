@@ -26,13 +26,8 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 
 	// Create a storage account with an invalid key expiration period
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-<<<<<<< HEAD
-	kind := storage.StorageAccount_Spec_Kind_BlobStorage
-	sku := storage.SkuName_Standard_LRS
-=======
 	kind := storage.StorageAccount_Kind_Spec_BlobStorage
-	sku := storage.Sku_Name_Standard_LRS
->>>>>>> main
+	sku := storage.SkuName_Standard_LRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
@@ -67,11 +62,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-<<<<<<< HEAD
 			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
-=======
-			VirtualMachineProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
->>>>>>> main
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -80,7 +71,6 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 						Version:   to.StringPtr("latest"),
 					},
 				},
-<<<<<<< HEAD
 				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
@@ -90,17 +80,6 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 						{
 							Name: to.StringPtr("mynicconfig"),
 							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
-=======
-				OsProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
-					ComputerNamePrefix: to.StringPtr("computer"),
-					AdminUsername:      &adminUsername,
-				},
-				NetworkProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
-						{
-							Name: to.StringPtr("mynicconfig"),
-							IpConfigurations: []compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
->>>>>>> main
 								{
 									Name: to.StringPtr("test"),
 								},

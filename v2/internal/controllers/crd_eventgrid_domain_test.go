@@ -36,13 +36,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// Create a storage account to use as destination
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-<<<<<<< HEAD
-	kind := storage.StorageAccount_Spec_Kind_StorageV2
-	sku := storage.SkuName_Standard_LRS
-=======
 	kind := storage.StorageAccount_Kind_Spec_StorageV2
-	sku := storage.Sku_Name_Standard_LRS
->>>>>>> main
+	sku := storage.SkuName_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),

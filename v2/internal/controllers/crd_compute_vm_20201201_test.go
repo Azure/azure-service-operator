@@ -56,11 +56,7 @@ func newVirtualMachine20201201(
 			HardwareProfile: &compute2020.HardwareProfile{
 				VmSize: &size,
 			},
-<<<<<<< HEAD
 			OsProfile: &compute2020.OSProfile{
-=======
-			OsProfile: &compute2020.VirtualMachine_Properties_OsProfile_Spec{
->>>>>>> main
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -75,13 +71,8 @@ func newVirtualMachine20201201(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-<<<<<<< HEAD
 			NetworkProfile: &compute2020.NetworkProfile{
 				NetworkInterfaces: []compute2020.NetworkInterfaceReference{
-=======
-			NetworkProfile: &compute2020.VirtualMachine_Properties_NetworkProfile_Spec{
-				NetworkInterfaces: []compute2020.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{
->>>>>>> main
 					{
 						Reference: tc.MakeReferenceFromResource(networkInterface),
 					},
@@ -98,11 +89,7 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-<<<<<<< HEAD
 			IpConfigurations: []network.NetworkInterfaceIPConfiguration{{
-=======
-			IpConfigurations: []network.NetworkInterface_Properties_IpConfigurations_Spec{{
->>>>>>> main
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
 				Subnet: &network.Subnet{

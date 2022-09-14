@@ -120,9 +120,9 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.Namespaces_AuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(namespace),
-			Rights: []eventhub.Namespaces_AuthorizationRule_Spec_Properties_Rights{
-				eventhub.Namespaces_AuthorizationRule_Spec_Properties_Rights_Listen,
-				eventhub.Namespaces_AuthorizationRule_Spec_Properties_Rights_Send,
+			Rights: []eventhub.Namespaces_AuthorizationRule_Properties_Rights_Spec{
+				eventhub.Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
+				eventhub.Namespaces_AuthorizationRule_Properties_Rights_Spec_Send,
 			},
 		},
 	}
@@ -141,9 +141,9 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(eh),
-			Rights: []eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec_Properties_Rights{
-				eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec_Properties_Rights_Listen,
-				eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec_Properties_Rights_Send,
+			Rights: []eventhub.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec{
+				eventhub.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Listen,
+				eventhub.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Send,
 			},
 		},
 	}
