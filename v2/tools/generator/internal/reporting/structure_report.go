@@ -16,7 +16,7 @@ const (
 	lastBlockIndent = "    "
 )
 
-// StructureReport represents a heirarchical dump of structural information
+// StructureReport represents a hierarchical dump of structural information
 type StructureReport struct {
 	line   string
 	nested []*StructureReport
