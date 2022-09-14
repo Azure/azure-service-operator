@@ -604,7 +604,7 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
 AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
 </code></pre></div></li>
 <li>
-<p>Install <a href="/v2/charts">the latest <strong>v2+</strong> Helm chart</a>. Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml">release YAML directly</a></p>
+<p>Install <a href="/charts">the latest <strong>v2+</strong> Helm chart</a>:</p>
 <pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --create-namespace \
@@ -613,7 +613,8 @@ AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt
      --set azureTenantID=$AZURE_TENANT_ID \
      --set azureClientID=$AZURE_CLIENT_ID \
      --set azureClientSecret=$AZURE_CLIENT_SECRET
-</code></pre><p>To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">authentication documentation</a>.</p>
+</code></pre><p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml">release YAML directly</a>.</p>
+<p>To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">authentication documentation</a>.</p>
 </li>
 </ol>
 <h3 id="usage">Usage</h3>
@@ -687,7 +688,7 @@ to get started. For example, creating and deleting cert-manager.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># remove the cert-manager components</span>
 kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
 </code></pre></div><h2 id="how-to-contribute">How to contribute</h2>
-<p>To get started developing or contributing to the project, follow the instructions in the <a href="https://azure.github.io/azure-service-operator/contributing/contributing/">contributing guide</a>.</p>
+<p>To get started developing or contributing to the project, follow the instructions in the <a href="https://azure.github.io/azure-service-operator/contributing/">contributing guide</a>.</p>
 
         <div class="section-index">
     
