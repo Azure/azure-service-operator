@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package reporting
 
 import (
 	"io"
@@ -16,32 +16,32 @@ const (
 	lastBlockIndent = "    "
 )
 
-// debugReport represents a heirarchical dump of debug information
-type debugReport struct {
+// StructureReport represents a heirarchical dump of structural information
+type StructureReport struct {
 	line   string
-	nested []*debugReport
+	nested []*StructureReport
 }
 
-// newDebugReport creates a new debugReport
-func newDebugReport(line string) *debugReport {
-	return &debugReport{line: line}
+// NewStructureReport creates a new StructureReport
+func NewStructureReport(line string) *StructureReport {
+	return &StructureReport{line: line}
 }
 
-// add adds a new debugReport nested in the current debugReport, returning the nested report
-func (dr *debugReport) add(line string) *debugReport {
-	result := &debugReport{line: line}
+// Add adds a new StructureReport nested in the current StructureReport, returning the nested report
+func (dr *StructureReport) Add(line string) *StructureReport {
+	result := &StructureReport{line: line}
 	dr.nested = append(dr.nested, result)
 	return result
 }
 
-func (dr *debugReport) saveTo(writer io.Writer) error {
+func (dr *StructureReport) SaveTo(writer io.Writer) error {
 	var indents []string
 
 	return dr.writeBlock(writer, indents, "", "")
 }
 
-// writeTo writes a block of lines from this debugReport to a writer
-func (dr *debugReport) writeBlock(
+// writeTo writes a block of lines from this StructureReport to a writer
+func (dr *StructureReport) writeBlock(
 	writer io.Writer,
 	indents []string,
 	prefixForItem string,

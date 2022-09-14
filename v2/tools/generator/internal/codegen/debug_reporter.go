@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 	"io/ioutil"
 	"path"
 	"regexp"
@@ -60,10 +61,10 @@ func (dr *debugReporter) createReport(state *pipeline.State) (string, error) {
 			continue
 		}
 
-		rpt := newDebugReport(pkg.PackagePath())
+		rpt := reporting.NewStructureReport(pkg.PackagePath())
 		dr.writeDefinitions(rpt, dr.inPackage(pkg, state.Definitions()))
 
-		err := rpt.saveTo(&buffer)
+		err := rpt.SaveTo(&buffer)
 		if err != nil {
 			return "", errors.Wrapf(err, "failed to create debug report for %s", pkg.PackagePath())
 		}
@@ -76,7 +77,7 @@ func (dr *debugReporter) createReport(state *pipeline.State) (string, error) {
 // rpt is the debug report to write to.
 // definitions is the set of definitions to write.
 // Definitions are written in alphabetical order.
-func (dr *debugReporter) writeDefinitions(rpt *debugReport, definitions astmodel.TypeDefinitionSet) {
+func (dr *debugReporter) writeDefinitions(rpt *reporting.StructureReport, definitions astmodel.TypeDefinitionSet) {
 	defs := definitions.AsSlice()
 	sort.Slice(defs, func(i, j int) bool {
 		return defs[i].Name().Name() < defs[j].Name().Name()
@@ -90,10 +91,10 @@ func (dr *debugReporter) writeDefinitions(rpt *debugReport, definitions astmodel
 // writeDefinition writes the definition to the debug report.
 // rpt is the debug report to write to.
 // definition is the definition to write.
-func (dr *debugReporter) writeDefinition(rpt *debugReport, definition astmodel.TypeDefinition) {
+func (dr *debugReporter) writeDefinition(rpt *reporting.StructureReport, definition astmodel.TypeDefinition) {
 	name := definition.Name()
 	t := definition.Type()
-	sub := rpt.add(
+	sub := rpt.Add(
 		fmt.Sprintf("%s: %s", name.Name(), astmodel.DebugDescription(t, name.PackageReference)))
 	dr.writeType(sub, definition.Type(), name.PackageReference)
 }
@@ -104,7 +105,7 @@ func (dr *debugReporter) writeDefinition(rpt *debugReport, definition astmodel.T
 // currentPackage is the package that the type is defined in (used to simplify type descriptions).
 // Only complex types where astmodel.DebugDescription is insufficient are written.
 func (dr *debugReporter) writeType(
-	rpt *debugReport,
+	rpt *reporting.StructureReport,
 	t astmodel.Type,
 	currentPackage astmodel.PackageReference,
 ) {
@@ -122,7 +123,7 @@ func (dr *debugReporter) writeType(
 // resource is the resource to write.
 // currentPackage is the package that the resource is defined in (used to simplify type descriptions).
 func (dr *debugReporter) writeResource(
-	rpt *debugReport,
+	rpt *reporting.StructureReport,
 	resource *astmodel.ResourceType,
 	currentPackage astmodel.PackageReference,
 ) {
@@ -137,7 +138,7 @@ func (dr *debugReporter) writeResource(
 
 // writeObject writes the object to the debug report.
 func (dr *debugReporter) writeObject(
-	rpt *debugReport,
+	rpt *reporting.StructureReport,
 	obj *astmodel.ObjectType,
 	currentPackage astmodel.PackageReference,
 ) {
@@ -151,24 +152,24 @@ func (dr *debugReporter) writeObject(
 }
 
 func (dr *debugReporter) writeProperty(
-	rpt *debugReport,
+	rpt *reporting.StructureReport,
 	prop *astmodel.PropertyDefinition,
 	currentPackage astmodel.PackageReference,
 ) {
-	rpt.add(fmt.Sprintf(
+	rpt.Add(fmt.Sprintf(
 		"%s: %s",
 		prop.PropertyName(),
 		astmodel.DebugDescription(prop.PropertyType(), currentPackage)))
 }
 
-func (dr *debugReporter) writeFunction(rpt *debugReport, fn astmodel.Function) {
-	rpt.add(fmt.Sprintf("%s()", fn.Name()))
+func (dr *debugReporter) writeFunction(rpt *reporting.StructureReport, fn astmodel.Function) {
+	rpt.Add(fmt.Sprintf("%s()", fn.Name()))
 }
 
-func (dr *debugReporter) writeEnum(rpt *debugReport, enum *astmodel.EnumType, currentPackage astmodel.PackageReference) {
+func (dr *debugReporter) writeEnum(rpt *reporting.StructureReport, enum *astmodel.EnumType, currentPackage astmodel.PackageReference) {
 	dr.writeType(rpt, enum.BaseType(), currentPackage)
 	for _, v := range enum.Options() {
-		rpt.add(fmt.Sprintf("%s: %s", v.Identifier, v.Value))
+		rpt.Add(fmt.Sprintf("%s: %s", v.Identifier, v.Value))
 	}
 }
 

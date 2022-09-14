@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package reporting
 
 import (
 	"bytes"
@@ -19,23 +19,23 @@ func TestDebugReport_GeneratesExpectedOutput(t *testing.T) {
 	g := NewGomegaWithT(t)
 	gold := goldie.New(t)
 
-	r := newDebugReport("Hello World")
+	r := NewStructureReport("Hello World")
 	addNodes(r, "root", 7)
 
 	var buf bytes.Buffer
-	g.Expect(r.saveTo(&buf)).To(Succeed())
+	g.Expect(r.SaveTo(&buf)).To(Succeed())
 
 	gold.Assert(t, t.Name(), []byte(buf.String()))
 }
 
-func addNodes(r *debugReport, name string, count int) {
+func addNodes(r *StructureReport, name string, count int) {
 	if count <= 0 {
 		return // base case
 	}
 
 	for i := 0; i < count; i++ {
 		n := fmt.Sprintf("%s.%d", name, i+1)
-		nested := r.add(n)
+		nested := r.Add(n)
 		addNodes(nested, n, count-i-1)
 	}
 }
