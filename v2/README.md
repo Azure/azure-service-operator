@@ -71,7 +71,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
 
-3. Install [the latest **v2+** Helm chart](/v2/charts). Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/introduction/installing-from-yaml)
+3. Install [the latest **v2+** Helm chart](/charts):
    
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
@@ -86,6 +86,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET
    ```
+   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/introduction/installing-from-yaml).
 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/).
 
@@ -171,4 +172,4 @@ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.
 ```
 
 ## How to contribute
-To get started developing or contributing to the project, follow the instructions in the [contributing guide](https://azure.github.io/azure-service-operator/contributing/contributing/).
+To get started developing or contributing to the project, follow the instructions in the [contributing guide](https://azure.github.io/azure-service-operator/contributing/).
