@@ -282,7 +282,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeering_STATUS(gens map[st
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Connected, VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Initiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Connected, VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Disconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Initiated))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,
 		ProvisioningState_STATUS_Failed,

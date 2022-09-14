@@ -417,14 +417,14 @@ func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.G
 		DiskState_STATUS_ReadyToUpload,
 		DiskState_STATUS_Reserved,
 		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_STATUS_HyperVGeneration_V1, SnapshotProperties_STATUS_HyperVGeneration_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUS_V1, SnapshotProperties_HyperVGeneration_STATUS_V2))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_STATUS_OsType_Linux, SnapshotProperties_STATUS_OsType_Windows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUS_Linux, SnapshotProperties_OsType_STATUS_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
@@ -643,6 +643,6 @@ func SnapshotSku_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_STATUS_Name_Premium_LRS, SnapshotSku_STATUS_Name_Standard_LRS, SnapshotSku_STATUS_Name_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUS_Premium_LRS, SnapshotSku_Name_STATUS_Standard_LRS, SnapshotSku_Name_STATUS_Standard_ZRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }

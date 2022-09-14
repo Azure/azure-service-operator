@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PrivateZone_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateZone_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateZone_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateZone_STATUSARM, PrivateZone_STATUSARMGenerator()))
+		"Round trip of PrivateZone_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateZone_STATUS_ARM, PrivateZone_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateZone_STATUSARM runs a test to see if a specific instance of PrivateZone_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateZone_STATUSARM(subject PrivateZone_STATUSARM) string {
+// RunJSONSerializationTestForPrivateZone_STATUS_ARM runs a test to see if a specific instance of PrivateZone_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateZone_STATUS_ARM(subject PrivateZone_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPrivateZone_STATUSARM(subject PrivateZone_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual PrivateZone_STATUSARM
+	var actual PrivateZone_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,56 +56,56 @@ func RunJSONSerializationTestForPrivateZone_STATUSARM(subject PrivateZone_STATUS
 	return ""
 }
 
-// Generator of PrivateZone_STATUSARM instances for property testing - lazily instantiated by
-// PrivateZone_STATUSARMGenerator()
-var privateZone_STATUSARMGenerator gopter.Gen
+// Generator of PrivateZone_STATUS_ARM instances for property testing - lazily instantiated by
+// PrivateZone_STATUS_ARMGenerator()
+var privateZone_STATUS_ARMGenerator gopter.Gen
 
-// PrivateZone_STATUSARMGenerator returns a generator of PrivateZone_STATUSARM instances for property testing.
-// We first initialize privateZone_STATUSARMGenerator with a simplified generator based on the
+// PrivateZone_STATUS_ARMGenerator returns a generator of PrivateZone_STATUS_ARM instances for property testing.
+// We first initialize privateZone_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateZone_STATUSARMGenerator() gopter.Gen {
-	if privateZone_STATUSARMGenerator != nil {
-		return privateZone_STATUSARMGenerator
+func PrivateZone_STATUS_ARMGenerator() gopter.Gen {
+	if privateZone_STATUS_ARMGenerator != nil {
+		return privateZone_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZone_STATUSARM(generators)
-	privateZone_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateZone_STATUS_ARM(generators)
+	privateZone_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZone_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateZone_STATUSARM(generators)
-	privateZone_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateZone_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateZone_STATUS_ARM(generators)
+	privateZone_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS_ARM{}), generators)
 
-	return privateZone_STATUSARMGenerator
+	return privateZone_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateZone_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateZone_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateZone_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateZone_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateZone_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateZone_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PrivateZoneProperties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForPrivateZone_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateZone_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(PrivateZoneProperties_STATUS_ARMGenerator())
 }
 
-func Test_PrivateZoneProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateZoneProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateZoneProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateZoneProperties_STATUSARM, PrivateZoneProperties_STATUSARMGenerator()))
+		"Round trip of PrivateZoneProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateZoneProperties_STATUS_ARM, PrivateZoneProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateZoneProperties_STATUSARM runs a test to see if a specific instance of PrivateZoneProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateZoneProperties_STATUSARM(subject PrivateZoneProperties_STATUSARM) string {
+// RunJSONSerializationTestForPrivateZoneProperties_STATUS_ARM runs a test to see if a specific instance of PrivateZoneProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateZoneProperties_STATUS_ARM(subject PrivateZoneProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -113,7 +113,7 @@ func RunJSONSerializationTestForPrivateZoneProperties_STATUSARM(subject PrivateZ
 	}
 
 	// Deserialize back into memory
-	var actual PrivateZoneProperties_STATUSARM
+	var actual PrivateZoneProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -131,25 +131,25 @@ func RunJSONSerializationTestForPrivateZoneProperties_STATUSARM(subject PrivateZ
 	return ""
 }
 
-// Generator of PrivateZoneProperties_STATUSARM instances for property testing - lazily instantiated by
-// PrivateZoneProperties_STATUSARMGenerator()
-var privateZoneProperties_STATUSARMGenerator gopter.Gen
+// Generator of PrivateZoneProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// PrivateZoneProperties_STATUS_ARMGenerator()
+var privateZoneProperties_STATUS_ARMGenerator gopter.Gen
 
-// PrivateZoneProperties_STATUSARMGenerator returns a generator of PrivateZoneProperties_STATUSARM instances for property testing.
-func PrivateZoneProperties_STATUSARMGenerator() gopter.Gen {
-	if privateZoneProperties_STATUSARMGenerator != nil {
-		return privateZoneProperties_STATUSARMGenerator
+// PrivateZoneProperties_STATUS_ARMGenerator returns a generator of PrivateZoneProperties_STATUS_ARM instances for property testing.
+func PrivateZoneProperties_STATUS_ARMGenerator() gopter.Gen {
+	if privateZoneProperties_STATUS_ARMGenerator != nil {
+		return privateZoneProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUSARM(generators)
-	privateZoneProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PrivateZoneProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUS_ARM(generators)
+	privateZoneProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateZoneProperties_STATUS_ARM{}), generators)
 
-	return privateZoneProperties_STATUSARMGenerator
+	return privateZoneProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["MaxNumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
@@ -157,10 +157,10 @@ func AddIndependentPropertyGeneratorsForPrivateZoneProperties_STATUSARM(gens map
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZoneProperties_STATUS_ProvisioningState_Canceled,
-		PrivateZoneProperties_STATUS_ProvisioningState_Creating,
-		PrivateZoneProperties_STATUS_ProvisioningState_Deleting,
-		PrivateZoneProperties_STATUS_ProvisioningState_Failed,
-		PrivateZoneProperties_STATUS_ProvisioningState_Succeeded,
-		PrivateZoneProperties_STATUS_ProvisioningState_Updating))
+		PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
+		PrivateZoneProperties_ProvisioningState_STATUS_Creating,
+		PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
+		PrivateZoneProperties_ProvisioningState_STATUS_Failed,
+		PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
+		PrivateZoneProperties_ProvisioningState_STATUS_Updating))
 }

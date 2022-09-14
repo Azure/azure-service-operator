@@ -951,7 +951,7 @@ type ManagedCluster_STATUS struct {
 	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS       `json:"apiServerAccessProfile,omitempty"`
-	AutoScalerProfile       *ManagedClusterProperties_STATUS_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
+	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS `json:"autoScalerProfile,omitempty"`
 	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_STATUS           `json:"autoUpgradeProfile,omitempty"`
 	AzurePortalFQDN         *string                                            `json:"azurePortalFQDN,omitempty"`
 	Conditions              []conditions.Condition                             `json:"conditions,omitempty"`
@@ -1094,10 +1094,10 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// AutoScalerProfile
 	if source.AutoScalerProfile != nil {
-		var autoScalerProfile ManagedClusterProperties_STATUS_AutoScalerProfile
-		err := autoScalerProfile.AssignProperties_From_ManagedClusterProperties_STATUS_AutoScalerProfile(source.AutoScalerProfile)
+		var autoScalerProfile ManagedClusterProperties_AutoScalerProfile_STATUS
+		err := autoScalerProfile.AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source.AutoScalerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterProperties_STATUS_AutoScalerProfile() to populate field AutoScalerProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS() to populate field AutoScalerProfile")
 		}
 		cluster.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -1402,10 +1402,10 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
-		var autoScalerProfile v20210501s.ManagedClusterProperties_STATUS_AutoScalerProfile
-		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_STATUS_AutoScalerProfile(&autoScalerProfile)
+		var autoScalerProfile v20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS
+		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(&autoScalerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_STATUS_AutoScalerProfile() to populate field AutoScalerProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS() to populate field AutoScalerProfile")
 		}
 		destination.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -3816,7 +3816,7 @@ type ManagedClusterIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterIdentity_STATUS populates our ManagedClusterIdentity_STATUS from the provided source ManagedClusterIdentity_STATUS
@@ -3835,14 +3835,14 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClus
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]ManagedClusterIdentity_STATUS_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity ManagedClusterIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentity.AssignProperties_From_ManagedClusterIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentityValue)
+			var userAssignedIdentity ManagedClusterIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentity.AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3878,14 +3878,14 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_To_ManagedCluste
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210501s.ManagedClusterIdentity_STATUS_UserAssignedIdentities, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210501s.ManagedClusterIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignProperties_To_ManagedClusterIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentity)
+			var userAssignedIdentity v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -4260,9 +4260,9 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_Mana
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterProperties_STATUS_AutoScalerProfile
-// Deprecated version of ManagedClusterProperties_STATUS_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_STATUS_AutoScalerProfile instead
-type ManagedClusterProperties_STATUS_AutoScalerProfile struct {
+// Storage version of v1alpha1api20210501.ManagedClusterProperties_AutoScalerProfile_STATUS
+// Deprecated version of ManagedClusterProperties_AutoScalerProfile_STATUS. Use v1beta20210501.ManagedClusterProperties_AutoScalerProfile_STATUS instead
+type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *string                `json:"expander,omitempty"`
 	MaxEmptyBulkDelete            *string                `json:"max-empty-bulk-delete,omitempty"`
@@ -4283,8 +4283,8 @@ type ManagedClusterProperties_STATUS_AutoScalerProfile struct {
 	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterProperties_STATUS_AutoScalerProfile populates our ManagedClusterProperties_STATUS_AutoScalerProfile from the provided source ManagedClusterProperties_STATUS_AutoScalerProfile
-func (profile *ManagedClusterProperties_STATUS_AutoScalerProfile) AssignProperties_From_ManagedClusterProperties_STATUS_AutoScalerProfile(source *v20210501s.ManagedClusterProperties_STATUS_AutoScalerProfile) error {
+// AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS populates our ManagedClusterProperties_AutoScalerProfile_STATUS from the provided source ManagedClusterProperties_AutoScalerProfile_STATUS
+func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source *v20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4350,8 +4350,8 @@ func (profile *ManagedClusterProperties_STATUS_AutoScalerProfile) AssignProperti
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterProperties_STATUS_AutoScalerProfile populates the provided destination ManagedClusterProperties_STATUS_AutoScalerProfile from our ManagedClusterProperties_STATUS_AutoScalerProfile
-func (profile *ManagedClusterProperties_STATUS_AutoScalerProfile) AssignProperties_To_ManagedClusterProperties_STATUS_AutoScalerProfile(destination *v20210501s.ManagedClusterProperties_STATUS_AutoScalerProfile) error {
+// AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS populates the provided destination ManagedClusterProperties_AutoScalerProfile_STATUS from our ManagedClusterProperties_AutoScalerProfile_STATUS
+func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(destination *v20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -5292,16 +5292,16 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_T
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterIdentity_STATUS_UserAssignedIdentities
-// Deprecated version of ManagedClusterIdentity_STATUS_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_STATUS_UserAssignedIdentities instead
-type ManagedClusterIdentity_STATUS_UserAssignedIdentities struct {
+// Storage version of v1alpha1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+// Deprecated version of ManagedClusterIdentity_UserAssignedIdentities_STATUS. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS instead
+type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterIdentity_STATUS_UserAssignedIdentities populates our ManagedClusterIdentity_STATUS_UserAssignedIdentities from the provided source ManagedClusterIdentity_STATUS_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_STATUS_UserAssignedIdentities) AssignProperties_From_ManagedClusterIdentity_STATUS_UserAssignedIdentities(source *v20210501s.ManagedClusterIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS populates our ManagedClusterIdentity_UserAssignedIdentities_STATUS from the provided source ManagedClusterIdentity_UserAssignedIdentities_STATUS
+func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS(source *v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5322,8 +5322,8 @@ func (identities *ManagedClusterIdentity_STATUS_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterIdentity_STATUS_UserAssignedIdentities populates the provided destination ManagedClusterIdentity_STATUS_UserAssignedIdentities from our ManagedClusterIdentity_STATUS_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_STATUS_UserAssignedIdentities) AssignProperties_To_ManagedClusterIdentity_STATUS_UserAssignedIdentities(destination *v20210501s.ManagedClusterIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS populates the provided destination ManagedClusterIdentity_UserAssignedIdentities_STATUS from our ManagedClusterIdentity_UserAssignedIdentities_STATUS
+func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(destination *v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 
@@ -5514,9 +5514,9 @@ type ManagedClusterLoadBalancerProfile_STATUS struct {
 	AllocatedOutboundPorts *int                                                         `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_STATUS                                   `json:"effectiveOutboundIPs,omitempty"`
 	IdleTimeoutInMinutes   *int                                                         `json:"idleTimeoutInMinutes,omitempty"`
-	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
-	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
-	OutboundIPs            *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs        `json:"outboundIPs,omitempty"`
+	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS `json:"managedOutboundIPs,omitempty"`
+	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPs            *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        `json:"outboundIPs,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
 }
 
@@ -5551,10 +5551,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
-		var managedOutboundIP ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs(source.ManagedOutboundIPs)
+		var managedOutboundIP ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source.ManagedOutboundIPs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
 		}
 		profile.ManagedOutboundIPs = &managedOutboundIP
 	} else {
@@ -5563,10 +5563,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// OutboundIPPrefixes
 	if source.OutboundIPPrefixes != nil {
-		var outboundIPPrefix ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-		err := outboundIPPrefix.AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes(source.OutboundIPPrefixes)
+		var outboundIPPrefix ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+		err := outboundIPPrefix.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source.OutboundIPPrefixes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes() to populate field OutboundIPPrefixes")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS() to populate field OutboundIPPrefixes")
 		}
 		profile.OutboundIPPrefixes = &outboundIPPrefix
 	} else {
@@ -5575,10 +5575,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// OutboundIPs
 	if source.OutboundIPs != nil {
-		var outboundIP ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs(source.OutboundIPs)
+		var outboundIP ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source.OutboundIPs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs() to populate field OutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
 		}
 		profile.OutboundIPs = &outboundIP
 	} else {
@@ -5627,10 +5627,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP v20210501s.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs(&managedOutboundIP)
+		var managedOutboundIP v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&managedOutboundIP)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
 		}
 		destination.ManagedOutboundIPs = &managedOutboundIP
 	} else {
@@ -5639,10 +5639,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes(&outboundIPPrefix)
+		var outboundIPPrefix v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(&outboundIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes() to populate field OutboundIPPrefixes")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS() to populate field OutboundIPPrefixes")
 		}
 		destination.OutboundIPPrefixes = &outboundIPPrefix
 	} else {
@@ -5651,10 +5651,10 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs(&outboundIP)
+		var outboundIP v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&outboundIP)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs() to populate field OutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
 		}
 		destination.OutboundIPs = &outboundIP
 	} else {
@@ -5835,7 +5835,7 @@ type ManagedClusterPodIdentity_STATUS struct {
 	Name              *string                                            `json:"name,omitempty"`
 	Namespace         *string                                            `json:"namespace,omitempty"`
 	PropertyBag       genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_STATUS_ProvisioningInfo `json:"provisioningInfo,omitempty"`
+	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo_STATUS `json:"provisioningInfo,omitempty"`
 	ProvisioningState *string                                            `json:"provisioningState,omitempty"`
 }
 
@@ -5867,10 +5867,10 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedC
 
 	// ProvisioningInfo
 	if source.ProvisioningInfo != nil {
-		var provisioningInfo ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-		err := provisioningInfo.AssignProperties_From_ManagedClusterPodIdentity_STATUS_ProvisioningInfo(source.ProvisioningInfo)
+		var provisioningInfo ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+		err := provisioningInfo.AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(source.ProvisioningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPodIdentity_STATUS_ProvisioningInfo() to populate field ProvisioningInfo")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS() to populate field ProvisioningInfo")
 		}
 		identity.ProvisioningInfo = &provisioningInfo
 	} else {
@@ -5919,10 +5919,10 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 
 	// ProvisioningInfo
 	if identity.ProvisioningInfo != nil {
-		var provisioningInfo v20210501s.ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-		err := identity.ProvisioningInfo.AssignProperties_To_ManagedClusterPodIdentity_STATUS_ProvisioningInfo(&provisioningInfo)
+		var provisioningInfo v20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+		err := identity.ProvisioningInfo.AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(&provisioningInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentity_STATUS_ProvisioningInfo() to populate field ProvisioningInfo")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS() to populate field ProvisioningInfo")
 		}
 		destination.ProvisioningInfo = &provisioningInfo
 	} else {
@@ -6151,15 +6151,15 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_To_Contai
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-// Deprecated version of ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs instead
-type ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs struct {
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+// Deprecated version of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS. Use v1beta20210501.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS instead
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs populates our ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) error {
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS from the provided source ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6177,8 +6177,8 @@ func (iPs *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) AssignPr
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs from our ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) error {
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS from our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(destination *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
@@ -6196,15 +6196,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs) AssignPr
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-// Deprecated version of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes instead
-type ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes struct {
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+// Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS. Use v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS instead
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS struct {
 	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPPrefixes []ResourceReference_STATUS `json:"publicIPPrefixes,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes populates our ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes(source *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) error {
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS from the provided source ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6237,8 +6237,8 @@ func (prefixes *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) Ass
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes from our ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes(destination *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) error {
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS from our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(destination *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(prefixes.PropertyBag)
 
@@ -6271,15 +6271,15 @@ func (prefixes *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes) Ass
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-// Deprecated version of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs instead
-type ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs struct {
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+// Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS. Use v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS instead
+type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPs   []ResourceReference_STATUS `json:"publicIPs,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs populates our ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs) error {
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS from the provided source ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6312,8 +6312,8 @@ func (iPs *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs) AssignPropertie
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs from our ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs) error {
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS from our ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(destination *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(iPs.PropertyBag)
 
@@ -6541,15 +6541,15 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignProperties_To_Man
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-// Deprecated version of ManagedClusterPodIdentity_STATUS_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_STATUS_ProvisioningInfo instead
-type ManagedClusterPodIdentity_STATUS_ProvisioningInfo struct {
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+// Deprecated version of ManagedClusterPodIdentity_ProvisioningInfo_STATUS. Use v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS instead
+type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
 	Error       *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ManagedClusterPodIdentity_STATUS_ProvisioningInfo populates our ManagedClusterPodIdentity_STATUS_ProvisioningInfo from the provided source ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_STATUS_ProvisioningInfo) AssignProperties_From_ManagedClusterPodIdentity_STATUS_ProvisioningInfo(source *v20210501s.ManagedClusterPodIdentity_STATUS_ProvisioningInfo) error {
+// AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS populates our ManagedClusterPodIdentity_ProvisioningInfo_STATUS from the provided source ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(source *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6576,8 +6576,8 @@ func (info *ManagedClusterPodIdentity_STATUS_ProvisioningInfo) AssignProperties_
 	return nil
 }
 
-// AssignProperties_To_ManagedClusterPodIdentity_STATUS_ProvisioningInfo populates the provided destination ManagedClusterPodIdentity_STATUS_ProvisioningInfo from our ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_STATUS_ProvisioningInfo) AssignProperties_To_ManagedClusterPodIdentity_STATUS_ProvisioningInfo(destination *v20210501s.ManagedClusterPodIdentity_STATUS_ProvisioningInfo) error {
+// AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS populates the provided destination ManagedClusterPodIdentity_ProvisioningInfo_STATUS from our ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(destination *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
 

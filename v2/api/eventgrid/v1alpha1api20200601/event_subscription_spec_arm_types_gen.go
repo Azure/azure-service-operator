@@ -9,54 +9,54 @@ import (
 )
 
 // Deprecated version of EventSubscription_Spec. Use v1beta20200601.EventSubscription_Spec instead
-type EventSubscription_SpecARM struct {
-	Location   *string                         `json:"location,omitempty"`
-	Name       string                          `json:"name,omitempty"`
-	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string               `json:"tags,omitempty"`
+type EventSubscription_Spec_ARM struct {
+	Location   *string                          `json:"location,omitempty"`
+	Name       string                           `json:"name,omitempty"`
+	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
+var _ genruntime.ARMResourceSpec = &EventSubscription_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (subscription EventSubscription_SpecARM) GetAPIVersion() string {
+func (subscription EventSubscription_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (subscription *EventSubscription_SpecARM) GetName() string {
+func (subscription *EventSubscription_Spec_ARM) GetName() string {
 	return subscription.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (subscription *EventSubscription_SpecARM) GetType() string {
+func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 // Deprecated version of EventSubscriptionProperties. Use v1beta20200601.EventSubscriptionProperties instead
-type EventSubscriptionPropertiesARM struct {
-	DeadLetterDestination *StorageBlobDeadLetterDestinationARM             `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestinationARM                 `json:"destination,omitempty"`
+type EventSubscriptionProperties_ARM struct {
+	DeadLetterDestination *StorageBlobDeadLetterDestination_ARM            `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_ARM                `json:"destination,omitempty"`
 	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilterARM                      `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_ARM                     `json:"filter,omitempty"`
 	Labels                []string                                         `json:"labels,omitempty"`
-	RetryPolicy           *RetryPolicyARM                                  `json:"retryPolicy,omitempty"`
+	RetryPolicy           *RetryPolicy_ARM                                 `json:"retryPolicy,omitempty"`
 }
 
 // Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
-type EventSubscriptionDestinationARM struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestinationARM    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestinationARM         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestinationARM `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestinationARM  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestinationARM  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestinationARM     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestinationARM          `json:"webHookEventSubscriptionDestination,omitempty"`
+type EventSubscriptionDestination_ARM struct {
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_ARM    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_ARM         `json:"eventHubEventSubscriptionDestination,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_ARM `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_ARM  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_ARM  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_ARM     `json:"storageQueueEventSubscriptionDestination,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_ARM          `json:"webHookEventSubscriptionDestination,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestinationARM represents a discriminated union (JSON OneOf)
-func (destination EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestination_ARM represents a discriminated union (JSON OneOf)
+func (destination EventSubscriptionDestination_ARM) MarshalJSON() ([]byte, error) {
 	if destination.AzureFunction != nil {
 		return json.Marshal(destination.AzureFunction)
 	}
@@ -81,8 +81,8 @@ func (destination EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error)
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the EventSubscriptionDestinationARM
-func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the EventSubscriptionDestination_ARM
+func (destination *EventSubscriptionDestination_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -90,31 +90,31 @@ func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) e
 	}
 	discriminator := rawJson["endpointType"]
 	if discriminator == "AzureFunction" {
-		destination.AzureFunction = &AzureFunctionEventSubscriptionDestinationARM{}
+		destination.AzureFunction = &AzureFunctionEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.AzureFunction)
 	}
 	if discriminator == "EventHub" {
-		destination.EventHub = &EventHubEventSubscriptionDestinationARM{}
+		destination.EventHub = &EventHubEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.EventHub)
 	}
 	if discriminator == "HybridConnection" {
-		destination.HybridConnection = &HybridConnectionEventSubscriptionDestinationARM{}
+		destination.HybridConnection = &HybridConnectionEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.HybridConnection)
 	}
 	if discriminator == "ServiceBusQueue" {
-		destination.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestinationARM{}
+		destination.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.ServiceBusQueue)
 	}
 	if discriminator == "ServiceBusTopic" {
-		destination.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestinationARM{}
+		destination.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.ServiceBusTopic)
 	}
 	if discriminator == "StorageQueue" {
-		destination.StorageQueue = &StorageQueueEventSubscriptionDestinationARM{}
+		destination.StorageQueue = &StorageQueueEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.StorageQueue)
 	}
 	if discriminator == "WebHook" {
-		destination.WebHook = &WebHookEventSubscriptionDestinationARM{}
+		destination.WebHook = &WebHookEventSubscriptionDestination_ARM{}
 		return json.Unmarshal(data, destination.WebHook)
 	}
 
@@ -123,44 +123,44 @@ func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) e
 }
 
 // Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead
-type EventSubscriptionFilterARM struct {
-	AdvancedFilters        []AdvancedFilterARM `json:"advancedFilters,omitempty"`
-	IncludedEventTypes     []string            `json:"includedEventTypes,omitempty"`
-	IsSubjectCaseSensitive *bool               `json:"isSubjectCaseSensitive,omitempty"`
-	SubjectBeginsWith      *string             `json:"subjectBeginsWith,omitempty"`
-	SubjectEndsWith        *string             `json:"subjectEndsWith,omitempty"`
+type EventSubscriptionFilter_ARM struct {
+	AdvancedFilters        []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
+	IncludedEventTypes     []string             `json:"includedEventTypes,omitempty"`
+	IsSubjectCaseSensitive *bool                `json:"isSubjectCaseSensitive,omitempty"`
+	SubjectBeginsWith      *string              `json:"subjectBeginsWith,omitempty"`
+	SubjectEndsWith        *string              `json:"subjectEndsWith,omitempty"`
 }
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
-type RetryPolicyARM struct {
+type RetryPolicy_ARM struct {
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
 // Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead
-type StorageBlobDeadLetterDestinationARM struct {
-	EndpointType *StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
-	Properties   *StorageBlobDeadLetterDestinationPropertiesARM `json:"properties,omitempty"`
+type StorageBlobDeadLetterDestination_ARM struct {
+	EndpointType *StorageBlobDeadLetterDestination_EndpointType  `json:"endpointType,omitempty"`
+	Properties   *StorageBlobDeadLetterDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
-type AdvancedFilterARM struct {
-	BoolEquals                *AdvancedFilter_BoolEqualsARM                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *AdvancedFilter_NumberGreaterThanARM         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEqualsARM `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *AdvancedFilter_NumberInARM                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *AdvancedFilter_NumberLessThanARM            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEqualsARM    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *AdvancedFilter_NumberNotInARM               `json:"numberNotInAdvancedFilter,omitempty"`
-	StringBeginsWith          *AdvancedFilter_StringBeginsWithARM          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *AdvancedFilter_StringContainsARM            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *AdvancedFilter_StringEndsWithARM            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *AdvancedFilter_StringInARM                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *AdvancedFilter_StringNotInARM               `json:"stringNotInAdvancedFilter,omitempty"`
+type AdvancedFilter_ARM struct {
+	BoolEquals                *AdvancedFilter_BoolEquals_ARM                `json:"boolEqualsAdvancedFilter,omitempty"`
+	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan_ARM         `json:"numberGreaterThanAdvancedFilter,omitempty"`
+	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals_ARM `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
+	NumberIn                  *AdvancedFilter_NumberIn_ARM                  `json:"numberInAdvancedFilter,omitempty"`
+	NumberLessThan            *AdvancedFilter_NumberLessThan_ARM            `json:"numberLessThanAdvancedFilter,omitempty"`
+	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEquals_ARM    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
+	NumberNotIn               *AdvancedFilter_NumberNotIn_ARM               `json:"numberNotInAdvancedFilter,omitempty"`
+	StringBeginsWith          *AdvancedFilter_StringBeginsWith_ARM          `json:"stringBeginsWithAdvancedFilter,omitempty"`
+	StringContains            *AdvancedFilter_StringContains_ARM            `json:"stringContainsAdvancedFilter,omitempty"`
+	StringEndsWith            *AdvancedFilter_StringEndsWith_ARM            `json:"stringEndsWithAdvancedFilter,omitempty"`
+	StringIn                  *AdvancedFilter_StringIn_ARM                  `json:"stringInAdvancedFilter,omitempty"`
+	StringNotIn               *AdvancedFilter_StringNotIn_ARM               `json:"stringNotInAdvancedFilter,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilterARM represents a discriminated union (JSON OneOf)
-func (filter AdvancedFilterARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilter_ARM represents a discriminated union (JSON OneOf)
+func (filter AdvancedFilter_ARM) MarshalJSON() ([]byte, error) {
 	if filter.BoolEquals != nil {
 		return json.Marshal(filter.BoolEquals)
 	}
@@ -200,8 +200,8 @@ func (filter AdvancedFilterARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the AdvancedFilterARM
-func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the AdvancedFilter_ARM
+func (filter *AdvancedFilter_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -209,51 +209,51 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["operatorType"]
 	if discriminator == "BoolEquals" {
-		filter.BoolEquals = &AdvancedFilter_BoolEqualsARM{}
+		filter.BoolEquals = &AdvancedFilter_BoolEquals_ARM{}
 		return json.Unmarshal(data, filter.BoolEquals)
 	}
 	if discriminator == "NumberGreaterThan" {
-		filter.NumberGreaterThan = &AdvancedFilter_NumberGreaterThanARM{}
+		filter.NumberGreaterThan = &AdvancedFilter_NumberGreaterThan_ARM{}
 		return json.Unmarshal(data, filter.NumberGreaterThan)
 	}
 	if discriminator == "NumberGreaterThanOrEquals" {
-		filter.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEqualsARM{}
+		filter.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEquals_ARM{}
 		return json.Unmarshal(data, filter.NumberGreaterThanOrEquals)
 	}
 	if discriminator == "NumberIn" {
-		filter.NumberIn = &AdvancedFilter_NumberInARM{}
+		filter.NumberIn = &AdvancedFilter_NumberIn_ARM{}
 		return json.Unmarshal(data, filter.NumberIn)
 	}
 	if discriminator == "NumberLessThan" {
-		filter.NumberLessThan = &AdvancedFilter_NumberLessThanARM{}
+		filter.NumberLessThan = &AdvancedFilter_NumberLessThan_ARM{}
 		return json.Unmarshal(data, filter.NumberLessThan)
 	}
 	if discriminator == "NumberLessThanOrEquals" {
-		filter.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEqualsARM{}
+		filter.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEquals_ARM{}
 		return json.Unmarshal(data, filter.NumberLessThanOrEquals)
 	}
 	if discriminator == "NumberNotIn" {
-		filter.NumberNotIn = &AdvancedFilter_NumberNotInARM{}
+		filter.NumberNotIn = &AdvancedFilter_NumberNotIn_ARM{}
 		return json.Unmarshal(data, filter.NumberNotIn)
 	}
 	if discriminator == "StringBeginsWith" {
-		filter.StringBeginsWith = &AdvancedFilter_StringBeginsWithARM{}
+		filter.StringBeginsWith = &AdvancedFilter_StringBeginsWith_ARM{}
 		return json.Unmarshal(data, filter.StringBeginsWith)
 	}
 	if discriminator == "StringContains" {
-		filter.StringContains = &AdvancedFilter_StringContainsARM{}
+		filter.StringContains = &AdvancedFilter_StringContains_ARM{}
 		return json.Unmarshal(data, filter.StringContains)
 	}
 	if discriminator == "StringEndsWith" {
-		filter.StringEndsWith = &AdvancedFilter_StringEndsWithARM{}
+		filter.StringEndsWith = &AdvancedFilter_StringEndsWith_ARM{}
 		return json.Unmarshal(data, filter.StringEndsWith)
 	}
 	if discriminator == "StringIn" {
-		filter.StringIn = &AdvancedFilter_StringInARM{}
+		filter.StringIn = &AdvancedFilter_StringIn_ARM{}
 		return json.Unmarshal(data, filter.StringIn)
 	}
 	if discriminator == "StringNotIn" {
-		filter.StringNotIn = &AdvancedFilter_StringNotInARM{}
+		filter.StringNotIn = &AdvancedFilter_StringNotIn_ARM{}
 		return json.Unmarshal(data, filter.StringNotIn)
 	}
 
@@ -262,172 +262,172 @@ func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 }
 
 // Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead
-type AzureFunctionEventSubscriptionDestinationARM struct {
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *AzureFunctionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type AzureFunctionEventSubscriptionDestination_ARM struct {
+	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *AzureFunctionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
-type EventHubEventSubscriptionDestinationARM struct {
-	EndpointType EventHubEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *EventHubEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type EventHubEventSubscriptionDestination_ARM struct {
+	EndpointType EventHubEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *EventHubEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
-type HybridConnectionEventSubscriptionDestinationARM struct {
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *HybridConnectionEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type HybridConnectionEventSubscriptionDestination_ARM struct {
+	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *HybridConnectionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead
-type ServiceBusQueueEventSubscriptionDestinationARM struct {
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *ServiceBusQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type ServiceBusQueueEventSubscriptionDestination_ARM struct {
+	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *ServiceBusQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead
-type ServiceBusTopicEventSubscriptionDestinationARM struct {
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *ServiceBusTopicEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type ServiceBusTopicEventSubscriptionDestination_ARM struct {
+	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *ServiceBusTopicEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead
-type StorageBlobDeadLetterDestinationPropertiesARM struct {
+type StorageBlobDeadLetterDestinationProperties_ARM struct {
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead
-type StorageQueueEventSubscriptionDestinationARM struct {
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *StorageQueueEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type StorageQueueEventSubscriptionDestination_ARM struct {
+	EndpointType StorageQueueEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *StorageQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead
-type WebHookEventSubscriptionDestinationARM struct {
-	EndpointType WebHookEventSubscriptionDestination_EndpointType  `json:"endpointType,omitempty"`
-	Properties   *WebHookEventSubscriptionDestinationPropertiesARM `json:"properties,omitempty"`
+type WebHookEventSubscriptionDestination_ARM struct {
+	EndpointType WebHookEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
-type AdvancedFilter_BoolEqualsARM struct {
+type AdvancedFilter_BoolEquals_ARM struct {
 	Key          *string                                `json:"key,omitempty"`
 	OperatorType AdvancedFilter_BoolEquals_OperatorType `json:"operatorType,omitempty"`
 	Value        *bool                                  `json:"value,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead
-type AdvancedFilter_NumberGreaterThanARM struct {
+type AdvancedFilter_NumberGreaterThan_ARM struct {
 	Key          *string                                       `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberGreaterThan_OperatorType `json:"operatorType,omitempty"`
 	Value        *float64                                      `json:"value,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead
-type AdvancedFilter_NumberGreaterThanOrEqualsARM struct {
+type AdvancedFilter_NumberGreaterThanOrEquals_ARM struct {
 	Key          *string                                               `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberGreaterThanOrEquals_OperatorType `json:"operatorType,omitempty"`
 	Value        *float64                                              `json:"value,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead
-type AdvancedFilter_NumberInARM struct {
+type AdvancedFilter_NumberIn_ARM struct {
 	Key          *string                              `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberIn_OperatorType `json:"operatorType,omitempty"`
 	Values       []float64                            `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead
-type AdvancedFilter_NumberLessThanARM struct {
+type AdvancedFilter_NumberLessThan_ARM struct {
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberLessThan_OperatorType `json:"operatorType,omitempty"`
 	Value        *float64                                   `json:"value,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead
-type AdvancedFilter_NumberLessThanOrEqualsARM struct {
+type AdvancedFilter_NumberLessThanOrEquals_ARM struct {
 	Key          *string                                            `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberLessThanOrEquals_OperatorType `json:"operatorType,omitempty"`
 	Value        *float64                                           `json:"value,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead
-type AdvancedFilter_NumberNotInARM struct {
+type AdvancedFilter_NumberNotIn_ARM struct {
 	Key          *string                                 `json:"key,omitempty"`
 	OperatorType AdvancedFilter_NumberNotIn_OperatorType `json:"operatorType,omitempty"`
 	Values       []float64                               `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead
-type AdvancedFilter_StringBeginsWithARM struct {
+type AdvancedFilter_StringBeginsWith_ARM struct {
 	Key          *string                                      `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringBeginsWith_OperatorType `json:"operatorType,omitempty"`
 	Values       []string                                     `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead
-type AdvancedFilter_StringContainsARM struct {
+type AdvancedFilter_StringContains_ARM struct {
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringContains_OperatorType `json:"operatorType,omitempty"`
 	Values       []string                                   `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead
-type AdvancedFilter_StringEndsWithARM struct {
+type AdvancedFilter_StringEndsWith_ARM struct {
 	Key          *string                                    `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringEndsWith_OperatorType `json:"operatorType,omitempty"`
 	Values       []string                                   `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead
-type AdvancedFilter_StringInARM struct {
+type AdvancedFilter_StringIn_ARM struct {
 	Key          *string                              `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringIn_OperatorType `json:"operatorType,omitempty"`
 	Values       []string                             `json:"values,omitempty"`
 }
 
 // Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead
-type AdvancedFilter_StringNotInARM struct {
+type AdvancedFilter_StringNotIn_ARM struct {
 	Key          *string                                 `json:"key,omitempty"`
 	OperatorType AdvancedFilter_StringNotIn_OperatorType `json:"operatorType,omitempty"`
 	Values       []string                                `json:"values,omitempty"`
 }
 
 // Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead
-type AzureFunctionEventSubscriptionDestinationPropertiesARM struct {
+type AzureFunctionEventSubscriptionDestinationProperties_ARM struct {
 	MaxEventsPerBatch             *int    `json:"maxEventsPerBatch,omitempty"`
 	PreferredBatchSizeInKilobytes *int    `json:"preferredBatchSizeInKilobytes,omitempty"`
 	ResourceId                    *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead
-type EventHubEventSubscriptionDestinationPropertiesARM struct {
+type EventHubEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead
-type HybridConnectionEventSubscriptionDestinationPropertiesARM struct {
+type HybridConnectionEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
-type ServiceBusQueueEventSubscriptionDestinationPropertiesARM struct {
+type ServiceBusQueueEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
-type ServiceBusTopicEventSubscriptionDestinationPropertiesARM struct {
+type ServiceBusTopicEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead
-type StorageQueueEventSubscriptionDestinationPropertiesARM struct {
+type StorageQueueEventSubscriptionDestinationProperties_ARM struct {
 	QueueName  *string `json:"queueName,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead
-type WebHookEventSubscriptionDestinationPropertiesARM struct {
+type WebHookEventSubscriptionDestinationProperties_ARM struct {
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 	AzureActiveDirectoryTenantId           *string `json:"azureActiveDirectoryTenantId,omitempty"`
 	EndpointUrl                            *string `json:"endpointUrl,omitempty"`

@@ -5,7 +5,7 @@ package v1beta20200202
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Component_SpecARM struct {
+type Component_Spec_ARM struct {
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 
@@ -20,31 +20,31 @@ type Component_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties that define an Application Insights component resource.
-	Properties *ApplicationInsightsComponentPropertiesARM `json:"properties,omitempty"`
+	Properties *ApplicationInsightsComponentProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Component_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Component_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
-func (component Component_SpecARM) GetAPIVersion() string {
+func (component Component_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (component *Component_SpecARM) GetName() string {
+func (component *Component_Spec_ARM) GetName() string {
 	return component.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
-func (component *Component_SpecARM) GetType() string {
+func (component *Component_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/components"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties
-type ApplicationInsightsComponentPropertiesARM struct {
+type ApplicationInsightsComponentProperties_ARM struct {
 	// Application_Type: Type of application being monitored.
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
 

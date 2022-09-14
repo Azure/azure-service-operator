@@ -6,38 +6,38 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec instead
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM struct {
-	Location   *string                                          `json:"location,omitempty"`
-	Name       string                                           `json:"name,omitempty"`
-	Properties *SqlUserDefinedFunctionCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM struct {
+	Location   *string                                           `json:"location,omitempty"`
+	Name       string                                            `json:"name,omitempty"`
+	Properties *SqlUserDefinedFunctionCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (function DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM) GetAPIVersion() string {
+func (function DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM) GetName() string {
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM) GetName() string {
 	return function.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
-func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_SpecARM) GetType() string {
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 // Deprecated version of SqlUserDefinedFunctionCreateUpdateProperties. Use v1beta20210515.SqlUserDefinedFunctionCreateUpdateProperties instead
-type SqlUserDefinedFunctionCreateUpdatePropertiesARM struct {
-	Options  *CreateUpdateOptionsARM            `json:"options,omitempty"`
-	Resource *SqlUserDefinedFunctionResourceARM `json:"resource,omitempty"`
+type SqlUserDefinedFunctionCreateUpdateProperties_ARM struct {
+	Options  *CreateUpdateOptions_ARM            `json:"options,omitempty"`
+	Resource *SqlUserDefinedFunctionResource_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
-type SqlUserDefinedFunctionResourceARM struct {
+type SqlUserDefinedFunctionResource_ARM struct {
 	Body *string `json:"body,omitempty"`
 	Id   *string `json:"id,omitempty"`
 }

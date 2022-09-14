@@ -4,59 +4,59 @@
 package v1alpha1api20200601
 
 // Deprecated version of DomainTopic_STATUS. Use v1beta20200601.DomainTopic_STATUS instead
-type DomainTopic_STATUSARM struct {
-	Id         *string                          `json:"id,omitempty"`
-	Name       *string                          `json:"name,omitempty"`
-	Properties *DomainTopicProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM            `json:"systemData,omitempty"`
-	Type       *string                          `json:"type,omitempty"`
+type DomainTopic_STATUS_ARM struct {
+	Id         *string                           `json:"id,omitempty"`
+	Name       *string                           `json:"name,omitempty"`
+	Properties *DomainTopicProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM            `json:"systemData,omitempty"`
+	Type       *string                           `json:"type,omitempty"`
 }
 
 // Deprecated version of DomainTopicProperties_STATUS. Use v1beta20200601.DomainTopicProperties_STATUS instead
-type DomainTopicProperties_STATUSARM struct {
-	ProvisioningState *DomainTopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+type DomainTopicProperties_STATUS_ARM struct {
+	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20200601.SystemData_STATUS instead
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
 	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
 	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// Deprecated version of DomainTopicProperties_STATUS_ProvisioningState. Use
-// v1beta20200601.DomainTopicProperties_STATUS_ProvisioningState instead
-type DomainTopicProperties_STATUS_ProvisioningState string
+// Deprecated version of DomainTopicProperties_ProvisioningState_STATUS. Use
+// v1beta20200601.DomainTopicProperties_ProvisioningState_STATUS instead
+type DomainTopicProperties_ProvisioningState_STATUS string
 
 const (
-	DomainTopicProperties_STATUS_ProvisioningState_Canceled  = DomainTopicProperties_STATUS_ProvisioningState("Canceled")
-	DomainTopicProperties_STATUS_ProvisioningState_Creating  = DomainTopicProperties_STATUS_ProvisioningState("Creating")
-	DomainTopicProperties_STATUS_ProvisioningState_Deleting  = DomainTopicProperties_STATUS_ProvisioningState("Deleting")
-	DomainTopicProperties_STATUS_ProvisioningState_Failed    = DomainTopicProperties_STATUS_ProvisioningState("Failed")
-	DomainTopicProperties_STATUS_ProvisioningState_Succeeded = DomainTopicProperties_STATUS_ProvisioningState("Succeeded")
-	DomainTopicProperties_STATUS_ProvisioningState_Updating  = DomainTopicProperties_STATUS_ProvisioningState("Updating")
+	DomainTopicProperties_ProvisioningState_STATUS_Canceled  = DomainTopicProperties_ProvisioningState_STATUS("Canceled")
+	DomainTopicProperties_ProvisioningState_STATUS_Creating  = DomainTopicProperties_ProvisioningState_STATUS("Creating")
+	DomainTopicProperties_ProvisioningState_STATUS_Deleting  = DomainTopicProperties_ProvisioningState_STATUS("Deleting")
+	DomainTopicProperties_ProvisioningState_STATUS_Failed    = DomainTopicProperties_ProvisioningState_STATUS("Failed")
+	DomainTopicProperties_ProvisioningState_STATUS_Succeeded = DomainTopicProperties_ProvisioningState_STATUS("Succeeded")
+	DomainTopicProperties_ProvisioningState_STATUS_Updating  = DomainTopicProperties_ProvisioningState_STATUS("Updating")
 )
 
-// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20200601.SystemData_STATUS_CreatedByType instead
-type SystemData_STATUS_CreatedByType string
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1beta20200601.SystemData_CreatedByType_STATUS instead
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-// Deprecated version of SystemData_STATUS_LastModifiedByType. Use v1beta20200601.SystemData_STATUS_LastModifiedByType
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20200601.SystemData_LastModifiedByType_STATUS
 // instead
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

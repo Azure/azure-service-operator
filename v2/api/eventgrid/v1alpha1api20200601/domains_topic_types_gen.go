@@ -352,7 +352,7 @@ func (topic *Domains_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if topic == nil {
 		return nil, nil
 	}
-	result := &Domains_Topic_SpecARM{}
+	result := &Domains_Topic_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if topic.Location != nil {
@@ -375,14 +375,14 @@ func (topic *Domains_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *Domains_Topic_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Domains_Topic_SpecARM{}
+	return &Domains_Topic_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *Domains_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Domains_Topic_SpecARM)
+	typedInput, ok := armInput.(Domains_Topic_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domains_Topic_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -535,7 +535,7 @@ type DomainTopic_STATUS struct {
 	Conditions        []conditions.Condition                          `json:"conditions,omitempty"`
 	Id                *string                                         `json:"id,omitempty"`
 	Name              *string                                         `json:"name,omitempty"`
-	ProvisioningState *DomainTopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 	SystemData        *SystemData_STATUS                              `json:"systemData,omitempty"`
 	Type              *string                                         `json:"type,omitempty"`
 }
@@ -594,14 +594,14 @@ var _ genruntime.FromARMConverter = &DomainTopic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (topic *DomainTopic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DomainTopic_STATUSARM{}
+	return &DomainTopic_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (topic *DomainTopic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DomainTopic_STATUSARM)
+	typedInput, ok := armInput.(DomainTopic_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainTopic_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainTopic_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -662,7 +662,7 @@ func (topic *DomainTopic_STATUS) AssignProperties_From_DomainTopic_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DomainTopicProperties_STATUS_ProvisioningState(*source.ProvisioningState)
+		provisioningState := DomainTopicProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		topic.ProvisioningState = &provisioningState
 	} else {
 		topic.ProvisioningState = nil

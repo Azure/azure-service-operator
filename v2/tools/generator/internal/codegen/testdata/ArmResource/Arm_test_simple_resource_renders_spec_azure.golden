@@ -270,24 +270,24 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecARM struct {
+type FakeResource_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (resource FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource *FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -315,7 +315,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_SpecARM{}
+	result := &FakeResource_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -324,14 +324,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SpecARM{}
+	return &FakeResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecARM)
+	typedInput, ok := armInput.(FakeResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:

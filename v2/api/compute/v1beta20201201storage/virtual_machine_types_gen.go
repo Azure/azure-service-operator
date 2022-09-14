@@ -226,9 +226,9 @@ type VirtualMachine_Spec struct {
 	Identity             *VirtualMachineIdentity                        `json:"identity,omitempty"`
 	LicenseType          *string                                        `json:"licenseType,omitempty"`
 	Location             *string                                        `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachine_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
+	NetworkProfile       *VirtualMachine_Properties_NetworkProfile_Spec `json:"networkProfile,omitempty"`
 	OriginalVersion      string                                         `json:"originalVersion,omitempty"`
-	OsProfile            *VirtualMachine_Spec_Properties_OsProfile      `json:"osProfile,omitempty"`
+	OsProfile            *VirtualMachine_Properties_OsProfile_Spec      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -461,10 +461,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachine_Spec_Properties_NetworkProfile
-		err := networkProfile.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile(source.NetworkProfile)
+		var networkProfile VirtualMachine_Properties_NetworkProfile_Spec
+		err := networkProfile.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
 		}
 		machine.NetworkProfile = &networkProfile
 	} else {
@@ -476,10 +476,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile VirtualMachine_Spec_Properties_OsProfile
-		err := osProfile.AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile(source.OsProfile)
+		var osProfile VirtualMachine_Properties_OsProfile_Spec
+		err := osProfile.AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
 		}
 		machine.OsProfile = &osProfile
 	} else {
@@ -777,10 +777,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// NetworkProfile
 	if machine.NetworkProfile != nil {
-		var networkProfile v20220301s.VirtualMachine_Spec_Properties_NetworkProfile
-		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile(&networkProfile)
+		var networkProfile v20220301s.VirtualMachine_Properties_NetworkProfile_Spec
+		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -792,10 +792,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// OsProfile
 	if machine.OsProfile != nil {
-		var osProfile v20220301s.VirtualMachine_Spec_Properties_OsProfile
-		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile(&osProfile)
+		var osProfile v20220301s.VirtualMachine_Properties_OsProfile_Spec
+		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -1042,13 +1042,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// AvailabilitySet
 	if source.AvailabilitySet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.AvailabilitySet)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.AvailabilitySet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from AvailabilitySet")
 		}
 		var availabilitySet SubResource_STATUS
-		err = availabilitySet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = availabilitySet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field AvailabilitySet from SubResource_STATUSStash")
 		}
@@ -1096,13 +1096,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash v20210701s.ExtendedLocation_STATUS
-		err := extendedLocation_STATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		var extendedLocationSTATUSStash v20210701s.ExtendedLocation_STATUS
+		err := extendedLocationSTATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
 		var extendedLocation ExtendedLocation_STATUS
-		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -1128,13 +1128,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// Host
 	if source.Host != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.Host)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Host)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Host")
 		}
 		var host SubResource_STATUS
-		err = host.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = host.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Host from SubResource_STATUSStash")
 		}
@@ -1145,13 +1145,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// HostGroup
 	if source.HostGroup != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.HostGroup)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.HostGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
 		var hostGroup SubResource_STATUS
-		err = hostGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = hostGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
@@ -1243,13 +1243,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
 		var proximityPlacementGroup SubResource_STATUS
-		err = proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
@@ -1329,13 +1329,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualMachineScaleSet)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualMachineScaleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachineScaleSet")
 		}
 		var virtualMachineScaleSet SubResource_STATUS
-		err = virtualMachineScaleSet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = virtualMachineScaleSet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachineScaleSet from SubResource_STATUSStash")
 		}
@@ -1393,13 +1393,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// AvailabilitySet
 	if machine.AvailabilitySet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := machine.AvailabilitySet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := machine.AvailabilitySet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from AvailabilitySet")
 		}
 		var availabilitySet v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&availabilitySet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&availabilitySet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field AvailabilitySet from SubResource_STATUSStash")
 		}
@@ -1453,13 +1453,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// ExtendedLocation
 	if machine.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash v20210701s.ExtendedLocation_STATUS
-		err := machine.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStash v20210701s.ExtendedLocation_STATUS
+		err := machine.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
 		var extendedLocation v20220301s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err = extendedLocationSTATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -1485,13 +1485,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// Host
 	if machine.Host != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := machine.Host.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := machine.Host.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Host")
 		}
 		var host v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&host)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&host)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Host from SubResource_STATUSStash")
 		}
@@ -1502,13 +1502,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// HostGroup
 	if machine.HostGroup != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := machine.HostGroup.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := machine.HostGroup.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
 		var hostGroup v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&hostGroup)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&hostGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
@@ -1600,13 +1600,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// ProximityPlacementGroup
 	if machine.ProximityPlacementGroup != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := machine.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := machine.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
 		var proximityPlacementGroup v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
@@ -1704,13 +1704,13 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// VirtualMachineScaleSet
 	if machine.VirtualMachineScaleSet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := machine.VirtualMachineScaleSet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := machine.VirtualMachineScaleSet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachineScaleSet")
 		}
 		var virtualMachineScaleSet v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&virtualMachineScaleSet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&virtualMachineScaleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachineScaleSet from SubResource_STATUSStash")
 		}
@@ -3298,14 +3298,14 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachine_Spec_Properties_NetworkProfile
-type VirtualMachine_Spec_Properties_NetworkProfile struct {
-	NetworkInterfaces []VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
+// Storage version of v1beta20201201.VirtualMachine_Properties_NetworkProfile_Spec
+type VirtualMachine_Properties_NetworkProfile_Spec struct {
+	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile populates our VirtualMachine_Spec_Properties_NetworkProfile from the provided source VirtualMachine_Spec_Properties_NetworkProfile
-func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile(source *v20220301s.VirtualMachine_Spec_Properties_NetworkProfile) error {
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec populates our VirtualMachine_Properties_NetworkProfile_Spec from the provided source VirtualMachine_Properties_NetworkProfile_Spec
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3325,14 +3325,14 @@ func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_F
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, len(source.NetworkInterfaces))
+		networkInterfaceList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterface.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterfaceItem)
+			var networkInterface VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+			err := networkInterface.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -3352,8 +3352,8 @@ func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_F
 	return nil
 }
 
-// AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile populates the provided destination VirtualMachine_Spec_Properties_NetworkProfile from our VirtualMachine_Spec_Properties_NetworkProfile
-func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile(destination *v20220301s.VirtualMachine_Spec_Properties_NetworkProfile) error {
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_Spec from our VirtualMachine_Properties_NetworkProfile_Spec
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -3372,7 +3372,7 @@ func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_T
 
 	// NetworkInterfaceConfigurations
 	if propertyBag.Contains("NetworkInterfaceConfigurations") {
-		var networkInterfaceConfiguration []v20220301s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
+		var networkInterfaceConfiguration []v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
 		err := propertyBag.Pull("NetworkInterfaceConfigurations", &networkInterfaceConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'NetworkInterfaceConfigurations' from propertyBag")
@@ -3385,14 +3385,14 @@ func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_T
 
 	// NetworkInterfaces
 	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20220301s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, len(profile.NetworkInterfaces))
+		networkInterfaceList := make([]v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(profile.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20220301s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterface)
+			var networkInterface v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -3412,8 +3412,8 @@ func (profile *VirtualMachine_Spec_Properties_NetworkProfile) AssignProperties_T
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachine_Spec_Properties_OsProfile
-type VirtualMachine_Spec_Properties_OsProfile struct {
+// Storage version of v1beta20201201.VirtualMachine_Properties_OsProfile_Spec
+type VirtualMachine_Properties_OsProfile_Spec struct {
 	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername               *string                     `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
@@ -3426,8 +3426,8 @@ type VirtualMachine_Spec_Properties_OsProfile struct {
 	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
-// AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile populates our VirtualMachine_Spec_Properties_OsProfile from the provided source VirtualMachine_Spec_Properties_OsProfile
-func (profile *VirtualMachine_Spec_Properties_OsProfile) AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile(source *v20220301s.VirtualMachine_Spec_Properties_OsProfile) error {
+// AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec populates our VirtualMachine_Properties_OsProfile_Spec from the provided source VirtualMachine_Properties_OsProfile_Spec
+func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3517,8 +3517,8 @@ func (profile *VirtualMachine_Spec_Properties_OsProfile) AssignProperties_From_V
 	return nil
 }
 
-// AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile populates the provided destination VirtualMachine_Spec_Properties_OsProfile from our VirtualMachine_Spec_Properties_OsProfile
-func (profile *VirtualMachine_Spec_Properties_OsProfile) AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile(destination *v20220301s.VirtualMachine_Spec_Properties_OsProfile) error {
+// AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec populates the provided destination VirtualMachine_Properties_OsProfile_Spec from our VirtualMachine_Properties_OsProfile_Spec
+func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(destination *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -6520,13 +6520,13 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_From_VaultSecretGroup_STA
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault SubResource_STATUS
-		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
@@ -6571,13 +6571,13 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 
 	// SourceVault
 	if group.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := group.SourceVault.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := group.SourceVault.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
@@ -6615,8 +6615,8 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
+// Storage version of v1beta20201201.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec struct {
 	Primary     *bool                  `json:"primary,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -6624,8 +6624,8 @@ type VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces populates our VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(source *v20220301s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6663,8 +6663,8 @@ func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterface
 	return nil
 }
 
-// AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces populates the provided destination VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(destination *v20220301s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(interfaces.PropertyBag)
 
@@ -8484,13 +8484,13 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_From_ManagedDis
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet SubResource_STATUS
-		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = diskEncryptionSet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -8530,13 +8530,13 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskP
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
 		var diskEncryptionSet v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
@@ -9618,13 +9618,13 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_From_KeyVaultKeyR
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault SubResource_STATUS
-		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
@@ -9654,13 +9654,13 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyRef
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
@@ -9777,13 +9777,13 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultS
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := subResource_STATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault SubResource_STATUS
-		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResource_STATUSStash)
+		err = sourceVault.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
@@ -9813,13 +9813,13 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var subResource_STATUSStash v20210701s.SubResource_STATUS
-		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&subResource_STATUSStash)
+		var subResourceSTATUSStash v20210701s.SubResource_STATUS
+		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
 		var sourceVault v20220301s.SubResource_STATUS
-		err = subResource_STATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}

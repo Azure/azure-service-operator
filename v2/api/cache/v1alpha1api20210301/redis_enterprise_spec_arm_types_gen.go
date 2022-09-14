@@ -6,39 +6,39 @@ package v1alpha1api20210301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
-type RedisEnterprise_SpecARM struct {
-	Location   *string               `json:"location,omitempty"`
-	Name       string                `json:"name,omitempty"`
-	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
-	Sku        *SkuARM               `json:"sku,omitempty"`
-	Tags       map[string]string     `json:"tags,omitempty"`
-	Zones      []string              `json:"zones,omitempty"`
+type RedisEnterprise_Spec_ARM struct {
+	Location   *string                `json:"location,omitempty"`
+	Name       string                 `json:"name,omitempty"`
+	Properties *ClusterProperties_ARM `json:"properties,omitempty"`
+	Sku        *Sku_ARM               `json:"sku,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
+	Zones      []string               `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &RedisEnterprise_SpecARM{}
+var _ genruntime.ARMResourceSpec = &RedisEnterprise_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
-func (enterprise RedisEnterprise_SpecARM) GetAPIVersion() string {
+func (enterprise RedisEnterprise_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (enterprise *RedisEnterprise_SpecARM) GetName() string {
+func (enterprise *RedisEnterprise_Spec_ARM) GetName() string {
 	return enterprise.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
-func (enterprise *RedisEnterprise_SpecARM) GetType() string {
+func (enterprise *RedisEnterprise_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
 // Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
-type ClusterPropertiesARM struct {
+type ClusterProperties_ARM struct {
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210301.Sku instead
-type SkuARM struct {
+type Sku_ARM struct {
 	Capacity *int      `json:"capacity,omitempty"`
 	Name     *Sku_Name `json:"name,omitempty"`
 }

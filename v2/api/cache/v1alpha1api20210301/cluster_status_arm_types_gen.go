@@ -4,45 +4,45 @@
 package v1alpha1api20210301
 
 // Deprecated version of Cluster_STATUS. Use v1beta20210301.Cluster_STATUS instead
-type Cluster_STATUSARM struct {
-	Id         *string                      `json:"id,omitempty"`
-	Location   *string                      `json:"location,omitempty"`
-	Name       *string                      `json:"name,omitempty"`
-	Properties *ClusterProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUSARM               `json:"sku,omitempty"`
-	Tags       map[string]string            `json:"tags,omitempty"`
-	Type       *string                      `json:"type,omitempty"`
-	Zones      []string                     `json:"zones,omitempty"`
+type Cluster_STATUS_ARM struct {
+	Id         *string                       `json:"id,omitempty"`
+	Location   *string                       `json:"location,omitempty"`
+	Name       *string                       `json:"name,omitempty"`
+	Properties *ClusterProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *Sku_STATUS_ARM               `json:"sku,omitempty"`
+	Tags       map[string]string             `json:"tags,omitempty"`
+	Type       *string                       `json:"type,omitempty"`
+	Zones      []string                      `json:"zones,omitempty"`
 }
 
 // Deprecated version of ClusterProperties_STATUS. Use v1beta20210301.ClusterProperties_STATUS instead
-type ClusterProperties_STATUSARM struct {
-	HostName                   *string                                                   `json:"hostName,omitempty"`
-	MinimumTlsVersion          *ClusterProperties_STATUS_MinimumTlsVersion               `json:"minimumTlsVersion,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState_STATUS                                 `json:"provisioningState,omitempty"`
-	RedisVersion               *string                                                   `json:"redisVersion,omitempty"`
-	ResourceState              *ResourceState_STATUS                                     `json:"resourceState,omitempty"`
+type ClusterProperties_STATUS_ARM struct {
+	HostName                   *string                                                    `json:"hostName,omitempty"`
+	MinimumTlsVersion          *ClusterProperties_MinimumTlsVersion_STATUS                `json:"minimumTlsVersion,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
+	RedisVersion               *string                                                    `json:"redisVersion,omitempty"`
+	ResourceState              *ResourceState_STATUS                                      `json:"resourceState,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210301.Sku_STATUS instead
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	Capacity *int             `json:"capacity,omitempty"`
-	Name     *Sku_STATUS_Name `json:"name,omitempty"`
+	Name     *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-// Deprecated version of ClusterProperties_STATUS_MinimumTlsVersion. Use
-// v1beta20210301.ClusterProperties_STATUS_MinimumTlsVersion instead
-type ClusterProperties_STATUS_MinimumTlsVersion string
+// Deprecated version of ClusterProperties_MinimumTlsVersion_STATUS. Use
+// v1beta20210301.ClusterProperties_MinimumTlsVersion_STATUS instead
+type ClusterProperties_MinimumTlsVersion_STATUS string
 
 const (
-	ClusterProperties_STATUS_MinimumTlsVersion_10 = ClusterProperties_STATUS_MinimumTlsVersion("1.0")
-	ClusterProperties_STATUS_MinimumTlsVersion_11 = ClusterProperties_STATUS_MinimumTlsVersion("1.1")
-	ClusterProperties_STATUS_MinimumTlsVersion_12 = ClusterProperties_STATUS_MinimumTlsVersion("1.2")
+	ClusterProperties_MinimumTlsVersion_STATUS_10 = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
+	ClusterProperties_MinimumTlsVersion_STATUS_11 = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
+	ClusterProperties_MinimumTlsVersion_STATUS_12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -76,15 +76,15 @@ const (
 	ResourceState_STATUS_Updating      = ResourceState_STATUS("Updating")
 )
 
-// Deprecated version of Sku_STATUS_Name. Use v1beta20210301.Sku_STATUS_Name instead
-type Sku_STATUS_Name string
+// Deprecated version of Sku_Name_STATUS. Use v1beta20210301.Sku_Name_STATUS instead
+type Sku_Name_STATUS string
 
 const (
-	Sku_STATUS_Name_EnterpriseFlash_F1500 = Sku_STATUS_Name("EnterpriseFlash_F1500")
-	Sku_STATUS_Name_EnterpriseFlash_F300  = Sku_STATUS_Name("EnterpriseFlash_F300")
-	Sku_STATUS_Name_EnterpriseFlash_F700  = Sku_STATUS_Name("EnterpriseFlash_F700")
-	Sku_STATUS_Name_Enterprise_E10        = Sku_STATUS_Name("Enterprise_E10")
-	Sku_STATUS_Name_Enterprise_E100       = Sku_STATUS_Name("Enterprise_E100")
-	Sku_STATUS_Name_Enterprise_E20        = Sku_STATUS_Name("Enterprise_E20")
-	Sku_STATUS_Name_Enterprise_E50        = Sku_STATUS_Name("Enterprise_E50")
+	Sku_Name_STATUS_EnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
+	Sku_Name_STATUS_EnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
+	Sku_Name_STATUS_EnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
+	Sku_Name_STATUS_Enterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
+	Sku_Name_STATUS_Enterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
+	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
+	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
 )

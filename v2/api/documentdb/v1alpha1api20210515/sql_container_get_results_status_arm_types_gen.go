@@ -4,132 +4,132 @@
 package v1alpha1api20210515
 
 // Deprecated version of SqlContainerGetResults_STATUS. Use v1beta20210515.SqlContainerGetResults_STATUS instead
-type SqlContainerGetResults_STATUSARM struct {
-	Id         *string                              `json:"id,omitempty"`
-	Location   *string                              `json:"location,omitempty"`
-	Name       *string                              `json:"name,omitempty"`
-	Properties *SqlContainerGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                    `json:"tags,omitempty"`
-	Type       *string                              `json:"type,omitempty"`
+type SqlContainerGetResults_STATUS_ARM struct {
+	Id         *string                               `json:"id,omitempty"`
+	Location   *string                               `json:"location,omitempty"`
+	Name       *string                               `json:"name,omitempty"`
+	Properties *SqlContainerGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                     `json:"tags,omitempty"`
+	Type       *string                               `json:"type,omitempty"`
 }
 
 // Deprecated version of SqlContainerGetProperties_STATUS. Use v1beta20210515.SqlContainerGetProperties_STATUS instead
-type SqlContainerGetProperties_STATUSARM struct {
-	Options  *OptionsResource_STATUSARM                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlContainerGetProperties_STATUS_ARM struct {
+	Options  *OptionsResource_STATUS_ARM                    `json:"options,omitempty"`
+	Resource *SqlContainerGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlContainerGetProperties_STATUS_Resource. Use v1beta20210515.SqlContainerGetProperties_STATUS_Resource instead
-type SqlContainerGetProperties_STATUS_ResourceARM struct {
-	AnalyticalStorageTtl     *int                                `json:"analyticalStorageTtl,omitempty"`
-	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUSARM `json:"conflictResolutionPolicy,omitempty"`
-	DefaultTtl               *int                                `json:"defaultTtl,omitempty"`
-	Etag                     *string                             `json:"_etag,omitempty"`
-	Id                       *string                             `json:"id,omitempty"`
-	IndexingPolicy           *IndexingPolicy_STATUSARM           `json:"indexingPolicy,omitempty"`
-	PartitionKey             *ContainerPartitionKey_STATUSARM    `json:"partitionKey,omitempty"`
-	Rid                      *string                             `json:"_rid,omitempty"`
-	Ts                       *float64                            `json:"_ts,omitempty"`
-	UniqueKeyPolicy          *UniqueKeyPolicy_STATUSARM          `json:"uniqueKeyPolicy,omitempty"`
+// Deprecated version of SqlContainerGetProperties_Resource_STATUS. Use v1beta20210515.SqlContainerGetProperties_Resource_STATUS instead
+type SqlContainerGetProperties_Resource_STATUS_ARM struct {
+	AnalyticalStorageTtl     *int                                 `json:"analyticalStorageTtl,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS_ARM `json:"conflictResolutionPolicy,omitempty"`
+	DefaultTtl               *int                                 `json:"defaultTtl,omitempty"`
+	Etag                     *string                              `json:"_etag,omitempty"`
+	Id                       *string                              `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_STATUS_ARM           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_STATUS_ARM    `json:"partitionKey,omitempty"`
+	Rid                      *string                              `json:"_rid,omitempty"`
+	Ts                       *float64                             `json:"_ts,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS_ARM          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 // Deprecated version of ConflictResolutionPolicy_STATUS. Use v1beta20210515.ConflictResolutionPolicy_STATUS instead
-type ConflictResolutionPolicy_STATUSARM struct {
+type ConflictResolutionPolicy_STATUS_ARM struct {
 	ConflictResolutionPath      *string                               `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                               `json:"conflictResolutionProcedure,omitempty"`
-	Mode                        *ConflictResolutionPolicy_STATUS_Mode `json:"mode,omitempty"`
+	Mode                        *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
 }
 
 // Deprecated version of ContainerPartitionKey_STATUS. Use v1beta20210515.ContainerPartitionKey_STATUS instead
-type ContainerPartitionKey_STATUSARM struct {
-	Kind      *ContainerPartitionKey_STATUS_Kind `json:"kind,omitempty"`
+type ContainerPartitionKey_STATUS_ARM struct {
+	Kind      *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
 	Paths     []string                           `json:"paths,omitempty"`
 	SystemKey *bool                              `json:"systemKey,omitempty"`
 	Version   *int                               `json:"version,omitempty"`
 }
 
 // Deprecated version of IndexingPolicy_STATUS. Use v1beta20210515.IndexingPolicy_STATUS instead
-type IndexingPolicy_STATUSARM struct {
+type IndexingPolicy_STATUS_ARM struct {
 	Automatic        *bool                               `json:"automatic,omitempty"`
-	CompositeIndexes [][]CompositePath_STATUSARM         `json:"compositeIndexes,omitempty"`
-	ExcludedPaths    []ExcludedPath_STATUSARM            `json:"excludedPaths,omitempty"`
-	IncludedPaths    []IncludedPath_STATUSARM            `json:"includedPaths,omitempty"`
-	IndexingMode     *IndexingPolicy_STATUS_IndexingMode `json:"indexingMode,omitempty"`
-	SpatialIndexes   []SpatialSpec_STATUSARM             `json:"spatialIndexes,omitempty"`
+	CompositeIndexes [][]CompositePath_STATUS_ARM        `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_STATUS_ARM           `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_STATUS_ARM           `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_STATUS_ARM            `json:"spatialIndexes,omitempty"`
 }
 
 // Deprecated version of UniqueKeyPolicy_STATUS. Use v1beta20210515.UniqueKeyPolicy_STATUS instead
-type UniqueKeyPolicy_STATUSARM struct {
-	UniqueKeys []UniqueKey_STATUSARM `json:"uniqueKeys,omitempty"`
+type UniqueKeyPolicy_STATUS_ARM struct {
+	UniqueKeys []UniqueKey_STATUS_ARM `json:"uniqueKeys,omitempty"`
 }
 
 // Deprecated version of CompositePath_STATUS. Use v1beta20210515.CompositePath_STATUS instead
-type CompositePath_STATUSARM struct {
-	Order *CompositePath_STATUS_Order `json:"order,omitempty"`
+type CompositePath_STATUS_ARM struct {
+	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
 	Path  *string                     `json:"path,omitempty"`
 }
 
-// Deprecated version of ConflictResolutionPolicy_STATUS_Mode. Use v1beta20210515.ConflictResolutionPolicy_STATUS_Mode
+// Deprecated version of ConflictResolutionPolicy_Mode_STATUS. Use v1beta20210515.ConflictResolutionPolicy_Mode_STATUS
 // instead
-type ConflictResolutionPolicy_STATUS_Mode string
+type ConflictResolutionPolicy_Mode_STATUS string
 
 const (
-	ConflictResolutionPolicy_STATUS_Mode_Custom         = ConflictResolutionPolicy_STATUS_Mode("Custom")
-	ConflictResolutionPolicy_STATUS_Mode_LastWriterWins = ConflictResolutionPolicy_STATUS_Mode("LastWriterWins")
+	ConflictResolutionPolicy_Mode_STATUS_Custom         = ConflictResolutionPolicy_Mode_STATUS("Custom")
+	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
 )
 
-// Deprecated version of ContainerPartitionKey_STATUS_Kind. Use v1beta20210515.ContainerPartitionKey_STATUS_Kind instead
-type ContainerPartitionKey_STATUS_Kind string
+// Deprecated version of ContainerPartitionKey_Kind_STATUS. Use v1beta20210515.ContainerPartitionKey_Kind_STATUS instead
+type ContainerPartitionKey_Kind_STATUS string
 
 const (
-	ContainerPartitionKey_STATUS_Kind_Hash      = ContainerPartitionKey_STATUS_Kind("Hash")
-	ContainerPartitionKey_STATUS_Kind_MultiHash = ContainerPartitionKey_STATUS_Kind("MultiHash")
-	ContainerPartitionKey_STATUS_Kind_Range     = ContainerPartitionKey_STATUS_Kind("Range")
+	ContainerPartitionKey_Kind_STATUS_Hash      = ContainerPartitionKey_Kind_STATUS("Hash")
+	ContainerPartitionKey_Kind_STATUS_MultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
+	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
 )
 
 // Deprecated version of ExcludedPath_STATUS. Use v1beta20210515.ExcludedPath_STATUS instead
-type ExcludedPath_STATUSARM struct {
+type ExcludedPath_STATUS_ARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
 // Deprecated version of IncludedPath_STATUS. Use v1beta20210515.IncludedPath_STATUS instead
-type IncludedPath_STATUSARM struct {
-	Indexes []Indexes_STATUSARM `json:"indexes,omitempty"`
-	Path    *string             `json:"path,omitempty"`
+type IncludedPath_STATUS_ARM struct {
+	Indexes []Indexes_STATUS_ARM `json:"indexes,omitempty"`
+	Path    *string              `json:"path,omitempty"`
 }
 
-// Deprecated version of IndexingPolicy_STATUS_IndexingMode. Use v1beta20210515.IndexingPolicy_STATUS_IndexingMode instead
-type IndexingPolicy_STATUS_IndexingMode string
+// Deprecated version of IndexingPolicy_IndexingMode_STATUS. Use v1beta20210515.IndexingPolicy_IndexingMode_STATUS instead
+type IndexingPolicy_IndexingMode_STATUS string
 
 const (
-	IndexingPolicy_STATUS_IndexingMode_Consistent = IndexingPolicy_STATUS_IndexingMode("consistent")
-	IndexingPolicy_STATUS_IndexingMode_Lazy       = IndexingPolicy_STATUS_IndexingMode("lazy")
-	IndexingPolicy_STATUS_IndexingMode_None       = IndexingPolicy_STATUS_IndexingMode("none")
+	IndexingPolicy_IndexingMode_STATUS_Consistent = IndexingPolicy_IndexingMode_STATUS("consistent")
+	IndexingPolicy_IndexingMode_STATUS_Lazy       = IndexingPolicy_IndexingMode_STATUS("lazy")
+	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
 )
 
 // Deprecated version of SpatialSpec_STATUS. Use v1beta20210515.SpatialSpec_STATUS instead
-type SpatialSpec_STATUSARM struct {
+type SpatialSpec_STATUS_ARM struct {
 	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_STATUS `json:"types,omitempty"`
 }
 
 // Deprecated version of UniqueKey_STATUS. Use v1beta20210515.UniqueKey_STATUS instead
-type UniqueKey_STATUSARM struct {
+type UniqueKey_STATUS_ARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-// Deprecated version of CompositePath_STATUS_Order. Use v1beta20210515.CompositePath_STATUS_Order instead
-type CompositePath_STATUS_Order string
+// Deprecated version of CompositePath_Order_STATUS. Use v1beta20210515.CompositePath_Order_STATUS instead
+type CompositePath_Order_STATUS string
 
 const (
-	CompositePath_STATUS_Order_Ascending  = CompositePath_STATUS_Order("ascending")
-	CompositePath_STATUS_Order_Descending = CompositePath_STATUS_Order("descending")
+	CompositePath_Order_STATUS_Ascending  = CompositePath_Order_STATUS("ascending")
+	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
 )
 
 // Deprecated version of Indexes_STATUS. Use v1beta20210515.Indexes_STATUS instead
-type Indexes_STATUSARM struct {
-	DataType  *Indexes_STATUS_DataType `json:"dataType,omitempty"`
-	Kind      *Indexes_STATUS_Kind     `json:"kind,omitempty"`
+type Indexes_STATUS_ARM struct {
+	DataType  *Indexes_DataType_STATUS `json:"dataType,omitempty"`
+	Kind      *Indexes_Kind_STATUS     `json:"kind,omitempty"`
 	Precision *int                     `json:"precision,omitempty"`
 }
 
@@ -143,23 +143,23 @@ const (
 	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
 )
 
-// Deprecated version of Indexes_STATUS_DataType. Use v1beta20210515.Indexes_STATUS_DataType instead
-type Indexes_STATUS_DataType string
+// Deprecated version of Indexes_DataType_STATUS. Use v1beta20210515.Indexes_DataType_STATUS instead
+type Indexes_DataType_STATUS string
 
 const (
-	Indexes_STATUS_DataType_LineString   = Indexes_STATUS_DataType("LineString")
-	Indexes_STATUS_DataType_MultiPolygon = Indexes_STATUS_DataType("MultiPolygon")
-	Indexes_STATUS_DataType_Number       = Indexes_STATUS_DataType("Number")
-	Indexes_STATUS_DataType_Point        = Indexes_STATUS_DataType("Point")
-	Indexes_STATUS_DataType_Polygon      = Indexes_STATUS_DataType("Polygon")
-	Indexes_STATUS_DataType_String       = Indexes_STATUS_DataType("String")
+	Indexes_DataType_STATUS_LineString   = Indexes_DataType_STATUS("LineString")
+	Indexes_DataType_STATUS_MultiPolygon = Indexes_DataType_STATUS("MultiPolygon")
+	Indexes_DataType_STATUS_Number       = Indexes_DataType_STATUS("Number")
+	Indexes_DataType_STATUS_Point        = Indexes_DataType_STATUS("Point")
+	Indexes_DataType_STATUS_Polygon      = Indexes_DataType_STATUS("Polygon")
+	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
 )
 
-// Deprecated version of Indexes_STATUS_Kind. Use v1beta20210515.Indexes_STATUS_Kind instead
-type Indexes_STATUS_Kind string
+// Deprecated version of Indexes_Kind_STATUS. Use v1beta20210515.Indexes_Kind_STATUS instead
+type Indexes_Kind_STATUS string
 
 const (
-	Indexes_STATUS_Kind_Hash    = Indexes_STATUS_Kind("Hash")
-	Indexes_STATUS_Kind_Range   = Indexes_STATUS_Kind("Range")
-	Indexes_STATUS_Kind_Spatial = Indexes_STATUS_Kind("Spatial")
+	Indexes_Kind_STATUS_Hash    = Indexes_Kind_STATUS("Hash")
+	Indexes_Kind_STATUS_Range   = Indexes_Kind_STATUS("Range")
+	Indexes_Kind_STATUS_Spatial = Indexes_Kind_STATUS("Spatial")
 )

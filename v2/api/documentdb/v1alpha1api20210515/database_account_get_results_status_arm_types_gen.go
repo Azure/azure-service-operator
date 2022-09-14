@@ -4,97 +4,97 @@
 package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountGetResults_STATUS. Use v1beta20210515.DatabaseAccountGetResults_STATUS instead
-type DatabaseAccountGetResults_STATUSARM struct {
-	Id         *string                                 `json:"id,omitempty"`
-	Identity   *ManagedServiceIdentity_STATUSARM       `json:"identity,omitempty"`
-	Kind       *DatabaseAccountGetResults_STATUS_Kind  `json:"kind,omitempty"`
-	Location   *string                                 `json:"location,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                       `json:"tags,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+type DatabaseAccountGetResults_STATUS_ARM struct {
+	Id         *string                                  `json:"id,omitempty"`
+	Identity   *ManagedServiceIdentity_STATUS_ARM       `json:"identity,omitempty"`
+	Kind       *DatabaseAccountGetResults_Kind_STATUS   `json:"kind,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *DatabaseAccountGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 // Deprecated version of DatabaseAccountGetProperties_STATUS. Use v1beta20210515.DatabaseAccountGetProperties_STATUS instead
-type DatabaseAccountGetProperties_STATUSARM struct {
-	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUSARM                 `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                      *ApiProperties_STATUSARM                                  `json:"apiProperties,omitempty"`
-	BackupPolicy                       *BackupPolicy_STATUSARM                                   `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability_STATUSARM                                    `json:"capabilities,omitempty"`
-	ConnectorOffer                     *ConnectorOffer_STATUS                                    `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy_STATUSARM                              `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy_STATUSARM                                    `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *DatabaseAccountOfferType_STATUS                          `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                                                   `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                                                     `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	DocumentEndpoint                   *string                                                   `json:"documentEndpoint,omitempty"`
-	EnableAnalyticalStorage            *bool                                                     `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                                                     `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                                                     `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                                                     `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                                                     `json:"enableMultipleWriteLocations,omitempty"`
-	FailoverPolicies                   []FailoverPolicy_STATUSARM                                `json:"failoverPolicies,omitempty"`
-	IpRules                            []IpAddressOrRange_STATUSARM                              `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                                                     `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                                                   `json:"keyVaultKeyUri,omitempty"`
-	Locations                          []Location_STATUSARM                                      `json:"locations,omitempty"`
-	NetworkAclBypass                   *NetworkAclBypass_STATUS                                  `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                                                  `json:"networkAclBypassResourceIds,omitempty"`
-	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState                  *string                                                   `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                *PublicNetworkAccess_STATUS                               `json:"publicNetworkAccess,omitempty"`
-	ReadLocations                      []Location_STATUSARM                                      `json:"readLocations,omitempty"`
-	VirtualNetworkRules                []VirtualNetworkRule_STATUSARM                            `json:"virtualNetworkRules,omitempty"`
-	WriteLocations                     []Location_STATUSARM                                      `json:"writeLocations,omitempty"`
+type DatabaseAccountGetProperties_STATUS_ARM struct {
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS_ARM                 `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_STATUS_ARM                                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_STATUS_ARM                                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_STATUS_ARM                                    `json:"capabilities,omitempty"`
+	ConnectorOffer                     *ConnectorOffer_STATUS                                     `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUS_ARM                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUS_ARM                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountOfferType_STATUS                           `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                    `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                      `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                    `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                      `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                      `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                      `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                      `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                      `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUS_ARM                                `json:"failoverPolicies,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUS_ARM                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                      `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                    `json:"keyVaultKeyUri,omitempty"`
+	Locations                          []Location_STATUS_ARM                                      `json:"locations,omitempty"`
+	NetworkAclBypass                   *NetworkAclBypass_STATUS                                   `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                                   `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                  *string                                                    `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *PublicNetworkAccess_STATUS                                `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUS_ARM                                      `json:"readLocations,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUS_ARM                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUS_ARM                                      `json:"writeLocations,omitempty"`
 }
 
-// Deprecated version of DatabaseAccountGetResults_STATUS_Kind. Use v1beta20210515.DatabaseAccountGetResults_STATUS_Kind
+// Deprecated version of DatabaseAccountGetResults_Kind_STATUS. Use v1beta20210515.DatabaseAccountGetResults_Kind_STATUS
 // instead
-type DatabaseAccountGetResults_STATUS_Kind string
+type DatabaseAccountGetResults_Kind_STATUS string
 
 const (
-	DatabaseAccountGetResults_STATUS_Kind_GlobalDocumentDB = DatabaseAccountGetResults_STATUS_Kind("GlobalDocumentDB")
-	DatabaseAccountGetResults_STATUS_Kind_MongoDB          = DatabaseAccountGetResults_STATUS_Kind("MongoDB")
-	DatabaseAccountGetResults_STATUS_Kind_Parse            = DatabaseAccountGetResults_STATUS_Kind("Parse")
+	DatabaseAccountGetResults_Kind_STATUS_GlobalDocumentDB = DatabaseAccountGetResults_Kind_STATUS("GlobalDocumentDB")
+	DatabaseAccountGetResults_Kind_STATUS_MongoDB          = DatabaseAccountGetResults_Kind_STATUS("MongoDB")
+	DatabaseAccountGetResults_Kind_STATUS_Parse            = DatabaseAccountGetResults_Kind_STATUS("Parse")
 )
 
 // Deprecated version of ManagedServiceIdentity_STATUS. Use v1beta20210515.ManagedServiceIdentity_STATUS instead
-type ManagedServiceIdentity_STATUSARM struct {
-	PrincipalId            *string                                                            `json:"principalId,omitempty"`
-	TenantId               *string                                                            `json:"tenantId,omitempty"`
-	Type                   *ManagedServiceIdentity_STATUS_Type                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+type ManagedServiceIdentity_STATUS_ARM struct {
+	PrincipalId            *string                                                             `json:"principalId,omitempty"`
+	TenantId               *string                                                             `json:"tenantId,omitempty"`
+	Type                   *ManagedServiceIdentity_Type_STATUS                                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of AnalyticalStorageConfiguration_STATUS. Use v1beta20210515.AnalyticalStorageConfiguration_STATUS instead
-type AnalyticalStorageConfiguration_STATUSARM struct {
+type AnalyticalStorageConfiguration_STATUS_ARM struct {
 	SchemaType *AnalyticalStorageSchemaType_STATUS `json:"schemaType,omitempty"`
 }
 
 // Deprecated version of ApiProperties_STATUS. Use v1beta20210515.ApiProperties_STATUS instead
-type ApiProperties_STATUSARM struct {
-	ServerVersion *ApiProperties_STATUS_ServerVersion `json:"serverVersion,omitempty"`
+type ApiProperties_STATUS_ARM struct {
+	ServerVersion *ApiProperties_ServerVersion_STATUS `json:"serverVersion,omitempty"`
 }
 
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
-type BackupPolicy_STATUSARM struct {
+type BackupPolicy_STATUS_ARM struct {
 	Type *BackupPolicyType_STATUS `json:"type,omitempty"`
 }
 
 // Deprecated version of Capability_STATUS. Use v1beta20210515.Capability_STATUS instead
-type Capability_STATUSARM struct {
+type Capability_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
 // Deprecated version of ConsistencyPolicy_STATUS. Use v1beta20210515.ConsistencyPolicy_STATUS instead
-type ConsistencyPolicy_STATUSARM struct {
-	DefaultConsistencyLevel *ConsistencyPolicy_STATUS_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
+type ConsistencyPolicy_STATUS_ARM struct {
+	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                                              `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                                              `json:"maxStalenessPrefix,omitempty"`
 }
 
 // Deprecated version of CorsPolicy_STATUS. Use v1beta20210515.CorsPolicy_STATUS instead
-type CorsPolicy_STATUSARM struct {
+type CorsPolicy_STATUS_ARM struct {
 	AllowedHeaders  *string `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string `json:"allowedMethods,omitempty"`
 	AllowedOrigins  *string `json:"allowedOrigins,omitempty"`
@@ -103,19 +103,19 @@ type CorsPolicy_STATUSARM struct {
 }
 
 // Deprecated version of FailoverPolicy_STATUS. Use v1beta20210515.FailoverPolicy_STATUS instead
-type FailoverPolicy_STATUSARM struct {
+type FailoverPolicy_STATUS_ARM struct {
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
 	Id               *string `json:"id,omitempty"`
 	LocationName     *string `json:"locationName,omitempty"`
 }
 
 // Deprecated version of IpAddressOrRange_STATUS. Use v1beta20210515.IpAddressOrRange_STATUS instead
-type IpAddressOrRange_STATUSARM struct {
+type IpAddressOrRange_STATUS_ARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
 // Deprecated version of Location_STATUS. Use v1beta20210515.Location_STATUS instead
-type Location_STATUSARM struct {
+type Location_STATUS_ARM struct {
 	DocumentEndpoint  *string `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int    `json:"failoverPriority,omitempty"`
 	Id                *string `json:"id,omitempty"`
@@ -124,29 +124,29 @@ type Location_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-// Deprecated version of ManagedServiceIdentity_STATUS_Type. Use v1beta20210515.ManagedServiceIdentity_STATUS_Type instead
-type ManagedServiceIdentity_STATUS_Type string
+// Deprecated version of ManagedServiceIdentity_Type_STATUS. Use v1beta20210515.ManagedServiceIdentity_Type_STATUS instead
+type ManagedServiceIdentity_Type_STATUS string
 
 const (
-	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
-	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
-	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
 )
 
-// Deprecated version of ManagedServiceIdentity_STATUS_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_STATUS_UserAssignedIdentities instead
-type ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM struct {
+// Deprecated version of ManagedServiceIdentity_UserAssignedIdentities_STATUS. Use v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS instead
+type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkRule_STATUS. Use v1beta20210515.VirtualNetworkRule_STATUS instead
-type VirtualNetworkRule_STATUSARM struct {
+type VirtualNetworkRule_STATUS_ARM struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }

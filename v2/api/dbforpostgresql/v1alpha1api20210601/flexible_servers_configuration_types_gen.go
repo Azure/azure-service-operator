@@ -337,7 +337,7 @@ type Configuration_STATUS struct {
 
 	// Conditions: The observed state of the resource
 	Conditions             []conditions.Condition                   `json:"conditions,omitempty"`
-	DataType               *ConfigurationProperties_STATUS_DataType `json:"dataType,omitempty"`
+	DataType               *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
 	DefaultValue           *string                                  `json:"defaultValue,omitempty"`
 	Description            *string                                  `json:"description,omitempty"`
 	DocumentationLink      *string                                  `json:"documentationLink,omitempty"`
@@ -407,14 +407,14 @@ var _ genruntime.FromARMConverter = &Configuration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Configuration_STATUSARM{}
+	return &Configuration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Configuration_STATUSARM)
+	typedInput, ok := armInput.(Configuration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedValues’:
@@ -562,7 +562,7 @@ func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_S
 
 	// DataType
 	if source.DataType != nil {
-		dataType := ConfigurationProperties_STATUS_DataType(*source.DataType)
+		dataType := ConfigurationProperties_DataType_STATUS(*source.DataType)
 		configuration.DataType = &dataType
 	} else {
 		configuration.DataType = nil
@@ -751,7 +751,7 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FlexibleServers_Configuration_SpecARM{}
+	result := &FlexibleServers_Configuration_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if configuration.Location != nil {
@@ -764,7 +764,7 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 
 	// Set property ‘Properties’:
 	if configuration.Source != nil || configuration.Value != nil {
-		result.Properties = &ConfigurationPropertiesARM{}
+		result.Properties = &ConfigurationProperties_ARM{}
 	}
 	if configuration.Source != nil {
 		source := *configuration.Source
@@ -787,14 +787,14 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FlexibleServers_Configuration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_Configuration_SpecARM{}
+	return &FlexibleServers_Configuration_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FlexibleServers_Configuration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_Configuration_SpecARM)
+	typedInput, ok := armInput.(FlexibleServers_Configuration_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Configuration_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Configuration_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:

@@ -273,17 +273,17 @@ func Database_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabase_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_STATUS_ClientProtocol_Encrypted, DatabaseProperties_STATUS_ClientProtocol_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster, DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_STATUS_Encrypted, DatabaseProperties_ClientProtocol_STATUS_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU,
-		DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU,
-		DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom,
-		DatabaseProperties_STATUS_EvictionPolicy_NoEviction,
-		DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU,
-		DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU,
-		DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom,
-		DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL))
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
@@ -860,7 +860,7 @@ func Persistence_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistence_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistence_STATUS(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_STATUS_AofFrequency_1S, Persistence_STATUS_AofFrequency_Always))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_STATUS_1S, Persistence_AofFrequency_STATUS_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_STATUS_RdbFrequency_12H, Persistence_STATUS_RdbFrequency_1H, Persistence_STATUS_RdbFrequency_6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_12H, Persistence_RdbFrequency_STATUS_1H, Persistence_RdbFrequency_STATUS_6H))
 }

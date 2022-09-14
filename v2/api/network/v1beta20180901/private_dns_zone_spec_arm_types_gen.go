@@ -5,7 +5,7 @@ package v1beta20180901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type PrivateDnsZone_SpecARM struct {
+type PrivateDnsZone_Spec_ARM struct {
 	// Etag: The ETag of the Private DNS zone.
 	Etag *string `json:"etag,omitempty"`
 
@@ -19,19 +19,19 @@ type PrivateDnsZone_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &PrivateDnsZone_SpecARM{}
+var _ genruntime.ARMResourceSpec = &PrivateDnsZone_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-09-01"
-func (zone PrivateDnsZone_SpecARM) GetAPIVersion() string {
+func (zone PrivateDnsZone_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (zone *PrivateDnsZone_SpecARM) GetName() string {
+func (zone *PrivateDnsZone_Spec_ARM) GetName() string {
 	return zone.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateDnsZones"
-func (zone *PrivateDnsZone_SpecARM) GetType() string {
+func (zone *PrivateDnsZone_Spec_ARM) GetType() string {
 	return "Microsoft.Network/privateDnsZones"
 }

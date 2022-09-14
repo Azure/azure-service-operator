@@ -174,7 +174,7 @@ type Namespaces_Eventhub_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName              string                                                  `json:"azureName,omitempty"`
-	CaptureDescription     *Namespaces_Eventhub_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
+	CaptureDescription     *Namespaces_Eventhub_Properties_CaptureDescription_Spec `json:"captureDescription,omitempty"`
 	Location               *string                                                 `json:"location,omitempty"`
 	MessageRetentionInDays *int                                                    `json:"messageRetentionInDays,omitempty"`
 	OriginalVersion        string                                                  `json:"originalVersion,omitempty"`
@@ -220,9 +220,9 @@ type CaptureDescription_STATUS struct {
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
 }
 
-// Storage version of v1beta20211101.Namespaces_Eventhub_Spec_Properties_CaptureDescription
-type Namespaces_Eventhub_Spec_Properties_CaptureDescription struct {
-	Destination       *Namespaces_Eventhub_Spec_Properties_CaptureDescription_Destination `json:"destination,omitempty"`
+// Storage version of v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Spec
+type Namespaces_Eventhub_Properties_CaptureDescription_Spec struct {
+	Destination       *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec `json:"destination,omitempty"`
 	Enabled           *bool                                                               `json:"enabled,omitempty"`
 	Encoding          *string                                                             `json:"encoding,omitempty"`
 	IntervalInSeconds *int                                                                `json:"intervalInSeconds,omitempty"`
@@ -243,8 +243,8 @@ type Destination_STATUS struct {
 	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
 }
 
-// Storage version of v1beta20211101.Namespaces_Eventhub_Spec_Properties_CaptureDescription_Destination
-type Namespaces_Eventhub_Spec_Properties_CaptureDescription_Destination struct {
+// Storage version of v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec
+type Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec struct {
 	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer          *string                `json:"blobContainer,omitempty"`
 	DataLakeAccountName    *string                `json:"dataLakeAccountName,omitempty"`

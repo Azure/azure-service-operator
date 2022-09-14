@@ -401,7 +401,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if redis == nil {
 		return nil, nil
 	}
-	result := &Redis_SpecARM{}
+	result := &Redis_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if redis.Location != nil {
@@ -425,7 +425,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		redis.StaticIP != nil ||
 		redis.SubnetReference != nil ||
 		redis.TenantSettings != nil {
-		result.Properties = &RedisCreatePropertiesARM{}
+		result.Properties = &RedisCreateProperties_ARM{}
 	}
 	if redis.EnableNonSslPort != nil {
 		enableNonSslPort := *redis.EnableNonSslPort
@@ -462,11 +462,11 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.ShardCount = &shardCount
 	}
 	if redis.Sku != nil {
-		skuARM, err := (*redis.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*redis.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*SkuARM)
+		sku := *sku_ARM.(*Sku_ARM)
 		result.Properties.Sku = &sku
 	}
 	if redis.StaticIP != nil {
@@ -505,14 +505,14 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (redis *Redis_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_SpecARM{}
+	return &Redis_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_SpecARM)
+	typedInput, ok := armInput.(Redis_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -956,12 +956,12 @@ type RedisResource_STATUS struct {
 	Instances                  []RedisInstanceDetails_STATUS                          `json:"instances,omitempty"`
 	LinkedServers              []RedisLinkedServer_STATUS                             `json:"linkedServers,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion          *RedisProperties_STATUS_MinimumTlsVersion              `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion          *RedisProperties_MinimumTlsVersion_STATUS              `json:"minimumTlsVersion,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
 	Port                       *int                                                   `json:"port,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RedisProperties_STATUS_ProvisioningState              `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RedisProperties_STATUS_PublicNetworkAccess            `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *RedisProperties_ProvisioningState_STATUS              `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RedisProperties_PublicNetworkAccess_STATUS            `json:"publicNetworkAccess,omitempty"`
 	RedisConfiguration         map[string]string                                      `json:"redisConfiguration,omitempty"`
 	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
 	ReplicasPerMaster          *int                                                   `json:"replicasPerMaster,omitempty"`
@@ -1031,14 +1031,14 @@ var _ genruntime.FromARMConverter = &RedisResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *RedisResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisResource_STATUSARM{}
+	return &RedisResource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *RedisResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisResource_STATUSARM)
+	typedInput, ok := armInput.(RedisResource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisResource_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1337,7 +1337,7 @@ func (resource *RedisResource_STATUS) AssignProperties_From_RedisResource_STATUS
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisProperties_STATUS_MinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisProperties_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
 		resource.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		resource.MinimumTlsVersion = nil
@@ -1369,7 +1369,7 @@ func (resource *RedisResource_STATUS) AssignProperties_From_RedisResource_STATUS
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := RedisProperties_STATUS_ProvisioningState(*source.ProvisioningState)
+		provisioningState := RedisProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		resource.ProvisioningState = &provisioningState
 	} else {
 		resource.ProvisioningState = nil
@@ -1377,7 +1377,7 @@ func (resource *RedisResource_STATUS) AssignProperties_From_RedisResource_STATUS
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisProperties_STATUS_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
 		resource.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		resource.PublicNetworkAccess = nil
@@ -1612,14 +1612,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourc
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
+	return &PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1696,14 +1696,14 @@ var _ genruntime.FromARMConverter = &RedisInstanceDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *RedisInstanceDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisInstanceDetails_STATUSARM{}
+	return &RedisInstanceDetails_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *RedisInstanceDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisInstanceDetails_STATUSARM)
+	typedInput, ok := armInput.(RedisInstanceDetails_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisInstanceDetails_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisInstanceDetails_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IsMaster’:
@@ -1834,14 +1834,14 @@ var _ genruntime.FromARMConverter = &RedisLinkedServer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *RedisLinkedServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisLinkedServer_STATUSARM{}
+	return &RedisLinkedServer_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *RedisLinkedServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisLinkedServer_STATUSARM)
+	typedInput, ok := armInput.(RedisLinkedServer_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1936,42 +1936,42 @@ func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destina
 	return nil
 }
 
-// Deprecated version of RedisProperties_STATUS_MinimumTlsVersion. Use
-// v1beta20201201.RedisProperties_STATUS_MinimumTlsVersion instead
-type RedisProperties_STATUS_MinimumTlsVersion string
+// Deprecated version of RedisProperties_MinimumTlsVersion_STATUS. Use
+// v1beta20201201.RedisProperties_MinimumTlsVersion_STATUS instead
+type RedisProperties_MinimumTlsVersion_STATUS string
 
 const (
-	RedisProperties_STATUS_MinimumTlsVersion_10 = RedisProperties_STATUS_MinimumTlsVersion("1.0")
-	RedisProperties_STATUS_MinimumTlsVersion_11 = RedisProperties_STATUS_MinimumTlsVersion("1.1")
-	RedisProperties_STATUS_MinimumTlsVersion_12 = RedisProperties_STATUS_MinimumTlsVersion("1.2")
+	RedisProperties_MinimumTlsVersion_STATUS_10 = RedisProperties_MinimumTlsVersion_STATUS("1.0")
+	RedisProperties_MinimumTlsVersion_STATUS_11 = RedisProperties_MinimumTlsVersion_STATUS("1.1")
+	RedisProperties_MinimumTlsVersion_STATUS_12 = RedisProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
-// Deprecated version of RedisProperties_STATUS_ProvisioningState. Use
-// v1beta20201201.RedisProperties_STATUS_ProvisioningState instead
-type RedisProperties_STATUS_ProvisioningState string
+// Deprecated version of RedisProperties_ProvisioningState_STATUS. Use
+// v1beta20201201.RedisProperties_ProvisioningState_STATUS instead
+type RedisProperties_ProvisioningState_STATUS string
 
 const (
-	RedisProperties_STATUS_ProvisioningState_Creating               = RedisProperties_STATUS_ProvisioningState("Creating")
-	RedisProperties_STATUS_ProvisioningState_Deleting               = RedisProperties_STATUS_ProvisioningState("Deleting")
-	RedisProperties_STATUS_ProvisioningState_Disabled               = RedisProperties_STATUS_ProvisioningState("Disabled")
-	RedisProperties_STATUS_ProvisioningState_Failed                 = RedisProperties_STATUS_ProvisioningState("Failed")
-	RedisProperties_STATUS_ProvisioningState_Linking                = RedisProperties_STATUS_ProvisioningState("Linking")
-	RedisProperties_STATUS_ProvisioningState_Provisioning           = RedisProperties_STATUS_ProvisioningState("Provisioning")
-	RedisProperties_STATUS_ProvisioningState_RecoveringScaleFailure = RedisProperties_STATUS_ProvisioningState("RecoveringScaleFailure")
-	RedisProperties_STATUS_ProvisioningState_Scaling                = RedisProperties_STATUS_ProvisioningState("Scaling")
-	RedisProperties_STATUS_ProvisioningState_Succeeded              = RedisProperties_STATUS_ProvisioningState("Succeeded")
-	RedisProperties_STATUS_ProvisioningState_Unlinking              = RedisProperties_STATUS_ProvisioningState("Unlinking")
-	RedisProperties_STATUS_ProvisioningState_Unprovisioning         = RedisProperties_STATUS_ProvisioningState("Unprovisioning")
-	RedisProperties_STATUS_ProvisioningState_Updating               = RedisProperties_STATUS_ProvisioningState("Updating")
+	RedisProperties_ProvisioningState_STATUS_Creating               = RedisProperties_ProvisioningState_STATUS("Creating")
+	RedisProperties_ProvisioningState_STATUS_Deleting               = RedisProperties_ProvisioningState_STATUS("Deleting")
+	RedisProperties_ProvisioningState_STATUS_Disabled               = RedisProperties_ProvisioningState_STATUS("Disabled")
+	RedisProperties_ProvisioningState_STATUS_Failed                 = RedisProperties_ProvisioningState_STATUS("Failed")
+	RedisProperties_ProvisioningState_STATUS_Linking                = RedisProperties_ProvisioningState_STATUS("Linking")
+	RedisProperties_ProvisioningState_STATUS_Provisioning           = RedisProperties_ProvisioningState_STATUS("Provisioning")
+	RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure = RedisProperties_ProvisioningState_STATUS("RecoveringScaleFailure")
+	RedisProperties_ProvisioningState_STATUS_Scaling                = RedisProperties_ProvisioningState_STATUS("Scaling")
+	RedisProperties_ProvisioningState_STATUS_Succeeded              = RedisProperties_ProvisioningState_STATUS("Succeeded")
+	RedisProperties_ProvisioningState_STATUS_Unlinking              = RedisProperties_ProvisioningState_STATUS("Unlinking")
+	RedisProperties_ProvisioningState_STATUS_Unprovisioning         = RedisProperties_ProvisioningState_STATUS("Unprovisioning")
+	RedisProperties_ProvisioningState_STATUS_Updating               = RedisProperties_ProvisioningState_STATUS("Updating")
 )
 
-// Deprecated version of RedisProperties_STATUS_PublicNetworkAccess. Use
-// v1beta20201201.RedisProperties_STATUS_PublicNetworkAccess instead
-type RedisProperties_STATUS_PublicNetworkAccess string
+// Deprecated version of RedisProperties_PublicNetworkAccess_STATUS. Use
+// v1beta20201201.RedisProperties_PublicNetworkAccess_STATUS instead
+type RedisProperties_PublicNetworkAccess_STATUS string
 
 const (
-	RedisProperties_STATUS_PublicNetworkAccess_Disabled = RedisProperties_STATUS_PublicNetworkAccess("Disabled")
-	RedisProperties_STATUS_PublicNetworkAccess_Enabled  = RedisProperties_STATUS_PublicNetworkAccess("Enabled")
+	RedisProperties_PublicNetworkAccess_STATUS_Disabled = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
+	RedisProperties_PublicNetworkAccess_STATUS_Enabled  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Deprecated version of Sku. Use v1beta20201201.Sku instead
@@ -1993,7 +1993,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &SkuARM{}
+	result := &Sku_ARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -2017,14 +2017,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+	return &Sku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+	typedInput, ok := armInput.(Sku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -2113,22 +2113,22 @@ func (sku *Sku) AssignProperties_To_Sku(destination *alpha20201201s.Sku) error {
 // Deprecated version of Sku_STATUS. Use v1beta20201201.Sku_STATUS instead
 type Sku_STATUS struct {
 	Capacity *int               `json:"capacity,omitempty"`
-	Family   *Sku_STATUS_Family `json:"family,omitempty"`
-	Name     *Sku_STATUS_Name   `json:"name,omitempty"`
+	Family   *Sku_Family_STATUS `json:"family,omitempty"`
+	Name     *Sku_Name_STATUS   `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUSARM{}
+	return &Sku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUSARM)
+	typedInput, ok := armInput.(Sku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -2161,7 +2161,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *alpha20201201s.S
 
 	// Family
 	if source.Family != nil {
-		family := Sku_STATUS_Family(*source.Family)
+		family := Sku_Family_STATUS(*source.Family)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -2169,7 +2169,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *alpha20201201s.S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_STATUS_Name(*source.Name)
+		name := Sku_Name_STATUS(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2345,6 +2345,14 @@ const (
 	Sku_Family_P = Sku_Family("P")
 )
 
+// Deprecated version of Sku_Family_STATUS. Use v1beta20201201.Sku_Family_STATUS instead
+type Sku_Family_STATUS string
+
+const (
+	Sku_Family_STATUS_C = Sku_Family_STATUS("C")
+	Sku_Family_STATUS_P = Sku_Family_STATUS("P")
+)
+
 // Deprecated version of Sku_Name. Use v1beta20201201.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
@@ -2355,21 +2363,13 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
-// Deprecated version of Sku_STATUS_Family. Use v1beta20201201.Sku_STATUS_Family instead
-type Sku_STATUS_Family string
+// Deprecated version of Sku_Name_STATUS. Use v1beta20201201.Sku_Name_STATUS instead
+type Sku_Name_STATUS string
 
 const (
-	Sku_STATUS_Family_C = Sku_STATUS_Family("C")
-	Sku_STATUS_Family_P = Sku_STATUS_Family("P")
-)
-
-// Deprecated version of Sku_STATUS_Name. Use v1beta20201201.Sku_STATUS_Name instead
-type Sku_STATUS_Name string
-
-const (
-	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
-	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
-	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
+	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
 func init() {

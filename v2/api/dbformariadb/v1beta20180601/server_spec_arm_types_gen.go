@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type Server_SpecARM struct {
+type Server_Spec_ARM struct {
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 
@@ -16,49 +16,49 @@ type Server_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties used to create a new server.
-	Properties *ServerPropertiesForCreateARM `json:"properties,omitempty"`
+	Properties *ServerPropertiesForCreate_ARM `json:"properties,omitempty"`
 
 	// Sku: Billing information related properties of a server.
-	Sku *SkuARM `json:"sku,omitempty"`
+	Sku *Sku_ARM `json:"sku,omitempty"`
 
 	// Tags: Application-specific metadata in the form of key-value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Server_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Server_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
-func (server Server_SpecARM) GetAPIVersion() string {
+func (server Server_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (server *Server_SpecARM) GetName() string {
+func (server *Server_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers"
-func (server *Server_SpecARM) GetType() string {
+func (server *Server_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/ServerPropertiesForCreate
-type ServerPropertiesForCreateARM struct {
+type ServerPropertiesForCreate_ARM struct {
 	// ServerPropertiesForDefaultCreate: Mutually exclusive with all other properties
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreateARM `json:"serverPropertiesForDefaultCreate,omitempty"`
+	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate_ARM `json:"serverPropertiesForDefaultCreate,omitempty"`
 
 	// ServerPropertiesForGeoRestore: Mutually exclusive with all other properties
-	ServerPropertiesForGeoRestore *ServerPropertiesForGeoRestoreARM `json:"serverPropertiesForGeoRestore,omitempty"`
+	ServerPropertiesForGeoRestore *ServerPropertiesForGeoRestore_ARM `json:"serverPropertiesForGeoRestore,omitempty"`
 
 	// ServerPropertiesForReplica: Mutually exclusive with all other properties
-	ServerPropertiesForReplica *ServerPropertiesForReplicaARM `json:"serverPropertiesForReplica,omitempty"`
+	ServerPropertiesForReplica *ServerPropertiesForReplica_ARM `json:"serverPropertiesForReplica,omitempty"`
 
 	// ServerPropertiesForRestore: Mutually exclusive with all other properties
-	ServerPropertiesForRestore *ServerPropertiesForRestoreARM `json:"serverPropertiesForRestore,omitempty"`
+	ServerPropertiesForRestore *ServerPropertiesForRestore_ARM `json:"serverPropertiesForRestore,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because ServerPropertiesForCreateARM represents a discriminated union (JSON OneOf)
-func (create ServerPropertiesForCreateARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because ServerPropertiesForCreate_ARM represents a discriminated union (JSON OneOf)
+func (create ServerPropertiesForCreate_ARM) MarshalJSON() ([]byte, error) {
 	if create.ServerPropertiesForDefaultCreate != nil {
 		return json.Marshal(create.ServerPropertiesForDefaultCreate)
 	}
@@ -74,8 +74,8 @@ func (create ServerPropertiesForCreateARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the ServerPropertiesForCreateARM
-func (create *ServerPropertiesForCreateARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the ServerPropertiesForCreate_ARM
+func (create *ServerPropertiesForCreate_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -83,19 +83,19 @@ func (create *ServerPropertiesForCreateARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["createMode"]
 	if discriminator == "Default" {
-		create.ServerPropertiesForDefaultCreate = &ServerPropertiesForDefaultCreateARM{}
+		create.ServerPropertiesForDefaultCreate = &ServerPropertiesForDefaultCreate_ARM{}
 		return json.Unmarshal(data, create.ServerPropertiesForDefaultCreate)
 	}
 	if discriminator == "GeoRestore" {
-		create.ServerPropertiesForGeoRestore = &ServerPropertiesForGeoRestoreARM{}
+		create.ServerPropertiesForGeoRestore = &ServerPropertiesForGeoRestore_ARM{}
 		return json.Unmarshal(data, create.ServerPropertiesForGeoRestore)
 	}
 	if discriminator == "PointInTimeRestore" {
-		create.ServerPropertiesForRestore = &ServerPropertiesForRestoreARM{}
+		create.ServerPropertiesForRestore = &ServerPropertiesForRestore_ARM{}
 		return json.Unmarshal(data, create.ServerPropertiesForRestore)
 	}
 	if discriminator == "Replica" {
-		create.ServerPropertiesForReplica = &ServerPropertiesForReplicaARM{}
+		create.ServerPropertiesForReplica = &ServerPropertiesForReplica_ARM{}
 		return json.Unmarshal(data, create.ServerPropertiesForReplica)
 	}
 
@@ -104,7 +104,7 @@ func (create *ServerPropertiesForCreateARM) UnmarshalJSON(data []byte) error {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
-type SkuARM struct {
+type Sku_ARM struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -121,7 +121,7 @@ type SkuARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-type ServerPropertiesForDefaultCreateARM struct {
+type ServerPropertiesForDefaultCreate_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -141,13 +141,13 @@ type ServerPropertiesForDefaultCreateARM struct {
 	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_SslEnforcement `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage Profile properties of a server
-	StorageProfile *StorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
 	Version *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_Version `json:"version,omitempty"`
 }
 
-type ServerPropertiesForGeoRestoreARM struct {
+type ServerPropertiesForGeoRestore_ARM struct {
 	CreateMode ServerPropertiesForCreate_ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
@@ -164,13 +164,13 @@ type ServerPropertiesForGeoRestoreARM struct {
 	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_SslEnforcement `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage Profile properties of a server
-	StorageProfile *StorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
 	Version *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_Version `json:"version,omitempty"`
 }
 
-type ServerPropertiesForReplicaARM struct {
+type ServerPropertiesForReplica_ARM struct {
 	CreateMode ServerPropertiesForCreate_ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
@@ -187,13 +187,13 @@ type ServerPropertiesForReplicaARM struct {
 	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForReplica_SslEnforcement `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage Profile properties of a server
-	StorageProfile *StorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
 	Version *ServerPropertiesForCreate_ServerPropertiesForReplica_Version `json:"version,omitempty"`
 }
 
-type ServerPropertiesForRestoreARM struct {
+type ServerPropertiesForRestore_ARM struct {
 	CreateMode ServerPropertiesForCreate_ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
@@ -213,7 +213,7 @@ type ServerPropertiesForRestoreARM struct {
 	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForRestore_SslEnforcement `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage Profile properties of a server
-	StorageProfile *StorageProfileARM `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
 	Version *ServerPropertiesForCreate_ServerPropertiesForRestore_Version `json:"version,omitempty"`
@@ -385,7 +385,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/StorageProfile
-type StorageProfileARM struct {
+type StorageProfile_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 

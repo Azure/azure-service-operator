@@ -397,7 +397,7 @@ type SqlContainerGetResults_STATUS struct {
 	Name        *string                                    `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                    `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
-	Resource    *SqlContainerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                          `json:"tags,omitempty"`
 	Type        *string                                    `json:"type,omitempty"`
 }
@@ -483,10 +483,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlContainerGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlContainerGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlContainerGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlContainerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -541,10 +541,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlContainerGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -568,9 +568,9 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlContainerGetProperties_STATUS_Resource
-// Deprecated version of SqlContainerGetProperties_STATUS_Resource. Use v1beta20210515.SqlContainerGetProperties_STATUS_Resource instead
-type SqlContainerGetProperties_STATUS_Resource struct {
+// Storage version of v1alpha1api20210515.SqlContainerGetProperties_Resource_STATUS
+// Deprecated version of SqlContainerGetProperties_Resource_STATUS. Use v1beta20210515.SqlContainerGetProperties_Resource_STATUS instead
+type SqlContainerGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
@@ -584,8 +584,8 @@ type SqlContainerGetProperties_STATUS_Resource struct {
 	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-// AssignProperties_From_SqlContainerGetProperties_STATUS_Resource populates our SqlContainerGetProperties_STATUS_Resource from the provided source SqlContainerGetProperties_STATUS_Resource
-func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_From_SqlContainerGetProperties_STATUS_Resource(source *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlContainerGetProperties_Resource_STATUS populates our SqlContainerGetProperties_Resource_STATUS from the provided source SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_From_SqlContainerGetProperties_Resource_STATUS(source *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -671,8 +671,8 @@ func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_SqlContainerGetProperties_STATUS_Resource populates the provided destination SqlContainerGetProperties_STATUS_Resource from our SqlContainerGetProperties_STATUS_Resource
-func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_To_SqlContainerGetProperties_STATUS_Resource(destination *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlContainerGetProperties_Resource_STATUS populates the provided destination SqlContainerGetProperties_Resource_STATUS from our SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(destination *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

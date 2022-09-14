@@ -502,14 +502,14 @@ var _ genruntime.FromARMConverter = &AgentPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *AgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AgentPool_STATUSARM{}
+	return &AgentPool_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AgentPool_STATUSARM)
+	typedInput, ok := armInput.(AgentPool_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailabilityZones’:
@@ -1504,7 +1504,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 	if pool == nil {
 		return nil, nil
 	}
-	result := &ManagedClusters_AgentPool_SpecARM{}
+	result := &ManagedClusters_AgentPool_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if pool.Location != nil {
@@ -1549,7 +1549,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		pool.UpgradeSettings != nil ||
 		pool.VmSize != nil ||
 		pool.VnetSubnetIDReference != nil {
-		result.Properties = &ManagedClusterAgentPoolProfilePropertiesARM{}
+		result.Properties = &ManagedClusterAgentPoolProfileProperties_ARM{}
 	}
 	for _, item := range pool.AvailabilityZones {
 		result.Properties.AvailabilityZones = append(result.Properties.AvailabilityZones, item)
@@ -1583,11 +1583,11 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
 	}
 	if pool.KubeletConfig != nil {
-		kubeletConfigARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
+		kubeletConfig_ARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		kubeletConfig := *kubeletConfigARM.(*KubeletConfigARM)
+		kubeletConfig := *kubeletConfig_ARM.(*KubeletConfig_ARM)
 		result.Properties.KubeletConfig = &kubeletConfig
 	}
 	if pool.KubeletDiskType != nil {
@@ -1595,11 +1595,11 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.KubeletDiskType = &kubeletDiskType
 	}
 	if pool.LinuxOSConfig != nil {
-		linuxOSConfigARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
+		linuxOSConfig_ARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		linuxOSConfig := *linuxOSConfigARM.(*LinuxOSConfigARM)
+		linuxOSConfig := *linuxOSConfig_ARM.(*LinuxOSConfig_ARM)
 		result.Properties.LinuxOSConfig = &linuxOSConfig
 	}
 	if pool.MaxCount != nil {
@@ -1690,11 +1690,11 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.Type = &typeVar
 	}
 	if pool.UpgradeSettings != nil {
-		upgradeSettingsARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
+		upgradeSettings_ARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		upgradeSettings := *upgradeSettingsARM.(*AgentPoolUpgradeSettingsARM)
+		upgradeSettings := *upgradeSettings_ARM.(*AgentPoolUpgradeSettings_ARM)
 		result.Properties.UpgradeSettings = &upgradeSettings
 	}
 	if pool.VmSize != nil {
@@ -1714,14 +1714,14 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *ManagedClusters_AgentPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusters_AgentPool_SpecARM{}
+	return &ManagedClusters_AgentPool_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusters_AgentPool_SpecARM)
+	typedInput, ok := armInput.(ManagedClusters_AgentPool_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailabilityZones’:
@@ -2617,7 +2617,7 @@ func (settings *AgentPoolUpgradeSettings) ConvertToARM(resolved genruntime.Conve
 	if settings == nil {
 		return nil, nil
 	}
-	result := &AgentPoolUpgradeSettingsARM{}
+	result := &AgentPoolUpgradeSettings_ARM{}
 
 	// Set property ‘MaxSurge’:
 	if settings.MaxSurge != nil {
@@ -2629,14 +2629,14 @@ func (settings *AgentPoolUpgradeSettings) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *AgentPoolUpgradeSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AgentPoolUpgradeSettingsARM{}
+	return &AgentPoolUpgradeSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AgentPoolUpgradeSettingsARM)
+	typedInput, ok := armInput.(AgentPoolUpgradeSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxSurge’:
@@ -2690,14 +2690,14 @@ var _ genruntime.FromARMConverter = &AgentPoolUpgradeSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *AgentPoolUpgradeSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AgentPoolUpgradeSettings_STATUSARM{}
+	return &AgentPoolUpgradeSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *AgentPoolUpgradeSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AgentPoolUpgradeSettings_STATUSARM)
+	typedInput, ok := armInput.(AgentPoolUpgradeSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxSurge’:
@@ -2789,7 +2789,7 @@ func (config *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config == nil {
 		return nil, nil
 	}
-	result := &KubeletConfigARM{}
+	result := &KubeletConfig_ARM{}
 
 	// Set property ‘AllowedUnsafeSysctls’:
 	for _, item := range config.AllowedUnsafeSysctls {
@@ -2860,14 +2860,14 @@ func (config *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *KubeletConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KubeletConfigARM{}
+	return &KubeletConfig_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *KubeletConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KubeletConfigARM)
+	typedInput, ok := armInput.(KubeletConfig_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfigARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedUnsafeSysctls’:
@@ -3103,14 +3103,14 @@ var _ genruntime.FromARMConverter = &KubeletConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *KubeletConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KubeletConfig_STATUSARM{}
+	return &KubeletConfig_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *KubeletConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KubeletConfig_STATUSARM)
+	typedInput, ok := armInput.(KubeletConfig_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedUnsafeSysctls’:
@@ -3317,7 +3317,7 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config == nil {
 		return nil, nil
 	}
-	result := &LinuxOSConfigARM{}
+	result := &LinuxOSConfig_ARM{}
 
 	// Set property ‘SwapFileSizeMB’:
 	if config.SwapFileSizeMB != nil {
@@ -3327,11 +3327,11 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Sysctls’:
 	if config.Sysctls != nil {
-		sysctlsARM, err := (*config.Sysctls).ConvertToARM(resolved)
+		sysctls_ARM, err := (*config.Sysctls).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sysctls := *sysctlsARM.(*SysctlConfigARM)
+		sysctls := *sysctls_ARM.(*SysctlConfig_ARM)
 		result.Sysctls = &sysctls
 	}
 
@@ -3351,14 +3351,14 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *LinuxOSConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxOSConfigARM{}
+	return &LinuxOSConfig_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxOSConfigARM)
+	typedInput, ok := armInput.(LinuxOSConfig_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfigARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SwapFileSizeMB’:
@@ -3481,14 +3481,14 @@ var _ genruntime.FromARMConverter = &LinuxOSConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *LinuxOSConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxOSConfig_STATUSARM{}
+	return &LinuxOSConfig_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *LinuxOSConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxOSConfig_STATUSARM)
+	typedInput, ok := armInput.(LinuxOSConfig_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SwapFileSizeMB’:
@@ -3758,7 +3758,7 @@ func (config *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if config == nil {
 		return nil, nil
 	}
-	result := &SysctlConfigARM{}
+	result := &SysctlConfig_ARM{}
 
 	// Set property ‘FsAioMaxNr’:
 	if config.FsAioMaxNr != nil {
@@ -3932,14 +3932,14 @@ func (config *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *SysctlConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SysctlConfigARM{}
+	return &SysctlConfig_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *SysctlConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SysctlConfigARM)
+	typedInput, ok := armInput.(SysctlConfig_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfigARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_ARM, got %T", armInput)
 	}
 
 	// Set property ‘FsAioMaxNr’:
@@ -4405,14 +4405,14 @@ var _ genruntime.FromARMConverter = &SysctlConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *SysctlConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SysctlConfig_STATUSARM{}
+	return &SysctlConfig_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *SysctlConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SysctlConfig_STATUSARM)
+	typedInput, ok := armInput.(SysctlConfig_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘FsAioMaxNr’:

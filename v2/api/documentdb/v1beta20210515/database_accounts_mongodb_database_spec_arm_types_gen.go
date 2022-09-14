@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_MongodbDatabase_SpecARM struct {
+type DatabaseAccounts_MongodbDatabase_Spec_ARM struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -13,7 +13,7 @@ type DatabaseAccounts_MongodbDatabase_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB MongoDB database.
-	Properties *MongoDBDatabaseCreateUpdatePropertiesARM `json:"properties,omitempty"`
+	Properties *MongoDBDatabaseCreateUpdateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -23,49 +23,49 @@ type DatabaseAccounts_MongodbDatabase_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (database DatabaseAccounts_MongodbDatabase_SpecARM) GetAPIVersion() string {
+func (database DatabaseAccounts_MongodbDatabase_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetName() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetName() string {
 	return database.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetType() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseCreateUpdateProperties
-type MongoDBDatabaseCreateUpdatePropertiesARM struct {
+type MongoDBDatabaseCreateUpdateProperties_ARM struct {
 	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
 	// "If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
+	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
 	// Resource: Cosmos DB MongoDB database resource object
-	Resource *MongoDBDatabaseResourceARM `json:"resource,omitempty"`
+	Resource *MongoDBDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
-type CreateUpdateOptionsARM struct {
-	AutoscaleSettings *AutoscaleSettingsARM `json:"autoscaleSettings,omitempty"`
+type CreateUpdateOptions_ARM struct {
+	AutoscaleSettings *AutoscaleSettings_ARM `json:"autoscaleSettings,omitempty"`
 
 	// Throughput: Request Units per second. For example, "throughput": 10000.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
-type MongoDBDatabaseResourceARM struct {
+type MongoDBDatabaseResource_ARM struct {
 	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
-type AutoscaleSettingsARM struct {
+type AutoscaleSettings_ARM struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

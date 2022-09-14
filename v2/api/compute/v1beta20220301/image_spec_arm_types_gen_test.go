@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Image_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Image_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Image_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImage_SpecARM, Image_SpecARMGenerator()))
+		"Round trip of Image_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImage_Spec_ARM, Image_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImage_SpecARM runs a test to see if a specific instance of Image_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImage_SpecARM(subject Image_SpecARM) string {
+// RunJSONSerializationTestForImage_Spec_ARM runs a test to see if a specific instance of Image_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImage_Spec_ARM(subject Image_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForImage_SpecARM(subject Image_SpecARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual Image_SpecARM
+	var actual Image_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,58 +56,58 @@ func RunJSONSerializationTestForImage_SpecARM(subject Image_SpecARM) string {
 	return ""
 }
 
-// Generator of Image_SpecARM instances for property testing - lazily instantiated by Image_SpecARMGenerator()
-var image_SpecARMGenerator gopter.Gen
+// Generator of Image_Spec_ARM instances for property testing - lazily instantiated by Image_Spec_ARMGenerator()
+var image_Spec_ARMGenerator gopter.Gen
 
-// Image_SpecARMGenerator returns a generator of Image_SpecARM instances for property testing.
-// We first initialize image_SpecARMGenerator with a simplified generator based on the
+// Image_Spec_ARMGenerator returns a generator of Image_Spec_ARM instances for property testing.
+// We first initialize image_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Image_SpecARMGenerator() gopter.Gen {
-	if image_SpecARMGenerator != nil {
-		return image_SpecARMGenerator
+func Image_Spec_ARMGenerator() gopter.Gen {
+	if image_Spec_ARMGenerator != nil {
+		return image_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_SpecARM(generators)
-	image_SpecARMGenerator = gen.Struct(reflect.TypeOf(Image_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForImage_Spec_ARM(generators)
+	image_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Image_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImage_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForImage_SpecARM(generators)
-	image_SpecARMGenerator = gen.Struct(reflect.TypeOf(Image_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForImage_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForImage_Spec_ARM(generators)
+	image_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Image_Spec_ARM{}), generators)
 
-	return image_SpecARMGenerator
+	return image_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImage_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImage_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImage_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImage_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForImage_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImage_SpecARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
-	gens["Properties"] = gen.PtrOf(ImagePropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForImage_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImage_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(ImageProperties_ARMGenerator())
 }
 
-func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ExtendedLocation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ExtendedLocationARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocationARM, ExtendedLocationARMGenerator()))
+		"Round trip of ExtendedLocation_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_ARM, ExtendedLocation_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocationARM runs a test to see if a specific instance of ExtendedLocationARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM) string {
+// RunJSONSerializationTestForExtendedLocation_ARM runs a test to see if a specific instance of ExtendedLocation_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_ARM(subject ExtendedLocation_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 	}
 
 	// Deserialize back into memory
-	var actual ExtendedLocationARM
+	var actual ExtendedLocation_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,43 +133,43 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 	return ""
 }
 
-// Generator of ExtendedLocationARM instances for property testing - lazily instantiated by
-// ExtendedLocationARMGenerator()
-var extendedLocationARMGenerator gopter.Gen
+// Generator of ExtendedLocation_ARM instances for property testing - lazily instantiated by
+// ExtendedLocation_ARMGenerator()
+var extendedLocation_ARMGenerator gopter.Gen
 
-// ExtendedLocationARMGenerator returns a generator of ExtendedLocationARM instances for property testing.
-func ExtendedLocationARMGenerator() gopter.Gen {
-	if extendedLocationARMGenerator != nil {
-		return extendedLocationARMGenerator
+// ExtendedLocation_ARMGenerator returns a generator of ExtendedLocation_ARM instances for property testing.
+func ExtendedLocation_ARMGenerator() gopter.Gen {
+	if extendedLocation_ARMGenerator != nil {
+		return extendedLocation_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocationARM(generators)
-	extendedLocationARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocationARM{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation_ARM(generators)
+	extendedLocation_ARMGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_ARM{}), generators)
 
-	return extendedLocationARMGenerator
+	return extendedLocation_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocation_Type_EdgeZone))
 }
 
-func Test_ImagePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImagePropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImagePropertiesARM, ImagePropertiesARMGenerator()))
+		"Round trip of ImageProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageProperties_ARM, ImageProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImagePropertiesARM runs a test to see if a specific instance of ImagePropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImagePropertiesARM(subject ImagePropertiesARM) string {
+// RunJSONSerializationTestForImageProperties_ARM runs a test to see if a specific instance of ImageProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageProperties_ARM(subject ImageProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -177,7 +177,7 @@ func RunJSONSerializationTestForImagePropertiesARM(subject ImagePropertiesARM) s
 	}
 
 	// Deserialize back into memory
-	var actual ImagePropertiesARM
+	var actual ImageProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -195,56 +195,57 @@ func RunJSONSerializationTestForImagePropertiesARM(subject ImagePropertiesARM) s
 	return ""
 }
 
-// Generator of ImagePropertiesARM instances for property testing - lazily instantiated by ImagePropertiesARMGenerator()
-var imagePropertiesARMGenerator gopter.Gen
+// Generator of ImageProperties_ARM instances for property testing - lazily instantiated by
+// ImageProperties_ARMGenerator()
+var imageProperties_ARMGenerator gopter.Gen
 
-// ImagePropertiesARMGenerator returns a generator of ImagePropertiesARM instances for property testing.
-// We first initialize imagePropertiesARMGenerator with a simplified generator based on the
+// ImageProperties_ARMGenerator returns a generator of ImageProperties_ARM instances for property testing.
+// We first initialize imageProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImagePropertiesARMGenerator() gopter.Gen {
-	if imagePropertiesARMGenerator != nil {
-		return imagePropertiesARMGenerator
+func ImageProperties_ARMGenerator() gopter.Gen {
+	if imageProperties_ARMGenerator != nil {
+		return imageProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImagePropertiesARM(generators)
-	imagePropertiesARMGenerator = gen.Struct(reflect.TypeOf(ImagePropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageProperties_ARM(generators)
+	imageProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImagePropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForImagePropertiesARM(generators)
-	imagePropertiesARMGenerator = gen.Struct(reflect.TypeOf(ImagePropertiesARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageProperties_ARM(generators)
+	imageProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ImageProperties_ARM{}), generators)
 
-	return imagePropertiesARMGenerator
+	return imageProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImagePropertiesARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageProperties_ARM(gens map[string]gopter.Gen) {
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImageProperties_HyperVGeneration_V1, ImageProperties_HyperVGeneration_V2))
 }
 
-// AddRelatedPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImagePropertiesARM(gens map[string]gopter.Gen) {
-	gens["SourceVirtualMachine"] = gen.PtrOf(SubResourceARMGenerator())
-	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfileARMGenerator())
+// AddRelatedPropertyGeneratorsForImageProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageProperties_ARM(gens map[string]gopter.Gen) {
+	gens["SourceVirtualMachine"] = gen.PtrOf(SubResource_ARMGenerator())
+	gens["StorageProfile"] = gen.PtrOf(ImageStorageProfile_ARMGenerator())
 }
 
-func Test_ImageStorageProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageStorageProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageStorageProfileARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageStorageProfileARM, ImageStorageProfileARMGenerator()))
+		"Round trip of ImageStorageProfile_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageStorageProfile_ARM, ImageStorageProfile_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageStorageProfileARM runs a test to see if a specific instance of ImageStorageProfileARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageStorageProfileARM(subject ImageStorageProfileARM) string {
+// RunJSONSerializationTestForImageStorageProfile_ARM runs a test to see if a specific instance of ImageStorageProfile_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageStorageProfile_ARM(subject ImageStorageProfile_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -252,7 +253,7 @@ func RunJSONSerializationTestForImageStorageProfileARM(subject ImageStorageProfi
 	}
 
 	// Deserialize back into memory
-	var actual ImageStorageProfileARM
+	var actual ImageStorageProfile_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -270,57 +271,57 @@ func RunJSONSerializationTestForImageStorageProfileARM(subject ImageStorageProfi
 	return ""
 }
 
-// Generator of ImageStorageProfileARM instances for property testing - lazily instantiated by
-// ImageStorageProfileARMGenerator()
-var imageStorageProfileARMGenerator gopter.Gen
+// Generator of ImageStorageProfile_ARM instances for property testing - lazily instantiated by
+// ImageStorageProfile_ARMGenerator()
+var imageStorageProfile_ARMGenerator gopter.Gen
 
-// ImageStorageProfileARMGenerator returns a generator of ImageStorageProfileARM instances for property testing.
-// We first initialize imageStorageProfileARMGenerator with a simplified generator based on the
+// ImageStorageProfile_ARMGenerator returns a generator of ImageStorageProfile_ARM instances for property testing.
+// We first initialize imageStorageProfile_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageStorageProfileARMGenerator() gopter.Gen {
-	if imageStorageProfileARMGenerator != nil {
-		return imageStorageProfileARMGenerator
+func ImageStorageProfile_ARMGenerator() gopter.Gen {
+	if imageStorageProfile_ARMGenerator != nil {
+		return imageStorageProfile_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfileARM(generators)
-	imageStorageProfileARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfileARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_ARM(generators)
+	imageStorageProfile_ARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageStorageProfileARM(generators)
-	AddRelatedPropertyGeneratorsForImageStorageProfileARM(generators)
-	imageStorageProfileARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfileARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageStorageProfile_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageStorageProfile_ARM(generators)
+	imageStorageProfile_ARMGenerator = gen.Struct(reflect.TypeOf(ImageStorageProfile_ARM{}), generators)
 
-	return imageStorageProfileARMGenerator
+	return imageStorageProfile_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageStorageProfileARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageStorageProfileARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageStorageProfile_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageStorageProfile_ARM(gens map[string]gopter.Gen) {
 	gens["ZoneResilient"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForImageStorageProfileARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageStorageProfileARM(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(ImageDataDiskARMGenerator())
-	gens["OsDisk"] = gen.PtrOf(ImageOSDiskARMGenerator())
+// AddRelatedPropertyGeneratorsForImageStorageProfile_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageStorageProfile_ARM(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(ImageDataDisk_ARMGenerator())
+	gens["OsDisk"] = gen.PtrOf(ImageOSDisk_ARMGenerator())
 }
 
-func Test_SubResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SubResource_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SubResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResourceARM, SubResourceARMGenerator()))
+		"Round trip of SubResource_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubResource_ARM, SubResource_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubResourceARM runs a test to see if a specific instance of SubResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
+// RunJSONSerializationTestForSubResource_ARM runs a test to see if a specific instance of SubResource_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubResource_ARM(subject SubResource_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -328,7 +329,7 @@ func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual SubResourceARM
+	var actual SubResource_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -346,41 +347,41 @@ func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
 	return ""
 }
 
-// Generator of SubResourceARM instances for property testing - lazily instantiated by SubResourceARMGenerator()
-var subResourceARMGenerator gopter.Gen
+// Generator of SubResource_ARM instances for property testing - lazily instantiated by SubResource_ARMGenerator()
+var subResource_ARMGenerator gopter.Gen
 
-// SubResourceARMGenerator returns a generator of SubResourceARM instances for property testing.
-func SubResourceARMGenerator() gopter.Gen {
-	if subResourceARMGenerator != nil {
-		return subResourceARMGenerator
+// SubResource_ARMGenerator returns a generator of SubResource_ARM instances for property testing.
+func SubResource_ARMGenerator() gopter.Gen {
+	if subResource_ARMGenerator != nil {
+		return subResource_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResourceARM(generators)
-	subResourceARMGenerator = gen.Struct(reflect.TypeOf(SubResourceARM{}), generators)
+	AddIndependentPropertyGeneratorsForSubResource_ARM(generators)
+	subResource_ARMGenerator = gen.Struct(reflect.TypeOf(SubResource_ARM{}), generators)
 
-	return subResourceARMGenerator
+	return subResource_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResourceARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubResource_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubResource_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ImageDataDiskARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageDataDisk_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageDataDiskARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageDataDiskARM, ImageDataDiskARMGenerator()))
+		"Round trip of ImageDataDisk_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageDataDisk_ARM, ImageDataDisk_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageDataDiskARM runs a test to see if a specific instance of ImageDataDiskARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageDataDiskARM(subject ImageDataDiskARM) string {
+// RunJSONSerializationTestForImageDataDisk_ARM runs a test to see if a specific instance of ImageDataDisk_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageDataDisk_ARM(subject ImageDataDisk_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -388,7 +389,7 @@ func RunJSONSerializationTestForImageDataDiskARM(subject ImageDataDiskARM) strin
 	}
 
 	// Deserialize back into memory
-	var actual ImageDataDiskARM
+	var actual ImageDataDisk_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -406,33 +407,33 @@ func RunJSONSerializationTestForImageDataDiskARM(subject ImageDataDiskARM) strin
 	return ""
 }
 
-// Generator of ImageDataDiskARM instances for property testing - lazily instantiated by ImageDataDiskARMGenerator()
-var imageDataDiskARMGenerator gopter.Gen
+// Generator of ImageDataDisk_ARM instances for property testing - lazily instantiated by ImageDataDisk_ARMGenerator()
+var imageDataDisk_ARMGenerator gopter.Gen
 
-// ImageDataDiskARMGenerator returns a generator of ImageDataDiskARM instances for property testing.
-// We first initialize imageDataDiskARMGenerator with a simplified generator based on the
+// ImageDataDisk_ARMGenerator returns a generator of ImageDataDisk_ARM instances for property testing.
+// We first initialize imageDataDisk_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageDataDiskARMGenerator() gopter.Gen {
-	if imageDataDiskARMGenerator != nil {
-		return imageDataDiskARMGenerator
+func ImageDataDisk_ARMGenerator() gopter.Gen {
+	if imageDataDisk_ARMGenerator != nil {
+		return imageDataDisk_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageDataDiskARM(generators)
-	imageDataDiskARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDiskARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageDataDisk_ARM(generators)
+	imageDataDisk_ARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageDataDiskARM(generators)
-	AddRelatedPropertyGeneratorsForImageDataDiskARM(generators)
-	imageDataDiskARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDiskARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageDataDisk_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageDataDisk_ARM(generators)
+	imageDataDisk_ARMGenerator = gen.Struct(reflect.TypeOf(ImageDataDisk_ARM{}), generators)
 
-	return imageDataDiskARMGenerator
+	return imageDataDisk_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageDataDiskARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageDataDiskARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageDataDisk_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageDataDisk_ARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_Caching_None, ImageDataDisk_Caching_ReadOnly, ImageDataDisk_Caching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -447,27 +448,27 @@ func AddIndependentPropertyGeneratorsForImageDataDiskARM(gens map[string]gopter.
 		ImageDataDisk_StorageAccountType_UltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForImageDataDiskARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageDataDiskARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParametersARMGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(SubResourceARMGenerator())
-	gens["Snapshot"] = gen.PtrOf(SubResourceARMGenerator())
+// AddRelatedPropertyGeneratorsForImageDataDisk_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageDataDisk_ARM(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParameters_ARMGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(SubResource_ARMGenerator())
+	gens["Snapshot"] = gen.PtrOf(SubResource_ARMGenerator())
 }
 
-func Test_ImageOSDiskARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ImageOSDisk_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ImageOSDiskARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageOSDiskARM, ImageOSDiskARMGenerator()))
+		"Round trip of ImageOSDisk_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageOSDisk_ARM, ImageOSDisk_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForImageOSDiskARM runs a test to see if a specific instance of ImageOSDiskARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageOSDiskARM(subject ImageOSDiskARM) string {
+// RunJSONSerializationTestForImageOSDisk_ARM runs a test to see if a specific instance of ImageOSDisk_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageOSDisk_ARM(subject ImageOSDisk_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -475,7 +476,7 @@ func RunJSONSerializationTestForImageOSDiskARM(subject ImageOSDiskARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual ImageOSDiskARM
+	var actual ImageOSDisk_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -493,33 +494,33 @@ func RunJSONSerializationTestForImageOSDiskARM(subject ImageOSDiskARM) string {
 	return ""
 }
 
-// Generator of ImageOSDiskARM instances for property testing - lazily instantiated by ImageOSDiskARMGenerator()
-var imageOSDiskARMGenerator gopter.Gen
+// Generator of ImageOSDisk_ARM instances for property testing - lazily instantiated by ImageOSDisk_ARMGenerator()
+var imageOSDisk_ARMGenerator gopter.Gen
 
-// ImageOSDiskARMGenerator returns a generator of ImageOSDiskARM instances for property testing.
-// We first initialize imageOSDiskARMGenerator with a simplified generator based on the
+// ImageOSDisk_ARMGenerator returns a generator of ImageOSDisk_ARM instances for property testing.
+// We first initialize imageOSDisk_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ImageOSDiskARMGenerator() gopter.Gen {
-	if imageOSDiskARMGenerator != nil {
-		return imageOSDiskARMGenerator
+func ImageOSDisk_ARMGenerator() gopter.Gen {
+	if imageOSDisk_ARMGenerator != nil {
+		return imageOSDisk_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageOSDiskARM(generators)
-	imageOSDiskARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDiskARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageOSDisk_ARM(generators)
+	imageOSDisk_ARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageOSDiskARM(generators)
-	AddRelatedPropertyGeneratorsForImageOSDiskARM(generators)
-	imageOSDiskARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDiskARM{}), generators)
+	AddIndependentPropertyGeneratorsForImageOSDisk_ARM(generators)
+	AddRelatedPropertyGeneratorsForImageOSDisk_ARM(generators)
+	imageOSDisk_ARMGenerator = gen.Struct(reflect.TypeOf(ImageOSDisk_ARM{}), generators)
 
-	return imageOSDiskARMGenerator
+	return imageOSDisk_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForImageOSDiskARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageOSDiskARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForImageOSDisk_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageOSDisk_ARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_Caching_None, ImageOSDisk_Caching_ReadOnly, ImageOSDisk_Caching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -535,27 +536,27 @@ func AddIndependentPropertyGeneratorsForImageOSDiskARM(gens map[string]gopter.Ge
 		ImageOSDisk_StorageAccountType_UltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForImageOSDiskARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImageOSDiskARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParametersARMGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(SubResourceARMGenerator())
-	gens["Snapshot"] = gen.PtrOf(SubResourceARMGenerator())
+// AddRelatedPropertyGeneratorsForImageOSDisk_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForImageOSDisk_ARM(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParameters_ARMGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(SubResource_ARMGenerator())
+	gens["Snapshot"] = gen.PtrOf(SubResource_ARMGenerator())
 }
 
-func Test_DiskEncryptionSetParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiskEncryptionSetParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DiskEncryptionSetParametersARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetParametersARM, DiskEncryptionSetParametersARMGenerator()))
+		"Round trip of DiskEncryptionSetParameters_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetParameters_ARM, DiskEncryptionSetParameters_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDiskEncryptionSetParametersARM runs a test to see if a specific instance of DiskEncryptionSetParametersARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskEncryptionSetParametersARM(subject DiskEncryptionSetParametersARM) string {
+// RunJSONSerializationTestForDiskEncryptionSetParameters_ARM runs a test to see if a specific instance of DiskEncryptionSetParameters_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskEncryptionSetParameters_ARM(subject DiskEncryptionSetParameters_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -563,7 +564,7 @@ func RunJSONSerializationTestForDiskEncryptionSetParametersARM(subject DiskEncry
 	}
 
 	// Deserialize back into memory
-	var actual DiskEncryptionSetParametersARM
+	var actual DiskEncryptionSetParameters_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -581,24 +582,24 @@ func RunJSONSerializationTestForDiskEncryptionSetParametersARM(subject DiskEncry
 	return ""
 }
 
-// Generator of DiskEncryptionSetParametersARM instances for property testing - lazily instantiated by
-// DiskEncryptionSetParametersARMGenerator()
-var diskEncryptionSetParametersARMGenerator gopter.Gen
+// Generator of DiskEncryptionSetParameters_ARM instances for property testing - lazily instantiated by
+// DiskEncryptionSetParameters_ARMGenerator()
+var diskEncryptionSetParameters_ARMGenerator gopter.Gen
 
-// DiskEncryptionSetParametersARMGenerator returns a generator of DiskEncryptionSetParametersARM instances for property testing.
-func DiskEncryptionSetParametersARMGenerator() gopter.Gen {
-	if diskEncryptionSetParametersARMGenerator != nil {
-		return diskEncryptionSetParametersARMGenerator
+// DiskEncryptionSetParameters_ARMGenerator returns a generator of DiskEncryptionSetParameters_ARM instances for property testing.
+func DiskEncryptionSetParameters_ARMGenerator() gopter.Gen {
+	if diskEncryptionSetParameters_ARMGenerator != nil {
+		return diskEncryptionSetParameters_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskEncryptionSetParametersARM(generators)
-	diskEncryptionSetParametersARMGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetParametersARM{}), generators)
+	AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM(generators)
+	diskEncryptionSetParameters_ARMGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetParameters_ARM{}), generators)
 
-	return diskEncryptionSetParametersARMGenerator
+	return diskEncryptionSetParameters_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDiskEncryptionSetParametersARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskEncryptionSetParametersARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

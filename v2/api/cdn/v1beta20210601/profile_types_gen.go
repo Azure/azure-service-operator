@@ -373,7 +373,7 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if profile == nil {
 		return nil, nil
 	}
-	result := &Profile_SpecARM{}
+	result := &Profile_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if profile.Location != nil {
@@ -386,7 +386,7 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Properties’:
 	if profile.OriginResponseTimeoutSeconds != nil {
-		result.Properties = &ProfilePropertiesARM{}
+		result.Properties = &ProfileProperties_ARM{}
 	}
 	if profile.OriginResponseTimeoutSeconds != nil {
 		originResponseTimeoutSeconds := *profile.OriginResponseTimeoutSeconds
@@ -395,11 +395,11 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Sku’:
 	if profile.Sku != nil {
-		skuARM, err := (*profile.Sku).ConvertToARM(resolved)
+		sku_ARM, err := (*profile.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *skuARM.(*SkuARM)
+		sku := *sku_ARM.(*Sku_ARM)
 		result.Sku = &sku
 	}
 
@@ -415,14 +415,14 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *Profile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profile_SpecARM{}
+	return &Profile_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *Profile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profile_SpecARM)
+	typedInput, ok := armInput.(Profile_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -653,10 +653,10 @@ type Profile_STATUS struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfileProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfileProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
+	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
@@ -724,14 +724,14 @@ var _ genruntime.FromARMConverter = &Profile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *Profile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profile_STATUSARM{}
+	return &Profile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profile_STATUSARM)
+	typedInput, ok := armInput.(Profile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -862,7 +862,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProfileProperties_STATUS_ProvisioningState(*source.ProvisioningState)
+		provisioningState := ProfileProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		profile.ProvisioningState = &provisioningState
 	} else {
 		profile.ProvisioningState = nil
@@ -870,7 +870,7 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v202
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ProfileProperties_STATUS_ResourceState(*source.ResourceState)
+		resourceState := ProfileProperties_ResourceState_STATUS(*source.ResourceState)
 		profile.ResourceState = &resourceState
 	} else {
 		profile.ResourceState = nil
@@ -993,23 +993,23 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v
 	return nil
 }
 
-type ProfileProperties_STATUS_ProvisioningState string
+type ProfileProperties_ProvisioningState_STATUS string
 
 const (
-	ProfileProperties_STATUS_ProvisioningState_Creating  = ProfileProperties_STATUS_ProvisioningState("Creating")
-	ProfileProperties_STATUS_ProvisioningState_Deleting  = ProfileProperties_STATUS_ProvisioningState("Deleting")
-	ProfileProperties_STATUS_ProvisioningState_Failed    = ProfileProperties_STATUS_ProvisioningState("Failed")
-	ProfileProperties_STATUS_ProvisioningState_Succeeded = ProfileProperties_STATUS_ProvisioningState("Succeeded")
-	ProfileProperties_STATUS_ProvisioningState_Updating  = ProfileProperties_STATUS_ProvisioningState("Updating")
+	ProfileProperties_ProvisioningState_STATUS_Creating  = ProfileProperties_ProvisioningState_STATUS("Creating")
+	ProfileProperties_ProvisioningState_STATUS_Deleting  = ProfileProperties_ProvisioningState_STATUS("Deleting")
+	ProfileProperties_ProvisioningState_STATUS_Failed    = ProfileProperties_ProvisioningState_STATUS("Failed")
+	ProfileProperties_ProvisioningState_STATUS_Succeeded = ProfileProperties_ProvisioningState_STATUS("Succeeded")
+	ProfileProperties_ProvisioningState_STATUS_Updating  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
-type ProfileProperties_STATUS_ResourceState string
+type ProfileProperties_ResourceState_STATUS string
 
 const (
-	ProfileProperties_STATUS_ResourceState_Active   = ProfileProperties_STATUS_ResourceState("Active")
-	ProfileProperties_STATUS_ResourceState_Creating = ProfileProperties_STATUS_ResourceState("Creating")
-	ProfileProperties_STATUS_ResourceState_Deleting = ProfileProperties_STATUS_ResourceState("Deleting")
-	ProfileProperties_STATUS_ResourceState_Disabled = ProfileProperties_STATUS_ResourceState("Disabled")
+	ProfileProperties_ResourceState_STATUS_Active   = ProfileProperties_ResourceState_STATUS("Active")
+	ProfileProperties_ResourceState_STATUS_Creating = ProfileProperties_ResourceState_STATUS("Creating")
+	ProfileProperties_ResourceState_STATUS_Deleting = ProfileProperties_ResourceState_STATUS("Deleting")
+	ProfileProperties_ResourceState_STATUS_Disabled = ProfileProperties_ResourceState_STATUS("Disabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku
@@ -1025,7 +1025,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &SkuARM{}
+	result := &Sku_ARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -1037,14 +1037,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+	return &Sku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+	typedInput, ok := armInput.(Sku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1098,21 +1098,21 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 
 type Sku_STATUS struct {
 	// Name: Name of the pricing tier.
-	Name *Sku_STATUS_Name `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUSARM{}
+	return &Sku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUSARM)
+	typedInput, ok := armInput.(Sku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1130,7 +1130,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_STATUS_Name(*source.Name)
+		name := Sku_Name_STATUS(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1188,14 +1188,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUSARM{}
+	return &SystemData_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUSARM)
+	typedInput, ok := armInput.(SystemData_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CreatedAt’:

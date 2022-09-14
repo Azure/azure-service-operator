@@ -5,7 +5,7 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Redis_FirewallRule_SpecARM struct {
+type Redis_FirewallRule_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,31 +13,31 @@ type Redis_FirewallRule_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Specifies a range of IP addresses permitted to connect to the cache
-	Properties *RedisFirewallRulePropertiesARM `json:"properties,omitempty"`
+	Properties *RedisFirewallRuleProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_FirewallRule_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Redis_FirewallRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (rule Redis_FirewallRule_SpecARM) GetAPIVersion() string {
+func (rule Redis_FirewallRule_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (rule *Redis_FirewallRule_SpecARM) GetName() string {
+func (rule *Redis_FirewallRule_Spec_ARM) GetName() string {
 	return rule.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
-func (rule *Redis_FirewallRule_SpecARM) GetType() string {
+func (rule *Redis_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties
-type RedisFirewallRulePropertiesARM struct {
+type RedisFirewallRuleProperties_ARM struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 

@@ -5,7 +5,7 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Eventhubs_Consumergroup_SpecARM struct {
+type Namespaces_Eventhubs_Consumergroup_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,31 +13,31 @@ type Namespaces_Eventhubs_Consumergroup_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Single item in List or Get Consumer group operation
-	Properties *ConsumerGroupPropertiesARM `json:"properties,omitempty"`
+	Properties *ConsumerGroupProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (consumergroup Namespaces_Eventhubs_Consumergroup_SpecARM) GetAPIVersion() string {
+func (consumergroup Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_SpecARM) GetName() string {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetName() string {
 	return consumergroup.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_SpecARM) GetType() string {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/ConsumerGroupProperties
-type ConsumerGroupPropertiesARM struct {
+type ConsumerGroupProperties_ARM struct {
 	// UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
 	// used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	// settings can be stored.

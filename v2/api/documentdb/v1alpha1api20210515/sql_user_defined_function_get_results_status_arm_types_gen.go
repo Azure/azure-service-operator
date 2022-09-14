@@ -4,22 +4,22 @@
 package v1alpha1api20210515
 
 // Deprecated version of SqlUserDefinedFunctionGetResults_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetResults_STATUS instead
-type SqlUserDefinedFunctionGetResults_STATUSARM struct {
-	Id         *string                                        `json:"id,omitempty"`
-	Location   *string                                        `json:"location,omitempty"`
-	Name       *string                                        `json:"name,omitempty"`
-	Properties *SqlUserDefinedFunctionGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                              `json:"tags,omitempty"`
-	Type       *string                                        `json:"type,omitempty"`
+type SqlUserDefinedFunctionGetResults_STATUS_ARM struct {
+	Id         *string                                         `json:"id,omitempty"`
+	Location   *string                                         `json:"location,omitempty"`
+	Name       *string                                         `json:"name,omitempty"`
+	Properties *SqlUserDefinedFunctionGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                               `json:"tags,omitempty"`
+	Type       *string                                         `json:"type,omitempty"`
 }
 
 // Deprecated version of SqlUserDefinedFunctionGetProperties_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS instead
-type SqlUserDefinedFunctionGetProperties_STATUSARM struct {
-	Resource *SqlUserDefinedFunctionGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlUserDefinedFunctionGetProperties_STATUS_ARM struct {
+	Resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlUserDefinedFunctionGetProperties_STATUS_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource instead
-type SqlUserDefinedFunctionGetProperties_STATUS_ResourceARM struct {
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Resource_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS instead
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM struct {
 	Body *string  `json:"body,omitempty"`
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`

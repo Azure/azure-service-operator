@@ -4,16 +4,16 @@
 package v1alpha1api20210501
 
 // Deprecated version of FirewallRule_STATUS. Use v1beta20210501.FirewallRule_STATUS instead
-type FirewallRule_STATUSARM struct {
-	Id         *string                           `json:"id,omitempty"`
-	Name       *string                           `json:"name,omitempty"`
-	Properties *FirewallRuleProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM             `json:"systemData,omitempty"`
-	Type       *string                           `json:"type,omitempty"`
+type FirewallRule_STATUS_ARM struct {
+	Id         *string                            `json:"id,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Properties *FirewallRuleProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM             `json:"systemData,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
 }
 
 // Deprecated version of FirewallRuleProperties_STATUS. Use v1beta20210501.FirewallRuleProperties_STATUS instead
-type FirewallRuleProperties_STATUSARM struct {
+type FirewallRuleProperties_STATUS_ARM struct {
 	EndIpAddress   *string `json:"endIpAddress,omitempty"`
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

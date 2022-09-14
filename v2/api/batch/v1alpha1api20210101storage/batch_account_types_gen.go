@@ -1001,7 +1001,7 @@ type BatchAccountIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // AssignProperties_From_BatchAccountIdentity_STATUS populates our BatchAccountIdentity_STATUS from the provided source BatchAccountIdentity_STATUS
@@ -1020,14 +1020,14 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity BatchAccountIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentity.AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentityValue)
+			var userAssignedIdentity BatchAccountIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentity.AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1063,14 +1063,14 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210101s.BatchAccountIdentity_STATUS_UserAssignedIdentities, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210101s.BatchAccountIdentity_STATUS_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities(&userAssignedIdentity)
+			var userAssignedIdentity v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1521,16 +1521,16 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMa
 	return nil
 }
 
-// Storage version of v1alpha1api20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities
-// Deprecated version of BatchAccountIdentity_STATUS_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities instead
-type BatchAccountIdentity_STATUS_UserAssignedIdentities struct {
+// Storage version of v1alpha1api20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
+// Deprecated version of BatchAccountIdentity_UserAssignedIdentities_STATUS. Use v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS instead
+type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities populates our BatchAccountIdentity_STATUS_UserAssignedIdentities from the provided source BatchAccountIdentity_STATUS_UserAssignedIdentities
-func (identities *BatchAccountIdentity_STATUS_UserAssignedIdentities) AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities(source *v20210101s.BatchAccountIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS populates our BatchAccountIdentity_UserAssignedIdentities_STATUS from the provided source BatchAccountIdentity_UserAssignedIdentities_STATUS
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(source *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1551,8 +1551,8 @@ func (identities *BatchAccountIdentity_STATUS_UserAssignedIdentities) AssignProp
 	return nil
 }
 
-// AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities populates the provided destination BatchAccountIdentity_STATUS_UserAssignedIdentities from our BatchAccountIdentity_STATUS_UserAssignedIdentities
-func (identities *BatchAccountIdentity_STATUS_UserAssignedIdentities) AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities(destination *v20210101s.BatchAccountIdentity_STATUS_UserAssignedIdentities) error {
+// AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS populates the provided destination BatchAccountIdentity_UserAssignedIdentities_STATUS from our BatchAccountIdentity_UserAssignedIdentities_STATUS
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(destination *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 

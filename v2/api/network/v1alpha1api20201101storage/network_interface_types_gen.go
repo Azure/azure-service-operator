@@ -208,7 +208,7 @@ type NetworkInterface_Spec struct {
 	EnableAcceleratedNetworking *bool                                               `json:"enableAcceleratedNetworking,omitempty"`
 	EnableIPForwarding          *bool                                               `json:"enableIPForwarding,omitempty"`
 	ExtendedLocation            *ExtendedLocation                                   `json:"extendedLocation,omitempty"`
-	IpConfigurations            []NetworkInterface_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
+	IpConfigurations            []NetworkInterface_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
 	Location                    *string                                             `json:"location,omitempty"`
 	NetworkSecurityGroup        *SubResource                                        `json:"networkSecurityGroup,omitempty"`
 	OriginalVersion             string                                              `json:"originalVersion,omitempty"`
@@ -322,14 +322,14 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]NetworkInterface_Spec_Properties_IpConfigurations, len(source.IpConfigurations))
+		ipConfigurationList := make([]NetworkInterface_Properties_IpConfigurations_Spec, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration NetworkInterface_Spec_Properties_IpConfigurations
-			err := ipConfiguration.AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations(&ipConfigurationItem)
+			var ipConfiguration NetworkInterface_Properties_IpConfigurations_Spec
+			err := ipConfiguration.AssignProperties_From_NetworkInterface_Properties_IpConfigurations_Spec(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_Properties_IpConfigurations_Spec() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -428,14 +428,14 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 
 	// IpConfigurations
 	if networkInterface.IpConfigurations != nil {
-		ipConfigurationList := make([]v20201101s.NetworkInterface_Spec_Properties_IpConfigurations, len(networkInterface.IpConfigurations))
+		ipConfigurationList := make([]v20201101s.NetworkInterface_Properties_IpConfigurations_Spec, len(networkInterface.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range networkInterface.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20201101s.NetworkInterface_Spec_Properties_IpConfigurations
-			err := ipConfigurationItem.AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations(&ipConfiguration)
+			var ipConfiguration v20201101s.NetworkInterface_Properties_IpConfigurations_Spec
+			err := ipConfigurationItem.AssignProperties_To_NetworkInterface_Properties_IpConfigurations_Spec(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_Properties_IpConfigurations_Spec() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -963,9 +963,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkInterface_Spec_Properties_IpConfigurations
-// Deprecated version of NetworkInterface_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterface_Spec_Properties_IpConfigurations instead
-type NetworkInterface_Spec_Properties_IpConfigurations struct {
+// Storage version of v1alpha1api20201101.NetworkInterface_Properties_IpConfigurations_Spec
+// Deprecated version of NetworkInterface_Properties_IpConfigurations_Spec. Use v1beta20201101.NetworkInterface_Properties_IpConfigurations_Spec instead
+type NetworkInterface_Properties_IpConfigurations_Spec struct {
 	ApplicationGatewayBackendAddressPools []SubResource          `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource          `json:"applicationSecurityGroups,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource          `json:"loadBalancerBackendAddressPools,omitempty"`
@@ -981,8 +981,8 @@ type NetworkInterface_Spec_Properties_IpConfigurations struct {
 	VirtualNetworkTaps                    []SubResource          `json:"virtualNetworkTaps,omitempty"`
 }
 
-// AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations populates our NetworkInterface_Spec_Properties_IpConfigurations from the provided source NetworkInterface_Spec_Properties_IpConfigurations
-func (configurations *NetworkInterface_Spec_Properties_IpConfigurations) AssignProperties_From_NetworkInterface_Spec_Properties_IpConfigurations(source *v20201101s.NetworkInterface_Spec_Properties_IpConfigurations) error {
+// AssignProperties_From_NetworkInterface_Properties_IpConfigurations_Spec populates our NetworkInterface_Properties_IpConfigurations_Spec from the provided source NetworkInterface_Properties_IpConfigurations_Spec
+func (configurations *NetworkInterface_Properties_IpConfigurations_Spec) AssignProperties_From_NetworkInterface_Properties_IpConfigurations_Spec(source *v20201101s.NetworkInterface_Properties_IpConfigurations_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1131,8 +1131,8 @@ func (configurations *NetworkInterface_Spec_Properties_IpConfigurations) AssignP
 	return nil
 }
 
-// AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations populates the provided destination NetworkInterface_Spec_Properties_IpConfigurations from our NetworkInterface_Spec_Properties_IpConfigurations
-func (configurations *NetworkInterface_Spec_Properties_IpConfigurations) AssignProperties_To_NetworkInterface_Spec_Properties_IpConfigurations(destination *v20201101s.NetworkInterface_Spec_Properties_IpConfigurations) error {
+// AssignProperties_To_NetworkInterface_Properties_IpConfigurations_Spec populates the provided destination NetworkInterface_Properties_IpConfigurations_Spec from our NetworkInterface_Properties_IpConfigurations_Spec
+func (configurations *NetworkInterface_Properties_IpConfigurations_Spec) AssignProperties_To_NetworkInterface_Properties_IpConfigurations_Spec(destination *v20201101s.NetworkInterface_Properties_IpConfigurations_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configurations.PropertyBag)
 

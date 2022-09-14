@@ -176,7 +176,7 @@ type MongoDBDatabaseGetResults_STATUS struct {
 	Name        *string                                       `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                       `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *MongoDBDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                             `json:"tags,omitempty"`
 	Type        *string                                       `json:"type,omitempty"`
 }
@@ -209,8 +209,8 @@ type CreateUpdateOptions struct {
 	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
-// Storage version of v1beta20210515.MongoDBDatabaseGetProperties_STATUS_Resource
-type MongoDBDatabaseGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS
+type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -345,7 +345,7 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if table == nil {
 		return nil, nil
 	}
-	result := &RouteTable_SpecARM{}
+	result := &RouteTable_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if table.Location != nil {
@@ -358,7 +358,7 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘Properties’:
 	if table.DisableBgpRoutePropagation != nil {
-		result.Properties = &RouteTable_Spec_PropertiesARM{}
+		result.Properties = &RouteTable_Properties_Spec_ARM{}
 	}
 	if table.DisableBgpRoutePropagation != nil {
 		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
@@ -377,14 +377,14 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (table *RouteTable_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_SpecARM{}
+	return &RouteTable_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_SpecARM)
+	typedInput, ok := armInput.(RouteTable_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -642,14 +642,14 @@ var _ genruntime.FromARMConverter = &RouteTable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (table *RouteTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_STATUSARM{}
+	return &RouteTable_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_STATUSARM)
+	typedInput, ok := armInput.(RouteTable_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

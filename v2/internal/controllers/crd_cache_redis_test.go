@@ -149,8 +149,8 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 		StartHourUtc:      to.IntPtr(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
-	statusMonday := cache.ScheduleEntry_STATUS_DayOfWeek_Monday
-	statusWednesday := cache.ScheduleEntry_STATUS_DayOfWeek_Wednesday
+	statusMonday := cache.ScheduleEntry_DayOfWeek_STATUS_Monday
+	statusWednesday := cache.ScheduleEntry_DayOfWeek_STATUS_Wednesday
 	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_STATUS{{
 		DayOfWeek:         &statusMonday,
 		MaintenanceWindow: to.StringPtr("PT6H"),

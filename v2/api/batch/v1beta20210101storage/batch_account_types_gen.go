@@ -258,7 +258,7 @@ type BatchAccountIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210101.EncryptionProperties
@@ -313,8 +313,8 @@ type VirtualMachineFamilyCoreQuota_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities
-type BatchAccountIdentity_STATUS_UserAssignedIdentities struct {
+// Storage version of v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
+type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

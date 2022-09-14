@@ -210,7 +210,7 @@ type Namespace_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []Namespace_Spec_Properties_PrivateEndpointConnections `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []Namespace_Properties_PrivateEndpointConnections_Spec `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	Sku                        *Sku                                                   `json:"sku,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
@@ -270,8 +270,8 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20211101.Namespace_Spec_Properties_PrivateEndpointConnections
-type Namespace_Spec_Properties_PrivateEndpointConnections struct {
+// Storage version of v1beta20211101.Namespace_Properties_PrivateEndpointConnections_Spec
+type Namespace_Properties_PrivateEndpointConnections_Spec struct {
 	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

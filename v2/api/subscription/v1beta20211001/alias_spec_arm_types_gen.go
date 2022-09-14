@@ -5,36 +5,36 @@ package v1beta20211001
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Alias_SpecARM struct {
+type Alias_Spec_ARM struct {
 	// Name: AliasName is the name for the subscription creation request. Note that this is not the same as subscription name
 	// and this doesn’t have any other lifecycle need beyond the request for subscription creation.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Put subscription properties.
-	Properties *PutAliasRequestPropertiesARM `json:"properties,omitempty"`
+	Properties *PutAliasRequestProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Alias_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Alias_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
-func (alias Alias_SpecARM) GetAPIVersion() string {
+func (alias Alias_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (alias *Alias_SpecARM) GetName() string {
+func (alias *Alias_Spec_ARM) GetName() string {
 	return alias.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Subscription/aliases"
-func (alias *Alias_SpecARM) GetType() string {
+func (alias *Alias_Spec_ARM) GetType() string {
 	return "Microsoft.Subscription/aliases"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties
-type PutAliasRequestPropertiesARM struct {
+type PutAliasRequestProperties_ARM struct {
 	// AdditionalProperties: Put subscription additional properties.
-	AdditionalProperties *PutAliasRequestAdditionalPropertiesARM `json:"additionalProperties,omitempty"`
+	AdditionalProperties *PutAliasRequestAdditionalProperties_ARM `json:"additionalProperties,omitempty"`
 
 	// BillingScope: Billing scope of the subscription.
 	// For CustomerLed and FieldLed -
@@ -55,7 +55,7 @@ type PutAliasRequestPropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties
-type PutAliasRequestAdditionalPropertiesARM struct {
+type PutAliasRequestAdditionalProperties_ARM struct {
 	// ManagementGroupId: Management group Id for the subscription.
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 

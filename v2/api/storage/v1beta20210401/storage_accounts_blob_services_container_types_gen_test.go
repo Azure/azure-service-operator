@@ -283,17 +283,17 @@ func AddIndependentPropertyGeneratorsForBlobContainer_STATUS(gens map[string]gop
 	gens["HasLegalHold"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_STATUS_LeaseDuration_Fixed, ContainerProperties_STATUS_LeaseDuration_Infinite))
+	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseDuration_STATUS_Fixed, ContainerProperties_LeaseDuration_STATUS_Infinite))
 	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
-		ContainerProperties_STATUS_LeaseState_Available,
-		ContainerProperties_STATUS_LeaseState_Breaking,
-		ContainerProperties_STATUS_LeaseState_Broken,
-		ContainerProperties_STATUS_LeaseState_Expired,
-		ContainerProperties_STATUS_LeaseState_Leased))
-	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_STATUS_LeaseStatus_Locked, ContainerProperties_STATUS_LeaseStatus_Unlocked))
+		ContainerProperties_LeaseState_STATUS_Available,
+		ContainerProperties_LeaseState_STATUS_Breaking,
+		ContainerProperties_LeaseState_STATUS_Broken,
+		ContainerProperties_LeaseState_STATUS_Expired,
+		ContainerProperties_LeaseState_STATUS_Leased))
+	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_STATUS_Locked, ContainerProperties_LeaseStatus_STATUS_Unlocked))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_STATUS_PublicAccess_Blob, ContainerProperties_STATUS_PublicAccess_Container, ContainerProperties_STATUS_PublicAccess_None))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_STATUS_Blob, ContainerProperties_PublicAccess_STATUS_Container, ContainerProperties_PublicAccess_STATUS_None))
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
@@ -541,7 +541,7 @@ func AddIndependentPropertyGeneratorsForImmutabilityPolicyProperties_STATUS(gens
 	gens["AllowProtectedAppendWrites"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_STATUS_State_Locked, ImmutabilityPolicyProperty_STATUS_State_Unlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_State_STATUS_Locked, ImmutabilityPolicyProperty_State_STATUS_Unlocked))
 }
 
 // AddRelatedPropertyGeneratorsForImmutabilityPolicyProperties_STATUS is a factory method for creating gopter generators
@@ -753,7 +753,7 @@ func ImmutableStorageWithVersioning_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_STATUS_MigrationState_Completed, ImmutableStorageWithVersioning_STATUS_MigrationState_InProgress))
+	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_MigrationState_STATUS_Completed, ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress))
 	gens["TimeStamp"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1084,6 +1084,6 @@ func AddIndependentPropertyGeneratorsForUpdateHistoryProperty_STATUS(gens map[st
 	gens["ObjectIdentifier"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_STATUS_Update_Extend, UpdateHistoryProperty_STATUS_Update_Lock, UpdateHistoryProperty_STATUS_Update_Put))
+	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_Update_STATUS_Extend, UpdateHistoryProperty_Update_STATUS_Lock, UpdateHistoryProperty_Update_STATUS_Put))
 	gens["Upn"] = gen.PtrOf(gen.AlphaString())
 }

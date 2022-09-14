@@ -4,17 +4,17 @@
 package v1alpha1api20201201
 
 // Deprecated version of RedisLinkedServerWithProperties_STATUS. Use v1beta20201201.RedisLinkedServerWithProperties_STATUS instead
-type RedisLinkedServerWithProperties_STATUSARM struct {
-	Id         *string                                `json:"id,omitempty"`
-	Name       *string                                `json:"name,omitempty"`
-	Properties *RedisLinkedServerProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                `json:"type,omitempty"`
+type RedisLinkedServerWithProperties_STATUS_ARM struct {
+	Id         *string                                 `json:"id,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *RedisLinkedServerProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
 // Deprecated version of RedisLinkedServerProperties_STATUS. Use v1beta20201201.RedisLinkedServerProperties_STATUS instead
-type RedisLinkedServerProperties_STATUSARM struct {
+type RedisLinkedServerProperties_STATUS_ARM struct {
 	LinkedRedisCacheId       *string                                        `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                        `json:"linkedRedisCacheLocation,omitempty"`
 	ProvisioningState        *string                                        `json:"provisioningState,omitempty"`
-	ServerRole               *RedisLinkedServerProperties_STATUS_ServerRole `json:"serverRole,omitempty"`
+	ServerRole               *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
 }

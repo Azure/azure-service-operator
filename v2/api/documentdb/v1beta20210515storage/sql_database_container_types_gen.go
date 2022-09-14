@@ -176,7 +176,7 @@ type SqlContainerGetResults_STATUS struct {
 	Name        *string                                    `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                    `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
-	Resource    *SqlContainerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                          `json:"tags,omitempty"`
 	Type        *string                                    `json:"type,omitempty"`
 }
@@ -201,8 +201,8 @@ func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlContainerGetProperties_STATUS_Resource
-type SqlContainerGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.SqlContainerGetProperties_Resource_STATUS
+type SqlContainerGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`

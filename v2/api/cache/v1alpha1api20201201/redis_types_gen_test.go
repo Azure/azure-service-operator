@@ -408,23 +408,23 @@ func AddIndependentPropertyGeneratorsForRedisResource_STATUS(gens map[string]gop
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisProperties_STATUS_MinimumTlsVersion_10, RedisProperties_STATUS_MinimumTlsVersion_11, RedisProperties_STATUS_MinimumTlsVersion_12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisProperties_MinimumTlsVersion_STATUS_10, RedisProperties_MinimumTlsVersion_STATUS_11, RedisProperties_MinimumTlsVersion_STATUS_12))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RedisProperties_STATUS_ProvisioningState_Creating,
-		RedisProperties_STATUS_ProvisioningState_Deleting,
-		RedisProperties_STATUS_ProvisioningState_Disabled,
-		RedisProperties_STATUS_ProvisioningState_Failed,
-		RedisProperties_STATUS_ProvisioningState_Linking,
-		RedisProperties_STATUS_ProvisioningState_Provisioning,
-		RedisProperties_STATUS_ProvisioningState_RecoveringScaleFailure,
-		RedisProperties_STATUS_ProvisioningState_Scaling,
-		RedisProperties_STATUS_ProvisioningState_Succeeded,
-		RedisProperties_STATUS_ProvisioningState_Unlinking,
-		RedisProperties_STATUS_ProvisioningState_Unprovisioning,
-		RedisProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisProperties_STATUS_PublicNetworkAccess_Disabled, RedisProperties_STATUS_PublicNetworkAccess_Enabled))
+		RedisProperties_ProvisioningState_STATUS_Creating,
+		RedisProperties_ProvisioningState_STATUS_Deleting,
+		RedisProperties_ProvisioningState_STATUS_Disabled,
+		RedisProperties_ProvisioningState_STATUS_Failed,
+		RedisProperties_ProvisioningState_STATUS_Linking,
+		RedisProperties_ProvisioningState_STATUS_Provisioning,
+		RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure,
+		RedisProperties_ProvisioningState_STATUS_Scaling,
+		RedisProperties_ProvisioningState_STATUS_Succeeded,
+		RedisProperties_ProvisioningState_STATUS_Unlinking,
+		RedisProperties_ProvisioningState_STATUS_Unprovisioning,
+		RedisProperties_ProvisioningState_STATUS_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisProperties_PublicNetworkAccess_STATUS_Disabled, RedisProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["RedisConfiguration"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
@@ -1067,8 +1067,8 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_STATUS_Family_C, Sku_STATUS_Family_P))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_STATUS_Name_Basic, Sku_STATUS_Name_Premium, Sku_STATUS_Name_Standard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_STATUS_C, Sku_Family_STATUS_P))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Basic, Sku_Name_STATUS_Premium, Sku_Name_STATUS_Standard))
 }
 
 func Test_RedisOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

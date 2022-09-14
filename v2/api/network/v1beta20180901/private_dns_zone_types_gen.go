@@ -350,7 +350,7 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if zone == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZone_SpecARM{}
+	result := &PrivateDnsZone_Spec_ARM{}
 
 	// Set property ‘Etag’:
 	if zone.Etag != nil {
@@ -379,14 +379,14 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateDnsZone_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_SpecARM{}
+	return &PrivateDnsZone_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_SpecARM)
+	typedInput, ok := armInput.(PrivateDnsZone_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -579,7 +579,7 @@ type PrivateZone_STATUS struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-	ProvisioningState *PrivateZoneProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PrivateZone_STATUS{}
@@ -636,14 +636,14 @@ var _ genruntime.FromARMConverter = &PrivateZone_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateZone_STATUSARM{}
+	return &PrivateZone_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateZone_STATUSARM)
+	typedInput, ok := armInput.(PrivateZone_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateZone_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateZone_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -750,7 +750,7 @@ func (zone *PrivateZone_STATUS) AssignProperties_From_PrivateZone_STATUS(source 
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateZoneProperties_STATUS_ProvisioningState(*source.ProvisioningState)
+		provisioningState := PrivateZoneProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		zone.ProvisioningState = &provisioningState
 	} else {
 		zone.ProvisioningState = nil
@@ -808,15 +808,15 @@ func (zone *PrivateZone_STATUS) AssignProperties_To_PrivateZone_STATUS(destinati
 	return nil
 }
 
-type PrivateZoneProperties_STATUS_ProvisioningState string
+type PrivateZoneProperties_ProvisioningState_STATUS string
 
 const (
-	PrivateZoneProperties_STATUS_ProvisioningState_Canceled  = PrivateZoneProperties_STATUS_ProvisioningState("Canceled")
-	PrivateZoneProperties_STATUS_ProvisioningState_Creating  = PrivateZoneProperties_STATUS_ProvisioningState("Creating")
-	PrivateZoneProperties_STATUS_ProvisioningState_Deleting  = PrivateZoneProperties_STATUS_ProvisioningState("Deleting")
-	PrivateZoneProperties_STATUS_ProvisioningState_Failed    = PrivateZoneProperties_STATUS_ProvisioningState("Failed")
-	PrivateZoneProperties_STATUS_ProvisioningState_Succeeded = PrivateZoneProperties_STATUS_ProvisioningState("Succeeded")
-	PrivateZoneProperties_STATUS_ProvisioningState_Updating  = PrivateZoneProperties_STATUS_ProvisioningState("Updating")
+	PrivateZoneProperties_ProvisioningState_STATUS_Canceled  = PrivateZoneProperties_ProvisioningState_STATUS("Canceled")
+	PrivateZoneProperties_ProvisioningState_STATUS_Creating  = PrivateZoneProperties_ProvisioningState_STATUS("Creating")
+	PrivateZoneProperties_ProvisioningState_STATUS_Deleting  = PrivateZoneProperties_ProvisioningState_STATUS("Deleting")
+	PrivateZoneProperties_ProvisioningState_STATUS_Failed    = PrivateZoneProperties_ProvisioningState_STATUS("Failed")
+	PrivateZoneProperties_ProvisioningState_STATUS_Succeeded = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
+	PrivateZoneProperties_ProvisioningState_STATUS_Updating  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
 )
 
 func init() {
