@@ -91,6 +91,21 @@ func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference],
 	return result, nil
 }
 
+// FindConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
+func FindConfigMapReferences(obj interface{}) (set.Set[genruntime.ConfigMapReference], error) {
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ConfigMapReference{}))
+	if err != nil {
+		return nil, err
+	}
+
+	result := set.Make[genruntime.ConfigMapReference]()
+	for k := range untypedResult {
+		result.Add(k.(genruntime.ConfigMapReference))
+	}
+
+	return result, nil
+}
+
 // GetObjectListItems gets the list of items from an ObjectList
 func GetObjectListItems(listPtr client.ObjectList) ([]client.Object, error) {
 	itemsField, err := getItemsField(listPtr)

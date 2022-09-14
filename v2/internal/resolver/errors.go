@@ -88,6 +88,41 @@ func (e *SecretNotFound) Format(s fmt.State, verb rune) {
 	format(e, s, verb)
 }
 
+type ConfigMapNotFound struct {
+	NamespacedName types.NamespacedName
+	cause          error
+}
+
+func NewConfigMapNotFoundError(name types.NamespacedName, cause error) *ConfigMapNotFound {
+	return &ConfigMapNotFound{
+		NamespacedName: name,
+		cause:          cause,
+	}
+}
+
+var _ error = &ConfigMapNotFound{}
+var _ causer = &ConfigMapNotFound{}
+
+func (e *ConfigMapNotFound) Error() string {
+	return fmt.Sprintf("%s does not exist (%s)", e.NamespacedName, e.cause)
+}
+
+func (e *ConfigMapNotFound) Is(err error) bool {
+	var typedErr *ConfigMapNotFound
+	if errors.As(err, &typedErr) {
+		return e.NamespacedName == typedErr.NamespacedName
+	}
+	return false
+}
+
+func (e *ConfigMapNotFound) Cause() error {
+	return e.cause
+}
+
+func (e *ConfigMapNotFound) Format(s fmt.State, verb rune) {
+	format(e, s, verb)
+}
+
 // This was adapted from the function in errors
 func format(e causer, s fmt.State, verb rune) {
 	switch verb {

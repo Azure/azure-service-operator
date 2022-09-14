@@ -486,6 +486,70 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.SecretNotFound{}))
 }
 
+func Test_ResolveConfigMaps_ReturnsExpectedValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceGroupName := "myrg"
+	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
+
+	resourceGroup := createResourceGroup(resourceGroupName)
+	genruntime.SetResourceID(resourceGroup, armID)
+
+	err = test.client.Create(ctx, resourceGroup)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	configMapName := "testconfig"
+	key := "mykey"
+	value := "myvalue"
+	// Create a configmap
+	configMap := &v1.ConfigMap{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      configMapName,
+			Namespace: testNamespace,
+		},
+		// Needed to avoid nil map error
+		Data: map[string]string{
+			key: value,
+		},
+	}
+
+	err = test.client.Create(ctx, configMap)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	ref := genruntime.ConfigMapReference{Name: configMapName, Key: key}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	resolvedConfigMaps, err := test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actualConfigMap, err := resolvedConfigMaps.Lookup(ref)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(actualConfigMap).To(Equal(value))
+}
+
+func Test_ResolveConfigMaps_ReturnsReferenceNotFound(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	configMapName := "testconfigmap"
+	configMapKey := "mykey"
+	ref := genruntime.ConfigMapReference{Name: configMapName, Key: configMapKey}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	_, err = test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.ConfigMapNotFound{}))
+}
+
 func createTestScheme() *runtime.Scheme {
 	s := runtime.NewScheme()
 	_ = resources.AddToScheme(s)
