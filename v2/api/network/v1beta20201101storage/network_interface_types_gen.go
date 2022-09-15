@@ -26,7 +26,7 @@ import (
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkInterfaces_Spec                                       `json:"spec,omitempty"`
+	Spec              NetworkInterface_Spec                                        `json:"spec,omitempty"`
 	Status            NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -129,6 +129,49 @@ type NetworkInterfaceList struct {
 	Items           []NetworkInterface `json:"items"`
 }
 
+// Storage version of v1beta20201101.NetworkInterface_Spec
+type NetworkInterface_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                   string                                              `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings                        `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                               `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                               `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation                                   `json:"extendedLocation,omitempty"`
+	IpConfigurations            []NetworkInterface_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
+	Location                    *string                                             `json:"location,omitempty"`
+	NetworkSecurityGroup        *SubResource                                        `json:"networkSecurityGroup,omitempty"`
+	OriginalVersion             string                                              `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkInterface_Spec{}
+
+// ConvertSpecFrom populates our NetworkInterface_Spec from the provided source
+func (networkInterface *NetworkInterface_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == networkInterface {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(networkInterface)
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkInterface_Spec
+func (networkInterface *NetworkInterface_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == networkInterface {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(networkInterface)
+}
+
 // Storage version of v1beta20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Conditions                  []conditions.Condition                                                         `json:"conditions,omitempty"`
@@ -179,47 +222,21 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	return destination.ConvertStatusFrom(embedded)
 }
 
-// Storage version of v1beta20201101.NetworkInterfaces_Spec
-type NetworkInterfaces_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                   string                                               `json:"azureName,omitempty"`
-	DnsSettings                 *NetworkInterfaceDnsSettings                         `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                                                `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                                                `json:"enableIPForwarding,omitempty"`
-	ExtendedLocation            *ExtendedLocation                                    `json:"extendedLocation,omitempty"`
-	IpConfigurations            []NetworkInterfaces_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
-	Location                    *string                                              `json:"location,omitempty"`
-	NetworkSecurityGroup        *SubResource                                         `json:"networkSecurityGroup,omitempty"`
-	OriginalVersion             string                                               `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &NetworkInterfaces_Spec{}
-
-// ConvertSpecFrom populates our NetworkInterfaces_Spec from the provided source
-func (interfaces *NetworkInterfaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == interfaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(interfaces)
-}
-
-// ConvertSpecTo populates the provided destination from our NetworkInterfaces_Spec
-func (interfaces *NetworkInterfaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == interfaces {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(interfaces)
+// Storage version of v1beta20201101.NetworkInterface_Properties_IpConfigurations_Spec
+type NetworkInterface_Properties_IpConfigurations_Spec struct {
+	ApplicationGatewayBackendAddressPools []SubResource          `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource          `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource          `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []SubResource          `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                `json:"name,omitempty"`
+	Primary                               *bool                  `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPAddress                       *SubResource           `json:"publicIPAddress,omitempty"`
+	Subnet                                *SubResource           `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []SubResource          `json:"virtualNetworkTaps,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceDnsSettings
@@ -260,23 +277,6 @@ type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	Subnet                                *Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
 	Type                                  *string                                                                            `json:"type,omitempty"`
 	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                    `json:"virtualNetworkTaps,omitempty"`
-}
-
-// Storage version of v1beta20201101.NetworkInterfaces_Spec_Properties_IpConfigurations
-type NetworkInterfaces_Spec_Properties_IpConfigurations struct {
-	ApplicationGatewayBackendAddressPools []SubResource          `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResource          `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResource          `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []SubResource          `json:"loadBalancerInboundNatRules,omitempty"`
-	Name                                  *string                `json:"name,omitempty"`
-	Primary                               *bool                  `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *string                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *string                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicIPAddress                       *SubResource           `json:"publicIPAddress,omitempty"`
-	Subnet                                *SubResource           `json:"subnet,omitempty"`
-	VirtualNetworkTaps                    []SubResource          `json:"virtualNetworkTaps,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded

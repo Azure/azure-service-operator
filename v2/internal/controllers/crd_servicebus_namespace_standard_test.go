@@ -13,6 +13,7 @@ import (
 
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
@@ -26,7 +27,7 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	sku := servicebus.SBSku_Name_Standard
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),
-		Spec: servicebus.Namespaces_Spec{
+		Spec: servicebus.Namespace_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &servicebus.SBSku{
@@ -43,6 +44,10 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
+			Name: "Namespace secrets",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+		},
+		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
 		},
@@ -58,11 +63,27 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
+func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, namespace *servicebus.Namespace) {
+	old := namespace.DeepCopy()
+	secret := "s1"
+	namespace.Spec.OperatorSpec = &servicebus.NamespaceOperatorSpec{
+		Secrets: &servicebus.NamespaceOperatorSecrets{
+			Endpoint: &genruntime.SecretDestination{
+				Name: secret,
+				Key:  "endpoint",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, namespace)
+
+	tc.ExpectSecretHasKeys(secret, "endpoint")
+}
+
 // Topics can only be created in Standard or Premium SKUs
 func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: servicebus.Namespaces_Topics_Spec{
+		Spec: servicebus.Namespaces_Topic_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(sbNamespace),
 		},

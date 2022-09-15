@@ -29,7 +29,7 @@ import (
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualMachines_Spec  `json:"spec,omitempty"`
+	Spec              VirtualMachine_Spec   `json:"spec,omitempty"`
 	Status            VirtualMachine_STATUS `json:"status,omitempty"`
 }
 
@@ -256,10 +256,10 @@ func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v202
 	machine.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec VirtualMachines_Spec
-	err := spec.AssignProperties_From_VirtualMachines_Spec(&source.Spec)
+	var spec VirtualMachine_Spec
+	err := spec.AssignProperties_From_VirtualMachine_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Spec() to populate field Spec")
 	}
 	machine.Spec = spec
 
@@ -282,10 +282,10 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 	destination.ObjectMeta = *machine.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220301s.VirtualMachines_Spec
-	err := machine.Spec.AssignProperties_To_VirtualMachines_Spec(&spec)
+	var spec v20220301s.VirtualMachine_Spec
+	err := machine.Spec.AssignProperties_To_VirtualMachine_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -317,6 +317,1352 @@ type VirtualMachineList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachine `json:"items"`
 }
+
+type VirtualMachine_Spec struct {
+	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
+	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
+
+	// ApplicationProfile: Contains the list of gallery applications that should be made available to the VM/VMSS
+	ApplicationProfile *ApplicationProfile `json:"applicationProfile,omitempty"`
+	AvailabilitySet    *SubResource        `json:"availabilitySet,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
+	// Minimum api-version: 2019-03-01.
+	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
+
+	// CapacityReservation: The parameters of a capacity reservation Profile.
+	CapacityReservation *CapacityReservationProfile `json:"capacityReservation,omitempty"`
+
+	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
+	// Minimum api-version: 2015-06-15.
+	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
+
+	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
+	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
+	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
+	// 2017-10-30-preview.
+	EvictionPolicy *VirtualMachine_Properties_EvictionPolicy_Spec `json:"evictionPolicy,omitempty"`
+
+	// ExtendedLocation: The complex type of the extended location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+
+	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
+	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
+	// (PT1H30M).
+	// Minimum api-version: 2020-06-01
+	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+
+	// HardwareProfile: Specifies the hardware settings for the virtual machine.
+	HardwareProfile *HardwareProfile `json:"hardwareProfile,omitempty"`
+	Host            *SubResource     `json:"host,omitempty"`
+	HostGroup       *SubResource     `json:"hostGroup,omitempty"`
+
+	// Identity: Identity for the virtual machine.
+	Identity *VirtualMachineIdentity `json:"identity,omitempty"`
+
+	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
+	// Possible values for Windows Server operating system are:
+	// Windows_Client
+	// Windows_Server
+	// Possible values for Linux Server operating system are:
+	// RHEL_BYOS (for RHEL)
+	// SLES_BYOS (for SUSE)
+	// For more information, see [Azure Hybrid Use Benefit for Windows
+	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
+	// [Azure Hybrid Use Benefit for Linux
+	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
+	// Minimum api-version: 2015-06-15
+	LicenseType *string `json:"licenseType,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// NetworkProfile: Specifies the network interfaces or the networking configuration of the virtual machine.
+	NetworkProfile *VirtualMachine_Properties_NetworkProfile_Spec `json:"networkProfile,omitempty"`
+
+	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
+	// VM is provisioned.
+	OsProfile *VirtualMachine_Properties_OsProfile_Spec `json:"osProfile,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
+	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
+	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
+	// programmatically, Get Started ->. Enter any required information and then click Save.
+	Plan *Plan `json:"plan,omitempty"`
+
+	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
+	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
+	// available fault domains.
+	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
+	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
+	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
+	// Minimum api‐version: 2020‐12‐01
+	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
+
+	// Priority: Specifies the priority for the virtual machine.
+	// Minimum api-version: 2019-03-01.
+	Priority                *VirtualMachine_Properties_Priority_Spec `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource                             `json:"proximityPlacementGroup,omitempty"`
+	ScheduledEventsProfile  *ScheduledEventsProfile                  `json:"scheduledEventsProfile,omitempty"`
+
+	// SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
+
+	// StorageProfile: Specifies the storage settings for the virtual machine disks.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// UserData: UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here.
+	// Minimum api-version: 2021-03-01
+	UserData               *string      `json:"userData,omitempty"`
+	VirtualMachineScaleSet *SubResource `json:"virtualMachineScaleSet,omitempty"`
+
+	// Zones: The virtual machine zones.
+	Zones []string `json:"zones,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if machine == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Spec_ARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if machine.ExtendedLocation != nil {
+		extendedLocation_ARM, err := (*machine.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Identity’:
+	if machine.Identity != nil {
+		identity_ARM, err := (*machine.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identity_ARM.(*VirtualMachineIdentity_ARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if machine.Location != nil {
+		location := *machine.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Plan’:
+	if machine.Plan != nil {
+		plan_ARM, err := (*machine.Plan).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		plan := *plan_ARM.(*Plan_ARM)
+		result.Plan = &plan
+	}
+
+	// Set property ‘Properties’:
+	if machine.AdditionalCapabilities != nil ||
+		machine.ApplicationProfile != nil ||
+		machine.AvailabilitySet != nil ||
+		machine.BillingProfile != nil ||
+		machine.CapacityReservation != nil ||
+		machine.DiagnosticsProfile != nil ||
+		machine.EvictionPolicy != nil ||
+		machine.ExtensionsTimeBudget != nil ||
+		machine.HardwareProfile != nil ||
+		machine.Host != nil ||
+		machine.HostGroup != nil ||
+		machine.LicenseType != nil ||
+		machine.NetworkProfile != nil ||
+		machine.OsProfile != nil ||
+		machine.PlatformFaultDomain != nil ||
+		machine.Priority != nil ||
+		machine.ProximityPlacementGroup != nil ||
+		machine.ScheduledEventsProfile != nil ||
+		machine.SecurityProfile != nil ||
+		machine.StorageProfile != nil ||
+		machine.UserData != nil ||
+		machine.VirtualMachineScaleSet != nil {
+		result.Properties = &VirtualMachine_Properties_Spec_ARM{}
+	}
+	if machine.AdditionalCapabilities != nil {
+		additionalCapabilities_ARM, err := (*machine.AdditionalCapabilities).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		additionalCapabilities := *additionalCapabilities_ARM.(*AdditionalCapabilities_ARM)
+		result.Properties.AdditionalCapabilities = &additionalCapabilities
+	}
+	if machine.ApplicationProfile != nil {
+		applicationProfile_ARM, err := (*machine.ApplicationProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		applicationProfile := *applicationProfile_ARM.(*ApplicationProfile_ARM)
+		result.Properties.ApplicationProfile = &applicationProfile
+	}
+	if machine.AvailabilitySet != nil {
+		availabilitySet_ARM, err := (*machine.AvailabilitySet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		availabilitySet := *availabilitySet_ARM.(*SubResource_ARM)
+		result.Properties.AvailabilitySet = &availabilitySet
+	}
+	if machine.BillingProfile != nil {
+		billingProfile_ARM, err := (*machine.BillingProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		billingProfile := *billingProfile_ARM.(*BillingProfile_ARM)
+		result.Properties.BillingProfile = &billingProfile
+	}
+	if machine.CapacityReservation != nil {
+		capacityReservation_ARM, err := (*machine.CapacityReservation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		capacityReservation := *capacityReservation_ARM.(*CapacityReservationProfile_ARM)
+		result.Properties.CapacityReservation = &capacityReservation
+	}
+	if machine.DiagnosticsProfile != nil {
+		diagnosticsProfile_ARM, err := (*machine.DiagnosticsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		diagnosticsProfile := *diagnosticsProfile_ARM.(*DiagnosticsProfile_ARM)
+		result.Properties.DiagnosticsProfile = &diagnosticsProfile
+	}
+	if machine.EvictionPolicy != nil {
+		evictionPolicy := *machine.EvictionPolicy
+		result.Properties.EvictionPolicy = &evictionPolicy
+	}
+	if machine.ExtensionsTimeBudget != nil {
+		extensionsTimeBudget := *machine.ExtensionsTimeBudget
+		result.Properties.ExtensionsTimeBudget = &extensionsTimeBudget
+	}
+	if machine.HardwareProfile != nil {
+		hardwareProfile_ARM, err := (*machine.HardwareProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		hardwareProfile := *hardwareProfile_ARM.(*HardwareProfile_ARM)
+		result.Properties.HardwareProfile = &hardwareProfile
+	}
+	if machine.Host != nil {
+		host_ARM, err := (*machine.Host).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		host := *host_ARM.(*SubResource_ARM)
+		result.Properties.Host = &host
+	}
+	if machine.HostGroup != nil {
+		hostGroup_ARM, err := (*machine.HostGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		hostGroup := *hostGroup_ARM.(*SubResource_ARM)
+		result.Properties.HostGroup = &hostGroup
+	}
+	if machine.LicenseType != nil {
+		licenseType := *machine.LicenseType
+		result.Properties.LicenseType = &licenseType
+	}
+	if machine.NetworkProfile != nil {
+		networkProfile_ARM, err := (*machine.NetworkProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkProfile := *networkProfile_ARM.(*VirtualMachine_Properties_NetworkProfile_Spec_ARM)
+		result.Properties.NetworkProfile = &networkProfile
+	}
+	if machine.OsProfile != nil {
+		osProfile_ARM, err := (*machine.OsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		osProfile := *osProfile_ARM.(*VirtualMachine_Properties_OsProfile_Spec_ARM)
+		result.Properties.OsProfile = &osProfile
+	}
+	if machine.PlatformFaultDomain != nil {
+		platformFaultDomain := *machine.PlatformFaultDomain
+		result.Properties.PlatformFaultDomain = &platformFaultDomain
+	}
+	if machine.Priority != nil {
+		priority := *machine.Priority
+		result.Properties.Priority = &priority
+	}
+	if machine.ProximityPlacementGroup != nil {
+		proximityPlacementGroup_ARM, err := (*machine.ProximityPlacementGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		proximityPlacementGroup := *proximityPlacementGroup_ARM.(*SubResource_ARM)
+		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
+	}
+	if machine.ScheduledEventsProfile != nil {
+		scheduledEventsProfile_ARM, err := (*machine.ScheduledEventsProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		scheduledEventsProfile := *scheduledEventsProfile_ARM.(*ScheduledEventsProfile_ARM)
+		result.Properties.ScheduledEventsProfile = &scheduledEventsProfile
+	}
+	if machine.SecurityProfile != nil {
+		securityProfile_ARM, err := (*machine.SecurityProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		securityProfile := *securityProfile_ARM.(*SecurityProfile_ARM)
+		result.Properties.SecurityProfile = &securityProfile
+	}
+	if machine.StorageProfile != nil {
+		storageProfile_ARM, err := (*machine.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		result.Properties.StorageProfile = &storageProfile
+	}
+	if machine.UserData != nil {
+		userData := *machine.UserData
+		result.Properties.UserData = &userData
+	}
+	if machine.VirtualMachineScaleSet != nil {
+		virtualMachineScaleSet_ARM, err := (*machine.VirtualMachineScaleSet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		virtualMachineScaleSet := *virtualMachineScaleSet_ARM.(*SubResource_ARM)
+		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
+	}
+
+	// Set property ‘Tags’:
+	if machine.Tags != nil {
+		result.Tags = make(map[string]string, len(machine.Tags))
+		for key, value := range machine.Tags {
+			result.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range machine.Zones {
+		result.Zones = append(result.Zones, item)
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (machine *VirtualMachine_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AdditionalCapabilities’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdditionalCapabilities != nil {
+			var additionalCapabilities1 AdditionalCapabilities
+			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
+			if err != nil {
+				return err
+			}
+			additionalCapabilities := additionalCapabilities1
+			machine.AdditionalCapabilities = &additionalCapabilities
+		}
+	}
+
+	// Set property ‘ApplicationProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ApplicationProfile != nil {
+			var applicationProfile1 ApplicationProfile
+			err := applicationProfile1.PopulateFromARM(owner, *typedInput.Properties.ApplicationProfile)
+			if err != nil {
+				return err
+			}
+			applicationProfile := applicationProfile1
+			machine.ApplicationProfile = &applicationProfile
+		}
+	}
+
+	// Set property ‘AvailabilitySet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilitySet != nil {
+			var availabilitySet1 SubResource
+			err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
+			if err != nil {
+				return err
+			}
+			availabilitySet := availabilitySet1
+			machine.AvailabilitySet = &availabilitySet
+		}
+	}
+
+	// Set property ‘AzureName’:
+	machine.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘BillingProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BillingProfile != nil {
+			var billingProfile1 BillingProfile
+			err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
+			if err != nil {
+				return err
+			}
+			billingProfile := billingProfile1
+			machine.BillingProfile = &billingProfile
+		}
+	}
+
+	// Set property ‘CapacityReservation’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CapacityReservation != nil {
+			var capacityReservation1 CapacityReservationProfile
+			err := capacityReservation1.PopulateFromARM(owner, *typedInput.Properties.CapacityReservation)
+			if err != nil {
+				return err
+			}
+			capacityReservation := capacityReservation1
+			machine.CapacityReservation = &capacityReservation
+		}
+	}
+
+	// Set property ‘DiagnosticsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiagnosticsProfile != nil {
+			var diagnosticsProfile1 DiagnosticsProfile
+			err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
+			if err != nil {
+				return err
+			}
+			diagnosticsProfile := diagnosticsProfile1
+			machine.DiagnosticsProfile = &diagnosticsProfile
+		}
+	}
+
+	// Set property ‘EvictionPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EvictionPolicy != nil {
+			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			machine.EvictionPolicy = &evictionPolicy
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		machine.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘ExtensionsTimeBudget’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ExtensionsTimeBudget != nil {
+			extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
+			machine.ExtensionsTimeBudget = &extensionsTimeBudget
+		}
+	}
+
+	// Set property ‘HardwareProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HardwareProfile != nil {
+			var hardwareProfile1 HardwareProfile
+			err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
+			if err != nil {
+				return err
+			}
+			hardwareProfile := hardwareProfile1
+			machine.HardwareProfile = &hardwareProfile
+		}
+	}
+
+	// Set property ‘Host’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Host != nil {
+			var host1 SubResource
+			err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
+			if err != nil {
+				return err
+			}
+			host := host1
+			machine.Host = &host
+		}
+	}
+
+	// Set property ‘HostGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostGroup != nil {
+			var hostGroup1 SubResource
+			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
+			if err != nil {
+				return err
+			}
+			hostGroup := hostGroup1
+			machine.HostGroup = &hostGroup
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 VirtualMachineIdentity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		machine.Identity = &identity
+	}
+
+	// Set property ‘LicenseType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LicenseType != nil {
+			licenseType := *typedInput.Properties.LicenseType
+			machine.LicenseType = &licenseType
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		machine.Location = &location
+	}
+
+	// Set property ‘NetworkProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkProfile != nil {
+			var networkProfile1 VirtualMachine_Properties_NetworkProfile_Spec
+			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
+			if err != nil {
+				return err
+			}
+			networkProfile := networkProfile1
+			machine.NetworkProfile = &networkProfile
+		}
+	}
+
+	// Set property ‘OsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsProfile != nil {
+			var osProfile1 VirtualMachine_Properties_OsProfile_Spec
+			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
+			if err != nil {
+				return err
+			}
+			osProfile := osProfile1
+			machine.OsProfile = &osProfile
+		}
+	}
+
+	// Set property ‘Owner’:
+	machine.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Plan’:
+	if typedInput.Plan != nil {
+		var plan1 Plan
+		err := plan1.PopulateFromARM(owner, *typedInput.Plan)
+		if err != nil {
+			return err
+		}
+		plan := plan1
+		machine.Plan = &plan
+	}
+
+	// Set property ‘PlatformFaultDomain’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PlatformFaultDomain != nil {
+			platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
+			machine.PlatformFaultDomain = &platformFaultDomain
+		}
+	}
+
+	// Set property ‘Priority’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			machine.Priority = &priority
+		}
+	}
+
+	// Set property ‘ProximityPlacementGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroup != nil {
+			var proximityPlacementGroup1 SubResource
+			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
+			if err != nil {
+				return err
+			}
+			proximityPlacementGroup := proximityPlacementGroup1
+			machine.ProximityPlacementGroup = &proximityPlacementGroup
+		}
+	}
+
+	// Set property ‘ScheduledEventsProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScheduledEventsProfile != nil {
+			var scheduledEventsProfile1 ScheduledEventsProfile
+			err := scheduledEventsProfile1.PopulateFromARM(owner, *typedInput.Properties.ScheduledEventsProfile)
+			if err != nil {
+				return err
+			}
+			scheduledEventsProfile := scheduledEventsProfile1
+			machine.ScheduledEventsProfile = &scheduledEventsProfile
+		}
+	}
+
+	// Set property ‘SecurityProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SecurityProfile != nil {
+			var securityProfile1 SecurityProfile
+			err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
+			if err != nil {
+				return err
+			}
+			securityProfile := securityProfile1
+			machine.SecurityProfile = &securityProfile
+		}
+	}
+
+	// Set property ‘StorageProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageProfile != nil {
+			var storageProfile1 StorageProfile
+			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
+			if err != nil {
+				return err
+			}
+			storageProfile := storageProfile1
+			machine.StorageProfile = &storageProfile
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		machine.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			machine.Tags[key] = value
+		}
+	}
+
+	// Set property ‘UserData’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UserData != nil {
+			userData := *typedInput.Properties.UserData
+			machine.UserData = &userData
+		}
+	}
+
+	// Set property ‘VirtualMachineScaleSet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualMachineScaleSet != nil {
+			var virtualMachineScaleSet1 SubResource
+			err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
+			if err != nil {
+				return err
+			}
+			virtualMachineScaleSet := virtualMachineScaleSet1
+			machine.VirtualMachineScaleSet = &virtualMachineScaleSet
+		}
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range typedInput.Zones {
+		machine.Zones = append(machine.Zones, item)
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &VirtualMachine_Spec{}
+
+// ConvertSpecFrom populates our VirtualMachine_Spec from the provided source
+func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20220301s.VirtualMachine_Spec)
+	if ok {
+		// Populate our instance from source
+		return machine.AssignProperties_From_VirtualMachine_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20220301s.VirtualMachine_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = machine.AssignProperties_From_VirtualMachine_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20220301s.VirtualMachine_Spec)
+	if ok {
+		// Populate destination from our instance
+		return machine.AssignProperties_To_VirtualMachine_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20220301s.VirtualMachine_Spec{}
+	err := machine.AssignProperties_To_VirtualMachine_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Spec populates our VirtualMachine_Spec from the provided source VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(source *v20220301s.VirtualMachine_Spec) error {
+
+	// AdditionalCapabilities
+	if source.AdditionalCapabilities != nil {
+		var additionalCapability AdditionalCapabilities
+		err := additionalCapability.AssignProperties_From_AdditionalCapabilities(source.AdditionalCapabilities)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		machine.AdditionalCapabilities = &additionalCapability
+	} else {
+		machine.AdditionalCapabilities = nil
+	}
+
+	// ApplicationProfile
+	if source.ApplicationProfile != nil {
+		var applicationProfile ApplicationProfile
+		err := applicationProfile.AssignProperties_From_ApplicationProfile(source.ApplicationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ApplicationProfile() to populate field ApplicationProfile")
+		}
+		machine.ApplicationProfile = &applicationProfile
+	} else {
+		machine.ApplicationProfile = nil
+	}
+
+	// AvailabilitySet
+	if source.AvailabilitySet != nil {
+		var availabilitySet SubResource
+		err := availabilitySet.AssignProperties_From_SubResource(source.AvailabilitySet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AvailabilitySet")
+		}
+		machine.AvailabilitySet = &availabilitySet
+	} else {
+		machine.AvailabilitySet = nil
+	}
+
+	// AzureName
+	machine.AzureName = source.AzureName
+
+	// BillingProfile
+	if source.BillingProfile != nil {
+		var billingProfile BillingProfile
+		err := billingProfile.AssignProperties_From_BillingProfile(source.BillingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile() to populate field BillingProfile")
+		}
+		machine.BillingProfile = &billingProfile
+	} else {
+		machine.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if source.CapacityReservation != nil {
+		var capacityReservation CapacityReservationProfile
+		err := capacityReservation.AssignProperties_From_CapacityReservationProfile(source.CapacityReservation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CapacityReservationProfile() to populate field CapacityReservation")
+		}
+		machine.CapacityReservation = &capacityReservation
+	} else {
+		machine.CapacityReservation = nil
+	}
+
+	// DiagnosticsProfile
+	if source.DiagnosticsProfile != nil {
+		var diagnosticsProfile DiagnosticsProfile
+		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile(source.DiagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		machine.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		machine.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	if source.EvictionPolicy != nil {
+		evictionPolicy := VirtualMachine_Properties_EvictionPolicy_Spec(*source.EvictionPolicy)
+		machine.EvictionPolicy = &evictionPolicy
+	} else {
+		machine.EvictionPolicy = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		machine.ExtendedLocation = &extendedLocation
+	} else {
+		machine.ExtendedLocation = nil
+	}
+
+	// ExtensionsTimeBudget
+	machine.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
+
+	// HardwareProfile
+	if source.HardwareProfile != nil {
+		var hardwareProfile HardwareProfile
+		err := hardwareProfile.AssignProperties_From_HardwareProfile(source.HardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile() to populate field HardwareProfile")
+		}
+		machine.HardwareProfile = &hardwareProfile
+	} else {
+		machine.HardwareProfile = nil
+	}
+
+	// Host
+	if source.Host != nil {
+		var host SubResource
+		err := host.AssignProperties_From_SubResource(source.Host)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Host")
+		}
+		machine.Host = &host
+	} else {
+		machine.Host = nil
+	}
+
+	// HostGroup
+	if source.HostGroup != nil {
+		var hostGroup SubResource
+		err := hostGroup.AssignProperties_From_SubResource(source.HostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HostGroup")
+		}
+		machine.HostGroup = &hostGroup
+	} else {
+		machine.HostGroup = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity VirtualMachineIdentity
+		err := identity.AssignProperties_From_VirtualMachineIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity() to populate field Identity")
+		}
+		machine.Identity = &identity
+	} else {
+		machine.Identity = nil
+	}
+
+	// LicenseType
+	machine.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// Location
+	machine.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkProfile
+	if source.NetworkProfile != nil {
+		var networkProfile VirtualMachine_Properties_NetworkProfile_Spec
+		err := networkProfile.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source.NetworkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+		}
+		machine.NetworkProfile = &networkProfile
+	} else {
+		machine.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if source.OsProfile != nil {
+		var osProfile VirtualMachine_Properties_OsProfile_Spec
+		err := osProfile.AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source.OsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+		}
+		machine.OsProfile = &osProfile
+	} else {
+		machine.OsProfile = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		machine.Owner = &owner
+	} else {
+		machine.Owner = nil
+	}
+
+	// Plan
+	if source.Plan != nil {
+		var plan Plan
+		err := plan.AssignProperties_From_Plan(source.Plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
+		}
+		machine.Plan = &plan
+	} else {
+		machine.Plan = nil
+	}
+
+	// PlatformFaultDomain
+	machine.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
+
+	// Priority
+	if source.Priority != nil {
+		priority := VirtualMachine_Properties_Priority_Spec(*source.Priority)
+		machine.Priority = &priority
+	} else {
+		machine.Priority = nil
+	}
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup SubResource
+		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
+		}
+		machine.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		machine.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsProfile
+	if source.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile ScheduledEventsProfile
+		err := scheduledEventsProfile.AssignProperties_From_ScheduledEventsProfile(source.ScheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ScheduledEventsProfile() to populate field ScheduledEventsProfile")
+		}
+		machine.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		machine.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		var securityProfile SecurityProfile
+		err := securityProfile.AssignProperties_From_SecurityProfile(source.SecurityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile() to populate field SecurityProfile")
+		}
+		machine.SecurityProfile = &securityProfile
+	} else {
+		machine.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		machine.StorageProfile = &storageProfile
+	} else {
+		machine.StorageProfile = nil
+	}
+
+	// Tags
+	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// UserData
+	machine.UserData = genruntime.ClonePointerToString(source.UserData)
+
+	// VirtualMachineScaleSet
+	if source.VirtualMachineScaleSet != nil {
+		var virtualMachineScaleSet SubResource
+		err := virtualMachineScaleSet.AssignProperties_From_SubResource(source.VirtualMachineScaleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachineScaleSet")
+		}
+		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
+	} else {
+		machine.VirtualMachineScaleSet = nil
+	}
+
+	// Zones
+	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Spec populates the provided destination VirtualMachine_Spec from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(destination *v20220301s.VirtualMachine_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdditionalCapabilities
+	if machine.AdditionalCapabilities != nil {
+		var additionalCapability v20220301s.AdditionalCapabilities
+		err := machine.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities(&additionalCapability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		destination.AdditionalCapabilities = &additionalCapability
+	} else {
+		destination.AdditionalCapabilities = nil
+	}
+
+	// ApplicationProfile
+	if machine.ApplicationProfile != nil {
+		var applicationProfile v20220301s.ApplicationProfile
+		err := machine.ApplicationProfile.AssignProperties_To_ApplicationProfile(&applicationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ApplicationProfile() to populate field ApplicationProfile")
+		}
+		destination.ApplicationProfile = &applicationProfile
+	} else {
+		destination.ApplicationProfile = nil
+	}
+
+	// AvailabilitySet
+	if machine.AvailabilitySet != nil {
+		var availabilitySet v20220301s.SubResource
+		err := machine.AvailabilitySet.AssignProperties_To_SubResource(&availabilitySet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AvailabilitySet")
+		}
+		destination.AvailabilitySet = &availabilitySet
+	} else {
+		destination.AvailabilitySet = nil
+	}
+
+	// AzureName
+	destination.AzureName = machine.AzureName
+
+	// BillingProfile
+	if machine.BillingProfile != nil {
+		var billingProfile v20220301s.BillingProfile
+		err := machine.BillingProfile.AssignProperties_To_BillingProfile(&billingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile() to populate field BillingProfile")
+		}
+		destination.BillingProfile = &billingProfile
+	} else {
+		destination.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if machine.CapacityReservation != nil {
+		var capacityReservation v20220301s.CapacityReservationProfile
+		err := machine.CapacityReservation.AssignProperties_To_CapacityReservationProfile(&capacityReservation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CapacityReservationProfile() to populate field CapacityReservation")
+		}
+		destination.CapacityReservation = &capacityReservation
+	} else {
+		destination.CapacityReservation = nil
+	}
+
+	// DiagnosticsProfile
+	if machine.DiagnosticsProfile != nil {
+		var diagnosticsProfile v20220301s.DiagnosticsProfile
+		err := machine.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile(&diagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		destination.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		destination.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	if machine.EvictionPolicy != nil {
+		evictionPolicy := string(*machine.EvictionPolicy)
+		destination.EvictionPolicy = &evictionPolicy
+	} else {
+		destination.EvictionPolicy = nil
+	}
+
+	// ExtendedLocation
+	if machine.ExtendedLocation != nil {
+		var extendedLocation v20220301s.ExtendedLocation
+		err := machine.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// ExtensionsTimeBudget
+	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machine.ExtensionsTimeBudget)
+
+	// HardwareProfile
+	if machine.HardwareProfile != nil {
+		var hardwareProfile v20220301s.HardwareProfile
+		err := machine.HardwareProfile.AssignProperties_To_HardwareProfile(&hardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile() to populate field HardwareProfile")
+		}
+		destination.HardwareProfile = &hardwareProfile
+	} else {
+		destination.HardwareProfile = nil
+	}
+
+	// Host
+	if machine.Host != nil {
+		var host v20220301s.SubResource
+		err := machine.Host.AssignProperties_To_SubResource(&host)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Host")
+		}
+		destination.Host = &host
+	} else {
+		destination.Host = nil
+	}
+
+	// HostGroup
+	if machine.HostGroup != nil {
+		var hostGroup v20220301s.SubResource
+		err := machine.HostGroup.AssignProperties_To_SubResource(&hostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HostGroup")
+		}
+		destination.HostGroup = &hostGroup
+	} else {
+		destination.HostGroup = nil
+	}
+
+	// Identity
+	if machine.Identity != nil {
+		var identity v20220301s.VirtualMachineIdentity
+		err := machine.Identity.AssignProperties_To_VirtualMachineIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(machine.LicenseType)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(machine.Location)
+
+	// NetworkProfile
+	if machine.NetworkProfile != nil {
+		var networkProfile v20220301s.VirtualMachine_Properties_NetworkProfile_Spec
+		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(&networkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+		}
+		destination.NetworkProfile = &networkProfile
+	} else {
+		destination.NetworkProfile = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = machine.OriginalVersion()
+
+	// OsProfile
+	if machine.OsProfile != nil {
+		var osProfile v20220301s.VirtualMachine_Properties_OsProfile_Spec
+		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(&osProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+		}
+		destination.OsProfile = &osProfile
+	} else {
+		destination.OsProfile = nil
+	}
+
+	// Owner
+	if machine.Owner != nil {
+		owner := machine.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Plan
+	if machine.Plan != nil {
+		var plan v20220301s.Plan
+		err := machine.Plan.AssignProperties_To_Plan(&plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
+		}
+		destination.Plan = &plan
+	} else {
+		destination.Plan = nil
+	}
+
+	// PlatformFaultDomain
+	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machine.PlatformFaultDomain)
+
+	// Priority
+	if machine.Priority != nil {
+		priority := string(*machine.Priority)
+		destination.Priority = &priority
+	} else {
+		destination.Priority = nil
+	}
+
+	// ProximityPlacementGroup
+	if machine.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup v20220301s.SubResource
+		err := machine.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsProfile
+	if machine.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile v20220301s.ScheduledEventsProfile
+		err := machine.ScheduledEventsProfile.AssignProperties_To_ScheduledEventsProfile(&scheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ScheduledEventsProfile() to populate field ScheduledEventsProfile")
+		}
+		destination.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		destination.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if machine.SecurityProfile != nil {
+		var securityProfile v20220301s.SecurityProfile
+		err := machine.SecurityProfile.AssignProperties_To_SecurityProfile(&securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if machine.StorageProfile != nil {
+		var storageProfile v20220301s.StorageProfile
+		err := machine.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(machine.Tags)
+
+	// UserData
+	destination.UserData = genruntime.ClonePointerToString(machine.UserData)
+
+	// VirtualMachineScaleSet
+	if machine.VirtualMachineScaleSet != nil {
+		var virtualMachineScaleSet v20220301s.SubResource
+		err := machine.VirtualMachineScaleSet.AssignProperties_To_SubResource(&virtualMachineScaleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachineScaleSet")
+		}
+		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
+	} else {
+		destination.VirtualMachineScaleSet = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(machine.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (machine *VirtualMachine_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (machine *VirtualMachine_Spec) SetAzureName(azureName string) { machine.AzureName = azureName }
 
 type VirtualMachine_STATUS struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
@@ -538,14 +1884,14 @@ var _ genruntime.FromARMConverter = &VirtualMachine_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (machine *VirtualMachine_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_STATUSARM{}
+	return &VirtualMachine_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachine_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdditionalCapabilities’:
@@ -1608,1352 +2954,6 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	return nil
 }
 
-type VirtualMachines_Spec struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
-	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
-
-	// ApplicationProfile: Contains the list of gallery applications that should be made available to the VM/VMSS
-	ApplicationProfile *ApplicationProfile `json:"applicationProfile,omitempty"`
-	AvailabilitySet    *SubResource        `json:"availabilitySet,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
-	// Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
-
-	// CapacityReservation: The parameters of a capacity reservation Profile.
-	CapacityReservation *CapacityReservationProfile `json:"capacityReservation,omitempty"`
-
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
-
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	// 2017-10-30-preview.
-	EvictionPolicy *VirtualMachines_Spec_Properties_EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	// (PT1H30M).
-	// Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
-
-	// HardwareProfile: Specifies the hardware settings for the virtual machine.
-	HardwareProfile *HardwareProfile `json:"hardwareProfile,omitempty"`
-	Host            *SubResource     `json:"host,omitempty"`
-	HostGroup       *SubResource     `json:"hostGroup,omitempty"`
-
-	// Identity: Identity for the virtual machine.
-	Identity *VirtualMachineIdentity `json:"identity,omitempty"`
-
-	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	// Possible values for Windows Server operating system are:
-	// Windows_Client
-	// Windows_Server
-	// Possible values for Linux Server operating system are:
-	// RHEL_BYOS (for RHEL)
-	// SLES_BYOS (for SUSE)
-	// For more information, see [Azure Hybrid Use Benefit for Windows
-	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	// [Azure Hybrid Use Benefit for Linux
-	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	// Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// NetworkProfile: Specifies the network interfaces or the networking configuration of the virtual machine.
-	NetworkProfile *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
-
-	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
-	// VM is provisioned.
-	OsProfile *VirtualMachines_Spec_Properties_OsProfile `json:"osProfile,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan `json:"plan,omitempty"`
-
-	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
-	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
-	// available fault domains.
-	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
-	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
-	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
-	// Minimum api‐version: 2020‐12‐01
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// Priority: Specifies the priority for the virtual machine.
-	// Minimum api-version: 2019-03-01.
-	Priority                *VirtualMachines_Spec_Properties_Priority `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource                              `json:"proximityPlacementGroup,omitempty"`
-	ScheduledEventsProfile  *ScheduledEventsProfile                   `json:"scheduledEventsProfile,omitempty"`
-
-	// SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
-	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// UserData: UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here.
-	// Minimum api-version: 2021-03-01
-	UserData               *string      `json:"userData,omitempty"`
-	VirtualMachineScaleSet *SubResource `json:"virtualMachineScaleSet,omitempty"`
-
-	// Zones: The virtual machine zones.
-	Zones []string `json:"zones,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if machines == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_SpecARM{}
-
-	// Set property ‘ExtendedLocation’:
-	if machines.ExtendedLocation != nil {
-		extendedLocationARM, err := (*machines.ExtendedLocation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
-		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Identity’:
-	if machines.Identity != nil {
-		identityARM, err := (*machines.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*VirtualMachineIdentityARM)
-		result.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if machines.Location != nil {
-		location := *machines.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Plan’:
-	if machines.Plan != nil {
-		planARM, err := (*machines.Plan).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		plan := *planARM.(*PlanARM)
-		result.Plan = &plan
-	}
-
-	// Set property ‘Properties’:
-	if machines.AdditionalCapabilities != nil ||
-		machines.ApplicationProfile != nil ||
-		machines.AvailabilitySet != nil ||
-		machines.BillingProfile != nil ||
-		machines.CapacityReservation != nil ||
-		machines.DiagnosticsProfile != nil ||
-		machines.EvictionPolicy != nil ||
-		machines.ExtensionsTimeBudget != nil ||
-		machines.HardwareProfile != nil ||
-		machines.Host != nil ||
-		machines.HostGroup != nil ||
-		machines.LicenseType != nil ||
-		machines.NetworkProfile != nil ||
-		machines.OsProfile != nil ||
-		machines.PlatformFaultDomain != nil ||
-		machines.Priority != nil ||
-		machines.ProximityPlacementGroup != nil ||
-		machines.ScheduledEventsProfile != nil ||
-		machines.SecurityProfile != nil ||
-		machines.StorageProfile != nil ||
-		machines.UserData != nil ||
-		machines.VirtualMachineScaleSet != nil {
-		result.Properties = &VirtualMachines_Spec_PropertiesARM{}
-	}
-	if machines.AdditionalCapabilities != nil {
-		additionalCapabilitiesARM, err := (*machines.AdditionalCapabilities).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
-		result.Properties.AdditionalCapabilities = &additionalCapabilities
-	}
-	if machines.ApplicationProfile != nil {
-		applicationProfileARM, err := (*machines.ApplicationProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		applicationProfile := *applicationProfileARM.(*ApplicationProfileARM)
-		result.Properties.ApplicationProfile = &applicationProfile
-	}
-	if machines.AvailabilitySet != nil {
-		availabilitySetARM, err := (*machines.AvailabilitySet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		availabilitySet := *availabilitySetARM.(*SubResourceARM)
-		result.Properties.AvailabilitySet = &availabilitySet
-	}
-	if machines.BillingProfile != nil {
-		billingProfileARM, err := (*machines.BillingProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		billingProfile := *billingProfileARM.(*BillingProfileARM)
-		result.Properties.BillingProfile = &billingProfile
-	}
-	if machines.CapacityReservation != nil {
-		capacityReservationARM, err := (*machines.CapacityReservation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		capacityReservation := *capacityReservationARM.(*CapacityReservationProfileARM)
-		result.Properties.CapacityReservation = &capacityReservation
-	}
-	if machines.DiagnosticsProfile != nil {
-		diagnosticsProfileARM, err := (*machines.DiagnosticsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
-		result.Properties.DiagnosticsProfile = &diagnosticsProfile
-	}
-	if machines.EvictionPolicy != nil {
-		evictionPolicy := *machines.EvictionPolicy
-		result.Properties.EvictionPolicy = &evictionPolicy
-	}
-	if machines.ExtensionsTimeBudget != nil {
-		extensionsTimeBudget := *machines.ExtensionsTimeBudget
-		result.Properties.ExtensionsTimeBudget = &extensionsTimeBudget
-	}
-	if machines.HardwareProfile != nil {
-		hardwareProfileARM, err := (*machines.HardwareProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		hardwareProfile := *hardwareProfileARM.(*HardwareProfileARM)
-		result.Properties.HardwareProfile = &hardwareProfile
-	}
-	if machines.Host != nil {
-		hostARM, err := (*machines.Host).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		host := *hostARM.(*SubResourceARM)
-		result.Properties.Host = &host
-	}
-	if machines.HostGroup != nil {
-		hostGroupARM, err := (*machines.HostGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		hostGroup := *hostGroupARM.(*SubResourceARM)
-		result.Properties.HostGroup = &hostGroup
-	}
-	if machines.LicenseType != nil {
-		licenseType := *machines.LicenseType
-		result.Properties.LicenseType = &licenseType
-	}
-	if machines.NetworkProfile != nil {
-		networkProfileARM, err := (*machines.NetworkProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		networkProfile := *networkProfileARM.(*VirtualMachines_Spec_Properties_NetworkProfileARM)
-		result.Properties.NetworkProfile = &networkProfile
-	}
-	if machines.OsProfile != nil {
-		osProfileARM, err := (*machines.OsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		osProfile := *osProfileARM.(*VirtualMachines_Spec_Properties_OsProfileARM)
-		result.Properties.OsProfile = &osProfile
-	}
-	if machines.PlatformFaultDomain != nil {
-		platformFaultDomain := *machines.PlatformFaultDomain
-		result.Properties.PlatformFaultDomain = &platformFaultDomain
-	}
-	if machines.Priority != nil {
-		priority := *machines.Priority
-		result.Properties.Priority = &priority
-	}
-	if machines.ProximityPlacementGroup != nil {
-		proximityPlacementGroupARM, err := (*machines.ProximityPlacementGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
-		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
-	}
-	if machines.ScheduledEventsProfile != nil {
-		scheduledEventsProfileARM, err := (*machines.ScheduledEventsProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		scheduledEventsProfile := *scheduledEventsProfileARM.(*ScheduledEventsProfileARM)
-		result.Properties.ScheduledEventsProfile = &scheduledEventsProfile
-	}
-	if machines.SecurityProfile != nil {
-		securityProfileARM, err := (*machines.SecurityProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		securityProfile := *securityProfileARM.(*SecurityProfileARM)
-		result.Properties.SecurityProfile = &securityProfile
-	}
-	if machines.StorageProfile != nil {
-		storageProfileARM, err := (*machines.StorageProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		storageProfile := *storageProfileARM.(*StorageProfileARM)
-		result.Properties.StorageProfile = &storageProfile
-	}
-	if machines.UserData != nil {
-		userData := *machines.UserData
-		result.Properties.UserData = &userData
-	}
-	if machines.VirtualMachineScaleSet != nil {
-		virtualMachineScaleSetARM, err := (*machines.VirtualMachineScaleSet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		virtualMachineScaleSet := *virtualMachineScaleSetARM.(*SubResourceARM)
-		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
-	}
-
-	// Set property ‘Tags’:
-	if machines.Tags != nil {
-		result.Tags = make(map[string]string, len(machines.Tags))
-		for key, value := range machines.Tags {
-			result.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range machines.Zones {
-		result.Zones = append(result.Zones, item)
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (machines *VirtualMachines_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AdditionalCapabilities’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AdditionalCapabilities != nil {
-			var additionalCapabilities1 AdditionalCapabilities
-			err := additionalCapabilities1.PopulateFromARM(owner, *typedInput.Properties.AdditionalCapabilities)
-			if err != nil {
-				return err
-			}
-			additionalCapabilities := additionalCapabilities1
-			machines.AdditionalCapabilities = &additionalCapabilities
-		}
-	}
-
-	// Set property ‘ApplicationProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApplicationProfile != nil {
-			var applicationProfile1 ApplicationProfile
-			err := applicationProfile1.PopulateFromARM(owner, *typedInput.Properties.ApplicationProfile)
-			if err != nil {
-				return err
-			}
-			applicationProfile := applicationProfile1
-			machines.ApplicationProfile = &applicationProfile
-		}
-	}
-
-	// Set property ‘AvailabilitySet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AvailabilitySet != nil {
-			var availabilitySet1 SubResource
-			err := availabilitySet1.PopulateFromARM(owner, *typedInput.Properties.AvailabilitySet)
-			if err != nil {
-				return err
-			}
-			availabilitySet := availabilitySet1
-			machines.AvailabilitySet = &availabilitySet
-		}
-	}
-
-	// Set property ‘AzureName’:
-	machines.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘BillingProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BillingProfile != nil {
-			var billingProfile1 BillingProfile
-			err := billingProfile1.PopulateFromARM(owner, *typedInput.Properties.BillingProfile)
-			if err != nil {
-				return err
-			}
-			billingProfile := billingProfile1
-			machines.BillingProfile = &billingProfile
-		}
-	}
-
-	// Set property ‘CapacityReservation’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CapacityReservation != nil {
-			var capacityReservation1 CapacityReservationProfile
-			err := capacityReservation1.PopulateFromARM(owner, *typedInput.Properties.CapacityReservation)
-			if err != nil {
-				return err
-			}
-			capacityReservation := capacityReservation1
-			machines.CapacityReservation = &capacityReservation
-		}
-	}
-
-	// Set property ‘DiagnosticsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiagnosticsProfile != nil {
-			var diagnosticsProfile1 DiagnosticsProfile
-			err := diagnosticsProfile1.PopulateFromARM(owner, *typedInput.Properties.DiagnosticsProfile)
-			if err != nil {
-				return err
-			}
-			diagnosticsProfile := diagnosticsProfile1
-			machines.DiagnosticsProfile = &diagnosticsProfile
-		}
-	}
-
-	// Set property ‘EvictionPolicy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
-			machines.EvictionPolicy = &evictionPolicy
-		}
-	}
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		machines.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘ExtensionsTimeBudget’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ExtensionsTimeBudget != nil {
-			extensionsTimeBudget := *typedInput.Properties.ExtensionsTimeBudget
-			machines.ExtensionsTimeBudget = &extensionsTimeBudget
-		}
-	}
-
-	// Set property ‘HardwareProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HardwareProfile != nil {
-			var hardwareProfile1 HardwareProfile
-			err := hardwareProfile1.PopulateFromARM(owner, *typedInput.Properties.HardwareProfile)
-			if err != nil {
-				return err
-			}
-			hardwareProfile := hardwareProfile1
-			machines.HardwareProfile = &hardwareProfile
-		}
-	}
-
-	// Set property ‘Host’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Host != nil {
-			var host1 SubResource
-			err := host1.PopulateFromARM(owner, *typedInput.Properties.Host)
-			if err != nil {
-				return err
-			}
-			host := host1
-			machines.Host = &host
-		}
-	}
-
-	// Set property ‘HostGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostGroup != nil {
-			var hostGroup1 SubResource
-			err := hostGroup1.PopulateFromARM(owner, *typedInput.Properties.HostGroup)
-			if err != nil {
-				return err
-			}
-			hostGroup := hostGroup1
-			machines.HostGroup = &hostGroup
-		}
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 VirtualMachineIdentity
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		machines.Identity = &identity
-	}
-
-	// Set property ‘LicenseType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
-			machines.LicenseType = &licenseType
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		machines.Location = &location
-	}
-
-	// Set property ‘NetworkProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NetworkProfile != nil {
-			var networkProfile1 VirtualMachines_Spec_Properties_NetworkProfile
-			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
-			if err != nil {
-				return err
-			}
-			networkProfile := networkProfile1
-			machines.NetworkProfile = &networkProfile
-		}
-	}
-
-	// Set property ‘OsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsProfile != nil {
-			var osProfile1 VirtualMachines_Spec_Properties_OsProfile
-			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
-			if err != nil {
-				return err
-			}
-			osProfile := osProfile1
-			machines.OsProfile = &osProfile
-		}
-	}
-
-	// Set property ‘Owner’:
-	machines.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Plan’:
-	if typedInput.Plan != nil {
-		var plan1 Plan
-		err := plan1.PopulateFromARM(owner, *typedInput.Plan)
-		if err != nil {
-			return err
-		}
-		plan := plan1
-		machines.Plan = &plan
-	}
-
-	// Set property ‘PlatformFaultDomain’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PlatformFaultDomain != nil {
-			platformFaultDomain := *typedInput.Properties.PlatformFaultDomain
-			machines.PlatformFaultDomain = &platformFaultDomain
-		}
-	}
-
-	// Set property ‘Priority’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Priority != nil {
-			priority := *typedInput.Properties.Priority
-			machines.Priority = &priority
-		}
-	}
-
-	// Set property ‘ProximityPlacementGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProximityPlacementGroup != nil {
-			var proximityPlacementGroup1 SubResource
-			err := proximityPlacementGroup1.PopulateFromARM(owner, *typedInput.Properties.ProximityPlacementGroup)
-			if err != nil {
-				return err
-			}
-			proximityPlacementGroup := proximityPlacementGroup1
-			machines.ProximityPlacementGroup = &proximityPlacementGroup
-		}
-	}
-
-	// Set property ‘ScheduledEventsProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ScheduledEventsProfile != nil {
-			var scheduledEventsProfile1 ScheduledEventsProfile
-			err := scheduledEventsProfile1.PopulateFromARM(owner, *typedInput.Properties.ScheduledEventsProfile)
-			if err != nil {
-				return err
-			}
-			scheduledEventsProfile := scheduledEventsProfile1
-			machines.ScheduledEventsProfile = &scheduledEventsProfile
-		}
-	}
-
-	// Set property ‘SecurityProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SecurityProfile != nil {
-			var securityProfile1 SecurityProfile
-			err := securityProfile1.PopulateFromARM(owner, *typedInput.Properties.SecurityProfile)
-			if err != nil {
-				return err
-			}
-			securityProfile := securityProfile1
-			machines.SecurityProfile = &securityProfile
-		}
-	}
-
-	// Set property ‘StorageProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageProfile != nil {
-			var storageProfile1 StorageProfile
-			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
-			if err != nil {
-				return err
-			}
-			storageProfile := storageProfile1
-			machines.StorageProfile = &storageProfile
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		machines.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			machines.Tags[key] = value
-		}
-	}
-
-	// Set property ‘UserData’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UserData != nil {
-			userData := *typedInput.Properties.UserData
-			machines.UserData = &userData
-		}
-	}
-
-	// Set property ‘VirtualMachineScaleSet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VirtualMachineScaleSet != nil {
-			var virtualMachineScaleSet1 SubResource
-			err := virtualMachineScaleSet1.PopulateFromARM(owner, *typedInput.Properties.VirtualMachineScaleSet)
-			if err != nil {
-				return err
-			}
-			virtualMachineScaleSet := virtualMachineScaleSet1
-			machines.VirtualMachineScaleSet = &virtualMachineScaleSet
-		}
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range typedInput.Zones {
-		machines.Zones = append(machines.Zones, item)
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}
-
-// ConvertSpecFrom populates our VirtualMachines_Spec from the provided source
-func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220301s.VirtualMachines_Spec)
-	if ok {
-		// Populate our instance from source
-		return machines.AssignProperties_From_VirtualMachines_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20220301s.VirtualMachines_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = machines.AssignProperties_From_VirtualMachines_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220301s.VirtualMachines_Spec)
-	if ok {
-		// Populate destination from our instance
-		return machines.AssignProperties_To_VirtualMachines_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20220301s.VirtualMachines_Spec{}
-	err := machines.AssignProperties_To_VirtualMachines_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec populates our VirtualMachines_Spec from the provided source VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignProperties_From_VirtualMachines_Spec(source *v20220301s.VirtualMachines_Spec) error {
-
-	// AdditionalCapabilities
-	if source.AdditionalCapabilities != nil {
-		var additionalCapability AdditionalCapabilities
-		err := additionalCapability.AssignProperties_From_AdditionalCapabilities(source.AdditionalCapabilities)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities() to populate field AdditionalCapabilities")
-		}
-		machines.AdditionalCapabilities = &additionalCapability
-	} else {
-		machines.AdditionalCapabilities = nil
-	}
-
-	// ApplicationProfile
-	if source.ApplicationProfile != nil {
-		var applicationProfile ApplicationProfile
-		err := applicationProfile.AssignProperties_From_ApplicationProfile(source.ApplicationProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApplicationProfile() to populate field ApplicationProfile")
-		}
-		machines.ApplicationProfile = &applicationProfile
-	} else {
-		machines.ApplicationProfile = nil
-	}
-
-	// AvailabilitySet
-	if source.AvailabilitySet != nil {
-		var availabilitySet SubResource
-		err := availabilitySet.AssignProperties_From_SubResource(source.AvailabilitySet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AvailabilitySet")
-		}
-		machines.AvailabilitySet = &availabilitySet
-	} else {
-		machines.AvailabilitySet = nil
-	}
-
-	// AzureName
-	machines.AzureName = source.AzureName
-
-	// BillingProfile
-	if source.BillingProfile != nil {
-		var billingProfile BillingProfile
-		err := billingProfile.AssignProperties_From_BillingProfile(source.BillingProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile() to populate field BillingProfile")
-		}
-		machines.BillingProfile = &billingProfile
-	} else {
-		machines.BillingProfile = nil
-	}
-
-	// CapacityReservation
-	if source.CapacityReservation != nil {
-		var capacityReservation CapacityReservationProfile
-		err := capacityReservation.AssignProperties_From_CapacityReservationProfile(source.CapacityReservation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CapacityReservationProfile() to populate field CapacityReservation")
-		}
-		machines.CapacityReservation = &capacityReservation
-	} else {
-		machines.CapacityReservation = nil
-	}
-
-	// DiagnosticsProfile
-	if source.DiagnosticsProfile != nil {
-		var diagnosticsProfile DiagnosticsProfile
-		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile(source.DiagnosticsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile() to populate field DiagnosticsProfile")
-		}
-		machines.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		machines.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := VirtualMachines_Spec_Properties_EvictionPolicy(*source.EvictionPolicy)
-		machines.EvictionPolicy = &evictionPolicy
-	} else {
-		machines.EvictionPolicy = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		machines.ExtendedLocation = &extendedLocation
-	} else {
-		machines.ExtendedLocation = nil
-	}
-
-	// ExtensionsTimeBudget
-	machines.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
-
-	// HardwareProfile
-	if source.HardwareProfile != nil {
-		var hardwareProfile HardwareProfile
-		err := hardwareProfile.AssignProperties_From_HardwareProfile(source.HardwareProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile() to populate field HardwareProfile")
-		}
-		machines.HardwareProfile = &hardwareProfile
-	} else {
-		machines.HardwareProfile = nil
-	}
-
-	// Host
-	if source.Host != nil {
-		var host SubResource
-		err := host.AssignProperties_From_SubResource(source.Host)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Host")
-		}
-		machines.Host = &host
-	} else {
-		machines.Host = nil
-	}
-
-	// HostGroup
-	if source.HostGroup != nil {
-		var hostGroup SubResource
-		err := hostGroup.AssignProperties_From_SubResource(source.HostGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HostGroup")
-		}
-		machines.HostGroup = &hostGroup
-	} else {
-		machines.HostGroup = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity VirtualMachineIdentity
-		err := identity.AssignProperties_From_VirtualMachineIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity() to populate field Identity")
-		}
-		machines.Identity = &identity
-	} else {
-		machines.Identity = nil
-	}
-
-	// LicenseType
-	machines.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
-
-	// Location
-	machines.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachines_Spec_Properties_NetworkProfile
-		err := networkProfile.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
-		}
-		machines.NetworkProfile = &networkProfile
-	} else {
-		machines.NetworkProfile = nil
-	}
-
-	// OsProfile
-	if source.OsProfile != nil {
-		var osProfile VirtualMachines_Spec_Properties_OsProfile
-		err := osProfile.AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source.OsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
-		}
-		machines.OsProfile = &osProfile
-	} else {
-		machines.OsProfile = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		machines.Owner = &owner
-	} else {
-		machines.Owner = nil
-	}
-
-	// Plan
-	if source.Plan != nil {
-		var plan Plan
-		err := plan.AssignProperties_From_Plan(source.Plan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
-		}
-		machines.Plan = &plan
-	} else {
-		machines.Plan = nil
-	}
-
-	// PlatformFaultDomain
-	machines.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
-
-	// Priority
-	if source.Priority != nil {
-		priority := VirtualMachines_Spec_Properties_Priority(*source.Priority)
-		machines.Priority = &priority
-	} else {
-		machines.Priority = nil
-	}
-
-	// ProximityPlacementGroup
-	if source.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
-		}
-		machines.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		machines.ProximityPlacementGroup = nil
-	}
-
-	// ScheduledEventsProfile
-	if source.ScheduledEventsProfile != nil {
-		var scheduledEventsProfile ScheduledEventsProfile
-		err := scheduledEventsProfile.AssignProperties_From_ScheduledEventsProfile(source.ScheduledEventsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ScheduledEventsProfile() to populate field ScheduledEventsProfile")
-		}
-		machines.ScheduledEventsProfile = &scheduledEventsProfile
-	} else {
-		machines.ScheduledEventsProfile = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile SecurityProfile
-		err := securityProfile.AssignProperties_From_SecurityProfile(source.SecurityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile() to populate field SecurityProfile")
-		}
-		machines.SecurityProfile = &securityProfile
-	} else {
-		machines.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile StorageProfile
-		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
-		}
-		machines.StorageProfile = &storageProfile
-	} else {
-		machines.StorageProfile = nil
-	}
-
-	// Tags
-	machines.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// UserData
-	machines.UserData = genruntime.ClonePointerToString(source.UserData)
-
-	// VirtualMachineScaleSet
-	if source.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet SubResource
-		err := virtualMachineScaleSet.AssignProperties_From_SubResource(source.VirtualMachineScaleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachineScaleSet")
-		}
-		machines.VirtualMachineScaleSet = &virtualMachineScaleSet
-	} else {
-		machines.VirtualMachineScaleSet = nil
-	}
-
-	// Zones
-	machines.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec populates the provided destination VirtualMachines_Spec from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignProperties_To_VirtualMachines_Spec(destination *v20220301s.VirtualMachines_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalCapabilities
-	if machines.AdditionalCapabilities != nil {
-		var additionalCapability v20220301s.AdditionalCapabilities
-		err := machines.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities(&additionalCapability)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities() to populate field AdditionalCapabilities")
-		}
-		destination.AdditionalCapabilities = &additionalCapability
-	} else {
-		destination.AdditionalCapabilities = nil
-	}
-
-	// ApplicationProfile
-	if machines.ApplicationProfile != nil {
-		var applicationProfile v20220301s.ApplicationProfile
-		err := machines.ApplicationProfile.AssignProperties_To_ApplicationProfile(&applicationProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApplicationProfile() to populate field ApplicationProfile")
-		}
-		destination.ApplicationProfile = &applicationProfile
-	} else {
-		destination.ApplicationProfile = nil
-	}
-
-	// AvailabilitySet
-	if machines.AvailabilitySet != nil {
-		var availabilitySet v20220301s.SubResource
-		err := machines.AvailabilitySet.AssignProperties_To_SubResource(&availabilitySet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AvailabilitySet")
-		}
-		destination.AvailabilitySet = &availabilitySet
-	} else {
-		destination.AvailabilitySet = nil
-	}
-
-	// AzureName
-	destination.AzureName = machines.AzureName
-
-	// BillingProfile
-	if machines.BillingProfile != nil {
-		var billingProfile v20220301s.BillingProfile
-		err := machines.BillingProfile.AssignProperties_To_BillingProfile(&billingProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile() to populate field BillingProfile")
-		}
-		destination.BillingProfile = &billingProfile
-	} else {
-		destination.BillingProfile = nil
-	}
-
-	// CapacityReservation
-	if machines.CapacityReservation != nil {
-		var capacityReservation v20220301s.CapacityReservationProfile
-		err := machines.CapacityReservation.AssignProperties_To_CapacityReservationProfile(&capacityReservation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CapacityReservationProfile() to populate field CapacityReservation")
-		}
-		destination.CapacityReservation = &capacityReservation
-	} else {
-		destination.CapacityReservation = nil
-	}
-
-	// DiagnosticsProfile
-	if machines.DiagnosticsProfile != nil {
-		var diagnosticsProfile v20220301s.DiagnosticsProfile
-		err := machines.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile(&diagnosticsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile() to populate field DiagnosticsProfile")
-		}
-		destination.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		destination.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if machines.EvictionPolicy != nil {
-		evictionPolicy := string(*machines.EvictionPolicy)
-		destination.EvictionPolicy = &evictionPolicy
-	} else {
-		destination.EvictionPolicy = nil
-	}
-
-	// ExtendedLocation
-	if machines.ExtendedLocation != nil {
-		var extendedLocation v20220301s.ExtendedLocation
-		err := machines.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// ExtensionsTimeBudget
-	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machines.ExtensionsTimeBudget)
-
-	// HardwareProfile
-	if machines.HardwareProfile != nil {
-		var hardwareProfile v20220301s.HardwareProfile
-		err := machines.HardwareProfile.AssignProperties_To_HardwareProfile(&hardwareProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile() to populate field HardwareProfile")
-		}
-		destination.HardwareProfile = &hardwareProfile
-	} else {
-		destination.HardwareProfile = nil
-	}
-
-	// Host
-	if machines.Host != nil {
-		var host v20220301s.SubResource
-		err := machines.Host.AssignProperties_To_SubResource(&host)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Host")
-		}
-		destination.Host = &host
-	} else {
-		destination.Host = nil
-	}
-
-	// HostGroup
-	if machines.HostGroup != nil {
-		var hostGroup v20220301s.SubResource
-		err := machines.HostGroup.AssignProperties_To_SubResource(&hostGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HostGroup")
-		}
-		destination.HostGroup = &hostGroup
-	} else {
-		destination.HostGroup = nil
-	}
-
-	// Identity
-	if machines.Identity != nil {
-		var identity v20220301s.VirtualMachineIdentity
-		err := machines.Identity.AssignProperties_To_VirtualMachineIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// LicenseType
-	destination.LicenseType = genruntime.ClonePointerToString(machines.LicenseType)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(machines.Location)
-
-	// NetworkProfile
-	if machines.NetworkProfile != nil {
-		var networkProfile v20220301s.VirtualMachines_Spec_Properties_NetworkProfile
-		err := machines.NetworkProfile.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(&networkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
-		}
-		destination.NetworkProfile = &networkProfile
-	} else {
-		destination.NetworkProfile = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = machines.OriginalVersion()
-
-	// OsProfile
-	if machines.OsProfile != nil {
-		var osProfile v20220301s.VirtualMachines_Spec_Properties_OsProfile
-		err := machines.OsProfile.AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(&osProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
-		}
-		destination.OsProfile = &osProfile
-	} else {
-		destination.OsProfile = nil
-	}
-
-	// Owner
-	if machines.Owner != nil {
-		owner := machines.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Plan
-	if machines.Plan != nil {
-		var plan v20220301s.Plan
-		err := machines.Plan.AssignProperties_To_Plan(&plan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
-		}
-		destination.Plan = &plan
-	} else {
-		destination.Plan = nil
-	}
-
-	// PlatformFaultDomain
-	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machines.PlatformFaultDomain)
-
-	// Priority
-	if machines.Priority != nil {
-		priority := string(*machines.Priority)
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
-
-	// ProximityPlacementGroup
-	if machines.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup v20220301s.SubResource
-		err := machines.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
-		}
-		destination.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		destination.ProximityPlacementGroup = nil
-	}
-
-	// ScheduledEventsProfile
-	if machines.ScheduledEventsProfile != nil {
-		var scheduledEventsProfile v20220301s.ScheduledEventsProfile
-		err := machines.ScheduledEventsProfile.AssignProperties_To_ScheduledEventsProfile(&scheduledEventsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ScheduledEventsProfile() to populate field ScheduledEventsProfile")
-		}
-		destination.ScheduledEventsProfile = &scheduledEventsProfile
-	} else {
-		destination.ScheduledEventsProfile = nil
-	}
-
-	// SecurityProfile
-	if machines.SecurityProfile != nil {
-		var securityProfile v20220301s.SecurityProfile
-		err := machines.SecurityProfile.AssignProperties_To_SecurityProfile(&securityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile() to populate field SecurityProfile")
-		}
-		destination.SecurityProfile = &securityProfile
-	} else {
-		destination.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if machines.StorageProfile != nil {
-		var storageProfile v20220301s.StorageProfile
-		err := machines.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
-		}
-		destination.StorageProfile = &storageProfile
-	} else {
-		destination.StorageProfile = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(machines.Tags)
-
-	// UserData
-	destination.UserData = genruntime.ClonePointerToString(machines.UserData)
-
-	// VirtualMachineScaleSet
-	if machines.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet v20220301s.SubResource
-		err := machines.VirtualMachineScaleSet.AssignProperties_To_SubResource(&virtualMachineScaleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachineScaleSet")
-		}
-		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
-	} else {
-		destination.VirtualMachineScaleSet = nil
-	}
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(machines.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (machines *VirtualMachines_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (machines *VirtualMachines_Spec) SetAzureName(azureName string) { machines.AzureName = azureName }
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
 type AdditionalCapabilities struct {
 	// HibernationEnabled: The flag that enables or disables hibernation capability on the VM.
@@ -2972,7 +2972,7 @@ func (capabilities *AdditionalCapabilities) ConvertToARM(resolved genruntime.Con
 	if capabilities == nil {
 		return nil, nil
 	}
-	result := &AdditionalCapabilitiesARM{}
+	result := &AdditionalCapabilities_ARM{}
 
 	// Set property ‘HibernationEnabled’:
 	if capabilities.HibernationEnabled != nil {
@@ -2990,14 +2990,14 @@ func (capabilities *AdditionalCapabilities) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capabilities *AdditionalCapabilities) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdditionalCapabilitiesARM{}
+	return &AdditionalCapabilities_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capabilities *AdditionalCapabilities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdditionalCapabilitiesARM)
+	typedInput, ok := armInput.(AdditionalCapabilities_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilitiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilities_ARM, got %T", armInput)
 	}
 
 	// Set property ‘HibernationEnabled’:
@@ -3085,14 +3085,14 @@ var _ genruntime.FromARMConverter = &AdditionalCapabilities_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capabilities *AdditionalCapabilities_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdditionalCapabilities_STATUSARM{}
+	return &AdditionalCapabilities_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capabilities *AdditionalCapabilities_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdditionalCapabilities_STATUSARM)
+	typedInput, ok := armInput.(AdditionalCapabilities_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilities_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalCapabilities_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘HibernationEnabled’:
@@ -3179,29 +3179,29 @@ func (profile *ApplicationProfile) ConvertToARM(resolved genruntime.ConvertToARM
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ApplicationProfileARM{}
+	result := &ApplicationProfile_ARM{}
 
 	// Set property ‘GalleryApplications’:
 	for _, item := range profile.GalleryApplications {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.GalleryApplications = append(result.GalleryApplications, *itemARM.(*VMGalleryApplicationARM))
+		result.GalleryApplications = append(result.GalleryApplications, *item_ARM.(*VMGalleryApplication_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ApplicationProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationProfileARM{}
+	return &ApplicationProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ApplicationProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationProfileARM)
+	typedInput, ok := armInput.(ApplicationProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘GalleryApplications’:
@@ -3286,14 +3286,14 @@ var _ genruntime.FromARMConverter = &ApplicationProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ApplicationProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationProfile_STATUSARM{}
+	return &ApplicationProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ApplicationProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationProfile_STATUSARM)
+	typedInput, ok := armInput.(ApplicationProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘GalleryApplications’:
@@ -3393,7 +3393,7 @@ func (profile *BillingProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &BillingProfileARM{}
+	result := &BillingProfile_ARM{}
 
 	// Set property ‘MaxPrice’:
 	if profile.MaxPrice != nil {
@@ -3405,14 +3405,14 @@ func (profile *BillingProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *BillingProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BillingProfileARM{}
+	return &BillingProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *BillingProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BillingProfileARM)
+	typedInput, ok := armInput.(BillingProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxPrice’:
@@ -3484,14 +3484,14 @@ var _ genruntime.FromARMConverter = &BillingProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *BillingProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BillingProfile_STATUSARM{}
+	return &BillingProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *BillingProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BillingProfile_STATUSARM)
+	typedInput, ok := armInput.(BillingProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BillingProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxPrice’:
@@ -3555,15 +3555,15 @@ func (profile *CapacityReservationProfile) ConvertToARM(resolved genruntime.Conv
 	if profile == nil {
 		return nil, nil
 	}
-	result := &CapacityReservationProfileARM{}
+	result := &CapacityReservationProfile_ARM{}
 
 	// Set property ‘CapacityReservationGroup’:
 	if profile.CapacityReservationGroup != nil {
-		capacityReservationGroupARM, err := (*profile.CapacityReservationGroup).ConvertToARM(resolved)
+		capacityReservationGroup_ARM, err := (*profile.CapacityReservationGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		capacityReservationGroup := *capacityReservationGroupARM.(*SubResourceARM)
+		capacityReservationGroup := *capacityReservationGroup_ARM.(*SubResource_ARM)
 		result.CapacityReservationGroup = &capacityReservationGroup
 	}
 	return result, nil
@@ -3571,14 +3571,14 @@ func (profile *CapacityReservationProfile) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *CapacityReservationProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CapacityReservationProfileARM{}
+	return &CapacityReservationProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *CapacityReservationProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CapacityReservationProfileARM)
+	typedInput, ok := armInput.(CapacityReservationProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CapacityReservationProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CapacityReservationProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CapacityReservationGroup’:
@@ -3654,14 +3654,14 @@ var _ genruntime.FromARMConverter = &CapacityReservationProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *CapacityReservationProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CapacityReservationProfile_STATUSARM{}
+	return &CapacityReservationProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *CapacityReservationProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CapacityReservationProfile_STATUSARM)
+	typedInput, ok := armInput.(CapacityReservationProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CapacityReservationProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CapacityReservationProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CapacityReservationGroup’:
@@ -3742,15 +3742,15 @@ func (profile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARM
 	if profile == nil {
 		return nil, nil
 	}
-	result := &DiagnosticsProfileARM{}
+	result := &DiagnosticsProfile_ARM{}
 
 	// Set property ‘BootDiagnostics’:
 	if profile.BootDiagnostics != nil {
-		bootDiagnosticsARM, err := (*profile.BootDiagnostics).ConvertToARM(resolved)
+		bootDiagnostics_ARM, err := (*profile.BootDiagnostics).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		bootDiagnostics := *bootDiagnosticsARM.(*BootDiagnosticsARM)
+		bootDiagnostics := *bootDiagnostics_ARM.(*BootDiagnostics_ARM)
 		result.BootDiagnostics = &bootDiagnostics
 	}
 	return result, nil
@@ -3758,14 +3758,14 @@ func (profile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *DiagnosticsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiagnosticsProfileARM{}
+	return &DiagnosticsProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *DiagnosticsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiagnosticsProfileARM)
+	typedInput, ok := armInput.(DiagnosticsProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BootDiagnostics’:
@@ -3844,14 +3844,14 @@ var _ genruntime.FromARMConverter = &DiagnosticsProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *DiagnosticsProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiagnosticsProfile_STATUSARM{}
+	return &DiagnosticsProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *DiagnosticsProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiagnosticsProfile_STATUSARM)
+	typedInput, ok := armInput.(DiagnosticsProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiagnosticsProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘BootDiagnostics’:
@@ -3948,7 +3948,7 @@ func (profile *HardwareProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if profile == nil {
 		return nil, nil
 	}
-	result := &HardwareProfileARM{}
+	result := &HardwareProfile_ARM{}
 
 	// Set property ‘VmSize’:
 	if profile.VmSize != nil {
@@ -3958,11 +3958,11 @@ func (profile *HardwareProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘VmSizeProperties’:
 	if profile.VmSizeProperties != nil {
-		vmSizePropertiesARM, err := (*profile.VmSizeProperties).ConvertToARM(resolved)
+		vmSizeProperties_ARM, err := (*profile.VmSizeProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		vmSizeProperties := *vmSizePropertiesARM.(*VMSizePropertiesARM)
+		vmSizeProperties := *vmSizeProperties_ARM.(*VMSizeProperties_ARM)
 		result.VmSizeProperties = &vmSizeProperties
 	}
 	return result, nil
@@ -3970,14 +3970,14 @@ func (profile *HardwareProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *HardwareProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HardwareProfileARM{}
+	return &HardwareProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *HardwareProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HardwareProfileARM)
+	typedInput, ok := armInput.(HardwareProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HardwareProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HardwareProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘VmSize’:
@@ -4075,7 +4075,7 @@ type HardwareProfile_STATUS struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfile_STATUS_VmSize `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
 
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2021-07-01.
@@ -4088,14 +4088,14 @@ var _ genruntime.FromARMConverter = &HardwareProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *HardwareProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HardwareProfile_STATUSARM{}
+	return &HardwareProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *HardwareProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HardwareProfile_STATUSARM)
+	typedInput, ok := armInput.(HardwareProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HardwareProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HardwareProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘VmSize’:
@@ -4124,7 +4124,7 @@ func (profile *HardwareProfile_STATUS) AssignProperties_From_HardwareProfile_STA
 
 	// VmSize
 	if source.VmSize != nil {
-		vmSize := HardwareProfile_STATUS_VmSize(*source.VmSize)
+		vmSize := HardwareProfile_VmSize_STATUS(*source.VmSize)
 		profile.VmSize = &vmSize
 	} else {
 		profile.VmSize = nil
@@ -4185,7 +4185,7 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 type NetworkProfile_STATUS struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
-	NetworkApiVersion *NetworkProfile_STATUS_NetworkApiVersion `json:"networkApiVersion,omitempty"`
+	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS `json:"networkApiVersion,omitempty"`
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
@@ -4199,14 +4199,14 @@ var _ genruntime.FromARMConverter = &NetworkProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *NetworkProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkProfile_STATUSARM{}
+	return &NetworkProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *NetworkProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkProfile_STATUSARM)
+	typedInput, ok := armInput.(NetworkProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘NetworkApiVersion’:
@@ -4244,7 +4244,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATU
 
 	// NetworkApiVersion
 	if source.NetworkApiVersion != nil {
-		networkApiVersion := NetworkProfile_STATUS_NetworkApiVersion(*source.NetworkApiVersion)
+		networkApiVersion := NetworkProfile_NetworkApiVersion_STATUS(*source.NetworkApiVersion)
 		profile.NetworkApiVersion = &networkApiVersion
 	} else {
 		profile.NetworkApiVersion = nil
@@ -4406,14 +4406,14 @@ var _ genruntime.FromARMConverter = &OSProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *OSProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OSProfile_STATUSARM{}
+	return &OSProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *OSProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OSProfile_STATUSARM)
+	typedInput, ok := armInput.(OSProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdminUsername’:
@@ -4662,7 +4662,7 @@ func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) 
 	if plan == nil {
 		return nil, nil
 	}
-	result := &PlanARM{}
+	result := &Plan_ARM{}
 
 	// Set property ‘Name’:
 	if plan.Name != nil {
@@ -4692,14 +4692,14 @@ func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (plan *Plan) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PlanARM{}
+	return &Plan_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (plan *Plan) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PlanARM)
+	typedInput, ok := armInput.(Plan_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PlanARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Plan_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -4796,14 +4796,14 @@ var _ genruntime.FromARMConverter = &Plan_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (plan *Plan_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Plan_STATUSARM{}
+	return &Plan_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (plan *Plan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Plan_STATUSARM)
+	typedInput, ok := armInput.(Plan_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Plan_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Plan_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -4901,15 +4901,15 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ScheduledEventsProfileARM{}
+	result := &ScheduledEventsProfile_ARM{}
 
 	// Set property ‘TerminateNotificationProfile’:
 	if profile.TerminateNotificationProfile != nil {
-		terminateNotificationProfileARM, err := (*profile.TerminateNotificationProfile).ConvertToARM(resolved)
+		terminateNotificationProfile_ARM, err := (*profile.TerminateNotificationProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		terminateNotificationProfile := *terminateNotificationProfileARM.(*TerminateNotificationProfileARM)
+		terminateNotificationProfile := *terminateNotificationProfile_ARM.(*TerminateNotificationProfile_ARM)
 		result.TerminateNotificationProfile = &terminateNotificationProfile
 	}
 	return result, nil
@@ -4917,14 +4917,14 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ScheduledEventsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduledEventsProfileARM{}
+	return &ScheduledEventsProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ScheduledEventsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduledEventsProfileARM)
+	typedInput, ok := armInput.(ScheduledEventsProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘TerminateNotificationProfile’:
@@ -4998,14 +4998,14 @@ var _ genruntime.FromARMConverter = &ScheduledEventsProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ScheduledEventsProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduledEventsProfile_STATUSARM{}
+	return &ScheduledEventsProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ScheduledEventsProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduledEventsProfile_STATUSARM)
+	typedInput, ok := armInput.(ScheduledEventsProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduledEventsProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘TerminateNotificationProfile’:
@@ -5095,7 +5095,7 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if profile == nil {
 		return nil, nil
 	}
-	result := &SecurityProfileARM{}
+	result := &SecurityProfile_ARM{}
 
 	// Set property ‘EncryptionAtHost’:
 	if profile.EncryptionAtHost != nil {
@@ -5111,11 +5111,11 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘UefiSettings’:
 	if profile.UefiSettings != nil {
-		uefiSettingsARM, err := (*profile.UefiSettings).ConvertToARM(resolved)
+		uefiSettings_ARM, err := (*profile.UefiSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		uefiSettings := *uefiSettingsARM.(*UefiSettingsARM)
+		uefiSettings := *uefiSettings_ARM.(*UefiSettings_ARM)
 		result.UefiSettings = &uefiSettings
 	}
 	return result, nil
@@ -5123,14 +5123,14 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *SecurityProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityProfileARM{}
+	return &SecurityProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *SecurityProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityProfileARM)
+	typedInput, ok := armInput.(SecurityProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EncryptionAtHost’:
@@ -5249,7 +5249,7 @@ type SecurityProfile_STATUS struct {
 	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
 	// UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_STATUS_SecurityType `json:"securityType,omitempty"`
+	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -5260,14 +5260,14 @@ var _ genruntime.FromARMConverter = &SecurityProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *SecurityProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityProfile_STATUSARM{}
+	return &SecurityProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *SecurityProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityProfile_STATUSARM)
+	typedInput, ok := armInput.(SecurityProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EncryptionAtHost’:
@@ -5310,7 +5310,7 @@ func (profile *SecurityProfile_STATUS) AssignProperties_From_SecurityProfile_STA
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfile_STATUS_SecurityType(*source.SecurityType)
+		securityType := SecurityProfile_SecurityType_STATUS(*source.SecurityType)
 		profile.SecurityType = &securityType
 	} else {
 		profile.SecurityType = nil
@@ -5402,34 +5402,34 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &StorageProfileARM{}
+	result := &StorageProfile_ARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, *itemARM.(*DataDiskARM))
+		result.DataDisks = append(result.DataDisks, *item_ARM.(*DataDisk_ARM))
 	}
 
 	// Set property ‘ImageReference’:
 	if profile.ImageReference != nil {
-		imageReferenceARM, err := (*profile.ImageReference).ConvertToARM(resolved)
+		imageReference_ARM, err := (*profile.ImageReference).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		imageReference := *imageReferenceARM.(*ImageReferenceARM)
+		imageReference := *imageReference_ARM.(*ImageReference_ARM)
 		result.ImageReference = &imageReference
 	}
 
 	// Set property ‘OsDisk’:
 	if profile.OsDisk != nil {
-		osDiskARM, err := (*profile.OsDisk).ConvertToARM(resolved)
+		osDisk_ARM, err := (*profile.OsDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		osDisk := *osDiskARM.(*OSDiskARM)
+		osDisk := *osDisk_ARM.(*OSDisk_ARM)
 		result.OsDisk = &osDisk
 	}
 	return result, nil
@@ -5437,14 +5437,14 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfileARM{}
+	return &StorageProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfileARM)
+	typedInput, ok := armInput.(StorageProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataDisks’:
@@ -5611,14 +5611,14 @@ var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_STATUSARM{}
+	return &StorageProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_STATUSARM)
+	typedInput, ok := armInput.(StorageProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataDisks’:
@@ -5764,6 +5764,627 @@ func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type VirtualMachine_Properties_EvictionPolicy_Spec string
+
+const (
+	VirtualMachine_Properties_EvictionPolicy_Spec_Deallocate = VirtualMachine_Properties_EvictionPolicy_Spec("Deallocate")
+	VirtualMachine_Properties_EvictionPolicy_Spec_Delete     = VirtualMachine_Properties_EvictionPolicy_Spec("Delete")
+)
+
+type VirtualMachine_Properties_NetworkProfile_Spec struct {
+	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
+	// Interface Configurations.
+	NetworkApiVersion *VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec `json:"networkApiVersion,omitempty"`
+
+	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
+	// networking resources.
+	NetworkInterfaceConfigurations []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec `json:"networkInterfaceConfigurations,omitempty"`
+
+	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
+	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec `json:"networkInterfaces,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_NetworkProfile_Spec_ARM{}
+
+	// Set property ‘NetworkApiVersion’:
+	if profile.NetworkApiVersion != nil {
+		networkApiVersion := *profile.NetworkApiVersion
+		result.NetworkApiVersion = &networkApiVersion
+	}
+
+	// Set property ‘NetworkInterfaceConfigurations’:
+	for _, item := range profile.NetworkInterfaceConfigurations {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, *item_ARM.(*VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM))
+	}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range profile.NetworkInterfaces {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.NetworkInterfaces = append(result.NetworkInterfaces, *item_ARM.(*VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_NetworkProfile_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘NetworkApiVersion’:
+	if typedInput.NetworkApiVersion != nil {
+		networkApiVersion := *typedInput.NetworkApiVersion
+		profile.NetworkApiVersion = &networkApiVersion
+	}
+
+	// Set property ‘NetworkInterfaceConfigurations’:
+	for _, item := range typedInput.NetworkInterfaceConfigurations {
+		var item1 VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.NetworkInterfaceConfigurations = append(profile.NetworkInterfaceConfigurations, item1)
+	}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range typedInput.NetworkInterfaces {
+		var item1 VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec populates our VirtualMachine_Properties_NetworkProfile_Spec from the provided source VirtualMachine_Properties_NetworkProfile_Spec
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
+
+	// NetworkApiVersion
+	if source.NetworkApiVersion != nil {
+		networkApiVersion := VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec(*source.NetworkApiVersion)
+		profile.NetworkApiVersion = &networkApiVersion
+	} else {
+		profile.NetworkApiVersion = nil
+	}
+
+	// NetworkInterfaceConfigurations
+	if source.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec, len(source.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+			err := networkInterfaceConfiguration.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec(&networkInterfaceConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		profile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		profile.NetworkInterfaceConfigurations = nil
+	}
+
+	// NetworkInterfaces
+	if source.NetworkInterfaces != nil {
+		networkInterfaceList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(source.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+			err := networkInterface.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterfaceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		profile.NetworkInterfaces = networkInterfaceList
+	} else {
+		profile.NetworkInterfaces = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_Spec from our VirtualMachine_Properties_NetworkProfile_Spec
+func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// NetworkApiVersion
+	if profile.NetworkApiVersion != nil {
+		networkApiVersion := string(*profile.NetworkApiVersion)
+		destination.NetworkApiVersion = &networkApiVersion
+	} else {
+		destination.NetworkApiVersion = nil
+	}
+
+	// NetworkInterfaceConfigurations
+	if profile.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec, len(profile.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range profile.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+			err := networkInterfaceConfigurationItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec(&networkInterfaceConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
+	}
+
+	// NetworkInterfaces
+	if profile.NetworkInterfaces != nil {
+		networkInterfaceList := make([]v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(profile.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterface)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		destination.NetworkInterfaces = networkInterfaceList
+	} else {
+		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type VirtualMachine_Properties_OsProfile_Spec struct {
+	// AdminPassword: Specifies the password of the administrator account.
+	// Minimum-length (Windows): 8 characters
+	// Minimum-length (Linux): 6 characters
+	// Max-length (Windows): 123 characters
+	// Max-length (Linux): 72 characters
+	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
+	// Has lower characters
+	// Has upper characters
+	// Has a digit
+	// Has a special character (Regex match [\W_])
+	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
+	// "Password22", "iloveyou!"
+	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
+	// VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
+	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
+	// Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
+	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
+
+	// AdminUsername: Specifies the name of the administrator account.
+	// This property cannot be updated after the VM is created.
+	// Windows-only restriction: Cannot end in "."
+	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
+	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
+	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
+	// Minimum-length (Linux): 1  character
+	// Max-length (Linux): 64 characters
+	// Max-length (Windows): 20 characters.
+	AdminUsername *string `json:"adminUsername,omitempty"`
+
+	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
+	// This may only be set to False when no extensions are present on the virtual machine.
+	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
+
+	// ComputerName: Specifies the host OS name of the virtual machine.
+	// This name cannot be updated after the VM is created.
+	// Max-length (Windows): 15 characters
+	// Max-length (Linux): 64 characters.
+	// For naming conventions and restrictions see [Azure infrastructure services implementation
+	// guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
+	ComputerName *string `json:"computerName,omitempty"`
+
+	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
+	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
+	// Note: Do not pass any secrets or passwords in customData property
+	// This property cannot be updated after the VM is created.
+	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
+	// VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/)
+	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
+	// creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
+	CustomData *string `json:"customData,omitempty"`
+
+	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
+	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
+	// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
+	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
+
+	// RequireGuestProvisionSignal: Optional property which must either be set to True or omitted.
+	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
+
+	// Secrets: Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a
+	// virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
+	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
+	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
+	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
+
+	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
+	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_OsProfile_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *VirtualMachine_Properties_OsProfile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_OsProfile_Spec_ARM{}
+
+	// Set property ‘AdminPassword’:
+	if profile.AdminPassword != nil {
+		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
+		}
+		adminPassword := adminPasswordSecret
+		result.AdminPassword = &adminPassword
+	}
+
+	// Set property ‘AdminUsername’:
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperations := *profile.AllowExtensionOperations
+		result.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if profile.ComputerName != nil {
+		computerName := *profile.ComputerName
+		result.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if profile.CustomData != nil {
+		customData := *profile.CustomData
+		result.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if profile.LinuxConfiguration != nil {
+		linuxConfiguration_ARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxConfiguration := *linuxConfiguration_ARM.(*LinuxConfiguration_ARM)
+		result.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range profile.Secrets {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Secrets = append(result.Secrets, *item_ARM.(*VaultSecretGroup_ARM))
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if profile.WindowsConfiguration != nil {
+		windowsConfiguration_ARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		windowsConfiguration := *windowsConfiguration_ARM.(*WindowsConfiguration_ARM)
+		result.WindowsConfiguration = &windowsConfiguration
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *VirtualMachine_Properties_OsProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_OsProfile_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *VirtualMachine_Properties_OsProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_OsProfile_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_OsProfile_Spec_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AdminPassword’
+
+	// Set property ‘AdminUsername’:
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if typedInput.AllowExtensionOperations != nil {
+		allowExtensionOperations := *typedInput.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if typedInput.ComputerName != nil {
+		computerName := *typedInput.ComputerName
+		profile.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if typedInput.CustomData != nil {
+		customData := *typedInput.CustomData
+		profile.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if typedInput.LinuxConfiguration != nil {
+		var linuxConfiguration1 LinuxConfiguration
+		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
+		if err != nil {
+			return err
+		}
+		linuxConfiguration := linuxConfiguration1
+		profile.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if typedInput.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range typedInput.Secrets {
+		var item1 VaultSecretGroup
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.Secrets = append(profile.Secrets, item1)
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if typedInput.WindowsConfiguration != nil {
+		var windowsConfiguration1 WindowsConfiguration
+		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
+		if err != nil {
+			return err
+		}
+		windowsConfiguration := windowsConfiguration1
+		profile.WindowsConfiguration = &windowsConfiguration
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec populates our VirtualMachine_Properties_OsProfile_Spec from the provided source VirtualMachine_Properties_OsProfile_Spec
+func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		allowExtensionOperation := *source.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		profile.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if source.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		profile.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec populates the provided destination VirtualMachine_Properties_OsProfile_Spec from our VirtualMachine_Properties_OsProfile_Spec
+func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(destination *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperation := *profile.AllowExtensionOperations
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20220301s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		destination.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20220301s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20220301s.VaultSecretGroup
+			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20220301s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
+type VirtualMachine_Properties_Priority_Spec string
+
+const (
+	VirtualMachine_Properties_Priority_Spec_Low     = VirtualMachine_Properties_Priority_Spec("Low")
+	VirtualMachine_Properties_Priority_Spec_Regular = VirtualMachine_Properties_Priority_Spec("Regular")
+	VirtualMachine_Properties_Priority_Spec_Spot    = VirtualMachine_Properties_Priority_Spec("Spot")
+)
+
 type VirtualMachineExtension_STATUS struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -5827,14 +6448,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineExtension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachineExtension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtension_STATUSARM{}
+	return &VirtualMachineExtension_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachineExtension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtension_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineExtension_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtension_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtension_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AutoUpgradeMinorVersion’:
@@ -6240,7 +6861,7 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineIdentityARM{}
+	result := &VirtualMachineIdentity_ARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -6252,14 +6873,14 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *VirtualMachineIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineIdentityARM{}
+	return &VirtualMachineIdentity_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineIdentityARM)
+	typedInput, ok := armInput.(VirtualMachineIdentity_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentity_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Type’:
@@ -6323,21 +6944,21 @@ type VirtualMachineIdentity_STATUS struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type *VirtualMachineIdentity_STATUS_Type `json:"type,omitempty"`
+	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *VirtualMachineIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineIdentity_STATUSARM{}
+	return &VirtualMachineIdentity_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *VirtualMachineIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineIdentity_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineIdentity_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentity_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentity_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PrincipalId’:
@@ -6373,7 +6994,7 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_From_VirtualMach
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentity_STATUS_Type(*source.Type)
+		typeVar := VirtualMachineIdentity_Type_STATUS(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -6435,7 +7056,7 @@ type VirtualMachineInstanceView_STATUS struct {
 	Extensions []VirtualMachineExtensionInstanceView_STATUS `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceView_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS `json:"maintenanceRedeployStatus,omitempty"`
@@ -6472,14 +7093,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineInstanceView_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineInstanceView_STATUSARM{}
+	return &VirtualMachineInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineInstanceView_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssignedHost’:
@@ -6678,7 +7299,7 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_From_VirtualMach
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := VirtualMachineInstanceView_STATUS_HyperVGeneration(*source.HyperVGeneration)
+		hyperVGeneration := VirtualMachineInstanceView_HyperVGeneration_STATUS(*source.HyperVGeneration)
 		view.HyperVGeneration = &hyperVGeneration
 	} else {
 		view.HyperVGeneration = nil
@@ -6928,627 +7549,6 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type VirtualMachines_Spec_Properties_EvictionPolicy string
-
-const (
-	VirtualMachines_Spec_Properties_EvictionPolicy_Deallocate = VirtualMachines_Spec_Properties_EvictionPolicy("Deallocate")
-	VirtualMachines_Spec_Properties_EvictionPolicy_Delete     = VirtualMachines_Spec_Properties_EvictionPolicy("Delete")
-)
-
-type VirtualMachines_Spec_Properties_NetworkProfile struct {
-	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations.
-	NetworkApiVersion *VirtualMachines_Spec_Properties_NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
-
-	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
-	// networking resources.
-	NetworkInterfaceConfigurations []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
-
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfileARM{}
-
-	// Set property ‘NetworkApiVersion’:
-	if profile.NetworkApiVersion != nil {
-		networkApiVersion := *profile.NetworkApiVersion
-		result.NetworkApiVersion = &networkApiVersion
-	}
-
-	// Set property ‘NetworkInterfaceConfigurations’:
-	for _, item := range profile.NetworkInterfaceConfigurations {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, *itemARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM))
-	}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range profile.NetworkInterfaces {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.NetworkInterfaces = append(result.NetworkInterfaces, *itemARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfileARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfileARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfileARM, got %T", armInput)
-	}
-
-	// Set property ‘NetworkApiVersion’:
-	if typedInput.NetworkApiVersion != nil {
-		networkApiVersion := *typedInput.NetworkApiVersion
-		profile.NetworkApiVersion = &networkApiVersion
-	}
-
-	// Set property ‘NetworkInterfaceConfigurations’:
-	for _, item := range typedInput.NetworkInterfaceConfigurations {
-		var item1 VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.NetworkInterfaceConfigurations = append(profile.NetworkInterfaceConfigurations, item1)
-	}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range typedInput.NetworkInterfaces {
-		var item1 VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile populates our VirtualMachines_Spec_Properties_NetworkProfile from the provided source VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile) error {
-
-	// NetworkApiVersion
-	if source.NetworkApiVersion != nil {
-		networkApiVersion := VirtualMachines_Spec_Properties_NetworkProfile_NetworkApiVersion(*source.NetworkApiVersion)
-		profile.NetworkApiVersion = &networkApiVersion
-	} else {
-		profile.NetworkApiVersion = nil
-	}
-
-	// NetworkInterfaceConfigurations
-	if source.NetworkInterfaceConfigurations != nil {
-		networkInterfaceConfigurationList := make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations, len(source.NetworkInterfaceConfigurations))
-		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-			var networkInterfaceConfiguration VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-			err := networkInterfaceConfiguration.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(&networkInterfaceConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations() to populate field NetworkInterfaceConfigurations")
-			}
-			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
-		}
-		profile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
-	} else {
-		profile.NetworkInterfaceConfigurations = nil
-	}
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterface.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		profile.NetworkInterfaces = networkInterfaceList
-	} else {
-		profile.NetworkInterfaces = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile from our VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(destination *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// NetworkApiVersion
-	if profile.NetworkApiVersion != nil {
-		networkApiVersion := string(*profile.NetworkApiVersion)
-		destination.NetworkApiVersion = &networkApiVersion
-	} else {
-		destination.NetworkApiVersion = nil
-	}
-
-	// NetworkInterfaceConfigurations
-	if profile.NetworkInterfaceConfigurations != nil {
-		networkInterfaceConfigurationList := make([]v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations, len(profile.NetworkInterfaceConfigurations))
-		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range profile.NetworkInterfaceConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-			var networkInterfaceConfiguration v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-			err := networkInterfaceConfigurationItem.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(&networkInterfaceConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations() to populate field NetworkInterfaceConfigurations")
-			}
-			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
-		}
-		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
-	} else {
-		destination.NetworkInterfaceConfigurations = nil
-	}
-
-	// NetworkInterfaces
-	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(profile.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterfaceItem.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type VirtualMachines_Spec_Properties_OsProfile struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
-	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
-
-	// AdminUsername: Specifies the name of the administrator account.
-	// This property cannot be updated after the VM is created.
-	// Windows-only restriction: Cannot end in "."
-	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	// Minimum-length (Linux): 1  character
-	// Max-length (Linux): 64 characters
-	// Max-length (Windows): 20 characters.
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
-	// This may only be set to False when no extensions are present on the virtual machine.
-	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
-
-	// ComputerName: Specifies the host OS name of the virtual machine.
-	// This name cannot be updated after the VM is created.
-	// Max-length (Windows): 15 characters
-	// Max-length (Linux): 64 characters.
-	// For naming conventions and restrictions see [Azure infrastructure services implementation
-	// guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// Note: Do not pass any secrets or passwords in customData property
-	// This property cannot be updated after the VM is created.
-	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
-	// VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/)
-	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
-	CustomData *string `json:"customData,omitempty"`
-
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
-	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
-
-	// RequireGuestProvisionSignal: Optional property which must either be set to True or omitted.
-	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
-
-	// Secrets: Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a
-	// virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
-
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_OsProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_OsProfileARM{}
-
-	// Set property ‘AdminPassword’:
-	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
-		}
-		adminPassword := adminPasswordSecret
-		result.AdminPassword = &adminPassword
-	}
-
-	// Set property ‘AdminUsername’:
-	if profile.AdminUsername != nil {
-		adminUsername := *profile.AdminUsername
-		result.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperations := *profile.AllowExtensionOperations
-		result.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if profile.ComputerName != nil {
-		computerName := *profile.ComputerName
-		result.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if profile.CustomData != nil {
-		customData := *profile.CustomData
-		result.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if profile.LinuxConfiguration != nil {
-		linuxConfigurationARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
-		result.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range profile.Secrets {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if profile.WindowsConfiguration != nil {
-		windowsConfigurationARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
-		result.WindowsConfiguration = &windowsConfiguration
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachines_Spec_Properties_OsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_OsProfileARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachines_Spec_Properties_OsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_OsProfileARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_OsProfileARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AdminPassword’
-
-	// Set property ‘AdminUsername’:
-	if typedInput.AdminUsername != nil {
-		adminUsername := *typedInput.AdminUsername
-		profile.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if typedInput.AllowExtensionOperations != nil {
-		allowExtensionOperations := *typedInput.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if typedInput.ComputerName != nil {
-		computerName := *typedInput.ComputerName
-		profile.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if typedInput.CustomData != nil {
-		customData := *typedInput.CustomData
-		profile.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if typedInput.LinuxConfiguration != nil {
-		var linuxConfiguration1 LinuxConfiguration
-		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
-		if err != nil {
-			return err
-		}
-		linuxConfiguration := linuxConfiguration1
-		profile.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if typedInput.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range typedInput.Secrets {
-		var item1 VaultSecretGroup
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.Secrets = append(profile.Secrets, item1)
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if typedInput.WindowsConfiguration != nil {
-		var windowsConfiguration1 WindowsConfiguration
-		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
-		if err != nil {
-			return err
-		}
-		windowsConfiguration := windowsConfiguration1
-		profile.WindowsConfiguration = &windowsConfiguration
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile populates our VirtualMachines_Spec_Properties_OsProfile from the provided source VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source *v20220301s.VirtualMachines_Spec_Properties_OsProfile) error {
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile populates the provided destination VirtualMachines_Spec_Properties_OsProfile from our VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(destination *v20220301s.VirtualMachines_Spec_Properties_OsProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// AllowExtensionOperations
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperation := *profile.AllowExtensionOperations
-		destination.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		destination.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
-
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20220301s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		destination.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]v20220301s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret v20220301s.VaultSecretGroup
-			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		destination.Secrets = secretList
-	} else {
-		destination.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20220301s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		destination.WindowsConfiguration = &windowsConfiguration
-	} else {
-		destination.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
-type VirtualMachines_Spec_Properties_Priority string
-
-const (
-	VirtualMachines_Spec_Properties_Priority_Low     = VirtualMachines_Spec_Properties_Priority("Low")
-	VirtualMachines_Spec_Properties_Priority_Regular = VirtualMachines_Spec_Properties_Priority("Regular")
-	VirtualMachines_Spec_Properties_Priority_Spot    = VirtualMachines_Spec_Properties_Priority("Spot")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/BootDiagnostics
 type BootDiagnostics struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
@@ -7566,7 +7566,7 @@ func (diagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.ConvertToAR
 	if diagnostics == nil {
 		return nil, nil
 	}
-	result := &BootDiagnosticsARM{}
+	result := &BootDiagnostics_ARM{}
 
 	// Set property ‘Enabled’:
 	if diagnostics.Enabled != nil {
@@ -7584,14 +7584,14 @@ func (diagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (diagnostics *BootDiagnostics) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BootDiagnosticsARM{}
+	return &BootDiagnostics_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (diagnostics *BootDiagnostics) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BootDiagnosticsARM)
+	typedInput, ok := armInput.(BootDiagnostics_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnosticsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnostics_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -7668,14 +7668,14 @@ var _ genruntime.FromARMConverter = &BootDiagnostics_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (diagnostics *BootDiagnostics_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BootDiagnostics_STATUSARM{}
+	return &BootDiagnostics_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (diagnostics *BootDiagnostics_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BootDiagnostics_STATUSARM)
+	typedInput, ok := armInput.(BootDiagnostics_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnostics_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnostics_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -7757,14 +7757,14 @@ var _ genruntime.FromARMConverter = &BootDiagnosticsInstanceView_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *BootDiagnosticsInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BootDiagnosticsInstanceView_STATUSARM{}
+	return &BootDiagnosticsInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *BootDiagnosticsInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BootDiagnosticsInstanceView_STATUSARM)
+	typedInput, ok := armInput.(BootDiagnosticsInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnosticsInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnosticsInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConsoleScreenshotBlobUri’:
@@ -7925,7 +7925,7 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if disk == nil {
 		return nil, nil
 	}
-	result := &DataDiskARM{}
+	result := &DataDisk_ARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -7959,11 +7959,11 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property ‘Image’:
 	if disk.Image != nil {
-		imageARM, err := (*disk.Image).ConvertToARM(resolved)
+		image_ARM, err := (*disk.Image).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		image := *imageARM.(*VirtualHardDiskARM)
+		image := *image_ARM.(*VirtualHardDisk_ARM)
 		result.Image = &image
 	}
 
@@ -7975,11 +7975,11 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
-		managedDiskARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := *managedDiskARM.(*ManagedDiskParametersARM)
+		managedDisk := *managedDisk_ARM.(*ManagedDiskParameters_ARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -7997,11 +7997,11 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property ‘Vhd’:
 	if disk.Vhd != nil {
-		vhdARM, err := (*disk.Vhd).ConvertToARM(resolved)
+		vhd_ARM, err := (*disk.Vhd).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		vhd := *vhdARM.(*VirtualHardDiskARM)
+		vhd := *vhd_ARM.(*VirtualHardDisk_ARM)
 		result.Vhd = &vhd
 	}
 
@@ -8015,14 +8015,14 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *DataDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataDiskARM{}
+	return &DataDisk_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataDiskARM)
+	typedInput, ok := armInput.(DataDisk_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataDiskARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataDisk_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Caching’:
@@ -8401,14 +8401,14 @@ var _ genruntime.FromARMConverter = &DataDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *DataDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DataDisk_STATUSARM{}
+	return &DataDisk_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *DataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DataDisk_STATUSARM)
+	typedInput, ok := armInput.(DataDisk_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataDisk_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataDisk_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Caching’:
@@ -8751,14 +8751,14 @@ var _ genruntime.FromARMConverter = &DiskInstanceView_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *DiskInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskInstanceView_STATUSARM{}
+	return &DiskInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *DiskInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskInstanceView_STATUSARM)
+	typedInput, ok := armInput.(DiskInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EncryptionSettings’:
@@ -8891,177 +8891,6 @@ func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS
 	// No error
 	return nil
 }
-
-type HardwareProfile_STATUS_VmSize string
-
-const (
-	HardwareProfile_STATUS_VmSize_Basic_A0           = HardwareProfile_STATUS_VmSize("Basic_A0")
-	HardwareProfile_STATUS_VmSize_Basic_A1           = HardwareProfile_STATUS_VmSize("Basic_A1")
-	HardwareProfile_STATUS_VmSize_Basic_A2           = HardwareProfile_STATUS_VmSize("Basic_A2")
-	HardwareProfile_STATUS_VmSize_Basic_A3           = HardwareProfile_STATUS_VmSize("Basic_A3")
-	HardwareProfile_STATUS_VmSize_Basic_A4           = HardwareProfile_STATUS_VmSize("Basic_A4")
-	HardwareProfile_STATUS_VmSize_Standard_A0        = HardwareProfile_STATUS_VmSize("Standard_A0")
-	HardwareProfile_STATUS_VmSize_Standard_A1        = HardwareProfile_STATUS_VmSize("Standard_A1")
-	HardwareProfile_STATUS_VmSize_Standard_A10       = HardwareProfile_STATUS_VmSize("Standard_A10")
-	HardwareProfile_STATUS_VmSize_Standard_A11       = HardwareProfile_STATUS_VmSize("Standard_A11")
-	HardwareProfile_STATUS_VmSize_Standard_A1_V2     = HardwareProfile_STATUS_VmSize("Standard_A1_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A2        = HardwareProfile_STATUS_VmSize("Standard_A2")
-	HardwareProfile_STATUS_VmSize_Standard_A2M_V2    = HardwareProfile_STATUS_VmSize("Standard_A2m_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A2_V2     = HardwareProfile_STATUS_VmSize("Standard_A2_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A3        = HardwareProfile_STATUS_VmSize("Standard_A3")
-	HardwareProfile_STATUS_VmSize_Standard_A4        = HardwareProfile_STATUS_VmSize("Standard_A4")
-	HardwareProfile_STATUS_VmSize_Standard_A4M_V2    = HardwareProfile_STATUS_VmSize("Standard_A4m_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A4_V2     = HardwareProfile_STATUS_VmSize("Standard_A4_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A5        = HardwareProfile_STATUS_VmSize("Standard_A5")
-	HardwareProfile_STATUS_VmSize_Standard_A6        = HardwareProfile_STATUS_VmSize("Standard_A6")
-	HardwareProfile_STATUS_VmSize_Standard_A7        = HardwareProfile_STATUS_VmSize("Standard_A7")
-	HardwareProfile_STATUS_VmSize_Standard_A8        = HardwareProfile_STATUS_VmSize("Standard_A8")
-	HardwareProfile_STATUS_VmSize_Standard_A8M_V2    = HardwareProfile_STATUS_VmSize("Standard_A8m_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A8_V2     = HardwareProfile_STATUS_VmSize("Standard_A8_v2")
-	HardwareProfile_STATUS_VmSize_Standard_A9        = HardwareProfile_STATUS_VmSize("Standard_A9")
-	HardwareProfile_STATUS_VmSize_Standard_B1Ms      = HardwareProfile_STATUS_VmSize("Standard_B1ms")
-	HardwareProfile_STATUS_VmSize_Standard_B1S       = HardwareProfile_STATUS_VmSize("Standard_B1s")
-	HardwareProfile_STATUS_VmSize_Standard_B2Ms      = HardwareProfile_STATUS_VmSize("Standard_B2ms")
-	HardwareProfile_STATUS_VmSize_Standard_B2S       = HardwareProfile_STATUS_VmSize("Standard_B2s")
-	HardwareProfile_STATUS_VmSize_Standard_B4Ms      = HardwareProfile_STATUS_VmSize("Standard_B4ms")
-	HardwareProfile_STATUS_VmSize_Standard_B8Ms      = HardwareProfile_STATUS_VmSize("Standard_B8ms")
-	HardwareProfile_STATUS_VmSize_Standard_D1        = HardwareProfile_STATUS_VmSize("Standard_D1")
-	HardwareProfile_STATUS_VmSize_Standard_D11       = HardwareProfile_STATUS_VmSize("Standard_D11")
-	HardwareProfile_STATUS_VmSize_Standard_D11_V2    = HardwareProfile_STATUS_VmSize("Standard_D11_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D12       = HardwareProfile_STATUS_VmSize("Standard_D12")
-	HardwareProfile_STATUS_VmSize_Standard_D12_V2    = HardwareProfile_STATUS_VmSize("Standard_D12_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D13       = HardwareProfile_STATUS_VmSize("Standard_D13")
-	HardwareProfile_STATUS_VmSize_Standard_D13_V2    = HardwareProfile_STATUS_VmSize("Standard_D13_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D14       = HardwareProfile_STATUS_VmSize("Standard_D14")
-	HardwareProfile_STATUS_VmSize_Standard_D14_V2    = HardwareProfile_STATUS_VmSize("Standard_D14_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D15_V2    = HardwareProfile_STATUS_VmSize("Standard_D15_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D16S_V3   = HardwareProfile_STATUS_VmSize("Standard_D16s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D16_V3    = HardwareProfile_STATUS_VmSize("Standard_D16_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D1_V2     = HardwareProfile_STATUS_VmSize("Standard_D1_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D2        = HardwareProfile_STATUS_VmSize("Standard_D2")
-	HardwareProfile_STATUS_VmSize_Standard_D2S_V3    = HardwareProfile_STATUS_VmSize("Standard_D2s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D2_V2     = HardwareProfile_STATUS_VmSize("Standard_D2_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D2_V3     = HardwareProfile_STATUS_VmSize("Standard_D2_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D3        = HardwareProfile_STATUS_VmSize("Standard_D3")
-	HardwareProfile_STATUS_VmSize_Standard_D32S_V3   = HardwareProfile_STATUS_VmSize("Standard_D32s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D32_V3    = HardwareProfile_STATUS_VmSize("Standard_D32_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D3_V2     = HardwareProfile_STATUS_VmSize("Standard_D3_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D4        = HardwareProfile_STATUS_VmSize("Standard_D4")
-	HardwareProfile_STATUS_VmSize_Standard_D4S_V3    = HardwareProfile_STATUS_VmSize("Standard_D4s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D4_V2     = HardwareProfile_STATUS_VmSize("Standard_D4_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D4_V3     = HardwareProfile_STATUS_VmSize("Standard_D4_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D5_V2     = HardwareProfile_STATUS_VmSize("Standard_D5_v2")
-	HardwareProfile_STATUS_VmSize_Standard_D64S_V3   = HardwareProfile_STATUS_VmSize("Standard_D64s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D64_V3    = HardwareProfile_STATUS_VmSize("Standard_D64_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D8S_V3    = HardwareProfile_STATUS_VmSize("Standard_D8s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_D8_V3     = HardwareProfile_STATUS_VmSize("Standard_D8_v3")
-	HardwareProfile_STATUS_VmSize_Standard_DS1       = HardwareProfile_STATUS_VmSize("Standard_DS1")
-	HardwareProfile_STATUS_VmSize_Standard_DS11      = HardwareProfile_STATUS_VmSize("Standard_DS11")
-	HardwareProfile_STATUS_VmSize_Standard_DS11_V2   = HardwareProfile_STATUS_VmSize("Standard_DS11_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS12      = HardwareProfile_STATUS_VmSize("Standard_DS12")
-	HardwareProfile_STATUS_VmSize_Standard_DS12_V2   = HardwareProfile_STATUS_VmSize("Standard_DS12_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS13      = HardwareProfile_STATUS_VmSize("Standard_DS13")
-	HardwareProfile_STATUS_VmSize_Standard_DS132_V2  = HardwareProfile_STATUS_VmSize("Standard_DS13-2_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS134_V2  = HardwareProfile_STATUS_VmSize("Standard_DS13-4_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS13_V2   = HardwareProfile_STATUS_VmSize("Standard_DS13_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS14      = HardwareProfile_STATUS_VmSize("Standard_DS14")
-	HardwareProfile_STATUS_VmSize_Standard_DS144_V2  = HardwareProfile_STATUS_VmSize("Standard_DS14-4_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS148_V2  = HardwareProfile_STATUS_VmSize("Standard_DS14-8_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS14_V2   = HardwareProfile_STATUS_VmSize("Standard_DS14_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS15_V2   = HardwareProfile_STATUS_VmSize("Standard_DS15_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS1_V2    = HardwareProfile_STATUS_VmSize("Standard_DS1_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS2       = HardwareProfile_STATUS_VmSize("Standard_DS2")
-	HardwareProfile_STATUS_VmSize_Standard_DS2_V2    = HardwareProfile_STATUS_VmSize("Standard_DS2_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS3       = HardwareProfile_STATUS_VmSize("Standard_DS3")
-	HardwareProfile_STATUS_VmSize_Standard_DS3_V2    = HardwareProfile_STATUS_VmSize("Standard_DS3_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS4       = HardwareProfile_STATUS_VmSize("Standard_DS4")
-	HardwareProfile_STATUS_VmSize_Standard_DS4_V2    = HardwareProfile_STATUS_VmSize("Standard_DS4_v2")
-	HardwareProfile_STATUS_VmSize_Standard_DS5_V2    = HardwareProfile_STATUS_VmSize("Standard_DS5_v2")
-	HardwareProfile_STATUS_VmSize_Standard_E16S_V3   = HardwareProfile_STATUS_VmSize("Standard_E16s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E16_V3    = HardwareProfile_STATUS_VmSize("Standard_E16_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E2S_V3    = HardwareProfile_STATUS_VmSize("Standard_E2s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E2_V3     = HardwareProfile_STATUS_VmSize("Standard_E2_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E3216_V3  = HardwareProfile_STATUS_VmSize("Standard_E32-16_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E328S_V3  = HardwareProfile_STATUS_VmSize("Standard_E32-8s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E32S_V3   = HardwareProfile_STATUS_VmSize("Standard_E32s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E32_V3    = HardwareProfile_STATUS_VmSize("Standard_E32_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E4S_V3    = HardwareProfile_STATUS_VmSize("Standard_E4s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E4_V3     = HardwareProfile_STATUS_VmSize("Standard_E4_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E6416S_V3 = HardwareProfile_STATUS_VmSize("Standard_E64-16s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E6432S_V3 = HardwareProfile_STATUS_VmSize("Standard_E64-32s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E64S_V3   = HardwareProfile_STATUS_VmSize("Standard_E64s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E64_V3    = HardwareProfile_STATUS_VmSize("Standard_E64_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E8S_V3    = HardwareProfile_STATUS_VmSize("Standard_E8s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_E8_V3     = HardwareProfile_STATUS_VmSize("Standard_E8_v3")
-	HardwareProfile_STATUS_VmSize_Standard_F1        = HardwareProfile_STATUS_VmSize("Standard_F1")
-	HardwareProfile_STATUS_VmSize_Standard_F16       = HardwareProfile_STATUS_VmSize("Standard_F16")
-	HardwareProfile_STATUS_VmSize_Standard_F16S      = HardwareProfile_STATUS_VmSize("Standard_F16s")
-	HardwareProfile_STATUS_VmSize_Standard_F16S_V2   = HardwareProfile_STATUS_VmSize("Standard_F16s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F1S       = HardwareProfile_STATUS_VmSize("Standard_F1s")
-	HardwareProfile_STATUS_VmSize_Standard_F2        = HardwareProfile_STATUS_VmSize("Standard_F2")
-	HardwareProfile_STATUS_VmSize_Standard_F2S       = HardwareProfile_STATUS_VmSize("Standard_F2s")
-	HardwareProfile_STATUS_VmSize_Standard_F2S_V2    = HardwareProfile_STATUS_VmSize("Standard_F2s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F32S_V2   = HardwareProfile_STATUS_VmSize("Standard_F32s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F4        = HardwareProfile_STATUS_VmSize("Standard_F4")
-	HardwareProfile_STATUS_VmSize_Standard_F4S       = HardwareProfile_STATUS_VmSize("Standard_F4s")
-	HardwareProfile_STATUS_VmSize_Standard_F4S_V2    = HardwareProfile_STATUS_VmSize("Standard_F4s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F64S_V2   = HardwareProfile_STATUS_VmSize("Standard_F64s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F72S_V2   = HardwareProfile_STATUS_VmSize("Standard_F72s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_F8        = HardwareProfile_STATUS_VmSize("Standard_F8")
-	HardwareProfile_STATUS_VmSize_Standard_F8S       = HardwareProfile_STATUS_VmSize("Standard_F8s")
-	HardwareProfile_STATUS_VmSize_Standard_F8S_V2    = HardwareProfile_STATUS_VmSize("Standard_F8s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_G1        = HardwareProfile_STATUS_VmSize("Standard_G1")
-	HardwareProfile_STATUS_VmSize_Standard_G2        = HardwareProfile_STATUS_VmSize("Standard_G2")
-	HardwareProfile_STATUS_VmSize_Standard_G3        = HardwareProfile_STATUS_VmSize("Standard_G3")
-	HardwareProfile_STATUS_VmSize_Standard_G4        = HardwareProfile_STATUS_VmSize("Standard_G4")
-	HardwareProfile_STATUS_VmSize_Standard_G5        = HardwareProfile_STATUS_VmSize("Standard_G5")
-	HardwareProfile_STATUS_VmSize_Standard_GS1       = HardwareProfile_STATUS_VmSize("Standard_GS1")
-	HardwareProfile_STATUS_VmSize_Standard_GS2       = HardwareProfile_STATUS_VmSize("Standard_GS2")
-	HardwareProfile_STATUS_VmSize_Standard_GS3       = HardwareProfile_STATUS_VmSize("Standard_GS3")
-	HardwareProfile_STATUS_VmSize_Standard_GS4       = HardwareProfile_STATUS_VmSize("Standard_GS4")
-	HardwareProfile_STATUS_VmSize_Standard_GS44      = HardwareProfile_STATUS_VmSize("Standard_GS4-4")
-	HardwareProfile_STATUS_VmSize_Standard_GS48      = HardwareProfile_STATUS_VmSize("Standard_GS4-8")
-	HardwareProfile_STATUS_VmSize_Standard_GS5       = HardwareProfile_STATUS_VmSize("Standard_GS5")
-	HardwareProfile_STATUS_VmSize_Standard_GS516     = HardwareProfile_STATUS_VmSize("Standard_GS5-16")
-	HardwareProfile_STATUS_VmSize_Standard_GS58      = HardwareProfile_STATUS_VmSize("Standard_GS5-8")
-	HardwareProfile_STATUS_VmSize_Standard_H16       = HardwareProfile_STATUS_VmSize("Standard_H16")
-	HardwareProfile_STATUS_VmSize_Standard_H16M      = HardwareProfile_STATUS_VmSize("Standard_H16m")
-	HardwareProfile_STATUS_VmSize_Standard_H16Mr     = HardwareProfile_STATUS_VmSize("Standard_H16mr")
-	HardwareProfile_STATUS_VmSize_Standard_H16R      = HardwareProfile_STATUS_VmSize("Standard_H16r")
-	HardwareProfile_STATUS_VmSize_Standard_H8        = HardwareProfile_STATUS_VmSize("Standard_H8")
-	HardwareProfile_STATUS_VmSize_Standard_H8M       = HardwareProfile_STATUS_VmSize("Standard_H8m")
-	HardwareProfile_STATUS_VmSize_Standard_L16S      = HardwareProfile_STATUS_VmSize("Standard_L16s")
-	HardwareProfile_STATUS_VmSize_Standard_L32S      = HardwareProfile_STATUS_VmSize("Standard_L32s")
-	HardwareProfile_STATUS_VmSize_Standard_L4S       = HardwareProfile_STATUS_VmSize("Standard_L4s")
-	HardwareProfile_STATUS_VmSize_Standard_L8S       = HardwareProfile_STATUS_VmSize("Standard_L8s")
-	HardwareProfile_STATUS_VmSize_Standard_M12832Ms  = HardwareProfile_STATUS_VmSize("Standard_M128-32ms")
-	HardwareProfile_STATUS_VmSize_Standard_M12864Ms  = HardwareProfile_STATUS_VmSize("Standard_M128-64ms")
-	HardwareProfile_STATUS_VmSize_Standard_M128Ms    = HardwareProfile_STATUS_VmSize("Standard_M128ms")
-	HardwareProfile_STATUS_VmSize_Standard_M128S     = HardwareProfile_STATUS_VmSize("Standard_M128s")
-	HardwareProfile_STATUS_VmSize_Standard_M6416Ms   = HardwareProfile_STATUS_VmSize("Standard_M64-16ms")
-	HardwareProfile_STATUS_VmSize_Standard_M6432Ms   = HardwareProfile_STATUS_VmSize("Standard_M64-32ms")
-	HardwareProfile_STATUS_VmSize_Standard_M64Ms     = HardwareProfile_STATUS_VmSize("Standard_M64ms")
-	HardwareProfile_STATUS_VmSize_Standard_M64S      = HardwareProfile_STATUS_VmSize("Standard_M64s")
-	HardwareProfile_STATUS_VmSize_Standard_NC12      = HardwareProfile_STATUS_VmSize("Standard_NC12")
-	HardwareProfile_STATUS_VmSize_Standard_NC12S_V2  = HardwareProfile_STATUS_VmSize("Standard_NC12s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_NC12S_V3  = HardwareProfile_STATUS_VmSize("Standard_NC12s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_NC24      = HardwareProfile_STATUS_VmSize("Standard_NC24")
-	HardwareProfile_STATUS_VmSize_Standard_NC24R     = HardwareProfile_STATUS_VmSize("Standard_NC24r")
-	HardwareProfile_STATUS_VmSize_Standard_NC24Rs_V2 = HardwareProfile_STATUS_VmSize("Standard_NC24rs_v2")
-	HardwareProfile_STATUS_VmSize_Standard_NC24Rs_V3 = HardwareProfile_STATUS_VmSize("Standard_NC24rs_v3")
-	HardwareProfile_STATUS_VmSize_Standard_NC24S_V2  = HardwareProfile_STATUS_VmSize("Standard_NC24s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_NC24S_V3  = HardwareProfile_STATUS_VmSize("Standard_NC24s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_NC6       = HardwareProfile_STATUS_VmSize("Standard_NC6")
-	HardwareProfile_STATUS_VmSize_Standard_NC6S_V2   = HardwareProfile_STATUS_VmSize("Standard_NC6s_v2")
-	HardwareProfile_STATUS_VmSize_Standard_NC6S_V3   = HardwareProfile_STATUS_VmSize("Standard_NC6s_v3")
-	HardwareProfile_STATUS_VmSize_Standard_ND12S     = HardwareProfile_STATUS_VmSize("Standard_ND12s")
-	HardwareProfile_STATUS_VmSize_Standard_ND24Rs    = HardwareProfile_STATUS_VmSize("Standard_ND24rs")
-	HardwareProfile_STATUS_VmSize_Standard_ND24S     = HardwareProfile_STATUS_VmSize("Standard_ND24s")
-	HardwareProfile_STATUS_VmSize_Standard_ND6S      = HardwareProfile_STATUS_VmSize("Standard_ND6s")
-	HardwareProfile_STATUS_VmSize_Standard_NV12      = HardwareProfile_STATUS_VmSize("Standard_NV12")
-	HardwareProfile_STATUS_VmSize_Standard_NV24      = HardwareProfile_STATUS_VmSize("Standard_NV24")
-	HardwareProfile_STATUS_VmSize_Standard_NV6       = HardwareProfile_STATUS_VmSize("Standard_NV6")
-)
 
 // +kubebuilder:validation:Enum={"Basic_A0","Basic_A1","Basic_A2","Basic_A3","Basic_A4","Standard_A0","Standard_A1","Standard_A10","Standard_A11","Standard_A1_v2","Standard_A2","Standard_A2m_v2","Standard_A2_v2","Standard_A3","Standard_A4","Standard_A4m_v2","Standard_A4_v2","Standard_A5","Standard_A6","Standard_A7","Standard_A8","Standard_A8m_v2","Standard_A8_v2","Standard_A9","Standard_B1ms","Standard_B1s","Standard_B2ms","Standard_B2s","Standard_B4ms","Standard_B8ms","Standard_D1","Standard_D11","Standard_D11_v2","Standard_D12","Standard_D12_v2","Standard_D13","Standard_D13_v2","Standard_D14","Standard_D14_v2","Standard_D15_v2","Standard_D16s_v3","Standard_D16_v3","Standard_D1_v2","Standard_D2","Standard_D2s_v3","Standard_D2_v2","Standard_D2_v3","Standard_D3","Standard_D32s_v3","Standard_D32_v3","Standard_D3_v2","Standard_D4","Standard_D4s_v3","Standard_D4_v2","Standard_D4_v3","Standard_D5_v2","Standard_D64s_v3","Standard_D64_v3","Standard_D8s_v3","Standard_D8_v3","Standard_DS1","Standard_DS11","Standard_DS11_v2","Standard_DS12","Standard_DS12_v2","Standard_DS13","Standard_DS13-2_v2","Standard_DS13-4_v2","Standard_DS13_v2","Standard_DS14","Standard_DS14-4_v2","Standard_DS14-8_v2","Standard_DS14_v2","Standard_DS15_v2","Standard_DS1_v2","Standard_DS2","Standard_DS2_v2","Standard_DS3","Standard_DS3_v2","Standard_DS4","Standard_DS4_v2","Standard_DS5_v2","Standard_E16s_v3","Standard_E16_v3","Standard_E2s_v3","Standard_E2_v3","Standard_E32-16_v3","Standard_E32-8s_v3","Standard_E32s_v3","Standard_E32_v3","Standard_E4s_v3","Standard_E4_v3","Standard_E64-16s_v3","Standard_E64-32s_v3","Standard_E64s_v3","Standard_E64_v3","Standard_E8s_v3","Standard_E8_v3","Standard_F1","Standard_F16","Standard_F16s","Standard_F16s_v2","Standard_F1s","Standard_F2","Standard_F2s","Standard_F2s_v2","Standard_F32s_v2","Standard_F4","Standard_F4s","Standard_F4s_v2","Standard_F64s_v2","Standard_F72s_v2","Standard_F8","Standard_F8s","Standard_F8s_v2","Standard_G1","Standard_G2","Standard_G3","Standard_G4","Standard_G5","Standard_GS1","Standard_GS2","Standard_GS3","Standard_GS4","Standard_GS4-4","Standard_GS4-8","Standard_GS5","Standard_GS5-16","Standard_GS5-8","Standard_H16","Standard_H16m","Standard_H16mr","Standard_H16r","Standard_H8","Standard_H8m","Standard_L16s","Standard_L32s","Standard_L4s","Standard_L8s","Standard_M128-32ms","Standard_M128-64ms","Standard_M128ms","Standard_M128s","Standard_M64-16ms","Standard_M64-32ms","Standard_M64ms","Standard_M64s","Standard_NC12","Standard_NC12s_v2","Standard_NC12s_v3","Standard_NC24","Standard_NC24r","Standard_NC24rs_v2","Standard_NC24rs_v3","Standard_NC24s_v2","Standard_NC24s_v3","Standard_NC6","Standard_NC6s_v2","Standard_NC6s_v3","Standard_ND12s","Standard_ND24rs","Standard_ND24s","Standard_ND6s","Standard_NV12","Standard_NV24","Standard_NV6"}
 type HardwareProfile_VmSize string
@@ -9235,6 +9064,177 @@ const (
 	HardwareProfile_VmSize_Standard_NV6       = HardwareProfile_VmSize("Standard_NV6")
 )
 
+type HardwareProfile_VmSize_STATUS string
+
+const (
+	HardwareProfile_VmSize_STATUS_Basic_A0           = HardwareProfile_VmSize_STATUS("Basic_A0")
+	HardwareProfile_VmSize_STATUS_Basic_A1           = HardwareProfile_VmSize_STATUS("Basic_A1")
+	HardwareProfile_VmSize_STATUS_Basic_A2           = HardwareProfile_VmSize_STATUS("Basic_A2")
+	HardwareProfile_VmSize_STATUS_Basic_A3           = HardwareProfile_VmSize_STATUS("Basic_A3")
+	HardwareProfile_VmSize_STATUS_Basic_A4           = HardwareProfile_VmSize_STATUS("Basic_A4")
+	HardwareProfile_VmSize_STATUS_Standard_A0        = HardwareProfile_VmSize_STATUS("Standard_A0")
+	HardwareProfile_VmSize_STATUS_Standard_A1        = HardwareProfile_VmSize_STATUS("Standard_A1")
+	HardwareProfile_VmSize_STATUS_Standard_A10       = HardwareProfile_VmSize_STATUS("Standard_A10")
+	HardwareProfile_VmSize_STATUS_Standard_A11       = HardwareProfile_VmSize_STATUS("Standard_A11")
+	HardwareProfile_VmSize_STATUS_Standard_A1_V2     = HardwareProfile_VmSize_STATUS("Standard_A1_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A2        = HardwareProfile_VmSize_STATUS("Standard_A2")
+	HardwareProfile_VmSize_STATUS_Standard_A2M_V2    = HardwareProfile_VmSize_STATUS("Standard_A2m_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A2_V2     = HardwareProfile_VmSize_STATUS("Standard_A2_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A3        = HardwareProfile_VmSize_STATUS("Standard_A3")
+	HardwareProfile_VmSize_STATUS_Standard_A4        = HardwareProfile_VmSize_STATUS("Standard_A4")
+	HardwareProfile_VmSize_STATUS_Standard_A4M_V2    = HardwareProfile_VmSize_STATUS("Standard_A4m_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A4_V2     = HardwareProfile_VmSize_STATUS("Standard_A4_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A5        = HardwareProfile_VmSize_STATUS("Standard_A5")
+	HardwareProfile_VmSize_STATUS_Standard_A6        = HardwareProfile_VmSize_STATUS("Standard_A6")
+	HardwareProfile_VmSize_STATUS_Standard_A7        = HardwareProfile_VmSize_STATUS("Standard_A7")
+	HardwareProfile_VmSize_STATUS_Standard_A8        = HardwareProfile_VmSize_STATUS("Standard_A8")
+	HardwareProfile_VmSize_STATUS_Standard_A8M_V2    = HardwareProfile_VmSize_STATUS("Standard_A8m_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A8_V2     = HardwareProfile_VmSize_STATUS("Standard_A8_v2")
+	HardwareProfile_VmSize_STATUS_Standard_A9        = HardwareProfile_VmSize_STATUS("Standard_A9")
+	HardwareProfile_VmSize_STATUS_Standard_B1Ms      = HardwareProfile_VmSize_STATUS("Standard_B1ms")
+	HardwareProfile_VmSize_STATUS_Standard_B1S       = HardwareProfile_VmSize_STATUS("Standard_B1s")
+	HardwareProfile_VmSize_STATUS_Standard_B2Ms      = HardwareProfile_VmSize_STATUS("Standard_B2ms")
+	HardwareProfile_VmSize_STATUS_Standard_B2S       = HardwareProfile_VmSize_STATUS("Standard_B2s")
+	HardwareProfile_VmSize_STATUS_Standard_B4Ms      = HardwareProfile_VmSize_STATUS("Standard_B4ms")
+	HardwareProfile_VmSize_STATUS_Standard_B8Ms      = HardwareProfile_VmSize_STATUS("Standard_B8ms")
+	HardwareProfile_VmSize_STATUS_Standard_D1        = HardwareProfile_VmSize_STATUS("Standard_D1")
+	HardwareProfile_VmSize_STATUS_Standard_D11       = HardwareProfile_VmSize_STATUS("Standard_D11")
+	HardwareProfile_VmSize_STATUS_Standard_D11_V2    = HardwareProfile_VmSize_STATUS("Standard_D11_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D12       = HardwareProfile_VmSize_STATUS("Standard_D12")
+	HardwareProfile_VmSize_STATUS_Standard_D12_V2    = HardwareProfile_VmSize_STATUS("Standard_D12_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D13       = HardwareProfile_VmSize_STATUS("Standard_D13")
+	HardwareProfile_VmSize_STATUS_Standard_D13_V2    = HardwareProfile_VmSize_STATUS("Standard_D13_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D14       = HardwareProfile_VmSize_STATUS("Standard_D14")
+	HardwareProfile_VmSize_STATUS_Standard_D14_V2    = HardwareProfile_VmSize_STATUS("Standard_D14_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D15_V2    = HardwareProfile_VmSize_STATUS("Standard_D15_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D16S_V3   = HardwareProfile_VmSize_STATUS("Standard_D16s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D16_V3    = HardwareProfile_VmSize_STATUS("Standard_D16_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D1_V2     = HardwareProfile_VmSize_STATUS("Standard_D1_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D2        = HardwareProfile_VmSize_STATUS("Standard_D2")
+	HardwareProfile_VmSize_STATUS_Standard_D2S_V3    = HardwareProfile_VmSize_STATUS("Standard_D2s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D2_V2     = HardwareProfile_VmSize_STATUS("Standard_D2_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D2_V3     = HardwareProfile_VmSize_STATUS("Standard_D2_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D3        = HardwareProfile_VmSize_STATUS("Standard_D3")
+	HardwareProfile_VmSize_STATUS_Standard_D32S_V3   = HardwareProfile_VmSize_STATUS("Standard_D32s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D32_V3    = HardwareProfile_VmSize_STATUS("Standard_D32_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D3_V2     = HardwareProfile_VmSize_STATUS("Standard_D3_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D4        = HardwareProfile_VmSize_STATUS("Standard_D4")
+	HardwareProfile_VmSize_STATUS_Standard_D4S_V3    = HardwareProfile_VmSize_STATUS("Standard_D4s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D4_V2     = HardwareProfile_VmSize_STATUS("Standard_D4_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D4_V3     = HardwareProfile_VmSize_STATUS("Standard_D4_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D5_V2     = HardwareProfile_VmSize_STATUS("Standard_D5_v2")
+	HardwareProfile_VmSize_STATUS_Standard_D64S_V3   = HardwareProfile_VmSize_STATUS("Standard_D64s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D64_V3    = HardwareProfile_VmSize_STATUS("Standard_D64_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D8S_V3    = HardwareProfile_VmSize_STATUS("Standard_D8s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_D8_V3     = HardwareProfile_VmSize_STATUS("Standard_D8_v3")
+	HardwareProfile_VmSize_STATUS_Standard_DS1       = HardwareProfile_VmSize_STATUS("Standard_DS1")
+	HardwareProfile_VmSize_STATUS_Standard_DS11      = HardwareProfile_VmSize_STATUS("Standard_DS11")
+	HardwareProfile_VmSize_STATUS_Standard_DS11_V2   = HardwareProfile_VmSize_STATUS("Standard_DS11_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS12      = HardwareProfile_VmSize_STATUS("Standard_DS12")
+	HardwareProfile_VmSize_STATUS_Standard_DS12_V2   = HardwareProfile_VmSize_STATUS("Standard_DS12_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS13      = HardwareProfile_VmSize_STATUS("Standard_DS13")
+	HardwareProfile_VmSize_STATUS_Standard_DS132_V2  = HardwareProfile_VmSize_STATUS("Standard_DS13-2_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS134_V2  = HardwareProfile_VmSize_STATUS("Standard_DS13-4_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS13_V2   = HardwareProfile_VmSize_STATUS("Standard_DS13_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS14      = HardwareProfile_VmSize_STATUS("Standard_DS14")
+	HardwareProfile_VmSize_STATUS_Standard_DS144_V2  = HardwareProfile_VmSize_STATUS("Standard_DS14-4_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS148_V2  = HardwareProfile_VmSize_STATUS("Standard_DS14-8_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS14_V2   = HardwareProfile_VmSize_STATUS("Standard_DS14_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS15_V2   = HardwareProfile_VmSize_STATUS("Standard_DS15_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS1_V2    = HardwareProfile_VmSize_STATUS("Standard_DS1_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS2       = HardwareProfile_VmSize_STATUS("Standard_DS2")
+	HardwareProfile_VmSize_STATUS_Standard_DS2_V2    = HardwareProfile_VmSize_STATUS("Standard_DS2_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS3       = HardwareProfile_VmSize_STATUS("Standard_DS3")
+	HardwareProfile_VmSize_STATUS_Standard_DS3_V2    = HardwareProfile_VmSize_STATUS("Standard_DS3_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS4       = HardwareProfile_VmSize_STATUS("Standard_DS4")
+	HardwareProfile_VmSize_STATUS_Standard_DS4_V2    = HardwareProfile_VmSize_STATUS("Standard_DS4_v2")
+	HardwareProfile_VmSize_STATUS_Standard_DS5_V2    = HardwareProfile_VmSize_STATUS("Standard_DS5_v2")
+	HardwareProfile_VmSize_STATUS_Standard_E16S_V3   = HardwareProfile_VmSize_STATUS("Standard_E16s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E16_V3    = HardwareProfile_VmSize_STATUS("Standard_E16_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E2S_V3    = HardwareProfile_VmSize_STATUS("Standard_E2s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E2_V3     = HardwareProfile_VmSize_STATUS("Standard_E2_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E3216_V3  = HardwareProfile_VmSize_STATUS("Standard_E32-16_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E328S_V3  = HardwareProfile_VmSize_STATUS("Standard_E32-8s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E32S_V3   = HardwareProfile_VmSize_STATUS("Standard_E32s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E32_V3    = HardwareProfile_VmSize_STATUS("Standard_E32_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E4S_V3    = HardwareProfile_VmSize_STATUS("Standard_E4s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E4_V3     = HardwareProfile_VmSize_STATUS("Standard_E4_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E6416S_V3 = HardwareProfile_VmSize_STATUS("Standard_E64-16s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E6432S_V3 = HardwareProfile_VmSize_STATUS("Standard_E64-32s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E64S_V3   = HardwareProfile_VmSize_STATUS("Standard_E64s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E64_V3    = HardwareProfile_VmSize_STATUS("Standard_E64_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E8S_V3    = HardwareProfile_VmSize_STATUS("Standard_E8s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_E8_V3     = HardwareProfile_VmSize_STATUS("Standard_E8_v3")
+	HardwareProfile_VmSize_STATUS_Standard_F1        = HardwareProfile_VmSize_STATUS("Standard_F1")
+	HardwareProfile_VmSize_STATUS_Standard_F16       = HardwareProfile_VmSize_STATUS("Standard_F16")
+	HardwareProfile_VmSize_STATUS_Standard_F16S      = HardwareProfile_VmSize_STATUS("Standard_F16s")
+	HardwareProfile_VmSize_STATUS_Standard_F16S_V2   = HardwareProfile_VmSize_STATUS("Standard_F16s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F1S       = HardwareProfile_VmSize_STATUS("Standard_F1s")
+	HardwareProfile_VmSize_STATUS_Standard_F2        = HardwareProfile_VmSize_STATUS("Standard_F2")
+	HardwareProfile_VmSize_STATUS_Standard_F2S       = HardwareProfile_VmSize_STATUS("Standard_F2s")
+	HardwareProfile_VmSize_STATUS_Standard_F2S_V2    = HardwareProfile_VmSize_STATUS("Standard_F2s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F32S_V2   = HardwareProfile_VmSize_STATUS("Standard_F32s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F4        = HardwareProfile_VmSize_STATUS("Standard_F4")
+	HardwareProfile_VmSize_STATUS_Standard_F4S       = HardwareProfile_VmSize_STATUS("Standard_F4s")
+	HardwareProfile_VmSize_STATUS_Standard_F4S_V2    = HardwareProfile_VmSize_STATUS("Standard_F4s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F64S_V2   = HardwareProfile_VmSize_STATUS("Standard_F64s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F72S_V2   = HardwareProfile_VmSize_STATUS("Standard_F72s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_F8        = HardwareProfile_VmSize_STATUS("Standard_F8")
+	HardwareProfile_VmSize_STATUS_Standard_F8S       = HardwareProfile_VmSize_STATUS("Standard_F8s")
+	HardwareProfile_VmSize_STATUS_Standard_F8S_V2    = HardwareProfile_VmSize_STATUS("Standard_F8s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_G1        = HardwareProfile_VmSize_STATUS("Standard_G1")
+	HardwareProfile_VmSize_STATUS_Standard_G2        = HardwareProfile_VmSize_STATUS("Standard_G2")
+	HardwareProfile_VmSize_STATUS_Standard_G3        = HardwareProfile_VmSize_STATUS("Standard_G3")
+	HardwareProfile_VmSize_STATUS_Standard_G4        = HardwareProfile_VmSize_STATUS("Standard_G4")
+	HardwareProfile_VmSize_STATUS_Standard_G5        = HardwareProfile_VmSize_STATUS("Standard_G5")
+	HardwareProfile_VmSize_STATUS_Standard_GS1       = HardwareProfile_VmSize_STATUS("Standard_GS1")
+	HardwareProfile_VmSize_STATUS_Standard_GS2       = HardwareProfile_VmSize_STATUS("Standard_GS2")
+	HardwareProfile_VmSize_STATUS_Standard_GS3       = HardwareProfile_VmSize_STATUS("Standard_GS3")
+	HardwareProfile_VmSize_STATUS_Standard_GS4       = HardwareProfile_VmSize_STATUS("Standard_GS4")
+	HardwareProfile_VmSize_STATUS_Standard_GS44      = HardwareProfile_VmSize_STATUS("Standard_GS4-4")
+	HardwareProfile_VmSize_STATUS_Standard_GS48      = HardwareProfile_VmSize_STATUS("Standard_GS4-8")
+	HardwareProfile_VmSize_STATUS_Standard_GS5       = HardwareProfile_VmSize_STATUS("Standard_GS5")
+	HardwareProfile_VmSize_STATUS_Standard_GS516     = HardwareProfile_VmSize_STATUS("Standard_GS5-16")
+	HardwareProfile_VmSize_STATUS_Standard_GS58      = HardwareProfile_VmSize_STATUS("Standard_GS5-8")
+	HardwareProfile_VmSize_STATUS_Standard_H16       = HardwareProfile_VmSize_STATUS("Standard_H16")
+	HardwareProfile_VmSize_STATUS_Standard_H16M      = HardwareProfile_VmSize_STATUS("Standard_H16m")
+	HardwareProfile_VmSize_STATUS_Standard_H16Mr     = HardwareProfile_VmSize_STATUS("Standard_H16mr")
+	HardwareProfile_VmSize_STATUS_Standard_H16R      = HardwareProfile_VmSize_STATUS("Standard_H16r")
+	HardwareProfile_VmSize_STATUS_Standard_H8        = HardwareProfile_VmSize_STATUS("Standard_H8")
+	HardwareProfile_VmSize_STATUS_Standard_H8M       = HardwareProfile_VmSize_STATUS("Standard_H8m")
+	HardwareProfile_VmSize_STATUS_Standard_L16S      = HardwareProfile_VmSize_STATUS("Standard_L16s")
+	HardwareProfile_VmSize_STATUS_Standard_L32S      = HardwareProfile_VmSize_STATUS("Standard_L32s")
+	HardwareProfile_VmSize_STATUS_Standard_L4S       = HardwareProfile_VmSize_STATUS("Standard_L4s")
+	HardwareProfile_VmSize_STATUS_Standard_L8S       = HardwareProfile_VmSize_STATUS("Standard_L8s")
+	HardwareProfile_VmSize_STATUS_Standard_M12832Ms  = HardwareProfile_VmSize_STATUS("Standard_M128-32ms")
+	HardwareProfile_VmSize_STATUS_Standard_M12864Ms  = HardwareProfile_VmSize_STATUS("Standard_M128-64ms")
+	HardwareProfile_VmSize_STATUS_Standard_M128Ms    = HardwareProfile_VmSize_STATUS("Standard_M128ms")
+	HardwareProfile_VmSize_STATUS_Standard_M128S     = HardwareProfile_VmSize_STATUS("Standard_M128s")
+	HardwareProfile_VmSize_STATUS_Standard_M6416Ms   = HardwareProfile_VmSize_STATUS("Standard_M64-16ms")
+	HardwareProfile_VmSize_STATUS_Standard_M6432Ms   = HardwareProfile_VmSize_STATUS("Standard_M64-32ms")
+	HardwareProfile_VmSize_STATUS_Standard_M64Ms     = HardwareProfile_VmSize_STATUS("Standard_M64ms")
+	HardwareProfile_VmSize_STATUS_Standard_M64S      = HardwareProfile_VmSize_STATUS("Standard_M64s")
+	HardwareProfile_VmSize_STATUS_Standard_NC12      = HardwareProfile_VmSize_STATUS("Standard_NC12")
+	HardwareProfile_VmSize_STATUS_Standard_NC12S_V2  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_NC12S_V3  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_NC24      = HardwareProfile_VmSize_STATUS("Standard_NC24")
+	HardwareProfile_VmSize_STATUS_Standard_NC24R     = HardwareProfile_VmSize_STATUS("Standard_NC24r")
+	HardwareProfile_VmSize_STATUS_Standard_NC24Rs_V2 = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v2")
+	HardwareProfile_VmSize_STATUS_Standard_NC24Rs_V3 = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v3")
+	HardwareProfile_VmSize_STATUS_Standard_NC24S_V2  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_NC24S_V3  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_NC6       = HardwareProfile_VmSize_STATUS("Standard_NC6")
+	HardwareProfile_VmSize_STATUS_Standard_NC6S_V2   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v2")
+	HardwareProfile_VmSize_STATUS_Standard_NC6S_V3   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v3")
+	HardwareProfile_VmSize_STATUS_Standard_ND12S     = HardwareProfile_VmSize_STATUS("Standard_ND12s")
+	HardwareProfile_VmSize_STATUS_Standard_ND24Rs    = HardwareProfile_VmSize_STATUS("Standard_ND24rs")
+	HardwareProfile_VmSize_STATUS_Standard_ND24S     = HardwareProfile_VmSize_STATUS("Standard_ND24s")
+	HardwareProfile_VmSize_STATUS_Standard_ND6S      = HardwareProfile_VmSize_STATUS("Standard_ND6s")
+	HardwareProfile_VmSize_STATUS_Standard_NV12      = HardwareProfile_VmSize_STATUS("Standard_NV12")
+	HardwareProfile_VmSize_STATUS_Standard_NV24      = HardwareProfile_VmSize_STATUS("Standard_NV24")
+	HardwareProfile_VmSize_STATUS_Standard_NV6       = HardwareProfile_VmSize_STATUS("Standard_NV6")
+)
+
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ImageReference
 type ImageReference struct {
 	// CommunityGalleryImageId: Specified the community gallery image unique id for vm deployment. This can be fetched from
@@ -9275,7 +9275,7 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ImageReferenceARM{}
+	result := &ImageReference_ARM{}
 
 	// Set property ‘CommunityGalleryImageId’:
 	if reference.CommunityGalleryImageId != nil {
@@ -9327,14 +9327,14 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ImageReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageReferenceARM{}
+	return &ImageReference_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageReferenceARM)
+	typedInput, ok := armInput.(ImageReference_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReferenceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReference_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CommunityGalleryImageId’:
@@ -9494,14 +9494,14 @@ var _ genruntime.FromARMConverter = &ImageReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ImageReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageReference_STATUSARM{}
+	return &ImageReference_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ImageReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageReference_STATUSARM)
+	typedInput, ok := armInput.(ImageReference_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReference_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReference_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CommunityGalleryImageId’:
@@ -9635,7 +9635,7 @@ type InstanceViewStatus_STATUS struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-	Level *InstanceViewStatus_STATUS_Level `json:"level,omitempty"`
+	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -9648,14 +9648,14 @@ var _ genruntime.FromARMConverter = &InstanceViewStatus_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *InstanceViewStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceViewStatus_STATUSARM{}
+	return &InstanceViewStatus_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *InstanceViewStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceViewStatus_STATUSARM)
+	typedInput, ok := armInput.(InstanceViewStatus_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceViewStatus_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceViewStatus_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Code’:
@@ -9703,7 +9703,7 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_From_InstanceViewStatu
 
 	// Level
 	if source.Level != nil {
-		level := InstanceViewStatus_STATUS_Level(*source.Level)
+		level := InstanceViewStatus_Level_STATUS(*source.Level)
 		status.Level = &level
 	} else {
 		status.Level = nil
@@ -9779,7 +9779,7 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &LinuxConfigurationARM{}
+	result := &LinuxConfiguration_ARM{}
 
 	// Set property ‘DisablePasswordAuthentication’:
 	if configuration.DisablePasswordAuthentication != nil {
@@ -9789,11 +9789,11 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘PatchSettings’:
 	if configuration.PatchSettings != nil {
-		patchSettingsARM, err := (*configuration.PatchSettings).ConvertToARM(resolved)
+		patchSettings_ARM, err := (*configuration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		patchSettings := *patchSettingsARM.(*LinuxPatchSettingsARM)
+		patchSettings := *patchSettings_ARM.(*LinuxPatchSettings_ARM)
 		result.PatchSettings = &patchSettings
 	}
 
@@ -9805,11 +9805,11 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Ssh’:
 	if configuration.Ssh != nil {
-		sshARM, err := (*configuration.Ssh).ConvertToARM(resolved)
+		ssh_ARM, err := (*configuration.Ssh).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ssh := *sshARM.(*SshConfigurationARM)
+		ssh := *ssh_ARM.(*SshConfiguration_ARM)
 		result.Ssh = &ssh
 	}
 	return result, nil
@@ -9817,14 +9817,14 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *LinuxConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxConfigurationARM{}
+	return &LinuxConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *LinuxConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxConfigurationARM)
+	typedInput, ok := armInput.(LinuxConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DisablePasswordAuthentication’:
@@ -9988,14 +9988,14 @@ var _ genruntime.FromARMConverter = &LinuxConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *LinuxConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxConfiguration_STATUSARM{}
+	return &LinuxConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *LinuxConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxConfiguration_STATUSARM)
+	typedInput, ok := armInput.(LinuxConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DisablePasswordAuthentication’:
@@ -10147,7 +10147,7 @@ type MaintenanceRedeployStatus_STATUS struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatus_STATUS_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
+	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -10166,14 +10166,14 @@ var _ genruntime.FromARMConverter = &MaintenanceRedeployStatus_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *MaintenanceRedeployStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MaintenanceRedeployStatus_STATUSARM{}
+	return &MaintenanceRedeployStatus_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *MaintenanceRedeployStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MaintenanceRedeployStatus_STATUSARM)
+	typedInput, ok := armInput.(MaintenanceRedeployStatus_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceRedeployStatus_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceRedeployStatus_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IsCustomerInitiatedMaintenanceAllowed’:
@@ -10238,7 +10238,7 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_From_Maintenanc
 
 	// LastOperationResultCode
 	if source.LastOperationResultCode != nil {
-		lastOperationResultCode := MaintenanceRedeployStatus_STATUS_LastOperationResultCode(*source.LastOperationResultCode)
+		lastOperationResultCode := MaintenanceRedeployStatus_LastOperationResultCode_STATUS(*source.LastOperationResultCode)
 		status.LastOperationResultCode = &lastOperationResultCode
 	} else {
 		status.LastOperationResultCode = nil
@@ -10309,7 +10309,7 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 
 type NetworkInterfaceReference_STATUS struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *NetworkInterfaceReferenceProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -10322,14 +10322,14 @@ var _ genruntime.FromARMConverter = &NetworkInterfaceReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *NetworkInterfaceReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterfaceReference_STATUSARM{}
+	return &NetworkInterfaceReference_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *NetworkInterfaceReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterfaceReference_STATUSARM)
+	typedInput, ok := armInput.(NetworkInterfaceReference_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceReference_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceReference_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DeleteOption’:
@@ -10365,7 +10365,7 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_From_Network
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := NetworkInterfaceReferenceProperties_STATUS_DeleteOption(*source.DeleteOption)
+		deleteOption := NetworkInterfaceReferenceProperties_DeleteOption_STATUS(*source.DeleteOption)
 		reference.DeleteOption = &deleteOption
 	} else {
 		reference.DeleteOption = nil
@@ -10421,9 +10421,9 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 	return nil
 }
 
-type NetworkProfile_STATUS_NetworkApiVersion string
+type NetworkProfile_NetworkApiVersion_STATUS string
 
-const NetworkProfile_STATUS_NetworkApiVersion_20201101 = NetworkProfile_STATUS_NetworkApiVersion("2020-11-01")
+const NetworkProfile_NetworkApiVersion_STATUS_20201101 = NetworkProfile_NetworkApiVersion_STATUS("2020-11-01")
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/OSDisk
 type OSDisk struct {
@@ -10494,7 +10494,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if disk == nil {
 		return nil, nil
 	}
-	result := &OSDiskARM{}
+	result := &OSDisk_ARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -10516,11 +10516,11 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property ‘DiffDiskSettings’:
 	if disk.DiffDiskSettings != nil {
-		diffDiskSettingsARM, err := (*disk.DiffDiskSettings).ConvertToARM(resolved)
+		diffDiskSettings_ARM, err := (*disk.DiffDiskSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diffDiskSettings := *diffDiskSettingsARM.(*DiffDiskSettingsARM)
+		diffDiskSettings := *diffDiskSettings_ARM.(*DiffDiskSettings_ARM)
 		result.DiffDiskSettings = &diffDiskSettings
 	}
 
@@ -10532,31 +10532,31 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property ‘EncryptionSettings’:
 	if disk.EncryptionSettings != nil {
-		encryptionSettingsARM, err := (*disk.EncryptionSettings).ConvertToARM(resolved)
+		encryptionSettings_ARM, err := (*disk.EncryptionSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettings := *encryptionSettingsARM.(*DiskEncryptionSettingsARM)
+		encryptionSettings := *encryptionSettings_ARM.(*DiskEncryptionSettings_ARM)
 		result.EncryptionSettings = &encryptionSettings
 	}
 
 	// Set property ‘Image’:
 	if disk.Image != nil {
-		imageARM, err := (*disk.Image).ConvertToARM(resolved)
+		image_ARM, err := (*disk.Image).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		image := *imageARM.(*VirtualHardDiskARM)
+		image := *image_ARM.(*VirtualHardDisk_ARM)
 		result.Image = &image
 	}
 
 	// Set property ‘ManagedDisk’:
 	if disk.ManagedDisk != nil {
-		managedDiskARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
+		managedDisk_ARM, err := (*disk.ManagedDisk).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := *managedDiskARM.(*ManagedDiskParametersARM)
+		managedDisk := *managedDisk_ARM.(*ManagedDiskParameters_ARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -10574,11 +10574,11 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property ‘Vhd’:
 	if disk.Vhd != nil {
-		vhdARM, err := (*disk.Vhd).ConvertToARM(resolved)
+		vhd_ARM, err := (*disk.Vhd).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		vhd := *vhdARM.(*VirtualHardDiskARM)
+		vhd := *vhd_ARM.(*VirtualHardDisk_ARM)
 		result.Vhd = &vhd
 	}
 
@@ -10592,14 +10592,14 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *OSDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OSDiskARM{}
+	return &OSDisk_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *OSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OSDiskARM)
+	typedInput, ok := armInput.(OSDisk_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSDiskARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSDisk_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Caching’:
@@ -10990,7 +10990,7 @@ type OSDisk_STATUS struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *OSDisk_STATUS_OsType `json:"osType,omitempty"`
+	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_STATUS `json:"vhd,omitempty"`
@@ -11003,14 +11003,14 @@ var _ genruntime.FromARMConverter = &OSDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *OSDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OSDisk_STATUSARM{}
+	return &OSDisk_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *OSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OSDisk_STATUSARM)
+	typedInput, ok := armInput.(OSDisk_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSDisk_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSDisk_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Caching’:
@@ -11197,7 +11197,7 @@ func (disk *OSDisk_STATUS) AssignProperties_From_OSDisk_STATUS(source *v20220301
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDisk_STATUS_OsType(*source.OsType)
+		osType := OSDisk_OsType_STATUS(*source.OsType)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -11357,11 +11357,11 @@ const (
 	SecurityProfile_SecurityType_TrustedLaunch  = SecurityProfile_SecurityType("TrustedLaunch")
 )
 
-type SecurityProfile_STATUS_SecurityType string
+type SecurityProfile_SecurityType_STATUS string
 
 const (
-	SecurityProfile_STATUS_SecurityType_ConfidentialVM = SecurityProfile_STATUS_SecurityType("ConfidentialVM")
-	SecurityProfile_STATUS_SecurityType_TrustedLaunch  = SecurityProfile_STATUS_SecurityType("TrustedLaunch")
+	SecurityProfile_SecurityType_STATUS_ConfidentialVM = SecurityProfile_SecurityType_STATUS("ConfidentialVM")
+	SecurityProfile_SecurityType_STATUS_TrustedLaunch  = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/TerminateNotificationProfile
@@ -11382,7 +11382,7 @@ func (profile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	result := &TerminateNotificationProfileARM{}
+	result := &TerminateNotificationProfile_ARM{}
 
 	// Set property ‘Enable’:
 	if profile.Enable != nil {
@@ -11400,14 +11400,14 @@ func (profile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *TerminateNotificationProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TerminateNotificationProfileARM{}
+	return &TerminateNotificationProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *TerminateNotificationProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TerminateNotificationProfileARM)
+	typedInput, ok := armInput.(TerminateNotificationProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enable’:
@@ -11485,14 +11485,14 @@ var _ genruntime.FromARMConverter = &TerminateNotificationProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *TerminateNotificationProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TerminateNotificationProfile_STATUSARM{}
+	return &TerminateNotificationProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *TerminateNotificationProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TerminateNotificationProfile_STATUSARM)
+	typedInput, ok := armInput.(TerminateNotificationProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TerminateNotificationProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Enable’:
@@ -11574,7 +11574,7 @@ func (settings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	result := &UefiSettingsARM{}
+	result := &UefiSettings_ARM{}
 
 	// Set property ‘SecureBootEnabled’:
 	if settings.SecureBootEnabled != nil {
@@ -11592,14 +11592,14 @@ func (settings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *UefiSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UefiSettingsARM{}
+	return &UefiSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *UefiSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UefiSettingsARM)
+	typedInput, ok := armInput.(UefiSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SecureBootEnabled’:
@@ -11687,14 +11687,14 @@ var _ genruntime.FromARMConverter = &UefiSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *UefiSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UefiSettings_STATUSARM{}
+	return &UefiSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *UefiSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UefiSettings_STATUSARM)
+	typedInput, ok := armInput.(UefiSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UefiSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SecureBootEnabled’:
@@ -11783,39 +11783,39 @@ func (group *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if group == nil {
 		return nil, nil
 	}
-	result := &VaultSecretGroupARM{}
+	result := &VaultSecretGroup_ARM{}
 
 	// Set property ‘SourceVault’:
 	if group.SourceVault != nil {
-		sourceVaultARM, err := (*group.SourceVault).ConvertToARM(resolved)
+		sourceVault_ARM, err := (*group.SourceVault).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := *sourceVaultARM.(*SubResourceARM)
+		sourceVault := *sourceVault_ARM.(*SubResource_ARM)
 		result.SourceVault = &sourceVault
 	}
 
 	// Set property ‘VaultCertificates’:
 	for _, item := range group.VaultCertificates {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.VaultCertificates = append(result.VaultCertificates, *itemARM.(*VaultCertificateARM))
+		result.VaultCertificates = append(result.VaultCertificates, *item_ARM.(*VaultCertificate_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *VaultSecretGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VaultSecretGroupARM{}
+	return &VaultSecretGroup_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *VaultSecretGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VaultSecretGroupARM)
+	typedInput, ok := armInput.(VaultSecretGroup_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroupARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroup_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SourceVault’:
@@ -11938,14 +11938,14 @@ var _ genruntime.FromARMConverter = &VaultSecretGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *VaultSecretGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VaultSecretGroup_STATUSARM{}
+	return &VaultSecretGroup_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *VaultSecretGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VaultSecretGroup_STATUSARM)
+	typedInput, ok := armInput.(VaultSecretGroup_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroup_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultSecretGroup_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SourceVault’:
@@ -12056,6 +12056,613 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec string
+
+const VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec_20201101 = VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec("2020-11-01")
+
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec struct {
+	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
+	DeleteOption *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec `json:"deleteOption,omitempty"`
+
+	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
+	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
+	DscpConfiguration *SubResource                                            `json:"dscpConfiguration,omitempty"`
+
+	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
+	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
+
+	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
+	EnableFpga *bool `json:"enableFpga,omitempty"`
+
+	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
+	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// IpConfigurations: Specifies the IP configurations of the network interface.
+	IpConfigurations []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: The network interface configuration name.
+	Name                 *string      `json:"name,omitempty"`
+	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
+
+	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+	Primary *bool `json:"primary,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configurations == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM{}
+
+	// Set property ‘Name’:
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if configurations.DeleteOption != nil ||
+		configurations.DnsSettings != nil ||
+		configurations.DscpConfiguration != nil ||
+		configurations.EnableAcceleratedNetworking != nil ||
+		configurations.EnableFpga != nil ||
+		configurations.EnableIPForwarding != nil ||
+		configurations.IpConfigurations != nil ||
+		configurations.NetworkSecurityGroup != nil ||
+		configurations.Primary != nil {
+		result.Properties = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_Spec_ARM{}
+	}
+	if configurations.DeleteOption != nil {
+		deleteOption := *configurations.DeleteOption
+		result.Properties.DeleteOption = &deleteOption
+	}
+	if configurations.DnsSettings != nil {
+		dnsSettings_ARM, err := (*configurations.DnsSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		dnsSettings := *dnsSettings_ARM.(*VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM)
+		result.Properties.DnsSettings = &dnsSettings
+	}
+	if configurations.DscpConfiguration != nil {
+		dscpConfiguration_ARM, err := (*configurations.DscpConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		dscpConfiguration := *dscpConfiguration_ARM.(*SubResource_ARM)
+		result.Properties.DscpConfiguration = &dscpConfiguration
+	}
+	if configurations.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *configurations.EnableAcceleratedNetworking
+		result.Properties.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	}
+	if configurations.EnableFpga != nil {
+		enableFpga := *configurations.EnableFpga
+		result.Properties.EnableFpga = &enableFpga
+	}
+	if configurations.EnableIPForwarding != nil {
+		enableIPForwarding := *configurations.EnableIPForwarding
+		result.Properties.EnableIPForwarding = &enableIPForwarding
+	}
+	for _, item := range configurations.IpConfigurations {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM))
+	}
+	if configurations.NetworkSecurityGroup != nil {
+		networkSecurityGroup_ARM, err := (*configurations.NetworkSecurityGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkSecurityGroup := *networkSecurityGroup_ARM.(*SubResource_ARM)
+		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
+	}
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		result.Properties.Primary = &primary
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DeleteOption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeleteOption != nil {
+			deleteOption := *typedInput.Properties.DeleteOption
+			configurations.DeleteOption = &deleteOption
+		}
+	}
+
+	// Set property ‘DnsSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsSettings != nil {
+			var dnsSettings1 VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
+			if err != nil {
+				return err
+			}
+			dnsSettings := dnsSettings1
+			configurations.DnsSettings = &dnsSettings
+		}
+	}
+
+	// Set property ‘DscpConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DscpConfiguration != nil {
+			var dscpConfiguration1 SubResource
+			err := dscpConfiguration1.PopulateFromARM(owner, *typedInput.Properties.DscpConfiguration)
+			if err != nil {
+				return err
+			}
+			dscpConfiguration := dscpConfiguration1
+			configurations.DscpConfiguration = &dscpConfiguration
+		}
+	}
+
+	// Set property ‘EnableAcceleratedNetworking’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAcceleratedNetworking != nil {
+			enableAcceleratedNetworking := *typedInput.Properties.EnableAcceleratedNetworking
+			configurations.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+		}
+	}
+
+	// Set property ‘EnableFpga’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFpga != nil {
+			enableFpga := *typedInput.Properties.EnableFpga
+			configurations.EnableFpga = &enableFpga
+		}
+	}
+
+	// Set property ‘EnableIPForwarding’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableIPForwarding != nil {
+			enableIPForwarding := *typedInput.Properties.EnableIPForwarding
+			configurations.EnableIPForwarding = &enableIPForwarding
+		}
+	}
+
+	// Set property ‘IpConfigurations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpConfigurations {
+			var item1 VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.IpConfigurations = append(configurations.IpConfigurations, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
+
+	// Set property ‘NetworkSecurityGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkSecurityGroup != nil {
+			var networkSecurityGroup1 SubResource
+			err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
+			if err != nil {
+				return err
+			}
+			networkSecurityGroup := networkSecurityGroup1
+			configurations.NetworkSecurityGroup = &networkSecurityGroup
+		}
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			configurations.Primary = &primary
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) error {
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		deleteOption := VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec(*source.DeleteOption)
+		configurations.DeleteOption = &deleteOption
+	} else {
+		configurations.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+		err := dnsSetting.AssignProperties_From_VirtualMachineNetworkInterfaceDnsSettingsConfiguration(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineNetworkInterfaceDnsSettingsConfiguration() to populate field DnsSettings")
+		}
+		configurations.DnsSettings = &dnsSetting
+	} else {
+		configurations.DnsSettings = nil
+	}
+
+	// DscpConfiguration
+	if source.DscpConfiguration != nil {
+		var dscpConfiguration SubResource
+		err := dscpConfiguration.AssignProperties_From_SubResource(source.DscpConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DscpConfiguration")
+		}
+		configurations.DscpConfiguration = &dscpConfiguration
+	} else {
+		configurations.DscpConfiguration = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if source.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
+		configurations.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		configurations.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if source.EnableFpga != nil {
+		enableFpga := *source.EnableFpga
+		configurations.EnableFpga = &enableFpga
+	} else {
+		configurations.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if source.EnableIPForwarding != nil {
+		enableIPForwarding := *source.EnableIPForwarding
+		configurations.EnableIPForwarding = &enableIPForwarding
+	} else {
+		configurations.EnableIPForwarding = nil
+	}
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+			err := ipConfiguration.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		configurations.IpConfigurations = ipConfigurationList
+	} else {
+		configurations.IpConfigurations = nil
+	}
+
+	// Name
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkSecurityGroup
+	if source.NetworkSecurityGroup != nil {
+		var networkSecurityGroup SubResource
+		err := networkSecurityGroup.AssignProperties_From_SubResource(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field NetworkSecurityGroup")
+		}
+		configurations.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		configurations.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configurations.Primary = &primary
+	} else {
+		configurations.Primary = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DeleteOption
+	if configurations.DeleteOption != nil {
+		deleteOption := string(*configurations.DeleteOption)
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configurations.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+		err := configurations.DnsSettings.AssignProperties_To_VirtualMachineNetworkInterfaceDnsSettingsConfiguration(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineNetworkInterfaceDnsSettingsConfiguration() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// DscpConfiguration
+	if configurations.DscpConfiguration != nil {
+		var dscpConfiguration v20220301s.SubResource
+		err := configurations.DscpConfiguration.AssignProperties_To_SubResource(&dscpConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DscpConfiguration")
+		}
+		destination.DscpConfiguration = &dscpConfiguration
+	} else {
+		destination.DscpConfiguration = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if configurations.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *configurations.EnableAcceleratedNetworking
+		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		destination.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if configurations.EnableFpga != nil {
+		enableFpga := *configurations.EnableFpga
+		destination.EnableFpga = &enableFpga
+	} else {
+		destination.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if configurations.EnableIPForwarding != nil {
+		enableIPForwarding := *configurations.EnableIPForwarding
+		destination.EnableIPForwarding = &enableIPForwarding
+	} else {
+		destination.EnableIPForwarding = nil
+	}
+
+	// IpConfigurations
+	if configurations.IpConfigurations != nil {
+		ipConfigurationList := make([]v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec, len(configurations.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range configurations.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+			err := ipConfigurationItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
+
+	// NetworkSecurityGroup
+	if configurations.NetworkSecurityGroup != nil {
+		var networkSecurityGroup v20220301s.SubResource
+		err := configurations.NetworkSecurityGroup.AssignProperties_To_SubResource(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field NetworkSecurityGroup")
+		}
+		destination.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		destination.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec struct {
+	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
+	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption `json:"deleteOption,omitempty"`
+
+	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+	Primary *bool `json:"primary,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if interfaces == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM{}
+
+	// Set property ‘Id’:
+	if interfaces.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*interfaces.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+
+	// Set property ‘Properties’:
+	if interfaces.DeleteOption != nil || interfaces.Primary != nil {
+		result.Properties = &NetworkInterfaceReferenceProperties_ARM{}
+	}
+	if interfaces.DeleteOption != nil {
+		deleteOption := *interfaces.DeleteOption
+		result.Properties.DeleteOption = &deleteOption
+	}
+	if interfaces.Primary != nil {
+		primary := *interfaces.Primary
+		result.Properties.Primary = &primary
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DeleteOption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeleteOption != nil {
+			deleteOption := *typedInput.Properties.DeleteOption
+			interfaces.DeleteOption = &deleteOption
+		}
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			interfaces.Primary = &primary
+		}
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		deleteOption := NetworkInterfaceReferenceProperties_DeleteOption(*source.DeleteOption)
+		interfaces.DeleteOption = &deleteOption
+	} else {
+		interfaces.DeleteOption = nil
+	}
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		interfaces.Primary = &primary
+	} else {
+		interfaces.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		interfaces.Reference = &reference
+	} else {
+		interfaces.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DeleteOption
+	if interfaces.DeleteOption != nil {
+		deleteOption := string(*interfaces.DeleteOption)
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// Primary
+	if interfaces.Primary != nil {
+		primary := *interfaces.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Reference
+	if interfaces.Reference != nil {
+		reference := interfaces.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type VirtualMachineAgentInstanceView_STATUS struct {
 	// ExtensionHandlers: The virtual machine extension handler instance view.
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
@@ -12071,14 +12678,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineAgentInstanceView_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineAgentInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineAgentInstanceView_STATUSARM{}
+	return &VirtualMachineAgentInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineAgentInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineAgentInstanceView_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineAgentInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineAgentInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineAgentInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ExtensionHandlers’:
@@ -12233,14 +12840,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineExtensionInstanceView_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineExtensionInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionInstanceView_STATUSARM{}
+	return &VirtualMachineExtensionInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineExtensionInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionInstanceView_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineExtensionInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -12407,14 +13014,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineHealthStatus_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *VirtualMachineHealthStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineHealthStatus_STATUSARM{}
+	return &VirtualMachineHealthStatus_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *VirtualMachineHealthStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineHealthStatus_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineHealthStatus_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineHealthStatus_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineHealthStatus_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Status’:
@@ -12479,16 +13086,16 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
-type VirtualMachineInstanceView_STATUS_HyperVGeneration string
+type VirtualMachineInstanceView_HyperVGeneration_STATUS string
 
 const (
-	VirtualMachineInstanceView_STATUS_HyperVGeneration_V1 = VirtualMachineInstanceView_STATUS_HyperVGeneration("V1")
-	VirtualMachineInstanceView_STATUS_HyperVGeneration_V2 = VirtualMachineInstanceView_STATUS_HyperVGeneration("V2")
+	VirtualMachineInstanceView_HyperVGeneration_STATUS_V1 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V1")
+	VirtualMachineInstanceView_HyperVGeneration_STATUS_V2 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
 
 type VirtualMachineNetworkInterfaceConfiguration_STATUS struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS `json:"dnsSettings,omitempty"`
@@ -12520,14 +13127,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineNetworkInterfaceConfiguration
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachineNetworkInterfaceConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineNetworkInterfaceConfiguration_STATUSARM{}
+	return &VirtualMachineNetworkInterfaceConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachineNetworkInterfaceConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceConfiguration_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DeleteOption’:
@@ -12645,7 +13252,7 @@ func (configuration *VirtualMachineNetworkInterfaceConfiguration_STATUS) AssignP
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption(*source.DeleteOption)
+		deleteOption := VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS(*source.DeleteOption)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -12872,14 +13479,14 @@ var _ genruntime.FromARMConverter = &VirtualMachinePatchStatus_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *VirtualMachinePatchStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachinePatchStatus_STATUSARM{}
+	return &VirtualMachinePatchStatus_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *VirtualMachinePatchStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachinePatchStatus_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachinePatchStatus_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePatchStatus_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePatchStatus_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailablePatchSummary’:
@@ -13025,613 +13632,6 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkApiVersion string
-
-const VirtualMachines_Spec_Properties_NetworkProfile_NetworkApiVersion_20201101 = VirtualMachines_Spec_Properties_NetworkProfile_NetworkApiVersion("2020-11-01")
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
-	DeleteOption *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
-	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
-	DscpConfiguration *SubResource                                            `json:"dscpConfiguration,omitempty"`
-
-	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The network interface configuration name.
-	Name                 *string      `json:"name,omitempty"`
-	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configurations == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM{}
-
-	// Set property ‘Name’:
-	if configurations.Name != nil {
-		name := *configurations.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if configurations.DeleteOption != nil ||
-		configurations.DnsSettings != nil ||
-		configurations.DscpConfiguration != nil ||
-		configurations.EnableAcceleratedNetworking != nil ||
-		configurations.EnableFpga != nil ||
-		configurations.EnableIPForwarding != nil ||
-		configurations.IpConfigurations != nil ||
-		configurations.NetworkSecurityGroup != nil ||
-		configurations.Primary != nil {
-		result.Properties = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM{}
-	}
-	if configurations.DeleteOption != nil {
-		deleteOption := *configurations.DeleteOption
-		result.Properties.DeleteOption = &deleteOption
-	}
-	if configurations.DnsSettings != nil {
-		dnsSettingsARM, err := (*configurations.DnsSettings).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		dnsSettings := *dnsSettingsARM.(*VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM)
-		result.Properties.DnsSettings = &dnsSettings
-	}
-	if configurations.DscpConfiguration != nil {
-		dscpConfigurationARM, err := (*configurations.DscpConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		dscpConfiguration := *dscpConfigurationARM.(*SubResourceARM)
-		result.Properties.DscpConfiguration = &dscpConfiguration
-	}
-	if configurations.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *configurations.EnableAcceleratedNetworking
-		result.Properties.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	}
-	if configurations.EnableFpga != nil {
-		enableFpga := *configurations.EnableFpga
-		result.Properties.EnableFpga = &enableFpga
-	}
-	if configurations.EnableIPForwarding != nil {
-		enableIPForwarding := *configurations.EnableIPForwarding
-		result.Properties.EnableIPForwarding = &enableIPForwarding
-	}
-	for _, item := range configurations.IpConfigurations {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
-	}
-	if configurations.NetworkSecurityGroup != nil {
-		networkSecurityGroupARM, err := (*configurations.NetworkSecurityGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
-		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
-	}
-	if configurations.Primary != nil {
-		primary := *configurations.Primary
-		result.Properties.Primary = &primary
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM, got %T", armInput)
-	}
-
-	// Set property ‘DeleteOption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DeleteOption != nil {
-			deleteOption := *typedInput.Properties.DeleteOption
-			configurations.DeleteOption = &deleteOption
-		}
-	}
-
-	// Set property ‘DnsSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DnsSettings != nil {
-			var dnsSettings1 VirtualMachineNetworkInterfaceDnsSettingsConfiguration
-			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
-			if err != nil {
-				return err
-			}
-			dnsSettings := dnsSettings1
-			configurations.DnsSettings = &dnsSettings
-		}
-	}
-
-	// Set property ‘DscpConfiguration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DscpConfiguration != nil {
-			var dscpConfiguration1 SubResource
-			err := dscpConfiguration1.PopulateFromARM(owner, *typedInput.Properties.DscpConfiguration)
-			if err != nil {
-				return err
-			}
-			dscpConfiguration := dscpConfiguration1
-			configurations.DscpConfiguration = &dscpConfiguration
-		}
-	}
-
-	// Set property ‘EnableAcceleratedNetworking’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableAcceleratedNetworking != nil {
-			enableAcceleratedNetworking := *typedInput.Properties.EnableAcceleratedNetworking
-			configurations.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-		}
-	}
-
-	// Set property ‘EnableFpga’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableFpga != nil {
-			enableFpga := *typedInput.Properties.EnableFpga
-			configurations.EnableFpga = &enableFpga
-		}
-	}
-
-	// Set property ‘EnableIPForwarding’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableIPForwarding != nil {
-			enableIPForwarding := *typedInput.Properties.EnableIPForwarding
-			configurations.EnableIPForwarding = &enableIPForwarding
-		}
-	}
-
-	// Set property ‘IpConfigurations’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.IpConfigurations {
-			var item1 VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			configurations.IpConfigurations = append(configurations.IpConfigurations, item1)
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		configurations.Name = &name
-	}
-
-	// Set property ‘NetworkSecurityGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NetworkSecurityGroup != nil {
-			var networkSecurityGroup1 SubResource
-			err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
-			if err != nil {
-				return err
-			}
-			networkSecurityGroup := networkSecurityGroup1
-			configurations.NetworkSecurityGroup = &networkSecurityGroup
-		}
-	}
-
-	// Set property ‘Primary’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Primary != nil {
-			primary := *typedInput.Properties.Primary
-			configurations.Primary = &primary
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(source *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) error {
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption(*source.DeleteOption)
-		configurations.DeleteOption = &deleteOption
-	} else {
-		configurations.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting VirtualMachineNetworkInterfaceDnsSettingsConfiguration
-		err := dnsSetting.AssignProperties_From_VirtualMachineNetworkInterfaceDnsSettingsConfiguration(source.DnsSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineNetworkInterfaceDnsSettingsConfiguration() to populate field DnsSettings")
-		}
-		configurations.DnsSettings = &dnsSetting
-	} else {
-		configurations.DnsSettings = nil
-	}
-
-	// DscpConfiguration
-	if source.DscpConfiguration != nil {
-		var dscpConfiguration SubResource
-		err := dscpConfiguration.AssignProperties_From_SubResource(source.DscpConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DscpConfiguration")
-		}
-		configurations.DscpConfiguration = &dscpConfiguration
-	} else {
-		configurations.DscpConfiguration = nil
-	}
-
-	// EnableAcceleratedNetworking
-	if source.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
-		configurations.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	} else {
-		configurations.EnableAcceleratedNetworking = nil
-	}
-
-	// EnableFpga
-	if source.EnableFpga != nil {
-		enableFpga := *source.EnableFpga
-		configurations.EnableFpga = &enableFpga
-	} else {
-		configurations.EnableFpga = nil
-	}
-
-	// EnableIPForwarding
-	if source.EnableIPForwarding != nil {
-		enableIPForwarding := *source.EnableIPForwarding
-		configurations.EnableIPForwarding = &enableIPForwarding
-	} else {
-		configurations.EnableIPForwarding = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-			err := ipConfiguration.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		configurations.IpConfigurations = ipConfigurationList
-	} else {
-		configurations.IpConfigurations = nil
-	}
-
-	// Name
-	configurations.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkSecurityGroup
-	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup SubResource
-		err := networkSecurityGroup.AssignProperties_From_SubResource(source.NetworkSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field NetworkSecurityGroup")
-		}
-		configurations.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		configurations.NetworkSecurityGroup = nil
-	}
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configurations.Primary = &primary
-	} else {
-		configurations.Primary = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations(destination *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DeleteOption
-	if configurations.DeleteOption != nil {
-		deleteOption := string(*configurations.DeleteOption)
-		destination.DeleteOption = &deleteOption
-	} else {
-		destination.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if configurations.DnsSettings != nil {
-		var dnsSetting v20220301s.VirtualMachineNetworkInterfaceDnsSettingsConfiguration
-		err := configurations.DnsSettings.AssignProperties_To_VirtualMachineNetworkInterfaceDnsSettingsConfiguration(&dnsSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineNetworkInterfaceDnsSettingsConfiguration() to populate field DnsSettings")
-		}
-		destination.DnsSettings = &dnsSetting
-	} else {
-		destination.DnsSettings = nil
-	}
-
-	// DscpConfiguration
-	if configurations.DscpConfiguration != nil {
-		var dscpConfiguration v20220301s.SubResource
-		err := configurations.DscpConfiguration.AssignProperties_To_SubResource(&dscpConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DscpConfiguration")
-		}
-		destination.DscpConfiguration = &dscpConfiguration
-	} else {
-		destination.DscpConfiguration = nil
-	}
-
-	// EnableAcceleratedNetworking
-	if configurations.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *configurations.EnableAcceleratedNetworking
-		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	} else {
-		destination.EnableAcceleratedNetworking = nil
-	}
-
-	// EnableFpga
-	if configurations.EnableFpga != nil {
-		enableFpga := *configurations.EnableFpga
-		destination.EnableFpga = &enableFpga
-	} else {
-		destination.EnableFpga = nil
-	}
-
-	// EnableIPForwarding
-	if configurations.EnableIPForwarding != nil {
-		enableIPForwarding := *configurations.EnableIPForwarding
-		destination.EnableIPForwarding = &enableIPForwarding
-	} else {
-		destination.EnableIPForwarding = nil
-	}
-
-	// IpConfigurations
-	if configurations.IpConfigurations != nil {
-		ipConfigurationList := make([]v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(configurations.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range configurations.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-			err := ipConfigurationItem.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(&ipConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		destination.IpConfigurations = ipConfigurationList
-	} else {
-		destination.IpConfigurations = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configurations.Name)
-
-	// NetworkSecurityGroup
-	if configurations.NetworkSecurityGroup != nil {
-		var networkSecurityGroup v20220301s.SubResource
-		err := configurations.NetworkSecurityGroup.AssignProperties_To_SubResource(&networkSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field NetworkSecurityGroup")
-		}
-		destination.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		destination.NetworkSecurityGroup = nil
-	}
-
-	// Primary
-	if configurations.Primary != nil {
-		primary := *configurations.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
-	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if interfaces == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
-
-	// Set property ‘Id’:
-	if interfaces.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*interfaces.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property ‘Properties’:
-	if interfaces.DeleteOption != nil || interfaces.Primary != nil {
-		result.Properties = &NetworkInterfaceReferencePropertiesARM{}
-	}
-	if interfaces.DeleteOption != nil {
-		deleteOption := *interfaces.DeleteOption
-		result.Properties.DeleteOption = &deleteOption
-	}
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		result.Properties.Primary = &primary
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM, got %T", armInput)
-	}
-
-	// Set property ‘DeleteOption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DeleteOption != nil {
-			deleteOption := *typedInput.Properties.DeleteOption
-			interfaces.DeleteOption = &deleteOption
-		}
-	}
-
-	// Set property ‘Primary’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Primary != nil {
-			primary := *typedInput.Properties.Primary
-			interfaces.Primary = &primary
-		}
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(source *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := NetworkInterfaceReferenceProperties_DeleteOption(*source.DeleteOption)
-		interfaces.DeleteOption = &deleteOption
-	} else {
-		interfaces.DeleteOption = nil
-	}
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		interfaces.Primary = &primary
-	} else {
-		interfaces.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		interfaces.Reference = &reference
-	} else {
-		interfaces.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(destination *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DeleteOption
-	if interfaces.DeleteOption != nil {
-		deleteOption := string(*interfaces.DeleteOption)
-		destination.DeleteOption = &deleteOption
-	} else {
-		destination.DeleteOption = nil
-	}
-
-	// Primary
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// Reference
-	if interfaces.Reference != nil {
-		reference := interfaces.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMGalleryApplication
 type VMGalleryApplication struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
@@ -13665,7 +13665,7 @@ func (application *VMGalleryApplication) ConvertToARM(resolved genruntime.Conver
 	if application == nil {
 		return nil, nil
 	}
-	result := &VMGalleryApplicationARM{}
+	result := &VMGalleryApplication_ARM{}
 
 	// Set property ‘ConfigurationReference’:
 	if application.ConfigurationReference != nil {
@@ -13711,14 +13711,14 @@ func (application *VMGalleryApplication) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (application *VMGalleryApplication) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMGalleryApplicationARM{}
+	return &VMGalleryApplication_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (application *VMGalleryApplication) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMGalleryApplicationARM)
+	typedInput, ok := armInput.(VMGalleryApplication_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMGalleryApplicationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMGalleryApplication_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConfigurationReference’:
@@ -13874,14 +13874,14 @@ var _ genruntime.FromARMConverter = &VMGalleryApplication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (application *VMGalleryApplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMGalleryApplication_STATUSARM{}
+	return &VMGalleryApplication_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (application *VMGalleryApplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMGalleryApplication_STATUSARM)
+	typedInput, ok := armInput.(VMGalleryApplication_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMGalleryApplication_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMGalleryApplication_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConfigurationReference’:
@@ -14026,7 +14026,7 @@ func (properties *VMSizeProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties == nil {
 		return nil, nil
 	}
-	result := &VMSizePropertiesARM{}
+	result := &VMSizeProperties_ARM{}
 
 	// Set property ‘VCPUsAvailable’:
 	if properties.VCPUsAvailable != nil {
@@ -14044,14 +14044,14 @@ func (properties *VMSizeProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *VMSizeProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMSizePropertiesARM{}
+	return &VMSizeProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *VMSizeProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMSizePropertiesARM)
+	typedInput, ok := armInput.(VMSizeProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMSizePropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMSizeProperties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘VCPUsAvailable’:
@@ -14124,14 +14124,14 @@ var _ genruntime.FromARMConverter = &VMSizeProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *VMSizeProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMSizeProperties_STATUSARM{}
+	return &VMSizeProperties_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *VMSizeProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMSizeProperties_STATUSARM)
+	typedInput, ok := armInput.(VMSizeProperties_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMSizeProperties_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMSizeProperties_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘VCPUsAvailable’:
@@ -14222,15 +14222,15 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &WindowsConfigurationARM{}
+	result := &WindowsConfiguration_ARM{}
 
 	// Set property ‘AdditionalUnattendContent’:
 	for _, item := range configuration.AdditionalUnattendContent {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.AdditionalUnattendContent = append(result.AdditionalUnattendContent, *itemARM.(*AdditionalUnattendContentARM))
+		result.AdditionalUnattendContent = append(result.AdditionalUnattendContent, *item_ARM.(*AdditionalUnattendContent_ARM))
 	}
 
 	// Set property ‘EnableAutomaticUpdates’:
@@ -14241,11 +14241,11 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘PatchSettings’:
 	if configuration.PatchSettings != nil {
-		patchSettingsARM, err := (*configuration.PatchSettings).ConvertToARM(resolved)
+		patchSettings_ARM, err := (*configuration.PatchSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		patchSettings := *patchSettingsARM.(*PatchSettingsARM)
+		patchSettings := *patchSettings_ARM.(*PatchSettings_ARM)
 		result.PatchSettings = &patchSettings
 	}
 
@@ -14263,11 +14263,11 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘WinRM’:
 	if configuration.WinRM != nil {
-		winRMARM, err := (*configuration.WinRM).ConvertToARM(resolved)
+		winRM_ARM, err := (*configuration.WinRM).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		winRM := *winRMARM.(*WinRMConfigurationARM)
+		winRM := *winRM_ARM.(*WinRMConfiguration_ARM)
 		result.WinRM = &winRM
 	}
 	return result, nil
@@ -14275,14 +14275,14 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WindowsConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WindowsConfigurationARM{}
+	return &WindowsConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WindowsConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WindowsConfigurationARM)
+	typedInput, ok := armInput.(WindowsConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdditionalUnattendContent’:
@@ -14517,14 +14517,14 @@ var _ genruntime.FromARMConverter = &WindowsConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WindowsConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WindowsConfiguration_STATUSARM{}
+	return &WindowsConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WindowsConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WindowsConfiguration_STATUSARM)
+	typedInput, ok := armInput.(WindowsConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdditionalUnattendContent’:
@@ -14751,7 +14751,7 @@ func (content *AdditionalUnattendContent) ConvertToARM(resolved genruntime.Conve
 	if content == nil {
 		return nil, nil
 	}
-	result := &AdditionalUnattendContentARM{}
+	result := &AdditionalUnattendContent_ARM{}
 
 	// Set property ‘ComponentName’:
 	if content.ComponentName != nil {
@@ -14781,14 +14781,14 @@ func (content *AdditionalUnattendContent) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (content *AdditionalUnattendContent) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdditionalUnattendContentARM{}
+	return &AdditionalUnattendContent_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (content *AdditionalUnattendContent) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdditionalUnattendContentARM)
+	typedInput, ok := armInput.(AdditionalUnattendContent_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContentARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContent_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ComponentName’:
@@ -14898,7 +14898,7 @@ func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattend
 
 type AdditionalUnattendContent_STATUS struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContent_STATUS_ComponentName `json:"componentName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -14906,25 +14906,25 @@ type AdditionalUnattendContent_STATUS struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_STATUS_PassName `json:"passName,omitempty"`
+	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
-	SettingName *AdditionalUnattendContent_STATUS_SettingName `json:"settingName,omitempty"`
+	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdditionalUnattendContent_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (content *AdditionalUnattendContent_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdditionalUnattendContent_STATUSARM{}
+	return &AdditionalUnattendContent_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (content *AdditionalUnattendContent_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdditionalUnattendContent_STATUSARM)
+	typedInput, ok := armInput.(AdditionalUnattendContent_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContent_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdditionalUnattendContent_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ComponentName’:
@@ -14960,7 +14960,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_Additiona
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContent_STATUS_ComponentName(*source.ComponentName)
+		componentName := AdditionalUnattendContent_ComponentName_STATUS(*source.ComponentName)
 		content.ComponentName = &componentName
 	} else {
 		content.ComponentName = nil
@@ -14971,7 +14971,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_Additiona
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContent_STATUS_PassName(*source.PassName)
+		passName := AdditionalUnattendContent_PassName_STATUS(*source.PassName)
 		content.PassName = &passName
 	} else {
 		content.PassName = nil
@@ -14979,7 +14979,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_Additiona
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContent_STATUS_SettingName(*source.SettingName)
+		settingName := AdditionalUnattendContent_SettingName_STATUS(*source.SettingName)
 		content.SettingName = &settingName
 	} else {
 		content.SettingName = nil
@@ -15059,21 +15059,21 @@ type AvailablePatchSummary_STATUS struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummary_STATUS_Status `json:"status,omitempty"`
+	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AvailablePatchSummary_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (summary *AvailablePatchSummary_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AvailablePatchSummary_STATUSARM{}
+	return &AvailablePatchSummary_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (summary *AvailablePatchSummary_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AvailablePatchSummary_STATUSARM)
+	typedInput, ok := armInput.(AvailablePatchSummary_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AvailablePatchSummary_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AvailablePatchSummary_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssessmentActivityId’:
@@ -15173,7 +15173,7 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_From_AvailablePatc
 
 	// Status
 	if source.Status != nil {
-		status := AvailablePatchSummary_STATUS_Status(*source.Status)
+		status := AvailablePatchSummary_Status_STATUS(*source.Status)
 		summary.Status = &status
 	} else {
 		summary.Status = nil
@@ -15322,7 +15322,7 @@ func (settings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	if settings == nil {
 		return nil, nil
 	}
-	result := &DiffDiskSettingsARM{}
+	result := &DiffDiskSettings_ARM{}
 
 	// Set property ‘Option’:
 	if settings.Option != nil {
@@ -15340,14 +15340,14 @@ func (settings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DiffDiskSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiffDiskSettingsARM{}
+	return &DiffDiskSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DiffDiskSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiffDiskSettingsARM)
+	typedInput, ok := armInput.(DiffDiskSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Option’:
@@ -15439,14 +15439,14 @@ var _ genruntime.FromARMConverter = &DiffDiskSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DiffDiskSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiffDiskSettings_STATUSARM{}
+	return &DiffDiskSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DiffDiskSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiffDiskSettings_STATUSARM)
+	typedInput, ok := armInput.(DiffDiskSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiffDiskSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Option’:
@@ -15539,15 +15539,15 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 	if settings == nil {
 		return nil, nil
 	}
-	result := &DiskEncryptionSettingsARM{}
+	result := &DiskEncryptionSettings_ARM{}
 
 	// Set property ‘DiskEncryptionKey’:
 	if settings.DiskEncryptionKey != nil {
-		diskEncryptionKeyARM, err := (*settings.DiskEncryptionKey).ConvertToARM(resolved)
+		diskEncryptionKey_ARM, err := (*settings.DiskEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionKey := *diskEncryptionKeyARM.(*KeyVaultSecretReferenceARM)
+		diskEncryptionKey := *diskEncryptionKey_ARM.(*KeyVaultSecretReference_ARM)
 		result.DiskEncryptionKey = &diskEncryptionKey
 	}
 
@@ -15559,11 +15559,11 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘KeyEncryptionKey’:
 	if settings.KeyEncryptionKey != nil {
-		keyEncryptionKeyARM, err := (*settings.KeyEncryptionKey).ConvertToARM(resolved)
+		keyEncryptionKey_ARM, err := (*settings.KeyEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		keyEncryptionKey := *keyEncryptionKeyARM.(*KeyVaultKeyReferenceARM)
+		keyEncryptionKey := *keyEncryptionKey_ARM.(*KeyVaultKeyReference_ARM)
 		result.KeyEncryptionKey = &keyEncryptionKey
 	}
 	return result, nil
@@ -15571,14 +15571,14 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DiskEncryptionSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskEncryptionSettingsARM{}
+	return &DiskEncryptionSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DiskEncryptionSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskEncryptionSettingsARM)
+	typedInput, ok := armInput.(DiskEncryptionSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionKey’:
@@ -15715,14 +15715,14 @@ var _ genruntime.FromARMConverter = &DiskEncryptionSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DiskEncryptionSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskEncryptionSettings_STATUSARM{}
+	return &DiskEncryptionSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DiskEncryptionSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskEncryptionSettings_STATUSARM)
+	typedInput, ok := armInput.(DiskEncryptionSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionKey’:
@@ -15844,12 +15844,12 @@ func (settings *DiskEncryptionSettings_STATUS) AssignProperties_To_DiskEncryptio
 	return nil
 }
 
-type InstanceViewStatus_STATUS_Level string
+type InstanceViewStatus_Level_STATUS string
 
 const (
-	InstanceViewStatus_STATUS_Level_Error   = InstanceViewStatus_STATUS_Level("Error")
-	InstanceViewStatus_STATUS_Level_Info    = InstanceViewStatus_STATUS_Level("Info")
-	InstanceViewStatus_STATUS_Level_Warning = InstanceViewStatus_STATUS_Level("Warning")
+	InstanceViewStatus_Level_STATUS_Error   = InstanceViewStatus_Level_STATUS("Error")
+	InstanceViewStatus_Level_STATUS_Info    = InstanceViewStatus_Level_STATUS("Info")
+	InstanceViewStatus_Level_STATUS_Warning = InstanceViewStatus_Level_STATUS("Warning")
 )
 
 type LastPatchInstallationSummary_STATUS struct {
@@ -15889,21 +15889,21 @@ type LastPatchInstallationSummary_STATUS struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummary_STATUS_Status `json:"status,omitempty"`
+	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastPatchInstallationSummary_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (summary *LastPatchInstallationSummary_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LastPatchInstallationSummary_STATUSARM{}
+	return &LastPatchInstallationSummary_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (summary *LastPatchInstallationSummary_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LastPatchInstallationSummary_STATUSARM)
+	typedInput, ok := armInput.(LastPatchInstallationSummary_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastPatchInstallationSummary_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastPatchInstallationSummary_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Error’:
@@ -16030,7 +16030,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_From_LastPa
 
 	// Status
 	if source.Status != nil {
-		status := LastPatchInstallationSummary_STATUS_Status(*source.Status)
+		status := LastPatchInstallationSummary_Status_STATUS(*source.Status)
 		summary.Status = &status
 	} else {
 		summary.Status = nil
@@ -16136,7 +16136,7 @@ func (settings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	if settings == nil {
 		return nil, nil
 	}
-	result := &LinuxPatchSettingsARM{}
+	result := &LinuxPatchSettings_ARM{}
 
 	// Set property ‘AssessmentMode’:
 	if settings.AssessmentMode != nil {
@@ -16146,11 +16146,11 @@ func (settings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘AutomaticByPlatformSettings’:
 	if settings.AutomaticByPlatformSettings != nil {
-		automaticByPlatformSettingsARM, err := (*settings.AutomaticByPlatformSettings).ConvertToARM(resolved)
+		automaticByPlatformSettings_ARM, err := (*settings.AutomaticByPlatformSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		automaticByPlatformSettings := *automaticByPlatformSettingsARM.(*LinuxVMGuestPatchAutomaticByPlatformSettingsARM)
+		automaticByPlatformSettings := *automaticByPlatformSettings_ARM.(*LinuxVMGuestPatchAutomaticByPlatformSettings_ARM)
 		result.AutomaticByPlatformSettings = &automaticByPlatformSettings
 	}
 
@@ -16164,14 +16164,14 @@ func (settings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *LinuxPatchSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxPatchSettingsARM{}
+	return &LinuxPatchSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *LinuxPatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxPatchSettingsARM)
+	typedInput, ok := armInput.(LinuxPatchSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssessmentMode’:
@@ -16285,7 +16285,7 @@ type LinuxPatchSettings_STATUS struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *LinuxPatchSettings_STATUS_AssessmentMode `json:"assessmentMode,omitempty"`
+	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Linux.
@@ -16297,21 +16297,21 @@ type LinuxPatchSettings_STATUS struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-	PatchMode *LinuxPatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxPatchSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *LinuxPatchSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxPatchSettings_STATUSARM{}
+	return &LinuxPatchSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *LinuxPatchSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxPatchSettings_STATUSARM)
+	typedInput, ok := armInput.(LinuxPatchSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxPatchSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssessmentMode’:
@@ -16346,7 +16346,7 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_From_LinuxPatchSetti
 
 	// AssessmentMode
 	if source.AssessmentMode != nil {
-		assessmentMode := LinuxPatchSettings_STATUS_AssessmentMode(*source.AssessmentMode)
+		assessmentMode := LinuxPatchSettings_AssessmentMode_STATUS(*source.AssessmentMode)
 		settings.AssessmentMode = &assessmentMode
 	} else {
 		settings.AssessmentMode = nil
@@ -16366,7 +16366,7 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_From_LinuxPatchSetti
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettings_STATUS_PatchMode(*source.PatchMode)
+		patchMode := LinuxPatchSettings_PatchMode_STATUS(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -16420,13 +16420,13 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_To_LinuxPatchSetting
 	return nil
 }
 
-type MaintenanceRedeployStatus_STATUS_LastOperationResultCode string
+type MaintenanceRedeployStatus_LastOperationResultCode_STATUS string
 
 const (
-	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_MaintenanceAborted   = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("MaintenanceAborted")
-	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_MaintenanceCompleted = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("MaintenanceCompleted")
-	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_None                 = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("None")
-	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_RetryLater           = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("RetryLater")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_MaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceAborted")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_MaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceCompleted")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_None                 = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("None")
+	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ManagedDiskParameters
@@ -16456,15 +16456,15 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &ManagedDiskParametersARM{}
+	result := &ManagedDiskParameters_ARM{}
 
 	// Set property ‘DiskEncryptionSet’:
 	if parameters.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*parameters.DiskEncryptionSet).ConvertToARM(resolved)
+		diskEncryptionSet_ARM, err := (*parameters.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*DiskEncryptionSetParameters_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -16480,11 +16480,11 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘SecurityProfile’:
 	if parameters.SecurityProfile != nil {
-		securityProfileARM, err := (*parameters.SecurityProfile).ConvertToARM(resolved)
+		securityProfile_ARM, err := (*parameters.SecurityProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		securityProfile := *securityProfileARM.(*VMDiskSecurityProfileARM)
+		securityProfile := *securityProfile_ARM.(*VMDiskSecurityProfile_ARM)
 		result.SecurityProfile = &securityProfile
 	}
 
@@ -16498,14 +16498,14 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *ManagedDiskParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedDiskParametersARM{}
+	return &ManagedDiskParameters_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *ManagedDiskParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedDiskParametersARM)
+	typedInput, ok := armInput.(ManagedDiskParameters_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedDiskParametersARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedDiskParameters_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionSet’:
@@ -16664,14 +16664,14 @@ var _ genruntime.FromARMConverter = &ManagedDiskParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *ManagedDiskParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedDiskParameters_STATUSARM{}
+	return &ManagedDiskParameters_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *ManagedDiskParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedDiskParameters_STATUSARM)
+	typedInput, ok := armInput.(ManagedDiskParameters_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedDiskParameters_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedDiskParameters_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionSet’:
@@ -16813,11 +16813,11 @@ const (
 	NetworkInterfaceReferenceProperties_DeleteOption_Detach = NetworkInterfaceReferenceProperties_DeleteOption("Detach")
 )
 
-type NetworkInterfaceReferenceProperties_STATUS_DeleteOption string
+type NetworkInterfaceReferenceProperties_DeleteOption_STATUS string
 
 const (
-	NetworkInterfaceReferenceProperties_STATUS_DeleteOption_Delete = NetworkInterfaceReferenceProperties_STATUS_DeleteOption("Delete")
-	NetworkInterfaceReferenceProperties_STATUS_DeleteOption_Detach = NetworkInterfaceReferenceProperties_STATUS_DeleteOption("Detach")
+	NetworkInterfaceReferenceProperties_DeleteOption_STATUS_Delete = NetworkInterfaceReferenceProperties_DeleteOption_STATUS("Delete")
+	NetworkInterfaceReferenceProperties_DeleteOption_STATUS_Detach = NetworkInterfaceReferenceProperties_DeleteOption_STATUS("Detach")
 )
 
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
@@ -16854,11 +16854,11 @@ const (
 	OSDisk_OsType_Windows = OSDisk_OsType("Windows")
 )
 
-type OSDisk_STATUS_OsType string
+type OSDisk_OsType_STATUS string
 
 const (
-	OSDisk_STATUS_OsType_Linux   = OSDisk_STATUS_OsType("Linux")
-	OSDisk_STATUS_OsType_Windows = OSDisk_STATUS_OsType("Windows")
+	OSDisk_OsType_STATUS_Linux   = OSDisk_OsType_STATUS("Linux")
+	OSDisk_OsType_STATUS_Windows = OSDisk_OsType_STATUS("Windows")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/PatchSettings
@@ -16897,7 +16897,7 @@ func (settings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PatchSettingsARM{}
+	result := &PatchSettings_ARM{}
 
 	// Set property ‘AssessmentMode’:
 	if settings.AssessmentMode != nil {
@@ -16907,11 +16907,11 @@ func (settings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘AutomaticByPlatformSettings’:
 	if settings.AutomaticByPlatformSettings != nil {
-		automaticByPlatformSettingsARM, err := (*settings.AutomaticByPlatformSettings).ConvertToARM(resolved)
+		automaticByPlatformSettings_ARM, err := (*settings.AutomaticByPlatformSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		automaticByPlatformSettings := *automaticByPlatformSettingsARM.(*WindowsVMGuestPatchAutomaticByPlatformSettingsARM)
+		automaticByPlatformSettings := *automaticByPlatformSettings_ARM.(*WindowsVMGuestPatchAutomaticByPlatformSettings_ARM)
 		result.AutomaticByPlatformSettings = &automaticByPlatformSettings
 	}
 
@@ -16931,14 +16931,14 @@ func (settings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PatchSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PatchSettingsARM{}
+	return &PatchSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PatchSettingsARM)
+	typedInput, ok := armInput.(PatchSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssessmentMode’:
@@ -17074,7 +17074,7 @@ type PatchSettings_STATUS struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *PatchSettings_STATUS_AssessmentMode `json:"assessmentMode,omitempty"`
+	AssessmentMode *PatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Windows.
@@ -17094,21 +17094,21 @@ type PatchSettings_STATUS struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PatchSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PatchSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PatchSettings_STATUSARM{}
+	return &PatchSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PatchSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PatchSettings_STATUSARM)
+	typedInput, ok := armInput.(PatchSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PatchSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AssessmentMode’:
@@ -17149,7 +17149,7 @@ func (settings *PatchSettings_STATUS) AssignProperties_From_PatchSettings_STATUS
 
 	// AssessmentMode
 	if source.AssessmentMode != nil {
-		assessmentMode := PatchSettings_STATUS_AssessmentMode(*source.AssessmentMode)
+		assessmentMode := PatchSettings_AssessmentMode_STATUS(*source.AssessmentMode)
 		settings.AssessmentMode = &assessmentMode
 	} else {
 		settings.AssessmentMode = nil
@@ -17177,7 +17177,7 @@ func (settings *PatchSettings_STATUS) AssignProperties_From_PatchSettings_STATUS
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettings_STATUS_PatchMode(*source.PatchMode)
+		patchMode := PatchSettings_PatchMode_STATUS(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -17252,29 +17252,29 @@ func (configuration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &SshConfigurationARM{}
+	result := &SshConfiguration_ARM{}
 
 	// Set property ‘PublicKeys’:
 	for _, item := range configuration.PublicKeys {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.PublicKeys = append(result.PublicKeys, *itemARM.(*SshPublicKeyARM))
+		result.PublicKeys = append(result.PublicKeys, *item_ARM.(*SshPublicKey_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *SshConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SshConfigurationARM{}
+	return &SshConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *SshConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SshConfigurationARM)
+	typedInput, ok := armInput.(SshConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PublicKeys’:
@@ -17359,14 +17359,14 @@ var _ genruntime.FromARMConverter = &SshConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *SshConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SshConfiguration_STATUSARM{}
+	return &SshConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *SshConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SshConfiguration_STATUSARM)
+	typedInput, ok := armInput.(SshConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PublicKeys’:
@@ -17473,7 +17473,7 @@ func (certificate *VaultCertificate) ConvertToARM(resolved genruntime.ConvertToA
 	if certificate == nil {
 		return nil, nil
 	}
-	result := &VaultCertificateARM{}
+	result := &VaultCertificate_ARM{}
 
 	// Set property ‘CertificateStore’:
 	if certificate.CertificateStore != nil {
@@ -17491,14 +17491,14 @@ func (certificate *VaultCertificate) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *VaultCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VaultCertificateARM{}
+	return &VaultCertificate_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *VaultCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VaultCertificateARM)
+	typedInput, ok := armInput.(VaultCertificate_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificateARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificate_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CertificateStore’:
@@ -17579,14 +17579,14 @@ var _ genruntime.FromARMConverter = &VaultCertificate_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *VaultCertificate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VaultCertificate_STATUSARM{}
+	return &VaultCertificate_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *VaultCertificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VaultCertificate_STATUSARM)
+	typedInput, ok := armInput.(VaultCertificate_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificate_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCertificate_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CertificateStore’:
@@ -17653,7 +17653,7 @@ func (disk *VirtualHardDisk) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if disk == nil {
 		return nil, nil
 	}
-	result := &VirtualHardDiskARM{}
+	result := &VirtualHardDisk_ARM{}
 
 	// Set property ‘Uri’:
 	if disk.Uri != nil {
@@ -17665,14 +17665,14 @@ func (disk *VirtualHardDisk) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *VirtualHardDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualHardDiskARM{}
+	return &VirtualHardDisk_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *VirtualHardDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualHardDiskARM)
+	typedInput, ok := armInput.(VirtualHardDisk_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDiskARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDisk_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Uri’:
@@ -17723,14 +17723,14 @@ var _ genruntime.FromARMConverter = &VirtualHardDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (disk *VirtualHardDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualHardDisk_STATUSARM{}
+	return &VirtualHardDisk_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (disk *VirtualHardDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualHardDisk_STATUSARM)
+	typedInput, ok := armInput.(VirtualHardDisk_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDisk_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualHardDisk_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Uri’:
@@ -17772,6 +17772,441 @@ func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(d
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec string
+
+const (
+	VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec_Delete = VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec("Delete")
+	VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec_Detach = VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec("Detach")
+)
+
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec struct {
+	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
+	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
+	// machines cannot use the same application gateway.
+	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
+
+	// ApplicationSecurityGroups: Specifies an array of references to application security group.
+	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
+
+	// LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A virtual
+	// machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines
+	// cannot use the same basic sku load balancer].
+	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: The IP configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+	Primary *bool `json:"primary,omitempty"`
+
+	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
+	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
+	PrivateIPAddressVersion *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec `json:"privateIPAddressVersion,omitempty"`
+
+	// PublicIPAddressConfiguration: Describes a virtual machines IP Configuration's PublicIPAddress configuration
+	PublicIPAddressConfiguration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec `json:"publicIPAddressConfiguration,omitempty"`
+	Subnet                       *SubResource                                                                                                                                      `json:"subnet,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configurations == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM{}
+
+	// Set property ‘Name’:
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if configurations.ApplicationGatewayBackendAddressPools != nil ||
+		configurations.ApplicationSecurityGroups != nil ||
+		configurations.LoadBalancerBackendAddressPools != nil ||
+		configurations.Primary != nil ||
+		configurations.PrivateIPAddressVersion != nil ||
+		configurations.PublicIPAddressConfiguration != nil ||
+		configurations.Subnet != nil {
+		result.Properties = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_Spec_ARM{}
+	}
+	for _, item := range configurations.ApplicationGatewayBackendAddressPools {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *item_ARM.(*SubResource_ARM))
+	}
+	for _, item := range configurations.ApplicationSecurityGroups {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *item_ARM.(*SubResource_ARM))
+	}
+	for _, item := range configurations.LoadBalancerBackendAddressPools {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *item_ARM.(*SubResource_ARM))
+	}
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		result.Properties.Primary = &primary
+	}
+	if configurations.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := *configurations.PrivateIPAddressVersion
+		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
+	}
+	if configurations.PublicIPAddressConfiguration != nil {
+		publicIPAddressConfiguration_ARM, err := (*configurations.PublicIPAddressConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		publicIPAddressConfiguration := *publicIPAddressConfiguration_ARM.(*VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM)
+		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	}
+	if configurations.Subnet != nil {
+		subnet_ARM, err := (*configurations.Subnet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		subnet := *subnet_ARM.(*SubResource_ARM)
+		result.Properties.Subnet = &subnet
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ApplicationGatewayBackendAddressPools’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ApplicationGatewayBackendAddressPools {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.ApplicationGatewayBackendAddressPools = append(configurations.ApplicationGatewayBackendAddressPools, item1)
+		}
+	}
+
+	// Set property ‘ApplicationSecurityGroups’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.ApplicationSecurityGroups = append(configurations.ApplicationSecurityGroups, item1)
+		}
+	}
+
+	// Set property ‘LoadBalancerBackendAddressPools’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancerBackendAddressPools {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.LoadBalancerBackendAddressPools = append(configurations.LoadBalancerBackendAddressPools, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			configurations.Primary = &primary
+		}
+	}
+
+	// Set property ‘PrivateIPAddressVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddressVersion != nil {
+			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			configurations.PrivateIPAddressVersion = &privateIPAddressVersion
+		}
+	}
+
+	// Set property ‘PublicIPAddressConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAddressConfiguration != nil {
+			var publicIPAddressConfiguration1 VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+			err := publicIPAddressConfiguration1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddressConfiguration)
+			if err != nil {
+				return err
+			}
+			publicIPAddressConfiguration := publicIPAddressConfiguration1
+			configurations.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+		}
+	}
+
+	// Set property ‘Subnet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 SubResource
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			configurations.Subnet = &subnet
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) error {
+
+	// ApplicationGatewayBackendAddressPools
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool SubResource
+			err := applicationGatewayBackendAddressPool.AssignProperties_From_SubResource(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationGatewayBackendAddressPools")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		configurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		configurations.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup SubResource
+			err := applicationSecurityGroup.AssignProperties_From_SubResource(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationSecurityGroups")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		configurations.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		configurations.ApplicationSecurityGroups = nil
+	}
+
+	// LoadBalancerBackendAddressPools
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool SubResource
+			err := loadBalancerBackendAddressPool.AssignProperties_From_SubResource(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadBalancerBackendAddressPools")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		configurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		configurations.LoadBalancerBackendAddressPools = nil
+	}
+
+	// Name
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configurations.Primary = &primary
+	} else {
+		configurations.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	if source.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec(*source.PrivateIPAddressVersion)
+		configurations.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		configurations.PrivateIPAddressVersion = nil
+	}
+
+	// PublicIPAddressConfiguration
+	if source.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+		err := publicIPAddressConfiguration.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec(source.PublicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec() to populate field PublicIPAddressConfiguration")
+		}
+		configurations.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		configurations.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+		}
+		configurations.Subnet = &subnet
+	} else {
+		configurations.Subnet = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
+func (configurations *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ApplicationGatewayBackendAddressPools
+	if configurations.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configurations.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool v20220301s.SubResource
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_SubResource(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationGatewayBackendAddressPools")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if configurations.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v20220301s.SubResource, len(configurations.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configurations.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup v20220301s.SubResource
+			err := applicationSecurityGroupItem.AssignProperties_To_SubResource(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationSecurityGroups")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
+	}
+
+	// LoadBalancerBackendAddressPools
+	if configurations.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configurations.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool v20220301s.SubResource
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_SubResource(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadBalancerBackendAddressPools")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
+
+	// Primary
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	if configurations.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := string(*configurations.PrivateIPAddressVersion)
+		destination.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		destination.PrivateIPAddressVersion = nil
+	}
+
+	// PublicIPAddressConfiguration
+	if configurations.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+		err := configurations.PublicIPAddressConfiguration.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec(&publicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec() to populate field PublicIPAddressConfiguration")
+		}
+		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		destination.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if configurations.Subnet != nil {
+		var subnet v20220301s.SubResource
+		err := configurations.Subnet.AssignProperties_To_SubResource(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	// Status: The extension handler status.
 	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -17787,14 +18222,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineExtensionHandlerInstanceView_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionHandlerInstanceView_STATUSARM{}
+	return &VirtualMachineExtensionHandlerInstanceView_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionHandlerInstanceView_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineExtensionHandlerInstanceView_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionHandlerInstanceView_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionHandlerInstanceView_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Status’:
@@ -17883,11 +18318,11 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_
 	return nil
 }
 
-type VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption string
+type VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS string
 
 const (
-	VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption_Delete = VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption("Delete")
-	VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption("Detach")
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_Delete = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS("Delete")
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS("Detach")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
@@ -17903,7 +18338,7 @@ func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration) Con
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM{}
+	result := &VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range configuration.DnsServers {
@@ -17914,14 +18349,14 @@ func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration) Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM{}
+	return &VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM)
+	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DnsServers’:
@@ -17971,14 +18406,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineNetworkInterfaceDnsSettingsCo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM{}
+	return &VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DnsServers’:
@@ -18041,7 +18476,7 @@ type VirtualMachineNetworkInterfaceIPConfiguration_STATUS struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_STATUS `json:"publicIPAddressConfiguration,omitempty"`
@@ -18054,14 +18489,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineNetworkInterfaceIPConfigurati
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachineNetworkInterfaceIPConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineNetworkInterfaceIPConfiguration_STATUSARM{}
+	return &VirtualMachineNetworkInterfaceIPConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachineNetworkInterfaceIPConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceIPConfiguration_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineNetworkInterfaceIPConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceIPConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineNetworkInterfaceIPConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ApplicationGatewayBackendAddressPools’:
@@ -18229,7 +18664,7 @@ func (configuration *VirtualMachineNetworkInterfaceIPConfiguration_STATUS) Assig
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
+		privateIPAddressVersion := VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS(*source.PrivateIPAddressVersion)
 		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
 	} else {
 		configuration.PrivateIPAddressVersion = nil
@@ -18376,441 +18811,6 @@ func (configuration *VirtualMachineNetworkInterfaceIPConfiguration_STATUS) Assig
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Delete","Detach"}
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption string
-
-const (
-	VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Delete = VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption("Delete")
-	VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Detach = VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption("Detach")
-)
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
-	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
-	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
-	// machines cannot use the same application gateway.
-	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
-
-	// LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A virtual
-	// machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines
-	// cannot use the same basic sku load balancer].
-	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PublicIPAddressConfiguration: Describes a virtual machines IP Configuration's PublicIPAddress configuration
-	PublicIPAddressConfiguration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                       *SubResource                                                                                                                                       `json:"subnet,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configurations == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM{}
-
-	// Set property ‘Name’:
-	if configurations.Name != nil {
-		name := *configurations.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if configurations.ApplicationGatewayBackendAddressPools != nil ||
-		configurations.ApplicationSecurityGroups != nil ||
-		configurations.LoadBalancerBackendAddressPools != nil ||
-		configurations.Primary != nil ||
-		configurations.PrivateIPAddressVersion != nil ||
-		configurations.PublicIPAddressConfiguration != nil ||
-		configurations.Subnet != nil {
-		result.Properties = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM{}
-	}
-	for _, item := range configurations.ApplicationGatewayBackendAddressPools {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *itemARM.(*SubResourceARM))
-	}
-	for _, item := range configurations.ApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *itemARM.(*SubResourceARM))
-	}
-	for _, item := range configurations.LoadBalancerBackendAddressPools {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *itemARM.(*SubResourceARM))
-	}
-	if configurations.Primary != nil {
-		primary := *configurations.Primary
-		result.Properties.Primary = &primary
-	}
-	if configurations.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := *configurations.PrivateIPAddressVersion
-		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
-	}
-	if configurations.PublicIPAddressConfiguration != nil {
-		publicIPAddressConfigurationARM, err := (*configurations.PublicIPAddressConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		publicIPAddressConfiguration := *publicIPAddressConfigurationARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
-		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
-	}
-	if configurations.Subnet != nil {
-		subnetARM, err := (*configurations.Subnet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		subnet := *subnetARM.(*SubResourceARM)
-		result.Properties.Subnet = &subnet
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM, got %T", armInput)
-	}
-
-	// Set property ‘ApplicationGatewayBackendAddressPools’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.ApplicationGatewayBackendAddressPools {
-			var item1 SubResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			configurations.ApplicationGatewayBackendAddressPools = append(configurations.ApplicationGatewayBackendAddressPools, item1)
-		}
-	}
-
-	// Set property ‘ApplicationSecurityGroups’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.ApplicationSecurityGroups {
-			var item1 SubResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			configurations.ApplicationSecurityGroups = append(configurations.ApplicationSecurityGroups, item1)
-		}
-	}
-
-	// Set property ‘LoadBalancerBackendAddressPools’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.LoadBalancerBackendAddressPools {
-			var item1 SubResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			configurations.LoadBalancerBackendAddressPools = append(configurations.LoadBalancerBackendAddressPools, item1)
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		configurations.Name = &name
-	}
-
-	// Set property ‘Primary’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Primary != nil {
-			primary := *typedInput.Properties.Primary
-			configurations.Primary = &primary
-		}
-	}
-
-	// Set property ‘PrivateIPAddressVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
-			configurations.PrivateIPAddressVersion = &privateIPAddressVersion
-		}
-	}
-
-	// Set property ‘PublicIPAddressConfiguration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPAddressConfiguration != nil {
-			var publicIPAddressConfiguration1 VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-			err := publicIPAddressConfiguration1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddressConfiguration)
-			if err != nil {
-				return err
-			}
-			publicIPAddressConfiguration := publicIPAddressConfiguration1
-			configurations.PublicIPAddressConfiguration = &publicIPAddressConfiguration
-		}
-	}
-
-	// Set property ‘Subnet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Subnet != nil {
-			var subnet1 SubResource
-			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
-			if err != nil {
-				return err
-			}
-			subnet := subnet1
-			configurations.Subnet = &subnet
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(source *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
-
-	// ApplicationGatewayBackendAddressPools
-	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool SubResource
-			err := applicationGatewayBackendAddressPool.AssignProperties_From_SubResource(&applicationGatewayBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationGatewayBackendAddressPools")
-			}
-			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
-		}
-		configurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
-	} else {
-		configurations.ApplicationGatewayBackendAddressPools = nil
-	}
-
-	// ApplicationSecurityGroups
-	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup SubResource
-			err := applicationSecurityGroup.AssignProperties_From_SubResource(&applicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationSecurityGroups")
-			}
-			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
-		}
-		configurations.ApplicationSecurityGroups = applicationSecurityGroupList
-	} else {
-		configurations.ApplicationSecurityGroups = nil
-	}
-
-	// LoadBalancerBackendAddressPools
-	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool SubResource
-			err := loadBalancerBackendAddressPool.AssignProperties_From_SubResource(&loadBalancerBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadBalancerBackendAddressPools")
-			}
-			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
-		}
-		configurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
-	} else {
-		configurations.LoadBalancerBackendAddressPools = nil
-	}
-
-	// Name
-	configurations.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configurations.Primary = &primary
-	} else {
-		configurations.Primary = nil
-	}
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
-		configurations.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		configurations.PrivateIPAddressVersion = nil
-	}
-
-	// PublicIPAddressConfiguration
-	if source.PublicIPAddressConfiguration != nil {
-		var publicIPAddressConfiguration VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-		err := publicIPAddressConfiguration.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(source.PublicIPAddressConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration() to populate field PublicIPAddressConfiguration")
-		}
-		configurations.PublicIPAddressConfiguration = &publicIPAddressConfiguration
-	} else {
-		configurations.PublicIPAddressConfiguration = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet SubResource
-		err := subnet.AssignProperties_From_SubResource(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
-		}
-		configurations.Subnet = &subnet
-	} else {
-		configurations.Subnet = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-func (configurations *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations(destination *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ApplicationGatewayBackendAddressPools
-	if configurations.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configurations.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool v20220301s.SubResource
-			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_SubResource(&applicationGatewayBackendAddressPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationGatewayBackendAddressPools")
-			}
-			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
-		}
-		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
-	} else {
-		destination.ApplicationGatewayBackendAddressPools = nil
-	}
-
-	// ApplicationSecurityGroups
-	if configurations.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v20220301s.SubResource, len(configurations.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configurations.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v20220301s.SubResource
-			err := applicationSecurityGroupItem.AssignProperties_To_SubResource(&applicationSecurityGroup)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationSecurityGroups")
-			}
-			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
-		}
-		destination.ApplicationSecurityGroups = applicationSecurityGroupList
-	} else {
-		destination.ApplicationSecurityGroups = nil
-	}
-
-	// LoadBalancerBackendAddressPools
-	if configurations.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configurations.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool v20220301s.SubResource
-			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_SubResource(&loadBalancerBackendAddressPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadBalancerBackendAddressPools")
-			}
-			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
-		}
-		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
-	} else {
-		destination.LoadBalancerBackendAddressPools = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configurations.Name)
-
-	// Primary
-	if configurations.Primary != nil {
-		primary := *configurations.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// PrivateIPAddressVersion
-	if configurations.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*configurations.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
-
-	// PublicIPAddressConfiguration
-	if configurations.PublicIPAddressConfiguration != nil {
-		var publicIPAddressConfiguration v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-		err := configurations.PublicIPAddressConfiguration.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(&publicIPAddressConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration() to populate field PublicIPAddressConfiguration")
-		}
-		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
-	} else {
-		destination.PublicIPAddressConfiguration = nil
-	}
-
-	// Subnet
-	if configurations.Subnet != nil {
-		var subnet v20220301s.SubResource
-		err := configurations.Subnet.AssignProperties_To_SubResource(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
 type WinRMConfiguration struct {
 	// Listeners: The list of Windows Remote Management listeners
@@ -18824,29 +18824,29 @@ func (configuration *WinRMConfiguration) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &WinRMConfigurationARM{}
+	result := &WinRMConfiguration_ARM{}
 
 	// Set property ‘Listeners’:
 	for _, item := range configuration.Listeners {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Listeners = append(result.Listeners, *itemARM.(*WinRMListenerARM))
+		result.Listeners = append(result.Listeners, *item_ARM.(*WinRMListener_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WinRMConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WinRMConfigurationARM{}
+	return &WinRMConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WinRMConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WinRMConfigurationARM)
+	typedInput, ok := armInput.(WinRMConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Listeners’:
@@ -18931,14 +18931,14 @@ var _ genruntime.FromARMConverter = &WinRMConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *WinRMConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WinRMConfiguration_STATUSARM{}
+	return &WinRMConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *WinRMConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WinRMConfiguration_STATUSARM)
+	typedInput, ok := armInput.(WinRMConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Listeners’:
@@ -19019,10 +19019,18 @@ type AdditionalUnattendContent_ComponentName string
 
 const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
 
+type AdditionalUnattendContent_ComponentName_STATUS string
+
+const AdditionalUnattendContent_ComponentName_STATUS_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_STATUS("Microsoft-Windows-Shell-Setup")
+
 // +kubebuilder:validation:Enum={"OobeSystem"}
 type AdditionalUnattendContent_PassName string
 
 const AdditionalUnattendContent_PassName_OobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
+
+type AdditionalUnattendContent_PassName_STATUS string
+
+const AdditionalUnattendContent_PassName_STATUS_OobeSystem = AdditionalUnattendContent_PassName_STATUS("OobeSystem")
 
 // +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
 type AdditionalUnattendContent_SettingName string
@@ -19032,19 +19040,11 @@ const (
 	AdditionalUnattendContent_SettingName_FirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
 )
 
-type AdditionalUnattendContent_STATUS_ComponentName string
-
-const AdditionalUnattendContent_STATUS_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_STATUS_ComponentName("Microsoft-Windows-Shell-Setup")
-
-type AdditionalUnattendContent_STATUS_PassName string
-
-const AdditionalUnattendContent_STATUS_PassName_OobeSystem = AdditionalUnattendContent_STATUS_PassName("OobeSystem")
-
-type AdditionalUnattendContent_STATUS_SettingName string
+type AdditionalUnattendContent_SettingName_STATUS string
 
 const (
-	AdditionalUnattendContent_STATUS_SettingName_AutoLogon          = AdditionalUnattendContent_STATUS_SettingName("AutoLogon")
-	AdditionalUnattendContent_STATUS_SettingName_FirstLogonCommands = AdditionalUnattendContent_STATUS_SettingName("FirstLogonCommands")
+	AdditionalUnattendContent_SettingName_STATUS_AutoLogon          = AdditionalUnattendContent_SettingName_STATUS("AutoLogon")
+	AdditionalUnattendContent_SettingName_STATUS_FirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
 
 type ApiError_STATUS struct {
@@ -19068,14 +19068,14 @@ var _ genruntime.FromARMConverter = &ApiError_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (error *ApiError_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiError_STATUSARM{}
+	return &ApiError_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (error *ApiError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiError_STATUSARM)
+	typedInput, ok := armInput.(ApiError_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiError_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiError_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Code’:
@@ -19222,14 +19222,14 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 	return nil
 }
 
-type AvailablePatchSummary_STATUS_Status string
+type AvailablePatchSummary_Status_STATUS string
 
 const (
-	AvailablePatchSummary_STATUS_Status_CompletedWithWarnings = AvailablePatchSummary_STATUS_Status("CompletedWithWarnings")
-	AvailablePatchSummary_STATUS_Status_Failed                = AvailablePatchSummary_STATUS_Status("Failed")
-	AvailablePatchSummary_STATUS_Status_InProgress            = AvailablePatchSummary_STATUS_Status("InProgress")
-	AvailablePatchSummary_STATUS_Status_Succeeded             = AvailablePatchSummary_STATUS_Status("Succeeded")
-	AvailablePatchSummary_STATUS_Status_Unknown               = AvailablePatchSummary_STATUS_Status("Unknown")
+	AvailablePatchSummary_Status_STATUS_CompletedWithWarnings = AvailablePatchSummary_Status_STATUS("CompletedWithWarnings")
+	AvailablePatchSummary_Status_STATUS_Failed                = AvailablePatchSummary_Status_STATUS("Failed")
+	AvailablePatchSummary_Status_STATUS_InProgress            = AvailablePatchSummary_Status_STATUS("InProgress")
+	AvailablePatchSummary_Status_STATUS_Succeeded             = AvailablePatchSummary_Status_STATUS("Succeeded")
+	AvailablePatchSummary_Status_STATUS_Unknown               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
 type DiffDiskOption_STATUS string
@@ -19273,7 +19273,7 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 	if reference == nil {
 		return nil, nil
 	}
-	result := &KeyVaultKeyReferenceARM{}
+	result := &KeyVaultKeyReference_ARM{}
 
 	// Set property ‘KeyUrl’:
 	if reference.KeyUrl != nil {
@@ -19283,11 +19283,11 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘SourceVault’:
 	if reference.SourceVault != nil {
-		sourceVaultARM, err := (*reference.SourceVault).ConvertToARM(resolved)
+		sourceVault_ARM, err := (*reference.SourceVault).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := *sourceVaultARM.(*SubResourceARM)
+		sourceVault := *sourceVault_ARM.(*SubResource_ARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -19295,14 +19295,14 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultKeyReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultKeyReferenceARM{}
+	return &KeyVaultKeyReference_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultKeyReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultKeyReferenceARM)
+	typedInput, ok := armInput.(KeyVaultKeyReference_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultKeyReferenceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultKeyReference_ARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyUrl’:
@@ -19391,14 +19391,14 @@ var _ genruntime.FromARMConverter = &KeyVaultKeyReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultKeyReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultKeyReference_STATUSARM{}
+	return &KeyVaultKeyReference_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultKeyReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultKeyReference_STATUSARM)
+	typedInput, ok := armInput.(KeyVaultKeyReference_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultKeyReference_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultKeyReference_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyUrl’:
@@ -19492,7 +19492,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 	if reference == nil {
 		return nil, nil
 	}
-	result := &KeyVaultSecretReferenceARM{}
+	result := &KeyVaultSecretReference_ARM{}
 
 	// Set property ‘SecretUrl’:
 	if reference.SecretUrl != nil {
@@ -19502,11 +19502,11 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘SourceVault’:
 	if reference.SourceVault != nil {
-		sourceVaultARM, err := (*reference.SourceVault).ConvertToARM(resolved)
+		sourceVault_ARM, err := (*reference.SourceVault).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := *sourceVaultARM.(*SubResourceARM)
+		sourceVault := *sourceVault_ARM.(*SubResource_ARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -19514,14 +19514,14 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultSecretReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSecretReferenceARM{}
+	return &KeyVaultSecretReference_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSecretReferenceARM)
+	typedInput, ok := armInput.(KeyVaultSecretReference_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReferenceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SecretUrl’:
@@ -19610,14 +19610,14 @@ var _ genruntime.FromARMConverter = &KeyVaultSecretReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultSecretReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSecretReference_STATUSARM{}
+	return &KeyVaultSecretReference_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSecretReference_STATUSARM)
+	typedInput, ok := armInput.(KeyVaultSecretReference_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘SecretUrl’:
@@ -19694,14 +19694,14 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 	return nil
 }
 
-type LastPatchInstallationSummary_STATUS_Status string
+type LastPatchInstallationSummary_Status_STATUS string
 
 const (
-	LastPatchInstallationSummary_STATUS_Status_CompletedWithWarnings = LastPatchInstallationSummary_STATUS_Status("CompletedWithWarnings")
-	LastPatchInstallationSummary_STATUS_Status_Failed                = LastPatchInstallationSummary_STATUS_Status("Failed")
-	LastPatchInstallationSummary_STATUS_Status_InProgress            = LastPatchInstallationSummary_STATUS_Status("InProgress")
-	LastPatchInstallationSummary_STATUS_Status_Succeeded             = LastPatchInstallationSummary_STATUS_Status("Succeeded")
-	LastPatchInstallationSummary_STATUS_Status_Unknown               = LastPatchInstallationSummary_STATUS_Status("Unknown")
+	LastPatchInstallationSummary_Status_STATUS_CompletedWithWarnings = LastPatchInstallationSummary_Status_STATUS("CompletedWithWarnings")
+	LastPatchInstallationSummary_Status_STATUS_Failed                = LastPatchInstallationSummary_Status_STATUS("Failed")
+	LastPatchInstallationSummary_Status_STATUS_InProgress            = LastPatchInstallationSummary_Status_STATUS("InProgress")
+	LastPatchInstallationSummary_Status_STATUS_Succeeded             = LastPatchInstallationSummary_Status_STATUS("Succeeded")
+	LastPatchInstallationSummary_Status_STATUS_Unknown               = LastPatchInstallationSummary_Status_STATUS("Unknown")
 )
 
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
@@ -19712,6 +19712,13 @@ const (
 	LinuxPatchSettings_AssessmentMode_ImageDefault        = LinuxPatchSettings_AssessmentMode("ImageDefault")
 )
 
+type LinuxPatchSettings_AssessmentMode_STATUS string
+
+const (
+	LinuxPatchSettings_AssessmentMode_STATUS_AutomaticByPlatform = LinuxPatchSettings_AssessmentMode_STATUS("AutomaticByPlatform")
+	LinuxPatchSettings_AssessmentMode_STATUS_ImageDefault        = LinuxPatchSettings_AssessmentMode_STATUS("ImageDefault")
+)
+
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type LinuxPatchSettings_PatchMode string
 
@@ -19720,18 +19727,11 @@ const (
 	LinuxPatchSettings_PatchMode_ImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
 )
 
-type LinuxPatchSettings_STATUS_AssessmentMode string
+type LinuxPatchSettings_PatchMode_STATUS string
 
 const (
-	LinuxPatchSettings_STATUS_AssessmentMode_AutomaticByPlatform = LinuxPatchSettings_STATUS_AssessmentMode("AutomaticByPlatform")
-	LinuxPatchSettings_STATUS_AssessmentMode_ImageDefault        = LinuxPatchSettings_STATUS_AssessmentMode("ImageDefault")
-)
-
-type LinuxPatchSettings_STATUS_PatchMode string
-
-const (
-	LinuxPatchSettings_STATUS_PatchMode_AutomaticByPlatform = LinuxPatchSettings_STATUS_PatchMode("AutomaticByPlatform")
-	LinuxPatchSettings_STATUS_PatchMode_ImageDefault        = LinuxPatchSettings_STATUS_PatchMode("ImageDefault")
+	LinuxPatchSettings_PatchMode_STATUS_AutomaticByPlatform = LinuxPatchSettings_PatchMode_STATUS("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_STATUS_ImageDefault        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/LinuxVMGuestPatchAutomaticByPlatformSettings
@@ -19747,7 +19747,7 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) ConvertToARM(resol
 	if settings == nil {
 		return nil, nil
 	}
-	result := &LinuxVMGuestPatchAutomaticByPlatformSettingsARM{}
+	result := &LinuxVMGuestPatchAutomaticByPlatformSettings_ARM{}
 
 	// Set property ‘RebootSetting’:
 	if settings.RebootSetting != nil {
@@ -19759,14 +19759,14 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) ConvertToARM(resol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxVMGuestPatchAutomaticByPlatformSettingsARM{}
+	return &LinuxVMGuestPatchAutomaticByPlatformSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxVMGuestPatchAutomaticByPlatformSettingsARM)
+	typedInput, ok := armInput.(LinuxVMGuestPatchAutomaticByPlatformSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxVMGuestPatchAutomaticByPlatformSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxVMGuestPatchAutomaticByPlatformSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RebootSetting’:
@@ -19820,21 +19820,21 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) AssignProperties_T
 
 type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting `json:"rebootSetting,omitempty"`
+	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinuxVMGuestPatchAutomaticByPlatformSettings_STATUSARM{}
+	return &LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinuxVMGuestPatchAutomaticByPlatformSettings_STATUSARM)
+	typedInput, ok := armInput.(LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxVMGuestPatchAutomaticByPlatformSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RebootSetting’:
@@ -19852,7 +19852,7 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS) AssignPrope
 
 	// RebootSetting
 	if source.RebootSetting != nil {
-		rebootSetting := LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting(*source.RebootSetting)
+		rebootSetting := LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS(*source.RebootSetting)
 		settings.RebootSetting = &rebootSetting
 	} else {
 		settings.RebootSetting = nil
@@ -19907,6 +19907,13 @@ const (
 	PatchSettings_AssessmentMode_ImageDefault        = PatchSettings_AssessmentMode("ImageDefault")
 )
 
+type PatchSettings_AssessmentMode_STATUS string
+
+const (
+	PatchSettings_AssessmentMode_STATUS_AutomaticByPlatform = PatchSettings_AssessmentMode_STATUS("AutomaticByPlatform")
+	PatchSettings_AssessmentMode_STATUS_ImageDefault        = PatchSettings_AssessmentMode_STATUS("ImageDefault")
+)
+
 // +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
 type PatchSettings_PatchMode string
 
@@ -19916,19 +19923,12 @@ const (
 	PatchSettings_PatchMode_Manual              = PatchSettings_PatchMode("Manual")
 )
 
-type PatchSettings_STATUS_AssessmentMode string
+type PatchSettings_PatchMode_STATUS string
 
 const (
-	PatchSettings_STATUS_AssessmentMode_AutomaticByPlatform = PatchSettings_STATUS_AssessmentMode("AutomaticByPlatform")
-	PatchSettings_STATUS_AssessmentMode_ImageDefault        = PatchSettings_STATUS_AssessmentMode("ImageDefault")
-)
-
-type PatchSettings_STATUS_PatchMode string
-
-const (
-	PatchSettings_STATUS_PatchMode_AutomaticByOS       = PatchSettings_STATUS_PatchMode("AutomaticByOS")
-	PatchSettings_STATUS_PatchMode_AutomaticByPlatform = PatchSettings_STATUS_PatchMode("AutomaticByPlatform")
-	PatchSettings_STATUS_PatchMode_Manual              = PatchSettings_STATUS_PatchMode("Manual")
+	PatchSettings_PatchMode_STATUS_AutomaticByOS       = PatchSettings_PatchMode_STATUS("AutomaticByOS")
+	PatchSettings_PatchMode_STATUS_AutomaticByPlatform = PatchSettings_PatchMode_STATUS("AutomaticByPlatform")
+	PatchSettings_PatchMode_STATUS_Manual              = PatchSettings_PatchMode_STATUS("Manual")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SshPublicKey
@@ -19951,7 +19951,7 @@ func (publicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if publicKey == nil {
 		return nil, nil
 	}
-	result := &SshPublicKeyARM{}
+	result := &SshPublicKey_ARM{}
 
 	// Set property ‘KeyData’:
 	if publicKey.KeyData != nil {
@@ -19969,14 +19969,14 @@ func (publicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (publicKey *SshPublicKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SshPublicKeyARM{}
+	return &SshPublicKey_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (publicKey *SshPublicKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SshPublicKeyARM)
+	typedInput, ok := armInput.(SshPublicKey_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKeyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKey_ARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyData’:
@@ -20046,14 +20046,14 @@ var _ genruntime.FromARMConverter = &SshPublicKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (publicKey *SshPublicKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SshPublicKey_STATUSARM{}
+	return &SshPublicKey_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (publicKey *SshPublicKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SshPublicKey_STATUSARM)
+	typedInput, ok := armInput.(SshPublicKey_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKey_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKey_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyData’:
@@ -20107,16 +20107,431 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 	return nil
 }
 
-type VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion string
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec string
 
 const (
-	VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion_IPv4 = VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion("IPv4")
-	VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion("IPv6")
+	VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec_IPv4 = VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec("IPv4")
+	VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec_IPv6 = VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec("IPv6")
+)
+
+type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec struct {
+	// DeleteOption: Specify what happens to the public IP address when the VM is deleted.
+	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+
+	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
+	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
+
+	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
+	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
+
+	// IpTags: The list of IP tags associated with the public IP address.
+	IpTags []VirtualMachineIpTag `json:"ipTags,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: The publicIP address configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
+	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
+	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+
+	// PublicIPAllocationMethod: Specify the public IP allocation type.
+	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource                                                                   `json:"publicIPPrefix,omitempty"`
+
+	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
+	Sku *PublicIPAddressSku `json:"sku,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configuration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configuration == nil {
+		return nil, nil
+	}
+	result := &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM{}
+
+	// Set property ‘Name’:
+	if configuration.Name != nil {
+		name := *configuration.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if configuration.DeleteOption != nil ||
+		configuration.DnsSettings != nil ||
+		configuration.IdleTimeoutInMinutes != nil ||
+		configuration.IpTags != nil ||
+		configuration.PublicIPAddressVersion != nil ||
+		configuration.PublicIPAllocationMethod != nil ||
+		configuration.PublicIPPrefix != nil {
+		result.Properties = &VirtualMachinePublicIPAddressConfigurationProperties_ARM{}
+	}
+	if configuration.DeleteOption != nil {
+		deleteOption := *configuration.DeleteOption
+		result.Properties.DeleteOption = &deleteOption
+	}
+	if configuration.DnsSettings != nil {
+		dnsSettings_ARM, err := (*configuration.DnsSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		dnsSettings := *dnsSettings_ARM.(*VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM)
+		result.Properties.DnsSettings = &dnsSettings
+	}
+	if configuration.IdleTimeoutInMinutes != nil {
+		idleTimeoutInMinutes := *configuration.IdleTimeoutInMinutes
+		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	}
+	for _, item := range configuration.IpTags {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*VirtualMachineIpTag_ARM))
+	}
+	if configuration.PublicIPAddressVersion != nil {
+		publicIPAddressVersion := *configuration.PublicIPAddressVersion
+		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
+	}
+	if configuration.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := *configuration.PublicIPAllocationMethod
+		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
+	}
+	if configuration.PublicIPPrefix != nil {
+		publicIPPrefix_ARM, err := (*configuration.PublicIPPrefix).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
+		result.Properties.PublicIPPrefix = &publicIPPrefix
+	}
+
+	// Set property ‘Sku’:
+	if configuration.Sku != nil {
+		sku_ARM, err := (*configuration.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *sku_ARM.(*PublicIPAddressSku_ARM)
+		result.Sku = &sku
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configuration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configuration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DeleteOption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeleteOption != nil {
+			deleteOption := *typedInput.Properties.DeleteOption
+			configuration.DeleteOption = &deleteOption
+		}
+	}
+
+	// Set property ‘DnsSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsSettings != nil {
+			var dnsSettings1 VirtualMachinePublicIPAddressDnsSettingsConfiguration
+			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
+			if err != nil {
+				return err
+			}
+			dnsSettings := dnsSettings1
+			configuration.DnsSettings = &dnsSettings
+		}
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			configuration.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘IpTags’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpTags {
+			var item1 VirtualMachineIpTag
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configuration.IpTags = append(configuration.IpTags, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
+
+	// Set property ‘PublicIPAddressVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAddressVersion != nil {
+			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			configuration.PublicIPAddressVersion = &publicIPAddressVersion
+		}
+	}
+
+	// Set property ‘PublicIPAllocationMethod’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAllocationMethod != nil {
+			publicIPAllocationMethod := *typedInput.Properties.PublicIPAllocationMethod
+			configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
+		}
+	}
+
+	// Set property ‘PublicIPPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPPrefix != nil {
+			var publicIPPrefix1 SubResource
+			err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
+			if err != nil {
+				return err
+			}
+			publicIPPrefix := publicIPPrefix1
+			configuration.PublicIPPrefix = &publicIPPrefix
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 PublicIPAddressSku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		configuration.Sku = &sku
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+func (configuration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) error {
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		deleteOption := VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption(*source.DeleteOption)
+		configuration.DeleteOption = &deleteOption
+	} else {
+		configuration.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachinePublicIPAddressDnsSettingsConfiguration
+		err := dnsSetting.AssignProperties_From_VirtualMachinePublicIPAddressDnsSettingsConfiguration(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachinePublicIPAddressDnsSettingsConfiguration() to populate field DnsSettings")
+		}
+		configuration.DnsSettings = &dnsSetting
+	} else {
+		configuration.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	configuration.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// IpTags
+	if source.IpTags != nil {
+		ipTagList := make([]VirtualMachineIpTag, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag VirtualMachineIpTag
+			err := ipTag.AssignProperties_From_VirtualMachineIpTag(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIpTag() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		configuration.IpTags = ipTagList
+	} else {
+		configuration.IpTags = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PublicIPAddressVersion
+	if source.PublicIPAddressVersion != nil {
+		publicIPAddressVersion := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion(*source.PublicIPAddressVersion)
+		configuration.PublicIPAddressVersion = &publicIPAddressVersion
+	} else {
+		configuration.PublicIPAddressVersion = nil
+	}
+
+	// PublicIPAllocationMethod
+	if source.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod(*source.PublicIPAllocationMethod)
+		configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
+	} else {
+		configuration.PublicIPAllocationMethod = nil
+	}
+
+	// PublicIPPrefix
+	if source.PublicIPPrefix != nil {
+		var publicIPPrefix SubResource
+		err := publicIPPrefix.AssignProperties_From_SubResource(source.PublicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPPrefix")
+		}
+		configuration.PublicIPPrefix = &publicIPPrefix
+	} else {
+		configuration.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku PublicIPAddressSku
+		err := sku.AssignProperties_From_PublicIPAddressSku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku() to populate field Sku")
+		}
+		configuration.Sku = &sku
+	} else {
+		configuration.Sku = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
+func (configuration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DeleteOption
+	if configuration.DeleteOption != nil {
+		deleteOption := string(*configuration.DeleteOption)
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configuration.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachinePublicIPAddressDnsSettingsConfiguration
+		err := configuration.DnsSettings.AssignProperties_To_VirtualMachinePublicIPAddressDnsSettingsConfiguration(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinePublicIPAddressDnsSettingsConfiguration() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(configuration.IdleTimeoutInMinutes)
+
+	// IpTags
+	if configuration.IpTags != nil {
+		ipTagList := make([]v20220301s.VirtualMachineIpTag, len(configuration.IpTags))
+		for ipTagIndex, ipTagItem := range configuration.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v20220301s.VirtualMachineIpTag
+			err := ipTagItem.AssignProperties_To_VirtualMachineIpTag(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIpTag() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// PublicIPAddressVersion
+	if configuration.PublicIPAddressVersion != nil {
+		publicIPAddressVersion := string(*configuration.PublicIPAddressVersion)
+		destination.PublicIPAddressVersion = &publicIPAddressVersion
+	} else {
+		destination.PublicIPAddressVersion = nil
+	}
+
+	// PublicIPAllocationMethod
+	if configuration.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := string(*configuration.PublicIPAllocationMethod)
+		destination.PublicIPAllocationMethod = &publicIPAllocationMethod
+	} else {
+		destination.PublicIPAllocationMethod = nil
+	}
+
+	// PublicIPPrefix
+	if configuration.PublicIPPrefix != nil {
+		var publicIPPrefix v20220301s.SubResource
+		err := configuration.PublicIPPrefix.AssignProperties_To_SubResource(&publicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPPrefix")
+		}
+		destination.PublicIPPrefix = &publicIPPrefix
+	} else {
+		destination.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if configuration.Sku != nil {
+		var sku v20220301s.PublicIPAddressSku
+		err := configuration.Sku.AssignProperties_To_PublicIPAddressSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS string
+
+const (
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv4 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv4")
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
 )
 
 type VirtualMachinePublicIPAddressConfiguration_STATUS struct {
 	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS `json:"dnsSettings,omitempty"`
@@ -20132,10 +20547,10 @@ type VirtualMachinePublicIPAddressConfiguration_STATUS struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: Specify the public IP allocation type
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUS        `json:"publicIPPrefix,omitempty"`
@@ -20146,14 +20561,14 @@ var _ genruntime.FromARMConverter = &VirtualMachinePublicIPAddressConfiguration_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachinePublicIPAddressConfiguration_STATUSARM{}
+	return &VirtualMachinePublicIPAddressConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachinePublicIPAddressConfiguration_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachinePublicIPAddressConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DeleteOption’:
@@ -20259,7 +20674,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) AssignPr
 
 	// DeleteOption
 	if source.DeleteOption != nil {
-		deleteOption := VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption(*source.DeleteOption)
+		deleteOption := VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS(*source.DeleteOption)
 		configuration.DeleteOption = &deleteOption
 	} else {
 		configuration.DeleteOption = nil
@@ -20303,7 +20718,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) AssignPr
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion(*source.PublicIPAddressVersion)
+		publicIPAddressVersion := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS(*source.PublicIPAddressVersion)
 		configuration.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		configuration.PublicIPAddressVersion = nil
@@ -20311,7 +20726,7 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) AssignPr
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod(*source.PublicIPAllocationMethod)
+		publicIPAllocationMethod := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS(*source.PublicIPAllocationMethod)
 		configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
 	} else {
 		configuration.PublicIPAllocationMethod = nil
@@ -20445,421 +20860,6 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) AssignPr
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"IPv4","IPv6"}
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion string
-
-const (
-	VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_IPv4 = VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion("IPv4")
-	VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_IPv6 = VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion("IPv6")
-)
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
-	// DeleteOption: Specify what happens to the public IP address when the VM is deleted.
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
-	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
-
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineIpTag `json:"ipTags,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The publicIP address configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: Specify the public IP allocation type.
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource                                                                   `json:"publicIPPrefix,omitempty"`
-
-	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
-	Sku *PublicIPAddressSku `json:"sku,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configuration == nil {
-		return nil, nil
-	}
-	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM{}
-
-	// Set property ‘Name’:
-	if configuration.Name != nil {
-		name := *configuration.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if configuration.DeleteOption != nil ||
-		configuration.DnsSettings != nil ||
-		configuration.IdleTimeoutInMinutes != nil ||
-		configuration.IpTags != nil ||
-		configuration.PublicIPAddressVersion != nil ||
-		configuration.PublicIPAllocationMethod != nil ||
-		configuration.PublicIPPrefix != nil {
-		result.Properties = &VirtualMachinePublicIPAddressConfigurationPropertiesARM{}
-	}
-	if configuration.DeleteOption != nil {
-		deleteOption := *configuration.DeleteOption
-		result.Properties.DeleteOption = &deleteOption
-	}
-	if configuration.DnsSettings != nil {
-		dnsSettingsARM, err := (*configuration.DnsSettings).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		dnsSettings := *dnsSettingsARM.(*VirtualMachinePublicIPAddressDnsSettingsConfigurationARM)
-		result.Properties.DnsSettings = &dnsSettings
-	}
-	if configuration.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinutes := *configuration.IdleTimeoutInMinutes
-		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	}
-	for _, item := range configuration.IpTags {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*VirtualMachineIpTagARM))
-	}
-	if configuration.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := *configuration.PublicIPAddressVersion
-		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
-	}
-	if configuration.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := *configuration.PublicIPAllocationMethod
-		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
-	}
-	if configuration.PublicIPPrefix != nil {
-		publicIPPrefixARM, err := (*configuration.PublicIPPrefix).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
-		result.Properties.PublicIPPrefix = &publicIPPrefix
-	}
-
-	// Set property ‘Sku’:
-	if configuration.Sku != nil {
-		skuARM, err := (*configuration.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*PublicIPAddressSkuARM)
-		result.Sku = &sku
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM, got %T", armInput)
-	}
-
-	// Set property ‘DeleteOption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DeleteOption != nil {
-			deleteOption := *typedInput.Properties.DeleteOption
-			configuration.DeleteOption = &deleteOption
-		}
-	}
-
-	// Set property ‘DnsSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DnsSettings != nil {
-			var dnsSettings1 VirtualMachinePublicIPAddressDnsSettingsConfiguration
-			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
-			if err != nil {
-				return err
-			}
-			dnsSettings := dnsSettings1
-			configuration.DnsSettings = &dnsSettings
-		}
-	}
-
-	// Set property ‘IdleTimeoutInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IdleTimeoutInMinutes != nil {
-			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-			configuration.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-		}
-	}
-
-	// Set property ‘IpTags’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.IpTags {
-			var item1 VirtualMachineIpTag
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			configuration.IpTags = append(configuration.IpTags, item1)
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		configuration.Name = &name
-	}
-
-	// Set property ‘PublicIPAddressVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
-			configuration.PublicIPAddressVersion = &publicIPAddressVersion
-		}
-	}
-
-	// Set property ‘PublicIPAllocationMethod’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPAllocationMethod != nil {
-			publicIPAllocationMethod := *typedInput.Properties.PublicIPAllocationMethod
-			configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
-		}
-	}
-
-	// Set property ‘PublicIPPrefix’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPPrefix != nil {
-			var publicIPPrefix1 SubResource
-			err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
-			if err != nil {
-				return err
-			}
-			publicIPPrefix := publicIPPrefix1
-			configuration.PublicIPPrefix = &publicIPPrefix
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 PublicIPAddressSku
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		configuration.Sku = &sku
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-func (configuration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(source *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) error {
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption(*source.DeleteOption)
-		configuration.DeleteOption = &deleteOption
-	} else {
-		configuration.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting VirtualMachinePublicIPAddressDnsSettingsConfiguration
-		err := dnsSetting.AssignProperties_From_VirtualMachinePublicIPAddressDnsSettingsConfiguration(source.DnsSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachinePublicIPAddressDnsSettingsConfiguration() to populate field DnsSettings")
-		}
-		configuration.DnsSettings = &dnsSetting
-	} else {
-		configuration.DnsSettings = nil
-	}
-
-	// IdleTimeoutInMinutes
-	configuration.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// IpTags
-	if source.IpTags != nil {
-		ipTagList := make([]VirtualMachineIpTag, len(source.IpTags))
-		for ipTagIndex, ipTagItem := range source.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
-			var ipTag VirtualMachineIpTag
-			err := ipTag.AssignProperties_From_VirtualMachineIpTag(&ipTagItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIpTag() to populate field IpTags")
-			}
-			ipTagList[ipTagIndex] = ipTag
-		}
-		configuration.IpTags = ipTagList
-	} else {
-		configuration.IpTags = nil
-	}
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PublicIPAddressVersion
-	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion(*source.PublicIPAddressVersion)
-		configuration.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		configuration.PublicIPAddressVersion = nil
-	}
-
-	// PublicIPAllocationMethod
-	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod(*source.PublicIPAllocationMethod)
-		configuration.PublicIPAllocationMethod = &publicIPAllocationMethod
-	} else {
-		configuration.PublicIPAllocationMethod = nil
-	}
-
-	// PublicIPPrefix
-	if source.PublicIPPrefix != nil {
-		var publicIPPrefix SubResource
-		err := publicIPPrefix.AssignProperties_From_SubResource(source.PublicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPPrefix")
-		}
-		configuration.PublicIPPrefix = &publicIPPrefix
-	} else {
-		configuration.PublicIPPrefix = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPAddressSku
-		err := sku.AssignProperties_From_PublicIPAddressSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku() to populate field Sku")
-		}
-		configuration.Sku = &sku
-	} else {
-		configuration.Sku = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-func (configuration *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration(destination *v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DeleteOption
-	if configuration.DeleteOption != nil {
-		deleteOption := string(*configuration.DeleteOption)
-		destination.DeleteOption = &deleteOption
-	} else {
-		destination.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if configuration.DnsSettings != nil {
-		var dnsSetting v20220301s.VirtualMachinePublicIPAddressDnsSettingsConfiguration
-		err := configuration.DnsSettings.AssignProperties_To_VirtualMachinePublicIPAddressDnsSettingsConfiguration(&dnsSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinePublicIPAddressDnsSettingsConfiguration() to populate field DnsSettings")
-		}
-		destination.DnsSettings = &dnsSetting
-	} else {
-		destination.DnsSettings = nil
-	}
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(configuration.IdleTimeoutInMinutes)
-
-	// IpTags
-	if configuration.IpTags != nil {
-		ipTagList := make([]v20220301s.VirtualMachineIpTag, len(configuration.IpTags))
-		for ipTagIndex, ipTagItem := range configuration.IpTags {
-			// Shadow the loop variable to avoid aliasing
-			ipTagItem := ipTagItem
-			var ipTag v20220301s.VirtualMachineIpTag
-			err := ipTagItem.AssignProperties_To_VirtualMachineIpTag(&ipTag)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIpTag() to populate field IpTags")
-			}
-			ipTagList[ipTagIndex] = ipTag
-		}
-		destination.IpTags = ipTagList
-	} else {
-		destination.IpTags = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// PublicIPAddressVersion
-	if configuration.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := string(*configuration.PublicIPAddressVersion)
-		destination.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		destination.PublicIPAddressVersion = nil
-	}
-
-	// PublicIPAllocationMethod
-	if configuration.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := string(*configuration.PublicIPAllocationMethod)
-		destination.PublicIPAllocationMethod = &publicIPAllocationMethod
-	} else {
-		destination.PublicIPAllocationMethod = nil
-	}
-
-	// PublicIPPrefix
-	if configuration.PublicIPPrefix != nil {
-		var publicIPPrefix v20220301s.SubResource
-		err := configuration.PublicIPPrefix.AssignProperties_To_SubResource(&publicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPPrefix")
-		}
-		destination.PublicIPPrefix = &publicIPPrefix
-	} else {
-		destination.PublicIPPrefix = nil
-	}
-
-	// Sku
-	if configuration.Sku != nil {
-		var sku v20220301s.PublicIPAddressSku
-		err := configuration.Sku.AssignProperties_To_PublicIPAddressSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMDiskSecurityProfile
 type VMDiskSecurityProfile struct {
 	// DiskEncryptionSet: Describes the parameter of customer managed disk encryption set resource id that can be specified for
@@ -20882,15 +20882,15 @@ func (profile *VMDiskSecurityProfile) ConvertToARM(resolved genruntime.ConvertTo
 	if profile == nil {
 		return nil, nil
 	}
-	result := &VMDiskSecurityProfileARM{}
+	result := &VMDiskSecurityProfile_ARM{}
 
 	// Set property ‘DiskEncryptionSet’:
 	if profile.DiskEncryptionSet != nil {
-		diskEncryptionSetARM, err := (*profile.DiskEncryptionSet).ConvertToARM(resolved)
+		diskEncryptionSet_ARM, err := (*profile.DiskEncryptionSet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*DiskEncryptionSetParameters_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -20904,14 +20904,14 @@ func (profile *VMDiskSecurityProfile) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *VMDiskSecurityProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMDiskSecurityProfileARM{}
+	return &VMDiskSecurityProfile_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *VMDiskSecurityProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMDiskSecurityProfileARM)
+	typedInput, ok := armInput.(VMDiskSecurityProfile_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMDiskSecurityProfileARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMDiskSecurityProfile_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionSet’:
@@ -21007,21 +21007,21 @@ type VMDiskSecurityProfile_STATUS struct {
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
 	// for encryption of just the VMGuestState blob.
 	// NOTE: It can be set for only Confidential VMs.
-	SecurityEncryptionType *VMDiskSecurityProfile_STATUS_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
+	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS `json:"securityEncryptionType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VMDiskSecurityProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *VMDiskSecurityProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VMDiskSecurityProfile_STATUSARM{}
+	return &VMDiskSecurityProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *VMDiskSecurityProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VMDiskSecurityProfile_STATUSARM)
+	typedInput, ok := armInput.(VMDiskSecurityProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMDiskSecurityProfile_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VMDiskSecurityProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DiskEncryptionSet’:
@@ -21062,7 +21062,7 @@ func (profile *VMDiskSecurityProfile_STATUS) AssignProperties_From_VMDiskSecurit
 
 	// SecurityEncryptionType
 	if source.SecurityEncryptionType != nil {
-		securityEncryptionType := VMDiskSecurityProfile_STATUS_SecurityEncryptionType(*source.SecurityEncryptionType)
+		securityEncryptionType := VMDiskSecurityProfile_SecurityEncryptionType_STATUS(*source.SecurityEncryptionType)
 		profile.SecurityEncryptionType = &securityEncryptionType
 	} else {
 		profile.SecurityEncryptionType = nil
@@ -21121,7 +21121,7 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) ConvertToARM(res
 	if settings == nil {
 		return nil, nil
 	}
-	result := &WindowsVMGuestPatchAutomaticByPlatformSettingsARM{}
+	result := &WindowsVMGuestPatchAutomaticByPlatformSettings_ARM{}
 
 	// Set property ‘RebootSetting’:
 	if settings.RebootSetting != nil {
@@ -21133,14 +21133,14 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) ConvertToARM(res
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WindowsVMGuestPatchAutomaticByPlatformSettingsARM{}
+	return &WindowsVMGuestPatchAutomaticByPlatformSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WindowsVMGuestPatchAutomaticByPlatformSettingsARM)
+	typedInput, ok := armInput.(WindowsVMGuestPatchAutomaticByPlatformSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsVMGuestPatchAutomaticByPlatformSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsVMGuestPatchAutomaticByPlatformSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RebootSetting’:
@@ -21194,21 +21194,21 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) AssignProperties
 
 type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting `json:"rebootSetting,omitempty"`
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM{}
+	return &WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM)
+	typedInput, ok := armInput.(WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RebootSetting’:
@@ -21226,7 +21226,7 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS) AssignPro
 
 	// RebootSetting
 	if source.RebootSetting != nil {
-		rebootSetting := WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting(*source.RebootSetting)
+		rebootSetting := WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS(*source.RebootSetting)
 		settings.RebootSetting = &rebootSetting
 	} else {
 		settings.RebootSetting = nil
@@ -21290,7 +21290,7 @@ func (listener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if listener == nil {
 		return nil, nil
 	}
-	result := &WinRMListenerARM{}
+	result := &WinRMListener_ARM{}
 
 	// Set property ‘CertificateUrl’:
 	if listener.CertificateUrl != nil {
@@ -21308,14 +21308,14 @@ func (listener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *WinRMListener) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WinRMListenerARM{}
+	return &WinRMListener_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *WinRMListener) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WinRMListenerARM)
+	typedInput, ok := armInput.(WinRMListener_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListenerARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListener_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CertificateUrl’:
@@ -21398,21 +21398,21 @@ type WinRMListener_STATUS struct {
 	// Possible values are:
 	// http
 	// https
-	Protocol *WinRMListener_STATUS_Protocol `json:"protocol,omitempty"`
+	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WinRMListener_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *WinRMListener_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WinRMListener_STATUSARM{}
+	return &WinRMListener_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *WinRMListener_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WinRMListener_STATUSARM)
+	typedInput, ok := armInput.(WinRMListener_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListener_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WinRMListener_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘CertificateUrl’:
@@ -21439,7 +21439,7 @@ func (listener *WinRMListener_STATUS) AssignProperties_From_WinRMListener_STATUS
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListener_STATUS_Protocol(*source.Protocol)
+		protocol := WinRMListener_Protocol_STATUS(*source.Protocol)
 		listener.Protocol = &protocol
 	} else {
 		listener.Protocol = nil
@@ -21491,14 +21491,14 @@ var _ genruntime.FromARMConverter = &ApiErrorBase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (base *ApiErrorBase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiErrorBase_STATUSARM{}
+	return &ApiErrorBase_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (base *ApiErrorBase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiErrorBase_STATUSARM)
+	typedInput, ok := armInput.(ApiErrorBase_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiErrorBase_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiErrorBase_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Code’:
@@ -21576,14 +21576,14 @@ var _ genruntime.FromARMConverter = &InnerError_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (error *InnerError_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InnerError_STATUSARM{}
+	return &InnerError_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (error *InnerError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InnerError_STATUSARM)
+	typedInput, ok := armInput.(InnerError_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InnerError_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InnerError_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Errordetail’:
@@ -21647,13 +21647,13 @@ const (
 	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting("Unknown")
 )
 
-type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting string
+type LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS string
 
 const (
-	LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Always     = LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Always")
-	LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_IfRequired = LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("IfRequired")
-	LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Never      = LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Never")
-	LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Unknown")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Always     = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Always")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_IfRequired = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("IfRequired")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Never      = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Never")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Unknown")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/PublicIPAddressSku
@@ -21672,7 +21672,7 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSkuARM{}
+	result := &PublicIPAddressSku_ARM{}
 
 	// Set property ‘Name’:
 	if addressSku.Name != nil {
@@ -21690,14 +21690,14 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSkuARM{}
+	return &PublicIPAddressSku_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSkuARM)
+	typedInput, ok := armInput.(PublicIPAddressSku_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -21773,24 +21773,24 @@ func (addressSku *PublicIPAddressSku) AssignProperties_To_PublicIPAddressSku(des
 
 type PublicIPAddressSku_STATUS struct {
 	// Name: Specify public IP sku name
-	Name *PublicIPAddressSku_STATUS_Name `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Specify public IP sku tier
-	Tier *PublicIPAddressSku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PublicIPAddressSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSku_STATUSARM{}
+	return &PublicIPAddressSku_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSku_STATUSARM)
+	typedInput, ok := armInput.(PublicIPAddressSku_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -21814,7 +21814,7 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_From_PublicIPAddre
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPAddressSku_STATUS_Name(*source.Name)
+		name := PublicIPAddressSku_Name_STATUS(*source.Name)
 		addressSku.Name = &name
 	} else {
 		addressSku.Name = nil
@@ -21822,7 +21822,7 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_From_PublicIPAddre
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPAddressSku_STATUS_Tier(*source.Tier)
+		tier := PublicIPAddressSku_Tier_STATUS(*source.Tier)
 		addressSku.Tier = &tier
 	} else {
 		addressSku.Tier = nil
@@ -21880,7 +21880,7 @@ func (ipTag *VirtualMachineIpTag) ConvertToARM(resolved genruntime.ConvertToARMR
 	if ipTag == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineIpTagARM{}
+	result := &VirtualMachineIpTag_ARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -21898,14 +21898,14 @@ func (ipTag *VirtualMachineIpTag) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *VirtualMachineIpTag) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineIpTagARM{}
+	return &VirtualMachineIpTag_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *VirtualMachineIpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineIpTagARM)
+	typedInput, ok := armInput.(VirtualMachineIpTag_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIpTagARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIpTag_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpTagType’:
@@ -21971,14 +21971,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineIpTag_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *VirtualMachineIpTag_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineIpTag_STATUSARM{}
+	return &VirtualMachineIpTag_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *VirtualMachineIpTag_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineIpTag_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachineIpTag_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIpTag_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIpTag_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpTagType’:
@@ -22040,12 +22040,26 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption("Detach")
 )
 
+type VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_Delete = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS("Delete")
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS("Detach")
+)
+
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion string
 
 const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv4 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv4")
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv6")
+)
+
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv4 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv4")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv6")
 )
 
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
@@ -22056,25 +22070,11 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod("Static")
 )
 
-type VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption string
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS string
 
 const (
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption_Delete = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption("Delete")
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption_Detach = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption("Detach")
-)
-
-type VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion string
-
-const (
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion_IPv4 = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion("IPv4")
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion("IPv6")
-)
-
-type VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod string
-
-const (
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod_Dynamic = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod("Dynamic")
-	VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod_Static  = VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod("Static")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_Dynamic = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS("Dynamic")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS("Static")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachinePublicIPAddressDnsSettingsConfiguration
@@ -22092,7 +22092,7 @@ func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration) Conv
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &VirtualMachinePublicIPAddressDnsSettingsConfigurationARM{}
+	result := &VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if configuration.DomainNameLabel != nil {
@@ -22104,14 +22104,14 @@ func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration) Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachinePublicIPAddressDnsSettingsConfigurationARM{}
+	return &VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachinePublicIPAddressDnsSettingsConfigurationARM)
+	typedInput, ok := armInput.(VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressDnsSettingsConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DomainNameLabel’:
@@ -22163,14 +22163,14 @@ var _ genruntime.FromARMConverter = &VirtualMachinePublicIPAddressDnsSettingsCon
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUSARM{}
+	return &VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUSARM)
+	typedInput, ok := armInput.(VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DomainNameLabel’:
@@ -22220,11 +22220,11 @@ const (
 	VMDiskSecurityProfile_SecurityEncryptionType_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType("VMGuestStateOnly")
 )
 
-type VMDiskSecurityProfile_STATUS_SecurityEncryptionType string
+type VMDiskSecurityProfile_SecurityEncryptionType_STATUS string
 
 const (
-	VMDiskSecurityProfile_STATUS_SecurityEncryptionType_DiskWithVMGuestState = VMDiskSecurityProfile_STATUS_SecurityEncryptionType("DiskWithVMGuestState")
-	VMDiskSecurityProfile_STATUS_SecurityEncryptionType_VMGuestStateOnly     = VMDiskSecurityProfile_STATUS_SecurityEncryptionType("VMGuestStateOnly")
+	VMDiskSecurityProfile_SecurityEncryptionType_STATUS_DiskWithVMGuestState = VMDiskSecurityProfile_SecurityEncryptionType_STATUS("DiskWithVMGuestState")
+	VMDiskSecurityProfile_SecurityEncryptionType_STATUS_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType_STATUS("VMGuestStateOnly")
 )
 
 // +kubebuilder:validation:Enum={"Always","IfRequired","Never","Unknown"}
@@ -22237,13 +22237,13 @@ const (
 	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting("Unknown")
 )
 
-type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting string
+type WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS string
 
 const (
-	WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Always     = WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Always")
-	WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_IfRequired = WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("IfRequired")
-	WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Never      = WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Never")
-	WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting("Unknown")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Always     = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Always")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_IfRequired = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("IfRequired")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Never      = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Never")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Unknown")
 )
 
 // +kubebuilder:validation:Enum={"Http","Https"}
@@ -22254,11 +22254,11 @@ const (
 	WinRMListener_Protocol_Https = WinRMListener_Protocol("Https")
 )
 
-type WinRMListener_STATUS_Protocol string
+type WinRMListener_Protocol_STATUS string
 
 const (
-	WinRMListener_STATUS_Protocol_Http  = WinRMListener_STATUS_Protocol("Http")
-	WinRMListener_STATUS_Protocol_Https = WinRMListener_STATUS_Protocol("Https")
+	WinRMListener_Protocol_STATUS_Http  = WinRMListener_Protocol_STATUS("Http")
+	WinRMListener_Protocol_STATUS_Https = WinRMListener_Protocol_STATUS("Https")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
@@ -22269,18 +22269,11 @@ const (
 	PublicIPAddressSku_Name_Standard = PublicIPAddressSku_Name("Standard")
 )
 
-type PublicIPAddressSku_STATUS_Name string
+type PublicIPAddressSku_Name_STATUS string
 
 const (
-	PublicIPAddressSku_STATUS_Name_Basic    = PublicIPAddressSku_STATUS_Name("Basic")
-	PublicIPAddressSku_STATUS_Name_Standard = PublicIPAddressSku_STATUS_Name("Standard")
-)
-
-type PublicIPAddressSku_STATUS_Tier string
-
-const (
-	PublicIPAddressSku_STATUS_Tier_Global   = PublicIPAddressSku_STATUS_Tier("Global")
-	PublicIPAddressSku_STATUS_Tier_Regional = PublicIPAddressSku_STATUS_Tier("Regional")
+	PublicIPAddressSku_Name_STATUS_Basic    = PublicIPAddressSku_Name_STATUS("Basic")
+	PublicIPAddressSku_Name_STATUS_Standard = PublicIPAddressSku_Name_STATUS("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
@@ -22289,6 +22282,13 @@ type PublicIPAddressSku_Tier string
 const (
 	PublicIPAddressSku_Tier_Global   = PublicIPAddressSku_Tier("Global")
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
+)
+
+type PublicIPAddressSku_Tier_STATUS string
+
+const (
+	PublicIPAddressSku_Tier_STATUS_Global   = PublicIPAddressSku_Tier_STATUS("Global")
+	PublicIPAddressSku_Tier_STATUS_Regional = PublicIPAddressSku_Tier_STATUS("Regional")
 )
 
 func init() {

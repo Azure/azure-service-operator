@@ -4,47 +4,47 @@
 package v1alpha1api20210501
 
 // Deprecated version of Database_STATUS. Use v1beta20210501.Database_STATUS instead
-type Database_STATUSARM struct {
-	Id         *string                       `json:"id,omitempty"`
-	Name       *string                       `json:"name,omitempty"`
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM         `json:"systemData,omitempty"`
-	Type       *string                       `json:"type,omitempty"`
+type Database_STATUS_ARM struct {
+	Id         *string                        `json:"id,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM         `json:"systemData,omitempty"`
+	Type       *string                        `json:"type,omitempty"`
 }
 
 // Deprecated version of DatabaseProperties_STATUS. Use v1beta20210501.DatabaseProperties_STATUS instead
-type DatabaseProperties_STATUSARM struct {
+type DatabaseProperties_STATUS_ARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210501.SystemData_STATUS instead
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
 	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
 	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20210501.SystemData_STATUS_CreatedByType instead
-type SystemData_STATUS_CreatedByType string
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1beta20210501.SystemData_CreatedByType_STATUS instead
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-// Deprecated version of SystemData_STATUS_LastModifiedByType. Use v1beta20210501.SystemData_STATUS_LastModifiedByType
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20210501.SystemData_LastModifiedByType_STATUS
 // instead
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

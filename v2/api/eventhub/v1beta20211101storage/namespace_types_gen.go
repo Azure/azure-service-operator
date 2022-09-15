@@ -26,7 +26,7 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Spec    `json:"spec,omitempty"`
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
 	Status            EHNamespace_STATUS `json:"status,omitempty"`
 }
 
@@ -184,8 +184,8 @@ func (namespace *EHNamespace_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(namespace)
 }
 
-// Storage version of v1beta20211101.Namespaces_Spec
-type Namespaces_Spec struct {
+// Storage version of v1beta20211101.Namespace_Spec
+type Namespace_Spec struct {
 	AlternateName *string `json:"alternateName,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
@@ -209,32 +209,32 @@ type Namespaces_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []Namespaces_Spec_Properties_PrivateEndpointConnections `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-	Sku                        *Sku                                                    `json:"sku,omitempty"`
-	Tags                       map[string]string                                       `json:"tags,omitempty"`
-	ZoneRedundant              *bool                                                   `json:"zoneRedundant,omitempty"`
+	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []Namespace_Properties_PrivateEndpointConnections_Spec `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	Sku                        *Sku                                                   `json:"sku,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Spec from the provided source
-func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespaces {
+// ConvertSpecFrom populates our Namespace_Spec from the provided source
+func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespaces)
+	return source.ConvertSpecTo(namespace)
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespaces {
+// ConvertSpecTo populates the provided destination from our Namespace_Spec
+func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespaces)
+	return destination.ConvertSpecFrom(namespace)
 }
 
 // Storage version of v1beta20211101.Encryption
@@ -270,8 +270,8 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20211101.Namespaces_Spec_Properties_PrivateEndpointConnections
-type Namespaces_Spec_Properties_PrivateEndpointConnections struct {
+// Storage version of v1beta20211101.Namespace_Properties_PrivateEndpointConnections_Spec
+type Namespace_Properties_PrivateEndpointConnections_Spec struct {
 	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

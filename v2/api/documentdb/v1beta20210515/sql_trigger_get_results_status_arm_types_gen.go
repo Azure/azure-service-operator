@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type SqlTriggerGetResults_STATUSARM struct {
+type SqlTriggerGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,18 +14,18 @@ type SqlTriggerGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB trigger
-	Properties *SqlTriggerGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                  `json:"tags,omitempty"`
+	Properties *SqlTriggerGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                   `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlTriggerGetProperties_STATUSARM struct {
-	Resource *SqlTriggerGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlTriggerGetProperties_STATUS_ARM struct {
+	Resource *SqlTriggerGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type SqlTriggerGetProperties_STATUS_ResourceARM struct {
+type SqlTriggerGetProperties_Resource_STATUS_ARM struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 
@@ -39,10 +39,10 @@ type SqlTriggerGetProperties_STATUS_ResourceARM struct {
 	Rid *string `json:"_rid,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerGetProperties_STATUS_Resource_TriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
 
 	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerGetProperties_STATUS_Resource_TriggerType `json:"triggerType,omitempty"`
+	TriggerType *SqlTriggerGetProperties_Resource_TriggerType_STATUS `json:"triggerType,omitempty"`
 
 	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`

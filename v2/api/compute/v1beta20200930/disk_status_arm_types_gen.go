@@ -3,9 +3,9 @@
 // Licensed under the MIT license.
 package v1beta20200930
 
-type Disk_STATUSARM struct {
+type Disk_STATUS_ARM struct {
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -21,9 +21,9 @@ type Disk_STATUSARM struct {
 	ManagedByExtended []string `json:"managedByExtended,omitempty"`
 
 	// Name: Resource name
-	Name       *string                   `json:"name,omitempty"`
-	Properties *DiskProperties_STATUSARM `json:"properties,omitempty"`
-	Sku        *DiskSku_STATUSARM        `json:"sku,omitempty"`
+	Name       *string                    `json:"name,omitempty"`
+	Properties *DiskProperties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *DiskSku_STATUS_ARM        `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,13 +35,13 @@ type Disk_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type DiskProperties_STATUSARM struct {
+type DiskProperties_STATUS_ARM struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
 	// disabled by default. Does not apply to Ultra disks.
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData *CreationData_STATUSARM `json:"creationData,omitempty"`
+	CreationData *CreationData_STATUS_ARM `json:"creationData,omitempty"`
 
 	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`
@@ -74,14 +74,14 @@ type DiskProperties_STATUSARM struct {
 	DiskState *DiskState_STATUS `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
-	Encryption *Encryption_STATUSARM `json:"encryption,omitempty"`
+	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
 
 	// EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
 	// encryption settings per disk or snapshot.
-	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *DiskProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
@@ -89,18 +89,18 @@ type DiskProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *DiskProperties_STATUS_OsType `json:"osType,omitempty"`
+	OsType *DiskProperties_OsType_STATUS `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
-	PurchasePlan *PurchasePlan_STATUSARM `json:"purchasePlan,omitempty"`
+	PurchasePlan *PurchasePlan_STATUS_ARM `json:"purchasePlan,omitempty"`
 
 	// ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
 	// one for disks to allow attaching them to multiple VMs.
-	ShareInfo []ShareInfoElement_STATUSARM `json:"shareInfo,omitempty"`
+	ShareInfo []ShareInfoElement_STATUS_ARM `json:"shareInfo,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
 	// https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks.
@@ -113,15 +113,15 @@ type DiskProperties_STATUSARM struct {
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
-type DiskSku_STATUSARM struct {
+type DiskSku_STATUS_ARM struct {
 	// Name: The sku name.
-	Name *DiskSku_STATUS_Name `json:"name,omitempty"`
+	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 
-type ExtendedLocation_STATUSARM struct {
+type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -129,16 +129,16 @@ type ExtendedLocation_STATUSARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
-type CreationData_STATUSARM struct {
+type CreationData_STATUS_ARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption *CreationData_STATUS_CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
-	GalleryImageReference *ImageDiskReference_STATUSARM `json:"galleryImageReference,omitempty"`
+	GalleryImageReference *ImageDiskReference_STATUS_ARM `json:"galleryImageReference,omitempty"`
 
 	// ImageReference: Disk source information.
-	ImageReference *ImageDiskReference_STATUSARM `json:"imageReference,omitempty"`
+	ImageReference *ImageDiskReference_STATUS_ARM `json:"imageReference,omitempty"`
 
 	// LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
 	LogicalSectorSize *int `json:"logicalSectorSize,omitempty"`
@@ -162,29 +162,29 @@ type CreationData_STATUSARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-type DiskSku_STATUS_Name string
+type DiskSku_Name_STATUS string
 
 const (
-	DiskSku_STATUS_Name_Premium_LRS     = DiskSku_STATUS_Name("Premium_LRS")
-	DiskSku_STATUS_Name_StandardSSD_LRS = DiskSku_STATUS_Name("StandardSSD_LRS")
-	DiskSku_STATUS_Name_Standard_LRS    = DiskSku_STATUS_Name("Standard_LRS")
-	DiskSku_STATUS_Name_UltraSSD_LRS    = DiskSku_STATUS_Name("UltraSSD_LRS")
+	DiskSku_Name_STATUS_Premium_LRS     = DiskSku_Name_STATUS("Premium_LRS")
+	DiskSku_Name_STATUS_StandardSSD_LRS = DiskSku_Name_STATUS("StandardSSD_LRS")
+	DiskSku_Name_STATUS_Standard_LRS    = DiskSku_Name_STATUS("Standard_LRS")
+	DiskSku_Name_STATUS_UltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
-type Encryption_STATUSARM struct {
+type Encryption_STATUS_ARM struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType_STATUS `json:"type,omitempty"`
 }
 
-type EncryptionSettingsCollection_STATUSARM struct {
+type EncryptionSettingsCollection_STATUS_ARM struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
 	// null in the request object, the existing settings remain unchanged.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// EncryptionSettings: A collection of encryption settings, one for each disk volume.
-	EncryptionSettings []EncryptionSettingsElement_STATUSARM `json:"encryptionSettings,omitempty"`
+	EncryptionSettings []EncryptionSettingsElement_STATUS_ARM `json:"encryptionSettings,omitempty"`
 
 	// EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
 	// overwritten. '1.0' corresponds to Azure Disk Encryption with AAD app.'1.1' corresponds to Azure Disk Encryption.
@@ -195,7 +195,7 @@ type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
-type PurchasePlan_STATUSARM struct {
+type PurchasePlan_STATUS_ARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
 
@@ -210,21 +210,21 @@ type PurchasePlan_STATUSARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
-type ShareInfoElement_STATUSARM struct {
+type ShareInfoElement_STATUS_ARM struct {
 	// VmUri: A relative URI containing the ID of the VM that has the disk attached.
 	VmUri *string `json:"vmUri,omitempty"`
 }
 
-type EncryptionSettingsElement_STATUSARM struct {
+type EncryptionSettingsElement_STATUS_ARM struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
-	DiskEncryptionKey *KeyVaultAndSecretReference_STATUSARM `json:"diskEncryptionKey,omitempty"`
+	DiskEncryptionKey *KeyVaultAndSecretReference_STATUS_ARM `json:"diskEncryptionKey,omitempty"`
 
 	// KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
 	// provided is used to unwrap the disk encryption key.
-	KeyEncryptionKey *KeyVaultAndKeyReference_STATUSARM `json:"keyEncryptionKey,omitempty"`
+	KeyEncryptionKey *KeyVaultAndKeyReference_STATUS_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
-type ImageDiskReference_STATUSARM struct {
+type ImageDiskReference_STATUS_ARM struct {
 	// Id: A relative uri containing either a Platform Image Repository or user image reference.
 	Id *string `json:"id,omitempty"`
 
@@ -233,23 +233,23 @@ type ImageDiskReference_STATUSARM struct {
 	Lun *int `json:"lun,omitempty"`
 }
 
-type KeyVaultAndKeyReference_STATUSARM struct {
+type KeyVaultAndKeyReference_STATUS_ARM struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// SourceVault: Resource id of the KeyVault containing the key or secret
-	SourceVault *SourceVault_STATUSARM `json:"sourceVault,omitempty"`
+	SourceVault *SourceVault_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
-type KeyVaultAndSecretReference_STATUSARM struct {
+type KeyVaultAndSecretReference_STATUS_ARM struct {
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	// SourceVault: Resource id of the KeyVault containing the key or secret
-	SourceVault *SourceVault_STATUSARM `json:"sourceVault,omitempty"`
+	SourceVault *SourceVault_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
-type SourceVault_STATUSARM struct {
+type SourceVault_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }

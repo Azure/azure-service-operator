@@ -270,29 +270,29 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecARM struct {
-	ArrayFoo              []FooARM            `json:"arrayFoo,omitempty"`
-	ArrayOfArrays         [][]FooARM          `json:"arrayOfArrays,omitempty"`
-	ArrayOfArraysOfArrays [][][]FooARM        `json:"arrayOfArraysOfArrays,omitempty"`
-	ArrayOfEnums          []Color             `json:"arrayOfEnums,omitempty"`
-	ArrayOfMaps           []map[string]FooARM `json:"arrayOfMaps,omitempty"`
-	Name                  string              `json:"name,omitempty"`
+type FakeResource_Spec_ARM struct {
+	ArrayFoo              []Foo_ARM            `json:"arrayFoo,omitempty"`
+	ArrayOfArrays         [][]Foo_ARM          `json:"arrayOfArrays,omitempty"`
+	ArrayOfArraysOfArrays [][][]Foo_ARM        `json:"arrayOfArraysOfArrays,omitempty"`
+	ArrayOfEnums          []Color              `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps           []map[string]Foo_ARM `json:"arrayOfMaps,omitempty"`
+	Name                  string               `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (resource FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource *FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -337,41 +337,41 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_SpecARM{}
+	result := &FakeResource_Spec_ARM{}
 
 	// Set property ‘ArrayFoo’:
 	for _, item := range resource.ArrayFoo {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.ArrayFoo = append(result.ArrayFoo, *itemARM.(*FooARM))
+		result.ArrayFoo = append(result.ArrayFoo, *item_ARM.(*Foo_ARM))
 	}
 
 	// Set property ‘ArrayOfArrays’:
 	for _, item := range resource.ArrayOfArrays {
-		var itemTemp []FooARM
+		var itemTemp []Foo_ARM
 		for _, item1 := range item {
-			item1ARM, err := item1.ConvertToARM(resolved)
+			item1_ARM, err := item1.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, *item1ARM.(*FooARM))
+			itemTemp = append(itemTemp, *item1_ARM.(*Foo_ARM))
 		}
 		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
 	}
 
 	// Set property ‘ArrayOfArraysOfArrays’:
 	for _, item := range resource.ArrayOfArraysOfArrays {
-		var itemTemp [][]FooARM
+		var itemTemp [][]Foo_ARM
 		for _, item1 := range item {
-			var item1Temp []FooARM
+			var item1Temp []Foo_ARM
 			for _, item2 := range item1 {
-				item2ARM, err := item2.ConvertToARM(resolved)
+				item2_ARM, err := item2.ConvertToARM(resolved)
 				if err != nil {
 					return nil, err
 				}
-				item1Temp = append(item1Temp, *item2ARM.(*FooARM))
+				item1Temp = append(item1Temp, *item2_ARM.(*Foo_ARM))
 			}
 			itemTemp = append(itemTemp, item1Temp)
 		}
@@ -386,13 +386,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘ArrayOfMaps’:
 	for _, item := range resource.ArrayOfMaps {
 		if item != nil {
-			itemTemp := make(map[string]FooARM, len(item))
+			itemTemp := make(map[string]Foo_ARM, len(item))
 			for key, value := range item {
-				valueARM, err := value.ConvertToARM(resolved)
+				value_ARM, err := value.ConvertToARM(resolved)
 				if err != nil {
 					return nil, err
 				}
-				itemTemp[key] = *valueARM.(*FooARM)
+				itemTemp[key] = *value_ARM.(*Foo_ARM)
 			}
 			result.ArrayOfMaps = append(result.ArrayOfMaps, itemTemp)
 		}
@@ -405,14 +405,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SpecARM{}
+	return &FakeResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecARM)
+	typedInput, ok := armInput.(FakeResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ArrayFoo’:
@@ -847,7 +847,7 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type FooARM struct {
+type Foo_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
@@ -863,7 +863,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	result := &FooARM{}
+	result := &Foo_ARM{}
 
 	// Set property ‘Name’:
 	if foo.Name != nil {
@@ -875,14 +875,14 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (foo *Foo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FooARM{}
+	return &Foo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FooARM)
+	typedInput, ok := armInput.(Foo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:

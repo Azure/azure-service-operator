@@ -28,7 +28,7 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_FirewallRules_Spec `json:"spec,omitempty"`
+	Spec              Redis_FirewallRule_Spec  `json:"spec,omitempty"`
 	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
 }
 
@@ -269,10 +269,10 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *a
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Redis_FirewallRules_Spec
-	err := spec.AssignProperties_From_Redis_FirewallRules_Spec(&source.Spec)
+	var spec Redis_FirewallRule_Spec
+	err := spec.AssignProperties_From_Redis_FirewallRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Redis_FirewallRules_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Redis_FirewallRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -295,10 +295,10 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20201201s.Redis_FirewallRules_Spec
-	err := rule.Spec.AssignProperties_To_Redis_FirewallRules_Spec(&spec)
+	var spec alpha20201201s.Redis_FirewallRule_Spec
+	err := rule.Spec.AssignProperties_To_Redis_FirewallRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Redis_FirewallRules_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Redis_FirewallRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -331,7 +331,7 @@ type RedisFirewallRuleList struct {
 	Items           []RedisFirewallRule `json:"items"`
 }
 
-type Redis_FirewallRules_Spec struct {
+type Redis_FirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -351,18 +351,18 @@ type Redis_FirewallRules_Spec struct {
 	Tags    map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Redis_FirewallRules_Spec{}
+var _ genruntime.ARMTransformer = &Redis_FirewallRule_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *Redis_FirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
+func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if rule == nil {
 		return nil, nil
 	}
-	result := &Redis_FirewallRules_SpecARM{}
+	result := &Redis_FirewallRule_Spec_ARM{}
 
 	// Set property ‘Location’:
-	if rules.Location != nil {
-		location := *rules.Location
+	if rule.Location != nil {
+		location := *rule.Location
 		result.Location = &location
 	}
 
@@ -370,22 +370,22 @@ func (rules *Redis_FirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertT
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if rules.EndIP != nil || rules.StartIP != nil {
-		result.Properties = &RedisFirewallRulePropertiesARM{}
+	if rule.EndIP != nil || rule.StartIP != nil {
+		result.Properties = &RedisFirewallRuleProperties_ARM{}
 	}
-	if rules.EndIP != nil {
-		endIP := *rules.EndIP
+	if rule.EndIP != nil {
+		endIP := *rule.EndIP
 		result.Properties.EndIP = &endIP
 	}
-	if rules.StartIP != nil {
-		startIP := *rules.StartIP
+	if rule.StartIP != nil {
+		startIP := *rule.StartIP
 		result.Properties.StartIP = &startIP
 	}
 
 	// Set property ‘Tags’:
-	if rules.Tags != nil {
-		result.Tags = make(map[string]string, len(rules.Tags))
-		for key, value := range rules.Tags {
+	if rule.Tags != nil {
+		result.Tags = make(map[string]string, len(rule.Tags))
+		for key, value := range rule.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -393,37 +393,37 @@ func (rules *Redis_FirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertT
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *Redis_FirewallRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_FirewallRules_SpecARM{}
+func (rule *Redis_FirewallRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Redis_FirewallRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *Redis_FirewallRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_FirewallRules_SpecARM)
+func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Redis_FirewallRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRules_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	rules.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘EndIP’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIP != nil {
 			endIP := *typedInput.Properties.EndIP
-			rules.EndIP = &endIP
+			rule.EndIP = &endIP
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		rules.Location = &location
+		rule.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	rules.Owner = &genruntime.KnownResourceReference{
+	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -432,15 +432,15 @@ func (rules *Redis_FirewallRules_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIP != nil {
 			startIP := *typedInput.Properties.StartIP
-			rules.StartIP = &startIP
+			rule.StartIP = &startIP
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string, len(typedInput.Tags))
+		rule.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			rules.Tags[key] = value
+			rule.Tags[key] = value
 		}
 	}
 
@@ -448,25 +448,25 @@ func (rules *Redis_FirewallRules_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Redis_FirewallRules_Spec{}
+var _ genruntime.ConvertibleSpec = &Redis_FirewallRule_Spec{}
 
-// ConvertSpecFrom populates our Redis_FirewallRules_Spec from the provided source
-func (rules *Redis_FirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20201201s.Redis_FirewallRules_Spec)
+// ConvertSpecFrom populates our Redis_FirewallRule_Spec from the provided source
+func (rule *Redis_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20201201s.Redis_FirewallRule_Spec)
 	if ok {
 		// Populate our instance from source
-		return rules.AssignProperties_From_Redis_FirewallRules_Spec(src)
+		return rule.AssignProperties_From_Redis_FirewallRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20201201s.Redis_FirewallRules_Spec{}
+	src = &alpha20201201s.Redis_FirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rules.AssignProperties_From_Redis_FirewallRules_Spec(src)
+	err = rule.AssignProperties_From_Redis_FirewallRule_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -474,17 +474,17 @@ func (rules *Redis_FirewallRules_Spec) ConvertSpecFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Redis_FirewallRules_Spec
-func (rules *Redis_FirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20201201s.Redis_FirewallRules_Spec)
+// ConvertSpecTo populates the provided destination from our Redis_FirewallRule_Spec
+func (rule *Redis_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20201201s.Redis_FirewallRule_Spec)
 	if ok {
 		// Populate destination from our instance
-		return rules.AssignProperties_To_Redis_FirewallRules_Spec(dst)
+		return rule.AssignProperties_To_Redis_FirewallRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20201201s.Redis_FirewallRules_Spec{}
-	err := rules.AssignProperties_To_Redis_FirewallRules_Spec(dst)
+	dst = &alpha20201201s.Redis_FirewallRule_Spec{}
+	err := rule.AssignProperties_To_Redis_FirewallRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -498,66 +498,66 @@ func (rules *Redis_FirewallRules_Spec) ConvertSpecTo(destination genruntime.Conv
 	return nil
 }
 
-// AssignProperties_From_Redis_FirewallRules_Spec populates our Redis_FirewallRules_Spec from the provided source Redis_FirewallRules_Spec
-func (rules *Redis_FirewallRules_Spec) AssignProperties_From_Redis_FirewallRules_Spec(source *alpha20201201s.Redis_FirewallRules_Spec) error {
+// AssignProperties_From_Redis_FirewallRule_Spec populates our Redis_FirewallRule_Spec from the provided source Redis_FirewallRule_Spec
+func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Spec(source *alpha20201201s.Redis_FirewallRule_Spec) error {
 
 	// AzureName
-	rules.AzureName = source.AzureName
+	rule.AzureName = source.AzureName
 
 	// EndIP
-	rules.EndIP = genruntime.ClonePointerToString(source.EndIP)
+	rule.EndIP = genruntime.ClonePointerToString(source.EndIP)
 
 	// Location
-	rules.Location = genruntime.ClonePointerToString(source.Location)
+	rule.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		rules.Owner = &owner
+		rule.Owner = &owner
 	} else {
-		rules.Owner = nil
+		rule.Owner = nil
 	}
 
 	// StartIP
-	rules.StartIP = genruntime.ClonePointerToString(source.StartIP)
+	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
 
 	// Tags
-	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Redis_FirewallRules_Spec populates the provided destination Redis_FirewallRules_Spec from our Redis_FirewallRules_Spec
-func (rules *Redis_FirewallRules_Spec) AssignProperties_To_Redis_FirewallRules_Spec(destination *alpha20201201s.Redis_FirewallRules_Spec) error {
+// AssignProperties_To_Redis_FirewallRule_Spec populates the provided destination Redis_FirewallRule_Spec from our Redis_FirewallRule_Spec
+func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec(destination *alpha20201201s.Redis_FirewallRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = rules.AzureName
+	destination.AzureName = rule.AzureName
 
 	// EndIP
-	destination.EndIP = genruntime.ClonePointerToString(rules.EndIP)
+	destination.EndIP = genruntime.ClonePointerToString(rule.EndIP)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(rules.Location)
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = rules.OriginalVersion()
+	destination.OriginalVersion = rule.OriginalVersion()
 
 	// Owner
-	if rules.Owner != nil {
-		owner := rules.Owner.Copy()
+	if rule.Owner != nil {
+		owner := rule.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// StartIP
-	destination.StartIP = genruntime.ClonePointerToString(rules.StartIP)
+	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -571,12 +571,12 @@ func (rules *Redis_FirewallRules_Spec) AssignProperties_To_Redis_FirewallRules_S
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (rules *Redis_FirewallRules_Spec) OriginalVersion() string {
+func (rule *Redis_FirewallRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (rules *Redis_FirewallRules_Spec) SetAzureName(azureName string) { rules.AzureName = azureName }
+func (rule *Redis_FirewallRule_Spec) SetAzureName(azureName string) { rule.AzureName = azureName }
 
 // Deprecated version of RedisFirewallRule_STATUS. Use v1beta20201201.RedisFirewallRule_STATUS instead
 type RedisFirewallRule_STATUS struct {
@@ -643,14 +643,14 @@ var _ genruntime.FromARMConverter = &RedisFirewallRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *RedisFirewallRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisFirewallRule_STATUSARM{}
+	return &RedisFirewallRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *RedisFirewallRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisFirewallRule_STATUSARM)
+	typedInput, ok := armInput.(RedisFirewallRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisFirewallRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisFirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’

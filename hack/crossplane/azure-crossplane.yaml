@@ -20,72 +20,100 @@ typeFilters:
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
+
   - action: include
     group: common
     matchRequired: false # only triggers for Status types
+
   - action: include
     version: v*20201101
     group: network
     because: Including network for Crossplane
+
   - action: include
     version: v*20200601
     group: cache
     because: Including cache for Crossplane
+
   - action: include
     version: v*20201101preview
     group: sql
     because: Including sql
+
   - action: include
     group: sql
     version: '*v1'
     because: Including sql v1 common types
     matchRequired: false # only triggers for Status types
+
   - action: include
     group: sql
     version: '*v2'
     because: Including sql v2 common types
     matchRequired: false # only triggers for Status types
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
+
   - action: prune
     group: network
     version: '*'
     because: Pruning all networking api versions since we don't use them anyway
+
   - action: prune
     group: compute
     version: '*'
     because: Pruning all compute api versions since we don't use them anyway
+
   - action: prune
     group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
+
   - action: prune
     group: timeseriesinsights
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: databoxedge
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: datashare
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: apimanagement
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: automation
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: machinelearningservices
     name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
+  - action: prune
+    group: web
+    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+
+  - action: prune
+    group: hdinsight
+    name: Clusters;Clusters_Extensions
+    because: Uses one-of in a way we don't support
+
   - action: prune
     group: resources
     name: Tags
     because: This type is defined recursively.
+
   - action: prune
     group: compute.extensions
     because: All other extensions should be removed

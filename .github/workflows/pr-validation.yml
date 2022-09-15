@@ -96,7 +96,7 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
 
           set +e # don't exit instantly on failure, we need to produce Markdown summary
-          docker exec "$container_id" task ci --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task ci --concurrency 2 # limit concurrency because build machines are small
           EXIT_CODE=$?
           set -e
 
@@ -114,8 +114,8 @@ jobs:
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build-and-save --concurrency 1 # limit concurrency because build machines are small
-          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:docker-build-and-save --concurrency 2 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 2 # limit concurrency because build machines are small
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2
@@ -133,6 +133,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       packages: read
+      checks: write
 
     steps:
       - name: Checkout code
@@ -185,3 +186,34 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Update check run called "integration-tests-fork"
+      - uses: actions/github-script@v1
+        id: update-check-run
+        if: ${{ always() }}
+        env:
+          number: ${{ github.event.number }}
+          integration_test_job: 'integration-tests-fork' # This is the name of the job defined in pr-validation-fork.yml
+          # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
+          conclusion: ${{ job.status }}
+          server_url: ${{ github.server_url }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
+            const { data: pull } = await github.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            const ref = pull.head.sha;
+            const { data: result } = await github.checks.create({
+              ...context.repo,
+              name: process.env.integration_test_job,
+              head_sha: ref,
+              status: 'completed',
+              conclusion: process.env.conclusion,
+              details_url: url,
+            });
+            return result;

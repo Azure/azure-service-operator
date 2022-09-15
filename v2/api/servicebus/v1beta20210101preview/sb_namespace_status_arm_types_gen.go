@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20210101preview
 
-type SBNamespace_STATUSARM struct {
+type SBNamespace_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Properties of BYOK Identity description
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -17,13 +17,13 @@ type SBNamespace_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the namespace.
-	Properties *SBNamespaceProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *SBNamespaceProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: Properties of SKU
-	Sku *SBSku_STATUSARM `json:"sku,omitempty"`
+	Sku *SBSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -32,7 +32,7 @@ type SBNamespace_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -40,24 +40,24 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
+	Type *Identity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Properties for User Assigned Identities
-	UserAssignedIdentities map[string]DictionaryValue_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]DictionaryValue_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type SBNamespaceProperties_STATUSARM struct {
+type SBNamespaceProperties_STATUS_ARM struct {
 	// CreatedAt: The time the namespace was created
 	CreatedAt *string `json:"createdAt,omitempty"`
 
 	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_STATUSARM `json:"encryption,omitempty"`
+	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
 
 	// MetricId: Identifier for Azure Insights metrics
 	MetricId *string `json:"metricId,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the namespace.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -75,18 +75,18 @@ type SBNamespaceProperties_STATUSARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type SBSku_STATUSARM struct {
+type SBSku_STATUS_ARM struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-	Name *SBSku_STATUS_Name `json:"name,omitempty"`
+	Name *SBSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
-	Tier *SBSku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *SBSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -94,7 +94,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -103,10 +103,10 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type DictionaryValue_STATUSARM struct {
+type DictionaryValue_STATUS_ARM struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -114,70 +114,70 @@ type DictionaryValue_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type Encryption_STATUSARM struct {
+type Encryption_STATUS_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_STATUS_KeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties []KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 
 	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-type Identity_STATUS_Type string
+type Identity_Type_STATUS string
 
 const (
-	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
-	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
-	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
-	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
-type SBSku_STATUS_Name string
+type SBSku_Name_STATUS string
 
 const (
-	SBSku_STATUS_Name_Basic    = SBSku_STATUS_Name("Basic")
-	SBSku_STATUS_Name_Premium  = SBSku_STATUS_Name("Premium")
-	SBSku_STATUS_Name_Standard = SBSku_STATUS_Name("Standard")
+	SBSku_Name_STATUS_Basic    = SBSku_Name_STATUS("Basic")
+	SBSku_Name_STATUS_Premium  = SBSku_Name_STATUS("Premium")
+	SBSku_Name_STATUS_Standard = SBSku_Name_STATUS("Standard")
 )
 
-type SBSku_STATUS_Tier string
+type SBSku_Tier_STATUS string
 
 const (
-	SBSku_STATUS_Tier_Basic    = SBSku_STATUS_Tier("Basic")
-	SBSku_STATUS_Tier_Premium  = SBSku_STATUS_Tier("Premium")
-	SBSku_STATUS_Tier_Standard = SBSku_STATUS_Tier("Standard")
+	SBSku_Tier_STATUS_Basic    = SBSku_Tier_STATUS("Basic")
+	SBSku_Tier_STATUS_Premium  = SBSku_Tier_STATUS("Premium")
+	SBSku_Tier_STATUS_Standard = SBSku_Tier_STATUS("Standard")
 )
 
-type SystemData_STATUS_CreatedByType string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-type KeyVaultProperties_STATUSARM struct {
-	Identity *UserAssignedIdentityProperties_STATUSARM `json:"identity,omitempty"`
+type KeyVaultProperties_STATUS_ARM struct {
+	Identity *UserAssignedIdentityProperties_STATUS_ARM `json:"identity,omitempty"`
 
 	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
@@ -189,7 +189,7 @@ type KeyVaultProperties_STATUSARM struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-type UserAssignedIdentityProperties_STATUSARM struct {
+type UserAssignedIdentityProperties_STATUS_ARM struct {
 	// UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

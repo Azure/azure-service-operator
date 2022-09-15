@@ -28,7 +28,7 @@ import (
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTables_Spec  `json:"spec,omitempty"`
+	Spec              RouteTable_Spec   `json:"spec,omitempty"`
 	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
@@ -255,10 +255,10 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *v20201101s.Rou
 	table.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec RouteTables_Spec
-	err := spec.AssignProperties_From_RouteTables_Spec(&source.Spec)
+	var spec RouteTable_Spec
+	err := spec.AssignProperties_From_RouteTable_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTable_Spec() to populate field Spec")
 	}
 	table.Spec = spec
 
@@ -281,10 +281,10 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *v20201101s.
 	destination.ObjectMeta = *table.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201101s.RouteTables_Spec
-	err := table.Spec.AssignProperties_To_RouteTables_Spec(&spec)
+	var spec v20201101s.RouteTable_Spec
+	err := table.Spec.AssignProperties_To_RouteTable_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -316,6 +316,245 @@ type RouteTableList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTable `json:"items"`
 }
+
+type RouteTable_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
+	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &RouteTable_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if table == nil {
+		return nil, nil
+	}
+	result := &RouteTable_Spec_ARM{}
+
+	// Set property ‘Location’:
+	if table.Location != nil {
+		location := *table.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if table.DisableBgpRoutePropagation != nil {
+		result.Properties = &RouteTable_Properties_Spec_ARM{}
+	}
+	if table.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
+		result.Properties.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	}
+
+	// Set property ‘Tags’:
+	if table.Tags != nil {
+		result.Tags = make(map[string]string, len(table.Tags))
+		for key, value := range table.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (table *RouteTable_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTable_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTable_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	table.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DisableBgpRoutePropagation’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableBgpRoutePropagation != nil {
+			disableBgpRoutePropagation := *typedInput.Properties.DisableBgpRoutePropagation
+			table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		table.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	table.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		table.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			table.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
+
+// ConvertSpecFrom populates our RouteTable_Spec from the provided source
+func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201101s.RouteTable_Spec)
+	if ok {
+		// Populate our instance from source
+		return table.AssignProperties_From_RouteTable_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.RouteTable_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = table.AssignProperties_From_RouteTable_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our RouteTable_Spec
+func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201101s.RouteTable_Spec)
+	if ok {
+		// Populate destination from our instance
+		return table.AssignProperties_To_RouteTable_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.RouteTable_Spec{}
+	err := table.AssignProperties_To_RouteTable_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
+func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v20201101s.RouteTable_Spec) error {
+
+	// AzureName
+	table.AzureName = source.AzureName
+
+	// DisableBgpRoutePropagation
+	if source.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
+		table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	} else {
+		table.DisableBgpRoutePropagation = nil
+	}
+
+	// Location
+	table.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		table.Owner = &owner
+	} else {
+		table.Owner = nil
+	}
+
+	// Tags
+	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
+func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v20201101s.RouteTable_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = table.AzureName
+
+	// DisableBgpRoutePropagation
+	if table.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
+		destination.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	} else {
+		destination.DisableBgpRoutePropagation = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(table.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = table.OriginalVersion()
+
+	// Owner
+	if table.Owner != nil {
+		owner := table.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(table.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (table *RouteTable_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (table *RouteTable_Spec) SetAzureName(azureName string) { table.AzureName = azureName }
 
 type RouteTable_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -403,14 +642,14 @@ var _ genruntime.FromARMConverter = &RouteTable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (table *RouteTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_STATUSARM{}
+	return &RouteTable_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_STATUSARM)
+	typedInput, ok := armInput.(RouteTable_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -586,245 +825,6 @@ func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destinatio
 	// No error
 	return nil
 }
-
-type RouteTables_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
-	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RouteTables_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (tables *RouteTables_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if tables == nil {
-		return nil, nil
-	}
-	result := &RouteTables_SpecARM{}
-
-	// Set property ‘Location’:
-	if tables.Location != nil {
-		location := *tables.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if tables.DisableBgpRoutePropagation != nil {
-		result.Properties = &RouteTables_Spec_PropertiesARM{}
-	}
-	if tables.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *tables.DisableBgpRoutePropagation
-		result.Properties.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	}
-
-	// Set property ‘Tags’:
-	if tables.Tags != nil {
-		result.Tags = make(map[string]string, len(tables.Tags))
-		for key, value := range tables.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (tables *RouteTables_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTables_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (tables *RouteTables_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTables_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	tables.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘DisableBgpRoutePropagation’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableBgpRoutePropagation != nil {
-			disableBgpRoutePropagation := *typedInput.Properties.DisableBgpRoutePropagation
-			tables.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		tables.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	tables.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		tables.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			tables.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &RouteTables_Spec{}
-
-// ConvertSpecFrom populates our RouteTables_Spec from the provided source
-func (tables *RouteTables_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201101s.RouteTables_Spec)
-	if ok {
-		// Populate our instance from source
-		return tables.AssignProperties_From_RouteTables_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.RouteTables_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = tables.AssignProperties_From_RouteTables_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our RouteTables_Spec
-func (tables *RouteTables_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201101s.RouteTables_Spec)
-	if ok {
-		// Populate destination from our instance
-		return tables.AssignProperties_To_RouteTables_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.RouteTables_Spec{}
-	err := tables.AssignProperties_To_RouteTables_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_RouteTables_Spec populates our RouteTables_Spec from the provided source RouteTables_Spec
-func (tables *RouteTables_Spec) AssignProperties_From_RouteTables_Spec(source *v20201101s.RouteTables_Spec) error {
-
-	// AzureName
-	tables.AzureName = source.AzureName
-
-	// DisableBgpRoutePropagation
-	if source.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
-		tables.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		tables.DisableBgpRoutePropagation = nil
-	}
-
-	// Location
-	tables.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		tables.Owner = &owner
-	} else {
-		tables.Owner = nil
-	}
-
-	// Tags
-	tables.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RouteTables_Spec populates the provided destination RouteTables_Spec from our RouteTables_Spec
-func (tables *RouteTables_Spec) AssignProperties_To_RouteTables_Spec(destination *v20201101s.RouteTables_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = tables.AzureName
-
-	// DisableBgpRoutePropagation
-	if tables.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *tables.DisableBgpRoutePropagation
-		destination.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		destination.DisableBgpRoutePropagation = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(tables.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = tables.OriginalVersion()
-
-	// Owner
-	if tables.Owner != nil {
-		owner := tables.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(tables.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (tables *RouteTables_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (tables *RouteTables_Spec) SetAzureName(azureName string) { tables.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})

@@ -162,7 +162,7 @@ func UserAssignedIdentityGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForUserAssignedIdentity is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUserAssignedIdentity(gens map[string]gopter.Gen) {
-	gens["Spec"] = UserAssignedIdentities_SpecGenerator()
+	gens["Spec"] = UserAssignedIdentity_SpecGenerator()
 	gens["Status"] = Identity_STATUSGenerator()
 }
 
@@ -275,32 +275,32 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_UserAssignedIdentities_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_UserAssignedIdentity_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from UserAssignedIdentities_Spec to UserAssignedIdentities_Spec via AssignProperties_To_UserAssignedIdentities_Spec & AssignProperties_From_UserAssignedIdentities_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentities_Spec, UserAssignedIdentities_SpecGenerator()))
+		"Round trip from UserAssignedIdentity_Spec to UserAssignedIdentity_Spec via AssignProperties_To_UserAssignedIdentity_Spec & AssignProperties_From_UserAssignedIdentity_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentity_Spec, UserAssignedIdentity_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentities_Spec tests if a specific instance of UserAssignedIdentities_Spec can be assigned to v1alpha1api20181130storage and back losslessly
-func RunPropertyAssignmentTestForUserAssignedIdentities_Spec(subject UserAssignedIdentities_Spec) string {
+// RunPropertyAssignmentTestForUserAssignedIdentity_Spec tests if a specific instance of UserAssignedIdentity_Spec can be assigned to v1alpha1api20181130storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentity_Spec(subject UserAssignedIdentity_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20181130s.UserAssignedIdentities_Spec
-	err := copied.AssignProperties_To_UserAssignedIdentities_Spec(&other)
+	var other alpha20181130s.UserAssignedIdentity_Spec
+	err := copied.AssignProperties_To_UserAssignedIdentity_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UserAssignedIdentities_Spec
-	err = actual.AssignProperties_From_UserAssignedIdentities_Spec(&other)
+	var actual UserAssignedIdentity_Spec
+	err = actual.AssignProperties_From_UserAssignedIdentity_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -317,20 +317,20 @@ func RunPropertyAssignmentTestForUserAssignedIdentities_Spec(subject UserAssigne
 	return ""
 }
 
-func Test_UserAssignedIdentities_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserAssignedIdentities_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentities_Spec, UserAssignedIdentities_SpecGenerator()))
+		"Round trip of UserAssignedIdentity_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_Spec, UserAssignedIdentity_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentities_Spec runs a test to see if a specific instance of UserAssignedIdentities_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentities_Spec(subject UserAssignedIdentities_Spec) string {
+// RunJSONSerializationTestForUserAssignedIdentity_Spec runs a test to see if a specific instance of UserAssignedIdentity_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentity_Spec(subject UserAssignedIdentity_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -338,7 +338,7 @@ func RunJSONSerializationTestForUserAssignedIdentities_Spec(subject UserAssigned
 	}
 
 	// Deserialize back into memory
-	var actual UserAssignedIdentities_Spec
+	var actual UserAssignedIdentity_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -356,25 +356,25 @@ func RunJSONSerializationTestForUserAssignedIdentities_Spec(subject UserAssigned
 	return ""
 }
 
-// Generator of UserAssignedIdentities_Spec instances for property testing - lazily instantiated by
-// UserAssignedIdentities_SpecGenerator()
-var userAssignedIdentities_SpecGenerator gopter.Gen
+// Generator of UserAssignedIdentity_Spec instances for property testing - lazily instantiated by
+// UserAssignedIdentity_SpecGenerator()
+var userAssignedIdentity_SpecGenerator gopter.Gen
 
-// UserAssignedIdentities_SpecGenerator returns a generator of UserAssignedIdentities_Spec instances for property testing.
-func UserAssignedIdentities_SpecGenerator() gopter.Gen {
-	if userAssignedIdentities_SpecGenerator != nil {
-		return userAssignedIdentities_SpecGenerator
+// UserAssignedIdentity_SpecGenerator returns a generator of UserAssignedIdentity_Spec instances for property testing.
+func UserAssignedIdentity_SpecGenerator() gopter.Gen {
+	if userAssignedIdentity_SpecGenerator != nil {
+		return userAssignedIdentity_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentities_Spec(generators)
-	userAssignedIdentities_SpecGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentities_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec(generators)
+	userAssignedIdentity_SpecGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_Spec{}), generators)
 
-	return userAssignedIdentities_SpecGenerator
+	return userAssignedIdentity_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentities_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentities_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

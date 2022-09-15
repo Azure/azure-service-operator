@@ -32,7 +32,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	// Create a dummy managed identity which we will assign to a role
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentities_Spec{
+		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -48,7 +48,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
-		Spec: authorization.RoleAssignments_Spec{
+		Spec: authorization.RoleAssignment_Spec{
 			Location:    tc.AzureRegion,
 			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: mi.Status.PrincipalId,
@@ -84,7 +84,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	// Create a dummy managed identity which we will assign to a role
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentities_Spec{
+		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -96,11 +96,11 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccounts_Spec_Kind_BlobStorage
+	kind := storage.StorageAccount_Kind_Spec_BlobStorage
 	sku := storage.Sku_Name_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
@@ -119,7 +119,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
-		Spec: authorization.RoleAssignments_Spec{
+		Spec: authorization.RoleAssignment_Spec{
 			Location:    tc.AzureRegion,
 			Owner:       tc.AsExtensionOwner(acct),
 			PrincipalId: mi.Status.PrincipalId,

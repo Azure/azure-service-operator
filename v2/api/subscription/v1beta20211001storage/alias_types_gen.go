@@ -26,7 +26,7 @@ import (
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Aliases_Spec                     `json:"spec,omitempty"`
+	Spec              Alias_Spec                       `json:"spec,omitempty"`
 	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
 }
 
@@ -124,8 +124,8 @@ type AliasList struct {
 	Items           []Alias `json:"items"`
 }
 
-// Storage version of v1beta20211001.Aliases_Spec
-type Aliases_Spec struct {
+// Storage version of v1beta20211001.Alias_Spec
+type Alias_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                     `json:"azureName,omitempty"`
@@ -134,24 +134,24 @@ type Aliases_Spec struct {
 	PropertyBag     genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Aliases_Spec{}
+var _ genruntime.ConvertibleSpec = &Alias_Spec{}
 
-// ConvertSpecFrom populates our Aliases_Spec from the provided source
-func (aliases *Aliases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == aliases {
+// ConvertSpecFrom populates our Alias_Spec from the provided source
+func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == alias {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(aliases)
+	return source.ConvertSpecTo(alias)
 }
 
-// ConvertSpecTo populates the provided destination from our Aliases_Spec
-func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == aliases {
+// ConvertSpecTo populates the provided destination from our Alias_Spec
+func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == alias {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(aliases)
+	return destination.ConvertSpecFrom(alias)
 }
 
 // Storage version of v1beta20211001.APIVersion

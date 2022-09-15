@@ -23,18 +23,18 @@ func Test_FuzzySetSubnets(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	vnet := &network.VirtualNetworks_SpecARM{
+	vnet := &network.VirtualNetwork_Spec_ARM{
 		Location: to.StringPtr("westus"),
-		Properties: &network.VirtualNetworks_Spec_PropertiesARM{
+		Properties: &network.VirtualNetwork_Properties_Spec_ARM{
 			EnableDdosProtection: to.BoolPtr(true),
 		},
 	}
 
-	subnet := &network.VirtualNetworks_Subnets_SpecARM{
+	subnet := &network.VirtualNetworks_Subnet_Spec_ARM{
 		Name: "mysubnet",
-		Properties: &network.VirtualNetworks_Subnets_Spec_PropertiesARM{
+		Properties: &network.VirtualNetworks_Subnet_Properties_Spec_ARM{
 			AddressPrefix: to.StringPtr("1.2.3.4"),
-			NatGateway: &network.SubResourceARM{
+			NatGateway: &network.SubResource_ARM{
 				Id: to.StringPtr("/this/is/a/test"),
 			},
 		},
@@ -57,14 +57,14 @@ func Test_FuzzySetSubnets(t *testing.T) {
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.VirtualNetworks_Spec_Properties_SubnetsARM{})
+	embeddedType := reflect.TypeOf(network.VirtualNetwork_Properties_Subnets_Spec_ARM{})
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworks_Subnets_SpecARM) bool {
+			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) bool {
 				val := reflect.New(embeddedType)
 				err := fuzzySetSubnet(subnet, val)
 

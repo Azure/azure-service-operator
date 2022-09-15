@@ -26,8 +26,8 @@ import (
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_FederatedIdentityCredentials_Spec `json:"spec,omitempty"`
-	Status            FederatedIdentityCredential_STATUS                       `json:"status,omitempty"`
+	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec `json:"spec,omitempty"`
+	Status            FederatedIdentityCredential_STATUS                      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FederatedIdentityCredential{}
@@ -167,8 +167,8 @@ func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destinatio
 	return destination.ConvertStatusFrom(credential)
 }
 
-// Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredentials_Spec
-type UserAssignedIdentities_FederatedIdentityCredentials_Spec struct {
+// Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec
+type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	Audiences []string `json:"audiences,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -186,24 +186,24 @@ type UserAssignedIdentities_FederatedIdentityCredentials_Spec struct {
 	Subject     *string                            `json:"subject,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredentials_Spec{}
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
 
-// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredentials_Spec from the provided source
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == credentials {
+// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(credentials)
+	return source.ConvertSpecTo(credential)
 }
 
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredentials_Spec
-func (credentials *UserAssignedIdentities_FederatedIdentityCredentials_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == credentials {
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(credentials)
+	return destination.ConvertSpecFrom(credential)
 }
 
 func init() {

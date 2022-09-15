@@ -29,13 +29,13 @@ func newVirtualMachine20220301(
 
 	return &compute2022.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute2022.VirtualMachines_Spec{
+		Spec: compute2022.VirtualMachine_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			HardwareProfile: &compute2022.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute2022.VirtualMachines_Spec_Properties_OsProfile{
+			OsProfile: &compute2022.VirtualMachine_Properties_OsProfile_Spec{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -50,8 +50,8 @@ func newVirtualMachine20220301(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2022.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute2022.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
+			NetworkProfile: &compute2022.VirtualMachine_Properties_NetworkProfile_Spec{
+				NetworkInterfaces: []compute2022.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{{
 					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},

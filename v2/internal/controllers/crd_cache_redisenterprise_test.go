@@ -89,7 +89,7 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterprise_Databases_Spec{
+		Spec: cache.RedisEnterprise_Database_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,
@@ -117,7 +117,7 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	database.Spec.Persistence.AofFrequency = &oneSecond
 	tc.PatchResourceAndWait(old, &database)
 
-	oneSecondStatus := cache.Persistence_STATUS_AofFrequency_1S
+	oneSecondStatus := cache.Persistence_AofFrequency_STATUS_1S
 	expectedPersistenceStatus := &cache.Persistence_STATUS{
 		AofEnabled:   to.BoolPtr(true),
 		AofFrequency: &oneSecondStatus,

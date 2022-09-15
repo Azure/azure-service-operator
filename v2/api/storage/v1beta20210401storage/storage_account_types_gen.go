@@ -26,7 +26,7 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_Spec  `json:"spec,omitempty"`
+	Spec              StorageAccount_Spec   `json:"spec,omitempty"`
 	Status            StorageAccount_STATUS `json:"status,omitempty"`
 }
 
@@ -135,6 +135,67 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01")
 
+// Storage version of v1beta20210401.StorageAccount_Spec
+type StorageAccount_Spec struct {
+	AccessTier                            *string                                `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                  `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                  `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName            string                      `json:"azureName,omitempty"`
+	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
+	Encryption           *Encryption                 `json:"encryption,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	Identity             *Identity                   `json:"identity,omitempty"`
+	IsHnsEnabled         *bool                       `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled       *bool                       `json:"isNfsV3Enabled,omitempty"`
+	KeyPolicy            *KeyPolicy                  `json:"keyPolicy,omitempty"`
+	Kind                 *string                     `json:"kind,omitempty"`
+	LargeFileSharesState *string                     `json:"largeFileSharesState,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
+	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RoutingPreference        *RoutingPreference                 `json:"routingPreference,omitempty"`
+	SasPolicy                *SasPolicy                         `json:"sasPolicy,omitempty"`
+	Sku                      *Sku                               `json:"sku,omitempty"`
+	SupportsHttpsTrafficOnly *bool                              `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccount_Spec{}
+
+// ConvertSpecFrom populates our StorageAccount_Spec from the provided source
+func (account *StorageAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccount_Spec
+func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 // Storage version of v1beta20210401.StorageAccount_STATUS
 type StorageAccount_STATUS struct {
 	AccessTier                            *string                                                `json:"accessTier,omitempty"`
@@ -198,67 +259,6 @@ func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.Con
 	}
 
 	return destination.ConvertStatusFrom(account)
-}
-
-// Storage version of v1beta20210401.StorageAccounts_Spec
-type StorageAccounts_Spec struct {
-	AccessTier                            *string                                `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                  `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                  `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName            string                      `json:"azureName,omitempty"`
-	CustomDomain         *CustomDomain               `json:"customDomain,omitempty"`
-	Encryption           *Encryption                 `json:"encryption,omitempty"`
-	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
-	Identity             *Identity                   `json:"identity,omitempty"`
-	IsHnsEnabled         *bool                       `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled       *bool                       `json:"isNfsV3Enabled,omitempty"`
-	KeyPolicy            *KeyPolicy                  `json:"keyPolicy,omitempty"`
-	Kind                 *string                     `json:"kind,omitempty"`
-	LargeFileSharesState *string                     `json:"largeFileSharesState,omitempty"`
-	Location             *string                     `json:"location,omitempty"`
-	MinimumTlsVersion    *string                     `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls          *NetworkRuleSet             `json:"networkAcls,omitempty"`
-	OperatorSpec         *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion      string                      `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	RoutingPreference        *RoutingPreference                 `json:"routingPreference,omitempty"`
-	SasPolicy                *SasPolicy                         `json:"sasPolicy,omitempty"`
-	Sku                      *Sku                               `json:"sku,omitempty"`
-	SupportsHttpsTrafficOnly *bool                              `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                     map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &StorageAccounts_Spec{}
-
-// ConvertSpecFrom populates our StorageAccounts_Spec from the provided source
-func (accounts *StorageAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(accounts)
-}
-
-// ConvertSpecTo populates the provided destination from our StorageAccounts_Spec
-func (accounts *StorageAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(accounts)
 }
 
 // Storage version of v1beta20210401.AzureFilesIdentityBasedAuthentication

@@ -160,8 +160,132 @@ func BatchAccountGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBatchAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccount(gens map[string]gopter.Gen) {
-	gens["Spec"] = BatchAccounts_SpecGenerator()
+	gens["Spec"] = BatchAccount_SpecGenerator()
 	gens["Status"] = BatchAccount_STATUSGenerator()
+}
+
+func Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from BatchAccount_Spec to BatchAccount_Spec via AssignProperties_To_BatchAccount_Spec & AssignProperties_From_BatchAccount_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBatchAccount_Spec, BatchAccount_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForBatchAccount_Spec tests if a specific instance of BatchAccount_Spec can be assigned to v1beta20210101storage and back losslessly
+func RunPropertyAssignmentTestForBatchAccount_Spec(subject BatchAccount_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210101s.BatchAccount_Spec
+	err := copied.AssignProperties_To_BatchAccount_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual BatchAccount_Spec
+	err = actual.AssignProperties_From_BatchAccount_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_BatchAccount_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BatchAccount_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccount_Spec, BatchAccount_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBatchAccount_Spec runs a test to see if a specific instance of BatchAccount_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccount_Spec(subject BatchAccount_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BatchAccount_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BatchAccount_Spec instances for property testing - lazily instantiated by BatchAccount_SpecGenerator()
+var batchAccount_SpecGenerator gopter.Gen
+
+// BatchAccount_SpecGenerator returns a generator of BatchAccount_Spec instances for property testing.
+// We first initialize batchAccount_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func BatchAccount_SpecGenerator() gopter.Gen {
+	if batchAccount_SpecGenerator != nil {
+		return batchAccount_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccount_Spec(generators)
+	batchAccount_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccount_Spec(generators)
+	AddRelatedPropertyGeneratorsForBatchAccount_Spec(generators)
+	batchAccount_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Spec{}), generators)
+
+	return batchAccount_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBatchAccount_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForBatchAccount_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen) {
+	gens["AutoStorage"] = gen.PtrOf(AutoStorageBasePropertiesGenerator())
+	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
+	gens["Identity"] = gen.PtrOf(BatchAccountIdentityGenerator())
+	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReferenceGenerator())
 }
 
 func Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -297,130 +421,6 @@ func AddRelatedPropertyGeneratorsForBatchAccount_STATUS(gens map[string]gopter.G
 	gens["Identity"] = gen.PtrOf(BatchAccountIdentity_STATUSGenerator())
 	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReference_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-}
-
-func Test_BatchAccounts_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BatchAccounts_Spec to BatchAccounts_Spec via AssignProperties_To_BatchAccounts_Spec & AssignProperties_From_BatchAccounts_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBatchAccounts_Spec, BatchAccounts_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForBatchAccounts_Spec tests if a specific instance of BatchAccounts_Spec can be assigned to v1beta20210101storage and back losslessly
-func RunPropertyAssignmentTestForBatchAccounts_Spec(subject BatchAccounts_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101s.BatchAccounts_Spec
-	err := copied.AssignProperties_To_BatchAccounts_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BatchAccounts_Spec
-	err = actual.AssignProperties_From_BatchAccounts_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_BatchAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BatchAccounts_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccounts_Spec, BatchAccounts_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBatchAccounts_Spec runs a test to see if a specific instance of BatchAccounts_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccounts_Spec(subject BatchAccounts_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BatchAccounts_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BatchAccounts_Spec instances for property testing - lazily instantiated by BatchAccounts_SpecGenerator()
-var batchAccounts_SpecGenerator gopter.Gen
-
-// BatchAccounts_SpecGenerator returns a generator of BatchAccounts_Spec instances for property testing.
-// We first initialize batchAccounts_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BatchAccounts_SpecGenerator() gopter.Gen {
-	if batchAccounts_SpecGenerator != nil {
-		return batchAccounts_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccounts_Spec(generators)
-	batchAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccounts_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccounts_Spec(generators)
-	AddRelatedPropertyGeneratorsForBatchAccounts_Spec(generators)
-	batchAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(BatchAccounts_Spec{}), generators)
-
-	return batchAccounts_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBatchAccounts_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccounts_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBatchAccounts_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBatchAccounts_Spec(gens map[string]gopter.Gen) {
-	gens["AutoStorage"] = gen.PtrOf(AutoStorageBasePropertiesGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
-	gens["Identity"] = gen.PtrOf(BatchAccountIdentityGenerator())
-	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReferenceGenerator())
 }
 
 func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -843,7 +843,7 @@ func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS(gens map[str
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1512,32 +1512,32 @@ func AddIndependentPropertyGeneratorsForVirtualMachineFamilyCoreQuota_STATUS(gen
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_BatchAccountIdentity_STATUS_UserAssignedIdentities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BatchAccountIdentity_STATUS_UserAssignedIdentities to BatchAccountIdentity_STATUS_UserAssignedIdentities via AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities & AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBatchAccountIdentity_STATUS_UserAssignedIdentities, BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator()))
+		"Round trip from BatchAccountIdentity_UserAssignedIdentities_STATUS to BatchAccountIdentity_UserAssignedIdentities_STATUS via AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS & AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS, BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccountIdentity_STATUS_UserAssignedIdentities tests if a specific instance of BatchAccountIdentity_STATUS_UserAssignedIdentities can be assigned to v1beta20210101storage and back losslessly
-func RunPropertyAssignmentTestForBatchAccountIdentity_STATUS_UserAssignedIdentities(subject BatchAccountIdentity_STATUS_UserAssignedIdentities) string {
+// RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS tests if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS can be assigned to v1beta20210101storage and back losslessly
+func RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS(subject BatchAccountIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101s.BatchAccountIdentity_STATUS_UserAssignedIdentities
-	err := copied.AssignProperties_To_BatchAccountIdentity_STATUS_UserAssignedIdentities(&other)
+	var other v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS
+	err := copied.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BatchAccountIdentity_STATUS_UserAssignedIdentities
-	err = actual.AssignProperties_From_BatchAccountIdentity_STATUS_UserAssignedIdentities(&other)
+	var actual BatchAccountIdentity_UserAssignedIdentities_STATUS
+	err = actual.AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1554,20 +1554,20 @@ func RunPropertyAssignmentTestForBatchAccountIdentity_STATUS_UserAssignedIdentit
 	return ""
 }
 
-func Test_BatchAccountIdentity_STATUS_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BatchAccountIdentity_STATUS_UserAssignedIdentities via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_STATUS_UserAssignedIdentities, BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator()))
+		"Round trip of BatchAccountIdentity_UserAssignedIdentities_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS, BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBatchAccountIdentity_STATUS_UserAssignedIdentities runs a test to see if a specific instance of BatchAccountIdentity_STATUS_UserAssignedIdentities round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccountIdentity_STATUS_UserAssignedIdentities(subject BatchAccountIdentity_STATUS_UserAssignedIdentities) string {
+// RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS(subject BatchAccountIdentity_UserAssignedIdentities_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1575,7 +1575,7 @@ func RunJSONSerializationTestForBatchAccountIdentity_STATUS_UserAssignedIdentiti
 	}
 
 	// Deserialize back into memory
-	var actual BatchAccountIdentity_STATUS_UserAssignedIdentities
+	var actual BatchAccountIdentity_UserAssignedIdentities_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1593,25 +1593,25 @@ func RunJSONSerializationTestForBatchAccountIdentity_STATUS_UserAssignedIdentiti
 	return ""
 }
 
-// Generator of BatchAccountIdentity_STATUS_UserAssignedIdentities instances for property testing - lazily instantiated
-// by BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator()
-var batchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator gopter.Gen
+// Generator of BatchAccountIdentity_UserAssignedIdentities_STATUS instances for property testing - lazily instantiated
+// by BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator()
+var batchAccountIdentity_UserAssignedIdentities_STATUSGenerator gopter.Gen
 
-// BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator returns a generator of BatchAccountIdentity_STATUS_UserAssignedIdentities instances for property testing.
-func BatchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator() gopter.Gen {
-	if batchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator != nil {
-		return batchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator
+// BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator returns a generator of BatchAccountIdentity_UserAssignedIdentities_STATUS instances for property testing.
+func BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
+	if batchAccountIdentity_UserAssignedIdentities_STATUSGenerator != nil {
+		return batchAccountIdentity_UserAssignedIdentities_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS_UserAssignedIdentities(generators)
-	batchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_STATUS_UserAssignedIdentities{}), generators)
+	AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS(generators)
+	batchAccountIdentity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_UserAssignedIdentities_STATUS{}), generators)
 
-	return batchAccountIdentity_STATUS_UserAssignedIdentitiesGenerator
+	return batchAccountIdentity_UserAssignedIdentities_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS_UserAssignedIdentities is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS_UserAssignedIdentities(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }

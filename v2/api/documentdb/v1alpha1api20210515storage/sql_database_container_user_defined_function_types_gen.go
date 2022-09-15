@@ -25,8 +25,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_STATUS                            `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec `json:"spec,omitempty"`
+	Status            SqlUserDefinedFunctionGetResults_STATUS                           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -136,10 +136,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	function.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(&source.Spec)
+	var spec DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec() to populate field Spec")
 	}
 	function.Spec = spec
 
@@ -162,10 +162,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	destination.ObjectMeta = *function.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-	err := function.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(&spec)
+	var spec v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+	err := function.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -199,8 +199,8 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec struct {
+// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -218,25 +218,25 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec from the provided source
-func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec)
 	if ok {
 		// Populate our instance from source
-		return functions.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(src)
+		return function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = functions.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(src)
+	err = function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -244,17 +244,17 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec)
 	if ok {
 		// Populate destination from our instance
-		return functions.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(dst)
+		return function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec{}
-	err := functions.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{}
+	err := function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -268,16 +268,16 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	functions.AzureName = source.AzureName
+	function.AzureName = source.AzureName
 
 	// Location
-	functions.Location = genruntime.ClonePointerToString(source.Location)
+	function.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -286,20 +286,20 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
-		functions.Options = &option
+		function.Options = &option
 	} else {
-		functions.Options = nil
+		function.Options = nil
 	}
 
 	// OriginalVersion
-	functions.OriginalVersion = source.OriginalVersion
+	function.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		functions.Owner = &owner
+		function.Owner = &owner
 	} else {
-		functions.Owner = nil
+		function.Owner = nil
 	}
 
 	// Resource
@@ -309,40 +309,40 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionResource() to populate field Resource")
 		}
-		functions.Resource = &resource
+		function.Resource = &resource
 	} else {
-		functions.Resource = nil
+		function.Resource = nil
 	}
 
 	// Tags
-	functions.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		functions.PropertyBag = propertyBag
+		function.PropertyBag = propertyBag
 	} else {
-		functions.PropertyBag = nil
+		function.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec
-func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(functions.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(function.PropertyBag)
 
 	// AzureName
-	destination.AzureName = functions.AzureName
+	destination.AzureName = function.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(functions.Location)
+	destination.Location = genruntime.ClonePointerToString(function.Location)
 
 	// Options
-	if functions.Options != nil {
+	if function.Options != nil {
 		var option v20210515s.CreateUpdateOptions
-		err := functions.Options.AssignProperties_To_CreateUpdateOptions(&option)
+		err := function.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
@@ -352,20 +352,20 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = functions.OriginalVersion
+	destination.OriginalVersion = function.OriginalVersion
 
 	// Owner
-	if functions.Owner != nil {
-		owner := functions.Owner.Copy()
+	if function.Owner != nil {
+		owner := function.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Resource
-	if functions.Resource != nil {
+	if function.Resource != nil {
 		var resource v20210515s.SqlUserDefinedFunctionResource
-		err := functions.Resource.AssignProperties_To_SqlUserDefinedFunctionResource(&resource)
+		err := function.Resource.AssignProperties_To_SqlUserDefinedFunctionResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionResource() to populate field Resource")
 		}
@@ -375,7 +375,7 @@ func (functions *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_S
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(functions.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(function.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -396,7 +396,7 @@ type SqlUserDefinedFunctionGetResults_STATUS struct {
 	Location    *string                                              `json:"location,omitempty"`
 	Name        *string                                              `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlUserDefinedFunctionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                    `json:"tags,omitempty"`
 	Type        *string                                              `json:"type,omitempty"`
 }
@@ -470,10 +470,10 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_From_Sq
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -516,10 +516,10 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlU
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -543,9 +543,9 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlU
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource
-// Deprecated version of SqlUserDefinedFunctionGetProperties_STATUS_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource instead
-type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Resource_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS instead
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -554,8 +554,8 @@ type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
-// AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource populates our SqlUserDefinedFunctionGetProperties_STATUS_Resource from the provided source SqlUserDefinedFunctionGetProperties_STATUS_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource(source *v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates our SqlUserDefinedFunctionGetProperties_Resource_STATUS from the provided source SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -590,8 +590,8 @@ func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignPrope
 	return nil
 }
 
-// AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource populates the provided destination SqlUserDefinedFunctionGetProperties_STATUS_Resource from our SqlUserDefinedFunctionGetProperties_STATUS_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource(destination *v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates the provided destination SqlUserDefinedFunctionGetProperties_Resource_STATUS from our SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(destination *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

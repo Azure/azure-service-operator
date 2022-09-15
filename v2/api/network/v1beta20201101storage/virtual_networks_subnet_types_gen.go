@@ -26,7 +26,7 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_Subnets_Spec                             `json:"spec,omitempty"`
+	Spec              VirtualNetworks_Subnet_Spec                              `json:"spec,omitempty"`
 	Status            Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -178,19 +178,19 @@ func (embedded *Subnet_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) Conver
 	return destination.ConvertStatusFrom(embedded)
 }
 
-// Storage version of v1beta20201101.VirtualNetworks_Subnets_Spec
-type VirtualNetworks_Subnets_Spec struct {
+// Storage version of v1beta20201101.VirtualNetworks_Subnet_Spec
+type VirtualNetworks_Subnet_Spec struct {
 	AddressPrefix   *string  `json:"addressPrefix,omitempty"`
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                                                `json:"azureName,omitempty"`
-	Delegations          []VirtualNetworks_Subnets_Spec_Properties_Delegations `json:"delegations,omitempty"`
-	IpAllocations        []SubResource                                         `json:"ipAllocations,omitempty"`
-	NatGateway           *SubResource                                          `json:"natGateway,omitempty"`
-	NetworkSecurityGroup *SubResource                                          `json:"networkSecurityGroup,omitempty"`
-	OriginalVersion      string                                                `json:"originalVersion,omitempty"`
+	AzureName            string                                               `json:"azureName,omitempty"`
+	Delegations          []VirtualNetworks_Subnet_Properties_Delegations_Spec `json:"delegations,omitempty"`
+	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
+	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
+	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
+	OriginalVersion      string                                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -205,24 +205,24 @@ type VirtualNetworks_Subnets_Spec struct {
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormat  `json:"serviceEndpoints,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_Subnets_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworks_Subnet_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworks_Subnets_Spec from the provided source
-func (subnets *VirtualNetworks_Subnets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == subnets {
+// ConvertSpecFrom populates our VirtualNetworks_Subnet_Spec from the provided source
+func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(subnets)
+	return source.ConvertSpecTo(subnet)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_Subnets_Spec
-func (subnets *VirtualNetworks_Subnets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == subnets {
+// ConvertSpecTo populates the provided destination from our VirtualNetworks_Subnet_Spec
+func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(subnets)
+	return destination.ConvertSpecFrom(subnet)
 }
 
 // Storage version of v1beta20201101.ApplicationGatewayIPConfiguration_STATUS
@@ -338,8 +338,8 @@ type ServiceEndpointPropertiesFormat_STATUS struct {
 	Service           *string                `json:"service,omitempty"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworks_Subnets_Spec_Properties_Delegations
-type VirtualNetworks_Subnets_Spec_Properties_Delegations struct {
+// Storage version of v1beta20201101.VirtualNetworks_Subnet_Properties_Delegations_Spec
+type VirtualNetworks_Subnet_Properties_Delegations_Spec struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServiceName *string                `json:"serviceName,omitempty"`

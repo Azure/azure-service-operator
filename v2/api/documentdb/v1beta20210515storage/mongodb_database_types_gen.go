@@ -26,8 +26,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabases_Spec `json:"spec,omitempty"`
-	Status            MongoDBDatabaseGetResults_STATUS       `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabase_Spec `json:"spec,omitempty"`
+	Status            MongoDBDatabaseGetResults_STATUS      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -129,8 +129,8 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_Spec
-type DatabaseAccounts_MongodbDatabases_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabase_Spec
+type DatabaseAccounts_MongodbDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -148,24 +148,24 @@ type DatabaseAccounts_MongodbDatabases_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Spec from the provided source
-func (databases *DatabaseAccounts_MongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source
+func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databases)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Spec
-func (databases *DatabaseAccounts_MongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_Spec
+func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databases)
+	return destination.ConvertSpecFrom(database)
 }
 
 // Storage version of v1beta20210515.MongoDBDatabaseGetResults_STATUS
@@ -176,7 +176,7 @@ type MongoDBDatabaseGetResults_STATUS struct {
 	Name        *string                                       `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                       `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *MongoDBDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                             `json:"tags,omitempty"`
 	Type        *string                                       `json:"type,omitempty"`
 }
@@ -209,8 +209,8 @@ type CreateUpdateOptions struct {
 	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
-// Storage version of v1beta20210515.MongoDBDatabaseGetProperties_STATUS_Resource
-type MongoDBDatabaseGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS
+type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

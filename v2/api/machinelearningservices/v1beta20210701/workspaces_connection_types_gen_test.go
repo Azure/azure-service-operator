@@ -161,7 +161,7 @@ func WorkspacesConnectionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWorkspacesConnection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesConnection(gens map[string]gopter.Gen) {
-	gens["Spec"] = Workspaces_Connections_SpecGenerator()
+	gens["Spec"] = Workspaces_Connection_SpecGenerator()
 	gens["Status"] = WorkspaceConnection_STATUSGenerator()
 }
 
@@ -272,35 +272,35 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUS(gens map[stri
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_STATUS_ValueFormat_JSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_STATUS_JSON))
 }
 
-func Test_Workspaces_Connections_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Workspaces_Connection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Workspaces_Connections_Spec to Workspaces_Connections_Spec via AssignProperties_To_Workspaces_Connections_Spec & AssignProperties_From_Workspaces_Connections_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Connections_Spec, Workspaces_Connections_SpecGenerator()))
+		"Round trip from Workspaces_Connection_Spec to Workspaces_Connection_Spec via AssignProperties_To_Workspaces_Connection_Spec & AssignProperties_From_Workspaces_Connection_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Connection_Spec, Workspaces_Connection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaces_Connections_Spec tests if a specific instance of Workspaces_Connections_Spec can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_Connections_Spec(subject Workspaces_Connections_Spec) string {
+// RunPropertyAssignmentTestForWorkspaces_Connection_Spec tests if a specific instance of Workspaces_Connection_Spec can be assigned to v1beta20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaces_Connection_Spec(subject Workspaces_Connection_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Connections_Spec
-	err := copied.AssignProperties_To_Workspaces_Connections_Spec(&other)
+	var other v20210701s.Workspaces_Connection_Spec
+	err := copied.AssignProperties_To_Workspaces_Connection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_Connections_Spec
-	err = actual.AssignProperties_From_Workspaces_Connections_Spec(&other)
+	var actual Workspaces_Connection_Spec
+	err = actual.AssignProperties_From_Workspaces_Connection_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -317,20 +317,20 @@ func RunPropertyAssignmentTestForWorkspaces_Connections_Spec(subject Workspaces_
 	return ""
 }
 
-func Test_Workspaces_Connections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Workspaces_Connection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Workspaces_Connections_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_Connections_Spec, Workspaces_Connections_SpecGenerator()))
+		"Round trip of Workspaces_Connection_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaces_Connection_Spec, Workspaces_Connection_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaces_Connections_Spec runs a test to see if a specific instance of Workspaces_Connections_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_Connections_Spec(subject Workspaces_Connections_Spec) string {
+// RunJSONSerializationTestForWorkspaces_Connection_Spec runs a test to see if a specific instance of Workspaces_Connection_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaces_Connection_Spec(subject Workspaces_Connection_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -338,7 +338,7 @@ func RunJSONSerializationTestForWorkspaces_Connections_Spec(subject Workspaces_C
 	}
 
 	// Deserialize back into memory
-	var actual Workspaces_Connections_Spec
+	var actual Workspaces_Connection_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -356,25 +356,25 @@ func RunJSONSerializationTestForWorkspaces_Connections_Spec(subject Workspaces_C
 	return ""
 }
 
-// Generator of Workspaces_Connections_Spec instances for property testing - lazily instantiated by
-// Workspaces_Connections_SpecGenerator()
-var workspaces_Connections_SpecGenerator gopter.Gen
+// Generator of Workspaces_Connection_Spec instances for property testing - lazily instantiated by
+// Workspaces_Connection_SpecGenerator()
+var workspaces_Connection_SpecGenerator gopter.Gen
 
-// Workspaces_Connections_SpecGenerator returns a generator of Workspaces_Connections_Spec instances for property testing.
-func Workspaces_Connections_SpecGenerator() gopter.Gen {
-	if workspaces_Connections_SpecGenerator != nil {
-		return workspaces_Connections_SpecGenerator
+// Workspaces_Connection_SpecGenerator returns a generator of Workspaces_Connection_Spec instances for property testing.
+func Workspaces_Connection_SpecGenerator() gopter.Gen {
+	if workspaces_Connection_SpecGenerator != nil {
+		return workspaces_Connection_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec(generators)
-	workspaces_Connections_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Connections_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaces_Connection_Spec(generators)
+	workspaces_Connection_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Connection_Spec{}), generators)
 
-	return workspaces_Connections_SpecGenerator
+	return workspaces_Connection_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaces_Connection_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaces_Connection_Spec(gens map[string]gopter.Gen) {
 	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Category"] = gen.PtrOf(gen.AlphaString())

@@ -46,11 +46,11 @@
 | SignalRSkuTier_STATUS                                        | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
+| SignalR_Kind_Spec                                            | v1alpha1api20211001 | v1beta20211001 |
 | SignalR_Spec                                                 | v1alpha1api20211001 | v1beta20211001 |
-| SignalR_Spec_Kind                                            | v1alpha1api20211001 | v1beta20211001 |
+| SystemData_CreatedByType_STATUS                              | v1alpha1api20211001 | v1beta20211001 |
+| SystemData_LastModifiedByType_STATUS                         | v1alpha1api20211001 | v1beta20211001 |
 | SystemData_STATUS                                            | v1alpha1api20211001 | v1beta20211001 |
-| SystemData_STATUS_CreatedByType                              | v1alpha1api20211001 | v1beta20211001 |
-| SystemData_STATUS_LastModifiedByType                         | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthSettings                                         | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthSettings_STATUS                                  | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthSettings_Type                                    | v1alpha1api20211001 | v1beta20211001 |

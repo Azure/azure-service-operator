@@ -3,13 +3,13 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type EHNamespace_STATUSARM struct {
+type EHNamespace_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Properties of BYOK Identity description
-	Identity *Identity_STATUSARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -18,13 +18,13 @@ type EHNamespace_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Namespace properties supplied for create namespace operation.
-	Properties *EHNamespace_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *EHNamespace_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: Properties of sku resource
-	Sku *Sku_STATUSARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -33,7 +33,7 @@ type EHNamespace_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type EHNamespace_STATUS_PropertiesARM struct {
+type EHNamespace_Properties_STATUS_ARM struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 
@@ -47,7 +47,7 @@ type EHNamespace_STATUS_PropertiesARM struct {
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_STATUSARM `json:"encryption,omitempty"`
+	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
 
 	// IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
@@ -63,7 +63,7 @@ type EHNamespace_STATUS_PropertiesARM struct {
 	MetricId *string `json:"metricId,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the Namespace.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -81,7 +81,7 @@ type EHNamespace_STATUS_PropertiesARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type Identity_STATUSARM struct {
+type Identity_STATUS_ARM struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -89,70 +89,70 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
+	Type *Identity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Properties for User Assigned Identities
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Sku_STATUSARM struct {
+type Sku_STATUS_ARM struct {
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
 	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-	Name *Sku_STATUS_Name `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type Encryption_STATUSARM struct {
+type Encryption_STATUS_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_STATUS_KeySource `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties []KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 
 	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-type Identity_STATUS_Type string
+type Identity_Type_STATUS string
 
 const (
-	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
-	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
-	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
-	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
-type Sku_STATUS_Name string
+type Sku_Name_STATUS string
 
 const (
-	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
-	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
-	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
+	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
-type Sku_STATUS_Tier string
+type Sku_Tier_STATUS string
 
 const (
-	Sku_STATUS_Tier_Basic    = Sku_STATUS_Tier("Basic")
-	Sku_STATUS_Tier_Premium  = Sku_STATUS_Tier("Premium")
-	Sku_STATUS_Tier_Standard = Sku_STATUS_Tier("Standard")
+	Sku_Tier_STATUS_Basic    = Sku_Tier_STATUS("Basic")
+	Sku_Tier_STATUS_Premium  = Sku_Tier_STATUS("Premium")
+	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
 )
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -160,12 +160,12 @@ type UserAssignedIdentity_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type Encryption_STATUS_KeySource string
+type Encryption_KeySource_STATUS string
 
-const Encryption_STATUS_KeySource_MicrosoftKeyVault = Encryption_STATUS_KeySource("Microsoft.KeyVault")
+const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
-type KeyVaultProperties_STATUSARM struct {
-	Identity *UserAssignedIdentityProperties_STATUSARM `json:"identity,omitempty"`
+type KeyVaultProperties_STATUS_ARM struct {
+	Identity *UserAssignedIdentityProperties_STATUS_ARM `json:"identity,omitempty"`
 
 	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
@@ -177,7 +177,7 @@ type KeyVaultProperties_STATUSARM struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-type UserAssignedIdentityProperties_STATUSARM struct {
+type UserAssignedIdentityProperties_STATUS_ARM struct {
 	// UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

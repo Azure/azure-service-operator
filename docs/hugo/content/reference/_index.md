@@ -15,6 +15,12 @@ grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 
 
+## Appconfiguration
+
+| Resource           | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                             |
+|--------------------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| ConfigurationStore | 2022-05-01  | v1beta20220501 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/appconfiguration/v1beta/v1beta20220501_configurationstore.yaml) |
+
 ## Authorization
 
 | Resource                                                                                                                                                                               | ARM Version        | CRD Version                | Supported From | Sample                                                                                                                                                       |
@@ -153,6 +159,7 @@ grouped by the originating ARM service.
 | [SqlDatabaseContainerUserDefinedFunction](https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction)       | 2021-05-15  | v1alpha1api20210515 | v2.0.0-alpha.2 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontaineruserdefinedfunction.yaml) |
 | [SqlDatabaseThroughputSetting](https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseThroughputSetting)                                       | 2021-05-15  | v1beta20210515      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasethroughputsetting.yaml)                      |
 | [SqlDatabaseThroughputSetting](https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseThroughputSetting)                             | 2021-05-15  | v1alpha1api20210515 | v2.0.0-alpha.2 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasethroughputsetting.yaml)            |
+| [SqlRoleAssignment](https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlRoleAssignment)                                                             | 2021-05-15  | v1beta20210515      | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqlroleassignment.yaml)                                 |
 
 ## Eventgrid
 
@@ -207,11 +214,11 @@ grouped by the originating ARM service.
 
 ## Managedidentity
 
-| Resource                                                                                                                                                                                                   | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                                                            |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [FederatedIdentityCredential](https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20220131preview/#managedidentity.azure.com/v1beta20220131preview.FederatedIdentityCredential) | 2022-01-31-preview | v1beta20220131preview | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20220131preview_federatedidentitycredential.yaml) |
-| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity)                             | 2018-11-30         | v1beta20181130        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)               |
-| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity)                   | 2018-11-30         | v1alpha1api20181130   | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml)     |
+| Resource                                                                                                                                                                                 | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                                                            |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FederatedIdentityCredential                                                                                                                                                              | 2022-01-31-preview | v1beta20220131preview | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20220131preview_federatedidentitycredential.yaml) |
+| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity)           | 2018-11-30         | v1beta20181130        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)               |
+| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity) | 2018-11-30         | v1alpha1api20181130   | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml)     |
 
 ## Network
 

@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                 `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
+	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -255,10 +255,10 @@ func (container *SqlDatabaseContainer) AssignProperties_From_SqlDatabaseContaine
 	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(&source.Spec)
+	var spec DatabaseAccounts_SqlDatabases_Container_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec() to populate field Spec")
 	}
 	container.Spec = spec
 
@@ -281,10 +281,10 @@ func (container *SqlDatabaseContainer) AssignProperties_To_SqlDatabaseContainer(
 	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec
-	err := container.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(&spec)
+	var spec v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec
+	err := container.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -317,7 +317,7 @@ type SqlDatabaseContainerList struct {
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-type DatabaseAccounts_SqlDatabases_Containers_Spec struct {
+type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -347,18 +347,18 @@ type DatabaseAccounts_SqlDatabases_Containers_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlDatabases_Containers_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlDatabases_Container_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if containers == nil {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if container == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_SqlDatabases_Containers_SpecARM{}
+	result := &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 
 	// Set property ‘Location’:
-	if containers.Location != nil {
-		location := *containers.Location
+	if container.Location != nil {
+		location := *container.Location
 		result.Location = &location
 	}
 
@@ -366,30 +366,30 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertToARM(re
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if containers.Options != nil || containers.Resource != nil {
-		result.Properties = &SqlContainerCreateUpdatePropertiesARM{}
+	if container.Options != nil || container.Resource != nil {
+		result.Properties = &SqlContainerCreateUpdateProperties_ARM{}
 	}
-	if containers.Options != nil {
-		optionsARM, err := (*containers.Options).ConvertToARM(resolved)
+	if container.Options != nil {
+		options_ARM, err := (*container.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *optionsARM.(*CreateUpdateOptionsARM)
+		options := *options_ARM.(*CreateUpdateOptions_ARM)
 		result.Properties.Options = &options
 	}
-	if containers.Resource != nil {
-		resourceARM, err := (*containers.Resource).ConvertToARM(resolved)
+	if container.Resource != nil {
+		resource_ARM, err := (*container.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resourceARM.(*SqlContainerResourceARM)
+		resource := *resource_ARM.(*SqlContainerResource_ARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
-	if containers.Tags != nil {
-		result.Tags = make(map[string]string, len(containers.Tags))
-		for key, value := range containers.Tags {
+	if container.Tags != nil {
+		result.Tags = make(map[string]string, len(container.Tags))
+		for key, value := range container.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -397,24 +397,24 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertToARM(re
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_SpecARM{}
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Containers_SpecARM)
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Container_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Container_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	containers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		containers.Location = &location
+		container.Location = &location
 	}
 
 	// Set property ‘Options’:
@@ -427,12 +427,12 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) PopulateFromARM
 				return err
 			}
 			options := options1
-			containers.Options = &options
+			container.Options = &options
 		}
 	}
 
 	// Set property ‘Owner’:
-	containers.Owner = &genruntime.KnownResourceReference{
+	container.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -446,15 +446,15 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) PopulateFromARM
 				return err
 			}
 			resource := resource1
-			containers.Resource = &resource
+			container.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		containers.Tags = make(map[string]string, len(typedInput.Tags))
+		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			containers.Tags[key] = value
+			container.Tags[key] = value
 		}
 	}
 
@@ -462,25 +462,25 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) PopulateFromARM
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Container_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Spec from the provided source
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec)
 	if ok {
 		// Populate our instance from source
-		return containers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(src)
+		return container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = containers.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(src)
+	err = container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -488,17 +488,17 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecFrom
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec)
 	if ok {
 		// Populate destination from our instance
-		return containers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(dst)
+		return container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec{}
-	err := containers.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec{}
+	err := container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -512,14 +512,14 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) ConvertSpecTo(d
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec populates our DatabaseAccounts_SqlDatabases_Containers_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_Spec(source *v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec) error {
 
 	// AzureName
-	containers.AzureName = source.AzureName
+	container.AzureName = source.AzureName
 
 	// Location
-	containers.Location = genruntime.ClonePointerToString(source.Location)
+	container.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -528,17 +528,17 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CreateUpdateOptions() to populate field Options")
 		}
-		containers.Options = &option
+		container.Options = &option
 	} else {
-		containers.Options = nil
+		container.Options = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		containers.Owner = &owner
+		container.Owner = &owner
 	} else {
-		containers.Owner = nil
+		container.Owner = nil
 	}
 
 	// Resource
@@ -548,33 +548,33 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerResource() to populate field Resource")
 		}
-		containers.Resource = &resource
+		container.Resource = &resource
 	} else {
-		containers.Resource = nil
+		container.Resource = nil
 	}
 
 	// Tags
-	containers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Spec from our DatabaseAccounts_SqlDatabases_Containers_Spec
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Spec) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Container_Spec from our DatabaseAccounts_SqlDatabases_Container_Spec
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Container_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = containers.AzureName
+	destination.AzureName = container.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(containers.Location)
+	destination.Location = genruntime.ClonePointerToString(container.Location)
 
 	// Options
-	if containers.Options != nil {
+	if container.Options != nil {
 		var option v20210515s.CreateUpdateOptions
-		err := containers.Options.AssignProperties_To_CreateUpdateOptions(&option)
+		err := container.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
 		}
@@ -584,20 +584,20 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = containers.OriginalVersion()
+	destination.OriginalVersion = container.OriginalVersion()
 
 	// Owner
-	if containers.Owner != nil {
-		owner := containers.Owner.Copy()
+	if container.Owner != nil {
+		owner := container.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Resource
-	if containers.Resource != nil {
+	if container.Resource != nil {
 		var resource v20210515s.SqlContainerResource
-		err := containers.Resource.AssignProperties_To_SqlContainerResource(&resource)
+		err := container.Resource.AssignProperties_To_SqlContainerResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerResource() to populate field Resource")
 		}
@@ -607,7 +607,7 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -621,13 +621,13 @@ func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) AssignPropertie
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) OriginalVersion() string {
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (containers *DatabaseAccounts_SqlDatabases_Containers_Spec) SetAzureName(azureName string) {
-	containers.AzureName = azureName
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) SetAzureName(azureName string) {
+	container.AzureName = azureName
 }
 
 type SqlContainerGetResults_STATUS struct {
@@ -643,7 +643,7 @@ type SqlContainerGetResults_STATUS struct {
 	// Name: The name of the ARM resource.
 	Name     *string                                    `json:"name,omitempty"`
 	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
@@ -704,14 +704,14 @@ var _ genruntime.FromARMConverter = &SqlContainerGetResults_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (results *SqlContainerGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerGetResults_STATUSARM{}
+	return &SqlContainerGetResults_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerGetResults_STATUSARM)
+	typedInput, ok := armInput.(SqlContainerGetResults_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetResults_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetResults_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -752,7 +752,7 @@ func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 SqlContainerGetProperties_STATUS_Resource
+			var resource1 SqlContainerGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -809,10 +809,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlContainerGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlContainerGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlContainerGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlContainerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -860,10 +860,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlContainerGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -887,7 +887,7 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	return nil
 }
 
-type SqlContainerGetProperties_STATUS_Resource struct {
+type SqlContainerGetProperties_Resource_STATUS struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -921,18 +921,18 @@ type SqlContainerGetProperties_STATUS_Resource struct {
 	UniqueKeyPolicy *UniqueKeyPolicy_STATUS `json:"uniqueKeyPolicy,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SqlContainerGetProperties_STATUS_Resource{}
+var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlContainerGetProperties_STATUS_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerGetProperties_STATUS_ResourceARM{}
+func (resource *SqlContainerGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerGetProperties_Resource_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlContainerGetProperties_STATUS_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerGetProperties_STATUS_ResourceARM)
+func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerGetProperties_Resource_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_STATUS_ResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -1019,8 +1019,8 @@ func (resource *SqlContainerGetProperties_STATUS_Resource) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_SqlContainerGetProperties_STATUS_Resource populates our SqlContainerGetProperties_STATUS_Resource from the provided source SqlContainerGetProperties_STATUS_Resource
-func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_From_SqlContainerGetProperties_STATUS_Resource(source *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlContainerGetProperties_Resource_STATUS populates our SqlContainerGetProperties_Resource_STATUS from the provided source SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_From_SqlContainerGetProperties_Resource_STATUS(source *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1097,8 +1097,8 @@ func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_SqlContainerGetProperties_STATUS_Resource populates the provided destination SqlContainerGetProperties_STATUS_Resource from our SqlContainerGetProperties_STATUS_Resource
-func (resource *SqlContainerGetProperties_STATUS_Resource) AssignProperties_To_SqlContainerGetProperties_STATUS_Resource(destination *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlContainerGetProperties_Resource_STATUS populates the provided destination SqlContainerGetProperties_Resource_STATUS from our SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(destination *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1217,7 +1217,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SqlContainerResourceARM{}
+	result := &SqlContainerResource_ARM{}
 
 	// Set property ‘AnalyticalStorageTtl’:
 	if resource.AnalyticalStorageTtl != nil {
@@ -1227,11 +1227,11 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘ConflictResolutionPolicy’:
 	if resource.ConflictResolutionPolicy != nil {
-		conflictResolutionPolicyARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
+		conflictResolutionPolicy_ARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		conflictResolutionPolicy := *conflictResolutionPolicyARM.(*ConflictResolutionPolicyARM)
+		conflictResolutionPolicy := *conflictResolutionPolicy_ARM.(*ConflictResolutionPolicy_ARM)
 		result.ConflictResolutionPolicy = &conflictResolutionPolicy
 	}
 
@@ -1249,31 +1249,31 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘IndexingPolicy’:
 	if resource.IndexingPolicy != nil {
-		indexingPolicyARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
+		indexingPolicy_ARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		indexingPolicy := *indexingPolicyARM.(*IndexingPolicyARM)
+		indexingPolicy := *indexingPolicy_ARM.(*IndexingPolicy_ARM)
 		result.IndexingPolicy = &indexingPolicy
 	}
 
 	// Set property ‘PartitionKey’:
 	if resource.PartitionKey != nil {
-		partitionKeyARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
+		partitionKey_ARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		partitionKey := *partitionKeyARM.(*ContainerPartitionKeyARM)
+		partitionKey := *partitionKey_ARM.(*ContainerPartitionKey_ARM)
 		result.PartitionKey = &partitionKey
 	}
 
 	// Set property ‘UniqueKeyPolicy’:
 	if resource.UniqueKeyPolicy != nil {
-		uniqueKeyPolicyARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
+		uniqueKeyPolicy_ARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		uniqueKeyPolicy := *uniqueKeyPolicyARM.(*UniqueKeyPolicyARM)
+		uniqueKeyPolicy := *uniqueKeyPolicy_ARM.(*UniqueKeyPolicy_ARM)
 		result.UniqueKeyPolicy = &uniqueKeyPolicy
 	}
 	return result, nil
@@ -1281,14 +1281,14 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlContainerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerResourceARM{}
+	return &SqlContainerResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerResourceARM)
+	typedInput, ok := armInput.(SqlContainerResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResource_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -1513,7 +1513,7 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ConflictResolutionPolicyARM{}
+	result := &ConflictResolutionPolicy_ARM{}
 
 	// Set property ‘ConflictResolutionPath’:
 	if policy.ConflictResolutionPath != nil {
@@ -1537,14 +1537,14 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ConflictResolutionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConflictResolutionPolicyARM{}
+	return &ConflictResolutionPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ConflictResolutionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConflictResolutionPolicyARM)
+	typedInput, ok := armInput.(ConflictResolutionPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConflictResolutionPath’:
@@ -1628,21 +1628,21 @@ type ConflictResolutionPolicy_STATUS struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_STATUS_Mode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ConflictResolutionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConflictResolutionPolicy_STATUSARM{}
+	return &ConflictResolutionPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ConflictResolutionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConflictResolutionPolicy_STATUSARM)
+	typedInput, ok := armInput.(ConflictResolutionPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConflictResolutionPath’:
@@ -1678,7 +1678,7 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignProperties_From_ConflictRes
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicy_STATUS_Mode(*source.Mode)
+		mode := ConflictResolutionPolicy_Mode_STATUS(*source.Mode)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -1740,7 +1740,7 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 	if partitionKey == nil {
 		return nil, nil
 	}
-	result := &ContainerPartitionKeyARM{}
+	result := &ContainerPartitionKey_ARM{}
 
 	// Set property ‘Kind’:
 	if partitionKey.Kind != nil {
@@ -1763,14 +1763,14 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (partitionKey *ContainerPartitionKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerPartitionKeyARM{}
+	return &ContainerPartitionKey_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerPartitionKeyARM)
+	typedInput, ok := armInput.(ContainerPartitionKey_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKeyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Kind’:
@@ -1858,7 +1858,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 type ContainerPartitionKey_STATUS struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
-	Kind *ContainerPartitionKey_STATUS_Kind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -1874,14 +1874,14 @@ var _ genruntime.FromARMConverter = &ContainerPartitionKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (partitionKey *ContainerPartitionKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerPartitionKey_STATUSARM{}
+	return &ContainerPartitionKey_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (partitionKey *ContainerPartitionKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerPartitionKey_STATUSARM)
+	typedInput, ok := armInput.(ContainerPartitionKey_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Kind’:
@@ -1916,7 +1916,7 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignProperties_From_Containe
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKey_STATUS_Kind(*source.Kind)
+		kind := ContainerPartitionKey_Kind_STATUS(*source.Kind)
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -2006,7 +2006,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if policy == nil {
 		return nil, nil
 	}
-	result := &IndexingPolicyARM{}
+	result := &IndexingPolicy_ARM{}
 
 	// Set property ‘Automatic’:
 	if policy.Automatic != nil {
@@ -2016,33 +2016,33 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘CompositeIndexes’:
 	for _, item := range policy.CompositeIndexes {
-		var itemTemp []CompositePathARM
+		var itemTemp []CompositePath_ARM
 		for _, item1 := range item {
-			item1ARM, err := item1.ConvertToARM(resolved)
+			item1_ARM, err := item1.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, *item1ARM.(*CompositePathARM))
+			itemTemp = append(itemTemp, *item1_ARM.(*CompositePath_ARM))
 		}
 		result.CompositeIndexes = append(result.CompositeIndexes, itemTemp)
 	}
 
 	// Set property ‘ExcludedPaths’:
 	for _, item := range policy.ExcludedPaths {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.ExcludedPaths = append(result.ExcludedPaths, *itemARM.(*ExcludedPathARM))
+		result.ExcludedPaths = append(result.ExcludedPaths, *item_ARM.(*ExcludedPath_ARM))
 	}
 
 	// Set property ‘IncludedPaths’:
 	for _, item := range policy.IncludedPaths {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.IncludedPaths = append(result.IncludedPaths, *itemARM.(*IncludedPathARM))
+		result.IncludedPaths = append(result.IncludedPaths, *item_ARM.(*IncludedPath_ARM))
 	}
 
 	// Set property ‘IndexingMode’:
@@ -2053,25 +2053,25 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘SpatialIndexes’:
 	for _, item := range policy.SpatialIndexes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.SpatialIndexes = append(result.SpatialIndexes, *itemARM.(*SpatialSpecARM))
+		result.SpatialIndexes = append(result.SpatialIndexes, *item_ARM.(*SpatialSpec_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *IndexingPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IndexingPolicyARM{}
+	return &IndexingPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IndexingPolicyARM)
+	typedInput, ok := armInput.(IndexingPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Automatic’:
@@ -2367,7 +2367,7 @@ type IndexingPolicy_STATUS struct {
 	IncludedPaths []IncludedPath_STATUS `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_STATUS_IndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_STATUS `json:"spatialIndexes,omitempty"`
@@ -2377,14 +2377,14 @@ var _ genruntime.FromARMConverter = &IndexingPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *IndexingPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IndexingPolicy_STATUSARM{}
+	return &IndexingPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IndexingPolicy_STATUSARM)
+	typedInput, ok := armInput.(IndexingPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Automatic’:
@@ -2524,7 +2524,7 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicy_STATUS_IndexingMode(*source.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode_STATUS(*source.IndexingMode)
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -2680,29 +2680,29 @@ func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if policy == nil {
 		return nil, nil
 	}
-	result := &UniqueKeyPolicyARM{}
+	result := &UniqueKeyPolicy_ARM{}
 
 	// Set property ‘UniqueKeys’:
 	for _, item := range policy.UniqueKeys {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.UniqueKeys = append(result.UniqueKeys, *itemARM.(*UniqueKeyARM))
+		result.UniqueKeys = append(result.UniqueKeys, *item_ARM.(*UniqueKey_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *UniqueKeyPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKeyPolicyARM{}
+	return &UniqueKeyPolicy_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *UniqueKeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKeyPolicyARM)
+	typedInput, ok := armInput.(UniqueKeyPolicy_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_ARM, got %T", armInput)
 	}
 
 	// Set property ‘UniqueKeys’:
@@ -2788,14 +2788,14 @@ var _ genruntime.FromARMConverter = &UniqueKeyPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *UniqueKeyPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKeyPolicy_STATUSARM{}
+	return &UniqueKeyPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *UniqueKeyPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKeyPolicy_STATUSARM)
+	typedInput, ok := armInput.(UniqueKeyPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘UniqueKeys’:
@@ -2888,7 +2888,7 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if path == nil {
 		return nil, nil
 	}
-	result := &CompositePathARM{}
+	result := &CompositePath_ARM{}
 
 	// Set property ‘Order’:
 	if path.Order != nil {
@@ -2906,14 +2906,14 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *CompositePath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompositePathARM{}
+	return &CompositePath_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *CompositePath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompositePathARM)
+	typedInput, ok := armInput.(CompositePath_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Order’:
@@ -2979,7 +2979,7 @@ func (path *CompositePath) AssignProperties_To_CompositePath(destination *v20210
 
 type CompositePath_STATUS struct {
 	// Order: Sort order for composite paths.
-	Order *CompositePath_STATUS_Order `json:"order,omitempty"`
+	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -2990,14 +2990,14 @@ var _ genruntime.FromARMConverter = &CompositePath_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *CompositePath_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompositePath_STATUSARM{}
+	return &CompositePath_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *CompositePath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompositePath_STATUSARM)
+	typedInput, ok := armInput.(CompositePath_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Order’:
@@ -3021,7 +3021,7 @@ func (path *CompositePath_STATUS) AssignProperties_From_CompositePath_STATUS(sou
 
 	// Order
 	if source.Order != nil {
-		order := CompositePath_STATUS_Order(*source.Order)
+		order := CompositePath_Order_STATUS(*source.Order)
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -3075,7 +3075,7 @@ func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if path == nil {
 		return nil, nil
 	}
-	result := &ExcludedPathARM{}
+	result := &ExcludedPath_ARM{}
 
 	// Set property ‘Path’:
 	if path.Path != nil {
@@ -3087,14 +3087,14 @@ func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *ExcludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExcludedPathARM{}
+	return &ExcludedPath_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *ExcludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExcludedPathARM)
+	typedInput, ok := armInput.(ExcludedPath_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3146,14 +3146,14 @@ var _ genruntime.FromARMConverter = &ExcludedPath_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *ExcludedPath_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExcludedPath_STATUSARM{}
+	return &ExcludedPath_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *ExcludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExcludedPath_STATUSARM)
+	typedInput, ok := armInput.(ExcludedPath_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3212,15 +3212,15 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if path == nil {
 		return nil, nil
 	}
-	result := &IncludedPathARM{}
+	result := &IncludedPath_ARM{}
 
 	// Set property ‘Indexes’:
 	for _, item := range path.Indexes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Indexes = append(result.Indexes, *itemARM.(*IndexesARM))
+		result.Indexes = append(result.Indexes, *item_ARM.(*Indexes_ARM))
 	}
 
 	// Set property ‘Path’:
@@ -3233,14 +3233,14 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *IncludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IncludedPathARM{}
+	return &IncludedPath_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IncludedPathARM)
+	typedInput, ok := armInput.(IncludedPath_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Indexes’:
@@ -3341,14 +3341,14 @@ var _ genruntime.FromARMConverter = &IncludedPath_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (path *IncludedPath_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IncludedPath_STATUSARM{}
+	return &IncludedPath_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (path *IncludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IncludedPath_STATUSARM)
+	typedInput, ok := armInput.(IncludedPath_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Indexes’:
@@ -3453,7 +3453,7 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if spatial == nil {
 		return nil, nil
 	}
-	result := &SpatialSpecARM{}
+	result := &SpatialSpec_ARM{}
 
 	// Set property ‘Path’:
 	if spatial.Path != nil {
@@ -3470,14 +3470,14 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (spatial *SpatialSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SpatialSpecARM{}
+	return &SpatialSpec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (spatial *SpatialSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SpatialSpecARM)
+	typedInput, ok := armInput.(SpatialSpec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3563,14 +3563,14 @@ var _ genruntime.FromARMConverter = &SpatialSpec_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (spatial *SpatialSpec_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SpatialSpec_STATUSARM{}
+	return &SpatialSpec_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (spatial *SpatialSpec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SpatialSpec_STATUSARM)
+	typedInput, ok := armInput.(SpatialSpec_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3656,7 +3656,7 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if uniqueKey == nil {
 		return nil, nil
 	}
-	result := &UniqueKeyARM{}
+	result := &UniqueKey_ARM{}
 
 	// Set property ‘Paths’:
 	for _, item := range uniqueKey.Paths {
@@ -3667,14 +3667,14 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (uniqueKey *UniqueKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKeyARM{}
+	return &UniqueKey_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (uniqueKey *UniqueKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKeyARM)
+	typedInput, ok := armInput.(UniqueKey_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Paths’:
@@ -3724,14 +3724,14 @@ var _ genruntime.FromARMConverter = &UniqueKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (uniqueKey *UniqueKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKey_STATUSARM{}
+	return &UniqueKey_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (uniqueKey *UniqueKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKey_STATUSARM)
+	typedInput, ok := armInput.(UniqueKey_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Paths’:
@@ -3791,7 +3791,7 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if indexes == nil {
 		return nil, nil
 	}
-	result := &IndexesARM{}
+	result := &Indexes_ARM{}
 
 	// Set property ‘DataType’:
 	if indexes.DataType != nil {
@@ -3815,14 +3815,14 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (indexes *Indexes) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IndexesARM{}
+	return &Indexes_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (indexes *Indexes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IndexesARM)
+	typedInput, ok := armInput.(Indexes_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataType’:
@@ -3910,10 +3910,10 @@ func (indexes *Indexes) AssignProperties_To_Indexes(destination *v20210515s.Inde
 
 type Indexes_STATUS struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_STATUS_DataType `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
-	Kind *Indexes_STATUS_Kind `json:"kind,omitempty"`
+	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -3923,14 +3923,14 @@ var _ genruntime.FromARMConverter = &Indexes_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (indexes *Indexes_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Indexes_STATUSARM{}
+	return &Indexes_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (indexes *Indexes_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Indexes_STATUSARM)
+	typedInput, ok := armInput.(Indexes_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DataType’:
@@ -3960,7 +3960,7 @@ func (indexes *Indexes_STATUS) AssignProperties_From_Indexes_STATUS(source *v202
 
 	// DataType
 	if source.DataType != nil {
-		dataType := Indexes_STATUS_DataType(*source.DataType)
+		dataType := Indexes_DataType_STATUS(*source.DataType)
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -3968,7 +3968,7 @@ func (indexes *Indexes_STATUS) AssignProperties_From_Indexes_STATUS(source *v202
 
 	// Kind
 	if source.Kind != nil {
-		kind := Indexes_STATUS_Kind(*source.Kind)
+		kind := Indexes_Kind_STATUS(*source.Kind)
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil

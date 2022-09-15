@@ -26,8 +26,8 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_ManagementPolicies_Spec `json:"spec,omitempty"`
-	Status            ManagementPolicy_STATUS                 `json:"status,omitempty"`
+	Spec              StorageAccounts_ManagementPolicy_Spec `json:"spec,omitempty"`
+	Status            ManagementPolicy_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -160,8 +160,8 @@ func (policy *ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(policy)
 }
 
-// Storage version of v1beta20210401.StorageAccounts_ManagementPolicies_Spec
-type StorageAccounts_ManagementPolicies_Spec struct {
+// Storage version of v1beta20210401.StorageAccounts_ManagementPolicy_Spec
+type StorageAccounts_ManagementPolicy_Spec struct {
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -174,24 +174,24 @@ type StorageAccounts_ManagementPolicies_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicies_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicy_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_ManagementPolicies_Spec from the provided source
-func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policies {
+// ConvertSpecFrom populates our StorageAccounts_ManagementPolicy_Spec from the provided source
+func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(policies)
+	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicies_Spec
-func (policies *StorageAccounts_ManagementPolicies_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policies {
+// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(policies)
+	return destination.ConvertSpecFrom(policy)
 }
 
 // Storage version of v1beta20210401.ManagementPolicySchema

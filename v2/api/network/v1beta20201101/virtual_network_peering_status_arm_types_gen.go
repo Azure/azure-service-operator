@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type VirtualNetworkPeering_STATUSARM struct {
+type VirtualNetworkPeering_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -14,13 +14,13 @@ type VirtualNetworkPeering_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
-	Properties *VirtualNetworkPeeringPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *VirtualNetworkPeeringPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
+type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
@@ -36,21 +36,21 @@ type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState `json:"peeringState,omitempty"`
+	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network peering resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
-	RemoteAddressSpace *AddressSpace_STATUSARM `json:"remoteAddressSpace,omitempty"`
+	RemoteAddressSpace *AddressSpace_STATUS_ARM `json:"remoteAddressSpace,omitempty"`
 
 	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities_STATUSARM `json:"remoteBgpCommunities,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities_STATUS_ARM `json:"remoteBgpCommunities,omitempty"`
 
 	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork *SubResource_STATUSARM `json:"remoteVirtualNetwork,omitempty"`
+	RemoteVirtualNetwork *SubResource_STATUS_ARM `json:"remoteVirtualNetwork,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -62,7 +62,7 @@ type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
 
-type VirtualNetworkBgpCommunities_STATUSARM struct {
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
 	// RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
 
@@ -70,10 +70,10 @@ type VirtualNetworkBgpCommunities_STATUSARM struct {
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
-type VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState string
+type VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS string
 
 const (
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Connected    = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Disconnected = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Initiated")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Connected    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Connected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Disconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Disconnected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Initiated")
 )

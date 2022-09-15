@@ -29,7 +29,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Other
 	component := &insights.Component{
 		ObjectMeta: tc.MakeObjectMeta("component"),
-		Spec: insights.Components_Spec{
+		Spec: insights.Component_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
@@ -78,7 +78,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	kind := insightswebtest.WebTestProperties_Kind_Standard
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
-		Spec: insightswebtest.Webtests_Spec{
+		Spec: insightswebtest.Webtest_Spec{
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
@@ -108,7 +108,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-	expectedKind := insightswebtest.WebTestProperties_STATUS_Kind_Standard
+	expectedKind := insightswebtest.WebTestProperties_Kind_STATUS_Standard
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())

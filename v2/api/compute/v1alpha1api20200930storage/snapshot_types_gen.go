@@ -27,7 +27,7 @@ import (
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Snapshots_Spec  `json:"spec,omitempty"`
+	Spec              Snapshot_Spec   `json:"spec,omitempty"`
 	Status            Snapshot_STATUS `json:"status,omitempty"`
 }
 
@@ -138,10 +138,10 @@ func (snapshot *Snapshot) AssignProperties_From_Snapshot(source *v20200930s.Snap
 	snapshot.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Snapshots_Spec
-	err := spec.AssignProperties_From_Snapshots_Spec(&source.Spec)
+	var spec Snapshot_Spec
+	err := spec.AssignProperties_From_Snapshot_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Snapshots_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Snapshot_Spec() to populate field Spec")
 	}
 	snapshot.Spec = spec
 
@@ -164,10 +164,10 @@ func (snapshot *Snapshot) AssignProperties_To_Snapshot(destination *v20200930s.S
 	destination.ObjectMeta = *snapshot.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200930s.Snapshots_Spec
-	err := snapshot.Spec.AssignProperties_To_Snapshots_Spec(&spec)
+	var spec v20200930s.Snapshot_Spec
+	err := snapshot.Spec.AssignProperties_To_Snapshot_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Snapshots_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Snapshot_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -199,6 +199,384 @@ type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Snapshot `json:"items"`
+}
+
+// Storage version of v1alpha1api20200930.Snapshot_Spec
+type Snapshot_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                    string                        `json:"azureName,omitempty"`
+	CreationData                 *CreationData                 `json:"creationData,omitempty"`
+	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
+	DiskState                    *string                       `json:"diskState,omitempty"`
+	Encryption                   *Encryption                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                         `json:"incremental,omitempty"`
+	Location                     *string                       `json:"location,omitempty"`
+	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OriginalVersion              string                        `json:"originalVersion,omitempty"`
+	OsType                       *string                       `json:"osType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *SnapshotSku                       `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Snapshot_Spec{}
+
+// ConvertSpecFrom populates our Snapshot_Spec from the provided source
+func (snapshot *Snapshot_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200930s.Snapshot_Spec)
+	if ok {
+		// Populate our instance from source
+		return snapshot.AssignProperties_From_Snapshot_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20200930s.Snapshot_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = snapshot.AssignProperties_From_Snapshot_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Snapshot_Spec
+func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200930s.Snapshot_Spec)
+	if ok {
+		// Populate destination from our instance
+		return snapshot.AssignProperties_To_Snapshot_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20200930s.Snapshot_Spec{}
+	err := snapshot.AssignProperties_To_Snapshot_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Snapshot_Spec populates our Snapshot_Spec from the provided source Snapshot_Spec
+func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v20200930s.Snapshot_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	snapshot.AzureName = source.AzureName
+
+	// CreationData
+	if source.CreationData != nil {
+		var creationDatum CreationData
+		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
+		}
+		snapshot.CreationData = &creationDatum
+	} else {
+		snapshot.CreationData = nil
+	}
+
+	// DiskAccessReference
+	if source.DiskAccessReference != nil {
+		diskAccessReference := source.DiskAccessReference.Copy()
+		snapshot.DiskAccessReference = &diskAccessReference
+	} else {
+		snapshot.DiskAccessReference = nil
+	}
+
+	// DiskSizeGB
+	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// DiskState
+	snapshot.DiskState = genruntime.ClonePointerToString(source.DiskState)
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption
+		err := encryption.AssignProperties_From_Encryption(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
+		}
+		snapshot.Encryption = &encryption
+	} else {
+		snapshot.Encryption = nil
+	}
+
+	// EncryptionSettingsCollection
+	if source.EncryptionSettingsCollection != nil {
+		var encryptionSettingsCollection EncryptionSettingsCollection
+		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection(source.EncryptionSettingsCollection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+		}
+		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
+	} else {
+		snapshot.EncryptionSettingsCollection = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocationStash alpha20210701s.ExtendedLocation
+		err := extendedLocationStash.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocationStashLocal alpha20201201s.ExtendedLocation
+		err = extendedLocationStashLocal.AssignProperties_From_ExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
+		}
+		var extendedLocation ExtendedLocation
+		err = extendedLocation.AssignProperties_From_ExtendedLocation(&extendedLocationStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		snapshot.ExtendedLocation = &extendedLocation
+	} else {
+		snapshot.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	snapshot.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
+
+	// Incremental
+	if source.Incremental != nil {
+		incremental := *source.Incremental
+		snapshot.Incremental = &incremental
+	} else {
+		snapshot.Incremental = nil
+	}
+
+	// Location
+	snapshot.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkAccessPolicy
+	snapshot.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
+
+	// OriginalVersion
+	snapshot.OriginalVersion = source.OriginalVersion
+
+	// OsType
+	snapshot.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		snapshot.Owner = &owner
+	} else {
+		snapshot.Owner = nil
+	}
+
+	// PurchasePlan
+	if source.PurchasePlan != nil {
+		var purchasePlan PurchasePlan
+		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
+		}
+		snapshot.PurchasePlan = &purchasePlan
+	} else {
+		snapshot.PurchasePlan = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku SnapshotSku
+		err := sku.AssignProperties_From_SnapshotSku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SnapshotSku() to populate field Sku")
+		}
+		snapshot.Sku = &sku
+	} else {
+		snapshot.Sku = nil
+	}
+
+	// Tags
+	snapshot.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		snapshot.PropertyBag = propertyBag
+	} else {
+		snapshot.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Snapshot_Spec populates the provided destination Snapshot_Spec from our Snapshot_Spec
+func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v20200930s.Snapshot_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(snapshot.PropertyBag)
+
+	// AzureName
+	destination.AzureName = snapshot.AzureName
+
+	// CreationData
+	if snapshot.CreationData != nil {
+		var creationDatum v20200930s.CreationData
+		err := snapshot.CreationData.AssignProperties_To_CreationData(&creationDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
+		}
+		destination.CreationData = &creationDatum
+	} else {
+		destination.CreationData = nil
+	}
+
+	// DiskAccessReference
+	if snapshot.DiskAccessReference != nil {
+		diskAccessReference := snapshot.DiskAccessReference.Copy()
+		destination.DiskAccessReference = &diskAccessReference
+	} else {
+		destination.DiskAccessReference = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
+
+	// DiskState
+	destination.DiskState = genruntime.ClonePointerToString(snapshot.DiskState)
+
+	// Encryption
+	if snapshot.Encryption != nil {
+		var encryption v20200930s.Encryption
+		err := snapshot.Encryption.AssignProperties_To_Encryption(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// EncryptionSettingsCollection
+	if snapshot.EncryptionSettingsCollection != nil {
+		var encryptionSettingsCollection v20200930s.EncryptionSettingsCollection
+		err := snapshot.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection(&encryptionSettingsCollection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
+		}
+		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
+	} else {
+		destination.EncryptionSettingsCollection = nil
+	}
+
+	// ExtendedLocation
+	if snapshot.ExtendedLocation != nil {
+		var extendedLocationStash alpha20201201s.ExtendedLocation
+		err := snapshot.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocationStashLocal alpha20210701s.ExtendedLocation
+		err = extendedLocationStash.AssignProperties_To_ExtendedLocation(&extendedLocationStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
+		}
+		var extendedLocation v20200930s.ExtendedLocation
+		err = extendedLocationStashLocal.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	destination.HyperVGeneration = genruntime.ClonePointerToString(snapshot.HyperVGeneration)
+
+	// Incremental
+	if snapshot.Incremental != nil {
+		incremental := *snapshot.Incremental
+		destination.Incremental = &incremental
+	} else {
+		destination.Incremental = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(snapshot.Location)
+
+	// NetworkAccessPolicy
+	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(snapshot.NetworkAccessPolicy)
+
+	// OriginalVersion
+	destination.OriginalVersion = snapshot.OriginalVersion
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(snapshot.OsType)
+
+	// Owner
+	if snapshot.Owner != nil {
+		owner := snapshot.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PurchasePlan
+	if snapshot.PurchasePlan != nil {
+		var purchasePlan v20200930s.PurchasePlan
+		err := snapshot.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
+		}
+		destination.PurchasePlan = &purchasePlan
+	} else {
+		destination.PurchasePlan = nil
+	}
+
+	// Sku
+	if snapshot.Sku != nil {
+		var sku v20200930s.SnapshotSku
+		err := snapshot.Sku.AssignProperties_To_SnapshotSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SnapshotSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(snapshot.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1alpha1api20200930.Snapshot_STATUS
@@ -339,18 +717,18 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash alpha20210701s.ExtendedLocation_STATUS
-		err := extendedLocation_STATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		var extendedLocationSTATUSStash alpha20210701s.ExtendedLocation_STATUS
+		err := extendedLocationSTATUSStash.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal alpha20201201s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStashLocal alpha20201201s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStashLocal.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation ExtendedLocation_STATUS
-		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		err = extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -496,18 +874,18 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 
 	// ExtendedLocation
 	if snapshot.ExtendedLocation != nil {
-		var extendedLocation_STATUSStash alpha20201201s.ExtendedLocation_STATUS
-		err := snapshot.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStash)
+		var extendedLocationSTATUSStash alpha20201201s.ExtendedLocation_STATUS
+		err := snapshot.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocation_STATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
+		var extendedLocationSTATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStash.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
 		var extendedLocation v20200930s.ExtendedLocation_STATUS
-		err = extendedLocation_STATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err = extendedLocationSTATUSStashLocal.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
@@ -583,384 +961,6 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 
 	// UniqueId
 	destination.UniqueId = genruntime.ClonePointerToString(snapshot.UniqueId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200930.Snapshots_Spec
-type Snapshots_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                    string                        `json:"azureName,omitempty"`
-	CreationData                 *CreationData                 `json:"creationData,omitempty"`
-	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
-	DiskState                    *string                       `json:"diskState,omitempty"`
-	Encryption                   *Encryption                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Incremental                  *bool                         `json:"incremental,omitempty"`
-	Location                     *string                       `json:"location,omitempty"`
-	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
-	OriginalVersion              string                        `json:"originalVersion,omitempty"`
-	OsType                       *string                       `json:"osType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	Sku          *SnapshotSku                       `json:"sku,omitempty"`
-	Tags         map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Snapshots_Spec{}
-
-// ConvertSpecFrom populates our Snapshots_Spec from the provided source
-func (snapshots *Snapshots_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200930s.Snapshots_Spec)
-	if ok {
-		// Populate our instance from source
-		return snapshots.AssignProperties_From_Snapshots_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20200930s.Snapshots_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = snapshots.AssignProperties_From_Snapshots_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Snapshots_Spec
-func (snapshots *Snapshots_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200930s.Snapshots_Spec)
-	if ok {
-		// Populate destination from our instance
-		return snapshots.AssignProperties_To_Snapshots_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20200930s.Snapshots_Spec{}
-	err := snapshots.AssignProperties_To_Snapshots_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Snapshots_Spec populates our Snapshots_Spec from the provided source Snapshots_Spec
-func (snapshots *Snapshots_Spec) AssignProperties_From_Snapshots_Spec(source *v20200930s.Snapshots_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	snapshots.AzureName = source.AzureName
-
-	// CreationData
-	if source.CreationData != nil {
-		var creationDatum CreationData
-		err := creationDatum.AssignProperties_From_CreationData(source.CreationData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CreationData() to populate field CreationData")
-		}
-		snapshots.CreationData = &creationDatum
-	} else {
-		snapshots.CreationData = nil
-	}
-
-	// DiskAccessReference
-	if source.DiskAccessReference != nil {
-		diskAccessReference := source.DiskAccessReference.Copy()
-		snapshots.DiskAccessReference = &diskAccessReference
-	} else {
-		snapshots.DiskAccessReference = nil
-	}
-
-	// DiskSizeGB
-	snapshots.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// DiskState
-	snapshots.DiskState = genruntime.ClonePointerToString(source.DiskState)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.AssignProperties_From_Encryption(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
-		}
-		snapshots.Encryption = &encryption
-	} else {
-		snapshots.Encryption = nil
-	}
-
-	// EncryptionSettingsCollection
-	if source.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection EncryptionSettingsCollection
-		err := encryptionSettingsCollection.AssignProperties_From_EncryptionSettingsCollection(source.EncryptionSettingsCollection)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
-		}
-		snapshots.EncryptionSettingsCollection = &encryptionSettingsCollection
-	} else {
-		snapshots.EncryptionSettingsCollection = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocationStash alpha20210701s.ExtendedLocation
-		err := extendedLocationStash.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
-		}
-		var extendedLocationStashLocal alpha20201201s.ExtendedLocation
-		err = extendedLocationStashLocal.AssignProperties_From_ExtendedLocation(&extendedLocationStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocationStash")
-		}
-		var extendedLocation ExtendedLocation
-		err = extendedLocation.AssignProperties_From_ExtendedLocation(&extendedLocationStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
-		}
-		snapshots.ExtendedLocation = &extendedLocation
-	} else {
-		snapshots.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	snapshots.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
-
-	// Incremental
-	if source.Incremental != nil {
-		incremental := *source.Incremental
-		snapshots.Incremental = &incremental
-	} else {
-		snapshots.Incremental = nil
-	}
-
-	// Location
-	snapshots.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkAccessPolicy
-	snapshots.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
-
-	// OriginalVersion
-	snapshots.OriginalVersion = source.OriginalVersion
-
-	// OsType
-	snapshots.OsType = genruntime.ClonePointerToString(source.OsType)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		snapshots.Owner = &owner
-	} else {
-		snapshots.Owner = nil
-	}
-
-	// PurchasePlan
-	if source.PurchasePlan != nil {
-		var purchasePlan PurchasePlan
-		err := purchasePlan.AssignProperties_From_PurchasePlan(source.PurchasePlan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PurchasePlan() to populate field PurchasePlan")
-		}
-		snapshots.PurchasePlan = &purchasePlan
-	} else {
-		snapshots.PurchasePlan = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku SnapshotSku
-		err := sku.AssignProperties_From_SnapshotSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SnapshotSku() to populate field Sku")
-		}
-		snapshots.Sku = &sku
-	} else {
-		snapshots.Sku = nil
-	}
-
-	// Tags
-	snapshots.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		snapshots.PropertyBag = propertyBag
-	} else {
-		snapshots.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Snapshots_Spec populates the provided destination Snapshots_Spec from our Snapshots_Spec
-func (snapshots *Snapshots_Spec) AssignProperties_To_Snapshots_Spec(destination *v20200930s.Snapshots_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(snapshots.PropertyBag)
-
-	// AzureName
-	destination.AzureName = snapshots.AzureName
-
-	// CreationData
-	if snapshots.CreationData != nil {
-		var creationDatum v20200930s.CreationData
-		err := snapshots.CreationData.AssignProperties_To_CreationData(&creationDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CreationData() to populate field CreationData")
-		}
-		destination.CreationData = &creationDatum
-	} else {
-		destination.CreationData = nil
-	}
-
-	// DiskAccessReference
-	if snapshots.DiskAccessReference != nil {
-		diskAccessReference := snapshots.DiskAccessReference.Copy()
-		destination.DiskAccessReference = &diskAccessReference
-	} else {
-		destination.DiskAccessReference = nil
-	}
-
-	// DiskSizeGB
-	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshots.DiskSizeGB)
-
-	// DiskState
-	destination.DiskState = genruntime.ClonePointerToString(snapshots.DiskState)
-
-	// Encryption
-	if snapshots.Encryption != nil {
-		var encryption v20200930s.Encryption
-		err := snapshots.Encryption.AssignProperties_To_Encryption(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// EncryptionSettingsCollection
-	if snapshots.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection v20200930s.EncryptionSettingsCollection
-		err := snapshots.EncryptionSettingsCollection.AssignProperties_To_EncryptionSettingsCollection(&encryptionSettingsCollection)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_EncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
-		}
-		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
-	} else {
-		destination.EncryptionSettingsCollection = nil
-	}
-
-	// ExtendedLocation
-	if snapshots.ExtendedLocation != nil {
-		var extendedLocationStash alpha20201201s.ExtendedLocation
-		err := snapshots.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocationStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
-		}
-		var extendedLocationStashLocal alpha20210701s.ExtendedLocation
-		err = extendedLocationStash.AssignProperties_To_ExtendedLocation(&extendedLocationStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocationStash")
-		}
-		var extendedLocation v20200930s.ExtendedLocation
-		err = extendedLocationStashLocal.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	destination.HyperVGeneration = genruntime.ClonePointerToString(snapshots.HyperVGeneration)
-
-	// Incremental
-	if snapshots.Incremental != nil {
-		incremental := *snapshots.Incremental
-		destination.Incremental = &incremental
-	} else {
-		destination.Incremental = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(snapshots.Location)
-
-	// NetworkAccessPolicy
-	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(snapshots.NetworkAccessPolicy)
-
-	// OriginalVersion
-	destination.OriginalVersion = snapshots.OriginalVersion
-
-	// OsType
-	destination.OsType = genruntime.ClonePointerToString(snapshots.OsType)
-
-	// Owner
-	if snapshots.Owner != nil {
-		owner := snapshots.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PurchasePlan
-	if snapshots.PurchasePlan != nil {
-		var purchasePlan v20200930s.PurchasePlan
-		err := snapshots.PurchasePlan.AssignProperties_To_PurchasePlan(&purchasePlan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PurchasePlan() to populate field PurchasePlan")
-		}
-		destination.PurchasePlan = &purchasePlan
-	} else {
-		destination.PurchasePlan = nil
-	}
-
-	// Sku
-	if snapshots.Sku != nil {
-		var sku v20200930s.SnapshotSku
-		err := snapshots.Sku.AssignProperties_To_SnapshotSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SnapshotSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(snapshots.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

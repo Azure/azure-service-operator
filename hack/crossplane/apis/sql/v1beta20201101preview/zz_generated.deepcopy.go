@@ -25,7 +25,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CatalogCollation != nil {
 		in, out := &in.CatalogCollation, &out.CatalogCollation
-		*out = new(DatabaseProperties_STATUS_CatalogCollation)
+		*out = new(DatabaseProperties_CatalogCollation_STATUS)
 		**out = **in
 	}
 	if in.Collation != nil {
@@ -35,7 +35,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(DatabaseProperties_STATUS_CreateMode)
+		*out = new(DatabaseProperties_CreateMode_STATUS)
 		**out = **in
 	}
 	if in.CreationDate != nil {
@@ -45,7 +45,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CurrentBackupStorageRedundancy != nil {
 		in, out := &in.CurrentBackupStorageRedundancy, &out.CurrentBackupStorageRedundancy
-		*out = new(DatabaseProperties_STATUS_CurrentBackupStorageRedundancy)
+		*out = new(DatabaseProperties_CurrentBackupStorageRedundancy_STATUS)
 		**out = **in
 	}
 	if in.CurrentServiceObjectiveName != nil {
@@ -100,7 +100,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(DatabaseProperties_STATUS_LicenseType)
+		*out = new(DatabaseProperties_LicenseType_STATUS)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -150,7 +150,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.ReadScale != nil {
 		in, out := &in.ReadScale, &out.ReadScale
-		*out = new(DatabaseProperties_STATUS_ReadScale)
+		*out = new(DatabaseProperties_ReadScale_STATUS)
 		**out = **in
 	}
 	if in.RecoverableDatabaseId != nil {
@@ -165,7 +165,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.RequestedBackupStorageRedundancy != nil {
 		in, out := &in.RequestedBackupStorageRedundancy, &out.RequestedBackupStorageRedundancy
-		*out = new(DatabaseProperties_STATUS_RequestedBackupStorageRedundancy)
+		*out = new(DatabaseProperties_RequestedBackupStorageRedundancy_STATUS)
 		**out = **in
 	}
 	if in.RequestedServiceObjectiveName != nil {
@@ -190,12 +190,12 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.SampleName != nil {
 		in, out := &in.SampleName, &out.SampleName
-		*out = new(DatabaseProperties_STATUS_SampleName)
+		*out = new(DatabaseProperties_SampleName_STATUS)
 		**out = **in
 	}
 	if in.SecondaryType != nil {
 		in, out := &in.SecondaryType, &out.SecondaryType
-		*out = new(DatabaseProperties_STATUS_SecondaryType)
+		*out = new(DatabaseProperties_SecondaryType_STATUS)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -215,7 +215,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(DatabaseProperties_STATUS_Status)
+		*out = new(DatabaseProperties_Status_STATUS)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -279,7 +279,7 @@ func (in *PrivateEndpointConnectionProperties_STATUS) DeepCopyInto(out *PrivateE
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionProperties_STATUS_ProvisioningState)
+		*out = new(PrivateEndpointConnectionProperties_ProvisioningState_STATUS)
 		**out = **in
 	}
 }
@@ -319,7 +319,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_STATUS) DeepCopyInto(out *Pr
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(PrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired)
+		*out = new(PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -329,7 +329,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_STATUS) DeepCopyInto(out *Pr
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateLinkServiceConnectionStateProperty_STATUS_Status)
+		*out = new(PrivateLinkServiceConnectionStateProperty_Status_STATUS)
 		**out = **in
 	}
 }
@@ -379,7 +379,7 @@ func (in *ResourceIdentity_STATUS) DeepCopyInto(out *ResourceIdentity_STATUS) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentity_STATUS_Type)
+		*out = new(ResourceIdentity_Type_STATUS)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -478,7 +478,7 @@ func (in *ServerExternalAdministrator_STATUS) DeepCopyInto(out *ServerExternalAd
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(ServerExternalAdministrator_STATUS_AdministratorType)
+		*out = new(ServerExternalAdministrator_AdministratorType_STATUS)
 		**out = **in
 	}
 	if in.AzureADOnlyAuthentication != nil {
@@ -493,7 +493,7 @@ func (in *ServerExternalAdministrator_STATUS) DeepCopyInto(out *ServerExternalAd
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(ServerExternalAdministrator_STATUS_PrincipalType)
+		*out = new(ServerExternalAdministrator_PrincipalType_STATUS)
 		**out = **in
 	}
 	if in.Sid != nil {
@@ -622,7 +622,7 @@ func (in *ServerObservation) DeepCopyInto(out *ServerObservation) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ServerProperties_STATUS_PublicNetworkAccess)
+		*out = new(ServerProperties_PublicNetworkAccess_STATUS)
 		**out = **in
 	}
 	if in.State != nil {
@@ -649,7 +649,7 @@ func (in *ServerObservation) DeepCopyInto(out *ServerObservation) {
 	}
 	if in.WorkspaceFeature != nil {
 		in, out := &in.WorkspaceFeature, &out.WorkspaceFeature
-		*out = new(ServerProperties_STATUS_WorkspaceFeature)
+		*out = new(ServerProperties_WorkspaceFeature_STATUS)
 		**out = **in
 	}
 }
@@ -665,49 +665,7 @@ func (in *ServerObservation) DeepCopy() *ServerObservation {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ServerPrivateEndpointConnection_STATUS) DeepCopyInto(out *ServerPrivateEndpointConnection_STATUS) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(PrivateEndpointConnectionProperties_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServerPrivateEndpointConnection_STATUS.
-func (in *ServerPrivateEndpointConnection_STATUS) DeepCopy() *ServerPrivateEndpointConnection_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(ServerPrivateEndpointConnection_STATUS)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *Server_STATUS) DeepCopyInto(out *Server_STATUS) {
-	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
-	in.AtProvider.DeepCopyInto(&out.AtProvider)
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Server_STATUS.
-func (in *Server_STATUS) DeepCopy() *Server_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(Server_STATUS)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ServersParameters) DeepCopyInto(out *ServersParameters) {
+func (in *ServerParameters) DeepCopyInto(out *ServerParameters) {
 	*out = *in
 	if in.AdministratorLogin != nil {
 		in, out := &in.AdministratorLogin, &out.AdministratorLogin
@@ -778,12 +736,71 @@ func (in *ServersParameters) DeepCopyInto(out *ServersParameters) {
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServersParameters.
-func (in *ServersParameters) DeepCopy() *ServersParameters {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServerParameters.
+func (in *ServerParameters) DeepCopy() *ServerParameters {
 	if in == nil {
 		return nil
 	}
-	out := new(ServersParameters)
+	out := new(ServerParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServerPrivateEndpointConnection_STATUS) DeepCopyInto(out *ServerPrivateEndpointConnection_STATUS) {
+	*out = *in
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(PrivateEndpointConnectionProperties_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServerPrivateEndpointConnection_STATUS.
+func (in *ServerPrivateEndpointConnection_STATUS) DeepCopy() *ServerPrivateEndpointConnection_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(ServerPrivateEndpointConnection_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Server_STATUS) DeepCopyInto(out *Server_STATUS) {
+	*out = *in
+	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.AtProvider.DeepCopyInto(&out.AtProvider)
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Server_STATUS.
+func (in *Server_STATUS) DeepCopy() *Server_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(Server_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Server_Spec) DeepCopyInto(out *Server_Spec) {
+	*out = *in
+	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ForProvider.DeepCopyInto(&out.ForProvider)
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Server_Spec.
+func (in *Server_Spec) DeepCopy() *Server_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(Server_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -848,7 +865,7 @@ func (in *Servers_DatabaseList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *Servers_DatabasesParameters) DeepCopyInto(out *Servers_DatabasesParameters) {
+func (in *Servers_DatabaseParameters) DeepCopyInto(out *Servers_DatabaseParameters) {
 	*out = *in
 	if in.AutoPauseDelay != nil {
 		in, out := &in.AutoPauseDelay, &out.AutoPauseDelay
@@ -999,46 +1016,29 @@ func (in *Servers_DatabasesParameters) DeepCopyInto(out *Servers_DatabasesParame
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Servers_DatabasesParameters.
-func (in *Servers_DatabasesParameters) DeepCopy() *Servers_DatabasesParameters {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Servers_DatabaseParameters.
+func (in *Servers_DatabaseParameters) DeepCopy() *Servers_DatabaseParameters {
 	if in == nil {
 		return nil
 	}
-	out := new(Servers_DatabasesParameters)
+	out := new(Servers_DatabaseParameters)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *Servers_Databases_Spec) DeepCopyInto(out *Servers_Databases_Spec) {
+func (in *Servers_Database_Spec) DeepCopyInto(out *Servers_Database_Spec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Servers_Databases_Spec.
-func (in *Servers_Databases_Spec) DeepCopy() *Servers_Databases_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Servers_Database_Spec.
+func (in *Servers_Database_Spec) DeepCopy() *Servers_Database_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(Servers_Databases_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *Servers_Spec) DeepCopyInto(out *Servers_Spec) {
-	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
-	in.ForProvider.DeepCopyInto(&out.ForProvider)
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Servers_Spec.
-func (in *Servers_Spec) DeepCopy() *Servers_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(Servers_Spec)
+	out := new(Servers_Database_Spec)
 	in.DeepCopyInto(out)
 	return out
 }

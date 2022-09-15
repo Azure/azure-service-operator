@@ -11,6 +11,7 @@ import (
 	"math"
 	"os"
 	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
@@ -393,6 +394,15 @@ func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
+// CreateResourceAndWaitWithoutCleanup creates the resource in K8s, waits for it to
+// change into the Provisioned state and does not register cleanup for the resource.
+func (tc *KubePerTestContext) CreateResourceAndWaitWithoutCleanup(obj client.Object) {
+	tc.T.Helper()
+	gen := obj.GetGeneration()
+	tc.CreateResourceUntracked(obj)
+	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
+}
+
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
@@ -679,7 +689,7 @@ func (tc *KubePerTestContext) cleanSample(resource any) {
 	}
 }
 
-func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename string) error {
+func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath string) error {
 	tc.T.Helper()
 
 	content, err := yaml.Marshal(resource)
@@ -687,9 +697,14 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename str
 		return errors.Wrap(err, "failed to marshal to yaml")
 	}
 
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	folder := filepath.Dir(filePath)
+	if err = os.MkdirAll(folder, os.ModePerm); err != nil {
+		return errors.Wrapf(err, "couldn't create directory path to %s", filePath)
+	}
+
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
 	if err != nil {
-		return errors.Wrapf(err, "failed to open file %s", filename)
+		return errors.Wrapf(err, "failed to open file %s", filePath)
 	}
 
 	defer file.Close()
@@ -697,7 +712,7 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename str
 	clean := sanitiseSample(string(content))
 	_, err = file.WriteString(clean)
 	if err != nil {
-		return errors.Wrapf(err, "failed to write yaml to file %s", filename)
+		return errors.Wrapf(err, "failed to write yaml to file %s", filePath)
 	}
 
 	return nil

@@ -39,7 +39,7 @@ func newVMSS20220301(
 
 	return &compute2022.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute2022.VirtualMachineScaleSets_Spec{
+		Spec: compute2022.VirtualMachineScaleSet_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2022.Sku{
@@ -51,7 +51,7 @@ func newVMSS20220301(
 			UpgradePolicy: &compute2022.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
 				StorageProfile: &compute2022.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2022.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -60,7 +60,7 @@ func newVMSS20220301(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2022.LinuxConfiguration{
@@ -75,12 +75,12 @@ func newVMSS20220301(
 						},
 					},
 				},
-				NetworkProfile: &compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
+					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2022.ApiEntityReference{
@@ -127,8 +127,8 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
-	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
-		Extensions: []compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
+	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Spec{
+		Extensions: []compute2022.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_Spec{
 			{
 				Name:               &extensionName,
 				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),

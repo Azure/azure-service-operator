@@ -17,16 +17,24 @@ import (
 
 const resourcesPropertyName = astmodel.PropertyName("Resources")
 
-func DetermineResourceOwnership(configuration *config.Configuration) *Stage {
+const DetermineResourceOwnershipStageId = "determineResourceOwnership"
+
+func DetermineResourceOwnership(
+	configuration *config.Configuration,
+	idFactory astmodel.IdentifierFactory,
+) *Stage {
 	return NewLegacyStage(
-		"determineResourceOwnership",
+		DetermineResourceOwnershipStageId,
 		"Determine ARM resource relationships",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return determineOwnership(definitions, configuration)
+			return determineOwnership(definitions, configuration, idFactory)
 		})
 }
 
-func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *config.Configuration) (astmodel.TypeDefinitionSet, error) {
+func determineOwnership(
+	definitions astmodel.TypeDefinitionSet,
+	configuration *config.Configuration,
+	idFactory astmodel.IdentifierFactory) (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
 	resources := astmodel.FindResourceDefinitions(definitions)
@@ -53,7 +61,7 @@ func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *c
 			return nil, err
 		}
 
-		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
+		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs, idFactory)
 		if err != nil {
 			return nil, err
 		}
@@ -117,6 +125,7 @@ func resolveResourcesTypeNames(
 	results := make([]astmodel.TypeName, 0, len(props))
 
 	// Each property type is a subresource type
+	//!!
 	for _, prop := range props {
 		optionalType, ok := prop.PropertyType().(*astmodel.OptionalType)
 		if !ok {
@@ -167,6 +176,7 @@ func updateChildResourceDefinitionsWithOwner(
 	childResourceTypeNames []astmodel.TypeName,
 	owningResourceName astmodel.TypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
+	idFactory astmodel.IdentifierFactory,
 ) error {
 	for _, typeName := range childResourceTypeNames {
 		// If the typename ends in ChildResource, remove that
@@ -179,6 +189,9 @@ func updateChildResourceDefinitionsWithOwner(
 		if typeName.Name() == "ExtensionsChild" {
 			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "Child"))
 		}
+
+		// Use the singular form of the name
+		typeName = typeName.Singular(idFactory)
 
 		// Confirm the type really exists
 		childResourceDef, ok := definitions[typeName]

@@ -83,7 +83,7 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServers_Spec{
+		Spec: mysql.FlexibleServer_Spec{
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -112,7 +112,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
-		Spec: mysql.FlexibleServers_Databases_Spec{
+		Spec: mysql.FlexibleServers_Database_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8mb4"),
 		},
@@ -126,7 +126,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: mysql.FlexibleServers_FirewallRules_Spec{
+		Spec: mysql.FlexibleServers_FirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("1.2.3.4"),
 			EndIpAddress:   to.StringPtr("1.2.3.4"),

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type SqlUserDefinedFunctionGetResults_STATUSARM struct {
+type SqlUserDefinedFunctionGetResults_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -14,18 +14,18 @@ type SqlUserDefinedFunctionGetResults_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of an Azure Cosmos DB userDefinedFunction
-	Properties *SqlUserDefinedFunctionGetProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                              `json:"tags,omitempty"`
+	Properties *SqlUserDefinedFunctionGetProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                               `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlUserDefinedFunctionGetProperties_STATUSARM struct {
-	Resource *SqlUserDefinedFunctionGetProperties_STATUS_ResourceARM `json:"resource,omitempty"`
+type SqlUserDefinedFunctionGetProperties_STATUS_ARM struct {
+	Resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
-type SqlUserDefinedFunctionGetProperties_STATUS_ResourceARM struct {
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM struct {
 	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
 

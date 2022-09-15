@@ -40,7 +40,7 @@ func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *k
 
 	return &keyvault.Vault{
 		ObjectMeta: tc.MakeObjectMeta("keyvault"),
-		Spec: keyvault.Vaults_Spec{
+		Spec: keyvault.Vault_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &keyvault.VaultProperties{

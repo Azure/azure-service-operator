@@ -26,7 +26,7 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Spec    `json:"spec,omitempty"`
+	Spec              Namespace_Spec     `json:"spec,omitempty"`
 	Status            SBNamespace_STATUS `json:"status,omitempty"`
 }
 
@@ -135,15 +135,16 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-01-01-preview")
 
-// Storage version of v1beta20210101preview.Namespaces_Spec
-type Namespaces_Spec struct {
+// Storage version of v1beta20210101preview.Namespace_Spec
+type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string      `json:"azureName,omitempty"`
-	Encryption      *Encryption `json:"encryption,omitempty"`
-	Identity        *Identity   `json:"identity,omitempty"`
-	Location        *string     `json:"location,omitempty"`
-	OriginalVersion string      `json:"originalVersion,omitempty"`
+	AzureName       string                 `json:"azureName,omitempty"`
+	Encryption      *Encryption            `json:"encryption,omitempty"`
+	Identity        *Identity              `json:"identity,omitempty"`
+	Location        *string                `json:"location,omitempty"`
+	OperatorSpec    *NamespaceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -156,24 +157,24 @@ type Namespaces_Spec struct {
 	ZoneRedundant *bool                              `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Spec from the provided source
-func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespaces {
+// ConvertSpecFrom populates our Namespace_Spec from the provided source
+func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespaces)
+	return source.ConvertSpecTo(namespace)
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespaces {
+// ConvertSpecTo populates the provided destination from our Namespace_Spec
+func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespaces)
+	return destination.ConvertSpecFrom(namespace)
 }
 
 // Storage version of v1beta20210101preview.SBNamespace_STATUS
@@ -252,6 +253,13 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]DictionaryValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1beta20210101preview.NamespaceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespaceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Secrets     *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210101preview.PrivateEndpointConnection_STATUS_SubResourceEmbedded
 type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
@@ -311,6 +319,12 @@ type KeyVaultProperties_STATUS struct {
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210101preview.NamespaceOperatorSecrets
+type NamespaceOperatorSecrets struct {
+	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.UserAssignedIdentityProperties

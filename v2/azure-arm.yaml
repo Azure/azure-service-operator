@@ -22,9 +22,6 @@ samplesPath: config/samples
 # emitDocFiles bool is used as a signal to create doc.go files for packages
 emitDocFiles: true
 
-# apiDocsUrlTemplate is the template for generating URLs to the API docs for our resources
-apiDocsUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
-
 pipeline: azure
 
 supportedResourcesReport:
@@ -34,6 +31,12 @@ supportedResourcesReport:
     These are the resources with Azure Service Operator support committed to our **main** branch
     grouped by the originating ARM service.
     (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
+  # the placeholders {group} {version} and {kind} are supported.
+  resourceUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
+  # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
+  # specified relative to the directory of outputPath, and supports the same placeholders
+  resourcePathTemplate: "{group}/{version}.md"
 
 #
 # These filters are used early in the processing pipeline. 
@@ -48,86 +51,114 @@ typeFilters:
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
+
   - action: include
     group: servicebus
     version: v*20210101preview
     because: We want to export this particular preview version
+
   - action: include
     group: keyvault
     version: v*20210401preview
     because: We want to support keyvault which is only available in preview version
+
   - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
+
   - action: include
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
+
   - action: include
     group: managedidentity
     version: v*20220131preview
     because: We want to export this particular preview version
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
+
   - action: prune
     group: compute
     name: VirtualMachineScaleSets_Extensions_ChildResource;VirtualMachines_Extensions_ChildResource
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
+
   - action: prune
     group: aadiam
     version: v*20170401
     because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
+
   - action: include
     group: network
     version: v*2018*
     name: private*
+
   - action: prune
     group: network
     version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
     because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: compute
     version: 'v*beta201*'
     because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
+
   - action: prune
     group: timeseriesinsights
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: databoxedge
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: datashare
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: apimanagement
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: automation
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: machinelearningservices
     name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
+  - action: prune
+    group: hdinsight
+    name: Clusters;Clusters_Extensions
+    because: Uses one-of in a way we don't support
+    
   - action: prune
     group: resources
     name: Tags
     because: This type is defined recursively.
+
   - action: prune
     group: management
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
+
   - action: include
     group: compute.extensions
     name: GenericExtension
     because: This is the one kind of extension we want to allow
+
   - action: prune
     group: compute.extensions
     because: All other extensions should be removed
@@ -255,7 +286,7 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - name: StorageAccounts_ManagementPolicies_Spec
+  - name: StorageAccounts_ManagementPolicy_Spec
     group: storage
     property: Location
     remove: true
@@ -290,6 +321,11 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - group: appconfiguration
+    name: ResourceIdentity
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
@@ -300,33 +336,33 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhubs_Spec_Properties
+  - name: Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
     remove: true
     because: This property should be marked readonly
   - group: eventgrid
     version: v*20190601
-    name: Domains_Spec
+    name: Domain_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: eventgrid
     version: "*"
-    name: Topics_Spec
+    name: Topic_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: network
     version: "*"
-    name: PrivateDnsZones_Spec
+    name: PrivateDnsZone_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
   - group: servicebus
-    name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    name: Namespace_Properties_Spec  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
     remove: true
     because: This property should have been marked readonly but wasn't.
@@ -376,55 +412,64 @@ typeTransformers:
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
   - group: containerservice
-    name: ManagedClusters_AgentPools_Spec
+    name: ManagedClusters_AgentPool_Spec
     property: Tags
     remove: true
     because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
   - group: network
-    name: VirtualNetworks_Subnets_Spec
+    name: VirtualNetworks_Subnet_Spec
     property: Location
     remove: true
     because: Child resource cannot choose location
   - group: network
-    name: VirtualNetworks_Subnets_Spec
+    name: VirtualNetworks_Subnet_Spec
     property: Tags
     remove: true
     because: Child resource cannot set tags
   - group: network
-    name: RouteTables_Routes_Spec
+    name: RouteTables_Route_Spec
     property: Location
     remove: true
     because: Child resource cannot choose location
   - group: network
-    name: RouteTables_Routes_Spec
+    name: RouteTables_Route_Spec
     property: Tags
     remove: true
     because: Child resource cannot set tags
-  - name: Aliases_Spec
+  - name: Alias_Spec
     group: subscription
     property: Location
     remove: true
     because: This shouldn't be on subscription.
-  - name: Aliases_Spec
+  - name: Alias_Spec
     group: subscription
     property: Tags
     remove: true
     because: Tags for subscription are in a different place
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
     group: managedidentity
     property: Location
     remove: true
     because: Child resource shouldn't have location
-  - name: UserAssignedIdentities_FederatedIdentityCredentials_Spec
+  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
     group: managedidentity
     property: Tags
     remove: true
     because: Child resource shouldn't have tags
-
+  - name: DatabaseAccounts_SqlRoleAssignment_Spec
+    group: documentdb
+    property: Tags
+    remove: true
+    because: Shouldn't have tags
+  - name: DatabaseAccounts_SqlRoleAssignment_Spec
+    group: documentdb
+    property: Location
+    remove: true
+    because: Child resource shouldn't have Location
 
   # Deal with service Swaggers that are just wrong
   - group: insights
-    name: WebTests_Spec
+    name: WebTest_Spec
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
@@ -665,7 +710,25 @@ status:
 #     These resources are embedded resources which are overwritten when their parent resource
 #     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
 #
-objectModelConfiguration: 
+objectModelConfiguration:
+  appconfiguration:
+    2022-05-01:
+      ConfigurationStore:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+        $azureGeneratedSecrets:
+          - PrimaryKeyID
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKeyID
+          - SecondaryKey
+          - SecondaryConnectionString
+          - PrimaryReadOnlyKeyID
+          - PrimaryReadOnlyKey
+          - PrimaryReadOnlyConnectionString
+          - SecondaryReadOnlyKeyID
+          - SecondaryReadOnlyKey
+          - SecondaryReadOnlyConnectionString
   authorization:
     2020-08-01-preview:
       RoleAssignment:
@@ -779,13 +842,13 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
@@ -795,7 +858,7 @@ objectModelConfiguration:
         # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
         Id:
           $armReference: true
-      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
         Id:
           $armReference: true
       ManagedDiskParameters:
@@ -842,19 +905,19 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
         Id:
           $armReference: true
   containerinstance:
@@ -1043,6 +1106,9 @@ objectModelConfiguration:
       SqlContainerResource:
         Id:
           $armReference: false
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.0.0-beta.3
       SqlTriggerResource:
         Id:
           $armReference: false
@@ -1110,7 +1176,7 @@ objectModelConfiguration:
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-      Namespaces_Spec_Properties:
+      Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
       PrivateEndpoint:
@@ -1166,7 +1232,7 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      Workspaces_Spec_Properties:
+      Workspace_Properties_Spec:
         ApplicationInsights:
           $armReference: true
         PrimaryUserAssignedIdentity:
@@ -1248,13 +1314,13 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddress:
-        $export: true
+      PublicIPAddresses:
+        $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTables_Spec_Properties:
+      RouteTable_Properties_Spec:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
@@ -1269,7 +1335,7 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworks_Spec_Properties:
+      VirtualNetwork_Properties_Spec:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
@@ -1282,7 +1348,7 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateways_Spec_Properties:
+      VirtualNetworkGateway_Properties_Spec:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:
@@ -1298,6 +1364,8 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - Endpoint
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1

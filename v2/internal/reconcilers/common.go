@@ -52,6 +52,7 @@ func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) 
 		// Log just what we're interested in. We avoid logging the whole obj
 		// due to possible risk of disclosing secrets or other data that is "private" and users may
 		// not want in logs.
+		// nolint: logrlint // We can see the keys and values, above, but the linter can't
 		log.V(level).Info(note, keysAndValues...)
 	}
 }

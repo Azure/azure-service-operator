@@ -5,9 +5,9 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type PublicIPAddresses_SpecARM struct {
+type PublicIPAddresses_Spec_ARM struct {
 	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -16,10 +16,10 @@ type PublicIPAddresses_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
+	Sku *PublicIPAddressSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -28,30 +28,30 @@ type PublicIPAddresses_SpecARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &PublicIPAddresses_SpecARM{}
+var _ genruntime.ARMResourceSpec = &PublicIPAddresses_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (addresses PublicIPAddresses_SpecARM) GetAPIVersion() string {
+func (addresses PublicIPAddresses_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (addresses *PublicIPAddresses_SpecARM) GetName() string {
+func (addresses *PublicIPAddresses_Spec_ARM) GetName() string {
 	return addresses.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (addresses *PublicIPAddresses_SpecARM) GetType() string {
+func (addresses *PublicIPAddresses_Spec_ARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat
-type PublicIPAddressPropertiesFormatARM struct {
+type PublicIPAddressPropertiesFormat_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettingsARM `json:"ddosSettings,omitempty"`
+	DdosSettings *DdosSettings_ARM `json:"ddosSettings,omitempty"`
 
 	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettingsARM `json:"dnsSettings,omitempty"`
+	DnsSettings *PublicIPAddressDnsSettings_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
@@ -60,7 +60,7 @@ type PublicIPAddressPropertiesFormatARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTagARM `json:"ipTags,omitempty"`
+	IpTags []IpTag_ARM `json:"ipTags,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *PublicIPAddressPropertiesFormat_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
@@ -69,11 +69,11 @@ type PublicIPAddressPropertiesFormatARM struct {
 	PublicIPAllocationMethod *PublicIPAddressPropertiesFormat_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
+	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
-type PublicIPAddressSkuARM struct {
+type PublicIPAddressSku_ARM struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
 
@@ -82,9 +82,9 @@ type PublicIPAddressSkuARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
-type DdosSettingsARM struct {
+type DdosSettings_ARM struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
-	DdosCustomPolicy *SubResourceARM `json:"ddosCustomPolicy,omitempty"`
+	DdosCustomPolicy *SubResource_ARM `json:"ddosCustomPolicy,omitempty"`
 
 	// ProtectedIP: Enables DDoS protection on the public IP.
 	ProtectedIP *bool `json:"protectedIP,omitempty"`
@@ -95,7 +95,7 @@ type DdosSettingsARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
-type IpTagARM struct {
+type IpTag_ARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
 
@@ -104,7 +104,7 @@ type IpTagARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
-type PublicIPAddressDnsSettingsARM struct {
+type PublicIPAddressDnsSettings_ARM struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
 	// record is created for the public IP in the Microsoft Azure DNS system.

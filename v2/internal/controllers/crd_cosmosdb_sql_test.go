@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
@@ -13,6 +14,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -26,10 +29,10 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 
 	// Create a Cosmos DB account
 	offerType := documentdb.DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard
-	kind := documentdb.DatabaseAccounts_Spec_Kind_GlobalDocumentDB
+	kind := documentdb.DatabaseAccount_Kind_Spec_GlobalDocumentDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
-		Spec: documentdb.DatabaseAccounts_Spec{
+		Spec: documentdb.DatabaseAccount_Spec{
 			Location:                 tc.AzureRegion,
 			Owner:                    testcommon.AsOwner(rg),
 			Kind:                     &kind,
@@ -45,7 +48,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	dbName := tc.Namer.GenerateName("sqldb")
 	db := documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabase_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(&acct),
 			Options: &documentdb.CreateUpdateOptions{
@@ -63,6 +66,12 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 
 	tc.T.Logf("SQL account and database successfully created")
 	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CosmosDB SQL RoleAssignment CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				CosmosDB_SQL_RoleAssignment_CRUD(tc, rg, &acct)
+			},
+		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Container CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
@@ -87,7 +96,7 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 	hash := documentdb.ContainerPartitionKey_Kind_Hash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Container_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
@@ -163,7 +172,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	create := documentdb.SqlTriggerResource_TriggerOperation_Create
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlTriggerResource{
@@ -206,7 +215,7 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, contai
 	name := tc.Namer.GenerateName("storedproc")
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
@@ -241,7 +250,7 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, co
 	name := tc.Namer.GenerateName("udf")
 	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{
 			AzureName: name,
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(container),
@@ -281,7 +290,7 @@ function tax(income) {
 func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -315,7 +324,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),
@@ -339,4 +348,55 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.Kube
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(600)))
 	tc.T.Log("throughput successfully updated in status")
+}
+
+func CosmosDB_SQL_RoleAssignment_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, acct *documentdb.DatabaseAccount) {
+	// Create a managed identity
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	// TODO: See https://github.com/Azure/azure-service-operator/issues/2435 for making referencing this easier in the YAML
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
+	principalId := mi.Status.PrincipalId
+
+	// TODO: It's not easy to generate a GUID... we should make that easier for users
+	// Now assign that managed identity to a new role
+	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	// TODO: Making this is very painful. We should make this easier for users too
+	roleDefinitionId := fmt.Sprintf(
+		"/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DocumentDB/databaseAccounts/%s/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002",
+		tc.AzureSubscription,
+		rg.AzureName(),
+		acct.AzureName())
+
+	scope := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DocumentDB/databaseAccounts/%s",
+		tc.AzureSubscription,
+		rg.AzureName(),
+		acct.AzureName())
+
+	roleAssignment := &documentdb.SqlRoleAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		Spec: documentdb.DatabaseAccounts_SqlRoleAssignment_Spec{
+			Owner:            testcommon.AsOwner(acct),
+			PrincipalId:      principalId,
+			RoleDefinitionId: &roleDefinitionId,
+			Scope:            &scope,
+		},
+	}
+
+	tc.CreateResourceAndWait(roleAssignment)
+
+	// Ensure that the status is what we expect
+	tc.Expect(roleAssignment.Status.Id).ToNot(BeNil())
+
+	tc.DeleteResourceAndWait(roleAssignment)
 }
