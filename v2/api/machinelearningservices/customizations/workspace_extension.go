@@ -9,27 +9,27 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
-	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ extensions.SecretsRetriever = &WorkspaceExtension{}
+var _ genruntime.KubernetesExporter = &WorkspaceExtension{}
 
-func (ext *WorkspaceExtension) RetrieveSecrets(
+func (ext *WorkspaceExtension) ExportKubernetesResources(
 	ctx context.Context,
-	obj genruntime.ARMMetaObject,
+	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]*v1.Secret, error) {
+	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -48,7 +48,7 @@ func (ext *WorkspaceExtension) RetrieveSecrets(
 		return nil, nil
 	}
 
-	id, err := genruntime.GetAndParseResourceID(obj)
+	id, err := genruntime.GetAndParseResourceID(typedObj)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (ext *WorkspaceExtension) RetrieveSecrets(
 		}
 
 		var resp armmachinelearning.WorkspacesClientListKeysResponse
-		resp, err = workspacesClient.ListKeys(ctx, id.ResourceGroupName, obj.AzureName(), nil)
+		resp, err = workspacesClient.ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed listing keys")
 		}
@@ -78,7 +78,7 @@ func (ext *WorkspaceExtension) RetrieveSecrets(
 		return nil, err
 	}
 
-	return secretSlice, nil
+	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
 func secretsSpecified(obj *storage.Workspace) bool {

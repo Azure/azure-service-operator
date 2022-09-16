@@ -12,23 +12,23 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ extensions.SecretsRetriever = &FlexibleServerExtension{}
+var _ genruntime.KubernetesExporter = &FlexibleServerExtension{}
 
-func (ext *FlexibleServerExtension) RetrieveSecrets(
+func (ext *FlexibleServerExtension) ExportKubernetesResources(
 	ctx context.Context,
-	obj genruntime.ARMMetaObject,
+	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]*v1.Secret, error) {
+	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -52,7 +52,7 @@ func (ext *FlexibleServerExtension) RetrieveSecrets(
 		return nil, err
 	}
 
-	return secretSlice, nil
+	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
 func secretsSpecified(obj *postgresql.FlexibleServer) bool {

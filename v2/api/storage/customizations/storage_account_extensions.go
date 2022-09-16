@@ -13,23 +13,23 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ extensions.SecretsRetriever = &StorageAccountExtension{}
+var _ genruntime.KubernetesExporter = &StorageAccountExtension{}
 
-func (ext *StorageAccountExtension) RetrieveSecrets(
+func (ext *StorageAccountExtension) ExportKubernetesResources(
 	ctx context.Context,
-	obj genruntime.ARMMetaObject,
+	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]*v1.Secret, error) {
+	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -48,7 +48,7 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 		return nil, nil
 	}
 
-	id, err := genruntime.GetAndParseResourceID(obj)
+	id, err := genruntime.GetAndParseResourceID(typedObj)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 		}
 
 		var resp armstorage.AccountsClientListKeysResponse
-		resp, err = acctClient.ListKeys(ctx, id.ResourceGroupName, obj.AzureName(), nil)
+		resp, err = acctClient.ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed listing keys")
 		}
@@ -79,7 +79,7 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 		return nil, err
 	}
 
-	return secretSlice, nil
+	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
 func secretsSpecified(obj *storage.StorageAccount) (bool, bool) {
