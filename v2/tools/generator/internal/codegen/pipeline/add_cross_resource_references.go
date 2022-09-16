@@ -22,6 +22,7 @@ import (
 const TransformCrossResourceReferencesStageID = "transformCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
+var idRegex = regexp.MustCompile("^(.*)I[d|D]s?$")
 
 // TransformCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
 func TransformCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
@@ -149,7 +150,7 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 			if visitor.isPropertyAnARMReference(typeName, prop) {
 				klog.V(4).Infof("Transforming \"%s.%s\" field into genruntime.ResourceReference", typeName, prop.PropertyName())
 				originalName := string(prop.PropertyName())
-				prop = makeResourceReferenceProperty(idFactory, prop)
+				prop = makeResourceReferenceProperty(typeName, idFactory, prop)
 
 				// TODO: We could pass this information forward some other way?
 				// Add tag so that we remember what this field was before
@@ -193,9 +194,33 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	return false
 }
 
-func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-	_, isSlice := astmodel.AsArrayType(existing.PropertyType())
-	_, isMap := astmodel.AsMapType(existing.PropertyType())
+func makeReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bool, isMap bool) string {
+	propertyNameSuffix := "Reference"
+	if isSlice || isMap {
+		propertyNameSuffix = "References"
+	}
+
+	var referencePropertyName string
+	// Special case for "Id" and properties that end in "Id", which are quite common in the specs. This is primarily
+	// because it's awkward to have a field called "Id" not just be a string and instead but a complex type describing
+	// a reference.
+	s := existing.PropertyName().String()
+
+	if strings.ToLower(s) == "id" {
+		referencePropertyName = propertyNameSuffix
+	} else if idRegex.MatchString(s) {
+		referencePropertyName = idRegex.ReplaceAllString(s, "${1}"+propertyNameSuffix)
+	} else {
+		referencePropertyName = s + propertyNameSuffix
+	}
+
+	return referencePropertyName
+}
+
+// makeLegacyReferencePropertyName does not correctly deal with properties with "ID" suffix, but exists
+// to ensure backward compatibility with old versions.
+// See https://github.com/Azure/azure-service-operator/issues/2501#issuecomment-1251650714
+func makeLegacyReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bool, isMap bool) string {
 	propertyNameSuffix := "Reference"
 	if isSlice || isMap {
 		propertyNameSuffix = "References"
@@ -213,6 +238,24 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Ids") + propertyNameSuffix
 	} else {
 		referencePropertyName = string(existing.PropertyName()) + propertyNameSuffix
+	}
+
+	return referencePropertyName
+}
+
+func makeResourceReferenceProperty(
+	typeName astmodel.TypeName,
+	idFactory astmodel.IdentifierFactory,
+	existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+
+	_, isSlice := astmodel.AsArrayType(existing.PropertyType())
+	_, isMap := astmodel.AsMapType(existing.PropertyType())
+	var referencePropertyName string
+	// This is hacky but works
+	if group, version, ok := typeName.PackageReference.TryGroupVersion(); ok && group == "containerservice" && strings.Contains(version, "20210501") {
+		referencePropertyName = makeLegacyReferencePropertyName(existing, isSlice, isMap)
+	} else {
+		referencePropertyName = makeReferencePropertyName(existing, isSlice, isMap)
 	}
 
 	var newPropType astmodel.Type
