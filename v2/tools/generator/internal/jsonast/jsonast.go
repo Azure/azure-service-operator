@@ -310,6 +310,10 @@ func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 			}
 		}
 
+		if format == "arm-id" {
+			t = astmodel.ARMIDType
+		}
+
 		validations := astmodel.StringValidations{
 			MaxLength: maxLength,
 			MinLength: minLength,
@@ -333,7 +337,8 @@ func formatToPattern(format string) *regexp.Regexp {
 		// TODO: don’t bother validating for now
 		return nil
 	case "password":
-		// TODO: we should do something about hiding this
+		// This is handled later in the status_augment phase of processing, so just
+		// ignore it for now
 		return nil
 	default:
 		klog.Warningf("unknown format %q", format)

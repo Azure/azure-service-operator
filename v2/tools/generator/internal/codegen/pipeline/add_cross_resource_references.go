@@ -29,12 +29,34 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		AddCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			result := make(astmodel.TypeDefinitionSet)
+			typesWithARMIDs := make(astmodel.TypeDefinitionSet)
 
 			var crossResourceReferenceErrs []error
 
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
+				// First check if we know that this property is an ARMID already
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
+				if primitive, ok := astmodel.AsPrimitiveType(prop.PropertyType()); ok {
+					if primitive == astmodel.ARMIDType {
+						if err == nil {
+							if !isReference {
+								// We've overridden the ARM spec details
+								return false
+							} else {
+								// Swagger has marked this field as a reference, and we also have it marked in our
+								// config. Record an error saying that the config entry is no longer needed
+								crossResourceReferenceErrs = append(
+									crossResourceReferenceErrs,
+									errors.Errorf("%s.%s marked as ARM reference, but value is not needed because Swagger already says it is an ARM reference",
+										typeName.String(),
+										prop.PropertyName().String()))
+							}
+						}
+
+						return true
+					}
+				}
+
 				if DoesPropertyLookLikeARMReference(prop) && err != nil {
 					if config.IsNotConfiguredError(err) {
 						// This is an error for now to ensure that we don't accidentally miss adding references.
@@ -67,7 +89,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// Skip Status types
 				// TODO: we need flags
 				if def.Name().IsStatus() {
-					result.Add(def)
+					typesWithARMIDs.Add(def)
 					continue
 				}
 
@@ -75,7 +97,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				if err != nil {
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
-				result.Add(def.WithType(t))
+				typesWithARMIDs.Add(def.WithType(t))
 
 				// TODO: Remove types that have only a single field ID and pull things up a level? Will need to wait for George's
 				// TODO: Properties collapsing work for this.
@@ -84,6 +106,11 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
 			if err != nil {
 				return nil, err
+			}
+
+			result, err := stripRemainingARMIDPrimitiveTypes(typesWithARMIDs)
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
 			}
 
 			err = configuration.VerifyARMReferencesConsumed()
@@ -210,4 +237,28 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	}
 
 	return newProp
+}
+
+func stripRemainingARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+	// Any astmodel.ARMReference's which have escaped need to be turned into
+	// strings
+	armIDStrippingVisitor := astmodel.TypeVisitorBuilder{
+		VisitPrimitive: func(_ *astmodel.TypeVisitor, it *astmodel.PrimitiveType, ctx interface{}) (astmodel.Type, error) {
+			if astmodel.TypeEquals(it, astmodel.ARMIDType) {
+				return astmodel.StringType, nil
+			}
+			return it, nil
+		},
+	}.Build()
+
+	result := make(astmodel.TypeDefinitionSet)
+	for _, def := range types {
+		newDef, err := armIDStrippingVisitor.VisitDefinition(def, nil)
+		if err != nil {
+			return nil, err
+		}
+		result.Add(newDef)
+	}
+
+	return result, nil
 }
