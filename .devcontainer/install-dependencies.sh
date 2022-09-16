@@ -160,14 +160,12 @@ go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-do
 go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
 
 # Install golangci-lint
-if [ "$DEVCONTAINER" != true ]; then 
-    write-verbose "Checking for $TOOL_DEST/golangci-lint"
-    if should-install "$TOOL_DEST/golangci-lint"; then 
-        write-info "Installing golangci-lint"
-        # golangci-lint is provided by base image if in devcontainer
-        # this command copied from there
-        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.46.2 2>&1
-    fi
+write-verbose "Checking for $TOOL_DEST/golangci-lint"
+if should-install "$TOOL_DEST/golangci-lint"; then
+    write-info "Installing golangci-lint"
+    # golangci-lint is provided by base image if in devcontainer
+    # this command copied from there
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.49.0 2>&1
 fi
 
 # Install Task
