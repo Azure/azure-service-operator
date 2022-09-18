@@ -1425,31 +1425,31 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.2
   web:
     2022-03-01:
-      ServerFarm:
-        $exportAs: ServerFarm
-        $supportedFrom: v2.0.0-beta.3
-      HostingEnvironmentProfile:
+      ApiManagementConfig:
         Id:
           $armReference: true
-      KubeEnvironmentProfile:
-        Id:
-          $armReference: true
-      Site:
-        $export: true
-        $supportedFrom: v2.0.0-beta.3
       CloningInfo:
         TrafficManagerProfileId:
           $armReference: true
         SourceWebAppId:
           $armReference: true
-      Sites_Spec_Properties:
-        ServerFarmId:
-          $armReference: true
-        VirtualNetworkSubnetId:
-          $armReference: true
-      ApiManagementConfig:
+      HostingEnvironmentProfile:
         Id:
           $armReference: true
       IpSecurityRestriction:
         VnetSubnetResourceId:
+          $armReference: true
+      KubeEnvironmentProfile:
+        Id:
+          $armReference: true
+      ServerFarm:
+        $exportAs: ServerFarm
+        $supportedFrom: v2.0.0-beta.3
+      Site:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+      Site_Properties_Spec:
+        ServerFarmId:
+          $armReference: true
+        VirtualNetworkSubnetId:
           $armReference: true
