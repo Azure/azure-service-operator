@@ -39,9 +39,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
 
-				err = result.AddAllAllowDuplicates(newDefs)
-				if err != nil {
-					return nil, errors.Wrapf(err, "failed to add new definitions")
+				for _, def := range newDefs {
+					result.Add(def)
 				}
 
 				if _, ok := result[typeName]; !ok {
