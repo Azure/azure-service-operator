@@ -29,7 +29,7 @@ import (
 type Site struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Sites_Spec  `json:"spec,omitempty"`
+	Spec              Site_Spec   `json:"spec,omitempty"`
 	Status            Site_STATUS `json:"status,omitempty"`
 }
 
@@ -256,10 +256,10 @@ func (site *Site) AssignProperties_From_Site(source *v20220301s.Site) error {
 	site.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Sites_Spec
-	err := spec.AssignProperties_From_Sites_Spec(&source.Spec)
+	var spec Site_Spec
+	err := spec.AssignProperties_From_Site_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Sites_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Site_Spec() to populate field Spec")
 	}
 	site.Spec = spec
 
@@ -282,10 +282,10 @@ func (site *Site) AssignProperties_To_Site(destination *v20220301s.Site) error {
 	destination.ObjectMeta = *site.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220301s.Sites_Spec
-	err := site.Spec.AssignProperties_To_Sites_Spec(&spec)
+	var spec v20220301s.Site_Spec
+	err := site.Spec.AssignProperties_To_Site_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Sites_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Site_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -318,9 +318,10 @@ type SiteList struct {
 	Items           []Site `json:"items"`
 }
 
-type Site_STATUS struct {
-	// AvailabilityState: Management information availability state for the app.
-	AvailabilityState *Site_STATUS_Properties_AvailabilityState `json:"availabilityState,omitempty"`
+type Site_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
 
 	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
 	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
@@ -337,7 +338,1248 @@ type Site_STATUS struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *Site_STATUS_Properties_ClientCertMode `json:"clientCertMode,omitempty"`
+	ClientCertMode *Site_Properties_ClientCertMode_Spec `json:"clientCertMode,omitempty"`
+
+	// CloningInfo: Information needed for cloning operation.
+	CloningInfo *CloningInfo `json:"cloningInfo,omitempty"`
+
+	// ContainerSize: Size of the function container.
+	ContainerSize *int `json:"containerSize,omitempty"`
+
+	// CustomDomainVerificationId: Unique identifier that verifies the custom domains assigned to the app. Customer will add
+	// this id to a txt record for verification.
+	CustomDomainVerificationId *string `json:"customDomainVerificationId,omitempty"`
+
+	// DailyMemoryTimeQuota: Maximum allowed daily memory-time quota (applicable on dynamic apps only).
+	DailyMemoryTimeQuota *int `json:"dailyMemoryTimeQuota,omitempty"`
+
+	// Enabled: <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables
+	// the app (takes the app offline).
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
+
+	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
+	HostNameSslStates []HostNameSslState `json:"hostNameSslStates,omitempty"`
+
+	// HostNamesDisabled: <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
+	// If <code>true</code>, the app is only accessible via API management process.
+	HostNamesDisabled *bool `json:"hostNamesDisabled,omitempty"`
+
+	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
+	HostingEnvironmentProfile *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
+
+	// HttpsOnly: HttpsOnly: configures a web site to accept only https requests. Issues redirect for
+	// http requests
+	HttpsOnly *bool `json:"httpsOnly,omitempty"`
+
+	// HyperV: Hyper-V sandbox.
+	HyperV *bool `json:"hyperV,omitempty"`
+
+	// Identity: Managed service identity.
+	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
+
+	// IsXenon: Obsolete: Hyper-V sandbox.
+	IsXenon *bool `json:"isXenon,omitempty"`
+
+	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
+	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
+
+	// Kind: Kind of resource.
+	Kind *string `json:"kind,omitempty"`
+
+	// Location: Location to deploy resource to
+	Location *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// PublicNetworkAccess: Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty
+	// string.
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
+
+	// RedundancyMode: Site redundancy mode.
+	RedundancyMode *Site_Properties_RedundancyMode_Spec `json:"redundancyMode,omitempty"`
+
+	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
+	Reserved *bool `json:"reserved,omitempty"`
+
+	// ScmSiteAlsoStopped: <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>.
+	// The default is <code>false</code>.
+	ScmSiteAlsoStopped *bool `json:"scmSiteAlsoStopped,omitempty"`
+
+	// ServerFarmReference: Resource ID of the associated App Service plan, formatted as:
+	// "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
+	ServerFarmReference *genruntime.ResourceReference `armReference:"ServerFarmId" json:"serverFarmReference,omitempty"`
+
+	// SiteConfig: Configuration of an App Service app.
+	SiteConfig *Site_Properties_SiteConfig_Spec `json:"siteConfig,omitempty"`
+
+	// StorageAccountRequired: Checks if Customer provided storage account is required
+	StorageAccountRequired *bool `json:"storageAccountRequired,omitempty"`
+
+	// Tags: Name-value pairs to add to the resource
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// VirtualNetworkSubnetReference: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
+	// Integration.
+	// This must be of the form
+	// /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	VirtualNetworkSubnetReference *genruntime.ResourceReference `armReference:"VirtualNetworkSubnetId" json:"virtualNetworkSubnetReference,omitempty"`
+
+	// VnetContentShareEnabled: To enable accessing content over virtual network
+	VnetContentShareEnabled *bool `json:"vnetContentShareEnabled,omitempty"`
+
+	// VnetImagePullEnabled: To enable pulling image over Virtual Network
+	VnetImagePullEnabled *bool `json:"vnetImagePullEnabled,omitempty"`
+
+	// VnetRouteAllEnabled: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network
+	// Security Groups and User Defined Routes applied.
+	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Site_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if site == nil {
+		return nil, nil
+	}
+	result := &Site_Spec_ARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if site.ExtendedLocation != nil {
+		extendedLocation_ARM, err := (*site.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Identity’:
+	if site.Identity != nil {
+		identity_ARM, err := (*site.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identity_ARM.(*ManagedServiceIdentity_ARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Kind’:
+	if site.Kind != nil {
+		kind := *site.Kind
+		result.Kind = &kind
+	}
+
+	// Set property ‘Location’:
+	if site.Location != nil {
+		location := *site.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if site.ClientAffinityEnabled != nil ||
+		site.ClientCertEnabled != nil ||
+		site.ClientCertExclusionPaths != nil ||
+		site.ClientCertMode != nil ||
+		site.CloningInfo != nil ||
+		site.ContainerSize != nil ||
+		site.CustomDomainVerificationId != nil ||
+		site.DailyMemoryTimeQuota != nil ||
+		site.Enabled != nil ||
+		site.HostNameSslStates != nil ||
+		site.HostNamesDisabled != nil ||
+		site.HostingEnvironmentProfile != nil ||
+		site.HttpsOnly != nil ||
+		site.HyperV != nil ||
+		site.IsXenon != nil ||
+		site.KeyVaultReferenceIdentity != nil ||
+		site.PublicNetworkAccess != nil ||
+		site.RedundancyMode != nil ||
+		site.Reserved != nil ||
+		site.ScmSiteAlsoStopped != nil ||
+		site.ServerFarmReference != nil ||
+		site.SiteConfig != nil ||
+		site.StorageAccountRequired != nil ||
+		site.VirtualNetworkSubnetReference != nil ||
+		site.VnetContentShareEnabled != nil ||
+		site.VnetImagePullEnabled != nil ||
+		site.VnetRouteAllEnabled != nil {
+		result.Properties = &Site_Properties_Spec_ARM{}
+	}
+	if site.ClientAffinityEnabled != nil {
+		clientAffinityEnabled := *site.ClientAffinityEnabled
+		result.Properties.ClientAffinityEnabled = &clientAffinityEnabled
+	}
+	if site.ClientCertEnabled != nil {
+		clientCertEnabled := *site.ClientCertEnabled
+		result.Properties.ClientCertEnabled = &clientCertEnabled
+	}
+	if site.ClientCertExclusionPaths != nil {
+		clientCertExclusionPaths := *site.ClientCertExclusionPaths
+		result.Properties.ClientCertExclusionPaths = &clientCertExclusionPaths
+	}
+	if site.ClientCertMode != nil {
+		clientCertMode := *site.ClientCertMode
+		result.Properties.ClientCertMode = &clientCertMode
+	}
+	if site.CloningInfo != nil {
+		cloningInfo_ARM, err := (*site.CloningInfo).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		cloningInfo := *cloningInfo_ARM.(*CloningInfo_ARM)
+		result.Properties.CloningInfo = &cloningInfo
+	}
+	if site.ContainerSize != nil {
+		containerSize := *site.ContainerSize
+		result.Properties.ContainerSize = &containerSize
+	}
+	if site.CustomDomainVerificationId != nil {
+		customDomainVerificationId := *site.CustomDomainVerificationId
+		result.Properties.CustomDomainVerificationId = &customDomainVerificationId
+	}
+	if site.DailyMemoryTimeQuota != nil {
+		dailyMemoryTimeQuota := *site.DailyMemoryTimeQuota
+		result.Properties.DailyMemoryTimeQuota = &dailyMemoryTimeQuota
+	}
+	if site.Enabled != nil {
+		enabled := *site.Enabled
+		result.Properties.Enabled = &enabled
+	}
+	for _, item := range site.HostNameSslStates {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.HostNameSslStates = append(result.Properties.HostNameSslStates, *item_ARM.(*HostNameSslState_ARM))
+	}
+	if site.HostNamesDisabled != nil {
+		hostNamesDisabled := *site.HostNamesDisabled
+		result.Properties.HostNamesDisabled = &hostNamesDisabled
+	}
+	if site.HostingEnvironmentProfile != nil {
+		hostingEnvironmentProfile_ARM, err := (*site.HostingEnvironmentProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		hostingEnvironmentProfile := *hostingEnvironmentProfile_ARM.(*HostingEnvironmentProfile_ARM)
+		result.Properties.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	}
+	if site.HttpsOnly != nil {
+		httpsOnly := *site.HttpsOnly
+		result.Properties.HttpsOnly = &httpsOnly
+	}
+	if site.HyperV != nil {
+		hyperV := *site.HyperV
+		result.Properties.HyperV = &hyperV
+	}
+	if site.IsXenon != nil {
+		isXenon := *site.IsXenon
+		result.Properties.IsXenon = &isXenon
+	}
+	if site.KeyVaultReferenceIdentity != nil {
+		keyVaultReferenceIdentity := *site.KeyVaultReferenceIdentity
+		result.Properties.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
+	}
+	if site.PublicNetworkAccess != nil {
+		publicNetworkAccess := *site.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
+	if site.RedundancyMode != nil {
+		redundancyMode := *site.RedundancyMode
+		result.Properties.RedundancyMode = &redundancyMode
+	}
+	if site.Reserved != nil {
+		reserved := *site.Reserved
+		result.Properties.Reserved = &reserved
+	}
+	if site.ScmSiteAlsoStopped != nil {
+		scmSiteAlsoStopped := *site.ScmSiteAlsoStopped
+		result.Properties.ScmSiteAlsoStopped = &scmSiteAlsoStopped
+	}
+	if site.ServerFarmReference != nil {
+		serverFarmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*site.ServerFarmReference)
+		if err != nil {
+			return nil, err
+		}
+		serverFarmId := serverFarmIdARMID
+		result.Properties.ServerFarmId = &serverFarmId
+	}
+	if site.SiteConfig != nil {
+		siteConfig_ARM, err := (*site.SiteConfig).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		siteConfig := *siteConfig_ARM.(*Site_Properties_SiteConfig_Spec_ARM)
+		result.Properties.SiteConfig = &siteConfig
+	}
+	if site.StorageAccountRequired != nil {
+		storageAccountRequired := *site.StorageAccountRequired
+		result.Properties.StorageAccountRequired = &storageAccountRequired
+	}
+	if site.VirtualNetworkSubnetReference != nil {
+		virtualNetworkSubnetIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*site.VirtualNetworkSubnetReference)
+		if err != nil {
+			return nil, err
+		}
+		virtualNetworkSubnetId := virtualNetworkSubnetIdARMID
+		result.Properties.VirtualNetworkSubnetId = &virtualNetworkSubnetId
+	}
+	if site.VnetContentShareEnabled != nil {
+		vnetContentShareEnabled := *site.VnetContentShareEnabled
+		result.Properties.VnetContentShareEnabled = &vnetContentShareEnabled
+	}
+	if site.VnetImagePullEnabled != nil {
+		vnetImagePullEnabled := *site.VnetImagePullEnabled
+		result.Properties.VnetImagePullEnabled = &vnetImagePullEnabled
+	}
+	if site.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *site.VnetRouteAllEnabled
+		result.Properties.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	}
+
+	// Set property ‘Tags’:
+	if site.Tags != nil {
+		result.Tags = make(map[string]string, len(site.Tags))
+		for key, value := range site.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (site *Site_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Site_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Site_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	site.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘ClientAffinityEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClientAffinityEnabled != nil {
+			clientAffinityEnabled := *typedInput.Properties.ClientAffinityEnabled
+			site.ClientAffinityEnabled = &clientAffinityEnabled
+		}
+	}
+
+	// Set property ‘ClientCertEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClientCertEnabled != nil {
+			clientCertEnabled := *typedInput.Properties.ClientCertEnabled
+			site.ClientCertEnabled = &clientCertEnabled
+		}
+	}
+
+	// Set property ‘ClientCertExclusionPaths’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClientCertExclusionPaths != nil {
+			clientCertExclusionPaths := *typedInput.Properties.ClientCertExclusionPaths
+			site.ClientCertExclusionPaths = &clientCertExclusionPaths
+		}
+	}
+
+	// Set property ‘ClientCertMode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ClientCertMode != nil {
+			clientCertMode := *typedInput.Properties.ClientCertMode
+			site.ClientCertMode = &clientCertMode
+		}
+	}
+
+	// Set property ‘CloningInfo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CloningInfo != nil {
+			var cloningInfo1 CloningInfo
+			err := cloningInfo1.PopulateFromARM(owner, *typedInput.Properties.CloningInfo)
+			if err != nil {
+				return err
+			}
+			cloningInfo := cloningInfo1
+			site.CloningInfo = &cloningInfo
+		}
+	}
+
+	// Set property ‘ContainerSize’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ContainerSize != nil {
+			containerSize := *typedInput.Properties.ContainerSize
+			site.ContainerSize = &containerSize
+		}
+	}
+
+	// Set property ‘CustomDomainVerificationId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomDomainVerificationId != nil {
+			customDomainVerificationId := *typedInput.Properties.CustomDomainVerificationId
+			site.CustomDomainVerificationId = &customDomainVerificationId
+		}
+	}
+
+	// Set property ‘DailyMemoryTimeQuota’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DailyMemoryTimeQuota != nil {
+			dailyMemoryTimeQuota := *typedInput.Properties.DailyMemoryTimeQuota
+			site.DailyMemoryTimeQuota = &dailyMemoryTimeQuota
+		}
+	}
+
+	// Set property ‘Enabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Enabled != nil {
+			enabled := *typedInput.Properties.Enabled
+			site.Enabled = &enabled
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		site.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘HostNameSslStates’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.HostNameSslStates {
+			var item1 HostNameSslState
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			site.HostNameSslStates = append(site.HostNameSslStates, item1)
+		}
+	}
+
+	// Set property ‘HostNamesDisabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostNamesDisabled != nil {
+			hostNamesDisabled := *typedInput.Properties.HostNamesDisabled
+			site.HostNamesDisabled = &hostNamesDisabled
+		}
+	}
+
+	// Set property ‘HostingEnvironmentProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostingEnvironmentProfile != nil {
+			var hostingEnvironmentProfile1 HostingEnvironmentProfile
+			err := hostingEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.HostingEnvironmentProfile)
+			if err != nil {
+				return err
+			}
+			hostingEnvironmentProfile := hostingEnvironmentProfile1
+			site.HostingEnvironmentProfile = &hostingEnvironmentProfile
+		}
+	}
+
+	// Set property ‘HttpsOnly’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HttpsOnly != nil {
+			httpsOnly := *typedInput.Properties.HttpsOnly
+			site.HttpsOnly = &httpsOnly
+		}
+	}
+
+	// Set property ‘HyperV’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HyperV != nil {
+			hyperV := *typedInput.Properties.HyperV
+			site.HyperV = &hyperV
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 ManagedServiceIdentity
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		site.Identity = &identity
+	}
+
+	// Set property ‘IsXenon’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsXenon != nil {
+			isXenon := *typedInput.Properties.IsXenon
+			site.IsXenon = &isXenon
+		}
+	}
+
+	// Set property ‘KeyVaultReferenceIdentity’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KeyVaultReferenceIdentity != nil {
+			keyVaultReferenceIdentity := *typedInput.Properties.KeyVaultReferenceIdentity
+			site.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
+		}
+	}
+
+	// Set property ‘Kind’:
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		site.Kind = &kind
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		site.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	site.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			site.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘RedundancyMode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RedundancyMode != nil {
+			redundancyMode := *typedInput.Properties.RedundancyMode
+			site.RedundancyMode = &redundancyMode
+		}
+	}
+
+	// Set property ‘Reserved’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Reserved != nil {
+			reserved := *typedInput.Properties.Reserved
+			site.Reserved = &reserved
+		}
+	}
+
+	// Set property ‘ScmSiteAlsoStopped’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScmSiteAlsoStopped != nil {
+			scmSiteAlsoStopped := *typedInput.Properties.ScmSiteAlsoStopped
+			site.ScmSiteAlsoStopped = &scmSiteAlsoStopped
+		}
+	}
+
+	// no assignment for property ‘ServerFarmReference’
+
+	// Set property ‘SiteConfig’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SiteConfig != nil {
+			var siteConfig1 Site_Properties_SiteConfig_Spec
+			err := siteConfig1.PopulateFromARM(owner, *typedInput.Properties.SiteConfig)
+			if err != nil {
+				return err
+			}
+			siteConfig := siteConfig1
+			site.SiteConfig = &siteConfig
+		}
+	}
+
+	// Set property ‘StorageAccountRequired’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageAccountRequired != nil {
+			storageAccountRequired := *typedInput.Properties.StorageAccountRequired
+			site.StorageAccountRequired = &storageAccountRequired
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		site.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			site.Tags[key] = value
+		}
+	}
+
+	// no assignment for property ‘VirtualNetworkSubnetReference’
+
+	// Set property ‘VnetContentShareEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VnetContentShareEnabled != nil {
+			vnetContentShareEnabled := *typedInput.Properties.VnetContentShareEnabled
+			site.VnetContentShareEnabled = &vnetContentShareEnabled
+		}
+	}
+
+	// Set property ‘VnetImagePullEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VnetImagePullEnabled != nil {
+			vnetImagePullEnabled := *typedInput.Properties.VnetImagePullEnabled
+			site.VnetImagePullEnabled = &vnetImagePullEnabled
+		}
+	}
+
+	// Set property ‘VnetRouteAllEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VnetRouteAllEnabled != nil {
+			vnetRouteAllEnabled := *typedInput.Properties.VnetRouteAllEnabled
+			site.VnetRouteAllEnabled = &vnetRouteAllEnabled
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Site_Spec{}
+
+// ConvertSpecFrom populates our Site_Spec from the provided source
+func (site *Site_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20220301s.Site_Spec)
+	if ok {
+		// Populate our instance from source
+		return site.AssignProperties_From_Site_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20220301s.Site_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = site.AssignProperties_From_Site_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Site_Spec
+func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20220301s.Site_Spec)
+	if ok {
+		// Populate destination from our instance
+		return site.AssignProperties_To_Site_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20220301s.Site_Spec{}
+	err := site.AssignProperties_To_Site_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Site_Spec populates our Site_Spec from the provided source Site_Spec
+func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_Spec) error {
+
+	// AzureName
+	site.AzureName = source.AzureName
+
+	// ClientAffinityEnabled
+	if source.ClientAffinityEnabled != nil {
+		clientAffinityEnabled := *source.ClientAffinityEnabled
+		site.ClientAffinityEnabled = &clientAffinityEnabled
+	} else {
+		site.ClientAffinityEnabled = nil
+	}
+
+	// ClientCertEnabled
+	if source.ClientCertEnabled != nil {
+		clientCertEnabled := *source.ClientCertEnabled
+		site.ClientCertEnabled = &clientCertEnabled
+	} else {
+		site.ClientCertEnabled = nil
+	}
+
+	// ClientCertExclusionPaths
+	site.ClientCertExclusionPaths = genruntime.ClonePointerToString(source.ClientCertExclusionPaths)
+
+	// ClientCertMode
+	if source.ClientCertMode != nil {
+		clientCertMode := Site_Properties_ClientCertMode_Spec(*source.ClientCertMode)
+		site.ClientCertMode = &clientCertMode
+	} else {
+		site.ClientCertMode = nil
+	}
+
+	// CloningInfo
+	if source.CloningInfo != nil {
+		var cloningInfo CloningInfo
+		err := cloningInfo.AssignProperties_From_CloningInfo(source.CloningInfo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CloningInfo() to populate field CloningInfo")
+		}
+		site.CloningInfo = &cloningInfo
+	} else {
+		site.CloningInfo = nil
+	}
+
+	// ContainerSize
+	site.ContainerSize = genruntime.ClonePointerToInt(source.ContainerSize)
+
+	// CustomDomainVerificationId
+	site.CustomDomainVerificationId = genruntime.ClonePointerToString(source.CustomDomainVerificationId)
+
+	// DailyMemoryTimeQuota
+	site.DailyMemoryTimeQuota = genruntime.ClonePointerToInt(source.DailyMemoryTimeQuota)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		site.Enabled = &enabled
+	} else {
+		site.Enabled = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		site.ExtendedLocation = &extendedLocation
+	} else {
+		site.ExtendedLocation = nil
+	}
+
+	// HostNameSslStates
+	if source.HostNameSslStates != nil {
+		hostNameSslStateList := make([]HostNameSslState, len(source.HostNameSslStates))
+		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
+			// Shadow the loop variable to avoid aliasing
+			hostNameSslStateItem := hostNameSslStateItem
+			var hostNameSslState HostNameSslState
+			err := hostNameSslState.AssignProperties_From_HostNameSslState(&hostNameSslStateItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_HostNameSslState() to populate field HostNameSslStates")
+			}
+			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
+		}
+		site.HostNameSslStates = hostNameSslStateList
+	} else {
+		site.HostNameSslStates = nil
+	}
+
+	// HostNamesDisabled
+	if source.HostNamesDisabled != nil {
+		hostNamesDisabled := *source.HostNamesDisabled
+		site.HostNamesDisabled = &hostNamesDisabled
+	} else {
+		site.HostNamesDisabled = nil
+	}
+
+	// HostingEnvironmentProfile
+	if source.HostingEnvironmentProfile != nil {
+		var hostingEnvironmentProfile HostingEnvironmentProfile
+		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile(source.HostingEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+		}
+		site.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	} else {
+		site.HostingEnvironmentProfile = nil
+	}
+
+	// HttpsOnly
+	if source.HttpsOnly != nil {
+		httpsOnly := *source.HttpsOnly
+		site.HttpsOnly = &httpsOnly
+	} else {
+		site.HttpsOnly = nil
+	}
+
+	// HyperV
+	if source.HyperV != nil {
+		hyperV := *source.HyperV
+		site.HyperV = &hyperV
+	} else {
+		site.HyperV = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity
+		err := identity.AssignProperties_From_ManagedServiceIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
+		}
+		site.Identity = &identity
+	} else {
+		site.Identity = nil
+	}
+
+	// IsXenon
+	if source.IsXenon != nil {
+		isXenon := *source.IsXenon
+		site.IsXenon = &isXenon
+	} else {
+		site.IsXenon = nil
+	}
+
+	// KeyVaultReferenceIdentity
+	site.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
+
+	// Kind
+	site.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	site.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		site.Owner = &owner
+	} else {
+		site.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	site.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// RedundancyMode
+	if source.RedundancyMode != nil {
+		redundancyMode := Site_Properties_RedundancyMode_Spec(*source.RedundancyMode)
+		site.RedundancyMode = &redundancyMode
+	} else {
+		site.RedundancyMode = nil
+	}
+
+	// Reserved
+	if source.Reserved != nil {
+		reserved := *source.Reserved
+		site.Reserved = &reserved
+	} else {
+		site.Reserved = nil
+	}
+
+	// ScmSiteAlsoStopped
+	if source.ScmSiteAlsoStopped != nil {
+		scmSiteAlsoStopped := *source.ScmSiteAlsoStopped
+		site.ScmSiteAlsoStopped = &scmSiteAlsoStopped
+	} else {
+		site.ScmSiteAlsoStopped = nil
+	}
+
+	// ServerFarmReference
+	if source.ServerFarmReference != nil {
+		serverFarmReference := source.ServerFarmReference.Copy()
+		site.ServerFarmReference = &serverFarmReference
+	} else {
+		site.ServerFarmReference = nil
+	}
+
+	// SiteConfig
+	if source.SiteConfig != nil {
+		var siteConfig Site_Properties_SiteConfig_Spec
+		err := siteConfig.AssignProperties_From_Site_Properties_SiteConfig_Spec(source.SiteConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_Spec() to populate field SiteConfig")
+		}
+		site.SiteConfig = &siteConfig
+	} else {
+		site.SiteConfig = nil
+	}
+
+	// StorageAccountRequired
+	if source.StorageAccountRequired != nil {
+		storageAccountRequired := *source.StorageAccountRequired
+		site.StorageAccountRequired = &storageAccountRequired
+	} else {
+		site.StorageAccountRequired = nil
+	}
+
+	// Tags
+	site.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualNetworkSubnetReference
+	if source.VirtualNetworkSubnetReference != nil {
+		virtualNetworkSubnetReference := source.VirtualNetworkSubnetReference.Copy()
+		site.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
+	} else {
+		site.VirtualNetworkSubnetReference = nil
+	}
+
+	// VnetContentShareEnabled
+	if source.VnetContentShareEnabled != nil {
+		vnetContentShareEnabled := *source.VnetContentShareEnabled
+		site.VnetContentShareEnabled = &vnetContentShareEnabled
+	} else {
+		site.VnetContentShareEnabled = nil
+	}
+
+	// VnetImagePullEnabled
+	if source.VnetImagePullEnabled != nil {
+		vnetImagePullEnabled := *source.VnetImagePullEnabled
+		site.VnetImagePullEnabled = &vnetImagePullEnabled
+	} else {
+		site.VnetImagePullEnabled = nil
+	}
+
+	// VnetRouteAllEnabled
+	if source.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
+		site.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	} else {
+		site.VnetRouteAllEnabled = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Site_Spec populates the provided destination Site_Spec from our Site_Spec
+func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Site_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = site.AzureName
+
+	// ClientAffinityEnabled
+	if site.ClientAffinityEnabled != nil {
+		clientAffinityEnabled := *site.ClientAffinityEnabled
+		destination.ClientAffinityEnabled = &clientAffinityEnabled
+	} else {
+		destination.ClientAffinityEnabled = nil
+	}
+
+	// ClientCertEnabled
+	if site.ClientCertEnabled != nil {
+		clientCertEnabled := *site.ClientCertEnabled
+		destination.ClientCertEnabled = &clientCertEnabled
+	} else {
+		destination.ClientCertEnabled = nil
+	}
+
+	// ClientCertExclusionPaths
+	destination.ClientCertExclusionPaths = genruntime.ClonePointerToString(site.ClientCertExclusionPaths)
+
+	// ClientCertMode
+	if site.ClientCertMode != nil {
+		clientCertMode := string(*site.ClientCertMode)
+		destination.ClientCertMode = &clientCertMode
+	} else {
+		destination.ClientCertMode = nil
+	}
+
+	// CloningInfo
+	if site.CloningInfo != nil {
+		var cloningInfo v20220301s.CloningInfo
+		err := site.CloningInfo.AssignProperties_To_CloningInfo(&cloningInfo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo() to populate field CloningInfo")
+		}
+		destination.CloningInfo = &cloningInfo
+	} else {
+		destination.CloningInfo = nil
+	}
+
+	// ContainerSize
+	destination.ContainerSize = genruntime.ClonePointerToInt(site.ContainerSize)
+
+	// CustomDomainVerificationId
+	destination.CustomDomainVerificationId = genruntime.ClonePointerToString(site.CustomDomainVerificationId)
+
+	// DailyMemoryTimeQuota
+	destination.DailyMemoryTimeQuota = genruntime.ClonePointerToInt(site.DailyMemoryTimeQuota)
+
+	// Enabled
+	if site.Enabled != nil {
+		enabled := *site.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// ExtendedLocation
+	if site.ExtendedLocation != nil {
+		var extendedLocation v20220301s.ExtendedLocation
+		err := site.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HostNameSslStates
+	if site.HostNameSslStates != nil {
+		hostNameSslStateList := make([]v20220301s.HostNameSslState, len(site.HostNameSslStates))
+		for hostNameSslStateIndex, hostNameSslStateItem := range site.HostNameSslStates {
+			// Shadow the loop variable to avoid aliasing
+			hostNameSslStateItem := hostNameSslStateItem
+			var hostNameSslState v20220301s.HostNameSslState
+			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState(&hostNameSslState)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState() to populate field HostNameSslStates")
+			}
+			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
+		}
+		destination.HostNameSslStates = hostNameSslStateList
+	} else {
+		destination.HostNameSslStates = nil
+	}
+
+	// HostNamesDisabled
+	if site.HostNamesDisabled != nil {
+		hostNamesDisabled := *site.HostNamesDisabled
+		destination.HostNamesDisabled = &hostNamesDisabled
+	} else {
+		destination.HostNamesDisabled = nil
+	}
+
+	// HostingEnvironmentProfile
+	if site.HostingEnvironmentProfile != nil {
+		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile
+		err := site.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+		}
+		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	} else {
+		destination.HostingEnvironmentProfile = nil
+	}
+
+	// HttpsOnly
+	if site.HttpsOnly != nil {
+		httpsOnly := *site.HttpsOnly
+		destination.HttpsOnly = &httpsOnly
+	} else {
+		destination.HttpsOnly = nil
+	}
+
+	// HyperV
+	if site.HyperV != nil {
+		hyperV := *site.HyperV
+		destination.HyperV = &hyperV
+	} else {
+		destination.HyperV = nil
+	}
+
+	// Identity
+	if site.Identity != nil {
+		var identity v20220301s.ManagedServiceIdentity
+		err := site.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IsXenon
+	if site.IsXenon != nil {
+		isXenon := *site.IsXenon
+		destination.IsXenon = &isXenon
+	} else {
+		destination.IsXenon = nil
+	}
+
+	// KeyVaultReferenceIdentity
+	destination.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(site.KeyVaultReferenceIdentity)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(site.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(site.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = site.OriginalVersion()
+
+	// Owner
+	if site.Owner != nil {
+		owner := site.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(site.PublicNetworkAccess)
+
+	// RedundancyMode
+	if site.RedundancyMode != nil {
+		redundancyMode := string(*site.RedundancyMode)
+		destination.RedundancyMode = &redundancyMode
+	} else {
+		destination.RedundancyMode = nil
+	}
+
+	// Reserved
+	if site.Reserved != nil {
+		reserved := *site.Reserved
+		destination.Reserved = &reserved
+	} else {
+		destination.Reserved = nil
+	}
+
+	// ScmSiteAlsoStopped
+	if site.ScmSiteAlsoStopped != nil {
+		scmSiteAlsoStopped := *site.ScmSiteAlsoStopped
+		destination.ScmSiteAlsoStopped = &scmSiteAlsoStopped
+	} else {
+		destination.ScmSiteAlsoStopped = nil
+	}
+
+	// ServerFarmReference
+	if site.ServerFarmReference != nil {
+		serverFarmReference := site.ServerFarmReference.Copy()
+		destination.ServerFarmReference = &serverFarmReference
+	} else {
+		destination.ServerFarmReference = nil
+	}
+
+	// SiteConfig
+	if site.SiteConfig != nil {
+		var siteConfig v20220301s.Site_Properties_SiteConfig_Spec
+		err := site.SiteConfig.AssignProperties_To_Site_Properties_SiteConfig_Spec(&siteConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_Spec() to populate field SiteConfig")
+		}
+		destination.SiteConfig = &siteConfig
+	} else {
+		destination.SiteConfig = nil
+	}
+
+	// StorageAccountRequired
+	if site.StorageAccountRequired != nil {
+		storageAccountRequired := *site.StorageAccountRequired
+		destination.StorageAccountRequired = &storageAccountRequired
+	} else {
+		destination.StorageAccountRequired = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(site.Tags)
+
+	// VirtualNetworkSubnetReference
+	if site.VirtualNetworkSubnetReference != nil {
+		virtualNetworkSubnetReference := site.VirtualNetworkSubnetReference.Copy()
+		destination.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
+	} else {
+		destination.VirtualNetworkSubnetReference = nil
+	}
+
+	// VnetContentShareEnabled
+	if site.VnetContentShareEnabled != nil {
+		vnetContentShareEnabled := *site.VnetContentShareEnabled
+		destination.VnetContentShareEnabled = &vnetContentShareEnabled
+	} else {
+		destination.VnetContentShareEnabled = nil
+	}
+
+	// VnetImagePullEnabled
+	if site.VnetImagePullEnabled != nil {
+		vnetImagePullEnabled := *site.VnetImagePullEnabled
+		destination.VnetImagePullEnabled = &vnetImagePullEnabled
+	} else {
+		destination.VnetImagePullEnabled = nil
+	}
+
+	// VnetRouteAllEnabled
+	if site.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *site.VnetRouteAllEnabled
+		destination.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	} else {
+		destination.VnetRouteAllEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (site *Site_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (site *Site_Spec) SetAzureName(azureName string) { site.AzureName = azureName }
+
+type Site_STATUS struct {
+	// AvailabilityState: Management information availability state for the app.
+	AvailabilityState *Site_Properties_AvailabilityState_STATUS `json:"availabilityState,omitempty"`
+
+	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
+	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
+	ClientAffinityEnabled *bool `json:"clientAffinityEnabled,omitempty"`
+
+	// ClientCertEnabled: <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise,
+	// <code>false</code>. Default is <code>false</code>.
+	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
+
+	// ClientCertExclusionPaths: client certificate authentication comma-separated exclusion paths
+	ClientCertExclusionPaths *string `json:"clientCertExclusionPaths,omitempty"`
+
+	// ClientCertMode: This composes with ClientCertEnabled setting.
+	// - ClientCertEnabled: false means ClientCert is ignored.
+	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
+	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
+	ClientCertMode *Site_Properties_ClientCertMode_STATUS `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo_STATUS `json:"cloningInfo,omitempty"`
@@ -432,7 +1674,7 @@ type Site_STATUS struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode
-	RedundancyMode *Site_STATUS_Properties_RedundancyMode `json:"redundancyMode,omitempty"`
+	RedundancyMode *Site_Properties_RedundancyMode_STATUS `json:"redundancyMode,omitempty"`
 
 	// RepositorySiteName: Name of the repository site.
 	RepositorySiteName *string `json:"repositorySiteName,omitempty"`
@@ -479,7 +1721,7 @@ type Site_STATUS struct {
 	Type *string `json:"type,omitempty"`
 
 	// UsageState: State indicating whether the app has exceeded its quota usage. Read-only.
-	UsageState *Site_STATUS_Properties_UsageState `json:"usageState,omitempty"`
+	UsageState *Site_Properties_UsageState_STATUS `json:"usageState,omitempty"`
 
 	// VirtualNetworkSubnetId: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
 	// Integration.
@@ -552,14 +1794,14 @@ var _ genruntime.FromARMConverter = &Site_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (site *Site_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Site_STATUSARM{}
+	return &Site_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (site *Site_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Site_STATUSARM)
+	typedInput, ok := armInput.(Site_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailabilityState’:
@@ -1059,7 +2301,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// AvailabilityState
 	if source.AvailabilityState != nil {
-		availabilityState := Site_STATUS_Properties_AvailabilityState(*source.AvailabilityState)
+		availabilityState := Site_Properties_AvailabilityState_STATUS(*source.AvailabilityState)
 		site.AvailabilityState = &availabilityState
 	} else {
 		site.AvailabilityState = nil
@@ -1086,7 +2328,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// ClientCertMode
 	if source.ClientCertMode != nil {
-		clientCertMode := Site_STATUS_Properties_ClientCertMode(*source.ClientCertMode)
+		clientCertMode := Site_Properties_ClientCertMode_STATUS(*source.ClientCertMode)
 		site.ClientCertMode = &clientCertMode
 	} else {
 		site.ClientCertMode = nil
@@ -1262,7 +2504,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// RedundancyMode
 	if source.RedundancyMode != nil {
-		redundancyMode := Site_STATUS_Properties_RedundancyMode(*source.RedundancyMode)
+		redundancyMode := Site_Properties_RedundancyMode_STATUS(*source.RedundancyMode)
 		site.RedundancyMode = &redundancyMode
 	} else {
 		site.RedundancyMode = nil
@@ -1345,7 +2587,7 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// UsageState
 	if source.UsageState != nil {
-		usageState := Site_STATUS_Properties_UsageState(*source.UsageState)
+		usageState := Site_Properties_UsageState_STATUS(*source.UsageState)
 		site.UsageState = &usageState
 	} else {
 		site.UsageState = nil
@@ -1719,1248 +2961,6 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 	return nil
 }
 
-type Sites_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
-	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
-	ClientAffinityEnabled *bool `json:"clientAffinityEnabled,omitempty"`
-
-	// ClientCertEnabled: <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise,
-	// <code>false</code>. Default is <code>false</code>.
-	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
-
-	// ClientCertExclusionPaths: client certificate authentication comma-separated exclusion paths
-	ClientCertExclusionPaths *string `json:"clientCertExclusionPaths,omitempty"`
-
-	// ClientCertMode: This composes with ClientCertEnabled setting.
-	// - ClientCertEnabled: false means ClientCert is ignored.
-	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
-	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *Sites_Spec_Properties_ClientCertMode `json:"clientCertMode,omitempty"`
-
-	// CloningInfo: Information needed for cloning operation.
-	CloningInfo *CloningInfo `json:"cloningInfo,omitempty"`
-
-	// ContainerSize: Size of the function container.
-	ContainerSize *int `json:"containerSize,omitempty"`
-
-	// CustomDomainVerificationId: Unique identifier that verifies the custom domains assigned to the app. Customer will add
-	// this id to a txt record for verification.
-	CustomDomainVerificationId *string `json:"customDomainVerificationId,omitempty"`
-
-	// DailyMemoryTimeQuota: Maximum allowed daily memory-time quota (applicable on dynamic apps only).
-	DailyMemoryTimeQuota *int `json:"dailyMemoryTimeQuota,omitempty"`
-
-	// Enabled: <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables
-	// the app (takes the app offline).
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// ExtendedLocation: Extended Location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
-	HostNameSslStates []HostNameSslState `json:"hostNameSslStates,omitempty"`
-
-	// HostNamesDisabled: <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
-	// If <code>true</code>, the app is only accessible via API management process.
-	HostNamesDisabled *bool `json:"hostNamesDisabled,omitempty"`
-
-	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
-	HostingEnvironmentProfile *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
-
-	// HttpsOnly: HttpsOnly: configures a web site to accept only https requests. Issues redirect for
-	// http requests
-	HttpsOnly *bool `json:"httpsOnly,omitempty"`
-
-	// HyperV: Hyper-V sandbox.
-	HyperV *bool `json:"hyperV,omitempty"`
-
-	// Identity: Managed service identity.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
-
-	// IsXenon: Obsolete: Hyper-V sandbox.
-	IsXenon *bool `json:"isXenon,omitempty"`
-
-	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
-	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty
-	// string.
-	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
-
-	// RedundancyMode: Site redundancy mode.
-	RedundancyMode *Sites_Spec_Properties_RedundancyMode `json:"redundancyMode,omitempty"`
-
-	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
-	Reserved *bool `json:"reserved,omitempty"`
-
-	// ScmSiteAlsoStopped: <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>.
-	// The default is <code>false</code>.
-	ScmSiteAlsoStopped *bool `json:"scmSiteAlsoStopped,omitempty"`
-
-	// ServerFarmReference: Resource ID of the associated App Service plan, formatted as:
-	// "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
-	ServerFarmReference *genruntime.ResourceReference `armReference:"ServerFarmId" json:"serverFarmReference,omitempty"`
-
-	// SiteConfig: Configuration of an App Service app.
-	SiteConfig *Sites_Spec_Properties_SiteConfig `json:"siteConfig,omitempty"`
-
-	// StorageAccountRequired: Checks if Customer provided storage account is required
-	StorageAccountRequired *bool `json:"storageAccountRequired,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// VirtualNetworkSubnetReference: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
-	// Integration.
-	// This must be of the form
-	// /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
-	VirtualNetworkSubnetReference *genruntime.ResourceReference `armReference:"VirtualNetworkSubnetId" json:"virtualNetworkSubnetReference,omitempty"`
-
-	// VnetContentShareEnabled: To enable accessing content over virtual network
-	VnetContentShareEnabled *bool `json:"vnetContentShareEnabled,omitempty"`
-
-	// VnetImagePullEnabled: To enable pulling image over Virtual Network
-	VnetImagePullEnabled *bool `json:"vnetImagePullEnabled,omitempty"`
-
-	// VnetRouteAllEnabled: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network
-	// Security Groups and User Defined Routes applied.
-	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Sites_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sites *Sites_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if sites == nil {
-		return nil, nil
-	}
-	result := &Sites_SpecARM{}
-
-	// Set property ‘ExtendedLocation’:
-	if sites.ExtendedLocation != nil {
-		extendedLocationARM, err := (*sites.ExtendedLocation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
-		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Identity’:
-	if sites.Identity != nil {
-		identityARM, err := (*sites.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*ManagedServiceIdentityARM)
-		result.Identity = &identity
-	}
-
-	// Set property ‘Kind’:
-	if sites.Kind != nil {
-		kind := *sites.Kind
-		result.Kind = &kind
-	}
-
-	// Set property ‘Location’:
-	if sites.Location != nil {
-		location := *sites.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if sites.ClientAffinityEnabled != nil ||
-		sites.ClientCertEnabled != nil ||
-		sites.ClientCertExclusionPaths != nil ||
-		sites.ClientCertMode != nil ||
-		sites.CloningInfo != nil ||
-		sites.ContainerSize != nil ||
-		sites.CustomDomainVerificationId != nil ||
-		sites.DailyMemoryTimeQuota != nil ||
-		sites.Enabled != nil ||
-		sites.HostNameSslStates != nil ||
-		sites.HostNamesDisabled != nil ||
-		sites.HostingEnvironmentProfile != nil ||
-		sites.HttpsOnly != nil ||
-		sites.HyperV != nil ||
-		sites.IsXenon != nil ||
-		sites.KeyVaultReferenceIdentity != nil ||
-		sites.PublicNetworkAccess != nil ||
-		sites.RedundancyMode != nil ||
-		sites.Reserved != nil ||
-		sites.ScmSiteAlsoStopped != nil ||
-		sites.ServerFarmReference != nil ||
-		sites.SiteConfig != nil ||
-		sites.StorageAccountRequired != nil ||
-		sites.VirtualNetworkSubnetReference != nil ||
-		sites.VnetContentShareEnabled != nil ||
-		sites.VnetImagePullEnabled != nil ||
-		sites.VnetRouteAllEnabled != nil {
-		result.Properties = &Sites_Spec_PropertiesARM{}
-	}
-	if sites.ClientAffinityEnabled != nil {
-		clientAffinityEnabled := *sites.ClientAffinityEnabled
-		result.Properties.ClientAffinityEnabled = &clientAffinityEnabled
-	}
-	if sites.ClientCertEnabled != nil {
-		clientCertEnabled := *sites.ClientCertEnabled
-		result.Properties.ClientCertEnabled = &clientCertEnabled
-	}
-	if sites.ClientCertExclusionPaths != nil {
-		clientCertExclusionPaths := *sites.ClientCertExclusionPaths
-		result.Properties.ClientCertExclusionPaths = &clientCertExclusionPaths
-	}
-	if sites.ClientCertMode != nil {
-		clientCertMode := *sites.ClientCertMode
-		result.Properties.ClientCertMode = &clientCertMode
-	}
-	if sites.CloningInfo != nil {
-		cloningInfoARM, err := (*sites.CloningInfo).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		cloningInfo := *cloningInfoARM.(*CloningInfoARM)
-		result.Properties.CloningInfo = &cloningInfo
-	}
-	if sites.ContainerSize != nil {
-		containerSize := *sites.ContainerSize
-		result.Properties.ContainerSize = &containerSize
-	}
-	if sites.CustomDomainVerificationId != nil {
-		customDomainVerificationId := *sites.CustomDomainVerificationId
-		result.Properties.CustomDomainVerificationId = &customDomainVerificationId
-	}
-	if sites.DailyMemoryTimeQuota != nil {
-		dailyMemoryTimeQuota := *sites.DailyMemoryTimeQuota
-		result.Properties.DailyMemoryTimeQuota = &dailyMemoryTimeQuota
-	}
-	if sites.Enabled != nil {
-		enabled := *sites.Enabled
-		result.Properties.Enabled = &enabled
-	}
-	for _, item := range sites.HostNameSslStates {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.HostNameSslStates = append(result.Properties.HostNameSslStates, *itemARM.(*HostNameSslStateARM))
-	}
-	if sites.HostNamesDisabled != nil {
-		hostNamesDisabled := *sites.HostNamesDisabled
-		result.Properties.HostNamesDisabled = &hostNamesDisabled
-	}
-	if sites.HostingEnvironmentProfile != nil {
-		hostingEnvironmentProfileARM, err := (*sites.HostingEnvironmentProfile).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		hostingEnvironmentProfile := *hostingEnvironmentProfileARM.(*HostingEnvironmentProfileARM)
-		result.Properties.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	}
-	if sites.HttpsOnly != nil {
-		httpsOnly := *sites.HttpsOnly
-		result.Properties.HttpsOnly = &httpsOnly
-	}
-	if sites.HyperV != nil {
-		hyperV := *sites.HyperV
-		result.Properties.HyperV = &hyperV
-	}
-	if sites.IsXenon != nil {
-		isXenon := *sites.IsXenon
-		result.Properties.IsXenon = &isXenon
-	}
-	if sites.KeyVaultReferenceIdentity != nil {
-		keyVaultReferenceIdentity := *sites.KeyVaultReferenceIdentity
-		result.Properties.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
-	}
-	if sites.PublicNetworkAccess != nil {
-		publicNetworkAccess := *sites.PublicNetworkAccess
-		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-	if sites.RedundancyMode != nil {
-		redundancyMode := *sites.RedundancyMode
-		result.Properties.RedundancyMode = &redundancyMode
-	}
-	if sites.Reserved != nil {
-		reserved := *sites.Reserved
-		result.Properties.Reserved = &reserved
-	}
-	if sites.ScmSiteAlsoStopped != nil {
-		scmSiteAlsoStopped := *sites.ScmSiteAlsoStopped
-		result.Properties.ScmSiteAlsoStopped = &scmSiteAlsoStopped
-	}
-	if sites.ServerFarmReference != nil {
-		serverFarmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*sites.ServerFarmReference)
-		if err != nil {
-			return nil, err
-		}
-		serverFarmId := serverFarmIdARMID
-		result.Properties.ServerFarmId = &serverFarmId
-	}
-	if sites.SiteConfig != nil {
-		siteConfigARM, err := (*sites.SiteConfig).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		siteConfig := *siteConfigARM.(*Sites_Spec_Properties_SiteConfigARM)
-		result.Properties.SiteConfig = &siteConfig
-	}
-	if sites.StorageAccountRequired != nil {
-		storageAccountRequired := *sites.StorageAccountRequired
-		result.Properties.StorageAccountRequired = &storageAccountRequired
-	}
-	if sites.VirtualNetworkSubnetReference != nil {
-		virtualNetworkSubnetIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*sites.VirtualNetworkSubnetReference)
-		if err != nil {
-			return nil, err
-		}
-		virtualNetworkSubnetId := virtualNetworkSubnetIdARMID
-		result.Properties.VirtualNetworkSubnetId = &virtualNetworkSubnetId
-	}
-	if sites.VnetContentShareEnabled != nil {
-		vnetContentShareEnabled := *sites.VnetContentShareEnabled
-		result.Properties.VnetContentShareEnabled = &vnetContentShareEnabled
-	}
-	if sites.VnetImagePullEnabled != nil {
-		vnetImagePullEnabled := *sites.VnetImagePullEnabled
-		result.Properties.VnetImagePullEnabled = &vnetImagePullEnabled
-	}
-	if sites.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *sites.VnetRouteAllEnabled
-		result.Properties.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	}
-
-	// Set property ‘Tags’:
-	if sites.Tags != nil {
-		result.Tags = make(map[string]string, len(sites.Tags))
-		for key, value := range sites.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sites *Sites_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sites_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sites *Sites_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sites_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sites_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	sites.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘ClientAffinityEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ClientAffinityEnabled != nil {
-			clientAffinityEnabled := *typedInput.Properties.ClientAffinityEnabled
-			sites.ClientAffinityEnabled = &clientAffinityEnabled
-		}
-	}
-
-	// Set property ‘ClientCertEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ClientCertEnabled != nil {
-			clientCertEnabled := *typedInput.Properties.ClientCertEnabled
-			sites.ClientCertEnabled = &clientCertEnabled
-		}
-	}
-
-	// Set property ‘ClientCertExclusionPaths’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ClientCertExclusionPaths != nil {
-			clientCertExclusionPaths := *typedInput.Properties.ClientCertExclusionPaths
-			sites.ClientCertExclusionPaths = &clientCertExclusionPaths
-		}
-	}
-
-	// Set property ‘ClientCertMode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ClientCertMode != nil {
-			clientCertMode := *typedInput.Properties.ClientCertMode
-			sites.ClientCertMode = &clientCertMode
-		}
-	}
-
-	// Set property ‘CloningInfo’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CloningInfo != nil {
-			var cloningInfo1 CloningInfo
-			err := cloningInfo1.PopulateFromARM(owner, *typedInput.Properties.CloningInfo)
-			if err != nil {
-				return err
-			}
-			cloningInfo := cloningInfo1
-			sites.CloningInfo = &cloningInfo
-		}
-	}
-
-	// Set property ‘ContainerSize’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ContainerSize != nil {
-			containerSize := *typedInput.Properties.ContainerSize
-			sites.ContainerSize = &containerSize
-		}
-	}
-
-	// Set property ‘CustomDomainVerificationId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomDomainVerificationId != nil {
-			customDomainVerificationId := *typedInput.Properties.CustomDomainVerificationId
-			sites.CustomDomainVerificationId = &customDomainVerificationId
-		}
-	}
-
-	// Set property ‘DailyMemoryTimeQuota’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DailyMemoryTimeQuota != nil {
-			dailyMemoryTimeQuota := *typedInput.Properties.DailyMemoryTimeQuota
-			sites.DailyMemoryTimeQuota = &dailyMemoryTimeQuota
-		}
-	}
-
-	// Set property ‘Enabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Enabled != nil {
-			enabled := *typedInput.Properties.Enabled
-			sites.Enabled = &enabled
-		}
-	}
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		sites.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘HostNameSslStates’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.HostNameSslStates {
-			var item1 HostNameSslState
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			sites.HostNameSslStates = append(sites.HostNameSslStates, item1)
-		}
-	}
-
-	// Set property ‘HostNamesDisabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostNamesDisabled != nil {
-			hostNamesDisabled := *typedInput.Properties.HostNamesDisabled
-			sites.HostNamesDisabled = &hostNamesDisabled
-		}
-	}
-
-	// Set property ‘HostingEnvironmentProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostingEnvironmentProfile != nil {
-			var hostingEnvironmentProfile1 HostingEnvironmentProfile
-			err := hostingEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.HostingEnvironmentProfile)
-			if err != nil {
-				return err
-			}
-			hostingEnvironmentProfile := hostingEnvironmentProfile1
-			sites.HostingEnvironmentProfile = &hostingEnvironmentProfile
-		}
-	}
-
-	// Set property ‘HttpsOnly’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HttpsOnly != nil {
-			httpsOnly := *typedInput.Properties.HttpsOnly
-			sites.HttpsOnly = &httpsOnly
-		}
-	}
-
-	// Set property ‘HyperV’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HyperV != nil {
-			hyperV := *typedInput.Properties.HyperV
-			sites.HyperV = &hyperV
-		}
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 ManagedServiceIdentity
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		sites.Identity = &identity
-	}
-
-	// Set property ‘IsXenon’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsXenon != nil {
-			isXenon := *typedInput.Properties.IsXenon
-			sites.IsXenon = &isXenon
-		}
-	}
-
-	// Set property ‘KeyVaultReferenceIdentity’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KeyVaultReferenceIdentity != nil {
-			keyVaultReferenceIdentity := *typedInput.Properties.KeyVaultReferenceIdentity
-			sites.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
-		}
-	}
-
-	// Set property ‘Kind’:
-	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
-		sites.Kind = &kind
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		sites.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	sites.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			sites.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘RedundancyMode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RedundancyMode != nil {
-			redundancyMode := *typedInput.Properties.RedundancyMode
-			sites.RedundancyMode = &redundancyMode
-		}
-	}
-
-	// Set property ‘Reserved’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Reserved != nil {
-			reserved := *typedInput.Properties.Reserved
-			sites.Reserved = &reserved
-		}
-	}
-
-	// Set property ‘ScmSiteAlsoStopped’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ScmSiteAlsoStopped != nil {
-			scmSiteAlsoStopped := *typedInput.Properties.ScmSiteAlsoStopped
-			sites.ScmSiteAlsoStopped = &scmSiteAlsoStopped
-		}
-	}
-
-	// no assignment for property ‘ServerFarmReference’
-
-	// Set property ‘SiteConfig’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SiteConfig != nil {
-			var siteConfig1 Sites_Spec_Properties_SiteConfig
-			err := siteConfig1.PopulateFromARM(owner, *typedInput.Properties.SiteConfig)
-			if err != nil {
-				return err
-			}
-			siteConfig := siteConfig1
-			sites.SiteConfig = &siteConfig
-		}
-	}
-
-	// Set property ‘StorageAccountRequired’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageAccountRequired != nil {
-			storageAccountRequired := *typedInput.Properties.StorageAccountRequired
-			sites.StorageAccountRequired = &storageAccountRequired
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		sites.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			sites.Tags[key] = value
-		}
-	}
-
-	// no assignment for property ‘VirtualNetworkSubnetReference’
-
-	// Set property ‘VnetContentShareEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VnetContentShareEnabled != nil {
-			vnetContentShareEnabled := *typedInput.Properties.VnetContentShareEnabled
-			sites.VnetContentShareEnabled = &vnetContentShareEnabled
-		}
-	}
-
-	// Set property ‘VnetImagePullEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VnetImagePullEnabled != nil {
-			vnetImagePullEnabled := *typedInput.Properties.VnetImagePullEnabled
-			sites.VnetImagePullEnabled = &vnetImagePullEnabled
-		}
-	}
-
-	// Set property ‘VnetRouteAllEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VnetRouteAllEnabled != nil {
-			vnetRouteAllEnabled := *typedInput.Properties.VnetRouteAllEnabled
-			sites.VnetRouteAllEnabled = &vnetRouteAllEnabled
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Sites_Spec{}
-
-// ConvertSpecFrom populates our Sites_Spec from the provided source
-func (sites *Sites_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220301s.Sites_Spec)
-	if ok {
-		// Populate our instance from source
-		return sites.AssignProperties_From_Sites_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20220301s.Sites_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = sites.AssignProperties_From_Sites_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Sites_Spec
-func (sites *Sites_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220301s.Sites_Spec)
-	if ok {
-		// Populate destination from our instance
-		return sites.AssignProperties_To_Sites_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20220301s.Sites_Spec{}
-	err := sites.AssignProperties_To_Sites_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Sites_Spec populates our Sites_Spec from the provided source Sites_Spec
-func (sites *Sites_Spec) AssignProperties_From_Sites_Spec(source *v20220301s.Sites_Spec) error {
-
-	// AzureName
-	sites.AzureName = source.AzureName
-
-	// ClientAffinityEnabled
-	if source.ClientAffinityEnabled != nil {
-		clientAffinityEnabled := *source.ClientAffinityEnabled
-		sites.ClientAffinityEnabled = &clientAffinityEnabled
-	} else {
-		sites.ClientAffinityEnabled = nil
-	}
-
-	// ClientCertEnabled
-	if source.ClientCertEnabled != nil {
-		clientCertEnabled := *source.ClientCertEnabled
-		sites.ClientCertEnabled = &clientCertEnabled
-	} else {
-		sites.ClientCertEnabled = nil
-	}
-
-	// ClientCertExclusionPaths
-	sites.ClientCertExclusionPaths = genruntime.ClonePointerToString(source.ClientCertExclusionPaths)
-
-	// ClientCertMode
-	if source.ClientCertMode != nil {
-		clientCertMode := Sites_Spec_Properties_ClientCertMode(*source.ClientCertMode)
-		sites.ClientCertMode = &clientCertMode
-	} else {
-		sites.ClientCertMode = nil
-	}
-
-	// CloningInfo
-	if source.CloningInfo != nil {
-		var cloningInfo CloningInfo
-		err := cloningInfo.AssignProperties_From_CloningInfo(source.CloningInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CloningInfo() to populate field CloningInfo")
-		}
-		sites.CloningInfo = &cloningInfo
-	} else {
-		sites.CloningInfo = nil
-	}
-
-	// ContainerSize
-	sites.ContainerSize = genruntime.ClonePointerToInt(source.ContainerSize)
-
-	// CustomDomainVerificationId
-	sites.CustomDomainVerificationId = genruntime.ClonePointerToString(source.CustomDomainVerificationId)
-
-	// DailyMemoryTimeQuota
-	sites.DailyMemoryTimeQuota = genruntime.ClonePointerToInt(source.DailyMemoryTimeQuota)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		sites.Enabled = &enabled
-	} else {
-		sites.Enabled = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		sites.ExtendedLocation = &extendedLocation
-	} else {
-		sites.ExtendedLocation = nil
-	}
-
-	// HostNameSslStates
-	if source.HostNameSslStates != nil {
-		hostNameSslStateList := make([]HostNameSslState, len(source.HostNameSslStates))
-		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
-			var hostNameSslState HostNameSslState
-			err := hostNameSslState.AssignProperties_From_HostNameSslState(&hostNameSslStateItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HostNameSslState() to populate field HostNameSslStates")
-			}
-			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
-		}
-		sites.HostNameSslStates = hostNameSslStateList
-	} else {
-		sites.HostNameSslStates = nil
-	}
-
-	// HostNamesDisabled
-	if source.HostNamesDisabled != nil {
-		hostNamesDisabled := *source.HostNamesDisabled
-		sites.HostNamesDisabled = &hostNamesDisabled
-	} else {
-		sites.HostNamesDisabled = nil
-	}
-
-	// HostingEnvironmentProfile
-	if source.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile HostingEnvironmentProfile
-		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile(source.HostingEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
-		}
-		sites.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		sites.HostingEnvironmentProfile = nil
-	}
-
-	// HttpsOnly
-	if source.HttpsOnly != nil {
-		httpsOnly := *source.HttpsOnly
-		sites.HttpsOnly = &httpsOnly
-	} else {
-		sites.HttpsOnly = nil
-	}
-
-	// HyperV
-	if source.HyperV != nil {
-		hyperV := *source.HyperV
-		sites.HyperV = &hyperV
-	} else {
-		sites.HyperV = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.AssignProperties_From_ManagedServiceIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
-		}
-		sites.Identity = &identity
-	} else {
-		sites.Identity = nil
-	}
-
-	// IsXenon
-	if source.IsXenon != nil {
-		isXenon := *source.IsXenon
-		sites.IsXenon = &isXenon
-	} else {
-		sites.IsXenon = nil
-	}
-
-	// KeyVaultReferenceIdentity
-	sites.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
-
-	// Kind
-	sites.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// Location
-	sites.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		sites.Owner = &owner
-	} else {
-		sites.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	sites.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// RedundancyMode
-	if source.RedundancyMode != nil {
-		redundancyMode := Sites_Spec_Properties_RedundancyMode(*source.RedundancyMode)
-		sites.RedundancyMode = &redundancyMode
-	} else {
-		sites.RedundancyMode = nil
-	}
-
-	// Reserved
-	if source.Reserved != nil {
-		reserved := *source.Reserved
-		sites.Reserved = &reserved
-	} else {
-		sites.Reserved = nil
-	}
-
-	// ScmSiteAlsoStopped
-	if source.ScmSiteAlsoStopped != nil {
-		scmSiteAlsoStopped := *source.ScmSiteAlsoStopped
-		sites.ScmSiteAlsoStopped = &scmSiteAlsoStopped
-	} else {
-		sites.ScmSiteAlsoStopped = nil
-	}
-
-	// ServerFarmReference
-	if source.ServerFarmReference != nil {
-		serverFarmReference := source.ServerFarmReference.Copy()
-		sites.ServerFarmReference = &serverFarmReference
-	} else {
-		sites.ServerFarmReference = nil
-	}
-
-	// SiteConfig
-	if source.SiteConfig != nil {
-		var siteConfig Sites_Spec_Properties_SiteConfig
-		err := siteConfig.AssignProperties_From_Sites_Spec_Properties_SiteConfig(source.SiteConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sites_Spec_Properties_SiteConfig() to populate field SiteConfig")
-		}
-		sites.SiteConfig = &siteConfig
-	} else {
-		sites.SiteConfig = nil
-	}
-
-	// StorageAccountRequired
-	if source.StorageAccountRequired != nil {
-		storageAccountRequired := *source.StorageAccountRequired
-		sites.StorageAccountRequired = &storageAccountRequired
-	} else {
-		sites.StorageAccountRequired = nil
-	}
-
-	// Tags
-	sites.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualNetworkSubnetReference
-	if source.VirtualNetworkSubnetReference != nil {
-		virtualNetworkSubnetReference := source.VirtualNetworkSubnetReference.Copy()
-		sites.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
-	} else {
-		sites.VirtualNetworkSubnetReference = nil
-	}
-
-	// VnetContentShareEnabled
-	if source.VnetContentShareEnabled != nil {
-		vnetContentShareEnabled := *source.VnetContentShareEnabled
-		sites.VnetContentShareEnabled = &vnetContentShareEnabled
-	} else {
-		sites.VnetContentShareEnabled = nil
-	}
-
-	// VnetImagePullEnabled
-	if source.VnetImagePullEnabled != nil {
-		vnetImagePullEnabled := *source.VnetImagePullEnabled
-		sites.VnetImagePullEnabled = &vnetImagePullEnabled
-	} else {
-		sites.VnetImagePullEnabled = nil
-	}
-
-	// VnetRouteAllEnabled
-	if source.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
-		sites.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		sites.VnetRouteAllEnabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Sites_Spec populates the provided destination Sites_Spec from our Sites_Spec
-func (sites *Sites_Spec) AssignProperties_To_Sites_Spec(destination *v20220301s.Sites_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = sites.AzureName
-
-	// ClientAffinityEnabled
-	if sites.ClientAffinityEnabled != nil {
-		clientAffinityEnabled := *sites.ClientAffinityEnabled
-		destination.ClientAffinityEnabled = &clientAffinityEnabled
-	} else {
-		destination.ClientAffinityEnabled = nil
-	}
-
-	// ClientCertEnabled
-	if sites.ClientCertEnabled != nil {
-		clientCertEnabled := *sites.ClientCertEnabled
-		destination.ClientCertEnabled = &clientCertEnabled
-	} else {
-		destination.ClientCertEnabled = nil
-	}
-
-	// ClientCertExclusionPaths
-	destination.ClientCertExclusionPaths = genruntime.ClonePointerToString(sites.ClientCertExclusionPaths)
-
-	// ClientCertMode
-	if sites.ClientCertMode != nil {
-		clientCertMode := string(*sites.ClientCertMode)
-		destination.ClientCertMode = &clientCertMode
-	} else {
-		destination.ClientCertMode = nil
-	}
-
-	// CloningInfo
-	if sites.CloningInfo != nil {
-		var cloningInfo v20220301s.CloningInfo
-		err := sites.CloningInfo.AssignProperties_To_CloningInfo(&cloningInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CloningInfo() to populate field CloningInfo")
-		}
-		destination.CloningInfo = &cloningInfo
-	} else {
-		destination.CloningInfo = nil
-	}
-
-	// ContainerSize
-	destination.ContainerSize = genruntime.ClonePointerToInt(sites.ContainerSize)
-
-	// CustomDomainVerificationId
-	destination.CustomDomainVerificationId = genruntime.ClonePointerToString(sites.CustomDomainVerificationId)
-
-	// DailyMemoryTimeQuota
-	destination.DailyMemoryTimeQuota = genruntime.ClonePointerToInt(sites.DailyMemoryTimeQuota)
-
-	// Enabled
-	if sites.Enabled != nil {
-		enabled := *sites.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// ExtendedLocation
-	if sites.ExtendedLocation != nil {
-		var extendedLocation v20220301s.ExtendedLocation
-		err := sites.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// HostNameSslStates
-	if sites.HostNameSslStates != nil {
-		hostNameSslStateList := make([]v20220301s.HostNameSslState, len(sites.HostNameSslStates))
-		for hostNameSslStateIndex, hostNameSslStateItem := range sites.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
-			var hostNameSslState v20220301s.HostNameSslState
-			err := hostNameSslStateItem.AssignProperties_To_HostNameSslState(&hostNameSslState)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HostNameSslState() to populate field HostNameSslStates")
-			}
-			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
-		}
-		destination.HostNameSslStates = hostNameSslStateList
-	} else {
-		destination.HostNameSslStates = nil
-	}
-
-	// HostNamesDisabled
-	if sites.HostNamesDisabled != nil {
-		hostNamesDisabled := *sites.HostNamesDisabled
-		destination.HostNamesDisabled = &hostNamesDisabled
-	} else {
-		destination.HostNamesDisabled = nil
-	}
-
-	// HostingEnvironmentProfile
-	if sites.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile
-		err := sites.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
-		}
-		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		destination.HostingEnvironmentProfile = nil
-	}
-
-	// HttpsOnly
-	if sites.HttpsOnly != nil {
-		httpsOnly := *sites.HttpsOnly
-		destination.HttpsOnly = &httpsOnly
-	} else {
-		destination.HttpsOnly = nil
-	}
-
-	// HyperV
-	if sites.HyperV != nil {
-		hyperV := *sites.HyperV
-		destination.HyperV = &hyperV
-	} else {
-		destination.HyperV = nil
-	}
-
-	// Identity
-	if sites.Identity != nil {
-		var identity v20220301s.ManagedServiceIdentity
-		err := sites.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// IsXenon
-	if sites.IsXenon != nil {
-		isXenon := *sites.IsXenon
-		destination.IsXenon = &isXenon
-	} else {
-		destination.IsXenon = nil
-	}
-
-	// KeyVaultReferenceIdentity
-	destination.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(sites.KeyVaultReferenceIdentity)
-
-	// Kind
-	destination.Kind = genruntime.ClonePointerToString(sites.Kind)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(sites.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = sites.OriginalVersion()
-
-	// Owner
-	if sites.Owner != nil {
-		owner := sites.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(sites.PublicNetworkAccess)
-
-	// RedundancyMode
-	if sites.RedundancyMode != nil {
-		redundancyMode := string(*sites.RedundancyMode)
-		destination.RedundancyMode = &redundancyMode
-	} else {
-		destination.RedundancyMode = nil
-	}
-
-	// Reserved
-	if sites.Reserved != nil {
-		reserved := *sites.Reserved
-		destination.Reserved = &reserved
-	} else {
-		destination.Reserved = nil
-	}
-
-	// ScmSiteAlsoStopped
-	if sites.ScmSiteAlsoStopped != nil {
-		scmSiteAlsoStopped := *sites.ScmSiteAlsoStopped
-		destination.ScmSiteAlsoStopped = &scmSiteAlsoStopped
-	} else {
-		destination.ScmSiteAlsoStopped = nil
-	}
-
-	// ServerFarmReference
-	if sites.ServerFarmReference != nil {
-		serverFarmReference := sites.ServerFarmReference.Copy()
-		destination.ServerFarmReference = &serverFarmReference
-	} else {
-		destination.ServerFarmReference = nil
-	}
-
-	// SiteConfig
-	if sites.SiteConfig != nil {
-		var siteConfig v20220301s.Sites_Spec_Properties_SiteConfig
-		err := sites.SiteConfig.AssignProperties_To_Sites_Spec_Properties_SiteConfig(&siteConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sites_Spec_Properties_SiteConfig() to populate field SiteConfig")
-		}
-		destination.SiteConfig = &siteConfig
-	} else {
-		destination.SiteConfig = nil
-	}
-
-	// StorageAccountRequired
-	if sites.StorageAccountRequired != nil {
-		storageAccountRequired := *sites.StorageAccountRequired
-		destination.StorageAccountRequired = &storageAccountRequired
-	} else {
-		destination.StorageAccountRequired = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(sites.Tags)
-
-	// VirtualNetworkSubnetReference
-	if sites.VirtualNetworkSubnetReference != nil {
-		virtualNetworkSubnetReference := sites.VirtualNetworkSubnetReference.Copy()
-		destination.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
-	} else {
-		destination.VirtualNetworkSubnetReference = nil
-	}
-
-	// VnetContentShareEnabled
-	if sites.VnetContentShareEnabled != nil {
-		vnetContentShareEnabled := *sites.VnetContentShareEnabled
-		destination.VnetContentShareEnabled = &vnetContentShareEnabled
-	} else {
-		destination.VnetContentShareEnabled = nil
-	}
-
-	// VnetImagePullEnabled
-	if sites.VnetImagePullEnabled != nil {
-		vnetImagePullEnabled := *sites.VnetImagePullEnabled
-		destination.VnetImagePullEnabled = &vnetImagePullEnabled
-	} else {
-		destination.VnetImagePullEnabled = nil
-	}
-
-	// VnetRouteAllEnabled
-	if sites.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *sites.VnetRouteAllEnabled
-		destination.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		destination.VnetRouteAllEnabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (sites *Sites_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (sites *Sites_Spec) SetAzureName(azureName string) { sites.AzureName = azureName }
-
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CloningInfo
 type CloningInfo struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
@@ -3016,7 +3016,7 @@ func (info *CloningInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if info == nil {
 		return nil, nil
 	}
-	result := &CloningInfoARM{}
+	result := &CloningInfo_ARM{}
 
 	// Set property ‘AppSettingsOverrides’:
 	if info.AppSettingsOverrides != nil {
@@ -3098,14 +3098,14 @@ func (info *CloningInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *CloningInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloningInfoARM{}
+	return &CloningInfo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *CloningInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloningInfoARM)
+	typedInput, ok := armInput.(CloningInfo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloningInfoARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloningInfo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AppSettingsOverrides’:
@@ -3380,14 +3380,14 @@ var _ genruntime.FromARMConverter = &CloningInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *CloningInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloningInfo_STATUSARM{}
+	return &CloningInfo_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *CloningInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloningInfo_STATUSARM)
+	typedInput, ok := armInput.(CloningInfo_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloningInfo_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloningInfo_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AppSettingsOverrides’:
@@ -3619,7 +3619,7 @@ func (state *HostNameSslState) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if state == nil {
 		return nil, nil
 	}
-	result := &HostNameSslStateARM{}
+	result := &HostNameSslState_ARM{}
 
 	// Set property ‘HostType’:
 	if state.HostType != nil {
@@ -3661,14 +3661,14 @@ func (state *HostNameSslState) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (state *HostNameSslState) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HostNameSslStateARM{}
+	return &HostNameSslState_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (state *HostNameSslState) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HostNameSslStateARM)
+	typedInput, ok := armInput.(HostNameSslState_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameSslStateARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameSslState_ARM, got %T", armInput)
 	}
 
 	// Set property ‘HostType’:
@@ -3802,13 +3802,13 @@ func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination 
 
 type HostNameSslState_STATUS struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslState_STATUS_HostType `json:"hostType,omitempty"`
+	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslState_STATUS_SslState `json:"sslState,omitempty"`
+	SslState *HostNameSslState_SslState_STATUS `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -3824,14 +3824,14 @@ var _ genruntime.FromARMConverter = &HostNameSslState_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (state *HostNameSslState_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HostNameSslState_STATUSARM{}
+	return &HostNameSslState_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (state *HostNameSslState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HostNameSslState_STATUSARM)
+	typedInput, ok := armInput.(HostNameSslState_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameSslState_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameSslState_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘HostType’:
@@ -3879,7 +3879,7 @@ func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STA
 
 	// HostType
 	if source.HostType != nil {
-		hostType := HostNameSslState_STATUS_HostType(*source.HostType)
+		hostType := HostNameSslState_HostType_STATUS(*source.HostType)
 		state.HostType = &hostType
 	} else {
 		state.HostType = nil
@@ -3890,7 +3890,7 @@ func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STA
 
 	// SslState
 	if source.SslState != nil {
-		sslState := HostNameSslState_STATUS_SslState(*source.SslState)
+		sslState := HostNameSslState_SslState_STATUS(*source.SslState)
 		state.SslState = &sslState
 	} else {
 		state.SslState = nil
@@ -3981,7 +3981,7 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ManagedServiceIdentityARM{}
+	result := &ManagedServiceIdentity_ARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -4001,14 +4001,14 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedServiceIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentityARM{}
+	return &ManagedServiceIdentity_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentityARM)
+	typedInput, ok := armInput.(ManagedServiceIdentity_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Type’:
@@ -4102,7 +4102,7 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentity_STATUS_Type `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -4114,14 +4114,14 @@ var _ genruntime.FromARMConverter = &ManagedServiceIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedServiceIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentity_STATUSARM{}
+	return &ManagedServiceIdentity_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentity_STATUSARM)
+	typedInput, ok := armInput.(ManagedServiceIdentity_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PrincipalId’:
@@ -4170,7 +4170,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_STATUS_Type(*source.Type)
+		typeVar := ManagedServiceIdentity_Type_STATUS(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -4246,37 +4246,2203 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	return nil
 }
 
-type Site_STATUS_Properties_AvailabilityState string
+type Site_Properties_AvailabilityState_STATUS string
 
 const (
-	Site_STATUS_Properties_AvailabilityState_DisasterRecoveryMode = Site_STATUS_Properties_AvailabilityState("DisasterRecoveryMode")
-	Site_STATUS_Properties_AvailabilityState_Limited              = Site_STATUS_Properties_AvailabilityState("Limited")
-	Site_STATUS_Properties_AvailabilityState_Normal               = Site_STATUS_Properties_AvailabilityState("Normal")
+	Site_Properties_AvailabilityState_STATUS_DisasterRecoveryMode = Site_Properties_AvailabilityState_STATUS("DisasterRecoveryMode")
+	Site_Properties_AvailabilityState_STATUS_Limited              = Site_Properties_AvailabilityState_STATUS("Limited")
+	Site_Properties_AvailabilityState_STATUS_Normal               = Site_Properties_AvailabilityState_STATUS("Normal")
 )
 
-type Site_STATUS_Properties_ClientCertMode string
+// +kubebuilder:validation:Enum={"Optional","OptionalInteractiveUser","Required"}
+type Site_Properties_ClientCertMode_Spec string
 
 const (
-	Site_STATUS_Properties_ClientCertMode_Optional                = Site_STATUS_Properties_ClientCertMode("Optional")
-	Site_STATUS_Properties_ClientCertMode_OptionalInteractiveUser = Site_STATUS_Properties_ClientCertMode("OptionalInteractiveUser")
-	Site_STATUS_Properties_ClientCertMode_Required                = Site_STATUS_Properties_ClientCertMode("Required")
+	Site_Properties_ClientCertMode_Spec_Optional                = Site_Properties_ClientCertMode_Spec("Optional")
+	Site_Properties_ClientCertMode_Spec_OptionalInteractiveUser = Site_Properties_ClientCertMode_Spec("OptionalInteractiveUser")
+	Site_Properties_ClientCertMode_Spec_Required                = Site_Properties_ClientCertMode_Spec("Required")
 )
 
-type Site_STATUS_Properties_RedundancyMode string
+type Site_Properties_ClientCertMode_STATUS string
 
 const (
-	Site_STATUS_Properties_RedundancyMode_ActiveActive = Site_STATUS_Properties_RedundancyMode("ActiveActive")
-	Site_STATUS_Properties_RedundancyMode_Failover     = Site_STATUS_Properties_RedundancyMode("Failover")
-	Site_STATUS_Properties_RedundancyMode_GeoRedundant = Site_STATUS_Properties_RedundancyMode("GeoRedundant")
-	Site_STATUS_Properties_RedundancyMode_Manual       = Site_STATUS_Properties_RedundancyMode("Manual")
-	Site_STATUS_Properties_RedundancyMode_None         = Site_STATUS_Properties_RedundancyMode("None")
+	Site_Properties_ClientCertMode_STATUS_Optional                = Site_Properties_ClientCertMode_STATUS("Optional")
+	Site_Properties_ClientCertMode_STATUS_OptionalInteractiveUser = Site_Properties_ClientCertMode_STATUS("OptionalInteractiveUser")
+	Site_Properties_ClientCertMode_STATUS_Required                = Site_Properties_ClientCertMode_STATUS("Required")
 )
 
-type Site_STATUS_Properties_UsageState string
+// +kubebuilder:validation:Enum={"ActiveActive","Failover","GeoRedundant","Manual","None"}
+type Site_Properties_RedundancyMode_Spec string
 
 const (
-	Site_STATUS_Properties_UsageState_Exceeded = Site_STATUS_Properties_UsageState("Exceeded")
-	Site_STATUS_Properties_UsageState_Normal   = Site_STATUS_Properties_UsageState("Normal")
+	Site_Properties_RedundancyMode_Spec_ActiveActive = Site_Properties_RedundancyMode_Spec("ActiveActive")
+	Site_Properties_RedundancyMode_Spec_Failover     = Site_Properties_RedundancyMode_Spec("Failover")
+	Site_Properties_RedundancyMode_Spec_GeoRedundant = Site_Properties_RedundancyMode_Spec("GeoRedundant")
+	Site_Properties_RedundancyMode_Spec_Manual       = Site_Properties_RedundancyMode_Spec("Manual")
+	Site_Properties_RedundancyMode_Spec_None         = Site_Properties_RedundancyMode_Spec("None")
+)
+
+type Site_Properties_RedundancyMode_STATUS string
+
+const (
+	Site_Properties_RedundancyMode_STATUS_ActiveActive = Site_Properties_RedundancyMode_STATUS("ActiveActive")
+	Site_Properties_RedundancyMode_STATUS_Failover     = Site_Properties_RedundancyMode_STATUS("Failover")
+	Site_Properties_RedundancyMode_STATUS_GeoRedundant = Site_Properties_RedundancyMode_STATUS("GeoRedundant")
+	Site_Properties_RedundancyMode_STATUS_Manual       = Site_Properties_RedundancyMode_STATUS("Manual")
+	Site_Properties_RedundancyMode_STATUS_None         = Site_Properties_RedundancyMode_STATUS("None")
+)
+
+type Site_Properties_SiteConfig_Spec struct {
+	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
+	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
+
+	// AcrUserManagedIdentityID: If using user managed identity, the user managed identity ClientId
+	AcrUserManagedIdentityID *string `json:"acrUserManagedIdentityID,omitempty"`
+
+	// AlwaysOn: <code>true</code> if Always On is enabled; otherwise, <code>false</code>.
+	AlwaysOn *bool `json:"alwaysOn,omitempty"`
+
+	// ApiDefinition: Information about the formal API definition for the app.
+	ApiDefinition *ApiDefinitionInfo `json:"apiDefinition,omitempty"`
+
+	// ApiManagementConfig: Azure API management (APIM) configuration linked to the app.
+	ApiManagementConfig *ApiManagementConfig `json:"apiManagementConfig,omitempty"`
+
+	// AppCommandLine: App command line to launch.
+	AppCommandLine *string `json:"appCommandLine,omitempty"`
+
+	// AppSettings: Application settings.
+	AppSettings []NameValuePair `json:"appSettings,omitempty"`
+
+	// AutoHealEnabled: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
+	AutoHealEnabled *bool `json:"autoHealEnabled,omitempty"`
+
+	// AutoHealRules: Rules that can be defined for auto-heal.
+	AutoHealRules *AutoHealRules `json:"autoHealRules,omitempty"`
+
+	// AutoSwapSlotName: Auto-swap slot name.
+	AutoSwapSlotName *string `json:"autoSwapSlotName,omitempty"`
+
+	// AzureStorageAccounts: List of Azure Storage Accounts.
+	AzureStorageAccounts map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec `json:"azureStorageAccounts,omitempty"`
+
+	// ConnectionStrings: Connection strings.
+	ConnectionStrings []ConnStringInfo `json:"connectionStrings,omitempty"`
+
+	// Cors: Cross-Origin Resource Sharing (CORS) settings for the app.
+	Cors *CorsSettings `json:"cors,omitempty"`
+
+	// DefaultDocuments: Default documents.
+	DefaultDocuments []string `json:"defaultDocuments,omitempty"`
+
+	// DetailedErrorLoggingEnabled: <code>true</code> if detailed error logging is enabled; otherwise, <code>false</code>.
+	DetailedErrorLoggingEnabled *bool `json:"detailedErrorLoggingEnabled,omitempty"`
+
+	// DocumentRoot: Document root.
+	DocumentRoot *string `json:"documentRoot,omitempty"`
+
+	// Experiments: Routing rules in production experiments.
+	Experiments *Experiments `json:"experiments,omitempty"`
+
+	// FtpsState: State of FTP / FTPS service.
+	FtpsState *Site_Properties_SiteConfig_FtpsState_Spec `json:"ftpsState,omitempty"`
+
+	// +kubebuilder:validation:Minimum=0
+	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
+	// This setting only applies to the Consumption and Elastic Premium Plans
+	FunctionAppScaleLimit *int `json:"functionAppScaleLimit,omitempty"`
+
+	// FunctionsRuntimeScaleMonitoringEnabled: Gets or sets a value indicating whether functions runtime scale monitoring is
+	// enabled. When enabled,
+	// the ScaleController will not monitor event sources directly, but will instead call to the
+	// runtime to get scale status.
+	FunctionsRuntimeScaleMonitoringEnabled *bool `json:"functionsRuntimeScaleMonitoringEnabled,omitempty"`
+
+	// HandlerMappings: Handler mappings.
+	HandlerMappings []HandlerMapping `json:"handlerMappings,omitempty"`
+
+	// HealthCheckPath: Health check path
+	HealthCheckPath *string `json:"healthCheckPath,omitempty"`
+
+	// Http20Enabled: Http20Enabled: configures a web site to allow clients to connect over http2.0
+	Http20Enabled *bool `json:"http20Enabled,omitempty"`
+
+	// HttpLoggingEnabled: <code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.
+	HttpLoggingEnabled *bool `json:"httpLoggingEnabled,omitempty"`
+
+	// IpSecurityRestrictions: IP security restrictions for main.
+	IpSecurityRestrictions []IpSecurityRestriction `json:"ipSecurityRestrictions,omitempty"`
+
+	// JavaContainer: Java container.
+	JavaContainer *string `json:"javaContainer,omitempty"`
+
+	// JavaContainerVersion: Java container version.
+	JavaContainerVersion *string `json:"javaContainerVersion,omitempty"`
+
+	// JavaVersion: Java version.
+	JavaVersion *string `json:"javaVersion,omitempty"`
+
+	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
+	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
+
+	// Limits: Metric limits set on an app.
+	Limits *SiteLimits `json:"limits,omitempty"`
+
+	// LinuxFxVersion: Linux App Framework and version
+	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
+
+	// LoadBalancing: Site load balancing.
+	LoadBalancing *Site_Properties_SiteConfig_LoadBalancing_Spec `json:"loadBalancing,omitempty"`
+
+	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
+	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
+
+	// LogsDirectorySizeLimit: HTTP logs directory size limit.
+	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
+
+	// ManagedPipelineMode: Managed pipeline mode.
+	ManagedPipelineMode *Site_Properties_SiteConfig_ManagedPipelineMode_Spec `json:"managedPipelineMode,omitempty"`
+
+	// ManagedServiceIdentityId: Managed Service Identity Id
+	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
+
+	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests.
+	MinTlsVersion *Site_Properties_SiteConfig_MinTlsVersion_Spec `json:"minTlsVersion,omitempty"`
+
+	// +kubebuilder:validation:Maximum=20
+	// +kubebuilder:validation:Minimum=0
+	// MinimumElasticInstanceCount: Number of minimum instance count for a site
+	// This setting only applies to the Elastic Plans
+	MinimumElasticInstanceCount *int `json:"minimumElasticInstanceCount,omitempty"`
+
+	// NetFrameworkVersion: .NET Framework version.
+	NetFrameworkVersion *string `json:"netFrameworkVersion,omitempty"`
+
+	// NodeVersion: Version of Node.js.
+	NodeVersion *string `json:"nodeVersion,omitempty"`
+
+	// NumberOfWorkers: Number of workers.
+	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
+
+	// PhpVersion: Version of PHP.
+	PhpVersion *string `json:"phpVersion,omitempty"`
+
+	// PowerShellVersion: Version of PowerShell.
+	PowerShellVersion *string `json:"powerShellVersion,omitempty"`
+
+	// +kubebuilder:validation:Maximum=10
+	// +kubebuilder:validation:Minimum=0
+	// PreWarmedInstanceCount: Number of preWarmed instances.
+	// This setting only applies to the Consumption and Elastic Plans
+	PreWarmedInstanceCount *int `json:"preWarmedInstanceCount,omitempty"`
+
+	// PublicNetworkAccess: Property to allow or block all public traffic.
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
+
+	// PublishingUsername: Publishing user name.
+	PublishingUsername *string `json:"publishingUsername,omitempty"`
+
+	// Push: Push settings for the App.
+	Push *Site_Properties_SiteConfig_Push_Spec `json:"push,omitempty"`
+
+	// PythonVersion: Version of Python.
+	PythonVersion *string `json:"pythonVersion,omitempty"`
+
+	// RemoteDebuggingEnabled: <code>true</code> if remote debugging is enabled; otherwise, <code>false</code>.
+	RemoteDebuggingEnabled *bool `json:"remoteDebuggingEnabled,omitempty"`
+
+	// RemoteDebuggingVersion: Remote debugging version.
+	RemoteDebuggingVersion *string `json:"remoteDebuggingVersion,omitempty"`
+
+	// RequestTracingEnabled: <code>true</code> if request tracing is enabled; otherwise, <code>false</code>.
+	RequestTracingEnabled *bool `json:"requestTracingEnabled,omitempty"`
+
+	// RequestTracingExpirationTime: Request tracing expiration time.
+	RequestTracingExpirationTime *string `json:"requestTracingExpirationTime,omitempty"`
+
+	// ScmIpSecurityRestrictions: IP security restrictions for scm.
+	ScmIpSecurityRestrictions []IpSecurityRestriction `json:"scmIpSecurityRestrictions,omitempty"`
+
+	// ScmIpSecurityRestrictionsUseMain: IP security restrictions for scm to use main.
+	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
+
+	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site.
+	ScmMinTlsVersion *Site_Properties_SiteConfig_ScmMinTlsVersion_Spec `json:"scmMinTlsVersion,omitempty"`
+
+	// ScmType: SCM type.
+	ScmType *Site_Properties_SiteConfig_ScmType_Spec `json:"scmType,omitempty"`
+
+	// TracingOptions: Tracing options.
+	TracingOptions *string `json:"tracingOptions,omitempty"`
+
+	// Use32BitWorkerProcess: <code>true</code> to use 32-bit worker process; otherwise, <code>false</code>.
+	Use32BitWorkerProcess *bool `json:"use32BitWorkerProcess,omitempty"`
+
+	// VirtualApplications: Virtual applications.
+	VirtualApplications []VirtualApplication `json:"virtualApplications,omitempty"`
+
+	// VnetName: Virtual Network name.
+	VnetName *string `json:"vnetName,omitempty"`
+
+	// VnetPrivatePortsCount: The number of private ports assigned to this app. These will be assigned dynamically on runtime.
+	VnetPrivatePortsCount *int `json:"vnetPrivatePortsCount,omitempty"`
+
+	// VnetRouteAllEnabled: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network
+	// Security Groups and User Defined Routes applied.
+	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
+
+	// WebSocketsEnabled: <code>true</code> if WebSocket is enabled; otherwise, <code>false</code>.
+	WebSocketsEnabled *bool `json:"webSocketsEnabled,omitempty"`
+
+	// WebsiteTimeZone: Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows App
+	// Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For Linux, expects tz database
+	// values https://www.iana.org/time-zones (for a quick reference see
+	// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the time zones listed under
+	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
+	WebsiteTimeZone *string `json:"websiteTimeZone,omitempty"`
+
+	// WindowsFxVersion: Xenon App Framework and version
+	WindowsFxVersion *string `json:"windowsFxVersion,omitempty"`
+
+	// XManagedServiceIdentityId: Explicit Managed Service Identity Id
+	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (config *Site_Properties_SiteConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if config == nil {
+		return nil, nil
+	}
+	result := &Site_Properties_SiteConfig_Spec_ARM{}
+
+	// Set property ‘AcrUseManagedIdentityCreds’:
+	if config.AcrUseManagedIdentityCreds != nil {
+		acrUseManagedIdentityCreds := *config.AcrUseManagedIdentityCreds
+		result.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCreds
+	}
+
+	// Set property ‘AcrUserManagedIdentityID’:
+	if config.AcrUserManagedIdentityID != nil {
+		acrUserManagedIdentityID := *config.AcrUserManagedIdentityID
+		result.AcrUserManagedIdentityID = &acrUserManagedIdentityID
+	}
+
+	// Set property ‘AlwaysOn’:
+	if config.AlwaysOn != nil {
+		alwaysOn := *config.AlwaysOn
+		result.AlwaysOn = &alwaysOn
+	}
+
+	// Set property ‘ApiDefinition’:
+	if config.ApiDefinition != nil {
+		apiDefinition_ARM, err := (*config.ApiDefinition).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		apiDefinition := *apiDefinition_ARM.(*ApiDefinitionInfo_ARM)
+		result.ApiDefinition = &apiDefinition
+	}
+
+	// Set property ‘ApiManagementConfig’:
+	if config.ApiManagementConfig != nil {
+		apiManagementConfig_ARM, err := (*config.ApiManagementConfig).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		apiManagementConfig := *apiManagementConfig_ARM.(*ApiManagementConfig_ARM)
+		result.ApiManagementConfig = &apiManagementConfig
+	}
+
+	// Set property ‘AppCommandLine’:
+	if config.AppCommandLine != nil {
+		appCommandLine := *config.AppCommandLine
+		result.AppCommandLine = &appCommandLine
+	}
+
+	// Set property ‘AppSettings’:
+	for _, item := range config.AppSettings {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.AppSettings = append(result.AppSettings, *item_ARM.(*NameValuePair_ARM))
+	}
+
+	// Set property ‘AutoHealEnabled’:
+	if config.AutoHealEnabled != nil {
+		autoHealEnabled := *config.AutoHealEnabled
+		result.AutoHealEnabled = &autoHealEnabled
+	}
+
+	// Set property ‘AutoHealRules’:
+	if config.AutoHealRules != nil {
+		autoHealRules_ARM, err := (*config.AutoHealRules).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		autoHealRules := *autoHealRules_ARM.(*AutoHealRules_ARM)
+		result.AutoHealRules = &autoHealRules
+	}
+
+	// Set property ‘AutoSwapSlotName’:
+	if config.AutoSwapSlotName != nil {
+		autoSwapSlotName := *config.AutoSwapSlotName
+		result.AutoSwapSlotName = &autoSwapSlotName
+	}
+
+	// Set property ‘AzureStorageAccounts’:
+	if config.AzureStorageAccounts != nil {
+		result.AzureStorageAccounts = make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM, len(config.AzureStorageAccounts))
+		for key, value := range config.AzureStorageAccounts {
+			value_ARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.AzureStorageAccounts[key] = *value_ARM.(*Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM)
+		}
+	}
+
+	// Set property ‘ConnectionStrings’:
+	for _, item := range config.ConnectionStrings {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.ConnectionStrings = append(result.ConnectionStrings, *item_ARM.(*ConnStringInfo_ARM))
+	}
+
+	// Set property ‘Cors’:
+	if config.Cors != nil {
+		cors_ARM, err := (*config.Cors).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		cors := *cors_ARM.(*CorsSettings_ARM)
+		result.Cors = &cors
+	}
+
+	// Set property ‘DefaultDocuments’:
+	for _, item := range config.DefaultDocuments {
+		result.DefaultDocuments = append(result.DefaultDocuments, item)
+	}
+
+	// Set property ‘DetailedErrorLoggingEnabled’:
+	if config.DetailedErrorLoggingEnabled != nil {
+		detailedErrorLoggingEnabled := *config.DetailedErrorLoggingEnabled
+		result.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
+	}
+
+	// Set property ‘DocumentRoot’:
+	if config.DocumentRoot != nil {
+		documentRoot := *config.DocumentRoot
+		result.DocumentRoot = &documentRoot
+	}
+
+	// Set property ‘Experiments’:
+	if config.Experiments != nil {
+		experiments_ARM, err := (*config.Experiments).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		experiments := *experiments_ARM.(*Experiments_ARM)
+		result.Experiments = &experiments
+	}
+
+	// Set property ‘FtpsState’:
+	if config.FtpsState != nil {
+		ftpsState := *config.FtpsState
+		result.FtpsState = &ftpsState
+	}
+
+	// Set property ‘FunctionAppScaleLimit’:
+	if config.FunctionAppScaleLimit != nil {
+		functionAppScaleLimit := *config.FunctionAppScaleLimit
+		result.FunctionAppScaleLimit = &functionAppScaleLimit
+	}
+
+	// Set property ‘FunctionsRuntimeScaleMonitoringEnabled’:
+	if config.FunctionsRuntimeScaleMonitoringEnabled != nil {
+		functionsRuntimeScaleMonitoringEnabled := *config.FunctionsRuntimeScaleMonitoringEnabled
+		result.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
+	}
+
+	// Set property ‘HandlerMappings’:
+	for _, item := range config.HandlerMappings {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.HandlerMappings = append(result.HandlerMappings, *item_ARM.(*HandlerMapping_ARM))
+	}
+
+	// Set property ‘HealthCheckPath’:
+	if config.HealthCheckPath != nil {
+		healthCheckPath := *config.HealthCheckPath
+		result.HealthCheckPath = &healthCheckPath
+	}
+
+	// Set property ‘Http20Enabled’:
+	if config.Http20Enabled != nil {
+		http20Enabled := *config.Http20Enabled
+		result.Http20Enabled = &http20Enabled
+	}
+
+	// Set property ‘HttpLoggingEnabled’:
+	if config.HttpLoggingEnabled != nil {
+		httpLoggingEnabled := *config.HttpLoggingEnabled
+		result.HttpLoggingEnabled = &httpLoggingEnabled
+	}
+
+	// Set property ‘IpSecurityRestrictions’:
+	for _, item := range config.IpSecurityRestrictions {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.IpSecurityRestrictions = append(result.IpSecurityRestrictions, *item_ARM.(*IpSecurityRestriction_ARM))
+	}
+
+	// Set property ‘JavaContainer’:
+	if config.JavaContainer != nil {
+		javaContainer := *config.JavaContainer
+		result.JavaContainer = &javaContainer
+	}
+
+	// Set property ‘JavaContainerVersion’:
+	if config.JavaContainerVersion != nil {
+		javaContainerVersion := *config.JavaContainerVersion
+		result.JavaContainerVersion = &javaContainerVersion
+	}
+
+	// Set property ‘JavaVersion’:
+	if config.JavaVersion != nil {
+		javaVersion := *config.JavaVersion
+		result.JavaVersion = &javaVersion
+	}
+
+	// Set property ‘KeyVaultReferenceIdentity’:
+	if config.KeyVaultReferenceIdentity != nil {
+		keyVaultReferenceIdentity := *config.KeyVaultReferenceIdentity
+		result.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
+	}
+
+	// Set property ‘Limits’:
+	if config.Limits != nil {
+		limits_ARM, err := (*config.Limits).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		limits := *limits_ARM.(*SiteLimits_ARM)
+		result.Limits = &limits
+	}
+
+	// Set property ‘LinuxFxVersion’:
+	if config.LinuxFxVersion != nil {
+		linuxFxVersion := *config.LinuxFxVersion
+		result.LinuxFxVersion = &linuxFxVersion
+	}
+
+	// Set property ‘LoadBalancing’:
+	if config.LoadBalancing != nil {
+		loadBalancing := *config.LoadBalancing
+		result.LoadBalancing = &loadBalancing
+	}
+
+	// Set property ‘LocalMySqlEnabled’:
+	if config.LocalMySqlEnabled != nil {
+		localMySqlEnabled := *config.LocalMySqlEnabled
+		result.LocalMySqlEnabled = &localMySqlEnabled
+	}
+
+	// Set property ‘LogsDirectorySizeLimit’:
+	if config.LogsDirectorySizeLimit != nil {
+		logsDirectorySizeLimit := *config.LogsDirectorySizeLimit
+		result.LogsDirectorySizeLimit = &logsDirectorySizeLimit
+	}
+
+	// Set property ‘ManagedPipelineMode’:
+	if config.ManagedPipelineMode != nil {
+		managedPipelineMode := *config.ManagedPipelineMode
+		result.ManagedPipelineMode = &managedPipelineMode
+	}
+
+	// Set property ‘ManagedServiceIdentityId’:
+	if config.ManagedServiceIdentityId != nil {
+		managedServiceIdentityId := *config.ManagedServiceIdentityId
+		result.ManagedServiceIdentityId = &managedServiceIdentityId
+	}
+
+	// Set property ‘MinTlsVersion’:
+	if config.MinTlsVersion != nil {
+		minTlsVersion := *config.MinTlsVersion
+		result.MinTlsVersion = &minTlsVersion
+	}
+
+	// Set property ‘MinimumElasticInstanceCount’:
+	if config.MinimumElasticInstanceCount != nil {
+		minimumElasticInstanceCount := *config.MinimumElasticInstanceCount
+		result.MinimumElasticInstanceCount = &minimumElasticInstanceCount
+	}
+
+	// Set property ‘NetFrameworkVersion’:
+	if config.NetFrameworkVersion != nil {
+		netFrameworkVersion := *config.NetFrameworkVersion
+		result.NetFrameworkVersion = &netFrameworkVersion
+	}
+
+	// Set property ‘NodeVersion’:
+	if config.NodeVersion != nil {
+		nodeVersion := *config.NodeVersion
+		result.NodeVersion = &nodeVersion
+	}
+
+	// Set property ‘NumberOfWorkers’:
+	if config.NumberOfWorkers != nil {
+		numberOfWorkers := *config.NumberOfWorkers
+		result.NumberOfWorkers = &numberOfWorkers
+	}
+
+	// Set property ‘PhpVersion’:
+	if config.PhpVersion != nil {
+		phpVersion := *config.PhpVersion
+		result.PhpVersion = &phpVersion
+	}
+
+	// Set property ‘PowerShellVersion’:
+	if config.PowerShellVersion != nil {
+		powerShellVersion := *config.PowerShellVersion
+		result.PowerShellVersion = &powerShellVersion
+	}
+
+	// Set property ‘PreWarmedInstanceCount’:
+	if config.PreWarmedInstanceCount != nil {
+		preWarmedInstanceCount := *config.PreWarmedInstanceCount
+		result.PreWarmedInstanceCount = &preWarmedInstanceCount
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if config.PublicNetworkAccess != nil {
+		publicNetworkAccess := *config.PublicNetworkAccess
+		result.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘PublishingUsername’:
+	if config.PublishingUsername != nil {
+		publishingUsername := *config.PublishingUsername
+		result.PublishingUsername = &publishingUsername
+	}
+
+	// Set property ‘Push’:
+	if config.Push != nil {
+		push_ARM, err := (*config.Push).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		push := *push_ARM.(*Site_Properties_SiteConfig_Push_Spec_ARM)
+		result.Push = &push
+	}
+
+	// Set property ‘PythonVersion’:
+	if config.PythonVersion != nil {
+		pythonVersion := *config.PythonVersion
+		result.PythonVersion = &pythonVersion
+	}
+
+	// Set property ‘RemoteDebuggingEnabled’:
+	if config.RemoteDebuggingEnabled != nil {
+		remoteDebuggingEnabled := *config.RemoteDebuggingEnabled
+		result.RemoteDebuggingEnabled = &remoteDebuggingEnabled
+	}
+
+	// Set property ‘RemoteDebuggingVersion’:
+	if config.RemoteDebuggingVersion != nil {
+		remoteDebuggingVersion := *config.RemoteDebuggingVersion
+		result.RemoteDebuggingVersion = &remoteDebuggingVersion
+	}
+
+	// Set property ‘RequestTracingEnabled’:
+	if config.RequestTracingEnabled != nil {
+		requestTracingEnabled := *config.RequestTracingEnabled
+		result.RequestTracingEnabled = &requestTracingEnabled
+	}
+
+	// Set property ‘RequestTracingExpirationTime’:
+	if config.RequestTracingExpirationTime != nil {
+		requestTracingExpirationTime := *config.RequestTracingExpirationTime
+		result.RequestTracingExpirationTime = &requestTracingExpirationTime
+	}
+
+	// Set property ‘ScmIpSecurityRestrictions’:
+	for _, item := range config.ScmIpSecurityRestrictions {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.ScmIpSecurityRestrictions = append(result.ScmIpSecurityRestrictions, *item_ARM.(*IpSecurityRestriction_ARM))
+	}
+
+	// Set property ‘ScmIpSecurityRestrictionsUseMain’:
+	if config.ScmIpSecurityRestrictionsUseMain != nil {
+		scmIpSecurityRestrictionsUseMain := *config.ScmIpSecurityRestrictionsUseMain
+		result.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
+	}
+
+	// Set property ‘ScmMinTlsVersion’:
+	if config.ScmMinTlsVersion != nil {
+		scmMinTlsVersion := *config.ScmMinTlsVersion
+		result.ScmMinTlsVersion = &scmMinTlsVersion
+	}
+
+	// Set property ‘ScmType’:
+	if config.ScmType != nil {
+		scmType := *config.ScmType
+		result.ScmType = &scmType
+	}
+
+	// Set property ‘TracingOptions’:
+	if config.TracingOptions != nil {
+		tracingOptions := *config.TracingOptions
+		result.TracingOptions = &tracingOptions
+	}
+
+	// Set property ‘Use32BitWorkerProcess’:
+	if config.Use32BitWorkerProcess != nil {
+		use32BitWorkerProcess := *config.Use32BitWorkerProcess
+		result.Use32BitWorkerProcess = &use32BitWorkerProcess
+	}
+
+	// Set property ‘VirtualApplications’:
+	for _, item := range config.VirtualApplications {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.VirtualApplications = append(result.VirtualApplications, *item_ARM.(*VirtualApplication_ARM))
+	}
+
+	// Set property ‘VnetName’:
+	if config.VnetName != nil {
+		vnetName := *config.VnetName
+		result.VnetName = &vnetName
+	}
+
+	// Set property ‘VnetPrivatePortsCount’:
+	if config.VnetPrivatePortsCount != nil {
+		vnetPrivatePortsCount := *config.VnetPrivatePortsCount
+		result.VnetPrivatePortsCount = &vnetPrivatePortsCount
+	}
+
+	// Set property ‘VnetRouteAllEnabled’:
+	if config.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *config.VnetRouteAllEnabled
+		result.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	}
+
+	// Set property ‘WebSocketsEnabled’:
+	if config.WebSocketsEnabled != nil {
+		webSocketsEnabled := *config.WebSocketsEnabled
+		result.WebSocketsEnabled = &webSocketsEnabled
+	}
+
+	// Set property ‘WebsiteTimeZone’:
+	if config.WebsiteTimeZone != nil {
+		websiteTimeZone := *config.WebsiteTimeZone
+		result.WebsiteTimeZone = &websiteTimeZone
+	}
+
+	// Set property ‘WindowsFxVersion’:
+	if config.WindowsFxVersion != nil {
+		windowsFxVersion := *config.WindowsFxVersion
+		result.WindowsFxVersion = &windowsFxVersion
+	}
+
+	// Set property ‘XManagedServiceIdentityId’:
+	if config.XManagedServiceIdentityId != nil {
+		xManagedServiceIdentityId := *config.XManagedServiceIdentityId
+		result.XManagedServiceIdentityId = &xManagedServiceIdentityId
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (config *Site_Properties_SiteConfig_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Site_Properties_SiteConfig_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (config *Site_Properties_SiteConfig_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Site_Properties_SiteConfig_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AcrUseManagedIdentityCreds’:
+	if typedInput.AcrUseManagedIdentityCreds != nil {
+		acrUseManagedIdentityCreds := *typedInput.AcrUseManagedIdentityCreds
+		config.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCreds
+	}
+
+	// Set property ‘AcrUserManagedIdentityID’:
+	if typedInput.AcrUserManagedIdentityID != nil {
+		acrUserManagedIdentityID := *typedInput.AcrUserManagedIdentityID
+		config.AcrUserManagedIdentityID = &acrUserManagedIdentityID
+	}
+
+	// Set property ‘AlwaysOn’:
+	if typedInput.AlwaysOn != nil {
+		alwaysOn := *typedInput.AlwaysOn
+		config.AlwaysOn = &alwaysOn
+	}
+
+	// Set property ‘ApiDefinition’:
+	if typedInput.ApiDefinition != nil {
+		var apiDefinition1 ApiDefinitionInfo
+		err := apiDefinition1.PopulateFromARM(owner, *typedInput.ApiDefinition)
+		if err != nil {
+			return err
+		}
+		apiDefinition := apiDefinition1
+		config.ApiDefinition = &apiDefinition
+	}
+
+	// Set property ‘ApiManagementConfig’:
+	if typedInput.ApiManagementConfig != nil {
+		var apiManagementConfig1 ApiManagementConfig
+		err := apiManagementConfig1.PopulateFromARM(owner, *typedInput.ApiManagementConfig)
+		if err != nil {
+			return err
+		}
+		apiManagementConfig := apiManagementConfig1
+		config.ApiManagementConfig = &apiManagementConfig
+	}
+
+	// Set property ‘AppCommandLine’:
+	if typedInput.AppCommandLine != nil {
+		appCommandLine := *typedInput.AppCommandLine
+		config.AppCommandLine = &appCommandLine
+	}
+
+	// Set property ‘AppSettings’:
+	for _, item := range typedInput.AppSettings {
+		var item1 NameValuePair
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.AppSettings = append(config.AppSettings, item1)
+	}
+
+	// Set property ‘AutoHealEnabled’:
+	if typedInput.AutoHealEnabled != nil {
+		autoHealEnabled := *typedInput.AutoHealEnabled
+		config.AutoHealEnabled = &autoHealEnabled
+	}
+
+	// Set property ‘AutoHealRules’:
+	if typedInput.AutoHealRules != nil {
+		var autoHealRules1 AutoHealRules
+		err := autoHealRules1.PopulateFromARM(owner, *typedInput.AutoHealRules)
+		if err != nil {
+			return err
+		}
+		autoHealRules := autoHealRules1
+		config.AutoHealRules = &autoHealRules
+	}
+
+	// Set property ‘AutoSwapSlotName’:
+	if typedInput.AutoSwapSlotName != nil {
+		autoSwapSlotName := *typedInput.AutoSwapSlotName
+		config.AutoSwapSlotName = &autoSwapSlotName
+	}
+
+	// Set property ‘AzureStorageAccounts’:
+	if typedInput.AzureStorageAccounts != nil {
+		config.AzureStorageAccounts = make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(typedInput.AzureStorageAccounts))
+		for key, value := range typedInput.AzureStorageAccounts {
+			var value1 Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+			err := value1.PopulateFromARM(owner, value)
+			if err != nil {
+				return err
+			}
+			config.AzureStorageAccounts[key] = value1
+		}
+	}
+
+	// Set property ‘ConnectionStrings’:
+	for _, item := range typedInput.ConnectionStrings {
+		var item1 ConnStringInfo
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.ConnectionStrings = append(config.ConnectionStrings, item1)
+	}
+
+	// Set property ‘Cors’:
+	if typedInput.Cors != nil {
+		var cors1 CorsSettings
+		err := cors1.PopulateFromARM(owner, *typedInput.Cors)
+		if err != nil {
+			return err
+		}
+		cors := cors1
+		config.Cors = &cors
+	}
+
+	// Set property ‘DefaultDocuments’:
+	for _, item := range typedInput.DefaultDocuments {
+		config.DefaultDocuments = append(config.DefaultDocuments, item)
+	}
+
+	// Set property ‘DetailedErrorLoggingEnabled’:
+	if typedInput.DetailedErrorLoggingEnabled != nil {
+		detailedErrorLoggingEnabled := *typedInput.DetailedErrorLoggingEnabled
+		config.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
+	}
+
+	// Set property ‘DocumentRoot’:
+	if typedInput.DocumentRoot != nil {
+		documentRoot := *typedInput.DocumentRoot
+		config.DocumentRoot = &documentRoot
+	}
+
+	// Set property ‘Experiments’:
+	if typedInput.Experiments != nil {
+		var experiments1 Experiments
+		err := experiments1.PopulateFromARM(owner, *typedInput.Experiments)
+		if err != nil {
+			return err
+		}
+		experiments := experiments1
+		config.Experiments = &experiments
+	}
+
+	// Set property ‘FtpsState’:
+	if typedInput.FtpsState != nil {
+		ftpsState := *typedInput.FtpsState
+		config.FtpsState = &ftpsState
+	}
+
+	// Set property ‘FunctionAppScaleLimit’:
+	if typedInput.FunctionAppScaleLimit != nil {
+		functionAppScaleLimit := *typedInput.FunctionAppScaleLimit
+		config.FunctionAppScaleLimit = &functionAppScaleLimit
+	}
+
+	// Set property ‘FunctionsRuntimeScaleMonitoringEnabled’:
+	if typedInput.FunctionsRuntimeScaleMonitoringEnabled != nil {
+		functionsRuntimeScaleMonitoringEnabled := *typedInput.FunctionsRuntimeScaleMonitoringEnabled
+		config.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
+	}
+
+	// Set property ‘HandlerMappings’:
+	for _, item := range typedInput.HandlerMappings {
+		var item1 HandlerMapping
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.HandlerMappings = append(config.HandlerMappings, item1)
+	}
+
+	// Set property ‘HealthCheckPath’:
+	if typedInput.HealthCheckPath != nil {
+		healthCheckPath := *typedInput.HealthCheckPath
+		config.HealthCheckPath = &healthCheckPath
+	}
+
+	// Set property ‘Http20Enabled’:
+	if typedInput.Http20Enabled != nil {
+		http20Enabled := *typedInput.Http20Enabled
+		config.Http20Enabled = &http20Enabled
+	}
+
+	// Set property ‘HttpLoggingEnabled’:
+	if typedInput.HttpLoggingEnabled != nil {
+		httpLoggingEnabled := *typedInput.HttpLoggingEnabled
+		config.HttpLoggingEnabled = &httpLoggingEnabled
+	}
+
+	// Set property ‘IpSecurityRestrictions’:
+	for _, item := range typedInput.IpSecurityRestrictions {
+		var item1 IpSecurityRestriction
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.IpSecurityRestrictions = append(config.IpSecurityRestrictions, item1)
+	}
+
+	// Set property ‘JavaContainer’:
+	if typedInput.JavaContainer != nil {
+		javaContainer := *typedInput.JavaContainer
+		config.JavaContainer = &javaContainer
+	}
+
+	// Set property ‘JavaContainerVersion’:
+	if typedInput.JavaContainerVersion != nil {
+		javaContainerVersion := *typedInput.JavaContainerVersion
+		config.JavaContainerVersion = &javaContainerVersion
+	}
+
+	// Set property ‘JavaVersion’:
+	if typedInput.JavaVersion != nil {
+		javaVersion := *typedInput.JavaVersion
+		config.JavaVersion = &javaVersion
+	}
+
+	// Set property ‘KeyVaultReferenceIdentity’:
+	if typedInput.KeyVaultReferenceIdentity != nil {
+		keyVaultReferenceIdentity := *typedInput.KeyVaultReferenceIdentity
+		config.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
+	}
+
+	// Set property ‘Limits’:
+	if typedInput.Limits != nil {
+		var limits1 SiteLimits
+		err := limits1.PopulateFromARM(owner, *typedInput.Limits)
+		if err != nil {
+			return err
+		}
+		limits := limits1
+		config.Limits = &limits
+	}
+
+	// Set property ‘LinuxFxVersion’:
+	if typedInput.LinuxFxVersion != nil {
+		linuxFxVersion := *typedInput.LinuxFxVersion
+		config.LinuxFxVersion = &linuxFxVersion
+	}
+
+	// Set property ‘LoadBalancing’:
+	if typedInput.LoadBalancing != nil {
+		loadBalancing := *typedInput.LoadBalancing
+		config.LoadBalancing = &loadBalancing
+	}
+
+	// Set property ‘LocalMySqlEnabled’:
+	if typedInput.LocalMySqlEnabled != nil {
+		localMySqlEnabled := *typedInput.LocalMySqlEnabled
+		config.LocalMySqlEnabled = &localMySqlEnabled
+	}
+
+	// Set property ‘LogsDirectorySizeLimit’:
+	if typedInput.LogsDirectorySizeLimit != nil {
+		logsDirectorySizeLimit := *typedInput.LogsDirectorySizeLimit
+		config.LogsDirectorySizeLimit = &logsDirectorySizeLimit
+	}
+
+	// Set property ‘ManagedPipelineMode’:
+	if typedInput.ManagedPipelineMode != nil {
+		managedPipelineMode := *typedInput.ManagedPipelineMode
+		config.ManagedPipelineMode = &managedPipelineMode
+	}
+
+	// Set property ‘ManagedServiceIdentityId’:
+	if typedInput.ManagedServiceIdentityId != nil {
+		managedServiceIdentityId := *typedInput.ManagedServiceIdentityId
+		config.ManagedServiceIdentityId = &managedServiceIdentityId
+	}
+
+	// Set property ‘MinTlsVersion’:
+	if typedInput.MinTlsVersion != nil {
+		minTlsVersion := *typedInput.MinTlsVersion
+		config.MinTlsVersion = &minTlsVersion
+	}
+
+	// Set property ‘MinimumElasticInstanceCount’:
+	if typedInput.MinimumElasticInstanceCount != nil {
+		minimumElasticInstanceCount := *typedInput.MinimumElasticInstanceCount
+		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
+	}
+
+	// Set property ‘NetFrameworkVersion’:
+	if typedInput.NetFrameworkVersion != nil {
+		netFrameworkVersion := *typedInput.NetFrameworkVersion
+		config.NetFrameworkVersion = &netFrameworkVersion
+	}
+
+	// Set property ‘NodeVersion’:
+	if typedInput.NodeVersion != nil {
+		nodeVersion := *typedInput.NodeVersion
+		config.NodeVersion = &nodeVersion
+	}
+
+	// Set property ‘NumberOfWorkers’:
+	if typedInput.NumberOfWorkers != nil {
+		numberOfWorkers := *typedInput.NumberOfWorkers
+		config.NumberOfWorkers = &numberOfWorkers
+	}
+
+	// Set property ‘PhpVersion’:
+	if typedInput.PhpVersion != nil {
+		phpVersion := *typedInput.PhpVersion
+		config.PhpVersion = &phpVersion
+	}
+
+	// Set property ‘PowerShellVersion’:
+	if typedInput.PowerShellVersion != nil {
+		powerShellVersion := *typedInput.PowerShellVersion
+		config.PowerShellVersion = &powerShellVersion
+	}
+
+	// Set property ‘PreWarmedInstanceCount’:
+	if typedInput.PreWarmedInstanceCount != nil {
+		preWarmedInstanceCount := *typedInput.PreWarmedInstanceCount
+		config.PreWarmedInstanceCount = &preWarmedInstanceCount
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if typedInput.PublicNetworkAccess != nil {
+		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		config.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘PublishingUsername’:
+	if typedInput.PublishingUsername != nil {
+		publishingUsername := *typedInput.PublishingUsername
+		config.PublishingUsername = &publishingUsername
+	}
+
+	// Set property ‘Push’:
+	if typedInput.Push != nil {
+		var push1 Site_Properties_SiteConfig_Push_Spec
+		err := push1.PopulateFromARM(owner, *typedInput.Push)
+		if err != nil {
+			return err
+		}
+		push := push1
+		config.Push = &push
+	}
+
+	// Set property ‘PythonVersion’:
+	if typedInput.PythonVersion != nil {
+		pythonVersion := *typedInput.PythonVersion
+		config.PythonVersion = &pythonVersion
+	}
+
+	// Set property ‘RemoteDebuggingEnabled’:
+	if typedInput.RemoteDebuggingEnabled != nil {
+		remoteDebuggingEnabled := *typedInput.RemoteDebuggingEnabled
+		config.RemoteDebuggingEnabled = &remoteDebuggingEnabled
+	}
+
+	// Set property ‘RemoteDebuggingVersion’:
+	if typedInput.RemoteDebuggingVersion != nil {
+		remoteDebuggingVersion := *typedInput.RemoteDebuggingVersion
+		config.RemoteDebuggingVersion = &remoteDebuggingVersion
+	}
+
+	// Set property ‘RequestTracingEnabled’:
+	if typedInput.RequestTracingEnabled != nil {
+		requestTracingEnabled := *typedInput.RequestTracingEnabled
+		config.RequestTracingEnabled = &requestTracingEnabled
+	}
+
+	// Set property ‘RequestTracingExpirationTime’:
+	if typedInput.RequestTracingExpirationTime != nil {
+		requestTracingExpirationTime := *typedInput.RequestTracingExpirationTime
+		config.RequestTracingExpirationTime = &requestTracingExpirationTime
+	}
+
+	// Set property ‘ScmIpSecurityRestrictions’:
+	for _, item := range typedInput.ScmIpSecurityRestrictions {
+		var item1 IpSecurityRestriction
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.ScmIpSecurityRestrictions = append(config.ScmIpSecurityRestrictions, item1)
+	}
+
+	// Set property ‘ScmIpSecurityRestrictionsUseMain’:
+	if typedInput.ScmIpSecurityRestrictionsUseMain != nil {
+		scmIpSecurityRestrictionsUseMain := *typedInput.ScmIpSecurityRestrictionsUseMain
+		config.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
+	}
+
+	// Set property ‘ScmMinTlsVersion’:
+	if typedInput.ScmMinTlsVersion != nil {
+		scmMinTlsVersion := *typedInput.ScmMinTlsVersion
+		config.ScmMinTlsVersion = &scmMinTlsVersion
+	}
+
+	// Set property ‘ScmType’:
+	if typedInput.ScmType != nil {
+		scmType := *typedInput.ScmType
+		config.ScmType = &scmType
+	}
+
+	// Set property ‘TracingOptions’:
+	if typedInput.TracingOptions != nil {
+		tracingOptions := *typedInput.TracingOptions
+		config.TracingOptions = &tracingOptions
+	}
+
+	// Set property ‘Use32BitWorkerProcess’:
+	if typedInput.Use32BitWorkerProcess != nil {
+		use32BitWorkerProcess := *typedInput.Use32BitWorkerProcess
+		config.Use32BitWorkerProcess = &use32BitWorkerProcess
+	}
+
+	// Set property ‘VirtualApplications’:
+	for _, item := range typedInput.VirtualApplications {
+		var item1 VirtualApplication
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		config.VirtualApplications = append(config.VirtualApplications, item1)
+	}
+
+	// Set property ‘VnetName’:
+	if typedInput.VnetName != nil {
+		vnetName := *typedInput.VnetName
+		config.VnetName = &vnetName
+	}
+
+	// Set property ‘VnetPrivatePortsCount’:
+	if typedInput.VnetPrivatePortsCount != nil {
+		vnetPrivatePortsCount := *typedInput.VnetPrivatePortsCount
+		config.VnetPrivatePortsCount = &vnetPrivatePortsCount
+	}
+
+	// Set property ‘VnetRouteAllEnabled’:
+	if typedInput.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *typedInput.VnetRouteAllEnabled
+		config.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	}
+
+	// Set property ‘WebSocketsEnabled’:
+	if typedInput.WebSocketsEnabled != nil {
+		webSocketsEnabled := *typedInput.WebSocketsEnabled
+		config.WebSocketsEnabled = &webSocketsEnabled
+	}
+
+	// Set property ‘WebsiteTimeZone’:
+	if typedInput.WebsiteTimeZone != nil {
+		websiteTimeZone := *typedInput.WebsiteTimeZone
+		config.WebsiteTimeZone = &websiteTimeZone
+	}
+
+	// Set property ‘WindowsFxVersion’:
+	if typedInput.WindowsFxVersion != nil {
+		windowsFxVersion := *typedInput.WindowsFxVersion
+		config.WindowsFxVersion = &windowsFxVersion
+	}
+
+	// Set property ‘XManagedServiceIdentityId’:
+	if typedInput.XManagedServiceIdentityId != nil {
+		xManagedServiceIdentityId := *typedInput.XManagedServiceIdentityId
+		config.XManagedServiceIdentityId = &xManagedServiceIdentityId
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Site_Properties_SiteConfig_Spec populates our Site_Properties_SiteConfig_Spec from the provided source Site_Properties_SiteConfig_Spec
+func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Properties_SiteConfig_Spec(source *v20220301s.Site_Properties_SiteConfig_Spec) error {
+
+	// AcrUseManagedIdentityCreds
+	if source.AcrUseManagedIdentityCreds != nil {
+		acrUseManagedIdentityCred := *source.AcrUseManagedIdentityCreds
+		config.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCred
+	} else {
+		config.AcrUseManagedIdentityCreds = nil
+	}
+
+	// AcrUserManagedIdentityID
+	config.AcrUserManagedIdentityID = genruntime.ClonePointerToString(source.AcrUserManagedIdentityID)
+
+	// AlwaysOn
+	if source.AlwaysOn != nil {
+		alwaysOn := *source.AlwaysOn
+		config.AlwaysOn = &alwaysOn
+	} else {
+		config.AlwaysOn = nil
+	}
+
+	// ApiDefinition
+	if source.ApiDefinition != nil {
+		var apiDefinition ApiDefinitionInfo
+		err := apiDefinition.AssignProperties_From_ApiDefinitionInfo(source.ApiDefinition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo() to populate field ApiDefinition")
+		}
+		config.ApiDefinition = &apiDefinition
+	} else {
+		config.ApiDefinition = nil
+	}
+
+	// ApiManagementConfig
+	if source.ApiManagementConfig != nil {
+		var apiManagementConfig ApiManagementConfig
+		err := apiManagementConfig.AssignProperties_From_ApiManagementConfig(source.ApiManagementConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ApiManagementConfig() to populate field ApiManagementConfig")
+		}
+		config.ApiManagementConfig = &apiManagementConfig
+	} else {
+		config.ApiManagementConfig = nil
+	}
+
+	// AppCommandLine
+	config.AppCommandLine = genruntime.ClonePointerToString(source.AppCommandLine)
+
+	// AppSettings
+	if source.AppSettings != nil {
+		appSettingList := make([]NameValuePair, len(source.AppSettings))
+		for appSettingIndex, appSettingItem := range source.AppSettings {
+			// Shadow the loop variable to avoid aliasing
+			appSettingItem := appSettingItem
+			var appSetting NameValuePair
+			err := appSetting.AssignProperties_From_NameValuePair(&appSettingItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NameValuePair() to populate field AppSettings")
+			}
+			appSettingList[appSettingIndex] = appSetting
+		}
+		config.AppSettings = appSettingList
+	} else {
+		config.AppSettings = nil
+	}
+
+	// AutoHealEnabled
+	if source.AutoHealEnabled != nil {
+		autoHealEnabled := *source.AutoHealEnabled
+		config.AutoHealEnabled = &autoHealEnabled
+	} else {
+		config.AutoHealEnabled = nil
+	}
+
+	// AutoHealRules
+	if source.AutoHealRules != nil {
+		var autoHealRule AutoHealRules
+		err := autoHealRule.AssignProperties_From_AutoHealRules(source.AutoHealRules)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AutoHealRules() to populate field AutoHealRules")
+		}
+		config.AutoHealRules = &autoHealRule
+	} else {
+		config.AutoHealRules = nil
+	}
+
+	// AutoSwapSlotName
+	config.AutoSwapSlotName = genruntime.ClonePointerToString(source.AutoSwapSlotName)
+
+	// AzureStorageAccounts
+	if source.AzureStorageAccounts != nil {
+		azureStorageAccountMap := make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(source.AzureStorageAccounts))
+		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
+			// Shadow the loop variable to avoid aliasing
+			azureStorageAccountValue := azureStorageAccountValue
+			var azureStorageAccount Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+			err := azureStorageAccount.AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&azureStorageAccountValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec() to populate field AzureStorageAccounts")
+			}
+			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
+		}
+		config.AzureStorageAccounts = azureStorageAccountMap
+	} else {
+		config.AzureStorageAccounts = nil
+	}
+
+	// ConnectionStrings
+	if source.ConnectionStrings != nil {
+		connectionStringList := make([]ConnStringInfo, len(source.ConnectionStrings))
+		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
+			// Shadow the loop variable to avoid aliasing
+			connectionStringItem := connectionStringItem
+			var connectionString ConnStringInfo
+			err := connectionString.AssignProperties_From_ConnStringInfo(&connectionStringItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ConnStringInfo() to populate field ConnectionStrings")
+			}
+			connectionStringList[connectionStringIndex] = connectionString
+		}
+		config.ConnectionStrings = connectionStringList
+	} else {
+		config.ConnectionStrings = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsSettings
+		err := cor.AssignProperties_From_CorsSettings(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CorsSettings() to populate field Cors")
+		}
+		config.Cors = &cor
+	} else {
+		config.Cors = nil
+	}
+
+	// DefaultDocuments
+	config.DefaultDocuments = genruntime.CloneSliceOfString(source.DefaultDocuments)
+
+	// DetailedErrorLoggingEnabled
+	if source.DetailedErrorLoggingEnabled != nil {
+		detailedErrorLoggingEnabled := *source.DetailedErrorLoggingEnabled
+		config.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
+	} else {
+		config.DetailedErrorLoggingEnabled = nil
+	}
+
+	// DocumentRoot
+	config.DocumentRoot = genruntime.ClonePointerToString(source.DocumentRoot)
+
+	// Experiments
+	if source.Experiments != nil {
+		var experiment Experiments
+		err := experiment.AssignProperties_From_Experiments(source.Experiments)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Experiments() to populate field Experiments")
+		}
+		config.Experiments = &experiment
+	} else {
+		config.Experiments = nil
+	}
+
+	// FtpsState
+	if source.FtpsState != nil {
+		ftpsState := Site_Properties_SiteConfig_FtpsState_Spec(*source.FtpsState)
+		config.FtpsState = &ftpsState
+	} else {
+		config.FtpsState = nil
+	}
+
+	// FunctionAppScaleLimit
+	if source.FunctionAppScaleLimit != nil {
+		functionAppScaleLimit := *source.FunctionAppScaleLimit
+		config.FunctionAppScaleLimit = &functionAppScaleLimit
+	} else {
+		config.FunctionAppScaleLimit = nil
+	}
+
+	// FunctionsRuntimeScaleMonitoringEnabled
+	if source.FunctionsRuntimeScaleMonitoringEnabled != nil {
+		functionsRuntimeScaleMonitoringEnabled := *source.FunctionsRuntimeScaleMonitoringEnabled
+		config.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
+	} else {
+		config.FunctionsRuntimeScaleMonitoringEnabled = nil
+	}
+
+	// HandlerMappings
+	if source.HandlerMappings != nil {
+		handlerMappingList := make([]HandlerMapping, len(source.HandlerMappings))
+		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
+			// Shadow the loop variable to avoid aliasing
+			handlerMappingItem := handlerMappingItem
+			var handlerMapping HandlerMapping
+			err := handlerMapping.AssignProperties_From_HandlerMapping(&handlerMappingItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_HandlerMapping() to populate field HandlerMappings")
+			}
+			handlerMappingList[handlerMappingIndex] = handlerMapping
+		}
+		config.HandlerMappings = handlerMappingList
+	} else {
+		config.HandlerMappings = nil
+	}
+
+	// HealthCheckPath
+	config.HealthCheckPath = genruntime.ClonePointerToString(source.HealthCheckPath)
+
+	// Http20Enabled
+	if source.Http20Enabled != nil {
+		http20Enabled := *source.Http20Enabled
+		config.Http20Enabled = &http20Enabled
+	} else {
+		config.Http20Enabled = nil
+	}
+
+	// HttpLoggingEnabled
+	if source.HttpLoggingEnabled != nil {
+		httpLoggingEnabled := *source.HttpLoggingEnabled
+		config.HttpLoggingEnabled = &httpLoggingEnabled
+	} else {
+		config.HttpLoggingEnabled = nil
+	}
+
+	// IpSecurityRestrictions
+	if source.IpSecurityRestrictions != nil {
+		ipSecurityRestrictionList := make([]IpSecurityRestriction, len(source.IpSecurityRestrictions))
+		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
+			// Shadow the loop variable to avoid aliasing
+			ipSecurityRestrictionItem := ipSecurityRestrictionItem
+			var ipSecurityRestriction IpSecurityRestriction
+			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&ipSecurityRestrictionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field IpSecurityRestrictions")
+			}
+			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
+		}
+		config.IpSecurityRestrictions = ipSecurityRestrictionList
+	} else {
+		config.IpSecurityRestrictions = nil
+	}
+
+	// JavaContainer
+	config.JavaContainer = genruntime.ClonePointerToString(source.JavaContainer)
+
+	// JavaContainerVersion
+	config.JavaContainerVersion = genruntime.ClonePointerToString(source.JavaContainerVersion)
+
+	// JavaVersion
+	config.JavaVersion = genruntime.ClonePointerToString(source.JavaVersion)
+
+	// KeyVaultReferenceIdentity
+	config.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
+
+	// Limits
+	if source.Limits != nil {
+		var limit SiteLimits
+		err := limit.AssignProperties_From_SiteLimits(source.Limits)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SiteLimits() to populate field Limits")
+		}
+		config.Limits = &limit
+	} else {
+		config.Limits = nil
+	}
+
+	// LinuxFxVersion
+	config.LinuxFxVersion = genruntime.ClonePointerToString(source.LinuxFxVersion)
+
+	// LoadBalancing
+	if source.LoadBalancing != nil {
+		loadBalancing := Site_Properties_SiteConfig_LoadBalancing_Spec(*source.LoadBalancing)
+		config.LoadBalancing = &loadBalancing
+	} else {
+		config.LoadBalancing = nil
+	}
+
+	// LocalMySqlEnabled
+	if source.LocalMySqlEnabled != nil {
+		localMySqlEnabled := *source.LocalMySqlEnabled
+		config.LocalMySqlEnabled = &localMySqlEnabled
+	} else {
+		config.LocalMySqlEnabled = nil
+	}
+
+	// LogsDirectorySizeLimit
+	config.LogsDirectorySizeLimit = genruntime.ClonePointerToInt(source.LogsDirectorySizeLimit)
+
+	// ManagedPipelineMode
+	if source.ManagedPipelineMode != nil {
+		managedPipelineMode := Site_Properties_SiteConfig_ManagedPipelineMode_Spec(*source.ManagedPipelineMode)
+		config.ManagedPipelineMode = &managedPipelineMode
+	} else {
+		config.ManagedPipelineMode = nil
+	}
+
+	// ManagedServiceIdentityId
+	config.ManagedServiceIdentityId = genruntime.ClonePointerToInt(source.ManagedServiceIdentityId)
+
+	// MinTlsVersion
+	if source.MinTlsVersion != nil {
+		minTlsVersion := Site_Properties_SiteConfig_MinTlsVersion_Spec(*source.MinTlsVersion)
+		config.MinTlsVersion = &minTlsVersion
+	} else {
+		config.MinTlsVersion = nil
+	}
+
+	// MinimumElasticInstanceCount
+	if source.MinimumElasticInstanceCount != nil {
+		minimumElasticInstanceCount := *source.MinimumElasticInstanceCount
+		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
+	} else {
+		config.MinimumElasticInstanceCount = nil
+	}
+
+	// NetFrameworkVersion
+	config.NetFrameworkVersion = genruntime.ClonePointerToString(source.NetFrameworkVersion)
+
+	// NodeVersion
+	config.NodeVersion = genruntime.ClonePointerToString(source.NodeVersion)
+
+	// NumberOfWorkers
+	config.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
+
+	// PhpVersion
+	config.PhpVersion = genruntime.ClonePointerToString(source.PhpVersion)
+
+	// PowerShellVersion
+	config.PowerShellVersion = genruntime.ClonePointerToString(source.PowerShellVersion)
+
+	// PreWarmedInstanceCount
+	if source.PreWarmedInstanceCount != nil {
+		preWarmedInstanceCount := *source.PreWarmedInstanceCount
+		config.PreWarmedInstanceCount = &preWarmedInstanceCount
+	} else {
+		config.PreWarmedInstanceCount = nil
+	}
+
+	// PublicNetworkAccess
+	config.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// PublishingUsername
+	config.PublishingUsername = genruntime.ClonePointerToString(source.PublishingUsername)
+
+	// Push
+	if source.Push != nil {
+		var push Site_Properties_SiteConfig_Push_Spec
+		err := push.AssignProperties_From_Site_Properties_SiteConfig_Push_Spec(source.Push)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_Push_Spec() to populate field Push")
+		}
+		config.Push = &push
+	} else {
+		config.Push = nil
+	}
+
+	// PythonVersion
+	config.PythonVersion = genruntime.ClonePointerToString(source.PythonVersion)
+
+	// RemoteDebuggingEnabled
+	if source.RemoteDebuggingEnabled != nil {
+		remoteDebuggingEnabled := *source.RemoteDebuggingEnabled
+		config.RemoteDebuggingEnabled = &remoteDebuggingEnabled
+	} else {
+		config.RemoteDebuggingEnabled = nil
+	}
+
+	// RemoteDebuggingVersion
+	config.RemoteDebuggingVersion = genruntime.ClonePointerToString(source.RemoteDebuggingVersion)
+
+	// RequestTracingEnabled
+	if source.RequestTracingEnabled != nil {
+		requestTracingEnabled := *source.RequestTracingEnabled
+		config.RequestTracingEnabled = &requestTracingEnabled
+	} else {
+		config.RequestTracingEnabled = nil
+	}
+
+	// RequestTracingExpirationTime
+	if source.RequestTracingExpirationTime != nil {
+		requestTracingExpirationTime := *source.RequestTracingExpirationTime
+		config.RequestTracingExpirationTime = &requestTracingExpirationTime
+	} else {
+		config.RequestTracingExpirationTime = nil
+	}
+
+	// ScmIpSecurityRestrictions
+	if source.ScmIpSecurityRestrictions != nil {
+		scmIpSecurityRestrictionList := make([]IpSecurityRestriction, len(source.ScmIpSecurityRestrictions))
+		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
+			// Shadow the loop variable to avoid aliasing
+			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
+			var scmIpSecurityRestriction IpSecurityRestriction
+			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&scmIpSecurityRestrictionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
+			}
+			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
+		}
+		config.ScmIpSecurityRestrictions = scmIpSecurityRestrictionList
+	} else {
+		config.ScmIpSecurityRestrictions = nil
+	}
+
+	// ScmIpSecurityRestrictionsUseMain
+	if source.ScmIpSecurityRestrictionsUseMain != nil {
+		scmIpSecurityRestrictionsUseMain := *source.ScmIpSecurityRestrictionsUseMain
+		config.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
+	} else {
+		config.ScmIpSecurityRestrictionsUseMain = nil
+	}
+
+	// ScmMinTlsVersion
+	if source.ScmMinTlsVersion != nil {
+		scmMinTlsVersion := Site_Properties_SiteConfig_ScmMinTlsVersion_Spec(*source.ScmMinTlsVersion)
+		config.ScmMinTlsVersion = &scmMinTlsVersion
+	} else {
+		config.ScmMinTlsVersion = nil
+	}
+
+	// ScmType
+	if source.ScmType != nil {
+		scmType := Site_Properties_SiteConfig_ScmType_Spec(*source.ScmType)
+		config.ScmType = &scmType
+	} else {
+		config.ScmType = nil
+	}
+
+	// TracingOptions
+	config.TracingOptions = genruntime.ClonePointerToString(source.TracingOptions)
+
+	// Use32BitWorkerProcess
+	if source.Use32BitWorkerProcess != nil {
+		use32BitWorkerProcess := *source.Use32BitWorkerProcess
+		config.Use32BitWorkerProcess = &use32BitWorkerProcess
+	} else {
+		config.Use32BitWorkerProcess = nil
+	}
+
+	// VirtualApplications
+	if source.VirtualApplications != nil {
+		virtualApplicationList := make([]VirtualApplication, len(source.VirtualApplications))
+		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
+			// Shadow the loop variable to avoid aliasing
+			virtualApplicationItem := virtualApplicationItem
+			var virtualApplication VirtualApplication
+			err := virtualApplication.AssignProperties_From_VirtualApplication(&virtualApplicationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualApplication() to populate field VirtualApplications")
+			}
+			virtualApplicationList[virtualApplicationIndex] = virtualApplication
+		}
+		config.VirtualApplications = virtualApplicationList
+	} else {
+		config.VirtualApplications = nil
+	}
+
+	// VnetName
+	config.VnetName = genruntime.ClonePointerToString(source.VnetName)
+
+	// VnetPrivatePortsCount
+	config.VnetPrivatePortsCount = genruntime.ClonePointerToInt(source.VnetPrivatePortsCount)
+
+	// VnetRouteAllEnabled
+	if source.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
+		config.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	} else {
+		config.VnetRouteAllEnabled = nil
+	}
+
+	// WebSocketsEnabled
+	if source.WebSocketsEnabled != nil {
+		webSocketsEnabled := *source.WebSocketsEnabled
+		config.WebSocketsEnabled = &webSocketsEnabled
+	} else {
+		config.WebSocketsEnabled = nil
+	}
+
+	// WebsiteTimeZone
+	config.WebsiteTimeZone = genruntime.ClonePointerToString(source.WebsiteTimeZone)
+
+	// WindowsFxVersion
+	config.WindowsFxVersion = genruntime.ClonePointerToString(source.WindowsFxVersion)
+
+	// XManagedServiceIdentityId
+	config.XManagedServiceIdentityId = genruntime.ClonePointerToInt(source.XManagedServiceIdentityId)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Site_Properties_SiteConfig_Spec populates the provided destination Site_Properties_SiteConfig_Spec from our Site_Properties_SiteConfig_Spec
+func (config *Site_Properties_SiteConfig_Spec) AssignProperties_To_Site_Properties_SiteConfig_Spec(destination *v20220301s.Site_Properties_SiteConfig_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AcrUseManagedIdentityCreds
+	if config.AcrUseManagedIdentityCreds != nil {
+		acrUseManagedIdentityCred := *config.AcrUseManagedIdentityCreds
+		destination.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCred
+	} else {
+		destination.AcrUseManagedIdentityCreds = nil
+	}
+
+	// AcrUserManagedIdentityID
+	destination.AcrUserManagedIdentityID = genruntime.ClonePointerToString(config.AcrUserManagedIdentityID)
+
+	// AlwaysOn
+	if config.AlwaysOn != nil {
+		alwaysOn := *config.AlwaysOn
+		destination.AlwaysOn = &alwaysOn
+	} else {
+		destination.AlwaysOn = nil
+	}
+
+	// ApiDefinition
+	if config.ApiDefinition != nil {
+		var apiDefinition v20220301s.ApiDefinitionInfo
+		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo(&apiDefinition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo() to populate field ApiDefinition")
+		}
+		destination.ApiDefinition = &apiDefinition
+	} else {
+		destination.ApiDefinition = nil
+	}
+
+	// ApiManagementConfig
+	if config.ApiManagementConfig != nil {
+		var apiManagementConfig v20220301s.ApiManagementConfig
+		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig(&apiManagementConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig() to populate field ApiManagementConfig")
+		}
+		destination.ApiManagementConfig = &apiManagementConfig
+	} else {
+		destination.ApiManagementConfig = nil
+	}
+
+	// AppCommandLine
+	destination.AppCommandLine = genruntime.ClonePointerToString(config.AppCommandLine)
+
+	// AppSettings
+	if config.AppSettings != nil {
+		appSettingList := make([]v20220301s.NameValuePair, len(config.AppSettings))
+		for appSettingIndex, appSettingItem := range config.AppSettings {
+			// Shadow the loop variable to avoid aliasing
+			appSettingItem := appSettingItem
+			var appSetting v20220301s.NameValuePair
+			err := appSettingItem.AssignProperties_To_NameValuePair(&appSetting)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair() to populate field AppSettings")
+			}
+			appSettingList[appSettingIndex] = appSetting
+		}
+		destination.AppSettings = appSettingList
+	} else {
+		destination.AppSettings = nil
+	}
+
+	// AutoHealEnabled
+	if config.AutoHealEnabled != nil {
+		autoHealEnabled := *config.AutoHealEnabled
+		destination.AutoHealEnabled = &autoHealEnabled
+	} else {
+		destination.AutoHealEnabled = nil
+	}
+
+	// AutoHealRules
+	if config.AutoHealRules != nil {
+		var autoHealRule v20220301s.AutoHealRules
+		err := config.AutoHealRules.AssignProperties_To_AutoHealRules(&autoHealRule)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules() to populate field AutoHealRules")
+		}
+		destination.AutoHealRules = &autoHealRule
+	} else {
+		destination.AutoHealRules = nil
+	}
+
+	// AutoSwapSlotName
+	destination.AutoSwapSlotName = genruntime.ClonePointerToString(config.AutoSwapSlotName)
+
+	// AzureStorageAccounts
+	if config.AzureStorageAccounts != nil {
+		azureStorageAccountMap := make(map[string]v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(config.AzureStorageAccounts))
+		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
+			// Shadow the loop variable to avoid aliasing
+			azureStorageAccountValue := azureStorageAccountValue
+			var azureStorageAccount v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+			err := azureStorageAccountValue.AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&azureStorageAccount)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec() to populate field AzureStorageAccounts")
+			}
+			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
+		}
+		destination.AzureStorageAccounts = azureStorageAccountMap
+	} else {
+		destination.AzureStorageAccounts = nil
+	}
+
+	// ConnectionStrings
+	if config.ConnectionStrings != nil {
+		connectionStringList := make([]v20220301s.ConnStringInfo, len(config.ConnectionStrings))
+		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
+			// Shadow the loop variable to avoid aliasing
+			connectionStringItem := connectionStringItem
+			var connectionString v20220301s.ConnStringInfo
+			err := connectionStringItem.AssignProperties_To_ConnStringInfo(&connectionString)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo() to populate field ConnectionStrings")
+			}
+			connectionStringList[connectionStringIndex] = connectionString
+		}
+		destination.ConnectionStrings = connectionStringList
+	} else {
+		destination.ConnectionStrings = nil
+	}
+
+	// Cors
+	if config.Cors != nil {
+		var cor v20220301s.CorsSettings
+		err := config.Cors.AssignProperties_To_CorsSettings(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// DefaultDocuments
+	destination.DefaultDocuments = genruntime.CloneSliceOfString(config.DefaultDocuments)
+
+	// DetailedErrorLoggingEnabled
+	if config.DetailedErrorLoggingEnabled != nil {
+		detailedErrorLoggingEnabled := *config.DetailedErrorLoggingEnabled
+		destination.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
+	} else {
+		destination.DetailedErrorLoggingEnabled = nil
+	}
+
+	// DocumentRoot
+	destination.DocumentRoot = genruntime.ClonePointerToString(config.DocumentRoot)
+
+	// Experiments
+	if config.Experiments != nil {
+		var experiment v20220301s.Experiments
+		err := config.Experiments.AssignProperties_To_Experiments(&experiment)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Experiments() to populate field Experiments")
+		}
+		destination.Experiments = &experiment
+	} else {
+		destination.Experiments = nil
+	}
+
+	// FtpsState
+	if config.FtpsState != nil {
+		ftpsState := string(*config.FtpsState)
+		destination.FtpsState = &ftpsState
+	} else {
+		destination.FtpsState = nil
+	}
+
+	// FunctionAppScaleLimit
+	if config.FunctionAppScaleLimit != nil {
+		functionAppScaleLimit := *config.FunctionAppScaleLimit
+		destination.FunctionAppScaleLimit = &functionAppScaleLimit
+	} else {
+		destination.FunctionAppScaleLimit = nil
+	}
+
+	// FunctionsRuntimeScaleMonitoringEnabled
+	if config.FunctionsRuntimeScaleMonitoringEnabled != nil {
+		functionsRuntimeScaleMonitoringEnabled := *config.FunctionsRuntimeScaleMonitoringEnabled
+		destination.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
+	} else {
+		destination.FunctionsRuntimeScaleMonitoringEnabled = nil
+	}
+
+	// HandlerMappings
+	if config.HandlerMappings != nil {
+		handlerMappingList := make([]v20220301s.HandlerMapping, len(config.HandlerMappings))
+		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
+			// Shadow the loop variable to avoid aliasing
+			handlerMappingItem := handlerMappingItem
+			var handlerMapping v20220301s.HandlerMapping
+			err := handlerMappingItem.AssignProperties_To_HandlerMapping(&handlerMapping)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping() to populate field HandlerMappings")
+			}
+			handlerMappingList[handlerMappingIndex] = handlerMapping
+		}
+		destination.HandlerMappings = handlerMappingList
+	} else {
+		destination.HandlerMappings = nil
+	}
+
+	// HealthCheckPath
+	destination.HealthCheckPath = genruntime.ClonePointerToString(config.HealthCheckPath)
+
+	// Http20Enabled
+	if config.Http20Enabled != nil {
+		http20Enabled := *config.Http20Enabled
+		destination.Http20Enabled = &http20Enabled
+	} else {
+		destination.Http20Enabled = nil
+	}
+
+	// HttpLoggingEnabled
+	if config.HttpLoggingEnabled != nil {
+		httpLoggingEnabled := *config.HttpLoggingEnabled
+		destination.HttpLoggingEnabled = &httpLoggingEnabled
+	} else {
+		destination.HttpLoggingEnabled = nil
+	}
+
+	// IpSecurityRestrictions
+	if config.IpSecurityRestrictions != nil {
+		ipSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.IpSecurityRestrictions))
+		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
+			// Shadow the loop variable to avoid aliasing
+			ipSecurityRestrictionItem := ipSecurityRestrictionItem
+			var ipSecurityRestriction v20220301s.IpSecurityRestriction
+			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&ipSecurityRestriction)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field IpSecurityRestrictions")
+			}
+			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
+		}
+		destination.IpSecurityRestrictions = ipSecurityRestrictionList
+	} else {
+		destination.IpSecurityRestrictions = nil
+	}
+
+	// JavaContainer
+	destination.JavaContainer = genruntime.ClonePointerToString(config.JavaContainer)
+
+	// JavaContainerVersion
+	destination.JavaContainerVersion = genruntime.ClonePointerToString(config.JavaContainerVersion)
+
+	// JavaVersion
+	destination.JavaVersion = genruntime.ClonePointerToString(config.JavaVersion)
+
+	// KeyVaultReferenceIdentity
+	destination.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(config.KeyVaultReferenceIdentity)
+
+	// Limits
+	if config.Limits != nil {
+		var limit v20220301s.SiteLimits
+		err := config.Limits.AssignProperties_To_SiteLimits(&limit)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits() to populate field Limits")
+		}
+		destination.Limits = &limit
+	} else {
+		destination.Limits = nil
+	}
+
+	// LinuxFxVersion
+	destination.LinuxFxVersion = genruntime.ClonePointerToString(config.LinuxFxVersion)
+
+	// LoadBalancing
+	if config.LoadBalancing != nil {
+		loadBalancing := string(*config.LoadBalancing)
+		destination.LoadBalancing = &loadBalancing
+	} else {
+		destination.LoadBalancing = nil
+	}
+
+	// LocalMySqlEnabled
+	if config.LocalMySqlEnabled != nil {
+		localMySqlEnabled := *config.LocalMySqlEnabled
+		destination.LocalMySqlEnabled = &localMySqlEnabled
+	} else {
+		destination.LocalMySqlEnabled = nil
+	}
+
+	// LogsDirectorySizeLimit
+	destination.LogsDirectorySizeLimit = genruntime.ClonePointerToInt(config.LogsDirectorySizeLimit)
+
+	// ManagedPipelineMode
+	if config.ManagedPipelineMode != nil {
+		managedPipelineMode := string(*config.ManagedPipelineMode)
+		destination.ManagedPipelineMode = &managedPipelineMode
+	} else {
+		destination.ManagedPipelineMode = nil
+	}
+
+	// ManagedServiceIdentityId
+	destination.ManagedServiceIdentityId = genruntime.ClonePointerToInt(config.ManagedServiceIdentityId)
+
+	// MinTlsVersion
+	if config.MinTlsVersion != nil {
+		minTlsVersion := string(*config.MinTlsVersion)
+		destination.MinTlsVersion = &minTlsVersion
+	} else {
+		destination.MinTlsVersion = nil
+	}
+
+	// MinimumElasticInstanceCount
+	if config.MinimumElasticInstanceCount != nil {
+		minimumElasticInstanceCount := *config.MinimumElasticInstanceCount
+		destination.MinimumElasticInstanceCount = &minimumElasticInstanceCount
+	} else {
+		destination.MinimumElasticInstanceCount = nil
+	}
+
+	// NetFrameworkVersion
+	destination.NetFrameworkVersion = genruntime.ClonePointerToString(config.NetFrameworkVersion)
+
+	// NodeVersion
+	destination.NodeVersion = genruntime.ClonePointerToString(config.NodeVersion)
+
+	// NumberOfWorkers
+	destination.NumberOfWorkers = genruntime.ClonePointerToInt(config.NumberOfWorkers)
+
+	// PhpVersion
+	destination.PhpVersion = genruntime.ClonePointerToString(config.PhpVersion)
+
+	// PowerShellVersion
+	destination.PowerShellVersion = genruntime.ClonePointerToString(config.PowerShellVersion)
+
+	// PreWarmedInstanceCount
+	if config.PreWarmedInstanceCount != nil {
+		preWarmedInstanceCount := *config.PreWarmedInstanceCount
+		destination.PreWarmedInstanceCount = &preWarmedInstanceCount
+	} else {
+		destination.PreWarmedInstanceCount = nil
+	}
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(config.PublicNetworkAccess)
+
+	// PublishingUsername
+	destination.PublishingUsername = genruntime.ClonePointerToString(config.PublishingUsername)
+
+	// Push
+	if config.Push != nil {
+		var push v20220301s.Site_Properties_SiteConfig_Push_Spec
+		err := config.Push.AssignProperties_To_Site_Properties_SiteConfig_Push_Spec(&push)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_Push_Spec() to populate field Push")
+		}
+		destination.Push = &push
+	} else {
+		destination.Push = nil
+	}
+
+	// PythonVersion
+	destination.PythonVersion = genruntime.ClonePointerToString(config.PythonVersion)
+
+	// RemoteDebuggingEnabled
+	if config.RemoteDebuggingEnabled != nil {
+		remoteDebuggingEnabled := *config.RemoteDebuggingEnabled
+		destination.RemoteDebuggingEnabled = &remoteDebuggingEnabled
+	} else {
+		destination.RemoteDebuggingEnabled = nil
+	}
+
+	// RemoteDebuggingVersion
+	destination.RemoteDebuggingVersion = genruntime.ClonePointerToString(config.RemoteDebuggingVersion)
+
+	// RequestTracingEnabled
+	if config.RequestTracingEnabled != nil {
+		requestTracingEnabled := *config.RequestTracingEnabled
+		destination.RequestTracingEnabled = &requestTracingEnabled
+	} else {
+		destination.RequestTracingEnabled = nil
+	}
+
+	// RequestTracingExpirationTime
+	if config.RequestTracingExpirationTime != nil {
+		requestTracingExpirationTime := *config.RequestTracingExpirationTime
+		destination.RequestTracingExpirationTime = &requestTracingExpirationTime
+	} else {
+		destination.RequestTracingExpirationTime = nil
+	}
+
+	// ScmIpSecurityRestrictions
+	if config.ScmIpSecurityRestrictions != nil {
+		scmIpSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.ScmIpSecurityRestrictions))
+		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
+			// Shadow the loop variable to avoid aliasing
+			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
+			var scmIpSecurityRestriction v20220301s.IpSecurityRestriction
+			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&scmIpSecurityRestriction)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
+			}
+			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
+		}
+		destination.ScmIpSecurityRestrictions = scmIpSecurityRestrictionList
+	} else {
+		destination.ScmIpSecurityRestrictions = nil
+	}
+
+	// ScmIpSecurityRestrictionsUseMain
+	if config.ScmIpSecurityRestrictionsUseMain != nil {
+		scmIpSecurityRestrictionsUseMain := *config.ScmIpSecurityRestrictionsUseMain
+		destination.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
+	} else {
+		destination.ScmIpSecurityRestrictionsUseMain = nil
+	}
+
+	// ScmMinTlsVersion
+	if config.ScmMinTlsVersion != nil {
+		scmMinTlsVersion := string(*config.ScmMinTlsVersion)
+		destination.ScmMinTlsVersion = &scmMinTlsVersion
+	} else {
+		destination.ScmMinTlsVersion = nil
+	}
+
+	// ScmType
+	if config.ScmType != nil {
+		scmType := string(*config.ScmType)
+		destination.ScmType = &scmType
+	} else {
+		destination.ScmType = nil
+	}
+
+	// TracingOptions
+	destination.TracingOptions = genruntime.ClonePointerToString(config.TracingOptions)
+
+	// Use32BitWorkerProcess
+	if config.Use32BitWorkerProcess != nil {
+		use32BitWorkerProcess := *config.Use32BitWorkerProcess
+		destination.Use32BitWorkerProcess = &use32BitWorkerProcess
+	} else {
+		destination.Use32BitWorkerProcess = nil
+	}
+
+	// VirtualApplications
+	if config.VirtualApplications != nil {
+		virtualApplicationList := make([]v20220301s.VirtualApplication, len(config.VirtualApplications))
+		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
+			// Shadow the loop variable to avoid aliasing
+			virtualApplicationItem := virtualApplicationItem
+			var virtualApplication v20220301s.VirtualApplication
+			err := virtualApplicationItem.AssignProperties_To_VirtualApplication(&virtualApplication)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication() to populate field VirtualApplications")
+			}
+			virtualApplicationList[virtualApplicationIndex] = virtualApplication
+		}
+		destination.VirtualApplications = virtualApplicationList
+	} else {
+		destination.VirtualApplications = nil
+	}
+
+	// VnetName
+	destination.VnetName = genruntime.ClonePointerToString(config.VnetName)
+
+	// VnetPrivatePortsCount
+	destination.VnetPrivatePortsCount = genruntime.ClonePointerToInt(config.VnetPrivatePortsCount)
+
+	// VnetRouteAllEnabled
+	if config.VnetRouteAllEnabled != nil {
+		vnetRouteAllEnabled := *config.VnetRouteAllEnabled
+		destination.VnetRouteAllEnabled = &vnetRouteAllEnabled
+	} else {
+		destination.VnetRouteAllEnabled = nil
+	}
+
+	// WebSocketsEnabled
+	if config.WebSocketsEnabled != nil {
+		webSocketsEnabled := *config.WebSocketsEnabled
+		destination.WebSocketsEnabled = &webSocketsEnabled
+	} else {
+		destination.WebSocketsEnabled = nil
+	}
+
+	// WebsiteTimeZone
+	destination.WebsiteTimeZone = genruntime.ClonePointerToString(config.WebsiteTimeZone)
+
+	// WindowsFxVersion
+	destination.WindowsFxVersion = genruntime.ClonePointerToString(config.WindowsFxVersion)
+
+	// XManagedServiceIdentityId
+	destination.XManagedServiceIdentityId = genruntime.ClonePointerToInt(config.XManagedServiceIdentityId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type Site_Properties_UsageState_STATUS string
+
+const (
+	Site_Properties_UsageState_STATUS_Exceeded = Site_Properties_UsageState_STATUS("Exceeded")
+	Site_Properties_UsageState_STATUS_Normal   = Site_Properties_UsageState_STATUS("Normal")
 )
 
 type SiteConfig_STATUS struct {
@@ -4332,7 +6498,7 @@ type SiteConfig_STATUS struct {
 	Experiments *Experiments_STATUS `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service
-	FtpsState *SiteConfig_STATUS_FtpsState `json:"ftpsState,omitempty"`
+	FtpsState *SiteConfig_FtpsState_STATUS `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -4378,7 +6544,7 @@ type SiteConfig_STATUS struct {
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SiteConfig_STATUS_LoadBalancing `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing_STATUS `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -4390,13 +6556,13 @@ type SiteConfig_STATUS struct {
 	MachineKey *SiteMachineKey_STATUS `json:"machineKey,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SiteConfig_STATUS_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode_STATUS `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
-	MinTlsVersion *SiteConfig_STATUS_MinTlsVersion `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *SiteConfig_MinTlsVersion_STATUS `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -4452,10 +6618,10 @@ type SiteConfig_STATUS struct {
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
-	ScmMinTlsVersion *SiteConfig_STATUS_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion_STATUS `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SiteConfig_STATUS_ScmType `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType_STATUS `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -4497,14 +6663,14 @@ var _ genruntime.FromARMConverter = &SiteConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *SiteConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SiteConfig_STATUSARM{}
+	return &SiteConfig_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *SiteConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SiteConfig_STATUSARM)
+	typedInput, ok := armInput.(SiteConfig_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteConfig_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteConfig_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AcrUseManagedIdentityCreds’:
@@ -5149,7 +7315,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// FtpsState
 	if source.FtpsState != nil {
-		ftpsState := SiteConfig_STATUS_FtpsState(*source.FtpsState)
+		ftpsState := SiteConfig_FtpsState_STATUS(*source.FtpsState)
 		config.FtpsState = &ftpsState
 	} else {
 		config.FtpsState = nil
@@ -5250,7 +7416,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// LoadBalancing
 	if source.LoadBalancing != nil {
-		loadBalancing := SiteConfig_STATUS_LoadBalancing(*source.LoadBalancing)
+		loadBalancing := SiteConfig_LoadBalancing_STATUS(*source.LoadBalancing)
 		config.LoadBalancing = &loadBalancing
 	} else {
 		config.LoadBalancing = nil
@@ -5281,7 +7447,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// ManagedPipelineMode
 	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := SiteConfig_STATUS_ManagedPipelineMode(*source.ManagedPipelineMode)
+		managedPipelineMode := SiteConfig_ManagedPipelineMode_STATUS(*source.ManagedPipelineMode)
 		config.ManagedPipelineMode = &managedPipelineMode
 	} else {
 		config.ManagedPipelineMode = nil
@@ -5292,7 +7458,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// MinTlsVersion
 	if source.MinTlsVersion != nil {
-		minTlsVersion := SiteConfig_STATUS_MinTlsVersion(*source.MinTlsVersion)
+		minTlsVersion := SiteConfig_MinTlsVersion_STATUS(*source.MinTlsVersion)
 		config.MinTlsVersion = &minTlsVersion
 	} else {
 		config.MinTlsVersion = nil
@@ -5390,7 +7556,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// ScmMinTlsVersion
 	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := SiteConfig_STATUS_ScmMinTlsVersion(*source.ScmMinTlsVersion)
+		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion_STATUS(*source.ScmMinTlsVersion)
 		config.ScmMinTlsVersion = &scmMinTlsVersion
 	} else {
 		config.ScmMinTlsVersion = nil
@@ -5398,7 +7564,7 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// ScmType
 	if source.ScmType != nil {
-		scmType := SiteConfig_STATUS_ScmType(*source.ScmType)
+		scmType := SiteConfig_ScmType_STATUS(*source.ScmType)
 		config.ScmType = &scmType
 	} else {
 		config.ScmType = nil
@@ -5962,2172 +8128,6 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Optional","OptionalInteractiveUser","Required"}
-type Sites_Spec_Properties_ClientCertMode string
-
-const (
-	Sites_Spec_Properties_ClientCertMode_Optional                = Sites_Spec_Properties_ClientCertMode("Optional")
-	Sites_Spec_Properties_ClientCertMode_OptionalInteractiveUser = Sites_Spec_Properties_ClientCertMode("OptionalInteractiveUser")
-	Sites_Spec_Properties_ClientCertMode_Required                = Sites_Spec_Properties_ClientCertMode("Required")
-)
-
-// +kubebuilder:validation:Enum={"ActiveActive","Failover","GeoRedundant","Manual","None"}
-type Sites_Spec_Properties_RedundancyMode string
-
-const (
-	Sites_Spec_Properties_RedundancyMode_ActiveActive = Sites_Spec_Properties_RedundancyMode("ActiveActive")
-	Sites_Spec_Properties_RedundancyMode_Failover     = Sites_Spec_Properties_RedundancyMode("Failover")
-	Sites_Spec_Properties_RedundancyMode_GeoRedundant = Sites_Spec_Properties_RedundancyMode("GeoRedundant")
-	Sites_Spec_Properties_RedundancyMode_Manual       = Sites_Spec_Properties_RedundancyMode("Manual")
-	Sites_Spec_Properties_RedundancyMode_None         = Sites_Spec_Properties_RedundancyMode("None")
-)
-
-type Sites_Spec_Properties_SiteConfig struct {
-	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
-	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
-
-	// AcrUserManagedIdentityID: If using user managed identity, the user managed identity ClientId
-	AcrUserManagedIdentityID *string `json:"acrUserManagedIdentityID,omitempty"`
-
-	// AlwaysOn: <code>true</code> if Always On is enabled; otherwise, <code>false</code>.
-	AlwaysOn *bool `json:"alwaysOn,omitempty"`
-
-	// ApiDefinition: Information about the formal API definition for the app.
-	ApiDefinition *ApiDefinitionInfo `json:"apiDefinition,omitempty"`
-
-	// ApiManagementConfig: Azure API management (APIM) configuration linked to the app.
-	ApiManagementConfig *ApiManagementConfig `json:"apiManagementConfig,omitempty"`
-
-	// AppCommandLine: App command line to launch.
-	AppCommandLine *string `json:"appCommandLine,omitempty"`
-
-	// AppSettings: Application settings.
-	AppSettings []NameValuePair `json:"appSettings,omitempty"`
-
-	// AutoHealEnabled: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
-	AutoHealEnabled *bool `json:"autoHealEnabled,omitempty"`
-
-	// AutoHealRules: Rules that can be defined for auto-heal.
-	AutoHealRules *AutoHealRules `json:"autoHealRules,omitempty"`
-
-	// AutoSwapSlotName: Auto-swap slot name.
-	AutoSwapSlotName *string `json:"autoSwapSlotName,omitempty"`
-
-	// AzureStorageAccounts: List of Azure Storage Accounts.
-	AzureStorageAccounts map[string]Sites_Spec_Properties_SiteConfig_AzureStorageAccounts `json:"azureStorageAccounts,omitempty"`
-
-	// ConnectionStrings: Connection strings.
-	ConnectionStrings []ConnStringInfo `json:"connectionStrings,omitempty"`
-
-	// Cors: Cross-Origin Resource Sharing (CORS) settings for the app.
-	Cors *CorsSettings `json:"cors,omitempty"`
-
-	// DefaultDocuments: Default documents.
-	DefaultDocuments []string `json:"defaultDocuments,omitempty"`
-
-	// DetailedErrorLoggingEnabled: <code>true</code> if detailed error logging is enabled; otherwise, <code>false</code>.
-	DetailedErrorLoggingEnabled *bool `json:"detailedErrorLoggingEnabled,omitempty"`
-
-	// DocumentRoot: Document root.
-	DocumentRoot *string `json:"documentRoot,omitempty"`
-
-	// Experiments: Routing rules in production experiments.
-	Experiments *Experiments `json:"experiments,omitempty"`
-
-	// FtpsState: State of FTP / FTPS service.
-	FtpsState *Sites_Spec_Properties_SiteConfig_FtpsState `json:"ftpsState,omitempty"`
-
-	// +kubebuilder:validation:Minimum=0
-	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
-	// This setting only applies to the Consumption and Elastic Premium Plans
-	FunctionAppScaleLimit *int `json:"functionAppScaleLimit,omitempty"`
-
-	// FunctionsRuntimeScaleMonitoringEnabled: Gets or sets a value indicating whether functions runtime scale monitoring is
-	// enabled. When enabled,
-	// the ScaleController will not monitor event sources directly, but will instead call to the
-	// runtime to get scale status.
-	FunctionsRuntimeScaleMonitoringEnabled *bool `json:"functionsRuntimeScaleMonitoringEnabled,omitempty"`
-
-	// HandlerMappings: Handler mappings.
-	HandlerMappings []HandlerMapping `json:"handlerMappings,omitempty"`
-
-	// HealthCheckPath: Health check path
-	HealthCheckPath *string `json:"healthCheckPath,omitempty"`
-
-	// Http20Enabled: Http20Enabled: configures a web site to allow clients to connect over http2.0
-	Http20Enabled *bool `json:"http20Enabled,omitempty"`
-
-	// HttpLoggingEnabled: <code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.
-	HttpLoggingEnabled *bool `json:"httpLoggingEnabled,omitempty"`
-
-	// IpSecurityRestrictions: IP security restrictions for main.
-	IpSecurityRestrictions []IpSecurityRestriction `json:"ipSecurityRestrictions,omitempty"`
-
-	// JavaContainer: Java container.
-	JavaContainer *string `json:"javaContainer,omitempty"`
-
-	// JavaContainerVersion: Java container version.
-	JavaContainerVersion *string `json:"javaContainerVersion,omitempty"`
-
-	// JavaVersion: Java version.
-	JavaVersion *string `json:"javaVersion,omitempty"`
-
-	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
-	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
-
-	// Limits: Metric limits set on an app.
-	Limits *SiteLimits `json:"limits,omitempty"`
-
-	// LinuxFxVersion: Linux App Framework and version
-	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
-
-	// LoadBalancing: Site load balancing.
-	LoadBalancing *Sites_Spec_Properties_SiteConfig_LoadBalancing `json:"loadBalancing,omitempty"`
-
-	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
-	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
-
-	// LogsDirectorySizeLimit: HTTP logs directory size limit.
-	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
-
-	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *Sites_Spec_Properties_SiteConfig_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
-
-	// ManagedServiceIdentityId: Managed Service Identity Id
-	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
-
-	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests.
-	MinTlsVersion *Sites_Spec_Properties_SiteConfig_MinTlsVersion `json:"minTlsVersion,omitempty"`
-
-	// +kubebuilder:validation:Maximum=20
-	// +kubebuilder:validation:Minimum=0
-	// MinimumElasticInstanceCount: Number of minimum instance count for a site
-	// This setting only applies to the Elastic Plans
-	MinimumElasticInstanceCount *int `json:"minimumElasticInstanceCount,omitempty"`
-
-	// NetFrameworkVersion: .NET Framework version.
-	NetFrameworkVersion *string `json:"netFrameworkVersion,omitempty"`
-
-	// NodeVersion: Version of Node.js.
-	NodeVersion *string `json:"nodeVersion,omitempty"`
-
-	// NumberOfWorkers: Number of workers.
-	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
-
-	// PhpVersion: Version of PHP.
-	PhpVersion *string `json:"phpVersion,omitempty"`
-
-	// PowerShellVersion: Version of PowerShell.
-	PowerShellVersion *string `json:"powerShellVersion,omitempty"`
-
-	// +kubebuilder:validation:Maximum=10
-	// +kubebuilder:validation:Minimum=0
-	// PreWarmedInstanceCount: Number of preWarmed instances.
-	// This setting only applies to the Consumption and Elastic Plans
-	PreWarmedInstanceCount *int `json:"preWarmedInstanceCount,omitempty"`
-
-	// PublicNetworkAccess: Property to allow or block all public traffic.
-	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
-
-	// PublishingUsername: Publishing user name.
-	PublishingUsername *string `json:"publishingUsername,omitempty"`
-
-	// Push: Push settings for the App.
-	Push *Sites_Spec_Properties_SiteConfig_Push `json:"push,omitempty"`
-
-	// PythonVersion: Version of Python.
-	PythonVersion *string `json:"pythonVersion,omitempty"`
-
-	// RemoteDebuggingEnabled: <code>true</code> if remote debugging is enabled; otherwise, <code>false</code>.
-	RemoteDebuggingEnabled *bool `json:"remoteDebuggingEnabled,omitempty"`
-
-	// RemoteDebuggingVersion: Remote debugging version.
-	RemoteDebuggingVersion *string `json:"remoteDebuggingVersion,omitempty"`
-
-	// RequestTracingEnabled: <code>true</code> if request tracing is enabled; otherwise, <code>false</code>.
-	RequestTracingEnabled *bool `json:"requestTracingEnabled,omitempty"`
-
-	// RequestTracingExpirationTime: Request tracing expiration time.
-	RequestTracingExpirationTime *string `json:"requestTracingExpirationTime,omitempty"`
-
-	// ScmIpSecurityRestrictions: IP security restrictions for scm.
-	ScmIpSecurityRestrictions []IpSecurityRestriction `json:"scmIpSecurityRestrictions,omitempty"`
-
-	// ScmIpSecurityRestrictionsUseMain: IP security restrictions for scm to use main.
-	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
-
-	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site.
-	ScmMinTlsVersion *Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
-
-	// ScmType: SCM type.
-	ScmType *Sites_Spec_Properties_SiteConfig_ScmType `json:"scmType,omitempty"`
-
-	// TracingOptions: Tracing options.
-	TracingOptions *string `json:"tracingOptions,omitempty"`
-
-	// Use32BitWorkerProcess: <code>true</code> to use 32-bit worker process; otherwise, <code>false</code>.
-	Use32BitWorkerProcess *bool `json:"use32BitWorkerProcess,omitempty"`
-
-	// VirtualApplications: Virtual applications.
-	VirtualApplications []VirtualApplication `json:"virtualApplications,omitempty"`
-
-	// VnetName: Virtual Network name.
-	VnetName *string `json:"vnetName,omitempty"`
-
-	// VnetPrivatePortsCount: The number of private ports assigned to this app. These will be assigned dynamically on runtime.
-	VnetPrivatePortsCount *int `json:"vnetPrivatePortsCount,omitempty"`
-
-	// VnetRouteAllEnabled: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network
-	// Security Groups and User Defined Routes applied.
-	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
-
-	// WebSocketsEnabled: <code>true</code> if WebSocket is enabled; otherwise, <code>false</code>.
-	WebSocketsEnabled *bool `json:"webSocketsEnabled,omitempty"`
-
-	// WebsiteTimeZone: Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows App
-	// Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For Linux, expects tz database
-	// values https://www.iana.org/time-zones (for a quick reference see
-	// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the time zones listed under
-	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
-	WebsiteTimeZone *string `json:"websiteTimeZone,omitempty"`
-
-	// WindowsFxVersion: Xenon App Framework and version
-	WindowsFxVersion *string `json:"windowsFxVersion,omitempty"`
-
-	// XManagedServiceIdentityId: Explicit Managed Service Identity Id
-	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Sites_Spec_Properties_SiteConfig{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (config *Sites_Spec_Properties_SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if config == nil {
-		return nil, nil
-	}
-	result := &Sites_Spec_Properties_SiteConfigARM{}
-
-	// Set property ‘AcrUseManagedIdentityCreds’:
-	if config.AcrUseManagedIdentityCreds != nil {
-		acrUseManagedIdentityCreds := *config.AcrUseManagedIdentityCreds
-		result.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCreds
-	}
-
-	// Set property ‘AcrUserManagedIdentityID’:
-	if config.AcrUserManagedIdentityID != nil {
-		acrUserManagedIdentityID := *config.AcrUserManagedIdentityID
-		result.AcrUserManagedIdentityID = &acrUserManagedIdentityID
-	}
-
-	// Set property ‘AlwaysOn’:
-	if config.AlwaysOn != nil {
-		alwaysOn := *config.AlwaysOn
-		result.AlwaysOn = &alwaysOn
-	}
-
-	// Set property ‘ApiDefinition’:
-	if config.ApiDefinition != nil {
-		apiDefinitionARM, err := (*config.ApiDefinition).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		apiDefinition := *apiDefinitionARM.(*ApiDefinitionInfoARM)
-		result.ApiDefinition = &apiDefinition
-	}
-
-	// Set property ‘ApiManagementConfig’:
-	if config.ApiManagementConfig != nil {
-		apiManagementConfigARM, err := (*config.ApiManagementConfig).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		apiManagementConfig := *apiManagementConfigARM.(*ApiManagementConfigARM)
-		result.ApiManagementConfig = &apiManagementConfig
-	}
-
-	// Set property ‘AppCommandLine’:
-	if config.AppCommandLine != nil {
-		appCommandLine := *config.AppCommandLine
-		result.AppCommandLine = &appCommandLine
-	}
-
-	// Set property ‘AppSettings’:
-	for _, item := range config.AppSettings {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.AppSettings = append(result.AppSettings, *itemARM.(*NameValuePairARM))
-	}
-
-	// Set property ‘AutoHealEnabled’:
-	if config.AutoHealEnabled != nil {
-		autoHealEnabled := *config.AutoHealEnabled
-		result.AutoHealEnabled = &autoHealEnabled
-	}
-
-	// Set property ‘AutoHealRules’:
-	if config.AutoHealRules != nil {
-		autoHealRulesARM, err := (*config.AutoHealRules).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		autoHealRules := *autoHealRulesARM.(*AutoHealRulesARM)
-		result.AutoHealRules = &autoHealRules
-	}
-
-	// Set property ‘AutoSwapSlotName’:
-	if config.AutoSwapSlotName != nil {
-		autoSwapSlotName := *config.AutoSwapSlotName
-		result.AutoSwapSlotName = &autoSwapSlotName
-	}
-
-	// Set property ‘AzureStorageAccounts’:
-	if config.AzureStorageAccounts != nil {
-		result.AzureStorageAccounts = make(map[string]Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM, len(config.AzureStorageAccounts))
-		for key, value := range config.AzureStorageAccounts {
-			valueARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.AzureStorageAccounts[key] = *valueARM.(*Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM)
-		}
-	}
-
-	// Set property ‘ConnectionStrings’:
-	for _, item := range config.ConnectionStrings {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ConnectionStrings = append(result.ConnectionStrings, *itemARM.(*ConnStringInfoARM))
-	}
-
-	// Set property ‘Cors’:
-	if config.Cors != nil {
-		corsARM, err := (*config.Cors).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		cors := *corsARM.(*CorsSettingsARM)
-		result.Cors = &cors
-	}
-
-	// Set property ‘DefaultDocuments’:
-	for _, item := range config.DefaultDocuments {
-		result.DefaultDocuments = append(result.DefaultDocuments, item)
-	}
-
-	// Set property ‘DetailedErrorLoggingEnabled’:
-	if config.DetailedErrorLoggingEnabled != nil {
-		detailedErrorLoggingEnabled := *config.DetailedErrorLoggingEnabled
-		result.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
-	}
-
-	// Set property ‘DocumentRoot’:
-	if config.DocumentRoot != nil {
-		documentRoot := *config.DocumentRoot
-		result.DocumentRoot = &documentRoot
-	}
-
-	// Set property ‘Experiments’:
-	if config.Experiments != nil {
-		experimentsARM, err := (*config.Experiments).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		experiments := *experimentsARM.(*ExperimentsARM)
-		result.Experiments = &experiments
-	}
-
-	// Set property ‘FtpsState’:
-	if config.FtpsState != nil {
-		ftpsState := *config.FtpsState
-		result.FtpsState = &ftpsState
-	}
-
-	// Set property ‘FunctionAppScaleLimit’:
-	if config.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *config.FunctionAppScaleLimit
-		result.FunctionAppScaleLimit = &functionAppScaleLimit
-	}
-
-	// Set property ‘FunctionsRuntimeScaleMonitoringEnabled’:
-	if config.FunctionsRuntimeScaleMonitoringEnabled != nil {
-		functionsRuntimeScaleMonitoringEnabled := *config.FunctionsRuntimeScaleMonitoringEnabled
-		result.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
-	}
-
-	// Set property ‘HandlerMappings’:
-	for _, item := range config.HandlerMappings {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.HandlerMappings = append(result.HandlerMappings, *itemARM.(*HandlerMappingARM))
-	}
-
-	// Set property ‘HealthCheckPath’:
-	if config.HealthCheckPath != nil {
-		healthCheckPath := *config.HealthCheckPath
-		result.HealthCheckPath = &healthCheckPath
-	}
-
-	// Set property ‘Http20Enabled’:
-	if config.Http20Enabled != nil {
-		http20Enabled := *config.Http20Enabled
-		result.Http20Enabled = &http20Enabled
-	}
-
-	// Set property ‘HttpLoggingEnabled’:
-	if config.HttpLoggingEnabled != nil {
-		httpLoggingEnabled := *config.HttpLoggingEnabled
-		result.HttpLoggingEnabled = &httpLoggingEnabled
-	}
-
-	// Set property ‘IpSecurityRestrictions’:
-	for _, item := range config.IpSecurityRestrictions {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.IpSecurityRestrictions = append(result.IpSecurityRestrictions, *itemARM.(*IpSecurityRestrictionARM))
-	}
-
-	// Set property ‘JavaContainer’:
-	if config.JavaContainer != nil {
-		javaContainer := *config.JavaContainer
-		result.JavaContainer = &javaContainer
-	}
-
-	// Set property ‘JavaContainerVersion’:
-	if config.JavaContainerVersion != nil {
-		javaContainerVersion := *config.JavaContainerVersion
-		result.JavaContainerVersion = &javaContainerVersion
-	}
-
-	// Set property ‘JavaVersion’:
-	if config.JavaVersion != nil {
-		javaVersion := *config.JavaVersion
-		result.JavaVersion = &javaVersion
-	}
-
-	// Set property ‘KeyVaultReferenceIdentity’:
-	if config.KeyVaultReferenceIdentity != nil {
-		keyVaultReferenceIdentity := *config.KeyVaultReferenceIdentity
-		result.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
-	}
-
-	// Set property ‘Limits’:
-	if config.Limits != nil {
-		limitsARM, err := (*config.Limits).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		limits := *limitsARM.(*SiteLimitsARM)
-		result.Limits = &limits
-	}
-
-	// Set property ‘LinuxFxVersion’:
-	if config.LinuxFxVersion != nil {
-		linuxFxVersion := *config.LinuxFxVersion
-		result.LinuxFxVersion = &linuxFxVersion
-	}
-
-	// Set property ‘LoadBalancing’:
-	if config.LoadBalancing != nil {
-		loadBalancing := *config.LoadBalancing
-		result.LoadBalancing = &loadBalancing
-	}
-
-	// Set property ‘LocalMySqlEnabled’:
-	if config.LocalMySqlEnabled != nil {
-		localMySqlEnabled := *config.LocalMySqlEnabled
-		result.LocalMySqlEnabled = &localMySqlEnabled
-	}
-
-	// Set property ‘LogsDirectorySizeLimit’:
-	if config.LogsDirectorySizeLimit != nil {
-		logsDirectorySizeLimit := *config.LogsDirectorySizeLimit
-		result.LogsDirectorySizeLimit = &logsDirectorySizeLimit
-	}
-
-	// Set property ‘ManagedPipelineMode’:
-	if config.ManagedPipelineMode != nil {
-		managedPipelineMode := *config.ManagedPipelineMode
-		result.ManagedPipelineMode = &managedPipelineMode
-	}
-
-	// Set property ‘ManagedServiceIdentityId’:
-	if config.ManagedServiceIdentityId != nil {
-		managedServiceIdentityId := *config.ManagedServiceIdentityId
-		result.ManagedServiceIdentityId = &managedServiceIdentityId
-	}
-
-	// Set property ‘MinTlsVersion’:
-	if config.MinTlsVersion != nil {
-		minTlsVersion := *config.MinTlsVersion
-		result.MinTlsVersion = &minTlsVersion
-	}
-
-	// Set property ‘MinimumElasticInstanceCount’:
-	if config.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *config.MinimumElasticInstanceCount
-		result.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	}
-
-	// Set property ‘NetFrameworkVersion’:
-	if config.NetFrameworkVersion != nil {
-		netFrameworkVersion := *config.NetFrameworkVersion
-		result.NetFrameworkVersion = &netFrameworkVersion
-	}
-
-	// Set property ‘NodeVersion’:
-	if config.NodeVersion != nil {
-		nodeVersion := *config.NodeVersion
-		result.NodeVersion = &nodeVersion
-	}
-
-	// Set property ‘NumberOfWorkers’:
-	if config.NumberOfWorkers != nil {
-		numberOfWorkers := *config.NumberOfWorkers
-		result.NumberOfWorkers = &numberOfWorkers
-	}
-
-	// Set property ‘PhpVersion’:
-	if config.PhpVersion != nil {
-		phpVersion := *config.PhpVersion
-		result.PhpVersion = &phpVersion
-	}
-
-	// Set property ‘PowerShellVersion’:
-	if config.PowerShellVersion != nil {
-		powerShellVersion := *config.PowerShellVersion
-		result.PowerShellVersion = &powerShellVersion
-	}
-
-	// Set property ‘PreWarmedInstanceCount’:
-	if config.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *config.PreWarmedInstanceCount
-		result.PreWarmedInstanceCount = &preWarmedInstanceCount
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	if config.PublicNetworkAccess != nil {
-		publicNetworkAccess := *config.PublicNetworkAccess
-		result.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘PublishingUsername’:
-	if config.PublishingUsername != nil {
-		publishingUsername := *config.PublishingUsername
-		result.PublishingUsername = &publishingUsername
-	}
-
-	// Set property ‘Push’:
-	if config.Push != nil {
-		pushARM, err := (*config.Push).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		push := *pushARM.(*Sites_Spec_Properties_SiteConfig_PushARM)
-		result.Push = &push
-	}
-
-	// Set property ‘PythonVersion’:
-	if config.PythonVersion != nil {
-		pythonVersion := *config.PythonVersion
-		result.PythonVersion = &pythonVersion
-	}
-
-	// Set property ‘RemoteDebuggingEnabled’:
-	if config.RemoteDebuggingEnabled != nil {
-		remoteDebuggingEnabled := *config.RemoteDebuggingEnabled
-		result.RemoteDebuggingEnabled = &remoteDebuggingEnabled
-	}
-
-	// Set property ‘RemoteDebuggingVersion’:
-	if config.RemoteDebuggingVersion != nil {
-		remoteDebuggingVersion := *config.RemoteDebuggingVersion
-		result.RemoteDebuggingVersion = &remoteDebuggingVersion
-	}
-
-	// Set property ‘RequestTracingEnabled’:
-	if config.RequestTracingEnabled != nil {
-		requestTracingEnabled := *config.RequestTracingEnabled
-		result.RequestTracingEnabled = &requestTracingEnabled
-	}
-
-	// Set property ‘RequestTracingExpirationTime’:
-	if config.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *config.RequestTracingExpirationTime
-		result.RequestTracingExpirationTime = &requestTracingExpirationTime
-	}
-
-	// Set property ‘ScmIpSecurityRestrictions’:
-	for _, item := range config.ScmIpSecurityRestrictions {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ScmIpSecurityRestrictions = append(result.ScmIpSecurityRestrictions, *itemARM.(*IpSecurityRestrictionARM))
-	}
-
-	// Set property ‘ScmIpSecurityRestrictionsUseMain’:
-	if config.ScmIpSecurityRestrictionsUseMain != nil {
-		scmIpSecurityRestrictionsUseMain := *config.ScmIpSecurityRestrictionsUseMain
-		result.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
-	}
-
-	// Set property ‘ScmMinTlsVersion’:
-	if config.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := *config.ScmMinTlsVersion
-		result.ScmMinTlsVersion = &scmMinTlsVersion
-	}
-
-	// Set property ‘ScmType’:
-	if config.ScmType != nil {
-		scmType := *config.ScmType
-		result.ScmType = &scmType
-	}
-
-	// Set property ‘TracingOptions’:
-	if config.TracingOptions != nil {
-		tracingOptions := *config.TracingOptions
-		result.TracingOptions = &tracingOptions
-	}
-
-	// Set property ‘Use32BitWorkerProcess’:
-	if config.Use32BitWorkerProcess != nil {
-		use32BitWorkerProcess := *config.Use32BitWorkerProcess
-		result.Use32BitWorkerProcess = &use32BitWorkerProcess
-	}
-
-	// Set property ‘VirtualApplications’:
-	for _, item := range config.VirtualApplications {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.VirtualApplications = append(result.VirtualApplications, *itemARM.(*VirtualApplicationARM))
-	}
-
-	// Set property ‘VnetName’:
-	if config.VnetName != nil {
-		vnetName := *config.VnetName
-		result.VnetName = &vnetName
-	}
-
-	// Set property ‘VnetPrivatePortsCount’:
-	if config.VnetPrivatePortsCount != nil {
-		vnetPrivatePortsCount := *config.VnetPrivatePortsCount
-		result.VnetPrivatePortsCount = &vnetPrivatePortsCount
-	}
-
-	// Set property ‘VnetRouteAllEnabled’:
-	if config.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *config.VnetRouteAllEnabled
-		result.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	}
-
-	// Set property ‘WebSocketsEnabled’:
-	if config.WebSocketsEnabled != nil {
-		webSocketsEnabled := *config.WebSocketsEnabled
-		result.WebSocketsEnabled = &webSocketsEnabled
-	}
-
-	// Set property ‘WebsiteTimeZone’:
-	if config.WebsiteTimeZone != nil {
-		websiteTimeZone := *config.WebsiteTimeZone
-		result.WebsiteTimeZone = &websiteTimeZone
-	}
-
-	// Set property ‘WindowsFxVersion’:
-	if config.WindowsFxVersion != nil {
-		windowsFxVersion := *config.WindowsFxVersion
-		result.WindowsFxVersion = &windowsFxVersion
-	}
-
-	// Set property ‘XManagedServiceIdentityId’:
-	if config.XManagedServiceIdentityId != nil {
-		xManagedServiceIdentityId := *config.XManagedServiceIdentityId
-		result.XManagedServiceIdentityId = &xManagedServiceIdentityId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (config *Sites_Spec_Properties_SiteConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sites_Spec_Properties_SiteConfigARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (config *Sites_Spec_Properties_SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sites_Spec_Properties_SiteConfigARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sites_Spec_Properties_SiteConfigARM, got %T", armInput)
-	}
-
-	// Set property ‘AcrUseManagedIdentityCreds’:
-	if typedInput.AcrUseManagedIdentityCreds != nil {
-		acrUseManagedIdentityCreds := *typedInput.AcrUseManagedIdentityCreds
-		config.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCreds
-	}
-
-	// Set property ‘AcrUserManagedIdentityID’:
-	if typedInput.AcrUserManagedIdentityID != nil {
-		acrUserManagedIdentityID := *typedInput.AcrUserManagedIdentityID
-		config.AcrUserManagedIdentityID = &acrUserManagedIdentityID
-	}
-
-	// Set property ‘AlwaysOn’:
-	if typedInput.AlwaysOn != nil {
-		alwaysOn := *typedInput.AlwaysOn
-		config.AlwaysOn = &alwaysOn
-	}
-
-	// Set property ‘ApiDefinition’:
-	if typedInput.ApiDefinition != nil {
-		var apiDefinition1 ApiDefinitionInfo
-		err := apiDefinition1.PopulateFromARM(owner, *typedInput.ApiDefinition)
-		if err != nil {
-			return err
-		}
-		apiDefinition := apiDefinition1
-		config.ApiDefinition = &apiDefinition
-	}
-
-	// Set property ‘ApiManagementConfig’:
-	if typedInput.ApiManagementConfig != nil {
-		var apiManagementConfig1 ApiManagementConfig
-		err := apiManagementConfig1.PopulateFromARM(owner, *typedInput.ApiManagementConfig)
-		if err != nil {
-			return err
-		}
-		apiManagementConfig := apiManagementConfig1
-		config.ApiManagementConfig = &apiManagementConfig
-	}
-
-	// Set property ‘AppCommandLine’:
-	if typedInput.AppCommandLine != nil {
-		appCommandLine := *typedInput.AppCommandLine
-		config.AppCommandLine = &appCommandLine
-	}
-
-	// Set property ‘AppSettings’:
-	for _, item := range typedInput.AppSettings {
-		var item1 NameValuePair
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.AppSettings = append(config.AppSettings, item1)
-	}
-
-	// Set property ‘AutoHealEnabled’:
-	if typedInput.AutoHealEnabled != nil {
-		autoHealEnabled := *typedInput.AutoHealEnabled
-		config.AutoHealEnabled = &autoHealEnabled
-	}
-
-	// Set property ‘AutoHealRules’:
-	if typedInput.AutoHealRules != nil {
-		var autoHealRules1 AutoHealRules
-		err := autoHealRules1.PopulateFromARM(owner, *typedInput.AutoHealRules)
-		if err != nil {
-			return err
-		}
-		autoHealRules := autoHealRules1
-		config.AutoHealRules = &autoHealRules
-	}
-
-	// Set property ‘AutoSwapSlotName’:
-	if typedInput.AutoSwapSlotName != nil {
-		autoSwapSlotName := *typedInput.AutoSwapSlotName
-		config.AutoSwapSlotName = &autoSwapSlotName
-	}
-
-	// Set property ‘AzureStorageAccounts’:
-	if typedInput.AzureStorageAccounts != nil {
-		config.AzureStorageAccounts = make(map[string]Sites_Spec_Properties_SiteConfig_AzureStorageAccounts, len(typedInput.AzureStorageAccounts))
-		for key, value := range typedInput.AzureStorageAccounts {
-			var value1 Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
-			}
-			config.AzureStorageAccounts[key] = value1
-		}
-	}
-
-	// Set property ‘ConnectionStrings’:
-	for _, item := range typedInput.ConnectionStrings {
-		var item1 ConnStringInfo
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.ConnectionStrings = append(config.ConnectionStrings, item1)
-	}
-
-	// Set property ‘Cors’:
-	if typedInput.Cors != nil {
-		var cors1 CorsSettings
-		err := cors1.PopulateFromARM(owner, *typedInput.Cors)
-		if err != nil {
-			return err
-		}
-		cors := cors1
-		config.Cors = &cors
-	}
-
-	// Set property ‘DefaultDocuments’:
-	for _, item := range typedInput.DefaultDocuments {
-		config.DefaultDocuments = append(config.DefaultDocuments, item)
-	}
-
-	// Set property ‘DetailedErrorLoggingEnabled’:
-	if typedInput.DetailedErrorLoggingEnabled != nil {
-		detailedErrorLoggingEnabled := *typedInput.DetailedErrorLoggingEnabled
-		config.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
-	}
-
-	// Set property ‘DocumentRoot’:
-	if typedInput.DocumentRoot != nil {
-		documentRoot := *typedInput.DocumentRoot
-		config.DocumentRoot = &documentRoot
-	}
-
-	// Set property ‘Experiments’:
-	if typedInput.Experiments != nil {
-		var experiments1 Experiments
-		err := experiments1.PopulateFromARM(owner, *typedInput.Experiments)
-		if err != nil {
-			return err
-		}
-		experiments := experiments1
-		config.Experiments = &experiments
-	}
-
-	// Set property ‘FtpsState’:
-	if typedInput.FtpsState != nil {
-		ftpsState := *typedInput.FtpsState
-		config.FtpsState = &ftpsState
-	}
-
-	// Set property ‘FunctionAppScaleLimit’:
-	if typedInput.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *typedInput.FunctionAppScaleLimit
-		config.FunctionAppScaleLimit = &functionAppScaleLimit
-	}
-
-	// Set property ‘FunctionsRuntimeScaleMonitoringEnabled’:
-	if typedInput.FunctionsRuntimeScaleMonitoringEnabled != nil {
-		functionsRuntimeScaleMonitoringEnabled := *typedInput.FunctionsRuntimeScaleMonitoringEnabled
-		config.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
-	}
-
-	// Set property ‘HandlerMappings’:
-	for _, item := range typedInput.HandlerMappings {
-		var item1 HandlerMapping
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.HandlerMappings = append(config.HandlerMappings, item1)
-	}
-
-	// Set property ‘HealthCheckPath’:
-	if typedInput.HealthCheckPath != nil {
-		healthCheckPath := *typedInput.HealthCheckPath
-		config.HealthCheckPath = &healthCheckPath
-	}
-
-	// Set property ‘Http20Enabled’:
-	if typedInput.Http20Enabled != nil {
-		http20Enabled := *typedInput.Http20Enabled
-		config.Http20Enabled = &http20Enabled
-	}
-
-	// Set property ‘HttpLoggingEnabled’:
-	if typedInput.HttpLoggingEnabled != nil {
-		httpLoggingEnabled := *typedInput.HttpLoggingEnabled
-		config.HttpLoggingEnabled = &httpLoggingEnabled
-	}
-
-	// Set property ‘IpSecurityRestrictions’:
-	for _, item := range typedInput.IpSecurityRestrictions {
-		var item1 IpSecurityRestriction
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.IpSecurityRestrictions = append(config.IpSecurityRestrictions, item1)
-	}
-
-	// Set property ‘JavaContainer’:
-	if typedInput.JavaContainer != nil {
-		javaContainer := *typedInput.JavaContainer
-		config.JavaContainer = &javaContainer
-	}
-
-	// Set property ‘JavaContainerVersion’:
-	if typedInput.JavaContainerVersion != nil {
-		javaContainerVersion := *typedInput.JavaContainerVersion
-		config.JavaContainerVersion = &javaContainerVersion
-	}
-
-	// Set property ‘JavaVersion’:
-	if typedInput.JavaVersion != nil {
-		javaVersion := *typedInput.JavaVersion
-		config.JavaVersion = &javaVersion
-	}
-
-	// Set property ‘KeyVaultReferenceIdentity’:
-	if typedInput.KeyVaultReferenceIdentity != nil {
-		keyVaultReferenceIdentity := *typedInput.KeyVaultReferenceIdentity
-		config.KeyVaultReferenceIdentity = &keyVaultReferenceIdentity
-	}
-
-	// Set property ‘Limits’:
-	if typedInput.Limits != nil {
-		var limits1 SiteLimits
-		err := limits1.PopulateFromARM(owner, *typedInput.Limits)
-		if err != nil {
-			return err
-		}
-		limits := limits1
-		config.Limits = &limits
-	}
-
-	// Set property ‘LinuxFxVersion’:
-	if typedInput.LinuxFxVersion != nil {
-		linuxFxVersion := *typedInput.LinuxFxVersion
-		config.LinuxFxVersion = &linuxFxVersion
-	}
-
-	// Set property ‘LoadBalancing’:
-	if typedInput.LoadBalancing != nil {
-		loadBalancing := *typedInput.LoadBalancing
-		config.LoadBalancing = &loadBalancing
-	}
-
-	// Set property ‘LocalMySqlEnabled’:
-	if typedInput.LocalMySqlEnabled != nil {
-		localMySqlEnabled := *typedInput.LocalMySqlEnabled
-		config.LocalMySqlEnabled = &localMySqlEnabled
-	}
-
-	// Set property ‘LogsDirectorySizeLimit’:
-	if typedInput.LogsDirectorySizeLimit != nil {
-		logsDirectorySizeLimit := *typedInput.LogsDirectorySizeLimit
-		config.LogsDirectorySizeLimit = &logsDirectorySizeLimit
-	}
-
-	// Set property ‘ManagedPipelineMode’:
-	if typedInput.ManagedPipelineMode != nil {
-		managedPipelineMode := *typedInput.ManagedPipelineMode
-		config.ManagedPipelineMode = &managedPipelineMode
-	}
-
-	// Set property ‘ManagedServiceIdentityId’:
-	if typedInput.ManagedServiceIdentityId != nil {
-		managedServiceIdentityId := *typedInput.ManagedServiceIdentityId
-		config.ManagedServiceIdentityId = &managedServiceIdentityId
-	}
-
-	// Set property ‘MinTlsVersion’:
-	if typedInput.MinTlsVersion != nil {
-		minTlsVersion := *typedInput.MinTlsVersion
-		config.MinTlsVersion = &minTlsVersion
-	}
-
-	// Set property ‘MinimumElasticInstanceCount’:
-	if typedInput.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *typedInput.MinimumElasticInstanceCount
-		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	}
-
-	// Set property ‘NetFrameworkVersion’:
-	if typedInput.NetFrameworkVersion != nil {
-		netFrameworkVersion := *typedInput.NetFrameworkVersion
-		config.NetFrameworkVersion = &netFrameworkVersion
-	}
-
-	// Set property ‘NodeVersion’:
-	if typedInput.NodeVersion != nil {
-		nodeVersion := *typedInput.NodeVersion
-		config.NodeVersion = &nodeVersion
-	}
-
-	// Set property ‘NumberOfWorkers’:
-	if typedInput.NumberOfWorkers != nil {
-		numberOfWorkers := *typedInput.NumberOfWorkers
-		config.NumberOfWorkers = &numberOfWorkers
-	}
-
-	// Set property ‘PhpVersion’:
-	if typedInput.PhpVersion != nil {
-		phpVersion := *typedInput.PhpVersion
-		config.PhpVersion = &phpVersion
-	}
-
-	// Set property ‘PowerShellVersion’:
-	if typedInput.PowerShellVersion != nil {
-		powerShellVersion := *typedInput.PowerShellVersion
-		config.PowerShellVersion = &powerShellVersion
-	}
-
-	// Set property ‘PreWarmedInstanceCount’:
-	if typedInput.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *typedInput.PreWarmedInstanceCount
-		config.PreWarmedInstanceCount = &preWarmedInstanceCount
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
-		config.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘PublishingUsername’:
-	if typedInput.PublishingUsername != nil {
-		publishingUsername := *typedInput.PublishingUsername
-		config.PublishingUsername = &publishingUsername
-	}
-
-	// Set property ‘Push’:
-	if typedInput.Push != nil {
-		var push1 Sites_Spec_Properties_SiteConfig_Push
-		err := push1.PopulateFromARM(owner, *typedInput.Push)
-		if err != nil {
-			return err
-		}
-		push := push1
-		config.Push = &push
-	}
-
-	// Set property ‘PythonVersion’:
-	if typedInput.PythonVersion != nil {
-		pythonVersion := *typedInput.PythonVersion
-		config.PythonVersion = &pythonVersion
-	}
-
-	// Set property ‘RemoteDebuggingEnabled’:
-	if typedInput.RemoteDebuggingEnabled != nil {
-		remoteDebuggingEnabled := *typedInput.RemoteDebuggingEnabled
-		config.RemoteDebuggingEnabled = &remoteDebuggingEnabled
-	}
-
-	// Set property ‘RemoteDebuggingVersion’:
-	if typedInput.RemoteDebuggingVersion != nil {
-		remoteDebuggingVersion := *typedInput.RemoteDebuggingVersion
-		config.RemoteDebuggingVersion = &remoteDebuggingVersion
-	}
-
-	// Set property ‘RequestTracingEnabled’:
-	if typedInput.RequestTracingEnabled != nil {
-		requestTracingEnabled := *typedInput.RequestTracingEnabled
-		config.RequestTracingEnabled = &requestTracingEnabled
-	}
-
-	// Set property ‘RequestTracingExpirationTime’:
-	if typedInput.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *typedInput.RequestTracingExpirationTime
-		config.RequestTracingExpirationTime = &requestTracingExpirationTime
-	}
-
-	// Set property ‘ScmIpSecurityRestrictions’:
-	for _, item := range typedInput.ScmIpSecurityRestrictions {
-		var item1 IpSecurityRestriction
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.ScmIpSecurityRestrictions = append(config.ScmIpSecurityRestrictions, item1)
-	}
-
-	// Set property ‘ScmIpSecurityRestrictionsUseMain’:
-	if typedInput.ScmIpSecurityRestrictionsUseMain != nil {
-		scmIpSecurityRestrictionsUseMain := *typedInput.ScmIpSecurityRestrictionsUseMain
-		config.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
-	}
-
-	// Set property ‘ScmMinTlsVersion’:
-	if typedInput.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := *typedInput.ScmMinTlsVersion
-		config.ScmMinTlsVersion = &scmMinTlsVersion
-	}
-
-	// Set property ‘ScmType’:
-	if typedInput.ScmType != nil {
-		scmType := *typedInput.ScmType
-		config.ScmType = &scmType
-	}
-
-	// Set property ‘TracingOptions’:
-	if typedInput.TracingOptions != nil {
-		tracingOptions := *typedInput.TracingOptions
-		config.TracingOptions = &tracingOptions
-	}
-
-	// Set property ‘Use32BitWorkerProcess’:
-	if typedInput.Use32BitWorkerProcess != nil {
-		use32BitWorkerProcess := *typedInput.Use32BitWorkerProcess
-		config.Use32BitWorkerProcess = &use32BitWorkerProcess
-	}
-
-	// Set property ‘VirtualApplications’:
-	for _, item := range typedInput.VirtualApplications {
-		var item1 VirtualApplication
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		config.VirtualApplications = append(config.VirtualApplications, item1)
-	}
-
-	// Set property ‘VnetName’:
-	if typedInput.VnetName != nil {
-		vnetName := *typedInput.VnetName
-		config.VnetName = &vnetName
-	}
-
-	// Set property ‘VnetPrivatePortsCount’:
-	if typedInput.VnetPrivatePortsCount != nil {
-		vnetPrivatePortsCount := *typedInput.VnetPrivatePortsCount
-		config.VnetPrivatePortsCount = &vnetPrivatePortsCount
-	}
-
-	// Set property ‘VnetRouteAllEnabled’:
-	if typedInput.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *typedInput.VnetRouteAllEnabled
-		config.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	}
-
-	// Set property ‘WebSocketsEnabled’:
-	if typedInput.WebSocketsEnabled != nil {
-		webSocketsEnabled := *typedInput.WebSocketsEnabled
-		config.WebSocketsEnabled = &webSocketsEnabled
-	}
-
-	// Set property ‘WebsiteTimeZone’:
-	if typedInput.WebsiteTimeZone != nil {
-		websiteTimeZone := *typedInput.WebsiteTimeZone
-		config.WebsiteTimeZone = &websiteTimeZone
-	}
-
-	// Set property ‘WindowsFxVersion’:
-	if typedInput.WindowsFxVersion != nil {
-		windowsFxVersion := *typedInput.WindowsFxVersion
-		config.WindowsFxVersion = &windowsFxVersion
-	}
-
-	// Set property ‘XManagedServiceIdentityId’:
-	if typedInput.XManagedServiceIdentityId != nil {
-		xManagedServiceIdentityId := *typedInput.XManagedServiceIdentityId
-		config.XManagedServiceIdentityId = &xManagedServiceIdentityId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Sites_Spec_Properties_SiteConfig populates our Sites_Spec_Properties_SiteConfig from the provided source Sites_Spec_Properties_SiteConfig
-func (config *Sites_Spec_Properties_SiteConfig) AssignProperties_From_Sites_Spec_Properties_SiteConfig(source *v20220301s.Sites_Spec_Properties_SiteConfig) error {
-
-	// AcrUseManagedIdentityCreds
-	if source.AcrUseManagedIdentityCreds != nil {
-		acrUseManagedIdentityCred := *source.AcrUseManagedIdentityCreds
-		config.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCred
-	} else {
-		config.AcrUseManagedIdentityCreds = nil
-	}
-
-	// AcrUserManagedIdentityID
-	config.AcrUserManagedIdentityID = genruntime.ClonePointerToString(source.AcrUserManagedIdentityID)
-
-	// AlwaysOn
-	if source.AlwaysOn != nil {
-		alwaysOn := *source.AlwaysOn
-		config.AlwaysOn = &alwaysOn
-	} else {
-		config.AlwaysOn = nil
-	}
-
-	// ApiDefinition
-	if source.ApiDefinition != nil {
-		var apiDefinition ApiDefinitionInfo
-		err := apiDefinition.AssignProperties_From_ApiDefinitionInfo(source.ApiDefinition)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiDefinitionInfo() to populate field ApiDefinition")
-		}
-		config.ApiDefinition = &apiDefinition
-	} else {
-		config.ApiDefinition = nil
-	}
-
-	// ApiManagementConfig
-	if source.ApiManagementConfig != nil {
-		var apiManagementConfig ApiManagementConfig
-		err := apiManagementConfig.AssignProperties_From_ApiManagementConfig(source.ApiManagementConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ApiManagementConfig() to populate field ApiManagementConfig")
-		}
-		config.ApiManagementConfig = &apiManagementConfig
-	} else {
-		config.ApiManagementConfig = nil
-	}
-
-	// AppCommandLine
-	config.AppCommandLine = genruntime.ClonePointerToString(source.AppCommandLine)
-
-	// AppSettings
-	if source.AppSettings != nil {
-		appSettingList := make([]NameValuePair, len(source.AppSettings))
-		for appSettingIndex, appSettingItem := range source.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
-			var appSetting NameValuePair
-			err := appSetting.AssignProperties_From_NameValuePair(&appSettingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NameValuePair() to populate field AppSettings")
-			}
-			appSettingList[appSettingIndex] = appSetting
-		}
-		config.AppSettings = appSettingList
-	} else {
-		config.AppSettings = nil
-	}
-
-	// AutoHealEnabled
-	if source.AutoHealEnabled != nil {
-		autoHealEnabled := *source.AutoHealEnabled
-		config.AutoHealEnabled = &autoHealEnabled
-	} else {
-		config.AutoHealEnabled = nil
-	}
-
-	// AutoHealRules
-	if source.AutoHealRules != nil {
-		var autoHealRule AutoHealRules
-		err := autoHealRule.AssignProperties_From_AutoHealRules(source.AutoHealRules)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AutoHealRules() to populate field AutoHealRules")
-		}
-		config.AutoHealRules = &autoHealRule
-	} else {
-		config.AutoHealRules = nil
-	}
-
-	// AutoSwapSlotName
-	config.AutoSwapSlotName = genruntime.ClonePointerToString(source.AutoSwapSlotName)
-
-	// AzureStorageAccounts
-	if source.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]Sites_Spec_Properties_SiteConfig_AzureStorageAccounts, len(source.AzureStorageAccounts))
-		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-			err := azureStorageAccount.AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(&azureStorageAccountValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts() to populate field AzureStorageAccounts")
-			}
-			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
-		}
-		config.AzureStorageAccounts = azureStorageAccountMap
-	} else {
-		config.AzureStorageAccounts = nil
-	}
-
-	// ConnectionStrings
-	if source.ConnectionStrings != nil {
-		connectionStringList := make([]ConnStringInfo, len(source.ConnectionStrings))
-		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
-			var connectionString ConnStringInfo
-			err := connectionString.AssignProperties_From_ConnStringInfo(&connectionStringItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ConnStringInfo() to populate field ConnectionStrings")
-			}
-			connectionStringList[connectionStringIndex] = connectionString
-		}
-		config.ConnectionStrings = connectionStringList
-	} else {
-		config.ConnectionStrings = nil
-	}
-
-	// Cors
-	if source.Cors != nil {
-		var cor CorsSettings
-		err := cor.AssignProperties_From_CorsSettings(source.Cors)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_CorsSettings() to populate field Cors")
-		}
-		config.Cors = &cor
-	} else {
-		config.Cors = nil
-	}
-
-	// DefaultDocuments
-	config.DefaultDocuments = genruntime.CloneSliceOfString(source.DefaultDocuments)
-
-	// DetailedErrorLoggingEnabled
-	if source.DetailedErrorLoggingEnabled != nil {
-		detailedErrorLoggingEnabled := *source.DetailedErrorLoggingEnabled
-		config.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
-	} else {
-		config.DetailedErrorLoggingEnabled = nil
-	}
-
-	// DocumentRoot
-	config.DocumentRoot = genruntime.ClonePointerToString(source.DocumentRoot)
-
-	// Experiments
-	if source.Experiments != nil {
-		var experiment Experiments
-		err := experiment.AssignProperties_From_Experiments(source.Experiments)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Experiments() to populate field Experiments")
-		}
-		config.Experiments = &experiment
-	} else {
-		config.Experiments = nil
-	}
-
-	// FtpsState
-	if source.FtpsState != nil {
-		ftpsState := Sites_Spec_Properties_SiteConfig_FtpsState(*source.FtpsState)
-		config.FtpsState = &ftpsState
-	} else {
-		config.FtpsState = nil
-	}
-
-	// FunctionAppScaleLimit
-	if source.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *source.FunctionAppScaleLimit
-		config.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		config.FunctionAppScaleLimit = nil
-	}
-
-	// FunctionsRuntimeScaleMonitoringEnabled
-	if source.FunctionsRuntimeScaleMonitoringEnabled != nil {
-		functionsRuntimeScaleMonitoringEnabled := *source.FunctionsRuntimeScaleMonitoringEnabled
-		config.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
-	} else {
-		config.FunctionsRuntimeScaleMonitoringEnabled = nil
-	}
-
-	// HandlerMappings
-	if source.HandlerMappings != nil {
-		handlerMappingList := make([]HandlerMapping, len(source.HandlerMappings))
-		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
-			var handlerMapping HandlerMapping
-			err := handlerMapping.AssignProperties_From_HandlerMapping(&handlerMappingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HandlerMapping() to populate field HandlerMappings")
-			}
-			handlerMappingList[handlerMappingIndex] = handlerMapping
-		}
-		config.HandlerMappings = handlerMappingList
-	} else {
-		config.HandlerMappings = nil
-	}
-
-	// HealthCheckPath
-	config.HealthCheckPath = genruntime.ClonePointerToString(source.HealthCheckPath)
-
-	// Http20Enabled
-	if source.Http20Enabled != nil {
-		http20Enabled := *source.Http20Enabled
-		config.Http20Enabled = &http20Enabled
-	} else {
-		config.Http20Enabled = nil
-	}
-
-	// HttpLoggingEnabled
-	if source.HttpLoggingEnabled != nil {
-		httpLoggingEnabled := *source.HttpLoggingEnabled
-		config.HttpLoggingEnabled = &httpLoggingEnabled
-	} else {
-		config.HttpLoggingEnabled = nil
-	}
-
-	// IpSecurityRestrictions
-	if source.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]IpSecurityRestriction, len(source.IpSecurityRestrictions))
-		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction IpSecurityRestriction
-			err := ipSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&ipSecurityRestrictionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field IpSecurityRestrictions")
-			}
-			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
-		}
-		config.IpSecurityRestrictions = ipSecurityRestrictionList
-	} else {
-		config.IpSecurityRestrictions = nil
-	}
-
-	// JavaContainer
-	config.JavaContainer = genruntime.ClonePointerToString(source.JavaContainer)
-
-	// JavaContainerVersion
-	config.JavaContainerVersion = genruntime.ClonePointerToString(source.JavaContainerVersion)
-
-	// JavaVersion
-	config.JavaVersion = genruntime.ClonePointerToString(source.JavaVersion)
-
-	// KeyVaultReferenceIdentity
-	config.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
-
-	// Limits
-	if source.Limits != nil {
-		var limit SiteLimits
-		err := limit.AssignProperties_From_SiteLimits(source.Limits)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SiteLimits() to populate field Limits")
-		}
-		config.Limits = &limit
-	} else {
-		config.Limits = nil
-	}
-
-	// LinuxFxVersion
-	config.LinuxFxVersion = genruntime.ClonePointerToString(source.LinuxFxVersion)
-
-	// LoadBalancing
-	if source.LoadBalancing != nil {
-		loadBalancing := Sites_Spec_Properties_SiteConfig_LoadBalancing(*source.LoadBalancing)
-		config.LoadBalancing = &loadBalancing
-	} else {
-		config.LoadBalancing = nil
-	}
-
-	// LocalMySqlEnabled
-	if source.LocalMySqlEnabled != nil {
-		localMySqlEnabled := *source.LocalMySqlEnabled
-		config.LocalMySqlEnabled = &localMySqlEnabled
-	} else {
-		config.LocalMySqlEnabled = nil
-	}
-
-	// LogsDirectorySizeLimit
-	config.LogsDirectorySizeLimit = genruntime.ClonePointerToInt(source.LogsDirectorySizeLimit)
-
-	// ManagedPipelineMode
-	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := Sites_Spec_Properties_SiteConfig_ManagedPipelineMode(*source.ManagedPipelineMode)
-		config.ManagedPipelineMode = &managedPipelineMode
-	} else {
-		config.ManagedPipelineMode = nil
-	}
-
-	// ManagedServiceIdentityId
-	config.ManagedServiceIdentityId = genruntime.ClonePointerToInt(source.ManagedServiceIdentityId)
-
-	// MinTlsVersion
-	if source.MinTlsVersion != nil {
-		minTlsVersion := Sites_Spec_Properties_SiteConfig_MinTlsVersion(*source.MinTlsVersion)
-		config.MinTlsVersion = &minTlsVersion
-	} else {
-		config.MinTlsVersion = nil
-	}
-
-	// MinimumElasticInstanceCount
-	if source.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *source.MinimumElasticInstanceCount
-		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		config.MinimumElasticInstanceCount = nil
-	}
-
-	// NetFrameworkVersion
-	config.NetFrameworkVersion = genruntime.ClonePointerToString(source.NetFrameworkVersion)
-
-	// NodeVersion
-	config.NodeVersion = genruntime.ClonePointerToString(source.NodeVersion)
-
-	// NumberOfWorkers
-	config.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
-
-	// PhpVersion
-	config.PhpVersion = genruntime.ClonePointerToString(source.PhpVersion)
-
-	// PowerShellVersion
-	config.PowerShellVersion = genruntime.ClonePointerToString(source.PowerShellVersion)
-
-	// PreWarmedInstanceCount
-	if source.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *source.PreWarmedInstanceCount
-		config.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		config.PreWarmedInstanceCount = nil
-	}
-
-	// PublicNetworkAccess
-	config.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// PublishingUsername
-	config.PublishingUsername = genruntime.ClonePointerToString(source.PublishingUsername)
-
-	// Push
-	if source.Push != nil {
-		var push Sites_Spec_Properties_SiteConfig_Push
-		err := push.AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push(source.Push)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push() to populate field Push")
-		}
-		config.Push = &push
-	} else {
-		config.Push = nil
-	}
-
-	// PythonVersion
-	config.PythonVersion = genruntime.ClonePointerToString(source.PythonVersion)
-
-	// RemoteDebuggingEnabled
-	if source.RemoteDebuggingEnabled != nil {
-		remoteDebuggingEnabled := *source.RemoteDebuggingEnabled
-		config.RemoteDebuggingEnabled = &remoteDebuggingEnabled
-	} else {
-		config.RemoteDebuggingEnabled = nil
-	}
-
-	// RemoteDebuggingVersion
-	config.RemoteDebuggingVersion = genruntime.ClonePointerToString(source.RemoteDebuggingVersion)
-
-	// RequestTracingEnabled
-	if source.RequestTracingEnabled != nil {
-		requestTracingEnabled := *source.RequestTracingEnabled
-		config.RequestTracingEnabled = &requestTracingEnabled
-	} else {
-		config.RequestTracingEnabled = nil
-	}
-
-	// RequestTracingExpirationTime
-	if source.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *source.RequestTracingExpirationTime
-		config.RequestTracingExpirationTime = &requestTracingExpirationTime
-	} else {
-		config.RequestTracingExpirationTime = nil
-	}
-
-	// ScmIpSecurityRestrictions
-	if source.ScmIpSecurityRestrictions != nil {
-		scmIpSecurityRestrictionList := make([]IpSecurityRestriction, len(source.ScmIpSecurityRestrictions))
-		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
-			var scmIpSecurityRestriction IpSecurityRestriction
-			err := scmIpSecurityRestriction.AssignProperties_From_IpSecurityRestriction(&scmIpSecurityRestrictionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
-			}
-			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
-		}
-		config.ScmIpSecurityRestrictions = scmIpSecurityRestrictionList
-	} else {
-		config.ScmIpSecurityRestrictions = nil
-	}
-
-	// ScmIpSecurityRestrictionsUseMain
-	if source.ScmIpSecurityRestrictionsUseMain != nil {
-		scmIpSecurityRestrictionsUseMain := *source.ScmIpSecurityRestrictionsUseMain
-		config.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
-	} else {
-		config.ScmIpSecurityRestrictionsUseMain = nil
-	}
-
-	// ScmMinTlsVersion
-	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion(*source.ScmMinTlsVersion)
-		config.ScmMinTlsVersion = &scmMinTlsVersion
-	} else {
-		config.ScmMinTlsVersion = nil
-	}
-
-	// ScmType
-	if source.ScmType != nil {
-		scmType := Sites_Spec_Properties_SiteConfig_ScmType(*source.ScmType)
-		config.ScmType = &scmType
-	} else {
-		config.ScmType = nil
-	}
-
-	// TracingOptions
-	config.TracingOptions = genruntime.ClonePointerToString(source.TracingOptions)
-
-	// Use32BitWorkerProcess
-	if source.Use32BitWorkerProcess != nil {
-		use32BitWorkerProcess := *source.Use32BitWorkerProcess
-		config.Use32BitWorkerProcess = &use32BitWorkerProcess
-	} else {
-		config.Use32BitWorkerProcess = nil
-	}
-
-	// VirtualApplications
-	if source.VirtualApplications != nil {
-		virtualApplicationList := make([]VirtualApplication, len(source.VirtualApplications))
-		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
-			var virtualApplication VirtualApplication
-			err := virtualApplication.AssignProperties_From_VirtualApplication(&virtualApplicationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualApplication() to populate field VirtualApplications")
-			}
-			virtualApplicationList[virtualApplicationIndex] = virtualApplication
-		}
-		config.VirtualApplications = virtualApplicationList
-	} else {
-		config.VirtualApplications = nil
-	}
-
-	// VnetName
-	config.VnetName = genruntime.ClonePointerToString(source.VnetName)
-
-	// VnetPrivatePortsCount
-	config.VnetPrivatePortsCount = genruntime.ClonePointerToInt(source.VnetPrivatePortsCount)
-
-	// VnetRouteAllEnabled
-	if source.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
-		config.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		config.VnetRouteAllEnabled = nil
-	}
-
-	// WebSocketsEnabled
-	if source.WebSocketsEnabled != nil {
-		webSocketsEnabled := *source.WebSocketsEnabled
-		config.WebSocketsEnabled = &webSocketsEnabled
-	} else {
-		config.WebSocketsEnabled = nil
-	}
-
-	// WebsiteTimeZone
-	config.WebsiteTimeZone = genruntime.ClonePointerToString(source.WebsiteTimeZone)
-
-	// WindowsFxVersion
-	config.WindowsFxVersion = genruntime.ClonePointerToString(source.WindowsFxVersion)
-
-	// XManagedServiceIdentityId
-	config.XManagedServiceIdentityId = genruntime.ClonePointerToInt(source.XManagedServiceIdentityId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Sites_Spec_Properties_SiteConfig populates the provided destination Sites_Spec_Properties_SiteConfig from our Sites_Spec_Properties_SiteConfig
-func (config *Sites_Spec_Properties_SiteConfig) AssignProperties_To_Sites_Spec_Properties_SiteConfig(destination *v20220301s.Sites_Spec_Properties_SiteConfig) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AcrUseManagedIdentityCreds
-	if config.AcrUseManagedIdentityCreds != nil {
-		acrUseManagedIdentityCred := *config.AcrUseManagedIdentityCreds
-		destination.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCred
-	} else {
-		destination.AcrUseManagedIdentityCreds = nil
-	}
-
-	// AcrUserManagedIdentityID
-	destination.AcrUserManagedIdentityID = genruntime.ClonePointerToString(config.AcrUserManagedIdentityID)
-
-	// AlwaysOn
-	if config.AlwaysOn != nil {
-		alwaysOn := *config.AlwaysOn
-		destination.AlwaysOn = &alwaysOn
-	} else {
-		destination.AlwaysOn = nil
-	}
-
-	// ApiDefinition
-	if config.ApiDefinition != nil {
-		var apiDefinition v20220301s.ApiDefinitionInfo
-		err := config.ApiDefinition.AssignProperties_To_ApiDefinitionInfo(&apiDefinition)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiDefinitionInfo() to populate field ApiDefinition")
-		}
-		destination.ApiDefinition = &apiDefinition
-	} else {
-		destination.ApiDefinition = nil
-	}
-
-	// ApiManagementConfig
-	if config.ApiManagementConfig != nil {
-		var apiManagementConfig v20220301s.ApiManagementConfig
-		err := config.ApiManagementConfig.AssignProperties_To_ApiManagementConfig(&apiManagementConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ApiManagementConfig() to populate field ApiManagementConfig")
-		}
-		destination.ApiManagementConfig = &apiManagementConfig
-	} else {
-		destination.ApiManagementConfig = nil
-	}
-
-	// AppCommandLine
-	destination.AppCommandLine = genruntime.ClonePointerToString(config.AppCommandLine)
-
-	// AppSettings
-	if config.AppSettings != nil {
-		appSettingList := make([]v20220301s.NameValuePair, len(config.AppSettings))
-		for appSettingIndex, appSettingItem := range config.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
-			var appSetting v20220301s.NameValuePair
-			err := appSettingItem.AssignProperties_To_NameValuePair(&appSetting)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NameValuePair() to populate field AppSettings")
-			}
-			appSettingList[appSettingIndex] = appSetting
-		}
-		destination.AppSettings = appSettingList
-	} else {
-		destination.AppSettings = nil
-	}
-
-	// AutoHealEnabled
-	if config.AutoHealEnabled != nil {
-		autoHealEnabled := *config.AutoHealEnabled
-		destination.AutoHealEnabled = &autoHealEnabled
-	} else {
-		destination.AutoHealEnabled = nil
-	}
-
-	// AutoHealRules
-	if config.AutoHealRules != nil {
-		var autoHealRule v20220301s.AutoHealRules
-		err := config.AutoHealRules.AssignProperties_To_AutoHealRules(&autoHealRule)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AutoHealRules() to populate field AutoHealRules")
-		}
-		destination.AutoHealRules = &autoHealRule
-	} else {
-		destination.AutoHealRules = nil
-	}
-
-	// AutoSwapSlotName
-	destination.AutoSwapSlotName = genruntime.ClonePointerToString(config.AutoSwapSlotName)
-
-	// AzureStorageAccounts
-	if config.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]v20220301s.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts, len(config.AzureStorageAccounts))
-		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount v20220301s.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-			err := azureStorageAccountValue.AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(&azureStorageAccount)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts() to populate field AzureStorageAccounts")
-			}
-			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
-		}
-		destination.AzureStorageAccounts = azureStorageAccountMap
-	} else {
-		destination.AzureStorageAccounts = nil
-	}
-
-	// ConnectionStrings
-	if config.ConnectionStrings != nil {
-		connectionStringList := make([]v20220301s.ConnStringInfo, len(config.ConnectionStrings))
-		for connectionStringIndex, connectionStringItem := range config.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
-			var connectionString v20220301s.ConnStringInfo
-			err := connectionStringItem.AssignProperties_To_ConnStringInfo(&connectionString)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ConnStringInfo() to populate field ConnectionStrings")
-			}
-			connectionStringList[connectionStringIndex] = connectionString
-		}
-		destination.ConnectionStrings = connectionStringList
-	} else {
-		destination.ConnectionStrings = nil
-	}
-
-	// Cors
-	if config.Cors != nil {
-		var cor v20220301s.CorsSettings
-		err := config.Cors.AssignProperties_To_CorsSettings(&cor)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_CorsSettings() to populate field Cors")
-		}
-		destination.Cors = &cor
-	} else {
-		destination.Cors = nil
-	}
-
-	// DefaultDocuments
-	destination.DefaultDocuments = genruntime.CloneSliceOfString(config.DefaultDocuments)
-
-	// DetailedErrorLoggingEnabled
-	if config.DetailedErrorLoggingEnabled != nil {
-		detailedErrorLoggingEnabled := *config.DetailedErrorLoggingEnabled
-		destination.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
-	} else {
-		destination.DetailedErrorLoggingEnabled = nil
-	}
-
-	// DocumentRoot
-	destination.DocumentRoot = genruntime.ClonePointerToString(config.DocumentRoot)
-
-	// Experiments
-	if config.Experiments != nil {
-		var experiment v20220301s.Experiments
-		err := config.Experiments.AssignProperties_To_Experiments(&experiment)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Experiments() to populate field Experiments")
-		}
-		destination.Experiments = &experiment
-	} else {
-		destination.Experiments = nil
-	}
-
-	// FtpsState
-	if config.FtpsState != nil {
-		ftpsState := string(*config.FtpsState)
-		destination.FtpsState = &ftpsState
-	} else {
-		destination.FtpsState = nil
-	}
-
-	// FunctionAppScaleLimit
-	if config.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *config.FunctionAppScaleLimit
-		destination.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		destination.FunctionAppScaleLimit = nil
-	}
-
-	// FunctionsRuntimeScaleMonitoringEnabled
-	if config.FunctionsRuntimeScaleMonitoringEnabled != nil {
-		functionsRuntimeScaleMonitoringEnabled := *config.FunctionsRuntimeScaleMonitoringEnabled
-		destination.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
-	} else {
-		destination.FunctionsRuntimeScaleMonitoringEnabled = nil
-	}
-
-	// HandlerMappings
-	if config.HandlerMappings != nil {
-		handlerMappingList := make([]v20220301s.HandlerMapping, len(config.HandlerMappings))
-		for handlerMappingIndex, handlerMappingItem := range config.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
-			var handlerMapping v20220301s.HandlerMapping
-			err := handlerMappingItem.AssignProperties_To_HandlerMapping(&handlerMapping)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HandlerMapping() to populate field HandlerMappings")
-			}
-			handlerMappingList[handlerMappingIndex] = handlerMapping
-		}
-		destination.HandlerMappings = handlerMappingList
-	} else {
-		destination.HandlerMappings = nil
-	}
-
-	// HealthCheckPath
-	destination.HealthCheckPath = genruntime.ClonePointerToString(config.HealthCheckPath)
-
-	// Http20Enabled
-	if config.Http20Enabled != nil {
-		http20Enabled := *config.Http20Enabled
-		destination.Http20Enabled = &http20Enabled
-	} else {
-		destination.Http20Enabled = nil
-	}
-
-	// HttpLoggingEnabled
-	if config.HttpLoggingEnabled != nil {
-		httpLoggingEnabled := *config.HttpLoggingEnabled
-		destination.HttpLoggingEnabled = &httpLoggingEnabled
-	} else {
-		destination.HttpLoggingEnabled = nil
-	}
-
-	// IpSecurityRestrictions
-	if config.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.IpSecurityRestrictions))
-		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range config.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction v20220301s.IpSecurityRestriction
-			err := ipSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&ipSecurityRestriction)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field IpSecurityRestrictions")
-			}
-			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
-		}
-		destination.IpSecurityRestrictions = ipSecurityRestrictionList
-	} else {
-		destination.IpSecurityRestrictions = nil
-	}
-
-	// JavaContainer
-	destination.JavaContainer = genruntime.ClonePointerToString(config.JavaContainer)
-
-	// JavaContainerVersion
-	destination.JavaContainerVersion = genruntime.ClonePointerToString(config.JavaContainerVersion)
-
-	// JavaVersion
-	destination.JavaVersion = genruntime.ClonePointerToString(config.JavaVersion)
-
-	// KeyVaultReferenceIdentity
-	destination.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(config.KeyVaultReferenceIdentity)
-
-	// Limits
-	if config.Limits != nil {
-		var limit v20220301s.SiteLimits
-		err := config.Limits.AssignProperties_To_SiteLimits(&limit)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SiteLimits() to populate field Limits")
-		}
-		destination.Limits = &limit
-	} else {
-		destination.Limits = nil
-	}
-
-	// LinuxFxVersion
-	destination.LinuxFxVersion = genruntime.ClonePointerToString(config.LinuxFxVersion)
-
-	// LoadBalancing
-	if config.LoadBalancing != nil {
-		loadBalancing := string(*config.LoadBalancing)
-		destination.LoadBalancing = &loadBalancing
-	} else {
-		destination.LoadBalancing = nil
-	}
-
-	// LocalMySqlEnabled
-	if config.LocalMySqlEnabled != nil {
-		localMySqlEnabled := *config.LocalMySqlEnabled
-		destination.LocalMySqlEnabled = &localMySqlEnabled
-	} else {
-		destination.LocalMySqlEnabled = nil
-	}
-
-	// LogsDirectorySizeLimit
-	destination.LogsDirectorySizeLimit = genruntime.ClonePointerToInt(config.LogsDirectorySizeLimit)
-
-	// ManagedPipelineMode
-	if config.ManagedPipelineMode != nil {
-		managedPipelineMode := string(*config.ManagedPipelineMode)
-		destination.ManagedPipelineMode = &managedPipelineMode
-	} else {
-		destination.ManagedPipelineMode = nil
-	}
-
-	// ManagedServiceIdentityId
-	destination.ManagedServiceIdentityId = genruntime.ClonePointerToInt(config.ManagedServiceIdentityId)
-
-	// MinTlsVersion
-	if config.MinTlsVersion != nil {
-		minTlsVersion := string(*config.MinTlsVersion)
-		destination.MinTlsVersion = &minTlsVersion
-	} else {
-		destination.MinTlsVersion = nil
-	}
-
-	// MinimumElasticInstanceCount
-	if config.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *config.MinimumElasticInstanceCount
-		destination.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		destination.MinimumElasticInstanceCount = nil
-	}
-
-	// NetFrameworkVersion
-	destination.NetFrameworkVersion = genruntime.ClonePointerToString(config.NetFrameworkVersion)
-
-	// NodeVersion
-	destination.NodeVersion = genruntime.ClonePointerToString(config.NodeVersion)
-
-	// NumberOfWorkers
-	destination.NumberOfWorkers = genruntime.ClonePointerToInt(config.NumberOfWorkers)
-
-	// PhpVersion
-	destination.PhpVersion = genruntime.ClonePointerToString(config.PhpVersion)
-
-	// PowerShellVersion
-	destination.PowerShellVersion = genruntime.ClonePointerToString(config.PowerShellVersion)
-
-	// PreWarmedInstanceCount
-	if config.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *config.PreWarmedInstanceCount
-		destination.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		destination.PreWarmedInstanceCount = nil
-	}
-
-	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(config.PublicNetworkAccess)
-
-	// PublishingUsername
-	destination.PublishingUsername = genruntime.ClonePointerToString(config.PublishingUsername)
-
-	// Push
-	if config.Push != nil {
-		var push v20220301s.Sites_Spec_Properties_SiteConfig_Push
-		err := config.Push.AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push(&push)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push() to populate field Push")
-		}
-		destination.Push = &push
-	} else {
-		destination.Push = nil
-	}
-
-	// PythonVersion
-	destination.PythonVersion = genruntime.ClonePointerToString(config.PythonVersion)
-
-	// RemoteDebuggingEnabled
-	if config.RemoteDebuggingEnabled != nil {
-		remoteDebuggingEnabled := *config.RemoteDebuggingEnabled
-		destination.RemoteDebuggingEnabled = &remoteDebuggingEnabled
-	} else {
-		destination.RemoteDebuggingEnabled = nil
-	}
-
-	// RemoteDebuggingVersion
-	destination.RemoteDebuggingVersion = genruntime.ClonePointerToString(config.RemoteDebuggingVersion)
-
-	// RequestTracingEnabled
-	if config.RequestTracingEnabled != nil {
-		requestTracingEnabled := *config.RequestTracingEnabled
-		destination.RequestTracingEnabled = &requestTracingEnabled
-	} else {
-		destination.RequestTracingEnabled = nil
-	}
-
-	// RequestTracingExpirationTime
-	if config.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *config.RequestTracingExpirationTime
-		destination.RequestTracingExpirationTime = &requestTracingExpirationTime
-	} else {
-		destination.RequestTracingExpirationTime = nil
-	}
-
-	// ScmIpSecurityRestrictions
-	if config.ScmIpSecurityRestrictions != nil {
-		scmIpSecurityRestrictionList := make([]v20220301s.IpSecurityRestriction, len(config.ScmIpSecurityRestrictions))
-		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range config.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
-			var scmIpSecurityRestriction v20220301s.IpSecurityRestriction
-			err := scmIpSecurityRestrictionItem.AssignProperties_To_IpSecurityRestriction(&scmIpSecurityRestriction)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_IpSecurityRestriction() to populate field ScmIpSecurityRestrictions")
-			}
-			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
-		}
-		destination.ScmIpSecurityRestrictions = scmIpSecurityRestrictionList
-	} else {
-		destination.ScmIpSecurityRestrictions = nil
-	}
-
-	// ScmIpSecurityRestrictionsUseMain
-	if config.ScmIpSecurityRestrictionsUseMain != nil {
-		scmIpSecurityRestrictionsUseMain := *config.ScmIpSecurityRestrictionsUseMain
-		destination.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
-	} else {
-		destination.ScmIpSecurityRestrictionsUseMain = nil
-	}
-
-	// ScmMinTlsVersion
-	if config.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := string(*config.ScmMinTlsVersion)
-		destination.ScmMinTlsVersion = &scmMinTlsVersion
-	} else {
-		destination.ScmMinTlsVersion = nil
-	}
-
-	// ScmType
-	if config.ScmType != nil {
-		scmType := string(*config.ScmType)
-		destination.ScmType = &scmType
-	} else {
-		destination.ScmType = nil
-	}
-
-	// TracingOptions
-	destination.TracingOptions = genruntime.ClonePointerToString(config.TracingOptions)
-
-	// Use32BitWorkerProcess
-	if config.Use32BitWorkerProcess != nil {
-		use32BitWorkerProcess := *config.Use32BitWorkerProcess
-		destination.Use32BitWorkerProcess = &use32BitWorkerProcess
-	} else {
-		destination.Use32BitWorkerProcess = nil
-	}
-
-	// VirtualApplications
-	if config.VirtualApplications != nil {
-		virtualApplicationList := make([]v20220301s.VirtualApplication, len(config.VirtualApplications))
-		for virtualApplicationIndex, virtualApplicationItem := range config.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
-			var virtualApplication v20220301s.VirtualApplication
-			err := virtualApplicationItem.AssignProperties_To_VirtualApplication(&virtualApplication)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualApplication() to populate field VirtualApplications")
-			}
-			virtualApplicationList[virtualApplicationIndex] = virtualApplication
-		}
-		destination.VirtualApplications = virtualApplicationList
-	} else {
-		destination.VirtualApplications = nil
-	}
-
-	// VnetName
-	destination.VnetName = genruntime.ClonePointerToString(config.VnetName)
-
-	// VnetPrivatePortsCount
-	destination.VnetPrivatePortsCount = genruntime.ClonePointerToInt(config.VnetPrivatePortsCount)
-
-	// VnetRouteAllEnabled
-	if config.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *config.VnetRouteAllEnabled
-		destination.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		destination.VnetRouteAllEnabled = nil
-	}
-
-	// WebSocketsEnabled
-	if config.WebSocketsEnabled != nil {
-		webSocketsEnabled := *config.WebSocketsEnabled
-		destination.WebSocketsEnabled = &webSocketsEnabled
-	} else {
-		destination.WebSocketsEnabled = nil
-	}
-
-	// WebsiteTimeZone
-	destination.WebsiteTimeZone = genruntime.ClonePointerToString(config.WebsiteTimeZone)
-
-	// WindowsFxVersion
-	destination.WindowsFxVersion = genruntime.ClonePointerToString(config.WindowsFxVersion)
-
-	// XManagedServiceIdentityId
-	destination.XManagedServiceIdentityId = genruntime.ClonePointerToInt(config.XManagedServiceIdentityId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type SlotSwapStatus_STATUS struct {
 	// DestinationSlotName: The destination slot of the last swap operation.
 	DestinationSlotName *string `json:"destinationSlotName,omitempty"`
@@ -8143,14 +8143,14 @@ var _ genruntime.FromARMConverter = &SlotSwapStatus_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *SlotSwapStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SlotSwapStatus_STATUSARM{}
+	return &SlotSwapStatus_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *SlotSwapStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SlotSwapStatus_STATUSARM)
+	typedInput, ok := armInput.(SlotSwapStatus_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlotSwapStatus_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlotSwapStatus_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DestinationSlotName’:
@@ -8229,7 +8229,7 @@ func (info *ApiDefinitionInfo) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if info == nil {
 		return nil, nil
 	}
-	result := &ApiDefinitionInfoARM{}
+	result := &ApiDefinitionInfo_ARM{}
 
 	// Set property ‘Url’:
 	if info.Url != nil {
@@ -8241,14 +8241,14 @@ func (info *ApiDefinitionInfo) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *ApiDefinitionInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiDefinitionInfoARM{}
+	return &ApiDefinitionInfo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *ApiDefinitionInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiDefinitionInfoARM)
+	typedInput, ok := armInput.(ApiDefinitionInfo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiDefinitionInfoARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiDefinitionInfo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Url’:
@@ -8299,14 +8299,14 @@ var _ genruntime.FromARMConverter = &ApiDefinitionInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *ApiDefinitionInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiDefinitionInfo_STATUSARM{}
+	return &ApiDefinitionInfo_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *ApiDefinitionInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiDefinitionInfo_STATUSARM)
+	typedInput, ok := armInput.(ApiDefinitionInfo_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiDefinitionInfo_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiDefinitionInfo_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Url’:
@@ -8361,7 +8361,7 @@ func (config *ApiManagementConfig) ConvertToARM(resolved genruntime.ConvertToARM
 	if config == nil {
 		return nil, nil
 	}
-	result := &ApiManagementConfigARM{}
+	result := &ApiManagementConfig_ARM{}
 
 	// Set property ‘Id’:
 	if config.Reference != nil {
@@ -8377,14 +8377,14 @@ func (config *ApiManagementConfig) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *ApiManagementConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiManagementConfigARM{}
+	return &ApiManagementConfig_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *ApiManagementConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApiManagementConfigARM)
+	_, ok := armInput.(ApiManagementConfig_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiManagementConfigARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiManagementConfig_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Reference’
@@ -8441,14 +8441,14 @@ var _ genruntime.FromARMConverter = &ApiManagementConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *ApiManagementConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiManagementConfig_STATUSARM{}
+	return &ApiManagementConfig_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *ApiManagementConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiManagementConfig_STATUSARM)
+	typedInput, ok := armInput.(ApiManagementConfig_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiManagementConfig_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiManagementConfig_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -8506,25 +8506,25 @@ func (rules *AutoHealRules) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if rules == nil {
 		return nil, nil
 	}
-	result := &AutoHealRulesARM{}
+	result := &AutoHealRules_ARM{}
 
 	// Set property ‘Actions’:
 	if rules.Actions != nil {
-		actionsARM, err := (*rules.Actions).ConvertToARM(resolved)
+		actions_ARM, err := (*rules.Actions).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		actions := *actionsARM.(*AutoHealActionsARM)
+		actions := *actions_ARM.(*AutoHealActions_ARM)
 		result.Actions = &actions
 	}
 
 	// Set property ‘Triggers’:
 	if rules.Triggers != nil {
-		triggersARM, err := (*rules.Triggers).ConvertToARM(resolved)
+		triggers_ARM, err := (*rules.Triggers).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		triggers := *triggersARM.(*AutoHealTriggersARM)
+		triggers := *triggers_ARM.(*AutoHealTriggers_ARM)
 		result.Triggers = &triggers
 	}
 	return result, nil
@@ -8532,14 +8532,14 @@ func (rules *AutoHealRules) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *AutoHealRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealRulesARM{}
+	return &AutoHealRules_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *AutoHealRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealRulesARM)
+	typedInput, ok := armInput.(AutoHealRules_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealRulesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealRules_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
@@ -8651,14 +8651,14 @@ var _ genruntime.FromARMConverter = &AutoHealRules_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *AutoHealRules_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealRules_STATUSARM{}
+	return &AutoHealRules_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *AutoHealRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealRules_STATUSARM)
+	typedInput, ok := armInput.(AutoHealRules_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealRules_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealRules_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
@@ -8769,24 +8769,24 @@ type AzureStorageInfoValue_STATUS struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// State: State of the storage account.
-	State *AzureStorageInfoValue_STATUS_State `json:"state,omitempty"`
+	State *AzureStorageInfoValue_State_STATUS `json:"state,omitempty"`
 
 	// Type: Type of storage.
-	Type *AzureStorageInfoValue_STATUS_Type `json:"type,omitempty"`
+	Type *AzureStorageInfoValue_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AzureStorageInfoValue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (value *AzureStorageInfoValue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureStorageInfoValue_STATUSARM{}
+	return &AzureStorageInfoValue_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (value *AzureStorageInfoValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureStorageInfoValue_STATUSARM)
+	typedInput, ok := armInput.(AzureStorageInfoValue_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureStorageInfoValue_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureStorageInfoValue_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AccountName’:
@@ -8837,7 +8837,7 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInf
 
 	// State
 	if source.State != nil {
-		state := AzureStorageInfoValue_STATUS_State(*source.State)
+		state := AzureStorageInfoValue_State_STATUS(*source.State)
 		value.State = &state
 	} else {
 		value.State = nil
@@ -8845,7 +8845,7 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInf
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureStorageInfoValue_STATUS_Type(*source.Type)
+		typeVar := AzureStorageInfoValue_Type_STATUS(*source.Type)
 		value.Type = &typeVar
 	} else {
 		value.Type = nil
@@ -8915,7 +8915,7 @@ func (info *ConnStringInfo) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if info == nil {
 		return nil, nil
 	}
-	result := &ConnStringInfoARM{}
+	result := &ConnStringInfo_ARM{}
 
 	// Set property ‘ConnectionString’:
 	if info.ConnectionString != nil {
@@ -8939,14 +8939,14 @@ func (info *ConnStringInfo) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *ConnStringInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConnStringInfoARM{}
+	return &ConnStringInfo_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *ConnStringInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConnStringInfoARM)
+	typedInput, ok := armInput.(ConnStringInfo_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConnStringInfoARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConnStringInfo_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConnectionString’:
@@ -9030,21 +9030,21 @@ type ConnStringInfo_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfo_STATUS_Type `json:"type,omitempty"`
+	Type *ConnStringInfo_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConnStringInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *ConnStringInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConnStringInfo_STATUSARM{}
+	return &ConnStringInfo_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *ConnStringInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConnStringInfo_STATUSARM)
+	typedInput, ok := armInput.(ConnStringInfo_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConnStringInfo_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConnStringInfo_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ConnectionString’:
@@ -9080,7 +9080,7 @@ func (info *ConnStringInfo_STATUS) AssignProperties_From_ConnStringInfo_STATUS(s
 
 	// Type
 	if source.Type != nil {
-		typeVar := ConnStringInfo_STATUS_Type(*source.Type)
+		typeVar := ConnStringInfo_Type_STATUS(*source.Type)
 		info.Type = &typeVar
 	} else {
 		info.Type = nil
@@ -9139,7 +9139,7 @@ func (settings *CorsSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	result := &CorsSettingsARM{}
+	result := &CorsSettings_ARM{}
 
 	// Set property ‘AllowedOrigins’:
 	for _, item := range settings.AllowedOrigins {
@@ -9156,14 +9156,14 @@ func (settings *CorsSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CorsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsSettingsARM{}
+	return &CorsSettings_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CorsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsSettingsARM)
+	typedInput, ok := armInput.(CorsSettings_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsSettingsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsSettings_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedOrigins’:
@@ -9241,14 +9241,14 @@ var _ genruntime.FromARMConverter = &CorsSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CorsSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsSettings_STATUSARM{}
+	return &CorsSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CorsSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsSettings_STATUSARM)
+	typedInput, ok := armInput.(CorsSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedOrigins’:
@@ -9324,29 +9324,29 @@ func (experiments *Experiments) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if experiments == nil {
 		return nil, nil
 	}
-	result := &ExperimentsARM{}
+	result := &Experiments_ARM{}
 
 	// Set property ‘RampUpRules’:
 	for _, item := range experiments.RampUpRules {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.RampUpRules = append(result.RampUpRules, *itemARM.(*RampUpRuleARM))
+		result.RampUpRules = append(result.RampUpRules, *item_ARM.(*RampUpRule_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (experiments *Experiments) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExperimentsARM{}
+	return &Experiments_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (experiments *Experiments) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExperimentsARM)
+	typedInput, ok := armInput.(Experiments_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExperimentsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Experiments_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RampUpRules’:
@@ -9431,14 +9431,14 @@ var _ genruntime.FromARMConverter = &Experiments_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (experiments *Experiments_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Experiments_STATUSARM{}
+	return &Experiments_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (experiments *Experiments_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Experiments_STATUSARM)
+	typedInput, ok := armInput.(Experiments_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Experiments_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Experiments_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘RampUpRules’:
@@ -9533,7 +9533,7 @@ func (mapping *HandlerMapping) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if mapping == nil {
 		return nil, nil
 	}
-	result := &HandlerMappingARM{}
+	result := &HandlerMapping_ARM{}
 
 	// Set property ‘Arguments’:
 	if mapping.Arguments != nil {
@@ -9557,14 +9557,14 @@ func (mapping *HandlerMapping) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (mapping *HandlerMapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HandlerMappingARM{}
+	return &HandlerMapping_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (mapping *HandlerMapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HandlerMappingARM)
+	typedInput, ok := armInput.(HandlerMapping_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HandlerMappingARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HandlerMapping_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Arguments’:
@@ -9645,14 +9645,14 @@ var _ genruntime.FromARMConverter = &HandlerMapping_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (mapping *HandlerMapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HandlerMapping_STATUSARM{}
+	return &HandlerMapping_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (mapping *HandlerMapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HandlerMapping_STATUSARM)
+	typedInput, ok := armInput.(HandlerMapping_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HandlerMapping_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HandlerMapping_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Arguments’:
@@ -9726,6 +9726,13 @@ const (
 	HostNameSslState_HostType_Standard   = HostNameSslState_HostType("Standard")
 )
 
+type HostNameSslState_HostType_STATUS string
+
+const (
+	HostNameSslState_HostType_STATUS_Repository = HostNameSslState_HostType_STATUS("Repository")
+	HostNameSslState_HostType_STATUS_Standard   = HostNameSslState_HostType_STATUS("Standard")
+)
+
 // +kubebuilder:validation:Enum={"Disabled","IpBasedEnabled","SniEnabled"}
 type HostNameSslState_SslState string
 
@@ -9735,19 +9742,12 @@ const (
 	HostNameSslState_SslState_SniEnabled     = HostNameSslState_SslState("SniEnabled")
 )
 
-type HostNameSslState_STATUS_HostType string
+type HostNameSslState_SslState_STATUS string
 
 const (
-	HostNameSslState_STATUS_HostType_Repository = HostNameSslState_STATUS_HostType("Repository")
-	HostNameSslState_STATUS_HostType_Standard   = HostNameSslState_STATUS_HostType("Standard")
-)
-
-type HostNameSslState_STATUS_SslState string
-
-const (
-	HostNameSslState_STATUS_SslState_Disabled       = HostNameSslState_STATUS_SslState("Disabled")
-	HostNameSslState_STATUS_SslState_IpBasedEnabled = HostNameSslState_STATUS_SslState("IpBasedEnabled")
-	HostNameSslState_STATUS_SslState_SniEnabled     = HostNameSslState_STATUS_SslState("SniEnabled")
+	HostNameSslState_SslState_STATUS_Disabled       = HostNameSslState_SslState_STATUS("Disabled")
+	HostNameSslState_SslState_STATUS_IpBasedEnabled = HostNameSslState_SslState_STATUS("IpBasedEnabled")
+	HostNameSslState_SslState_STATUS_SniEnabled     = HostNameSslState_SslState_STATUS("SniEnabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/IpSecurityRestriction
@@ -9810,7 +9810,7 @@ func (restriction *IpSecurityRestriction) ConvertToARM(resolved genruntime.Conve
 	if restriction == nil {
 		return nil, nil
 	}
-	result := &IpSecurityRestrictionARM{}
+	result := &IpSecurityRestriction_ARM{}
 
 	// Set property ‘Action’:
 	if restriction.Action != nil {
@@ -9892,14 +9892,14 @@ func (restriction *IpSecurityRestriction) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (restriction *IpSecurityRestriction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpSecurityRestrictionARM{}
+	return &IpSecurityRestriction_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (restriction *IpSecurityRestriction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpSecurityRestrictionARM)
+	typedInput, ok := armInput.(IpSecurityRestriction_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpSecurityRestrictionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpSecurityRestriction_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -10146,7 +10146,7 @@ type IpSecurityRestriction_STATUS struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag *IpSecurityRestriction_STATUS_Tag `json:"tag,omitempty"`
+	Tag *IpSecurityRestriction_Tag_STATUS `json:"tag,omitempty"`
 
 	// VnetSubnetResourceId: Virtual network resource id
 	VnetSubnetResourceId *string `json:"vnetSubnetResourceId,omitempty"`
@@ -10159,14 +10159,14 @@ var _ genruntime.FromARMConverter = &IpSecurityRestriction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (restriction *IpSecurityRestriction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpSecurityRestriction_STATUSARM{}
+	return &IpSecurityRestriction_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (restriction *IpSecurityRestriction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpSecurityRestriction_STATUSARM)
+	typedInput, ok := armInput.(IpSecurityRestriction_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpSecurityRestriction_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpSecurityRestriction_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -10284,7 +10284,7 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurit
 
 	// Tag
 	if source.Tag != nil {
-		tag := IpSecurityRestriction_STATUS_Tag(*source.Tag)
+		tag := IpSecurityRestriction_Tag_STATUS(*source.Tag)
 		restriction.Tag = &tag
 	} else {
 		restriction.Tag = nil
@@ -10380,7 +10380,7 @@ func (pair *NameValuePair) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if pair == nil {
 		return nil, nil
 	}
-	result := &NameValuePairARM{}
+	result := &NameValuePair_ARM{}
 
 	// Set property ‘Name’:
 	if pair.Name != nil {
@@ -10398,14 +10398,14 @@ func (pair *NameValuePair) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pair *NameValuePair) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NameValuePairARM{}
+	return &NameValuePair_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pair *NameValuePair) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NameValuePairARM)
+	typedInput, ok := armInput.(NameValuePair_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NameValuePairARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NameValuePair_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -10471,14 +10471,14 @@ var _ genruntime.FromARMConverter = &NameValuePair_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pair *NameValuePair_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NameValuePair_STATUSARM{}
+	return &NameValuePair_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pair *NameValuePair_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NameValuePair_STATUSARM)
+	typedInput, ok := armInput.(NameValuePair_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NameValuePair_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NameValuePair_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -10568,14 +10568,14 @@ var _ genruntime.FromARMConverter = &PushSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PushSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PushSettings_STATUSARM{}
+	return &PushSettings_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PushSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PushSettings_STATUSARM)
+	typedInput, ok := armInput.(PushSettings_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PushSettings_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PushSettings_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘DynamicTagsJson’:
@@ -10723,65 +10723,495 @@ func (settings *PushSettings_STATUS) AssignProperties_To_PushSettings_STATUS(des
 	return nil
 }
 
-type SiteConfig_STATUS_FtpsState string
+type Site_Properties_SiteConfig_AzureStorageAccounts_Spec struct {
+	// AccessKey: Access key for the storage account.
+	AccessKey *genruntime.SecretReference `json:"accessKey,omitempty"`
+
+	// AccountName: Name of the storage account.
+	AccountName *string `json:"accountName,omitempty"`
+
+	// MountPath: Path to mount the storage within the site's runtime environment.
+	MountPath *string `json:"mountPath,omitempty"`
+
+	// ShareName: Name of the file share (container name, for Blob storage).
+	ShareName *string `json:"shareName,omitempty"`
+
+	// Type: Type of storage.
+	Type *Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec `json:"type,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_AzureStorageAccounts_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if accounts == nil {
+		return nil, nil
+	}
+	result := &Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM{}
+
+	// Set property ‘AccessKey’:
+	if accounts.AccessKey != nil {
+		accessKeySecret, err := resolved.ResolvedSecrets.LookupSecret(*accounts.AccessKey)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
+		}
+		accessKey := accessKeySecret
+		result.AccessKey = &accessKey
+	}
+
+	// Set property ‘AccountName’:
+	if accounts.AccountName != nil {
+		accountName := *accounts.AccountName
+		result.AccountName = &accountName
+	}
+
+	// Set property ‘MountPath’:
+	if accounts.MountPath != nil {
+		mountPath := *accounts.MountPath
+		result.MountPath = &mountPath
+	}
+
+	// Set property ‘ShareName’:
+	if accounts.ShareName != nil {
+		shareName := *accounts.ShareName
+		result.ShareName = &shareName
+	}
+
+	// Set property ‘Type’:
+	if accounts.Type != nil {
+		typeVar := *accounts.Type
+		result.Type = &typeVar
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AccessKey’
+
+	// Set property ‘AccountName’:
+	if typedInput.AccountName != nil {
+		accountName := *typedInput.AccountName
+		accounts.AccountName = &accountName
+	}
+
+	// Set property ‘MountPath’:
+	if typedInput.MountPath != nil {
+		mountPath := *typedInput.MountPath
+		accounts.MountPath = &mountPath
+	}
+
+	// Set property ‘ShareName’:
+	if typedInput.ShareName != nil {
+		shareName := *typedInput.ShareName
+		accounts.ShareName = &shareName
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		accounts.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec populates our Site_Properties_SiteConfig_AzureStorageAccounts_Spec from the provided source Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(source *v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec) error {
+
+	// AccessKey
+	if source.AccessKey != nil {
+		accessKey := source.AccessKey.Copy()
+		accounts.AccessKey = &accessKey
+	} else {
+		accounts.AccessKey = nil
+	}
+
+	// AccountName
+	accounts.AccountName = genruntime.ClonePointerToString(source.AccountName)
+
+	// MountPath
+	accounts.MountPath = genruntime.ClonePointerToString(source.MountPath)
+
+	// ShareName
+	accounts.ShareName = genruntime.ClonePointerToString(source.ShareName)
+
+	// Type
+	if source.Type != nil {
+		typeVar := Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec(*source.Type)
+		accounts.Type = &typeVar
+	} else {
+		accounts.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec populates the provided destination Site_Properties_SiteConfig_AzureStorageAccounts_Spec from our Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(destination *v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AccessKey
+	if accounts.AccessKey != nil {
+		accessKey := accounts.AccessKey.Copy()
+		destination.AccessKey = &accessKey
+	} else {
+		destination.AccessKey = nil
+	}
+
+	// AccountName
+	destination.AccountName = genruntime.ClonePointerToString(accounts.AccountName)
+
+	// MountPath
+	destination.MountPath = genruntime.ClonePointerToString(accounts.MountPath)
+
+	// ShareName
+	destination.ShareName = genruntime.ClonePointerToString(accounts.ShareName)
+
+	// Type
+	if accounts.Type != nil {
+		typeVar := string(*accounts.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"AllAllowed","Disabled","FtpsOnly"}
+type Site_Properties_SiteConfig_FtpsState_Spec string
 
 const (
-	SiteConfig_STATUS_FtpsState_AllAllowed = SiteConfig_STATUS_FtpsState("AllAllowed")
-	SiteConfig_STATUS_FtpsState_Disabled   = SiteConfig_STATUS_FtpsState("Disabled")
-	SiteConfig_STATUS_FtpsState_FtpsOnly   = SiteConfig_STATUS_FtpsState("FtpsOnly")
+	Site_Properties_SiteConfig_FtpsState_Spec_AllAllowed = Site_Properties_SiteConfig_FtpsState_Spec("AllAllowed")
+	Site_Properties_SiteConfig_FtpsState_Spec_Disabled   = Site_Properties_SiteConfig_FtpsState_Spec("Disabled")
+	Site_Properties_SiteConfig_FtpsState_Spec_FtpsOnly   = Site_Properties_SiteConfig_FtpsState_Spec("FtpsOnly")
 )
 
-type SiteConfig_STATUS_LoadBalancing string
+// +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
+type Site_Properties_SiteConfig_LoadBalancing_Spec string
 
 const (
-	SiteConfig_STATUS_LoadBalancing_LeastRequests        = SiteConfig_STATUS_LoadBalancing("LeastRequests")
-	SiteConfig_STATUS_LoadBalancing_LeastResponseTime    = SiteConfig_STATUS_LoadBalancing("LeastResponseTime")
-	SiteConfig_STATUS_LoadBalancing_PerSiteRoundRobin    = SiteConfig_STATUS_LoadBalancing("PerSiteRoundRobin")
-	SiteConfig_STATUS_LoadBalancing_RequestHash          = SiteConfig_STATUS_LoadBalancing("RequestHash")
-	SiteConfig_STATUS_LoadBalancing_WeightedRoundRobin   = SiteConfig_STATUS_LoadBalancing("WeightedRoundRobin")
-	SiteConfig_STATUS_LoadBalancing_WeightedTotalTraffic = SiteConfig_STATUS_LoadBalancing("WeightedTotalTraffic")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_LeastRequests        = Site_Properties_SiteConfig_LoadBalancing_Spec("LeastRequests")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_LeastResponseTime    = Site_Properties_SiteConfig_LoadBalancing_Spec("LeastResponseTime")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_PerSiteRoundRobin    = Site_Properties_SiteConfig_LoadBalancing_Spec("PerSiteRoundRobin")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_RequestHash          = Site_Properties_SiteConfig_LoadBalancing_Spec("RequestHash")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_WeightedRoundRobin   = Site_Properties_SiteConfig_LoadBalancing_Spec("WeightedRoundRobin")
+	Site_Properties_SiteConfig_LoadBalancing_Spec_WeightedTotalTraffic = Site_Properties_SiteConfig_LoadBalancing_Spec("WeightedTotalTraffic")
 )
 
-type SiteConfig_STATUS_ManagedPipelineMode string
+// +kubebuilder:validation:Enum={"Classic","Integrated"}
+type Site_Properties_SiteConfig_ManagedPipelineMode_Spec string
 
 const (
-	SiteConfig_STATUS_ManagedPipelineMode_Classic    = SiteConfig_STATUS_ManagedPipelineMode("Classic")
-	SiteConfig_STATUS_ManagedPipelineMode_Integrated = SiteConfig_STATUS_ManagedPipelineMode("Integrated")
+	Site_Properties_SiteConfig_ManagedPipelineMode_Spec_Classic    = Site_Properties_SiteConfig_ManagedPipelineMode_Spec("Classic")
+	Site_Properties_SiteConfig_ManagedPipelineMode_Spec_Integrated = Site_Properties_SiteConfig_ManagedPipelineMode_Spec("Integrated")
 )
 
-type SiteConfig_STATUS_MinTlsVersion string
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type Site_Properties_SiteConfig_MinTlsVersion_Spec string
 
 const (
-	SiteConfig_STATUS_MinTlsVersion_10 = SiteConfig_STATUS_MinTlsVersion("1.0")
-	SiteConfig_STATUS_MinTlsVersion_11 = SiteConfig_STATUS_MinTlsVersion("1.1")
-	SiteConfig_STATUS_MinTlsVersion_12 = SiteConfig_STATUS_MinTlsVersion("1.2")
+	Site_Properties_SiteConfig_MinTlsVersion_Spec_10 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.0")
+	Site_Properties_SiteConfig_MinTlsVersion_Spec_11 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.1")
+	Site_Properties_SiteConfig_MinTlsVersion_Spec_12 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.2")
 )
 
-type SiteConfig_STATUS_ScmMinTlsVersion string
+type Site_Properties_SiteConfig_Push_Spec struct {
+	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
+	// the push registration endpoint.
+	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// IsPushEnabled: Gets or sets a flag indicating whether the Push endpoint is enabled.
+	IsPushEnabled *bool `json:"isPushEnabled,omitempty"`
+
+	// Kind: Kind of resource.
+	Kind *string `json:"kind,omitempty"`
+
+	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
+	// registration endpoint.
+	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
+
+	// TagsRequiringAuth: Gets or sets a JSON string containing a list of tags that require user authentication to be used in
+	// the push registration endpoint.
+	// Tags can consist of alphanumeric characters and the following:
+	// '_', '@', '#', '.', ':', '-'.
+	// Validation should be performed at the PushRequestHandler.
+	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_Push_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (push *Site_Properties_SiteConfig_Push_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if push == nil {
+		return nil, nil
+	}
+	result := &Site_Properties_SiteConfig_Push_Spec_ARM{}
+
+	// Set property ‘Kind’:
+	if push.Kind != nil {
+		kind := *push.Kind
+		result.Kind = &kind
+	}
+
+	// Set property ‘Properties’:
+	if push.DynamicTagsJson != nil ||
+		push.IsPushEnabled != nil ||
+		push.TagWhitelistJson != nil ||
+		push.TagsRequiringAuth != nil {
+		result.Properties = &PushSettingsProperties_ARM{}
+	}
+	if push.DynamicTagsJson != nil {
+		dynamicTagsJson := *push.DynamicTagsJson
+		result.Properties.DynamicTagsJson = &dynamicTagsJson
+	}
+	if push.IsPushEnabled != nil {
+		isPushEnabled := *push.IsPushEnabled
+		result.Properties.IsPushEnabled = &isPushEnabled
+	}
+	if push.TagWhitelistJson != nil {
+		tagWhitelistJson := *push.TagWhitelistJson
+		result.Properties.TagWhitelistJson = &tagWhitelistJson
+	}
+	if push.TagsRequiringAuth != nil {
+		tagsRequiringAuth := *push.TagsRequiringAuth
+		result.Properties.TagsRequiringAuth = &tagsRequiringAuth
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (push *Site_Properties_SiteConfig_Push_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Site_Properties_SiteConfig_Push_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (push *Site_Properties_SiteConfig_Push_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Site_Properties_SiteConfig_Push_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_Push_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DynamicTagsJson’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DynamicTagsJson != nil {
+			dynamicTagsJson := *typedInput.Properties.DynamicTagsJson
+			push.DynamicTagsJson = &dynamicTagsJson
+		}
+	}
+
+	// Set property ‘IsPushEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsPushEnabled != nil {
+			isPushEnabled := *typedInput.Properties.IsPushEnabled
+			push.IsPushEnabled = &isPushEnabled
+		}
+	}
+
+	// Set property ‘Kind’:
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		push.Kind = &kind
+	}
+
+	// Set property ‘TagWhitelistJson’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TagWhitelistJson != nil {
+			tagWhitelistJson := *typedInput.Properties.TagWhitelistJson
+			push.TagWhitelistJson = &tagWhitelistJson
+		}
+	}
+
+	// Set property ‘TagsRequiringAuth’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TagsRequiringAuth != nil {
+			tagsRequiringAuth := *typedInput.Properties.TagsRequiringAuth
+			push.TagsRequiringAuth = &tagsRequiringAuth
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Site_Properties_SiteConfig_Push_Spec populates our Site_Properties_SiteConfig_Push_Spec from the provided source Site_Properties_SiteConfig_Push_Spec
+func (push *Site_Properties_SiteConfig_Push_Spec) AssignProperties_From_Site_Properties_SiteConfig_Push_Spec(source *v20220301s.Site_Properties_SiteConfig_Push_Spec) error {
+
+	// DynamicTagsJson
+	push.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
+
+	// IsPushEnabled
+	if source.IsPushEnabled != nil {
+		isPushEnabled := *source.IsPushEnabled
+		push.IsPushEnabled = &isPushEnabled
+	} else {
+		push.IsPushEnabled = nil
+	}
+
+	// Kind
+	push.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// TagWhitelistJson
+	push.TagWhitelistJson = genruntime.ClonePointerToString(source.TagWhitelistJson)
+
+	// TagsRequiringAuth
+	push.TagsRequiringAuth = genruntime.ClonePointerToString(source.TagsRequiringAuth)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Site_Properties_SiteConfig_Push_Spec populates the provided destination Site_Properties_SiteConfig_Push_Spec from our Site_Properties_SiteConfig_Push_Spec
+func (push *Site_Properties_SiteConfig_Push_Spec) AssignProperties_To_Site_Properties_SiteConfig_Push_Spec(destination *v20220301s.Site_Properties_SiteConfig_Push_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DynamicTagsJson
+	destination.DynamicTagsJson = genruntime.ClonePointerToString(push.DynamicTagsJson)
+
+	// IsPushEnabled
+	if push.IsPushEnabled != nil {
+		isPushEnabled := *push.IsPushEnabled
+		destination.IsPushEnabled = &isPushEnabled
+	} else {
+		destination.IsPushEnabled = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(push.Kind)
+
+	// TagWhitelistJson
+	destination.TagWhitelistJson = genruntime.ClonePointerToString(push.TagWhitelistJson)
+
+	// TagsRequiringAuth
+	destination.TagsRequiringAuth = genruntime.ClonePointerToString(push.TagsRequiringAuth)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type Site_Properties_SiteConfig_ScmMinTlsVersion_Spec string
 
 const (
-	SiteConfig_STATUS_ScmMinTlsVersion_10 = SiteConfig_STATUS_ScmMinTlsVersion("1.0")
-	SiteConfig_STATUS_ScmMinTlsVersion_11 = SiteConfig_STATUS_ScmMinTlsVersion("1.1")
-	SiteConfig_STATUS_ScmMinTlsVersion_12 = SiteConfig_STATUS_ScmMinTlsVersion("1.2")
+	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_10 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.0")
+	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_11 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.1")
+	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_12 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.2")
 )
 
-type SiteConfig_STATUS_ScmType string
+// +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
+type Site_Properties_SiteConfig_ScmType_Spec string
 
 const (
-	SiteConfig_STATUS_ScmType_BitbucketGit = SiteConfig_STATUS_ScmType("BitbucketGit")
-	SiteConfig_STATUS_ScmType_BitbucketHg  = SiteConfig_STATUS_ScmType("BitbucketHg")
-	SiteConfig_STATUS_ScmType_CodePlexGit  = SiteConfig_STATUS_ScmType("CodePlexGit")
-	SiteConfig_STATUS_ScmType_CodePlexHg   = SiteConfig_STATUS_ScmType("CodePlexHg")
-	SiteConfig_STATUS_ScmType_Dropbox      = SiteConfig_STATUS_ScmType("Dropbox")
-	SiteConfig_STATUS_ScmType_ExternalGit  = SiteConfig_STATUS_ScmType("ExternalGit")
-	SiteConfig_STATUS_ScmType_ExternalHg   = SiteConfig_STATUS_ScmType("ExternalHg")
-	SiteConfig_STATUS_ScmType_GitHub       = SiteConfig_STATUS_ScmType("GitHub")
-	SiteConfig_STATUS_ScmType_LocalGit     = SiteConfig_STATUS_ScmType("LocalGit")
-	SiteConfig_STATUS_ScmType_None         = SiteConfig_STATUS_ScmType("None")
-	SiteConfig_STATUS_ScmType_OneDrive     = SiteConfig_STATUS_ScmType("OneDrive")
-	SiteConfig_STATUS_ScmType_Tfs          = SiteConfig_STATUS_ScmType("Tfs")
-	SiteConfig_STATUS_ScmType_VSO          = SiteConfig_STATUS_ScmType("VSO")
-	SiteConfig_STATUS_ScmType_VSTSRM       = SiteConfig_STATUS_ScmType("VSTSRM")
+	Site_Properties_SiteConfig_ScmType_Spec_BitbucketGit = Site_Properties_SiteConfig_ScmType_Spec("BitbucketGit")
+	Site_Properties_SiteConfig_ScmType_Spec_BitbucketHg  = Site_Properties_SiteConfig_ScmType_Spec("BitbucketHg")
+	Site_Properties_SiteConfig_ScmType_Spec_CodePlexGit  = Site_Properties_SiteConfig_ScmType_Spec("CodePlexGit")
+	Site_Properties_SiteConfig_ScmType_Spec_CodePlexHg   = Site_Properties_SiteConfig_ScmType_Spec("CodePlexHg")
+	Site_Properties_SiteConfig_ScmType_Spec_Dropbox      = Site_Properties_SiteConfig_ScmType_Spec("Dropbox")
+	Site_Properties_SiteConfig_ScmType_Spec_ExternalGit  = Site_Properties_SiteConfig_ScmType_Spec("ExternalGit")
+	Site_Properties_SiteConfig_ScmType_Spec_ExternalHg   = Site_Properties_SiteConfig_ScmType_Spec("ExternalHg")
+	Site_Properties_SiteConfig_ScmType_Spec_GitHub       = Site_Properties_SiteConfig_ScmType_Spec("GitHub")
+	Site_Properties_SiteConfig_ScmType_Spec_LocalGit     = Site_Properties_SiteConfig_ScmType_Spec("LocalGit")
+	Site_Properties_SiteConfig_ScmType_Spec_None         = Site_Properties_SiteConfig_ScmType_Spec("None")
+	Site_Properties_SiteConfig_ScmType_Spec_OneDrive     = Site_Properties_SiteConfig_ScmType_Spec("OneDrive")
+	Site_Properties_SiteConfig_ScmType_Spec_Tfs          = Site_Properties_SiteConfig_ScmType_Spec("Tfs")
+	Site_Properties_SiteConfig_ScmType_Spec_VSO          = Site_Properties_SiteConfig_ScmType_Spec("VSO")
+	Site_Properties_SiteConfig_ScmType_Spec_VSTSRM       = Site_Properties_SiteConfig_ScmType_Spec("VSTSRM")
+)
+
+type SiteConfig_FtpsState_STATUS string
+
+const (
+	SiteConfig_FtpsState_STATUS_AllAllowed = SiteConfig_FtpsState_STATUS("AllAllowed")
+	SiteConfig_FtpsState_STATUS_Disabled   = SiteConfig_FtpsState_STATUS("Disabled")
+	SiteConfig_FtpsState_STATUS_FtpsOnly   = SiteConfig_FtpsState_STATUS("FtpsOnly")
+)
+
+type SiteConfig_LoadBalancing_STATUS string
+
+const (
+	SiteConfig_LoadBalancing_STATUS_LeastRequests        = SiteConfig_LoadBalancing_STATUS("LeastRequests")
+	SiteConfig_LoadBalancing_STATUS_LeastResponseTime    = SiteConfig_LoadBalancing_STATUS("LeastResponseTime")
+	SiteConfig_LoadBalancing_STATUS_PerSiteRoundRobin    = SiteConfig_LoadBalancing_STATUS("PerSiteRoundRobin")
+	SiteConfig_LoadBalancing_STATUS_RequestHash          = SiteConfig_LoadBalancing_STATUS("RequestHash")
+	SiteConfig_LoadBalancing_STATUS_WeightedRoundRobin   = SiteConfig_LoadBalancing_STATUS("WeightedRoundRobin")
+	SiteConfig_LoadBalancing_STATUS_WeightedTotalTraffic = SiteConfig_LoadBalancing_STATUS("WeightedTotalTraffic")
+)
+
+type SiteConfig_ManagedPipelineMode_STATUS string
+
+const (
+	SiteConfig_ManagedPipelineMode_STATUS_Classic    = SiteConfig_ManagedPipelineMode_STATUS("Classic")
+	SiteConfig_ManagedPipelineMode_STATUS_Integrated = SiteConfig_ManagedPipelineMode_STATUS("Integrated")
+)
+
+type SiteConfig_MinTlsVersion_STATUS string
+
+const (
+	SiteConfig_MinTlsVersion_STATUS_10 = SiteConfig_MinTlsVersion_STATUS("1.0")
+	SiteConfig_MinTlsVersion_STATUS_11 = SiteConfig_MinTlsVersion_STATUS("1.1")
+	SiteConfig_MinTlsVersion_STATUS_12 = SiteConfig_MinTlsVersion_STATUS("1.2")
+)
+
+type SiteConfig_ScmMinTlsVersion_STATUS string
+
+const (
+	SiteConfig_ScmMinTlsVersion_STATUS_10 = SiteConfig_ScmMinTlsVersion_STATUS("1.0")
+	SiteConfig_ScmMinTlsVersion_STATUS_11 = SiteConfig_ScmMinTlsVersion_STATUS("1.1")
+	SiteConfig_ScmMinTlsVersion_STATUS_12 = SiteConfig_ScmMinTlsVersion_STATUS("1.2")
+)
+
+type SiteConfig_ScmType_STATUS string
+
+const (
+	SiteConfig_ScmType_STATUS_BitbucketGit = SiteConfig_ScmType_STATUS("BitbucketGit")
+	SiteConfig_ScmType_STATUS_BitbucketHg  = SiteConfig_ScmType_STATUS("BitbucketHg")
+	SiteConfig_ScmType_STATUS_CodePlexGit  = SiteConfig_ScmType_STATUS("CodePlexGit")
+	SiteConfig_ScmType_STATUS_CodePlexHg   = SiteConfig_ScmType_STATUS("CodePlexHg")
+	SiteConfig_ScmType_STATUS_Dropbox      = SiteConfig_ScmType_STATUS("Dropbox")
+	SiteConfig_ScmType_STATUS_ExternalGit  = SiteConfig_ScmType_STATUS("ExternalGit")
+	SiteConfig_ScmType_STATUS_ExternalHg   = SiteConfig_ScmType_STATUS("ExternalHg")
+	SiteConfig_ScmType_STATUS_GitHub       = SiteConfig_ScmType_STATUS("GitHub")
+	SiteConfig_ScmType_STATUS_LocalGit     = SiteConfig_ScmType_STATUS("LocalGit")
+	SiteConfig_ScmType_STATUS_None         = SiteConfig_ScmType_STATUS("None")
+	SiteConfig_ScmType_STATUS_OneDrive     = SiteConfig_ScmType_STATUS("OneDrive")
+	SiteConfig_ScmType_STATUS_Tfs          = SiteConfig_ScmType_STATUS("Tfs")
+	SiteConfig_ScmType_STATUS_VSO          = SiteConfig_ScmType_STATUS("VSO")
+	SiteConfig_ScmType_STATUS_VSTSRM       = SiteConfig_ScmType_STATUS("VSTSRM")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SiteLimits
@@ -10803,7 +11233,7 @@ func (limits *SiteLimits) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if limits == nil {
 		return nil, nil
 	}
-	result := &SiteLimitsARM{}
+	result := &SiteLimits_ARM{}
 
 	// Set property ‘MaxDiskSizeInMb’:
 	if limits.MaxDiskSizeInMb != nil {
@@ -10827,14 +11257,14 @@ func (limits *SiteLimits) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (limits *SiteLimits) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SiteLimitsARM{}
+	return &SiteLimits_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (limits *SiteLimits) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SiteLimitsARM)
+	typedInput, ok := armInput.(SiteLimits_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteLimitsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteLimits_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxDiskSizeInMb’:
@@ -10925,14 +11355,14 @@ var _ genruntime.FromARMConverter = &SiteLimits_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (limits *SiteLimits_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SiteLimits_STATUSARM{}
+	return &SiteLimits_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (limits *SiteLimits_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SiteLimits_STATUSARM)
+	typedInput, ok := armInput.(SiteLimits_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteLimits_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteLimits_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxDiskSizeInMb’:
@@ -11026,14 +11456,14 @@ var _ genruntime.FromARMConverter = &SiteMachineKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (machineKey *SiteMachineKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SiteMachineKey_STATUSARM{}
+	return &SiteMachineKey_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (machineKey *SiteMachineKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SiteMachineKey_STATUSARM)
+	typedInput, ok := armInput.(SiteMachineKey_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteMachineKey_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteMachineKey_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Decryption’:
@@ -11111,436 +11541,6 @@ func (machineKey *SiteMachineKey_STATUS) AssignProperties_To_SiteMachineKey_STAT
 	return nil
 }
 
-type Sites_Spec_Properties_SiteConfig_AzureStorageAccounts struct {
-	// AccessKey: Access key for the storage account.
-	AccessKey *genruntime.SecretReference `json:"accessKey,omitempty"`
-
-	// AccountName: Name of the storage account.
-	AccountName *string `json:"accountName,omitempty"`
-
-	// MountPath: Path to mount the storage within the site's runtime environment.
-	MountPath *string `json:"mountPath,omitempty"`
-
-	// ShareName: Name of the file share (container name, for Blob storage).
-	ShareName *string `json:"shareName,omitempty"`
-
-	// Type: Type of storage.
-	Type *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type `json:"type,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Sites_Spec_Properties_SiteConfig_AzureStorageAccounts{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (accounts *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if accounts == nil {
-		return nil, nil
-	}
-	result := &Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM{}
-
-	// Set property ‘AccessKey’:
-	if accounts.AccessKey != nil {
-		accessKeySecret, err := resolved.ResolvedSecrets.LookupSecret(*accounts.AccessKey)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
-		}
-		accessKey := accessKeySecret
-		result.AccessKey = &accessKey
-	}
-
-	// Set property ‘AccountName’:
-	if accounts.AccountName != nil {
-		accountName := *accounts.AccountName
-		result.AccountName = &accountName
-	}
-
-	// Set property ‘MountPath’:
-	if accounts.MountPath != nil {
-		mountPath := *accounts.MountPath
-		result.MountPath = &mountPath
-	}
-
-	// Set property ‘ShareName’:
-	if accounts.ShareName != nil {
-		shareName := *accounts.ShareName
-		result.ShareName = &shareName
-	}
-
-	// Set property ‘Type’:
-	if accounts.Type != nil {
-		typeVar := *accounts.Type
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (accounts *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (accounts *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AccessKey’
-
-	// Set property ‘AccountName’:
-	if typedInput.AccountName != nil {
-		accountName := *typedInput.AccountName
-		accounts.AccountName = &accountName
-	}
-
-	// Set property ‘MountPath’:
-	if typedInput.MountPath != nil {
-		mountPath := *typedInput.MountPath
-		accounts.MountPath = &mountPath
-	}
-
-	// Set property ‘ShareName’:
-	if typedInput.ShareName != nil {
-		shareName := *typedInput.ShareName
-		accounts.ShareName = &shareName
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		accounts.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts populates our Sites_Spec_Properties_SiteConfig_AzureStorageAccounts from the provided source Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-func (accounts *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(source *v20220301s.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) error {
-
-	// AccessKey
-	if source.AccessKey != nil {
-		accessKey := source.AccessKey.Copy()
-		accounts.AccessKey = &accessKey
-	} else {
-		accounts.AccessKey = nil
-	}
-
-	// AccountName
-	accounts.AccountName = genruntime.ClonePointerToString(source.AccountName)
-
-	// MountPath
-	accounts.MountPath = genruntime.ClonePointerToString(source.MountPath)
-
-	// ShareName
-	accounts.ShareName = genruntime.ClonePointerToString(source.ShareName)
-
-	// Type
-	if source.Type != nil {
-		typeVar := Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type(*source.Type)
-		accounts.Type = &typeVar
-	} else {
-		accounts.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts populates the provided destination Sites_Spec_Properties_SiteConfig_AzureStorageAccounts from our Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-func (accounts *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(destination *v20220301s.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessKey
-	if accounts.AccessKey != nil {
-		accessKey := accounts.AccessKey.Copy()
-		destination.AccessKey = &accessKey
-	} else {
-		destination.AccessKey = nil
-	}
-
-	// AccountName
-	destination.AccountName = genruntime.ClonePointerToString(accounts.AccountName)
-
-	// MountPath
-	destination.MountPath = genruntime.ClonePointerToString(accounts.MountPath)
-
-	// ShareName
-	destination.ShareName = genruntime.ClonePointerToString(accounts.ShareName)
-
-	// Type
-	if accounts.Type != nil {
-		typeVar := string(*accounts.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"AllAllowed","Disabled","FtpsOnly"}
-type Sites_Spec_Properties_SiteConfig_FtpsState string
-
-const (
-	Sites_Spec_Properties_SiteConfig_FtpsState_AllAllowed = Sites_Spec_Properties_SiteConfig_FtpsState("AllAllowed")
-	Sites_Spec_Properties_SiteConfig_FtpsState_Disabled   = Sites_Spec_Properties_SiteConfig_FtpsState("Disabled")
-	Sites_Spec_Properties_SiteConfig_FtpsState_FtpsOnly   = Sites_Spec_Properties_SiteConfig_FtpsState("FtpsOnly")
-)
-
-// +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
-type Sites_Spec_Properties_SiteConfig_LoadBalancing string
-
-const (
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_LeastRequests        = Sites_Spec_Properties_SiteConfig_LoadBalancing("LeastRequests")
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_LeastResponseTime    = Sites_Spec_Properties_SiteConfig_LoadBalancing("LeastResponseTime")
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_PerSiteRoundRobin    = Sites_Spec_Properties_SiteConfig_LoadBalancing("PerSiteRoundRobin")
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_RequestHash          = Sites_Spec_Properties_SiteConfig_LoadBalancing("RequestHash")
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_WeightedRoundRobin   = Sites_Spec_Properties_SiteConfig_LoadBalancing("WeightedRoundRobin")
-	Sites_Spec_Properties_SiteConfig_LoadBalancing_WeightedTotalTraffic = Sites_Spec_Properties_SiteConfig_LoadBalancing("WeightedTotalTraffic")
-)
-
-// +kubebuilder:validation:Enum={"Classic","Integrated"}
-type Sites_Spec_Properties_SiteConfig_ManagedPipelineMode string
-
-const (
-	Sites_Spec_Properties_SiteConfig_ManagedPipelineMode_Classic    = Sites_Spec_Properties_SiteConfig_ManagedPipelineMode("Classic")
-	Sites_Spec_Properties_SiteConfig_ManagedPipelineMode_Integrated = Sites_Spec_Properties_SiteConfig_ManagedPipelineMode("Integrated")
-)
-
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type Sites_Spec_Properties_SiteConfig_MinTlsVersion string
-
-const (
-	Sites_Spec_Properties_SiteConfig_MinTlsVersion_10 = Sites_Spec_Properties_SiteConfig_MinTlsVersion("1.0")
-	Sites_Spec_Properties_SiteConfig_MinTlsVersion_11 = Sites_Spec_Properties_SiteConfig_MinTlsVersion("1.1")
-	Sites_Spec_Properties_SiteConfig_MinTlsVersion_12 = Sites_Spec_Properties_SiteConfig_MinTlsVersion("1.2")
-)
-
-type Sites_Spec_Properties_SiteConfig_Push struct {
-	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
-	// the push registration endpoint.
-	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// IsPushEnabled: Gets or sets a flag indicating whether the Push endpoint is enabled.
-	IsPushEnabled *bool `json:"isPushEnabled,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
-	// registration endpoint.
-	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
-
-	// TagsRequiringAuth: Gets or sets a JSON string containing a list of tags that require user authentication to be used in
-	// the push registration endpoint.
-	// Tags can consist of alphanumeric characters and the following:
-	// '_', '@', '#', '.', ':', '-'.
-	// Validation should be performed at the PushRequestHandler.
-	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Sites_Spec_Properties_SiteConfig_Push{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (push *Sites_Spec_Properties_SiteConfig_Push) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if push == nil {
-		return nil, nil
-	}
-	result := &Sites_Spec_Properties_SiteConfig_PushARM{}
-
-	// Set property ‘Kind’:
-	if push.Kind != nil {
-		kind := *push.Kind
-		result.Kind = &kind
-	}
-
-	// Set property ‘Properties’:
-	if push.DynamicTagsJson != nil ||
-		push.IsPushEnabled != nil ||
-		push.TagWhitelistJson != nil ||
-		push.TagsRequiringAuth != nil {
-		result.Properties = &PushSettingsPropertiesARM{}
-	}
-	if push.DynamicTagsJson != nil {
-		dynamicTagsJson := *push.DynamicTagsJson
-		result.Properties.DynamicTagsJson = &dynamicTagsJson
-	}
-	if push.IsPushEnabled != nil {
-		isPushEnabled := *push.IsPushEnabled
-		result.Properties.IsPushEnabled = &isPushEnabled
-	}
-	if push.TagWhitelistJson != nil {
-		tagWhitelistJson := *push.TagWhitelistJson
-		result.Properties.TagWhitelistJson = &tagWhitelistJson
-	}
-	if push.TagsRequiringAuth != nil {
-		tagsRequiringAuth := *push.TagsRequiringAuth
-		result.Properties.TagsRequiringAuth = &tagsRequiringAuth
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (push *Sites_Spec_Properties_SiteConfig_Push) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sites_Spec_Properties_SiteConfig_PushARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (push *Sites_Spec_Properties_SiteConfig_Push) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sites_Spec_Properties_SiteConfig_PushARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sites_Spec_Properties_SiteConfig_PushARM, got %T", armInput)
-	}
-
-	// Set property ‘DynamicTagsJson’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DynamicTagsJson != nil {
-			dynamicTagsJson := *typedInput.Properties.DynamicTagsJson
-			push.DynamicTagsJson = &dynamicTagsJson
-		}
-	}
-
-	// Set property ‘IsPushEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsPushEnabled != nil {
-			isPushEnabled := *typedInput.Properties.IsPushEnabled
-			push.IsPushEnabled = &isPushEnabled
-		}
-	}
-
-	// Set property ‘Kind’:
-	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
-		push.Kind = &kind
-	}
-
-	// Set property ‘TagWhitelistJson’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TagWhitelistJson != nil {
-			tagWhitelistJson := *typedInput.Properties.TagWhitelistJson
-			push.TagWhitelistJson = &tagWhitelistJson
-		}
-	}
-
-	// Set property ‘TagsRequiringAuth’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TagsRequiringAuth != nil {
-			tagsRequiringAuth := *typedInput.Properties.TagsRequiringAuth
-			push.TagsRequiringAuth = &tagsRequiringAuth
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push populates our Sites_Spec_Properties_SiteConfig_Push from the provided source Sites_Spec_Properties_SiteConfig_Push
-func (push *Sites_Spec_Properties_SiteConfig_Push) AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push(source *v20220301s.Sites_Spec_Properties_SiteConfig_Push) error {
-
-	// DynamicTagsJson
-	push.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
-
-	// IsPushEnabled
-	if source.IsPushEnabled != nil {
-		isPushEnabled := *source.IsPushEnabled
-		push.IsPushEnabled = &isPushEnabled
-	} else {
-		push.IsPushEnabled = nil
-	}
-
-	// Kind
-	push.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// TagWhitelistJson
-	push.TagWhitelistJson = genruntime.ClonePointerToString(source.TagWhitelistJson)
-
-	// TagsRequiringAuth
-	push.TagsRequiringAuth = genruntime.ClonePointerToString(source.TagsRequiringAuth)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push populates the provided destination Sites_Spec_Properties_SiteConfig_Push from our Sites_Spec_Properties_SiteConfig_Push
-func (push *Sites_Spec_Properties_SiteConfig_Push) AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push(destination *v20220301s.Sites_Spec_Properties_SiteConfig_Push) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DynamicTagsJson
-	destination.DynamicTagsJson = genruntime.ClonePointerToString(push.DynamicTagsJson)
-
-	// IsPushEnabled
-	if push.IsPushEnabled != nil {
-		isPushEnabled := *push.IsPushEnabled
-		destination.IsPushEnabled = &isPushEnabled
-	} else {
-		destination.IsPushEnabled = nil
-	}
-
-	// Kind
-	destination.Kind = genruntime.ClonePointerToString(push.Kind)
-
-	// TagWhitelistJson
-	destination.TagWhitelistJson = genruntime.ClonePointerToString(push.TagWhitelistJson)
-
-	// TagsRequiringAuth
-	destination.TagsRequiringAuth = genruntime.ClonePointerToString(push.TagsRequiringAuth)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion string
-
-const (
-	Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion_10 = Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion("1.0")
-	Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion_11 = Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion("1.1")
-	Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion_12 = Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion("1.2")
-)
-
-// +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
-type Sites_Spec_Properties_SiteConfig_ScmType string
-
-const (
-	Sites_Spec_Properties_SiteConfig_ScmType_BitbucketGit = Sites_Spec_Properties_SiteConfig_ScmType("BitbucketGit")
-	Sites_Spec_Properties_SiteConfig_ScmType_BitbucketHg  = Sites_Spec_Properties_SiteConfig_ScmType("BitbucketHg")
-	Sites_Spec_Properties_SiteConfig_ScmType_CodePlexGit  = Sites_Spec_Properties_SiteConfig_ScmType("CodePlexGit")
-	Sites_Spec_Properties_SiteConfig_ScmType_CodePlexHg   = Sites_Spec_Properties_SiteConfig_ScmType("CodePlexHg")
-	Sites_Spec_Properties_SiteConfig_ScmType_Dropbox      = Sites_Spec_Properties_SiteConfig_ScmType("Dropbox")
-	Sites_Spec_Properties_SiteConfig_ScmType_ExternalGit  = Sites_Spec_Properties_SiteConfig_ScmType("ExternalGit")
-	Sites_Spec_Properties_SiteConfig_ScmType_ExternalHg   = Sites_Spec_Properties_SiteConfig_ScmType("ExternalHg")
-	Sites_Spec_Properties_SiteConfig_ScmType_GitHub       = Sites_Spec_Properties_SiteConfig_ScmType("GitHub")
-	Sites_Spec_Properties_SiteConfig_ScmType_LocalGit     = Sites_Spec_Properties_SiteConfig_ScmType("LocalGit")
-	Sites_Spec_Properties_SiteConfig_ScmType_None         = Sites_Spec_Properties_SiteConfig_ScmType("None")
-	Sites_Spec_Properties_SiteConfig_ScmType_OneDrive     = Sites_Spec_Properties_SiteConfig_ScmType("OneDrive")
-	Sites_Spec_Properties_SiteConfig_ScmType_Tfs          = Sites_Spec_Properties_SiteConfig_ScmType("Tfs")
-	Sites_Spec_Properties_SiteConfig_ScmType_VSO          = Sites_Spec_Properties_SiteConfig_ScmType("VSO")
-	Sites_Spec_Properties_SiteConfig_ScmType_VSTSRM       = Sites_Spec_Properties_SiteConfig_ScmType("VSTSRM")
-)
-
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -11553,14 +11553,14 @@ var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_STATUSARM{}
+	return &UserAssignedIdentity_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_STATUSARM)
+	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ClientId’:
@@ -11636,7 +11636,7 @@ func (application *VirtualApplication) ConvertToARM(resolved genruntime.ConvertT
 	if application == nil {
 		return nil, nil
 	}
-	result := &VirtualApplicationARM{}
+	result := &VirtualApplication_ARM{}
 
 	// Set property ‘PhysicalPath’:
 	if application.PhysicalPath != nil {
@@ -11652,11 +11652,11 @@ func (application *VirtualApplication) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘VirtualDirectories’:
 	for _, item := range application.VirtualDirectories {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.VirtualDirectories = append(result.VirtualDirectories, *itemARM.(*VirtualDirectoryARM))
+		result.VirtualDirectories = append(result.VirtualDirectories, *item_ARM.(*VirtualDirectory_ARM))
 	}
 
 	// Set property ‘VirtualPath’:
@@ -11669,14 +11669,14 @@ func (application *VirtualApplication) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (application *VirtualApplication) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualApplicationARM{}
+	return &VirtualApplication_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (application *VirtualApplication) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualApplicationARM)
+	typedInput, ok := armInput.(VirtualApplication_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualApplicationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualApplication_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PhysicalPath’:
@@ -11816,14 +11816,14 @@ var _ genruntime.FromARMConverter = &VirtualApplication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (application *VirtualApplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualApplication_STATUSARM{}
+	return &VirtualApplication_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (application *VirtualApplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualApplication_STATUSARM)
+	typedInput, ok := armInput.(VirtualApplication_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualApplication_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualApplication_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PhysicalPath’:
@@ -11966,7 +11966,7 @@ func (actions *AutoHealActions) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if actions == nil {
 		return nil, nil
 	}
-	result := &AutoHealActionsARM{}
+	result := &AutoHealActions_ARM{}
 
 	// Set property ‘ActionType’:
 	if actions.ActionType != nil {
@@ -11976,11 +11976,11 @@ func (actions *AutoHealActions) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘CustomAction’:
 	if actions.CustomAction != nil {
-		customActionARM, err := (*actions.CustomAction).ConvertToARM(resolved)
+		customAction_ARM, err := (*actions.CustomAction).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		customAction := *customActionARM.(*AutoHealCustomActionARM)
+		customAction := *customAction_ARM.(*AutoHealCustomAction_ARM)
 		result.CustomAction = &customAction
 	}
 
@@ -11994,14 +11994,14 @@ func (actions *AutoHealActions) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (actions *AutoHealActions) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealActionsARM{}
+	return &AutoHealActions_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (actions *AutoHealActions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealActionsARM)
+	typedInput, ok := armInput.(AutoHealActions_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealActionsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealActions_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionType’:
@@ -12102,7 +12102,7 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 
 type AutoHealActions_STATUS struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActions_STATUS_ActionType `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction_STATUS `json:"customAction,omitempty"`
@@ -12116,14 +12116,14 @@ var _ genruntime.FromARMConverter = &AutoHealActions_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (actions *AutoHealActions_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealActions_STATUSARM{}
+	return &AutoHealActions_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (actions *AutoHealActions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealActions_STATUSARM)
+	typedInput, ok := armInput.(AutoHealActions_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealActions_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealActions_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionType’:
@@ -12158,7 +12158,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STA
 
 	// ActionType
 	if source.ActionType != nil {
-		actionType := AutoHealActions_STATUS_ActionType(*source.ActionType)
+		actionType := AutoHealActions_ActionType_STATUS(*source.ActionType)
 		actions.ActionType = &actionType
 	} else {
 		actions.ActionType = nil
@@ -12250,7 +12250,7 @@ func (triggers *AutoHealTriggers) ConvertToARM(resolved genruntime.ConvertToARMR
 	if triggers == nil {
 		return nil, nil
 	}
-	result := &AutoHealTriggersARM{}
+	result := &AutoHealTriggers_ARM{}
 
 	// Set property ‘PrivateBytesInKB’:
 	if triggers.PrivateBytesInKB != nil {
@@ -12260,63 +12260,63 @@ func (triggers *AutoHealTriggers) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘Requests’:
 	if triggers.Requests != nil {
-		requestsARM, err := (*triggers.Requests).ConvertToARM(resolved)
+		requests_ARM, err := (*triggers.Requests).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		requests := *requestsARM.(*RequestsBasedTriggerARM)
+		requests := *requests_ARM.(*RequestsBasedTrigger_ARM)
 		result.Requests = &requests
 	}
 
 	// Set property ‘SlowRequests’:
 	if triggers.SlowRequests != nil {
-		slowRequestsARM, err := (*triggers.SlowRequests).ConvertToARM(resolved)
+		slowRequests_ARM, err := (*triggers.SlowRequests).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		slowRequests := *slowRequestsARM.(*SlowRequestsBasedTriggerARM)
+		slowRequests := *slowRequests_ARM.(*SlowRequestsBasedTrigger_ARM)
 		result.SlowRequests = &slowRequests
 	}
 
 	// Set property ‘SlowRequestsWithPath’:
 	for _, item := range triggers.SlowRequestsWithPath {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.SlowRequestsWithPath = append(result.SlowRequestsWithPath, *itemARM.(*SlowRequestsBasedTriggerARM))
+		result.SlowRequestsWithPath = append(result.SlowRequestsWithPath, *item_ARM.(*SlowRequestsBasedTrigger_ARM))
 	}
 
 	// Set property ‘StatusCodes’:
 	for _, item := range triggers.StatusCodes {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.StatusCodes = append(result.StatusCodes, *itemARM.(*StatusCodesBasedTriggerARM))
+		result.StatusCodes = append(result.StatusCodes, *item_ARM.(*StatusCodesBasedTrigger_ARM))
 	}
 
 	// Set property ‘StatusCodesRange’:
 	for _, item := range triggers.StatusCodesRange {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.StatusCodesRange = append(result.StatusCodesRange, *itemARM.(*StatusCodesRangeBasedTriggerARM))
+		result.StatusCodesRange = append(result.StatusCodesRange, *item_ARM.(*StatusCodesRangeBasedTrigger_ARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (triggers *AutoHealTriggers) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealTriggersARM{}
+	return &AutoHealTriggers_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (triggers *AutoHealTriggers) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealTriggersARM)
+	typedInput, ok := armInput.(AutoHealTriggers_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealTriggersARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealTriggers_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PrivateBytesInKB’:
@@ -12590,14 +12590,14 @@ var _ genruntime.FromARMConverter = &AutoHealTriggers_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (triggers *AutoHealTriggers_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealTriggers_STATUSARM{}
+	return &AutoHealTriggers_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (triggers *AutoHealTriggers_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealTriggers_STATUSARM)
+	typedInput, ok := armInput.(AutoHealTriggers_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealTriggers_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealTriggers_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PrivateBytesInKB’:
@@ -12847,36 +12847,20 @@ func (triggers *AutoHealTriggers_STATUS) AssignProperties_To_AutoHealTriggers_ST
 	return nil
 }
 
-type AzureStorageInfoValue_STATUS_State string
+type AzureStorageInfoValue_State_STATUS string
 
 const (
-	AzureStorageInfoValue_STATUS_State_InvalidCredentials = AzureStorageInfoValue_STATUS_State("InvalidCredentials")
-	AzureStorageInfoValue_STATUS_State_InvalidShare       = AzureStorageInfoValue_STATUS_State("InvalidShare")
-	AzureStorageInfoValue_STATUS_State_NotValidated       = AzureStorageInfoValue_STATUS_State("NotValidated")
-	AzureStorageInfoValue_STATUS_State_Ok                 = AzureStorageInfoValue_STATUS_State("Ok")
+	AzureStorageInfoValue_State_STATUS_InvalidCredentials = AzureStorageInfoValue_State_STATUS("InvalidCredentials")
+	AzureStorageInfoValue_State_STATUS_InvalidShare       = AzureStorageInfoValue_State_STATUS("InvalidShare")
+	AzureStorageInfoValue_State_STATUS_NotValidated       = AzureStorageInfoValue_State_STATUS("NotValidated")
+	AzureStorageInfoValue_State_STATUS_Ok                 = AzureStorageInfoValue_State_STATUS("Ok")
 )
 
-type AzureStorageInfoValue_STATUS_Type string
+type AzureStorageInfoValue_Type_STATUS string
 
 const (
-	AzureStorageInfoValue_STATUS_Type_AzureBlob  = AzureStorageInfoValue_STATUS_Type("AzureBlob")
-	AzureStorageInfoValue_STATUS_Type_AzureFiles = AzureStorageInfoValue_STATUS_Type("AzureFiles")
-)
-
-type ConnStringInfo_STATUS_Type string
-
-const (
-	ConnStringInfo_STATUS_Type_ApiHub          = ConnStringInfo_STATUS_Type("ApiHub")
-	ConnStringInfo_STATUS_Type_Custom          = ConnStringInfo_STATUS_Type("Custom")
-	ConnStringInfo_STATUS_Type_DocDb           = ConnStringInfo_STATUS_Type("DocDb")
-	ConnStringInfo_STATUS_Type_EventHub        = ConnStringInfo_STATUS_Type("EventHub")
-	ConnStringInfo_STATUS_Type_MySql           = ConnStringInfo_STATUS_Type("MySql")
-	ConnStringInfo_STATUS_Type_NotificationHub = ConnStringInfo_STATUS_Type("NotificationHub")
-	ConnStringInfo_STATUS_Type_PostgreSQL      = ConnStringInfo_STATUS_Type("PostgreSQL")
-	ConnStringInfo_STATUS_Type_RedisCache      = ConnStringInfo_STATUS_Type("RedisCache")
-	ConnStringInfo_STATUS_Type_SQLAzure        = ConnStringInfo_STATUS_Type("SQLAzure")
-	ConnStringInfo_STATUS_Type_SQLServer       = ConnStringInfo_STATUS_Type("SQLServer")
-	ConnStringInfo_STATUS_Type_ServiceBus      = ConnStringInfo_STATUS_Type("ServiceBus")
+	AzureStorageInfoValue_Type_STATUS_AzureBlob  = AzureStorageInfoValue_Type_STATUS("AzureBlob")
+	AzureStorageInfoValue_Type_STATUS_AzureFiles = AzureStorageInfoValue_Type_STATUS("AzureFiles")
 )
 
 // +kubebuilder:validation:Enum={"ApiHub","Custom","DocDb","EventHub","MySql","NotificationHub","PostgreSQL","RedisCache","SQLAzure","SQLServer","ServiceBus"}
@@ -12896,12 +12880,20 @@ const (
 	ConnStringInfo_Type_ServiceBus      = ConnStringInfo_Type("ServiceBus")
 )
 
-type IpSecurityRestriction_STATUS_Tag string
+type ConnStringInfo_Type_STATUS string
 
 const (
-	IpSecurityRestriction_STATUS_Tag_Default    = IpSecurityRestriction_STATUS_Tag("Default")
-	IpSecurityRestriction_STATUS_Tag_ServiceTag = IpSecurityRestriction_STATUS_Tag("ServiceTag")
-	IpSecurityRestriction_STATUS_Tag_XffProxy   = IpSecurityRestriction_STATUS_Tag("XffProxy")
+	ConnStringInfo_Type_STATUS_ApiHub          = ConnStringInfo_Type_STATUS("ApiHub")
+	ConnStringInfo_Type_STATUS_Custom          = ConnStringInfo_Type_STATUS("Custom")
+	ConnStringInfo_Type_STATUS_DocDb           = ConnStringInfo_Type_STATUS("DocDb")
+	ConnStringInfo_Type_STATUS_EventHub        = ConnStringInfo_Type_STATUS("EventHub")
+	ConnStringInfo_Type_STATUS_MySql           = ConnStringInfo_Type_STATUS("MySql")
+	ConnStringInfo_Type_STATUS_NotificationHub = ConnStringInfo_Type_STATUS("NotificationHub")
+	ConnStringInfo_Type_STATUS_PostgreSQL      = ConnStringInfo_Type_STATUS("PostgreSQL")
+	ConnStringInfo_Type_STATUS_RedisCache      = ConnStringInfo_Type_STATUS("RedisCache")
+	ConnStringInfo_Type_STATUS_SQLAzure        = ConnStringInfo_Type_STATUS("SQLAzure")
+	ConnStringInfo_Type_STATUS_SQLServer       = ConnStringInfo_Type_STATUS("SQLServer")
+	ConnStringInfo_Type_STATUS_ServiceBus      = ConnStringInfo_Type_STATUS("ServiceBus")
 )
 
 // +kubebuilder:validation:Enum={"Default","ServiceTag","XffProxy"}
@@ -12911,6 +12903,14 @@ const (
 	IpSecurityRestriction_Tag_Default    = IpSecurityRestriction_Tag("Default")
 	IpSecurityRestriction_Tag_ServiceTag = IpSecurityRestriction_Tag("ServiceTag")
 	IpSecurityRestriction_Tag_XffProxy   = IpSecurityRestriction_Tag("XffProxy")
+)
+
+type IpSecurityRestriction_Tag_STATUS string
+
+const (
+	IpSecurityRestriction_Tag_STATUS_Default    = IpSecurityRestriction_Tag_STATUS("Default")
+	IpSecurityRestriction_Tag_STATUS_ServiceTag = IpSecurityRestriction_Tag_STATUS("ServiceTag")
+	IpSecurityRestriction_Tag_STATUS_XffProxy   = IpSecurityRestriction_Tag_STATUS("XffProxy")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/RampUpRule
@@ -12955,7 +12955,7 @@ func (rule *RampUpRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rule == nil {
 		return nil, nil
 	}
-	result := &RampUpRuleARM{}
+	result := &RampUpRule_ARM{}
 
 	// Set property ‘ActionHostName’:
 	if rule.ActionHostName != nil {
@@ -13009,14 +13009,14 @@ func (rule *RampUpRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *RampUpRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RampUpRuleARM{}
+	return &RampUpRule_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *RampUpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RampUpRuleARM)
+	typedInput, ok := armInput.(RampUpRule_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RampUpRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RampUpRule_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionHostName’:
@@ -13220,14 +13220,14 @@ var _ genruntime.FromARMConverter = &RampUpRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *RampUpRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RampUpRule_STATUSARM{}
+	return &RampUpRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *RampUpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RampUpRule_STATUSARM)
+	typedInput, ok := armInput.(RampUpRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RampUpRule_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RampUpRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionHostName’:
@@ -13394,11 +13394,11 @@ func (rule *RampUpRule_STATUS) AssignProperties_To_RampUpRule_STATUS(destination
 }
 
 // +kubebuilder:validation:Enum={"AzureBlob","AzureFiles"}
-type Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type string
+type Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec string
 
 const (
-	Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type_AzureBlob  = Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type("AzureBlob")
-	Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type_AzureFiles = Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type("AzureFiles")
+	Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureBlob  = Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec("AzureBlob")
+	Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureFiles = Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec("AzureFiles")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/VirtualDirectory
@@ -13417,7 +13417,7 @@ func (directory *VirtualDirectory) ConvertToARM(resolved genruntime.ConvertToARM
 	if directory == nil {
 		return nil, nil
 	}
-	result := &VirtualDirectoryARM{}
+	result := &VirtualDirectory_ARM{}
 
 	// Set property ‘PhysicalPath’:
 	if directory.PhysicalPath != nil {
@@ -13435,14 +13435,14 @@ func (directory *VirtualDirectory) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (directory *VirtualDirectory) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualDirectoryARM{}
+	return &VirtualDirectory_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (directory *VirtualDirectory) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualDirectoryARM)
+	typedInput, ok := armInput.(VirtualDirectory_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualDirectoryARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualDirectory_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PhysicalPath’:
@@ -13508,14 +13508,14 @@ var _ genruntime.FromARMConverter = &VirtualDirectory_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (directory *VirtualDirectory_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualDirectory_STATUSARM{}
+	return &VirtualDirectory_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (directory *VirtualDirectory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualDirectory_STATUSARM)
+	typedInput, ok := armInput.(VirtualDirectory_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualDirectory_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualDirectory_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘PhysicalPath’:
@@ -13578,12 +13578,12 @@ const (
 	AutoHealActions_ActionType_Recycle      = AutoHealActions_ActionType("Recycle")
 )
 
-type AutoHealActions_STATUS_ActionType string
+type AutoHealActions_ActionType_STATUS string
 
 const (
-	AutoHealActions_STATUS_ActionType_CustomAction = AutoHealActions_STATUS_ActionType("CustomAction")
-	AutoHealActions_STATUS_ActionType_LogEvent     = AutoHealActions_STATUS_ActionType("LogEvent")
-	AutoHealActions_STATUS_ActionType_Recycle      = AutoHealActions_STATUS_ActionType("Recycle")
+	AutoHealActions_ActionType_STATUS_CustomAction = AutoHealActions_ActionType_STATUS("CustomAction")
+	AutoHealActions_ActionType_STATUS_LogEvent     = AutoHealActions_ActionType_STATUS("LogEvent")
+	AutoHealActions_ActionType_STATUS_Recycle      = AutoHealActions_ActionType_STATUS("Recycle")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealCustomAction
@@ -13602,7 +13602,7 @@ func (action *AutoHealCustomAction) ConvertToARM(resolved genruntime.ConvertToAR
 	if action == nil {
 		return nil, nil
 	}
-	result := &AutoHealCustomActionARM{}
+	result := &AutoHealCustomAction_ARM{}
 
 	// Set property ‘Exe’:
 	if action.Exe != nil {
@@ -13620,14 +13620,14 @@ func (action *AutoHealCustomAction) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *AutoHealCustomAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealCustomActionARM{}
+	return &AutoHealCustomAction_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *AutoHealCustomAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealCustomActionARM)
+	typedInput, ok := armInput.(AutoHealCustomAction_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealCustomActionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealCustomAction_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Exe’:
@@ -13693,14 +13693,14 @@ var _ genruntime.FromARMConverter = &AutoHealCustomAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *AutoHealCustomAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoHealCustomAction_STATUSARM{}
+	return &AutoHealCustomAction_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *AutoHealCustomAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoHealCustomAction_STATUSARM)
+	typedInput, ok := armInput.(AutoHealCustomAction_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealCustomAction_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoHealCustomAction_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Exe’:
@@ -13770,7 +13770,7 @@ func (trigger *RequestsBasedTrigger) ConvertToARM(resolved genruntime.ConvertToA
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &RequestsBasedTriggerARM{}
+	result := &RequestsBasedTrigger_ARM{}
 
 	// Set property ‘Count’:
 	if trigger.Count != nil {
@@ -13788,14 +13788,14 @@ func (trigger *RequestsBasedTrigger) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *RequestsBasedTrigger) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestsBasedTriggerARM{}
+	return &RequestsBasedTrigger_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *RequestsBasedTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestsBasedTriggerARM)
+	typedInput, ok := armInput.(RequestsBasedTrigger_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestsBasedTriggerARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestsBasedTrigger_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -13861,14 +13861,14 @@ var _ genruntime.FromARMConverter = &RequestsBasedTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *RequestsBasedTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestsBasedTrigger_STATUSARM{}
+	return &RequestsBasedTrigger_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *RequestsBasedTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestsBasedTrigger_STATUSARM)
+	typedInput, ok := armInput.(RequestsBasedTrigger_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestsBasedTrigger_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestsBasedTrigger_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -13944,7 +13944,7 @@ func (trigger *SlowRequestsBasedTrigger) ConvertToARM(resolved genruntime.Conver
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &SlowRequestsBasedTriggerARM{}
+	result := &SlowRequestsBasedTrigger_ARM{}
 
 	// Set property ‘Count’:
 	if trigger.Count != nil {
@@ -13974,14 +13974,14 @@ func (trigger *SlowRequestsBasedTrigger) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *SlowRequestsBasedTrigger) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SlowRequestsBasedTriggerARM{}
+	return &SlowRequestsBasedTrigger_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *SlowRequestsBasedTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SlowRequestsBasedTriggerARM)
+	typedInput, ok := armInput.(SlowRequestsBasedTrigger_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlowRequestsBasedTriggerARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlowRequestsBasedTrigger_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -14077,14 +14077,14 @@ var _ genruntime.FromARMConverter = &SlowRequestsBasedTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *SlowRequestsBasedTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SlowRequestsBasedTrigger_STATUSARM{}
+	return &SlowRequestsBasedTrigger_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *SlowRequestsBasedTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SlowRequestsBasedTrigger_STATUSARM)
+	typedInput, ok := armInput.(SlowRequestsBasedTrigger_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlowRequestsBasedTrigger_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SlowRequestsBasedTrigger_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -14190,7 +14190,7 @@ func (trigger *StatusCodesBasedTrigger) ConvertToARM(resolved genruntime.Convert
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &StatusCodesBasedTriggerARM{}
+	result := &StatusCodesBasedTrigger_ARM{}
 
 	// Set property ‘Count’:
 	if trigger.Count != nil {
@@ -14232,14 +14232,14 @@ func (trigger *StatusCodesBasedTrigger) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *StatusCodesBasedTrigger) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StatusCodesBasedTriggerARM{}
+	return &StatusCodesBasedTrigger_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *StatusCodesBasedTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StatusCodesBasedTriggerARM)
+	typedInput, ok := armInput.(StatusCodesBasedTrigger_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesBasedTriggerARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesBasedTrigger_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -14365,14 +14365,14 @@ var _ genruntime.FromARMConverter = &StatusCodesBasedTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *StatusCodesBasedTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StatusCodesBasedTrigger_STATUSARM{}
+	return &StatusCodesBasedTrigger_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *StatusCodesBasedTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StatusCodesBasedTrigger_STATUSARM)
+	typedInput, ok := armInput.(StatusCodesBasedTrigger_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesBasedTrigger_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesBasedTrigger_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -14494,7 +14494,7 @@ func (trigger *StatusCodesRangeBasedTrigger) ConvertToARM(resolved genruntime.Co
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &StatusCodesRangeBasedTriggerARM{}
+	result := &StatusCodesRangeBasedTrigger_ARM{}
 
 	// Set property ‘Count’:
 	if trigger.Count != nil {
@@ -14524,14 +14524,14 @@ func (trigger *StatusCodesRangeBasedTrigger) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *StatusCodesRangeBasedTrigger) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StatusCodesRangeBasedTriggerARM{}
+	return &StatusCodesRangeBasedTrigger_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *StatusCodesRangeBasedTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StatusCodesRangeBasedTriggerARM)
+	typedInput, ok := armInput.(StatusCodesRangeBasedTrigger_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesRangeBasedTriggerARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesRangeBasedTrigger_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:
@@ -14625,14 +14625,14 @@ var _ genruntime.FromARMConverter = &StatusCodesRangeBasedTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *StatusCodesRangeBasedTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StatusCodesRangeBasedTrigger_STATUSARM{}
+	return &StatusCodesRangeBasedTrigger_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *StatusCodesRangeBasedTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StatusCodesRangeBasedTrigger_STATUSARM)
+	typedInput, ok := armInput.(StatusCodesRangeBasedTrigger_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesRangeBasedTrigger_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusCodesRangeBasedTrigger_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Count’:

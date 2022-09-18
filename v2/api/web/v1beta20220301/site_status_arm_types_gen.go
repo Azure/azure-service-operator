@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
-type Site_STATUSARM struct {
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+type Site_STATUS_ARM struct {
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id.
-	Id       *string                           `json:"id,omitempty"`
-	Identity *ManagedServiceIdentity_STATUSARM `json:"identity,omitempty"`
+	Id       *string                            `json:"id,omitempty"`
+	Identity *ManagedServiceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
@@ -20,7 +20,7 @@ type Site_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Site resource specific properties
-	Properties *Site_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *Site_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,7 +29,7 @@ type Site_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type ManagedServiceIdentity_STATUSARM struct {
+type ManagedServiceIdentity_STATUS_ARM struct {
 	// PrincipalId: Principal Id of managed service identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -37,17 +37,17 @@ type ManagedServiceIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentity_STATUS_Type `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
 	// key references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type Site_STATUS_PropertiesARM struct {
+type Site_Properties_STATUS_ARM struct {
 	// AvailabilityState: Management information availability state for the app.
-	AvailabilityState *Site_STATUS_Properties_AvailabilityState `json:"availabilityState,omitempty"`
+	AvailabilityState *Site_Properties_AvailabilityState_STATUS `json:"availabilityState,omitempty"`
 
 	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
 	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
@@ -64,10 +64,10 @@ type Site_STATUS_PropertiesARM struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *Site_STATUS_Properties_ClientCertMode `json:"clientCertMode,omitempty"`
+	ClientCertMode *Site_Properties_ClientCertMode_STATUS `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: If specified during app creation, the app is cloned from a source app.
-	CloningInfo *CloningInfo_STATUSARM `json:"cloningInfo,omitempty"`
+	CloningInfo *CloningInfo_STATUS_ARM `json:"cloningInfo,omitempty"`
 
 	// ContainerSize: Size of the function container.
 	ContainerSize *int `json:"containerSize,omitempty"`
@@ -91,7 +91,7 @@ type Site_STATUS_PropertiesARM struct {
 	EnabledHostNames []string `json:"enabledHostNames,omitempty"`
 
 	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
-	HostNameSslStates []HostNameSslState_STATUSARM `json:"hostNameSslStates,omitempty"`
+	HostNameSslStates []HostNameSslState_STATUS_ARM `json:"hostNameSslStates,omitempty"`
 
 	// HostNames: Hostnames associated with the app.
 	HostNames []string `json:"hostNames,omitempty"`
@@ -101,7 +101,7 @@ type Site_STATUS_PropertiesARM struct {
 	HostNamesDisabled *bool `json:"hostNamesDisabled,omitempty"`
 
 	// HostingEnvironmentProfile: App Service Environment to use for the app.
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUSARM `json:"hostingEnvironmentProfile,omitempty"`
+	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS_ARM `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HttpsOnly: HttpsOnly: configures a web site to accept only https requests. Issues redirect for
 	// http requests
@@ -142,7 +142,7 @@ type Site_STATUS_PropertiesARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode
-	RedundancyMode *Site_STATUS_Properties_RedundancyMode `json:"redundancyMode,omitempty"`
+	RedundancyMode *Site_Properties_RedundancyMode_STATUS `json:"redundancyMode,omitempty"`
 
 	// RepositorySiteName: Name of the repository site.
 	RepositorySiteName *string `json:"repositorySiteName,omitempty"`
@@ -162,10 +162,10 @@ type Site_STATUS_PropertiesARM struct {
 	ServerFarmId *string `json:"serverFarmId,omitempty"`
 
 	// SiteConfig: Configuration of the app.
-	SiteConfig *SiteConfig_STATUSARM `json:"siteConfig,omitempty"`
+	SiteConfig *SiteConfig_STATUS_ARM `json:"siteConfig,omitempty"`
 
 	// SlotSwapStatus: Status of the last deployment slot swap operation.
-	SlotSwapStatus *SlotSwapStatus_STATUSARM `json:"slotSwapStatus,omitempty"`
+	SlotSwapStatus *SlotSwapStatus_STATUS_ARM `json:"slotSwapStatus,omitempty"`
 
 	// State: Current state of the app.
 	State *string `json:"state,omitempty"`
@@ -183,7 +183,7 @@ type Site_STATUS_PropertiesARM struct {
 	TrafficManagerHostNames []string `json:"trafficManagerHostNames,omitempty"`
 
 	// UsageState: State indicating whether the app has exceeded its quota usage. Read-only.
-	UsageState *Site_STATUS_Properties_UsageState `json:"usageState,omitempty"`
+	UsageState *Site_Properties_UsageState_STATUS `json:"usageState,omitempty"`
 
 	// VirtualNetworkSubnetId: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
 	// Integration.
@@ -202,7 +202,7 @@ type Site_STATUS_PropertiesARM struct {
 	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
 }
 
-type CloningInfo_STATUSARM struct {
+type CloningInfo_STATUS_ARM struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
 	// from source app. Otherwise, application settings from source app are retained.
@@ -247,15 +247,15 @@ type CloningInfo_STATUSARM struct {
 	TrafficManagerProfileName *string `json:"trafficManagerProfileName,omitempty"`
 }
 
-type HostNameSslState_STATUSARM struct {
+type HostNameSslState_STATUS_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslState_STATUS_HostType `json:"hostType,omitempty"`
+	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslState_STATUS_SslState `json:"sslState,omitempty"`
+	SslState *HostNameSslState_SslState_STATUS `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -267,16 +267,16 @@ type HostNameSslState_STATUSARM struct {
 	VirtualIP *string `json:"virtualIP,omitempty"`
 }
 
-type ManagedServiceIdentity_STATUS_Type string
+type ManagedServiceIdentity_Type_STATUS string
 
 const (
-	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
-	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
-	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
 )
 
-type SiteConfig_STATUSARM struct {
+type SiteConfig_STATUS_ARM struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
 
@@ -287,34 +287,34 @@ type SiteConfig_STATUSARM struct {
 	AlwaysOn *bool `json:"alwaysOn,omitempty"`
 
 	// ApiDefinition: Information about the formal API definition for the app.
-	ApiDefinition *ApiDefinitionInfo_STATUSARM `json:"apiDefinition,omitempty"`
+	ApiDefinition *ApiDefinitionInfo_STATUS_ARM `json:"apiDefinition,omitempty"`
 
 	// ApiManagementConfig: Azure API management settings linked to the app.
-	ApiManagementConfig *ApiManagementConfig_STATUSARM `json:"apiManagementConfig,omitempty"`
+	ApiManagementConfig *ApiManagementConfig_STATUS_ARM `json:"apiManagementConfig,omitempty"`
 
 	// AppCommandLine: App command line to launch.
 	AppCommandLine *string `json:"appCommandLine,omitempty"`
 
 	// AppSettings: Application settings.
-	AppSettings []NameValuePair_STATUSARM `json:"appSettings,omitempty"`
+	AppSettings []NameValuePair_STATUS_ARM `json:"appSettings,omitempty"`
 
 	// AutoHealEnabled: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
 	AutoHealEnabled *bool `json:"autoHealEnabled,omitempty"`
 
 	// AutoHealRules: Auto Heal rules.
-	AutoHealRules *AutoHealRules_STATUSARM `json:"autoHealRules,omitempty"`
+	AutoHealRules *AutoHealRules_STATUS_ARM `json:"autoHealRules,omitempty"`
 
 	// AutoSwapSlotName: Auto-swap slot name.
 	AutoSwapSlotName *string `json:"autoSwapSlotName,omitempty"`
 
 	// AzureStorageAccounts: List of Azure Storage Accounts.
-	AzureStorageAccounts map[string]AzureStorageInfoValue_STATUSARM `json:"azureStorageAccounts,omitempty"`
+	AzureStorageAccounts map[string]AzureStorageInfoValue_STATUS_ARM `json:"azureStorageAccounts,omitempty"`
 
 	// ConnectionStrings: Connection strings.
-	ConnectionStrings []ConnStringInfo_STATUSARM `json:"connectionStrings,omitempty"`
+	ConnectionStrings []ConnStringInfo_STATUS_ARM `json:"connectionStrings,omitempty"`
 
 	// Cors: Cross-Origin Resource Sharing (CORS) settings.
-	Cors *CorsSettings_STATUSARM `json:"cors,omitempty"`
+	Cors *CorsSettings_STATUS_ARM `json:"cors,omitempty"`
 
 	// DefaultDocuments: Default documents.
 	DefaultDocuments []string `json:"defaultDocuments,omitempty"`
@@ -326,10 +326,10 @@ type SiteConfig_STATUSARM struct {
 	DocumentRoot *string `json:"documentRoot,omitempty"`
 
 	// Experiments: This is work around for polymorphic types.
-	Experiments *Experiments_STATUSARM `json:"experiments,omitempty"`
+	Experiments *Experiments_STATUS_ARM `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service
-	FtpsState *SiteConfig_STATUS_FtpsState `json:"ftpsState,omitempty"`
+	FtpsState *SiteConfig_FtpsState_STATUS `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -342,7 +342,7 @@ type SiteConfig_STATUSARM struct {
 	FunctionsRuntimeScaleMonitoringEnabled *bool `json:"functionsRuntimeScaleMonitoringEnabled,omitempty"`
 
 	// HandlerMappings: Handler mappings.
-	HandlerMappings []HandlerMapping_STATUSARM `json:"handlerMappings,omitempty"`
+	HandlerMappings []HandlerMapping_STATUS_ARM `json:"handlerMappings,omitempty"`
 
 	// HealthCheckPath: Health check path
 	HealthCheckPath *string `json:"healthCheckPath,omitempty"`
@@ -354,7 +354,7 @@ type SiteConfig_STATUSARM struct {
 	HttpLoggingEnabled *bool `json:"httpLoggingEnabled,omitempty"`
 
 	// IpSecurityRestrictions: IP security restrictions for main.
-	IpSecurityRestrictions []IpSecurityRestriction_STATUSARM `json:"ipSecurityRestrictions,omitempty"`
+	IpSecurityRestrictions []IpSecurityRestriction_STATUS_ARM `json:"ipSecurityRestrictions,omitempty"`
 
 	// JavaContainer: Java container.
 	JavaContainer *string `json:"javaContainer,omitempty"`
@@ -369,13 +369,13 @@ type SiteConfig_STATUSARM struct {
 	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
 
 	// Limits: Site limits.
-	Limits *SiteLimits_STATUSARM `json:"limits,omitempty"`
+	Limits *SiteLimits_STATUS_ARM `json:"limits,omitempty"`
 
 	// LinuxFxVersion: Linux App Framework and version
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SiteConfig_STATUS_LoadBalancing `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing_STATUS `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -384,16 +384,16 @@ type SiteConfig_STATUSARM struct {
 	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
 
 	// MachineKey: Site MachineKey.
-	MachineKey *SiteMachineKey_STATUSARM `json:"machineKey,omitempty"`
+	MachineKey *SiteMachineKey_STATUS_ARM `json:"machineKey,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SiteConfig_STATUS_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode_STATUS `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
-	MinTlsVersion *SiteConfig_STATUS_MinTlsVersion `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *SiteConfig_MinTlsVersion_STATUS `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -425,7 +425,7 @@ type SiteConfig_STATUSARM struct {
 	PublishingUsername *string `json:"publishingUsername,omitempty"`
 
 	// Push: Push endpoint settings.
-	Push *PushSettings_STATUSARM `json:"push,omitempty"`
+	Push *PushSettings_STATUS_ARM `json:"push,omitempty"`
 
 	// PythonVersion: Version of Python.
 	PythonVersion *string `json:"pythonVersion,omitempty"`
@@ -443,16 +443,16 @@ type SiteConfig_STATUSARM struct {
 	RequestTracingExpirationTime *string `json:"requestTracingExpirationTime,omitempty"`
 
 	// ScmIpSecurityRestrictions: IP security restrictions for scm.
-	ScmIpSecurityRestrictions []IpSecurityRestriction_STATUSARM `json:"scmIpSecurityRestrictions,omitempty"`
+	ScmIpSecurityRestrictions []IpSecurityRestriction_STATUS_ARM `json:"scmIpSecurityRestrictions,omitempty"`
 
 	// ScmIpSecurityRestrictionsUseMain: IP security restrictions for scm to use main.
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
-	ScmMinTlsVersion *SiteConfig_STATUS_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion_STATUS `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SiteConfig_STATUS_ScmType `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType_STATUS `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -461,7 +461,7 @@ type SiteConfig_STATUSARM struct {
 	Use32BitWorkerProcess *bool `json:"use32BitWorkerProcess,omitempty"`
 
 	// VirtualApplications: Virtual applications.
-	VirtualApplications []VirtualApplication_STATUSARM `json:"virtualApplications,omitempty"`
+	VirtualApplications []VirtualApplication_STATUS_ARM `json:"virtualApplications,omitempty"`
 
 	// VnetName: Virtual Network name.
 	VnetName *string `json:"vnetName,omitempty"`
@@ -490,7 +490,7 @@ type SiteConfig_STATUSARM struct {
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
 }
 
-type SlotSwapStatus_STATUSARM struct {
+type SlotSwapStatus_STATUS_ARM struct {
 	// DestinationSlotName: The destination slot of the last swap operation.
 	DestinationSlotName *string `json:"destinationSlotName,omitempty"`
 
@@ -501,7 +501,7 @@ type SlotSwapStatus_STATUSARM struct {
 	TimestampUtc *string `json:"timestampUtc,omitempty"`
 }
 
-type UserAssignedIdentity_STATUSARM struct {
+type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -509,25 +509,25 @@ type UserAssignedIdentity_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type ApiDefinitionInfo_STATUSARM struct {
+type ApiDefinitionInfo_STATUS_ARM struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
 }
 
-type ApiManagementConfig_STATUSARM struct {
+type ApiManagementConfig_STATUS_ARM struct {
 	// Id: APIM-Api Identifier.
 	Id *string `json:"id,omitempty"`
 }
 
-type AutoHealRules_STATUSARM struct {
+type AutoHealRules_STATUS_ARM struct {
 	// Actions: Actions to be executed when a rule is triggered.
-	Actions *AutoHealActions_STATUSARM `json:"actions,omitempty"`
+	Actions *AutoHealActions_STATUS_ARM `json:"actions,omitempty"`
 
 	// Triggers: Conditions that describe when to execute the auto-heal actions.
-	Triggers *AutoHealTriggers_STATUSARM `json:"triggers,omitempty"`
+	Triggers *AutoHealTriggers_STATUS_ARM `json:"triggers,omitempty"`
 }
 
-type AzureStorageInfoValue_STATUSARM struct {
+type AzureStorageInfoValue_STATUS_ARM struct {
 	// AccountName: Name of the storage account.
 	AccountName *string `json:"accountName,omitempty"`
 
@@ -538,13 +538,13 @@ type AzureStorageInfoValue_STATUSARM struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// State: State of the storage account.
-	State *AzureStorageInfoValue_STATUS_State `json:"state,omitempty"`
+	State *AzureStorageInfoValue_State_STATUS `json:"state,omitempty"`
 
 	// Type: Type of storage.
-	Type *AzureStorageInfoValue_STATUS_Type `json:"type,omitempty"`
+	Type *AzureStorageInfoValue_Type_STATUS `json:"type,omitempty"`
 }
 
-type ConnStringInfo_STATUSARM struct {
+type ConnStringInfo_STATUS_ARM struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
 
@@ -552,10 +552,10 @@ type ConnStringInfo_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfo_STATUS_Type `json:"type,omitempty"`
+	Type *ConnStringInfo_Type_STATUS `json:"type,omitempty"`
 }
 
-type CorsSettings_STATUSARM struct {
+type CorsSettings_STATUS_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
@@ -566,12 +566,12 @@ type CorsSettings_STATUSARM struct {
 	SupportCredentials *bool `json:"supportCredentials,omitempty"`
 }
 
-type Experiments_STATUSARM struct {
+type Experiments_STATUS_ARM struct {
 	// RampUpRules: List of ramp-up rules.
-	RampUpRules []RampUpRule_STATUSARM `json:"rampUpRules,omitempty"`
+	RampUpRules []RampUpRule_STATUS_ARM `json:"rampUpRules,omitempty"`
 }
 
-type HandlerMapping_STATUSARM struct {
+type HandlerMapping_STATUS_ARM struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
 
@@ -582,7 +582,7 @@ type HandlerMapping_STATUSARM struct {
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
 }
 
-type IpSecurityRestriction_STATUSARM struct {
+type IpSecurityRestriction_STATUS_ARM struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
 
@@ -625,7 +625,7 @@ type IpSecurityRestriction_STATUSARM struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag *IpSecurityRestriction_STATUS_Tag `json:"tag,omitempty"`
+	Tag *IpSecurityRestriction_Tag_STATUS `json:"tag,omitempty"`
 
 	// VnetSubnetResourceId: Virtual network resource id
 	VnetSubnetResourceId *string `json:"vnetSubnetResourceId,omitempty"`
@@ -634,7 +634,7 @@ type IpSecurityRestriction_STATUSARM struct {
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
 }
 
-type NameValuePair_STATUSARM struct {
+type NameValuePair_STATUS_ARM struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
 
@@ -642,7 +642,7 @@ type NameValuePair_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type PushSettings_STATUSARM struct {
+type PushSettings_STATUS_ARM struct {
 	// Id: Resource Id.
 	Id *string `json:"id,omitempty"`
 
@@ -653,13 +653,13 @@ type PushSettings_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: PushSettings resource specific properties
-	Properties *PushSettings_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *PushSettings_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
-type SiteLimits_STATUSARM struct {
+type SiteLimits_STATUS_ARM struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
 
@@ -670,7 +670,7 @@ type SiteLimits_STATUSARM struct {
 	MaxPercentageCpu *float64 `json:"maxPercentageCpu,omitempty"`
 }
 
-type SiteMachineKey_STATUSARM struct {
+type SiteMachineKey_STATUS_ARM struct {
 	// Decryption: Algorithm used for decryption.
 	Decryption *string `json:"decryption,omitempty"`
 
@@ -684,7 +684,7 @@ type SiteMachineKey_STATUSARM struct {
 	ValidationKey *string `json:"validationKey,omitempty"`
 }
 
-type VirtualApplication_STATUSARM struct {
+type VirtualApplication_STATUS_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
 
@@ -692,45 +692,45 @@ type VirtualApplication_STATUSARM struct {
 	PreloadEnabled *bool `json:"preloadEnabled,omitempty"`
 
 	// VirtualDirectories: Virtual directories for virtual application.
-	VirtualDirectories []VirtualDirectory_STATUSARM `json:"virtualDirectories,omitempty"`
+	VirtualDirectories []VirtualDirectory_STATUS_ARM `json:"virtualDirectories,omitempty"`
 
 	// VirtualPath: Virtual path.
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
-type AutoHealActions_STATUSARM struct {
+type AutoHealActions_STATUS_ARM struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActions_STATUS_ActionType `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be taken.
-	CustomAction *AutoHealCustomAction_STATUSARM `json:"customAction,omitempty"`
+	CustomAction *AutoHealCustomAction_STATUS_ARM `json:"customAction,omitempty"`
 
 	// MinProcessExecutionTime: Minimum time the process must execute
 	// before taking the action
 	MinProcessExecutionTime *string `json:"minProcessExecutionTime,omitempty"`
 }
 
-type AutoHealTriggers_STATUSARM struct {
+type AutoHealTriggers_STATUS_ARM struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
 
 	// Requests: A rule based on total requests.
-	Requests *RequestsBasedTrigger_STATUSARM `json:"requests,omitempty"`
+	Requests *RequestsBasedTrigger_STATUS_ARM `json:"requests,omitempty"`
 
 	// SlowRequests: A rule based on request execution time.
-	SlowRequests *SlowRequestsBasedTrigger_STATUSARM `json:"slowRequests,omitempty"`
+	SlowRequests *SlowRequestsBasedTrigger_STATUS_ARM `json:"slowRequests,omitempty"`
 
 	// SlowRequestsWithPath: A rule based on multiple Slow Requests Rule with path
-	SlowRequestsWithPath []SlowRequestsBasedTrigger_STATUSARM `json:"slowRequestsWithPath,omitempty"`
+	SlowRequestsWithPath []SlowRequestsBasedTrigger_STATUS_ARM `json:"slowRequestsWithPath,omitempty"`
 
 	// StatusCodes: A rule based on status codes.
-	StatusCodes []StatusCodesBasedTrigger_STATUSARM `json:"statusCodes,omitempty"`
+	StatusCodes []StatusCodesBasedTrigger_STATUS_ARM `json:"statusCodes,omitempty"`
 
 	// StatusCodesRange: A rule based on status codes ranges.
-	StatusCodesRange []StatusCodesRangeBasedTrigger_STATUSARM `json:"statusCodesRange,omitempty"`
+	StatusCodesRange []StatusCodesRangeBasedTrigger_STATUS_ARM `json:"statusCodesRange,omitempty"`
 }
 
-type PushSettings_STATUS_PropertiesARM struct {
+type PushSettings_Properties_STATUS_ARM struct {
 	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
 	// the push registration endpoint.
 	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
@@ -750,7 +750,7 @@ type PushSettings_STATUS_PropertiesARM struct {
 	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
 }
 
-type RampUpRule_STATUSARM struct {
+type RampUpRule_STATUS_ARM struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
 	ActionHostName *string `json:"actionHostName,omitempty"`
@@ -784,7 +784,7 @@ type RampUpRule_STATUSARM struct {
 	ReroutePercentage *float64 `json:"reroutePercentage,omitempty"`
 }
 
-type VirtualDirectory_STATUSARM struct {
+type VirtualDirectory_STATUS_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
 
@@ -792,7 +792,7 @@ type VirtualDirectory_STATUSARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
-type AutoHealCustomAction_STATUSARM struct {
+type AutoHealCustomAction_STATUS_ARM struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
 
@@ -800,7 +800,7 @@ type AutoHealCustomAction_STATUSARM struct {
 	Parameters *string `json:"parameters,omitempty"`
 }
 
-type RequestsBasedTrigger_STATUSARM struct {
+type RequestsBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
 
@@ -808,7 +808,7 @@ type RequestsBasedTrigger_STATUSARM struct {
 	TimeInterval *string `json:"timeInterval,omitempty"`
 }
 
-type SlowRequestsBasedTrigger_STATUSARM struct {
+type SlowRequestsBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
 
@@ -822,7 +822,7 @@ type SlowRequestsBasedTrigger_STATUSARM struct {
 	TimeTaken *string `json:"timeTaken,omitempty"`
 }
 
-type StatusCodesBasedTrigger_STATUSARM struct {
+type StatusCodesBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
 
@@ -842,7 +842,7 @@ type StatusCodesBasedTrigger_STATUSARM struct {
 	Win32Status *int `json:"win32Status,omitempty"`
 }
 
-type StatusCodesRangeBasedTrigger_STATUSARM struct {
+type StatusCodesRangeBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`
 	Path  *string `json:"path,omitempty"`

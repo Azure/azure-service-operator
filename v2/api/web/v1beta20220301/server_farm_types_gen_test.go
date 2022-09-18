@@ -160,7 +160,7 @@ func ServerFarmGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServerFarm is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerFarm(gens map[string]gopter.Gen) {
-	gens["Spec"] = Serverfarms_SpecGenerator()
+	gens["Spec"] = Serverfarm_SpecGenerator()
 	gens["Status"] = AppServicePlan_STATUSGenerator()
 }
 
@@ -289,15 +289,15 @@ func AddIndependentPropertyGeneratorsForAppServicePlan_STATUS(gens map[string]go
 	gens["NumberOfWorkers"] = gen.PtrOf(gen.Int())
 	gens["PerSiteScaling"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AppServicePlan_STATUS_Properties_ProvisioningState_Canceled,
-		AppServicePlan_STATUS_Properties_ProvisioningState_Deleting,
-		AppServicePlan_STATUS_Properties_ProvisioningState_Failed,
-		AppServicePlan_STATUS_Properties_ProvisioningState_InProgress,
-		AppServicePlan_STATUS_Properties_ProvisioningState_Succeeded))
+		AppServicePlan_Properties_ProvisioningState_STATUS_Canceled,
+		AppServicePlan_Properties_ProvisioningState_STATUS_Deleting,
+		AppServicePlan_Properties_ProvisioningState_STATUS_Failed,
+		AppServicePlan_Properties_ProvisioningState_STATUS_InProgress,
+		AppServicePlan_Properties_ProvisioningState_STATUS_Succeeded))
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["ResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(AppServicePlan_STATUS_Properties_Status_Creating, AppServicePlan_STATUS_Properties_Status_Pending, AppServicePlan_STATUS_Properties_Status_Ready))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(AppServicePlan_Properties_Status_STATUS_Creating, AppServicePlan_Properties_Status_STATUS_Pending, AppServicePlan_Properties_Status_STATUS_Ready))
 	gens["Subscription"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
@@ -315,32 +315,32 @@ func AddRelatedPropertyGeneratorsForAppServicePlan_STATUS(gens map[string]gopter
 	gens["Sku"] = gen.PtrOf(SkuDescription_STATUSGenerator())
 }
 
-func Test_Serverfarms_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Serverfarm_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Serverfarms_Spec to Serverfarms_Spec via AssignProperties_To_Serverfarms_Spec & AssignProperties_From_Serverfarms_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServerfarms_Spec, Serverfarms_SpecGenerator()))
+		"Round trip from Serverfarm_Spec to Serverfarm_Spec via AssignProperties_To_Serverfarm_Spec & AssignProperties_From_Serverfarm_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServerfarm_Spec, Serverfarm_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServerfarms_Spec tests if a specific instance of Serverfarms_Spec can be assigned to v1beta20220301storage and back losslessly
-func RunPropertyAssignmentTestForServerfarms_Spec(subject Serverfarms_Spec) string {
+// RunPropertyAssignmentTestForServerfarm_Spec tests if a specific instance of Serverfarm_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForServerfarm_Spec(subject Serverfarm_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.Serverfarms_Spec
-	err := copied.AssignProperties_To_Serverfarms_Spec(&other)
+	var other v20220301s.Serverfarm_Spec
+	err := copied.AssignProperties_To_Serverfarm_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Serverfarms_Spec
-	err = actual.AssignProperties_From_Serverfarms_Spec(&other)
+	var actual Serverfarm_Spec
+	err = actual.AssignProperties_From_Serverfarm_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -357,20 +357,20 @@ func RunPropertyAssignmentTestForServerfarms_Spec(subject Serverfarms_Spec) stri
 	return ""
 }
 
-func Test_Serverfarms_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Serverfarm_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Serverfarms_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerfarms_Spec, Serverfarms_SpecGenerator()))
+		"Round trip of Serverfarm_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerfarm_Spec, Serverfarm_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServerfarms_Spec runs a test to see if a specific instance of Serverfarms_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerfarms_Spec(subject Serverfarms_Spec) string {
+// RunJSONSerializationTestForServerfarm_Spec runs a test to see if a specific instance of Serverfarm_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerfarm_Spec(subject Serverfarm_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -378,7 +378,7 @@ func RunJSONSerializationTestForServerfarms_Spec(subject Serverfarms_Spec) strin
 	}
 
 	// Deserialize back into memory
-	var actual Serverfarms_Spec
+	var actual Serverfarm_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -396,33 +396,33 @@ func RunJSONSerializationTestForServerfarms_Spec(subject Serverfarms_Spec) strin
 	return ""
 }
 
-// Generator of Serverfarms_Spec instances for property testing - lazily instantiated by Serverfarms_SpecGenerator()
-var serverfarms_SpecGenerator gopter.Gen
+// Generator of Serverfarm_Spec instances for property testing - lazily instantiated by Serverfarm_SpecGenerator()
+var serverfarm_SpecGenerator gopter.Gen
 
-// Serverfarms_SpecGenerator returns a generator of Serverfarms_Spec instances for property testing.
-// We first initialize serverfarms_SpecGenerator with a simplified generator based on the
+// Serverfarm_SpecGenerator returns a generator of Serverfarm_Spec instances for property testing.
+// We first initialize serverfarm_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Serverfarms_SpecGenerator() gopter.Gen {
-	if serverfarms_SpecGenerator != nil {
-		return serverfarms_SpecGenerator
+func Serverfarm_SpecGenerator() gopter.Gen {
+	if serverfarm_SpecGenerator != nil {
+		return serverfarm_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarms_Spec(generators)
-	serverfarms_SpecGenerator = gen.Struct(reflect.TypeOf(Serverfarms_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServerfarm_Spec(generators)
+	serverfarm_SpecGenerator = gen.Struct(reflect.TypeOf(Serverfarm_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarms_Spec(generators)
-	AddRelatedPropertyGeneratorsForServerfarms_Spec(generators)
-	serverfarms_SpecGenerator = gen.Struct(reflect.TypeOf(Serverfarms_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServerfarm_Spec(generators)
+	AddRelatedPropertyGeneratorsForServerfarm_Spec(generators)
+	serverfarm_SpecGenerator = gen.Struct(reflect.TypeOf(Serverfarm_Spec{}), generators)
 
-	return serverfarms_SpecGenerator
+	return serverfarm_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerfarms_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerfarms_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServerfarm_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerfarm_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["ElasticScaleEnabled"] = gen.PtrOf(gen.Bool())
 	gens["FreeOfferExpirationTime"] = gen.PtrOf(gen.AlphaString())
@@ -442,8 +442,8 @@ func AddIndependentPropertyGeneratorsForServerfarms_Spec(gens map[string]gopter.
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForServerfarms_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerfarms_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServerfarm_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerfarm_Spec(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfileGenerator())
 	gens["KubeEnvironmentProfile"] = gen.PtrOf(KubeEnvironmentProfileGenerator())

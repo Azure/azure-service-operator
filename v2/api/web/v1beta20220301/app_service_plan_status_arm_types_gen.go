@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
-type AppServicePlan_STATUSARM struct {
-	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
+type AppServicePlan_STATUS_ARM struct {
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id.
 	Id *string `json:"id,omitempty"`
@@ -19,8 +19,8 @@ type AppServicePlan_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: AppServicePlan resource specific properties
-	Properties *AppServicePlan_STATUS_PropertiesARM `json:"properties,omitempty"`
-	Sku        *SkuDescription_STATUSARM            `json:"sku,omitempty"`
+	Properties *AppServicePlan_Properties_STATUS_ARM `json:"properties,omitempty"`
+	Sku        *SkuDescription_STATUS_ARM            `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,7 +29,7 @@ type AppServicePlan_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type AppServicePlan_STATUS_PropertiesARM struct {
+type AppServicePlan_Properties_STATUS_ARM struct {
 	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
 	// ElasticPremium sku
 	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
@@ -41,7 +41,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	GeoRegion *string `json:"geoRegion,omitempty"`
 
 	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUSARM `json:"hostingEnvironmentProfile,omitempty"`
+	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS_ARM `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
 	HyperV *bool `json:"hyperV,omitempty"`
@@ -53,7 +53,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	IsXenon *bool `json:"isXenon,omitempty"`
 
 	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
-	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUSARM `json:"kubeEnvironmentProfile,omitempty"`
+	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUS_ARM `json:"kubeEnvironmentProfile,omitempty"`
 
 	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
 	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
@@ -72,7 +72,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
 	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *AppServicePlan_STATUS_Properties_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *AppServicePlan_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -84,7 +84,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
 
 	// Status: App Service plan status.
-	Status *AppServicePlan_STATUS_Properties_Status `json:"status,omitempty"`
+	Status *AppServicePlan_Properties_Status_STATUS `json:"status,omitempty"`
 
 	// Subscription: App Service plan subscription.
 	Subscription *string `json:"subscription,omitempty"`
@@ -103,7 +103,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type ExtendedLocation_STATUSARM struct {
+type ExtendedLocation_STATUS_ARM struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -111,9 +111,9 @@ type ExtendedLocation_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type SkuDescription_STATUSARM struct {
+type SkuDescription_STATUS_ARM struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
-	Capabilities []Capability_STATUSARM `json:"capabilities,omitempty"`
+	Capabilities []Capability_STATUS_ARM `json:"capabilities,omitempty"`
 
 	// Capacity: Current number of instances assigned to the resource.
 	Capacity *int `json:"capacity,omitempty"`
@@ -131,31 +131,31 @@ type SkuDescription_STATUSARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// SkuCapacity: Min, max, and default scale values of the SKU.
-	SkuCapacity *SkuCapacity_STATUSARM `json:"skuCapacity,omitempty"`
+	SkuCapacity *SkuCapacity_STATUS_ARM `json:"skuCapacity,omitempty"`
 
 	// Tier: Service tier of the resource SKU.
 	Tier *string `json:"tier,omitempty"`
 }
 
-type AppServicePlan_STATUS_Properties_ProvisioningState string
+type AppServicePlan_Properties_ProvisioningState_STATUS string
 
 const (
-	AppServicePlan_STATUS_Properties_ProvisioningState_Canceled   = AppServicePlan_STATUS_Properties_ProvisioningState("Canceled")
-	AppServicePlan_STATUS_Properties_ProvisioningState_Deleting   = AppServicePlan_STATUS_Properties_ProvisioningState("Deleting")
-	AppServicePlan_STATUS_Properties_ProvisioningState_Failed     = AppServicePlan_STATUS_Properties_ProvisioningState("Failed")
-	AppServicePlan_STATUS_Properties_ProvisioningState_InProgress = AppServicePlan_STATUS_Properties_ProvisioningState("InProgress")
-	AppServicePlan_STATUS_Properties_ProvisioningState_Succeeded  = AppServicePlan_STATUS_Properties_ProvisioningState("Succeeded")
+	AppServicePlan_Properties_ProvisioningState_STATUS_Canceled   = AppServicePlan_Properties_ProvisioningState_STATUS("Canceled")
+	AppServicePlan_Properties_ProvisioningState_STATUS_Deleting   = AppServicePlan_Properties_ProvisioningState_STATUS("Deleting")
+	AppServicePlan_Properties_ProvisioningState_STATUS_Failed     = AppServicePlan_Properties_ProvisioningState_STATUS("Failed")
+	AppServicePlan_Properties_ProvisioningState_STATUS_InProgress = AppServicePlan_Properties_ProvisioningState_STATUS("InProgress")
+	AppServicePlan_Properties_ProvisioningState_STATUS_Succeeded  = AppServicePlan_Properties_ProvisioningState_STATUS("Succeeded")
 )
 
-type AppServicePlan_STATUS_Properties_Status string
+type AppServicePlan_Properties_Status_STATUS string
 
 const (
-	AppServicePlan_STATUS_Properties_Status_Creating = AppServicePlan_STATUS_Properties_Status("Creating")
-	AppServicePlan_STATUS_Properties_Status_Pending  = AppServicePlan_STATUS_Properties_Status("Pending")
-	AppServicePlan_STATUS_Properties_Status_Ready    = AppServicePlan_STATUS_Properties_Status("Ready")
+	AppServicePlan_Properties_Status_STATUS_Creating = AppServicePlan_Properties_Status_STATUS("Creating")
+	AppServicePlan_Properties_Status_STATUS_Pending  = AppServicePlan_Properties_Status_STATUS("Pending")
+	AppServicePlan_Properties_Status_STATUS_Ready    = AppServicePlan_Properties_Status_STATUS("Ready")
 )
 
-type Capability_STATUSARM struct {
+type Capability_STATUS_ARM struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
 
@@ -166,7 +166,7 @@ type Capability_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type HostingEnvironmentProfile_STATUSARM struct {
+type HostingEnvironmentProfile_STATUS_ARM struct {
 	// Id: Resource ID of the App Service Environment.
 	Id *string `json:"id,omitempty"`
 
@@ -177,7 +177,7 @@ type HostingEnvironmentProfile_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type KubeEnvironmentProfile_STATUSARM struct {
+type KubeEnvironmentProfile_STATUS_ARM struct {
 	// Id: Resource ID of the Kubernetes Environment.
 	Id *string `json:"id,omitempty"`
 
@@ -188,7 +188,7 @@ type KubeEnvironmentProfile_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type SkuCapacity_STATUSARM struct {
+type SkuCapacity_STATUS_ARM struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`
 

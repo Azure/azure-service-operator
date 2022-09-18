@@ -27,7 +27,7 @@ import (
 type Site struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Sites_Spec  `json:"spec,omitempty"`
+	Spec              Site_Spec   `json:"spec,omitempty"`
 	Status            Site_STATUS `json:"status,omitempty"`
 }
 
@@ -130,6 +130,81 @@ type SiteList struct {
 	Items           []Site `json:"items"`
 }
 
+// Storage version of v1beta20220301.Site_Spec
+type Site_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                  string                     `json:"azureName,omitempty"`
+	ClientAffinityEnabled      *bool                      `json:"clientAffinityEnabled,omitempty"`
+	ClientCertEnabled          *bool                      `json:"clientCertEnabled,omitempty"`
+	ClientCertExclusionPaths   *string                    `json:"clientCertExclusionPaths,omitempty"`
+	ClientCertMode             *string                    `json:"clientCertMode,omitempty"`
+	CloningInfo                *CloningInfo               `json:"cloningInfo,omitempty"`
+	ContainerSize              *int                       `json:"containerSize,omitempty"`
+	CustomDomainVerificationId *string                    `json:"customDomainVerificationId,omitempty"`
+	DailyMemoryTimeQuota       *int                       `json:"dailyMemoryTimeQuota,omitempty"`
+	Enabled                    *bool                      `json:"enabled,omitempty"`
+	ExtendedLocation           *ExtendedLocation          `json:"extendedLocation,omitempty"`
+	HostNameSslStates          []HostNameSslState         `json:"hostNameSslStates,omitempty"`
+	HostNamesDisabled          *bool                      `json:"hostNamesDisabled,omitempty"`
+	HostingEnvironmentProfile  *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
+	HttpsOnly                  *bool                      `json:"httpsOnly,omitempty"`
+	HyperV                     *bool                      `json:"hyperV,omitempty"`
+	Identity                   *ManagedServiceIdentity    `json:"identity,omitempty"`
+	IsXenon                    *bool                      `json:"isXenon,omitempty"`
+	KeyVaultReferenceIdentity  *string                    `json:"keyVaultReferenceIdentity,omitempty"`
+	Kind                       *string                    `json:"kind,omitempty"`
+	Location                   *string                    `json:"location,omitempty"`
+	OriginalVersion            string                     `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	RedundancyMode      *string                            `json:"redundancyMode,omitempty"`
+	Reserved            *bool                              `json:"reserved,omitempty"`
+	ScmSiteAlsoStopped  *bool                              `json:"scmSiteAlsoStopped,omitempty"`
+
+	// ServerFarmReference: Resource ID of the associated App Service plan, formatted as:
+	// "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
+	ServerFarmReference    *genruntime.ResourceReference    `armReference:"ServerFarmId" json:"serverFarmReference,omitempty"`
+	SiteConfig             *Site_Properties_SiteConfig_Spec `json:"siteConfig,omitempty"`
+	StorageAccountRequired *bool                            `json:"storageAccountRequired,omitempty"`
+	Tags                   map[string]string                `json:"tags,omitempty"`
+
+	// VirtualNetworkSubnetReference: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
+	// Integration.
+	// This must be of the form
+	// /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	VirtualNetworkSubnetReference *genruntime.ResourceReference `armReference:"VirtualNetworkSubnetId" json:"virtualNetworkSubnetReference,omitempty"`
+	VnetContentShareEnabled       *bool                         `json:"vnetContentShareEnabled,omitempty"`
+	VnetImagePullEnabled          *bool                         `json:"vnetImagePullEnabled,omitempty"`
+	VnetRouteAllEnabled           *bool                         `json:"vnetRouteAllEnabled,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Site_Spec{}
+
+// ConvertSpecFrom populates our Site_Spec from the provided source
+func (site *Site_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == site {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(site)
+}
+
+// ConvertSpecTo populates the provided destination from our Site_Spec
+func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == site {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(site)
+}
+
 // Storage version of v1beta20220301.Site_STATUS
 type Site_STATUS struct {
 	AvailabilityState           *string                           `json:"availabilityState,omitempty"`
@@ -207,81 +282,6 @@ func (site *Site_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	}
 
 	return destination.ConvertStatusFrom(site)
-}
-
-// Storage version of v1beta20220301.Sites_Spec
-type Sites_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                  string                     `json:"azureName,omitempty"`
-	ClientAffinityEnabled      *bool                      `json:"clientAffinityEnabled,omitempty"`
-	ClientCertEnabled          *bool                      `json:"clientCertEnabled,omitempty"`
-	ClientCertExclusionPaths   *string                    `json:"clientCertExclusionPaths,omitempty"`
-	ClientCertMode             *string                    `json:"clientCertMode,omitempty"`
-	CloningInfo                *CloningInfo               `json:"cloningInfo,omitempty"`
-	ContainerSize              *int                       `json:"containerSize,omitempty"`
-	CustomDomainVerificationId *string                    `json:"customDomainVerificationId,omitempty"`
-	DailyMemoryTimeQuota       *int                       `json:"dailyMemoryTimeQuota,omitempty"`
-	Enabled                    *bool                      `json:"enabled,omitempty"`
-	ExtendedLocation           *ExtendedLocation          `json:"extendedLocation,omitempty"`
-	HostNameSslStates          []HostNameSslState         `json:"hostNameSslStates,omitempty"`
-	HostNamesDisabled          *bool                      `json:"hostNamesDisabled,omitempty"`
-	HostingEnvironmentProfile  *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
-	HttpsOnly                  *bool                      `json:"httpsOnly,omitempty"`
-	HyperV                     *bool                      `json:"hyperV,omitempty"`
-	Identity                   *ManagedServiceIdentity    `json:"identity,omitempty"`
-	IsXenon                    *bool                      `json:"isXenon,omitempty"`
-	KeyVaultReferenceIdentity  *string                    `json:"keyVaultReferenceIdentity,omitempty"`
-	Kind                       *string                    `json:"kind,omitempty"`
-	Location                   *string                    `json:"location,omitempty"`
-	OriginalVersion            string                     `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	RedundancyMode      *string                            `json:"redundancyMode,omitempty"`
-	Reserved            *bool                              `json:"reserved,omitempty"`
-	ScmSiteAlsoStopped  *bool                              `json:"scmSiteAlsoStopped,omitempty"`
-
-	// ServerFarmReference: Resource ID of the associated App Service plan, formatted as:
-	// "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
-	ServerFarmReference    *genruntime.ResourceReference     `armReference:"ServerFarmId" json:"serverFarmReference,omitempty"`
-	SiteConfig             *Sites_Spec_Properties_SiteConfig `json:"siteConfig,omitempty"`
-	StorageAccountRequired *bool                             `json:"storageAccountRequired,omitempty"`
-	Tags                   map[string]string                 `json:"tags,omitempty"`
-
-	// VirtualNetworkSubnetReference: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
-	// Integration.
-	// This must be of the form
-	// /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
-	VirtualNetworkSubnetReference *genruntime.ResourceReference `armReference:"VirtualNetworkSubnetId" json:"virtualNetworkSubnetReference,omitempty"`
-	VnetContentShareEnabled       *bool                         `json:"vnetContentShareEnabled,omitempty"`
-	VnetImagePullEnabled          *bool                         `json:"vnetImagePullEnabled,omitempty"`
-	VnetRouteAllEnabled           *bool                         `json:"vnetRouteAllEnabled,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Sites_Spec{}
-
-// ConvertSpecFrom populates our Sites_Spec from the provided source
-func (sites *Sites_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == sites {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(sites)
-}
-
-// ConvertSpecTo populates the provided destination from our Sites_Spec
-func (sites *Sites_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == sites {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(sites)
 }
 
 // Storage version of v1beta20220301.CloningInfo
@@ -368,6 +368,77 @@ type ManagedServiceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1beta20220301.Site_Properties_SiteConfig_Spec
+type Site_Properties_SiteConfig_Spec struct {
+	AcrUseManagedIdentityCreds             *bool                                                           `json:"acrUseManagedIdentityCreds,omitempty"`
+	AcrUserManagedIdentityID               *string                                                         `json:"acrUserManagedIdentityID,omitempty"`
+	AlwaysOn                               *bool                                                           `json:"alwaysOn,omitempty"`
+	ApiDefinition                          *ApiDefinitionInfo                                              `json:"apiDefinition,omitempty"`
+	ApiManagementConfig                    *ApiManagementConfig                                            `json:"apiManagementConfig,omitempty"`
+	AppCommandLine                         *string                                                         `json:"appCommandLine,omitempty"`
+	AppSettings                            []NameValuePair                                                 `json:"appSettings,omitempty"`
+	AutoHealEnabled                        *bool                                                           `json:"autoHealEnabled,omitempty"`
+	AutoHealRules                          *AutoHealRules                                                  `json:"autoHealRules,omitempty"`
+	AutoSwapSlotName                       *string                                                         `json:"autoSwapSlotName,omitempty"`
+	AzureStorageAccounts                   map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec `json:"azureStorageAccounts,omitempty"`
+	ConnectionStrings                      []ConnStringInfo                                                `json:"connectionStrings,omitempty"`
+	Cors                                   *CorsSettings                                                   `json:"cors,omitempty"`
+	DefaultDocuments                       []string                                                        `json:"defaultDocuments,omitempty"`
+	DetailedErrorLoggingEnabled            *bool                                                           `json:"detailedErrorLoggingEnabled,omitempty"`
+	DocumentRoot                           *string                                                         `json:"documentRoot,omitempty"`
+	Experiments                            *Experiments                                                    `json:"experiments,omitempty"`
+	FtpsState                              *string                                                         `json:"ftpsState,omitempty"`
+	FunctionAppScaleLimit                  *int                                                            `json:"functionAppScaleLimit,omitempty"`
+	FunctionsRuntimeScaleMonitoringEnabled *bool                                                           `json:"functionsRuntimeScaleMonitoringEnabled,omitempty"`
+	HandlerMappings                        []HandlerMapping                                                `json:"handlerMappings,omitempty"`
+	HealthCheckPath                        *string                                                         `json:"healthCheckPath,omitempty"`
+	Http20Enabled                          *bool                                                           `json:"http20Enabled,omitempty"`
+	HttpLoggingEnabled                     *bool                                                           `json:"httpLoggingEnabled,omitempty"`
+	IpSecurityRestrictions                 []IpSecurityRestriction                                         `json:"ipSecurityRestrictions,omitempty"`
+	JavaContainer                          *string                                                         `json:"javaContainer,omitempty"`
+	JavaContainerVersion                   *string                                                         `json:"javaContainerVersion,omitempty"`
+	JavaVersion                            *string                                                         `json:"javaVersion,omitempty"`
+	KeyVaultReferenceIdentity              *string                                                         `json:"keyVaultReferenceIdentity,omitempty"`
+	Limits                                 *SiteLimits                                                     `json:"limits,omitempty"`
+	LinuxFxVersion                         *string                                                         `json:"linuxFxVersion,omitempty"`
+	LoadBalancing                          *string                                                         `json:"loadBalancing,omitempty"`
+	LocalMySqlEnabled                      *bool                                                           `json:"localMySqlEnabled,omitempty"`
+	LogsDirectorySizeLimit                 *int                                                            `json:"logsDirectorySizeLimit,omitempty"`
+	ManagedPipelineMode                    *string                                                         `json:"managedPipelineMode,omitempty"`
+	ManagedServiceIdentityId               *int                                                            `json:"managedServiceIdentityId,omitempty"`
+	MinTlsVersion                          *string                                                         `json:"minTlsVersion,omitempty"`
+	MinimumElasticInstanceCount            *int                                                            `json:"minimumElasticInstanceCount,omitempty"`
+	NetFrameworkVersion                    *string                                                         `json:"netFrameworkVersion,omitempty"`
+	NodeVersion                            *string                                                         `json:"nodeVersion,omitempty"`
+	NumberOfWorkers                        *int                                                            `json:"numberOfWorkers,omitempty"`
+	PhpVersion                             *string                                                         `json:"phpVersion,omitempty"`
+	PowerShellVersion                      *string                                                         `json:"powerShellVersion,omitempty"`
+	PreWarmedInstanceCount                 *int                                                            `json:"preWarmedInstanceCount,omitempty"`
+	PropertyBag                            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess                    *string                                                         `json:"publicNetworkAccess,omitempty"`
+	PublishingUsername                     *string                                                         `json:"publishingUsername,omitempty"`
+	Push                                   *Site_Properties_SiteConfig_Push_Spec                           `json:"push,omitempty"`
+	PythonVersion                          *string                                                         `json:"pythonVersion,omitempty"`
+	RemoteDebuggingEnabled                 *bool                                                           `json:"remoteDebuggingEnabled,omitempty"`
+	RemoteDebuggingVersion                 *string                                                         `json:"remoteDebuggingVersion,omitempty"`
+	RequestTracingEnabled                  *bool                                                           `json:"requestTracingEnabled,omitempty"`
+	RequestTracingExpirationTime           *string                                                         `json:"requestTracingExpirationTime,omitempty"`
+	ScmIpSecurityRestrictions              []IpSecurityRestriction                                         `json:"scmIpSecurityRestrictions,omitempty"`
+	ScmIpSecurityRestrictionsUseMain       *bool                                                           `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
+	ScmMinTlsVersion                       *string                                                         `json:"scmMinTlsVersion,omitempty"`
+	ScmType                                *string                                                         `json:"scmType,omitempty"`
+	TracingOptions                         *string                                                         `json:"tracingOptions,omitempty"`
+	Use32BitWorkerProcess                  *bool                                                           `json:"use32BitWorkerProcess,omitempty"`
+	VirtualApplications                    []VirtualApplication                                            `json:"virtualApplications,omitempty"`
+	VnetName                               *string                                                         `json:"vnetName,omitempty"`
+	VnetPrivatePortsCount                  *int                                                            `json:"vnetPrivatePortsCount,omitempty"`
+	VnetRouteAllEnabled                    *bool                                                           `json:"vnetRouteAllEnabled,omitempty"`
+	WebSocketsEnabled                      *bool                                                           `json:"webSocketsEnabled,omitempty"`
+	WebsiteTimeZone                        *string                                                         `json:"websiteTimeZone,omitempty"`
+	WindowsFxVersion                       *string                                                         `json:"windowsFxVersion,omitempty"`
+	XManagedServiceIdentityId              *int                                                            `json:"xManagedServiceIdentityId,omitempty"`
+}
+
 // Storage version of v1beta20220301.SiteConfig_STATUS
 type SiteConfig_STATUS struct {
 	AcrUseManagedIdentityCreds             *bool                                   `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -438,77 +509,6 @@ type SiteConfig_STATUS struct {
 	WebsiteTimeZone                        *string                                 `json:"websiteTimeZone,omitempty"`
 	WindowsFxVersion                       *string                                 `json:"windowsFxVersion,omitempty"`
 	XManagedServiceIdentityId              *int                                    `json:"xManagedServiceIdentityId,omitempty"`
-}
-
-// Storage version of v1beta20220301.Sites_Spec_Properties_SiteConfig
-type Sites_Spec_Properties_SiteConfig struct {
-	AcrUseManagedIdentityCreds             *bool                                                            `json:"acrUseManagedIdentityCreds,omitempty"`
-	AcrUserManagedIdentityID               *string                                                          `json:"acrUserManagedIdentityID,omitempty"`
-	AlwaysOn                               *bool                                                            `json:"alwaysOn,omitempty"`
-	ApiDefinition                          *ApiDefinitionInfo                                               `json:"apiDefinition,omitempty"`
-	ApiManagementConfig                    *ApiManagementConfig                                             `json:"apiManagementConfig,omitempty"`
-	AppCommandLine                         *string                                                          `json:"appCommandLine,omitempty"`
-	AppSettings                            []NameValuePair                                                  `json:"appSettings,omitempty"`
-	AutoHealEnabled                        *bool                                                            `json:"autoHealEnabled,omitempty"`
-	AutoHealRules                          *AutoHealRules                                                   `json:"autoHealRules,omitempty"`
-	AutoSwapSlotName                       *string                                                          `json:"autoSwapSlotName,omitempty"`
-	AzureStorageAccounts                   map[string]Sites_Spec_Properties_SiteConfig_AzureStorageAccounts `json:"azureStorageAccounts,omitempty"`
-	ConnectionStrings                      []ConnStringInfo                                                 `json:"connectionStrings,omitempty"`
-	Cors                                   *CorsSettings                                                    `json:"cors,omitempty"`
-	DefaultDocuments                       []string                                                         `json:"defaultDocuments,omitempty"`
-	DetailedErrorLoggingEnabled            *bool                                                            `json:"detailedErrorLoggingEnabled,omitempty"`
-	DocumentRoot                           *string                                                          `json:"documentRoot,omitempty"`
-	Experiments                            *Experiments                                                     `json:"experiments,omitempty"`
-	FtpsState                              *string                                                          `json:"ftpsState,omitempty"`
-	FunctionAppScaleLimit                  *int                                                             `json:"functionAppScaleLimit,omitempty"`
-	FunctionsRuntimeScaleMonitoringEnabled *bool                                                            `json:"functionsRuntimeScaleMonitoringEnabled,omitempty"`
-	HandlerMappings                        []HandlerMapping                                                 `json:"handlerMappings,omitempty"`
-	HealthCheckPath                        *string                                                          `json:"healthCheckPath,omitempty"`
-	Http20Enabled                          *bool                                                            `json:"http20Enabled,omitempty"`
-	HttpLoggingEnabled                     *bool                                                            `json:"httpLoggingEnabled,omitempty"`
-	IpSecurityRestrictions                 []IpSecurityRestriction                                          `json:"ipSecurityRestrictions,omitempty"`
-	JavaContainer                          *string                                                          `json:"javaContainer,omitempty"`
-	JavaContainerVersion                   *string                                                          `json:"javaContainerVersion,omitempty"`
-	JavaVersion                            *string                                                          `json:"javaVersion,omitempty"`
-	KeyVaultReferenceIdentity              *string                                                          `json:"keyVaultReferenceIdentity,omitempty"`
-	Limits                                 *SiteLimits                                                      `json:"limits,omitempty"`
-	LinuxFxVersion                         *string                                                          `json:"linuxFxVersion,omitempty"`
-	LoadBalancing                          *string                                                          `json:"loadBalancing,omitempty"`
-	LocalMySqlEnabled                      *bool                                                            `json:"localMySqlEnabled,omitempty"`
-	LogsDirectorySizeLimit                 *int                                                             `json:"logsDirectorySizeLimit,omitempty"`
-	ManagedPipelineMode                    *string                                                          `json:"managedPipelineMode,omitempty"`
-	ManagedServiceIdentityId               *int                                                             `json:"managedServiceIdentityId,omitempty"`
-	MinTlsVersion                          *string                                                          `json:"minTlsVersion,omitempty"`
-	MinimumElasticInstanceCount            *int                                                             `json:"minimumElasticInstanceCount,omitempty"`
-	NetFrameworkVersion                    *string                                                          `json:"netFrameworkVersion,omitempty"`
-	NodeVersion                            *string                                                          `json:"nodeVersion,omitempty"`
-	NumberOfWorkers                        *int                                                             `json:"numberOfWorkers,omitempty"`
-	PhpVersion                             *string                                                          `json:"phpVersion,omitempty"`
-	PowerShellVersion                      *string                                                          `json:"powerShellVersion,omitempty"`
-	PreWarmedInstanceCount                 *int                                                             `json:"preWarmedInstanceCount,omitempty"`
-	PropertyBag                            genruntime.PropertyBag                                           `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess                    *string                                                          `json:"publicNetworkAccess,omitempty"`
-	PublishingUsername                     *string                                                          `json:"publishingUsername,omitempty"`
-	Push                                   *Sites_Spec_Properties_SiteConfig_Push                           `json:"push,omitempty"`
-	PythonVersion                          *string                                                          `json:"pythonVersion,omitempty"`
-	RemoteDebuggingEnabled                 *bool                                                            `json:"remoteDebuggingEnabled,omitempty"`
-	RemoteDebuggingVersion                 *string                                                          `json:"remoteDebuggingVersion,omitempty"`
-	RequestTracingEnabled                  *bool                                                            `json:"requestTracingEnabled,omitempty"`
-	RequestTracingExpirationTime           *string                                                          `json:"requestTracingExpirationTime,omitempty"`
-	ScmIpSecurityRestrictions              []IpSecurityRestriction                                          `json:"scmIpSecurityRestrictions,omitempty"`
-	ScmIpSecurityRestrictionsUseMain       *bool                                                            `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
-	ScmMinTlsVersion                       *string                                                          `json:"scmMinTlsVersion,omitempty"`
-	ScmType                                *string                                                          `json:"scmType,omitempty"`
-	TracingOptions                         *string                                                          `json:"tracingOptions,omitempty"`
-	Use32BitWorkerProcess                  *bool                                                            `json:"use32BitWorkerProcess,omitempty"`
-	VirtualApplications                    []VirtualApplication                                             `json:"virtualApplications,omitempty"`
-	VnetName                               *string                                                          `json:"vnetName,omitempty"`
-	VnetPrivatePortsCount                  *int                                                             `json:"vnetPrivatePortsCount,omitempty"`
-	VnetRouteAllEnabled                    *bool                                                            `json:"vnetRouteAllEnabled,omitempty"`
-	WebSocketsEnabled                      *bool                                                            `json:"webSocketsEnabled,omitempty"`
-	WebsiteTimeZone                        *string                                                          `json:"websiteTimeZone,omitempty"`
-	WindowsFxVersion                       *string                                                          `json:"windowsFxVersion,omitempty"`
-	XManagedServiceIdentityId              *int                                                             `json:"xManagedServiceIdentityId,omitempty"`
 }
 
 // Storage version of v1beta20220301.SlotSwapStatus_STATUS
@@ -697,6 +697,26 @@ type PushSettings_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20220301.Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+type Site_Properties_SiteConfig_AzureStorageAccounts_Spec struct {
+	AccessKey   *genruntime.SecretReference `json:"accessKey,omitempty"`
+	AccountName *string                     `json:"accountName,omitempty"`
+	MountPath   *string                     `json:"mountPath,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ShareName   *string                     `json:"shareName,omitempty"`
+	Type        *string                     `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20220301.Site_Properties_SiteConfig_Push_Spec
+type Site_Properties_SiteConfig_Push_Spec struct {
+	DynamicTagsJson   *string                `json:"dynamicTagsJson,omitempty"`
+	IsPushEnabled     *bool                  `json:"isPushEnabled,omitempty"`
+	Kind              *string                `json:"kind,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TagWhitelistJson  *string                `json:"tagWhitelistJson,omitempty"`
+	TagsRequiringAuth *string                `json:"tagsRequiringAuth,omitempty"`
+}
+
 // Storage version of v1beta20220301.SiteLimits
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SiteLimits
 type SiteLimits struct {
@@ -721,26 +741,6 @@ type SiteMachineKey_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Validation    *string                `json:"validation,omitempty"`
 	ValidationKey *string                `json:"validationKey,omitempty"`
-}
-
-// Storage version of v1beta20220301.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-type Sites_Spec_Properties_SiteConfig_AzureStorageAccounts struct {
-	AccessKey   *genruntime.SecretReference `json:"accessKey,omitempty"`
-	AccountName *string                     `json:"accountName,omitempty"`
-	MountPath   *string                     `json:"mountPath,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	ShareName   *string                     `json:"shareName,omitempty"`
-	Type        *string                     `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20220301.Sites_Spec_Properties_SiteConfig_Push
-type Sites_Spec_Properties_SiteConfig_Push struct {
-	DynamicTagsJson   *string                `json:"dynamicTagsJson,omitempty"`
-	IsPushEnabled     *bool                  `json:"isPushEnabled,omitempty"`
-	Kind              *string                `json:"kind,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TagWhitelistJson  *string                `json:"tagWhitelistJson,omitempty"`
-	TagsRequiringAuth *string                `json:"tagsRequiringAuth,omitempty"`
 }
 
 // Storage version of v1beta20220301.UserAssignedIdentity_STATUS

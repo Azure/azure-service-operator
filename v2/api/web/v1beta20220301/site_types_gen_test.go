@@ -160,8 +160,158 @@ func SiteGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSite is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSite(gens map[string]gopter.Gen) {
-	gens["Spec"] = Sites_SpecGenerator()
+	gens["Spec"] = Site_SpecGenerator()
 	gens["Status"] = Site_STATUSGenerator()
+}
+
+func Test_Site_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_Spec to Site_Spec via AssignProperties_To_Site_Spec & AssignProperties_From_Site_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_Spec, Site_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_Spec tests if a specific instance of Site_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_Spec(subject Site_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.Site_Spec
+	err := copied.AssignProperties_To_Site_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_Spec
+	err = actual.AssignProperties_From_Site_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Site_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Site_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSite_Spec, Site_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSite_Spec runs a test to see if a specific instance of Site_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSite_Spec(subject Site_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Site_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Site_Spec instances for property testing - lazily instantiated by Site_SpecGenerator()
+var site_SpecGenerator gopter.Gen
+
+// Site_SpecGenerator returns a generator of Site_Spec instances for property testing.
+// We first initialize site_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Site_SpecGenerator() gopter.Gen {
+	if site_SpecGenerator != nil {
+		return site_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSite_Spec(generators)
+	site_SpecGenerator = gen.Struct(reflect.TypeOf(Site_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSite_Spec(generators)
+	AddRelatedPropertyGeneratorsForSite_Spec(generators)
+	site_SpecGenerator = gen.Struct(reflect.TypeOf(Site_Spec{}), generators)
+
+	return site_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSite_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSite_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["ClientAffinityEnabled"] = gen.PtrOf(gen.Bool())
+	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
+	gens["ClientCertExclusionPaths"] = gen.PtrOf(gen.AlphaString())
+	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Site_Properties_ClientCertMode_Spec_Optional, Site_Properties_ClientCertMode_Spec_OptionalInteractiveUser, Site_Properties_ClientCertMode_Spec_Required))
+	gens["ContainerSize"] = gen.PtrOf(gen.Int())
+	gens["CustomDomainVerificationId"] = gen.PtrOf(gen.AlphaString())
+	gens["DailyMemoryTimeQuota"] = gen.PtrOf(gen.Int())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["HostNamesDisabled"] = gen.PtrOf(gen.Bool())
+	gens["HttpsOnly"] = gen.PtrOf(gen.Bool())
+	gens["HyperV"] = gen.PtrOf(gen.Bool())
+	gens["IsXenon"] = gen.PtrOf(gen.Bool())
+	gens["KeyVaultReferenceIdentity"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["RedundancyMode"] = gen.PtrOf(gen.OneConstOf(
+		Site_Properties_RedundancyMode_Spec_ActiveActive,
+		Site_Properties_RedundancyMode_Spec_Failover,
+		Site_Properties_RedundancyMode_Spec_GeoRedundant,
+		Site_Properties_RedundancyMode_Spec_Manual,
+		Site_Properties_RedundancyMode_Spec_None))
+	gens["Reserved"] = gen.PtrOf(gen.Bool())
+	gens["ScmSiteAlsoStopped"] = gen.PtrOf(gen.Bool())
+	gens["StorageAccountRequired"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["VnetContentShareEnabled"] = gen.PtrOf(gen.Bool())
+	gens["VnetImagePullEnabled"] = gen.PtrOf(gen.Bool())
+	gens["VnetRouteAllEnabled"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForSite_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSite_Spec(gens map[string]gopter.Gen) {
+	gens["CloningInfo"] = gen.PtrOf(CloningInfoGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["HostNameSslStates"] = gen.SliceOf(HostNameSslStateGenerator())
+	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfileGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
+	gens["SiteConfig"] = gen.PtrOf(Site_Properties_SiteConfig_SpecGenerator())
 }
 
 func Test_Site_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -270,156 +420,6 @@ func AddRelatedPropertyGeneratorsForSite_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
 	gens["SiteConfig"] = gen.PtrOf(SiteConfig_STATUSGenerator())
 	gens["SlotSwapStatus"] = gen.PtrOf(SlotSwapStatus_STATUSGenerator())
-}
-
-func Test_Sites_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sites_Spec to Sites_Spec via AssignProperties_To_Sites_Spec & AssignProperties_From_Sites_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSites_Spec, Sites_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSites_Spec tests if a specific instance of Sites_Spec can be assigned to v1beta20220301storage and back losslessly
-func RunPropertyAssignmentTestForSites_Spec(subject Sites_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.Sites_Spec
-	err := copied.AssignProperties_To_Sites_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sites_Spec
-	err = actual.AssignProperties_From_Sites_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Sites_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sites_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSites_Spec, Sites_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSites_Spec runs a test to see if a specific instance of Sites_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSites_Spec(subject Sites_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sites_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sites_Spec instances for property testing - lazily instantiated by Sites_SpecGenerator()
-var sites_SpecGenerator gopter.Gen
-
-// Sites_SpecGenerator returns a generator of Sites_Spec instances for property testing.
-// We first initialize sites_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Sites_SpecGenerator() gopter.Gen {
-	if sites_SpecGenerator != nil {
-		return sites_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSites_Spec(generators)
-	sites_SpecGenerator = gen.Struct(reflect.TypeOf(Sites_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSites_Spec(generators)
-	AddRelatedPropertyGeneratorsForSites_Spec(generators)
-	sites_SpecGenerator = gen.Struct(reflect.TypeOf(Sites_Spec{}), generators)
-
-	return sites_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSites_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSites_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["ClientAffinityEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ClientCertExclusionPaths"] = gen.PtrOf(gen.AlphaString())
-	gens["ClientCertMode"] = gen.PtrOf(gen.OneConstOf(Sites_Spec_Properties_ClientCertMode_Optional, Sites_Spec_Properties_ClientCertMode_OptionalInteractiveUser, Sites_Spec_Properties_ClientCertMode_Required))
-	gens["ContainerSize"] = gen.PtrOf(gen.Int())
-	gens["CustomDomainVerificationId"] = gen.PtrOf(gen.AlphaString())
-	gens["DailyMemoryTimeQuota"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["HostNamesDisabled"] = gen.PtrOf(gen.Bool())
-	gens["HttpsOnly"] = gen.PtrOf(gen.Bool())
-	gens["HyperV"] = gen.PtrOf(gen.Bool())
-	gens["IsXenon"] = gen.PtrOf(gen.Bool())
-	gens["KeyVaultReferenceIdentity"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["RedundancyMode"] = gen.PtrOf(gen.OneConstOf(
-		Sites_Spec_Properties_RedundancyMode_ActiveActive,
-		Sites_Spec_Properties_RedundancyMode_Failover,
-		Sites_Spec_Properties_RedundancyMode_GeoRedundant,
-		Sites_Spec_Properties_RedundancyMode_Manual,
-		Sites_Spec_Properties_RedundancyMode_None))
-	gens["Reserved"] = gen.PtrOf(gen.Bool())
-	gens["ScmSiteAlsoStopped"] = gen.PtrOf(gen.Bool())
-	gens["StorageAccountRequired"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["VnetContentShareEnabled"] = gen.PtrOf(gen.Bool())
-	gens["VnetImagePullEnabled"] = gen.PtrOf(gen.Bool())
-	gens["VnetRouteAllEnabled"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForSites_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSites_Spec(gens map[string]gopter.Gen) {
-	gens["CloningInfo"] = gen.PtrOf(CloningInfoGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["HostNameSslStates"] = gen.SliceOf(HostNameSslStateGenerator())
-	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfileGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
-	gens["SiteConfig"] = gen.PtrOf(Sites_Spec_Properties_SiteConfigGenerator())
 }
 
 func Test_CloningInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -851,9 +851,9 @@ func HostNameSslState_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostNameSslState_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostNameSslState_STATUS(gens map[string]gopter.Gen) {
-	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_STATUS_HostType_Repository, HostNameSslState_STATUS_HostType_Standard))
+	gens["HostType"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_HostType_STATUS_Repository, HostNameSslState_HostType_STATUS_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_STATUS_SslState_Disabled, HostNameSslState_STATUS_SslState_IpBasedEnabled, HostNameSslState_STATUS_SslState_SniEnabled))
+	gens["SslState"] = gen.PtrOf(gen.OneConstOf(HostNameSslState_SslState_STATUS_Disabled, HostNameSslState_SslState_STATUS_IpBasedEnabled, HostNameSslState_SslState_STATUS_SniEnabled))
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["ToUpdate"] = gen.PtrOf(gen.Bool())
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
@@ -1078,15 +1078,131 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[s
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_STATUS_Type_None,
-		ManagedServiceIdentity_STATUS_Type_SystemAssigned,
-		ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_STATUS_Type_UserAssigned))
+		ManagedServiceIdentity_Type_STATUS_None,
+		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
+		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+}
+
+func Test_Site_Properties_SiteConfig_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_Properties_SiteConfig_Spec to Site_Properties_SiteConfig_Spec via AssignProperties_To_Site_Properties_SiteConfig_Spec & AssignProperties_From_Site_Properties_SiteConfig_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_Properties_SiteConfig_Spec, Site_Properties_SiteConfig_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_Properties_SiteConfig_Spec tests if a specific instance of Site_Properties_SiteConfig_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_Properties_SiteConfig_Spec(subject Site_Properties_SiteConfig_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.Site_Properties_SiteConfig_Spec
+	err := copied.AssignProperties_To_Site_Properties_SiteConfig_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_Properties_SiteConfig_Spec
+	err = actual.AssignProperties_From_Site_Properties_SiteConfig_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Site_Properties_SiteConfig_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Site_Properties_SiteConfig_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSite_Properties_SiteConfig_Spec, Site_Properties_SiteConfig_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSite_Properties_SiteConfig_Spec runs a test to see if a specific instance of Site_Properties_SiteConfig_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSite_Properties_SiteConfig_Spec(subject Site_Properties_SiteConfig_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Site_Properties_SiteConfig_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Site_Properties_SiteConfig_Spec instances for property testing - lazily instantiated by
+// Site_Properties_SiteConfig_SpecGenerator()
+var site_Properties_SiteConfig_SpecGenerator gopter.Gen
+
+// Site_Properties_SiteConfig_SpecGenerator returns a generator of Site_Properties_SiteConfig_Spec instances for property testing.
+func Site_Properties_SiteConfig_SpecGenerator() gopter.Gen {
+	if site_Properties_SiteConfig_SpecGenerator != nil {
+		return site_Properties_SiteConfig_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSite_Properties_SiteConfig_Spec(generators)
+	site_Properties_SiteConfig_SpecGenerator = gen.Struct(reflect.TypeOf(Site_Properties_SiteConfig_Spec{}), generators)
+
+	return site_Properties_SiteConfig_SpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSite_Properties_SiteConfig_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSite_Properties_SiteConfig_Spec(gens map[string]gopter.Gen) {
+	gens["ApiDefinition"] = gen.PtrOf(ApiDefinitionInfoGenerator())
+	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfigGenerator())
+	gens["AppSettings"] = gen.SliceOf(NameValuePairGenerator())
+	gens["AutoHealRules"] = gen.PtrOf(AutoHealRulesGenerator())
+	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator())
+	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfoGenerator())
+	gens["Cors"] = gen.PtrOf(CorsSettingsGenerator())
+	gens["Experiments"] = gen.PtrOf(ExperimentsGenerator())
+	gens["HandlerMappings"] = gen.SliceOf(HandlerMappingGenerator())
+	gens["IpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionGenerator())
+	gens["Limits"] = gen.PtrOf(SiteLimitsGenerator())
+	gens["Push"] = gen.PtrOf(Site_Properties_SiteConfig_Push_SpecGenerator())
+	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionGenerator())
+	gens["VirtualApplications"] = gen.SliceOf(VirtualApplicationGenerator())
 }
 
 func Test_SiteConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1203,122 +1319,6 @@ func AddRelatedPropertyGeneratorsForSiteConfig_STATUS(gens map[string]gopter.Gen
 	gens["Push"] = gen.PtrOf(PushSettings_STATUSGenerator())
 	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestriction_STATUSGenerator())
 	gens["VirtualApplications"] = gen.SliceOf(VirtualApplication_STATUSGenerator())
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sites_Spec_Properties_SiteConfig to Sites_Spec_Properties_SiteConfig via AssignProperties_To_Sites_Spec_Properties_SiteConfig & AssignProperties_From_Sites_Spec_Properties_SiteConfig returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig, Sites_Spec_Properties_SiteConfigGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig tests if a specific instance of Sites_Spec_Properties_SiteConfig can be assigned to v1beta20220301storage and back losslessly
-func RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig(subject Sites_Spec_Properties_SiteConfig) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.Sites_Spec_Properties_SiteConfig
-	err := copied.AssignProperties_To_Sites_Spec_Properties_SiteConfig(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sites_Spec_Properties_SiteConfig
-	err = actual.AssignProperties_From_Sites_Spec_Properties_SiteConfig(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sites_Spec_Properties_SiteConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSites_Spec_Properties_SiteConfig, Sites_Spec_Properties_SiteConfigGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSites_Spec_Properties_SiteConfig runs a test to see if a specific instance of Sites_Spec_Properties_SiteConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForSites_Spec_Properties_SiteConfig(subject Sites_Spec_Properties_SiteConfig) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sites_Spec_Properties_SiteConfig
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sites_Spec_Properties_SiteConfig instances for property testing - lazily instantiated by
-// Sites_Spec_Properties_SiteConfigGenerator()
-var sites_Spec_Properties_SiteConfigGenerator gopter.Gen
-
-// Sites_Spec_Properties_SiteConfigGenerator returns a generator of Sites_Spec_Properties_SiteConfig instances for property testing.
-func Sites_Spec_Properties_SiteConfigGenerator() gopter.Gen {
-	if sites_Spec_Properties_SiteConfigGenerator != nil {
-		return sites_Spec_Properties_SiteConfigGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfig(generators)
-	sites_Spec_Properties_SiteConfigGenerator = gen.Struct(reflect.TypeOf(Sites_Spec_Properties_SiteConfig{}), generators)
-
-	return sites_Spec_Properties_SiteConfigGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfig is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfig(gens map[string]gopter.Gen) {
-	gens["ApiDefinition"] = gen.PtrOf(ApiDefinitionInfoGenerator())
-	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfigGenerator())
-	gens["AppSettings"] = gen.SliceOf(NameValuePairGenerator())
-	gens["AutoHealRules"] = gen.PtrOf(AutoHealRulesGenerator())
-	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator())
-	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfoGenerator())
-	gens["Cors"] = gen.PtrOf(CorsSettingsGenerator())
-	gens["Experiments"] = gen.PtrOf(ExperimentsGenerator())
-	gens["HandlerMappings"] = gen.SliceOf(HandlerMappingGenerator())
-	gens["IpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionGenerator())
-	gens["Limits"] = gen.PtrOf(SiteLimitsGenerator())
-	gens["Push"] = gen.PtrOf(Sites_Spec_Properties_SiteConfig_PushGenerator())
-	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionGenerator())
-	gens["VirtualApplications"] = gen.SliceOf(VirtualApplicationGenerator())
 }
 
 func Test_SlotSwapStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2142,11 +2142,11 @@ func AddIndependentPropertyGeneratorsForAzureStorageInfoValue_STATUS(gens map[st
 	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		AzureStorageInfoValue_STATUS_State_InvalidCredentials,
-		AzureStorageInfoValue_STATUS_State_InvalidShare,
-		AzureStorageInfoValue_STATUS_State_NotValidated,
-		AzureStorageInfoValue_STATUS_State_Ok))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_STATUS_Type_AzureBlob, AzureStorageInfoValue_STATUS_Type_AzureFiles))
+		AzureStorageInfoValue_State_STATUS_InvalidCredentials,
+		AzureStorageInfoValue_State_STATUS_InvalidShare,
+		AzureStorageInfoValue_State_STATUS_NotValidated,
+		AzureStorageInfoValue_State_STATUS_Ok))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AzureStorageInfoValue_Type_STATUS_AzureBlob, AzureStorageInfoValue_Type_STATUS_AzureFiles))
 }
 
 func Test_ConnStringInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2367,17 +2367,17 @@ func AddIndependentPropertyGeneratorsForConnStringInfo_STATUS(gens map[string]go
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ConnStringInfo_STATUS_Type_ApiHub,
-		ConnStringInfo_STATUS_Type_Custom,
-		ConnStringInfo_STATUS_Type_DocDb,
-		ConnStringInfo_STATUS_Type_EventHub,
-		ConnStringInfo_STATUS_Type_MySql,
-		ConnStringInfo_STATUS_Type_NotificationHub,
-		ConnStringInfo_STATUS_Type_PostgreSQL,
-		ConnStringInfo_STATUS_Type_RedisCache,
-		ConnStringInfo_STATUS_Type_SQLAzure,
-		ConnStringInfo_STATUS_Type_SQLServer,
-		ConnStringInfo_STATUS_Type_ServiceBus))
+		ConnStringInfo_Type_STATUS_ApiHub,
+		ConnStringInfo_Type_STATUS_Custom,
+		ConnStringInfo_Type_STATUS_DocDb,
+		ConnStringInfo_Type_STATUS_EventHub,
+		ConnStringInfo_Type_STATUS_MySql,
+		ConnStringInfo_Type_STATUS_NotificationHub,
+		ConnStringInfo_Type_STATUS_PostgreSQL,
+		ConnStringInfo_Type_STATUS_RedisCache,
+		ConnStringInfo_Type_STATUS_SQLAzure,
+		ConnStringInfo_Type_STATUS_SQLServer,
+		ConnStringInfo_Type_STATUS_ServiceBus))
 }
 
 func Test_CorsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3220,7 +3220,7 @@ func AddIndependentPropertyGeneratorsForIpSecurityRestriction_STATUS(gens map[st
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["SubnetMask"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetTrafficTag"] = gen.PtrOf(gen.Int())
-	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_STATUS_Tag_Default, IpSecurityRestriction_STATUS_Tag_ServiceTag, IpSecurityRestriction_STATUS_Tag_XffProxy))
+	gens["Tag"] = gen.PtrOf(gen.OneConstOf(IpSecurityRestriction_Tag_STATUS_Default, IpSecurityRestriction_Tag_STATUS_ServiceTag, IpSecurityRestriction_Tag_STATUS_XffProxy))
 	gens["VnetSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetTrafficTag"] = gen.PtrOf(gen.Int())
 }
@@ -3542,6 +3542,219 @@ func AddIndependentPropertyGeneratorsForPushSettings_STATUS(gens map[string]gopt
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Site_Properties_SiteConfig_AzureStorageAccounts_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_Properties_SiteConfig_AzureStorageAccounts_Spec to Site_Properties_SiteConfig_AzureStorageAccounts_Spec via AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec & AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec, Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec tests if a specific instance of Site_Properties_SiteConfig_AzureStorageAccounts_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec(subject Site_Properties_SiteConfig_AzureStorageAccounts_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+	err := copied.AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+	err = actual.AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Site_Properties_SiteConfig_AzureStorageAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Site_Properties_SiteConfig_AzureStorageAccounts_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec, Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec runs a test to see if a specific instance of Site_Properties_SiteConfig_AzureStorageAccounts_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSite_Properties_SiteConfig_AzureStorageAccounts_Spec(subject Site_Properties_SiteConfig_AzureStorageAccounts_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Site_Properties_SiteConfig_AzureStorageAccounts_Spec instances for property testing - lazily
+// instantiated by Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator()
+var site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator gopter.Gen
+
+// Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator returns a generator of Site_Properties_SiteConfig_AzureStorageAccounts_Spec instances for property testing.
+func Site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator() gopter.Gen {
+	if site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator != nil {
+		return site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_AzureStorageAccounts_Spec(generators)
+	site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(Site_Properties_SiteConfig_AzureStorageAccounts_Spec{}), generators)
+
+	return site_Properties_SiteConfig_AzureStorageAccounts_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_AzureStorageAccounts_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_AzureStorageAccounts_Spec(gens map[string]gopter.Gen) {
+	gens["AccountName"] = gen.PtrOf(gen.AlphaString())
+	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
+	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureBlob, Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureFiles))
+}
+
+func Test_Site_Properties_SiteConfig_Push_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_Properties_SiteConfig_Push_Spec to Site_Properties_SiteConfig_Push_Spec via AssignProperties_To_Site_Properties_SiteConfig_Push_Spec & AssignProperties_From_Site_Properties_SiteConfig_Push_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_Properties_SiteConfig_Push_Spec, Site_Properties_SiteConfig_Push_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_Properties_SiteConfig_Push_Spec tests if a specific instance of Site_Properties_SiteConfig_Push_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_Properties_SiteConfig_Push_Spec(subject Site_Properties_SiteConfig_Push_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.Site_Properties_SiteConfig_Push_Spec
+	err := copied.AssignProperties_To_Site_Properties_SiteConfig_Push_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_Properties_SiteConfig_Push_Spec
+	err = actual.AssignProperties_From_Site_Properties_SiteConfig_Push_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Site_Properties_SiteConfig_Push_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Site_Properties_SiteConfig_Push_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSite_Properties_SiteConfig_Push_Spec, Site_Properties_SiteConfig_Push_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSite_Properties_SiteConfig_Push_Spec runs a test to see if a specific instance of Site_Properties_SiteConfig_Push_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSite_Properties_SiteConfig_Push_Spec(subject Site_Properties_SiteConfig_Push_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Site_Properties_SiteConfig_Push_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Site_Properties_SiteConfig_Push_Spec instances for property testing - lazily instantiated by
+// Site_Properties_SiteConfig_Push_SpecGenerator()
+var site_Properties_SiteConfig_Push_SpecGenerator gopter.Gen
+
+// Site_Properties_SiteConfig_Push_SpecGenerator returns a generator of Site_Properties_SiteConfig_Push_Spec instances for property testing.
+func Site_Properties_SiteConfig_Push_SpecGenerator() gopter.Gen {
+	if site_Properties_SiteConfig_Push_SpecGenerator != nil {
+		return site_Properties_SiteConfig_Push_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_Push_Spec(generators)
+	site_Properties_SiteConfig_Push_SpecGenerator = gen.Struct(reflect.TypeOf(Site_Properties_SiteConfig_Push_Spec{}), generators)
+
+	return site_Properties_SiteConfig_Push_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_Push_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSite_Properties_SiteConfig_Push_Spec(gens map[string]gopter.Gen) {
+	gens["DynamicTagsJson"] = gen.PtrOf(gen.AlphaString())
+	gens["IsPushEnabled"] = gen.PtrOf(gen.Bool())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["TagWhitelistJson"] = gen.PtrOf(gen.AlphaString())
+	gens["TagsRequiringAuth"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_SiteLimits_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3854,219 +4067,6 @@ func AddIndependentPropertyGeneratorsForSiteMachineKey_STATUS(gens map[string]go
 	gens["DecryptionKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Validation"] = gen.PtrOf(gen.AlphaString())
 	gens["ValidationKey"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sites_Spec_Properties_SiteConfig_AzureStorageAccounts to Sites_Spec_Properties_SiteConfig_AzureStorageAccounts via AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts & AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts, Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts tests if a specific instance of Sites_Spec_Properties_SiteConfig_AzureStorageAccounts can be assigned to v1beta20220301storage and back losslessly
-func RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts(subject Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-	err := copied.AssignProperties_To_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-	err = actual.AssignProperties_From_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sites_Spec_Properties_SiteConfig_AzureStorageAccounts via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts, Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts runs a test to see if a specific instance of Sites_Spec_Properties_SiteConfig_AzureStorageAccounts round trips to JSON and back losslessly
-func RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_AzureStorageAccounts(subject Sites_Spec_Properties_SiteConfig_AzureStorageAccounts) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sites_Spec_Properties_SiteConfig_AzureStorageAccounts
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sites_Spec_Properties_SiteConfig_AzureStorageAccounts instances for property testing - lazily
-// instantiated by Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator()
-var sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator gopter.Gen
-
-// Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator returns a generator of Sites_Spec_Properties_SiteConfig_AzureStorageAccounts instances for property testing.
-func Sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator() gopter.Gen {
-	if sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator != nil {
-		return sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_AzureStorageAccounts(generators)
-	sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator = gen.Struct(reflect.TypeOf(Sites_Spec_Properties_SiteConfig_AzureStorageAccounts{}), generators)
-
-	return sites_Spec_Properties_SiteConfig_AzureStorageAccountsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_AzureStorageAccounts is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_AzureStorageAccounts(gens map[string]gopter.Gen) {
-	gens["AccountName"] = gen.PtrOf(gen.AlphaString())
-	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
-	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type_AzureBlob, Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type_AzureFiles))
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_Push_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sites_Spec_Properties_SiteConfig_Push to Sites_Spec_Properties_SiteConfig_Push via AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push & AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_Push, Sites_Spec_Properties_SiteConfig_PushGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_Push tests if a specific instance of Sites_Spec_Properties_SiteConfig_Push can be assigned to v1beta20220301storage and back losslessly
-func RunPropertyAssignmentTestForSites_Spec_Properties_SiteConfig_Push(subject Sites_Spec_Properties_SiteConfig_Push) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220301s.Sites_Spec_Properties_SiteConfig_Push
-	err := copied.AssignProperties_To_Sites_Spec_Properties_SiteConfig_Push(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sites_Spec_Properties_SiteConfig_Push
-	err = actual.AssignProperties_From_Sites_Spec_Properties_SiteConfig_Push(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Sites_Spec_Properties_SiteConfig_Push_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sites_Spec_Properties_SiteConfig_Push via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_Push, Sites_Spec_Properties_SiteConfig_PushGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_Push runs a test to see if a specific instance of Sites_Spec_Properties_SiteConfig_Push round trips to JSON and back losslessly
-func RunJSONSerializationTestForSites_Spec_Properties_SiteConfig_Push(subject Sites_Spec_Properties_SiteConfig_Push) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Sites_Spec_Properties_SiteConfig_Push
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Sites_Spec_Properties_SiteConfig_Push instances for property testing - lazily instantiated by
-// Sites_Spec_Properties_SiteConfig_PushGenerator()
-var sites_Spec_Properties_SiteConfig_PushGenerator gopter.Gen
-
-// Sites_Spec_Properties_SiteConfig_PushGenerator returns a generator of Sites_Spec_Properties_SiteConfig_Push instances for property testing.
-func Sites_Spec_Properties_SiteConfig_PushGenerator() gopter.Gen {
-	if sites_Spec_Properties_SiteConfig_PushGenerator != nil {
-		return sites_Spec_Properties_SiteConfig_PushGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_Push(generators)
-	sites_Spec_Properties_SiteConfig_PushGenerator = gen.Struct(reflect.TypeOf(Sites_Spec_Properties_SiteConfig_Push{}), generators)
-
-	return sites_Spec_Properties_SiteConfig_PushGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_Push is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSites_Spec_Properties_SiteConfig_Push(gens map[string]gopter.Gen) {
-	gens["DynamicTagsJson"] = gen.PtrOf(gen.AlphaString())
-	gens["IsPushEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["TagWhitelistJson"] = gen.PtrOf(gen.AlphaString())
-	gens["TagsRequiringAuth"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4636,7 +4636,7 @@ func AutoHealActions_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAutoHealActions_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoHealActions_STATUS(gens map[string]gopter.Gen) {
-	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_STATUS_ActionType_CustomAction, AutoHealActions_STATUS_ActionType_LogEvent, AutoHealActions_STATUS_ActionType_Recycle))
+	gens["ActionType"] = gen.PtrOf(gen.OneConstOf(AutoHealActions_ActionType_STATUS_CustomAction, AutoHealActions_ActionType_STATUS_LogEvent, AutoHealActions_ActionType_STATUS_Recycle))
 	gens["MinProcessExecutionTime"] = gen.PtrOf(gen.AlphaString())
 }
 

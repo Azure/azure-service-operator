@@ -26,7 +26,7 @@ import (
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Serverfarms_Spec      `json:"spec,omitempty"`
+	Spec              Serverfarm_Spec       `json:"spec,omitempty"`
 	Status            AppServicePlan_STATUS `json:"status,omitempty"`
 }
 
@@ -192,8 +192,8 @@ func (plan *AppServicePlan_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(plan)
 }
 
-// Storage version of v1beta20220301.Serverfarms_Spec
-type Serverfarms_Spec struct {
+// Storage version of v1beta20220301.Serverfarm_Spec
+type Serverfarm_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                 string                     `json:"azureName,omitempty"`
@@ -227,24 +227,24 @@ type Serverfarms_Spec struct {
 	ZoneRedundant      *bool                              `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Serverfarms_Spec{}
+var _ genruntime.ConvertibleSpec = &Serverfarm_Spec{}
 
-// ConvertSpecFrom populates our Serverfarms_Spec from the provided source
-func (serverfarms *Serverfarms_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == serverfarms {
+// ConvertSpecFrom populates our Serverfarm_Spec from the provided source
+func (serverfarm *Serverfarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == serverfarm {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(serverfarms)
+	return source.ConvertSpecTo(serverfarm)
 }
 
-// ConvertSpecTo populates the provided destination from our Serverfarms_Spec
-func (serverfarms *Serverfarms_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == serverfarms {
+// ConvertSpecTo populates the provided destination from our Serverfarm_Spec
+func (serverfarm *Serverfarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == serverfarm {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(serverfarms)
+	return destination.ConvertSpecFrom(serverfarm)
 }
 
 // Storage version of v1beta20220301.ExtendedLocation
