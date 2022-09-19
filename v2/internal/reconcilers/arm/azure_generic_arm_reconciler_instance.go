@@ -334,7 +334,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 
 	err = r.saveAzureSecrets(ctx)
 	if err != nil {
-		if _, ok := secrets.AsSecretNotOwnedError(err); ok {
+		if _, ok := core.AsNotOwnedError(err); ok {
 			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
 		}
 

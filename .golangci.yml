@@ -13,8 +13,12 @@ linters:
   presets:
     - bugs
     - unused
-  disable: 
+  disable:
     - scopelint # obsoleted by exportloopref
+    # Disabled as deprecation was announced in golanci-lint 1.49
+    - structcheck
+    - deadcode
+    - varcheck
     # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
     - staticcheck
     - gosimple

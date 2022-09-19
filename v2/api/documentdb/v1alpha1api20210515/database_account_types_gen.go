@@ -4819,7 +4819,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}

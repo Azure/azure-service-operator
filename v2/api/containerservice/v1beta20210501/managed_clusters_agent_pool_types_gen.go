@@ -1625,7 +1625,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		}
 	}
 	if pool.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.NodePublicIPPrefixIDReference)
+		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.NodePublicIPPrefixIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1656,7 +1656,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.OsType = &osType
 	}
 	if pool.PodSubnetIDReference != nil {
-		podSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.PodSubnetIDReference)
+		podSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.PodSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -1702,7 +1702,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		result.Properties.VmSize = &vmSize
 	}
 	if pool.VnetSubnetIDReference != nil {
-		vnetSubnetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.VnetSubnetIDReference)
+		vnetSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.VnetSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}

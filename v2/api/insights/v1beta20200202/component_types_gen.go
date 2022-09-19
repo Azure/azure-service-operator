@@ -1320,7 +1320,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.SamplingPercentage = &samplingPercentage
 	}
 	if component.WorkspaceResourceReference != nil {
-		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*component.WorkspaceResourceReference)
+		workspaceResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*component.WorkspaceResourceReference)
 		if err != nil {
 			return nil, err
 		}

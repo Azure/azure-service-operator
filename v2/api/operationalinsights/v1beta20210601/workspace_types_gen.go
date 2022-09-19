@@ -1728,7 +1728,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘ClusterResourceId’:
 	if features.ClusterResourceReference != nil {
-		clusterResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*features.ClusterResourceReference)
+		clusterResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*features.ClusterResourceReference)
 		if err != nil {
 			return nil, err
 		}

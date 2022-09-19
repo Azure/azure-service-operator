@@ -432,7 +432,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.CreationData = &creationData
 	}
 	if disk.DiskAccessReference != nil {
-		diskAccessIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*disk.DiskAccessReference)
+		diskAccessIdARMID, err := resolved.ResolvedReferences.Lookup(*disk.DiskAccessReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2007,7 +2007,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘SourceResourceId’:
 	if data.SourceResourceReference != nil {
-		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*data.SourceResourceReference)
+		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*data.SourceResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2688,7 +2688,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘DiskEncryptionSetId’:
 	if encryption.DiskEncryptionSetReference != nil {
-		diskEncryptionSetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.DiskEncryptionSetReference)
+		diskEncryptionSetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*encryption.DiskEncryptionSetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3961,7 +3961,7 @@ func (reference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -4565,7 +4565,7 @@ func (vault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘Id’:
 	if vault.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*vault.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*vault.Reference)
 		if err != nil {
 			return nil, err
 		}

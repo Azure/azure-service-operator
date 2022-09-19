@@ -4869,7 +4869,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5198,7 +5198,7 @@ func (profile *VirtualMachine_Properties_OsProfile_Spec) ConvertToARM(resolved g
 
 	// Set property ‘AdminPassword’:
 	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
+		adminPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*profile.AdminPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
 		}
@@ -8277,7 +8277,7 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -10705,7 +10705,7 @@ func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spe
 
 	// Set property ‘Id’:
 	if interfaces.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*interfaces.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*interfaces.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -13521,7 +13521,7 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Id’:
 	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*parameters.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -15133,7 +15133,7 @@ func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Id’:
 	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*parameters.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.Reference)
 		if err != nil {
 			return nil, err
 		}
