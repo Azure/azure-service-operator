@@ -568,7 +568,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DisableLocalAccounts = &disableLocalAccounts
 	}
 	if cluster.DiskEncryptionSetIDReference != nil {
-		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*cluster.DiskEncryptionSetIDReference)
+		diskEncryptionSetIDARMID, err := resolved.ResolvedReferences.Lookup(*cluster.DiskEncryptionSetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2923,7 +2923,7 @@ func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproper
 
 	// Set property ‘ResourceId’:
 	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -4837,7 +4837,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property ‘NodePublicIPPrefixID’:
 	if profile.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.NodePublicIPPrefixIDReference)
+		nodePublicIPPrefixIDReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.NodePublicIPPrefixIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -4882,7 +4882,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property ‘PodSubnetID’:
 	if profile.PodSubnetIDReference != nil {
-		podSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.PodSubnetIDReference)
+		podSubnetIDReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.PodSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -4946,7 +4946,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property ‘VnetSubnetID’:
 	if profile.VnetSubnetIDReference != nil {
-		vnetSubnetIDReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.VnetSubnetIDReference)
+		vnetSubnetIDReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.VnetSubnetIDReference)
 		if err != nil {
 			return nil, err
 		}
@@ -9510,7 +9510,7 @@ func (resource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -12242,7 +12242,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -12402,7 +12402,7 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘ResourceId’:
 	if identity.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*identity.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
 		if err != nil {
 			return nil, err
 		}

@@ -21,7 +21,7 @@ import (
 // SecretResolver is a secret resolver
 type SecretResolver interface {
 	ResolveSecretReference(ctx context.Context, ref genruntime.NamespacedSecretReference) (string, error)
-	ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.ResolvedSecrets, error)
+	ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.Resolved[genruntime.SecretReference], error)
 }
 
 // kubeSecretResolver resolves Kubernetes secrets
@@ -67,16 +67,16 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 }
 
 // ResolveSecretReferences resolves all provided secret references
-func (r *kubeSecretResolver) ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.ResolvedSecrets, error) {
+func (r *kubeSecretResolver) ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.Resolved[genruntime.SecretReference], error) {
 	result := make(map[genruntime.SecretReference]string, len(refs))
 
 	for ref := range refs {
 		value, err := r.ResolveSecretReference(ctx, ref)
 		if err != nil {
-			return genruntime.MakeResolvedSecrets(nil), err
+			return genruntime.MakeResolved[genruntime.SecretReference](nil), err
 		}
 		result[ref.SecretReference] = value
 	}
 
-	return genruntime.MakeResolvedSecrets(result), nil
+	return genruntime.MakeResolved[genruntime.SecretReference](result), nil
 }

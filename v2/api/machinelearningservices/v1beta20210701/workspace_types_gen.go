@@ -474,7 +474,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
 	}
 	if workspace.ApplicationInsightsReference != nil {
-		applicationInsightsARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspace.ApplicationInsightsReference)
+		applicationInsightsARMID, err := resolved.ResolvedReferences.Lookup(*workspace.ApplicationInsightsReference)
 		if err != nil {
 			return nil, err
 		}
@@ -482,7 +482,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ApplicationInsights = &applicationInsights
 	}
 	if workspace.ContainerRegistryReference != nil {
-		containerRegistryARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspace.ContainerRegistryReference)
+		containerRegistryARMID, err := resolved.ResolvedReferences.Lookup(*workspace.ContainerRegistryReference)
 		if err != nil {
 			return nil, err
 		}
@@ -518,7 +518,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ImageBuildCompute = &imageBuildCompute
 	}
 	if workspace.KeyVaultReference != nil {
-		keyVaultARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspace.KeyVaultReference)
+		keyVaultARMID, err := resolved.ResolvedReferences.Lookup(*workspace.KeyVaultReference)
 		if err != nil {
 			return nil, err
 		}
@@ -526,7 +526,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.KeyVault = &keyVault
 	}
 	if workspace.PrimaryUserAssignedIdentityReference != nil {
-		primaryUserAssignedIdentityARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspace.PrimaryUserAssignedIdentityReference)
+		primaryUserAssignedIdentityARMID, err := resolved.ResolvedReferences.Lookup(*workspace.PrimaryUserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}
@@ -553,7 +553,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, *item_ARM.(*Workspace_Properties_SharedPrivateLinkResources_Spec_ARM))
 	}
 	if workspace.StorageAccountReference != nil {
-		storageAccountARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspace.StorageAccountReference)
+		storageAccountARMID, err := resolved.ResolvedReferences.Lookup(*workspace.StorageAccountReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3949,7 +3949,7 @@ func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) ConvertTo
 		result.Properties.GroupId = &groupId
 	}
 	if resources.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resources.PrivateLinkResourceReference)
+		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*resources.PrivateLinkResourceReference)
 		if err != nil {
 			return nil, err
 		}

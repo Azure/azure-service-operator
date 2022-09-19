@@ -2805,7 +2805,7 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 
 	// Set property ‘UserAssignedIdentity’:
 	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.UserAssignedIdentityReference)
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.UserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}

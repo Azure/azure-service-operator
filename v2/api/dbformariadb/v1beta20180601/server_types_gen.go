@@ -2325,7 +2325,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	}
 
 	// Set property ‘AdministratorLoginPassword’:
-	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(create.AdministratorLoginPassword)
+	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(create.AdministratorLoginPassword)
 	if err != nil {
 		return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 	}

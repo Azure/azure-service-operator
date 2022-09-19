@@ -2912,7 +2912,7 @@ func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) Conv
 
 	// Set property ‘Password’:
 	if credentials.Password != nil {
-		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.Password)
+		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.Password)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property Password")
 		}
@@ -3880,7 +3880,7 @@ func (subnetId *ContainerGroupSubnetId) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Id’:
 	if subnetId.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subnetId.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*subnetId.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -7605,7 +7605,7 @@ func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘WorkspaceResourceId’:
 	if analytics.WorkspaceResourceReference != nil {
-		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*analytics.WorkspaceResourceReference)
+		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*analytics.WorkspaceResourceReference)
 		if err != nil {
 			return nil, err
 		}

@@ -3899,7 +3899,7 @@ func (properties *StorageBlobDeadLetterDestinationProperties) ConvertToARM(resol
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -5820,7 +5820,7 @@ func (properties *AzureFunctionEventSubscriptionDestinationProperties) ConvertTo
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -5934,7 +5934,7 @@ func (properties *EventHubEventSubscriptionDestinationProperties) ConvertToARM(r
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6023,7 +6023,7 @@ func (properties *HybridConnectionEventSubscriptionDestinationProperties) Conver
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6113,7 +6113,7 @@ func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) Convert
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6203,7 +6203,7 @@ func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) Convert
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6302,7 +6302,7 @@ func (properties *StorageQueueEventSubscriptionDestinationProperties) ConvertToA
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ResourceReference)
 		if err != nil {
 			return nil, err
 		}

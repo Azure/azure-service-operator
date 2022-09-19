@@ -1602,7 +1602,7 @@ func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination
 		result.Properties.DataLakeSubscriptionId = &dataLakeSubscriptionId
 	}
 	if destination.StorageAccountResourceReference != nil {
-		storageAccountResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*destination.StorageAccountResourceReference)
+		storageAccountResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*destination.StorageAccountResourceReference)
 		if err != nil {
 			return nil, err
 		}

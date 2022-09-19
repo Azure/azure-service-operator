@@ -376,7 +376,7 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.LinkedRedisCacheLocation = &linkedRedisCacheLocation
 	}
 	if server.LinkedRedisCacheReference != nil {
-		linkedRedisCacheIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*server.LinkedRedisCacheReference)
+		linkedRedisCacheIdARMID, err := resolved.ResolvedReferences.Lookup(*server.LinkedRedisCacheReference)
 		if err != nil {
 			return nil, err
 		}
