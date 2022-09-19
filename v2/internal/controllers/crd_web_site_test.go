@@ -23,6 +23,8 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	serverfarm := newServerFarm(tc, rg)
 
+	// TODO: We need to add support for dynamically building siteConfig.appSettings.
+	// TODO: See https://github.com/Azure/azure-service-operator/pull/2465#discussion_r956475563 for more info
 	site := &v1beta20220301.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
 		Spec: v1beta20220301.Site_Spec{
