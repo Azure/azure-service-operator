@@ -743,15 +743,9 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
-      AutoStorageBaseProperties:
-        StorageAccountId:
-          $armReference: true
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      KeyVaultReference:
-        Id:
-          $armReference: true
   cache:
     2020-12-01:
       Redis:
@@ -772,9 +766,6 @@ objectModelConfiguration:
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
-      RedisLinkedServerCreateProperties:
-        LinkedRedisCacheId:
-          $armReference: true
       Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
@@ -945,9 +936,6 @@ objectModelConfiguration:
           $armReference: false
   containerservice:
     2021-05-01:
-      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
-        ResourceId: # TODO: Is this right?
-          $armReference: true
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -955,33 +943,16 @@ objectModelConfiguration:
           - AdminCredentials
           - UserCredentials
       ManagedClusterAgentPoolProfile:
-        VnetSubnetID:
-          $armReference: true
-        PodSubnetID:
-          $armReference: true
-        NodePublicIPPrefixID:
-          $armReference: true
+        ProximityPlacementGroupID:
+          $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
-        NodePublicIPPrefixID:
-          $armReference: true
-        PodSubnetID:
-          $armReference: true
-        VnetSubnetID:
-          $armReference: true
-      ManagedClusterProperties:
-        DiskEncryptionSetID:
-          $armReference: true
+        ProximityPlacementGroupID:
+          $armReference: false # TODO[breaking]: Delete this and let the ARM value win
       PrivateLinkResource:
         Id:
-          $armReference: true
-      ResourceReference:
-        Id:
-          $armReference: true
-      UserAssignedIdentity:
-        ResourceId:
           $armReference: true
   dbformariadb:
     2018-06-01:
@@ -1022,11 +993,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        PrivateDnsZoneResourceId:
-          $armReference: true
-        DelegatedSubnetResourceId:
-          $armReference: true
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -1043,14 +1009,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        PrivateDnsZoneArmResourceId:
-          $armReference: true
-        DelegatedSubnetResourceId:
-          $armReference: true
-      ServerProperties:
-        SourceServerResourceId:
-          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
@@ -1064,7 +1022,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $armReference: false  # TODO: Breaking: Change this to true
+          $armReference: false  # TODO[breaking]: Change this to true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
@@ -1122,9 +1080,6 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
-      VirtualNetworkRule:
-        Id:
-          $armReference: true
   eventgrid:
     2020-06-01:
       Domain:
@@ -1139,27 +1094,6 @@ objectModelConfiguration:
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-      AzureFunctionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      EventHubEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      HybridConnectionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusTopicEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageBlobDeadLetterDestinationProperties:
-        ResourceId:
-          $armReference: true
   eventhub:
     2021-11-01:
       DestinationProperties:

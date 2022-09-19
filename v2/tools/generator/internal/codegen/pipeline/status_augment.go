@@ -253,7 +253,7 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypeDefinitions) augmenter {
 // and stores them in a secret property
 func secretAugmenter(allTypes astmodel.ReadonlyTypeDefinitions) augmenter {
 	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
-		// reminder: merger is invoked with a pair of Typesand invokes the first
+		// reminder: merger is invoked with a pair of Types and invokes the first
 		// function added that matches those types
 		//
 		// note that we do a small optimization where we don’t return a new type
