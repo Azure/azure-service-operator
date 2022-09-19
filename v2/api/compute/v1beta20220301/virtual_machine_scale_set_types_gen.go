@@ -6068,7 +6068,7 @@ func (profile *VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile
 
 	// Set property ‘AdminPassword’:
 	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
+		adminPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*profile.AdminPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
 		}
@@ -7481,7 +7481,7 @@ func (reference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}

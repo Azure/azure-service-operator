@@ -441,7 +441,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.AdministratorLogin = &administratorLogin
 	}
 	if server.AdministratorLoginPassword != nil {
-		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*server.AdministratorLoginPassword)
+		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*server.AdministratorLoginPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 		}
@@ -2121,7 +2121,7 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘GeoBackupUserAssignedIdentityId’:
 	if encryption.GeoBackupUserAssignedIdentityReference != nil {
-		geoBackupUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.GeoBackupUserAssignedIdentityReference)
+		geoBackupUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*encryption.GeoBackupUserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2137,7 +2137,7 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘PrimaryUserAssignedIdentityId’:
 	if encryption.PrimaryUserAssignedIdentityReference != nil {
-		primaryUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.PrimaryUserAssignedIdentityReference)
+		primaryUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*encryption.PrimaryUserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3109,7 +3109,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
-		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.DelegatedSubnetResourceReference)
+		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.DelegatedSubnetResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3119,7 +3119,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property ‘PrivateDnsZoneResourceId’:
 	if network.PrivateDnsZoneResourceReference != nil {
-		privateDnsZoneResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.PrivateDnsZoneResourceReference)
+		privateDnsZoneResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.PrivateDnsZoneResourceReference)
 		if err != nil {
 			return nil, err
 		}

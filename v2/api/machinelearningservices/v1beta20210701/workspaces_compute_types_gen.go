@@ -1867,7 +1867,7 @@ func (computeAKS *Compute_AKS) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘ResourceId’:
 	if computeAKS.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*computeAKS.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*computeAKS.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2099,7 +2099,7 @@ func (compute *Compute_AmlCompute) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘ResourceId’:
 	if compute.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*compute.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*compute.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2331,7 +2331,7 @@ func (instance *Compute_ComputeInstance) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘ResourceId’:
 	if instance.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*instance.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*instance.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2563,7 +2563,7 @@ func (databricks *Compute_Databricks) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘ResourceId’:
 	if databricks.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*databricks.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*databricks.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2782,7 +2782,7 @@ func (factory *Compute_DataFactory) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘ResourceId’:
 	if factory.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*factory.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*factory.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2977,7 +2977,7 @@ func (analytics *Compute_DataLakeAnalytics) ConvertToARM(resolved genruntime.Con
 
 	// Set property ‘ResourceId’:
 	if analytics.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*analytics.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*analytics.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3209,7 +3209,7 @@ func (insight *Compute_HDInsight) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘ResourceId’:
 	if insight.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*insight.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*insight.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3439,7 +3439,7 @@ func (spark *Compute_SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘ResourceId’:
 	if spark.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*spark.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*spark.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3669,7 +3669,7 @@ func (machine *Compute_VirtualMachine) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘ResourceId’:
 	if machine.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*machine.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*machine.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6040,7 +6040,7 @@ func (configuration *AksNetworkingConfiguration) ConvertToARM(resolved genruntim
 
 	// Set property ‘SubnetId’:
 	if configuration.SubnetReference != nil {
-		subnetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.SubnetReference)
+		subnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.SubnetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -6855,7 +6855,7 @@ func (resourceId *ResourceId) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘Id’:
 	if resourceId.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resourceId.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resourceId.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -7379,7 +7379,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘AdminUserPassword’:
 	if credentials.AdminUserPassword != nil {
-		adminUserPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.AdminUserPassword)
+		adminUserPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.AdminUserPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdminUserPassword")
 		}
@@ -7389,7 +7389,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘AdminUserSshPublicKey’:
 	if credentials.AdminUserSshPublicKey != nil {
-		adminUserSshPublicKeySecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.AdminUserSshPublicKey)
+		adminUserSshPublicKeySecret, err := resolved.ResolvedSecrets.Lookup(*credentials.AdminUserSshPublicKey)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdminUserSshPublicKey")
 		}
@@ -7504,7 +7504,7 @@ func (image *VirtualMachineImage) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘Id’:
 	if image.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*image.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*image.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -7597,7 +7597,7 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 
 	// Set property ‘Password’:
 	if credentials.Password != nil {
-		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.Password)
+		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.Password)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property Password")
 		}

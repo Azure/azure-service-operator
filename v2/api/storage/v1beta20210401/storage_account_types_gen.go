@@ -6651,7 +6651,7 @@ func (identity *EncryptionIdentity) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘UserAssignedIdentity’:
 	if identity.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*identity.UserAssignedIdentityReference)
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.UserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}
@@ -7702,7 +7702,7 @@ func (rule *ResourceAccessRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘ResourceId’:
 	if rule.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.ResourceReference)
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -8407,7 +8407,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}
