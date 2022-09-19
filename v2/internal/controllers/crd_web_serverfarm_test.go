@@ -46,7 +46,7 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *v1beta20220301.ServerFarm {
 	serverfarm := &v1beta20220301.ServerFarm{
 		ObjectMeta: tc.MakeObjectMeta("appservice"),
-		Spec: v1beta20220301.Serverfarms_Spec{
+		Spec: v1beta20220301.Serverfarm_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v1beta20220301.SkuDescription{

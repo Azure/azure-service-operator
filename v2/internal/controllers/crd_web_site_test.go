@@ -25,7 +25,7 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	site := &v1beta20220301.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
-		Spec: v1beta20220301.Sites_Spec{
+		Spec: v1beta20220301.Site_Spec{
 			Enabled:             to.BoolPtr(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            tc.AzureRegion,
