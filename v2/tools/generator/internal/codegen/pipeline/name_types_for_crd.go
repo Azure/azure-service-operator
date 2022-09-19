@@ -39,9 +39,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 					return nil, errors.Wrapf(err, "failed to name inner definitions")
 				}
 
-				err = result.AddAllAllowDuplicates(newDefs)
-				if err != nil {
-					return nil, errors.Wrapf(err, "failed to add new definitions")
+				for _, def := range newDefs {
+					result.Add(def)
 				}
 
 				if _, ok := result[typeName]; !ok {
@@ -162,14 +161,14 @@ func nameInnerTypes(
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		hint := ctx.(nameHint)
 
-		spec, err := this.Visit(it.SpecType(), hint.WithSuffix(astmodel.SpecSuffix))
+		spec, err := this.Visit(it.SpecType(), hint.WithSuffixPart(astmodel.SpecSuffix))
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status, err = this.Visit(it.StatusType(), hint.WithSuffix(astmodel.StatusSuffix))
+			status, err = this.Visit(it.StatusType(), hint.WithSuffixPart(astmodel.StatusSuffix))
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}
@@ -239,10 +238,16 @@ func (n nameHint) WithBasePart(part string) nameHint {
 	}
 }
 
-func (n nameHint) WithSuffix(suffix string) nameHint {
+func (n nameHint) WithSuffixPart(suffix string) nameHint {
+
+	newSuffix := strings.TrimPrefix(suffix, "_")
+	if n.suffix != "" {
+		newSuffix = n.suffix + "_" + newSuffix
+	}
+
 	return nameHint{
 		baseName: n.baseName,
-		suffix:   strings.TrimPrefix(suffix, "_"),
+		suffix:   newSuffix,
 	}
 }
 
