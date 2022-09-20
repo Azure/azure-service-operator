@@ -591,6 +591,9 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
 <span style="color:#ae81ff">AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
 </code></pre></div><p>You can find these values by using the Azure CLI: <code>az account show</code></p>
 <p>Next, create a service principal with Contributor permissions for your subscription.</p>
+<p>You can optionally use a service principal with a more restricted permission set
+(for example contributor to just a Resource Group), but that will restrict what you can
+do with ASO.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
 </code></pre></div><p>This should give you output like the following:</p>
