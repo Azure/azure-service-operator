@@ -50,7 +50,7 @@ type ContainerGroup_Properties_Spec_ARM struct {
 	Containers []ContainerGroup_Properties_Containers_Spec_ARM `json:"containers,omitempty"`
 
 	// Diagnostics: Container group diagnostic information.
-	Diagnostics *ContainerGroupDiagnostics_ARM `json:"diagnostics,omitempty"`
+	Diagnostics *ContainerGroup_Properties_Diagnostics_Spec_ARM `json:"diagnostics,omitempty"`
 
 	// DnsConfig: DNS configuration for the container group.
 	DnsConfig *DnsConfiguration_ARM `json:"dnsConfig,omitempty"`
@@ -100,7 +100,12 @@ type ContainerGroup_Properties_Containers_Spec_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The container instance properties.
-	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
+	Properties *ContainerGroup_Properties_Containers_Properties_Spec_ARM `json:"properties,omitempty"`
+}
+
+type ContainerGroup_Properties_Diagnostics_Spec_ARM struct {
+	// LogAnalytics: Container group log analytics information.
+	LogAnalytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM `json:"logAnalytics,omitempty"`
 }
 
 type ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM struct {
@@ -125,13 +130,7 @@ type ContainerGroup_Properties_InitContainers_Spec_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The init container definition properties.
-	Properties *InitContainerPropertiesDefinition_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupDiagnostics
-type ContainerGroupDiagnostics_ARM struct {
-	// LogAnalytics: Container group log analytics information.
-	LogAnalytics *LogAnalytics_ARM `json:"logAnalytics,omitempty"`
+	Properties *ContainerGroup_Properties_InitContainers_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
@@ -233,13 +232,12 @@ type AzureFileVolume_ARM struct {
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerProperties
-type ContainerProperties_ARM struct {
+type ContainerGroup_Properties_Containers_Properties_Spec_ARM struct {
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
 
 	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []EnvironmentVariable_ARM `json:"environmentVariables,omitempty"`
+	EnvironmentVariables []ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM `json:"environmentVariables,omitempty"`
 
 	// Image: The name of the image used to create the container instance.
 	Image *string `json:"image,omitempty"`
@@ -260,6 +258,35 @@ type ContainerProperties_ARM struct {
 	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
 }
 
+type ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM struct {
+	// LogType: The log type to be used.
+	LogType *ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec `json:"logType,omitempty"`
+
+	// Metadata: Metadata for log analytics.
+	Metadata map[string]string `json:"metadata,omitempty"`
+
+	// WorkspaceId: The workspace id for log analytics
+	WorkspaceId *string `json:"workspaceId,omitempty"`
+
+	// WorkspaceKey: The workspace key for log analytics
+	WorkspaceKey        string  `json:"workspaceKey,omitempty"`
+	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
+}
+
+type ContainerGroup_Properties_InitContainers_Properties_Spec_ARM struct {
+	// Command: The command to execute within the init container in exec form.
+	Command []string `json:"command,omitempty"`
+
+	// EnvironmentVariables: The environment variables to set in the init container.
+	EnvironmentVariables []ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM `json:"environmentVariables,omitempty"`
+
+	// Image: The image of the init container.
+	Image *string `json:"image,omitempty"`
+
+	// VolumeMounts: The volume mounts available to the init container.
+	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GitRepoVolume
 type GitRepoVolume_ARM struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
@@ -274,37 +301,6 @@ type GitRepoVolume_ARM struct {
 	Revision *string `json:"revision,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/InitContainerPropertiesDefinition
-type InitContainerPropertiesDefinition_ARM struct {
-	// Command: The command to execute within the init container in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the init container.
-	EnvironmentVariables []EnvironmentVariable_ARM `json:"environmentVariables,omitempty"`
-
-	// Image: The image of the init container.
-	Image *string `json:"image,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the init container.
-	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/LogAnalytics
-type LogAnalytics_ARM struct {
-	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
-
-	// Metadata: Metadata for log analytics.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// WorkspaceId: The workspace id for log analytics
-	WorkspaceId *string `json:"workspaceId,omitempty"`
-
-	// WorkspaceKey: The workspace key for log analytics
-	WorkspaceKey        *string `json:"workspaceKey,omitempty"`
-	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/Port
 type Port_ARM struct {
 	// Port: The port number.
@@ -312,6 +308,28 @@ type Port_ARM struct {
 
 	// Protocol: The protocol associated with the port.
 	Protocol *Port_Protocol `json:"protocol,omitempty"`
+}
+
+type ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM struct {
+	// Name: The name of the environment variable.
+	Name *string `json:"name,omitempty"`
+
+	// SecureValue: The value of the secure environment variable.
+	SecureValue *string `json:"secureValue,omitempty"`
+
+	// Value: The value of the environment variable.
+	Value *string `json:"value,omitempty"`
+}
+
+type ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM struct {
+	// Name: The name of the environment variable.
+	Name *string `json:"name,omitempty"`
+
+	// SecureValue: The value of the secure environment variable.
+	SecureValue *string `json:"secureValue,omitempty"`
+
+	// Value: The value of the environment variable.
+	Value *string `json:"value,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerPort
@@ -345,18 +363,6 @@ type ContainerProbe_ARM struct {
 
 	// TimeoutSeconds: The timeout seconds.
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EnvironmentVariable
-type EnvironmentVariable_ARM struct {
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// SecureValue: The value of the secure environment variable.
-	SecureValue *string `json:"secureValue,omitempty"`
-
-	// Value: The value of the environment variable.
-	Value *string `json:"value,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceRequirements

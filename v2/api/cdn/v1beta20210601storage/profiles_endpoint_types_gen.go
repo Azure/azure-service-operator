@@ -133,7 +133,7 @@ type ProfilesEndpointList struct {
 type Endpoint_STATUS struct {
 	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
 	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
-	CustomDomains                    []CustomDomain_STATUS_SubResourceEmbedded                   `json:"customDomains,omitempty"`
+	CustomDomains                    []DeepCreatedCustomDomain_STATUS                            `json:"customDomains,omitempty"`
 	DefaultOriginGroup               *ResourceReference_STATUS                                   `json:"defaultOriginGroup,omitempty"`
 	DeliveryPolicy                   *EndpointProperties_DeliveryPolicy_STATUS                   `json:"deliveryPolicy,omitempty"`
 	GeoFilters                       []GeoFilter_STATUS                                          `json:"geoFilters,omitempty"`
@@ -234,11 +234,12 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1beta20210601.CustomDomain_STATUS_SubResourceEmbedded
-type CustomDomain_STATUS_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
+// Storage version of v1beta20210601.DeepCreatedCustomDomain_STATUS
+type DeepCreatedCustomDomain_STATUS struct {
+	HostName       *string                `json:"hostName,omitempty"`
+	Name           *string                `json:"name,omitempty"`
+	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ValidationData *string                `json:"validationData,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
