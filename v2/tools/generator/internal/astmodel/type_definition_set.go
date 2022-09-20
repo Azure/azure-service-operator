@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
@@ -144,6 +145,7 @@ func DiffTypes(x, y interface{}) string {
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
+		ValidatedType{},
 		readonly.Map[string, Function]{},
 		readonly.Map[string, TestCase]{},
 		readonly.Map[string, []string]{},
@@ -151,7 +153,10 @@ func DiffTypes(x, y interface{}) string {
 		ResourceType{},
 	)
 
-	return cmp.Diff(x, y, allowAll)
+	regexCompare := cmp.Comparer(func(x, y regexp.Regexp) bool {
+		return x.String() == y.String()
+	})
+	return cmp.Diff(x, y, allowAll, regexCompare)
 }
 
 // AddAllAllowDuplicates adds multiple definitions to the set.

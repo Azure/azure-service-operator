@@ -2712,6 +2712,7 @@ const (
 	ServerVersion_STATUS_11 = ServerVersion_STATUS("11")
 	ServerVersion_STATUS_12 = ServerVersion_STATUS("12")
 	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
+	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
 )
 
 type Sku struct {

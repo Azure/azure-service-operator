@@ -29,7 +29,12 @@
 | CookiesMatchConditionParameters_Operator                                           | v1beta20210601 |
 | CookiesMatchConditionParameters_Transforms                                         | v1beta20210601 |
 | CookiesMatchConditionParameters_TypeName                                           | v1beta20210601 |
+<<<<<<< HEAD
 | CustomDomain_STATUS_SubResourceEmbedded                                            | v1beta20210601 |
+>>>>>>> main
+=======
+| DeepCreatedCustomDomainProperties_STATUS                                           | v1beta20210601 |
+| DeepCreatedCustomDomain_STATUS                                                     | v1beta20210601 |
 >>>>>>> main
 | DeepCreatedOriginGroupProperties                                                   | v1beta20210601 |
 | DeepCreatedOriginGroupProperties_STATUS                                            | v1beta20210601 |

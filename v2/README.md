@@ -50,6 +50,10 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    You can find these values by using the Azure CLI: `az account show`
 
    Next, create a service principal with Contributor permissions for your subscription.
+   
+   You can optionally use a service principal with a more restricted permission set 
+   (for example contributor to just a Resource Group), but that will restrict what you can
+   do with ASO.
 
    ```bash
    az ad sp create-for-rbac -n azure-service-operator --role contributor \

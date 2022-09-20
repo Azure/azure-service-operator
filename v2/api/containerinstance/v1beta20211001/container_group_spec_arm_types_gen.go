@@ -49,8 +49,13 @@ type ContainerGroup_Properties_Spec_ARM struct {
 	// Containers: The containers within the container group.
 	Containers []Container_ARM `json:"containers,omitempty"`
 
+<<<<<<< HEAD
 	// Diagnostics: The diagnostic information for a container group.
 	Diagnostics *ContainerGroupDiagnostics_ARM `json:"diagnostics,omitempty"`
+=======
+	// Diagnostics: Container group diagnostic information.
+	Diagnostics *ContainerGroup_Properties_Diagnostics_Spec_ARM `json:"diagnostics,omitempty"`
+>>>>>>> main
 
 	// DnsConfig: The DNS config information for a container group.
 	DnsConfig *DnsConfiguration_ARM `json:"dnsConfig,omitempty"`
@@ -97,8 +102,18 @@ type Container_ARM struct {
 	// Name: The user-provided name of the container instance.
 	Name *string `json:"name,omitempty"`
 
+<<<<<<< HEAD
 	// Properties: The properties of the container instance.
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
+=======
+	// Properties: The container instance properties.
+	Properties *ContainerGroup_Properties_Containers_Properties_Spec_ARM `json:"properties,omitempty"`
+}
+
+type ContainerGroup_Properties_Diagnostics_Spec_ARM struct {
+	// LogAnalytics: Container group log analytics information.
+	LogAnalytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM `json:"logAnalytics,omitempty"`
+>>>>>>> main
 }
 
 type ContainerGroupDiagnostics_ARM struct {
@@ -166,10 +181,60 @@ type InitContainerDefinition_ARM struct {
 	// Name: The name for the init container.
 	Name *string `json:"name,omitempty"`
 
+<<<<<<< HEAD
 	// Properties: The properties for the init container.
 	Properties *InitContainerPropertiesDefinition_ARM `json:"properties,omitempty"`
 }
 
+=======
+	// Properties: The init container definition properties.
+	Properties *ContainerGroup_Properties_InitContainers_Properties_Spec_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ContainerGroupIdentity_Type string
+
+const (
+	ContainerGroupIdentity_Type_None                       = ContainerGroupIdentity_Type("None")
+	ContainerGroupIdentity_Type_SystemAssigned             = ContainerGroupIdentity_Type("SystemAssigned")
+	ContainerGroupIdentity_Type_SystemAssignedUserAssigned = ContainerGroupIdentity_Type("SystemAssigned, UserAssigned")
+	ContainerGroupIdentity_Type_UserAssigned               = ContainerGroupIdentity_Type("UserAssigned")
+)
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
+type ContainerGroupSubnetId_ARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Name: Friendly name for the subnet.
+	Name *string `json:"name,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration
+type DnsConfiguration_ARM struct {
+	// NameServers: The DNS servers for the container group.
+	NameServers []string `json:"nameServers,omitempty"`
+
+	// Options: The DNS options for the container group.
+	Options *string `json:"options,omitempty"`
+
+	// SearchDomains: The DNS search domains for hostname lookup in the container group.
+	SearchDomains *string `json:"searchDomains,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EncryptionProperties
+type EncryptionProperties_ARM struct {
+	// KeyName: The encryption key name.
+	KeyName *string `json:"keyName,omitempty"`
+
+	// KeyVersion: The encryption key version.
+	KeyVersion *string `json:"keyVersion,omitempty"`
+
+	// VaultBaseUrl: The keyvault base url.
+	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress
+>>>>>>> main
 type IpAddress_ARM struct {
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
@@ -218,12 +283,16 @@ type AzureFileVolume_ARM struct {
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
+<<<<<<< HEAD
 type ContainerProperties_ARM struct {
+=======
+type ContainerGroup_Properties_Containers_Properties_Spec_ARM struct {
+>>>>>>> main
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
 
 	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []EnvironmentVariable_ARM `json:"environmentVariables,omitempty"`
+	EnvironmentVariables []ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM `json:"environmentVariables,omitempty"`
 
 	// Image: The name of the image used to create the container instance.
 	Image *string `json:"image,omitempty"`
@@ -244,6 +313,39 @@ type ContainerProperties_ARM struct {
 	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+type ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM struct {
+	// LogType: The log type to be used.
+	LogType *ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec `json:"logType,omitempty"`
+
+	// Metadata: Metadata for log analytics.
+	Metadata map[string]string `json:"metadata,omitempty"`
+
+	// WorkspaceId: The workspace id for log analytics
+	WorkspaceId *string `json:"workspaceId,omitempty"`
+
+	// WorkspaceKey: The workspace key for log analytics
+	WorkspaceKey        string  `json:"workspaceKey,omitempty"`
+	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
+}
+
+type ContainerGroup_Properties_InitContainers_Properties_Spec_ARM struct {
+	// Command: The command to execute within the init container in exec form.
+	Command []string `json:"command,omitempty"`
+
+	// EnvironmentVariables: The environment variables to set in the init container.
+	EnvironmentVariables []ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM `json:"environmentVariables,omitempty"`
+
+	// Image: The image of the init container.
+	Image *string `json:"image,omitempty"`
+
+	// VolumeMounts: The volume mounts available to the init container.
+	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GitRepoVolume
+>>>>>>> main
 type GitRepoVolume_ARM struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
 	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
@@ -257,6 +359,7 @@ type GitRepoVolume_ARM struct {
 	Revision *string `json:"revision,omitempty"`
 }
 
+<<<<<<< HEAD
 type InitContainerPropertiesDefinition_ARM struct {
 	// Command: The command to execute within the init container in exec form.
 	Command []string `json:"command,omitempty"`
@@ -286,6 +389,9 @@ type LogAnalytics_ARM struct {
 	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
 }
 
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/Port
+>>>>>>> main
 type Port_ARM struct {
 	// Port: The port number.
 	Port *int `json:"port,omitempty"`
@@ -294,6 +400,32 @@ type Port_ARM struct {
 	Protocol *Port_Protocol `json:"protocol,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+type ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM struct {
+	// Name: The name of the environment variable.
+	Name *string `json:"name,omitempty"`
+
+	// SecureValue: The value of the secure environment variable.
+	SecureValue *string `json:"secureValue,omitempty"`
+
+	// Value: The value of the environment variable.
+	Value *string `json:"value,omitempty"`
+}
+
+type ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM struct {
+	// Name: The name of the environment variable.
+	Name *string `json:"name,omitempty"`
+
+	// SecureValue: The value of the secure environment variable.
+	SecureValue *string `json:"secureValue,omitempty"`
+
+	// Value: The value of the environment variable.
+	Value *string `json:"value,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerPort
+>>>>>>> main
 type ContainerPort_ARM struct {
 	// Port: The port number exposed within the container group.
 	Port *int `json:"port,omitempty"`
@@ -325,6 +457,7 @@ type ContainerProbe_ARM struct {
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
 }
 
+<<<<<<< HEAD
 type EnvironmentVariable_ARM struct {
 	// Name: The name of the environment variable.
 	Name *string `json:"name,omitempty"`
@@ -336,6 +469,9 @@ type EnvironmentVariable_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceRequirements
+>>>>>>> main
 type ResourceRequirements_ARM struct {
 	// Limits: The resource limits of this container instance.
 	Limits *ResourceLimits_ARM `json:"limits,omitempty"`

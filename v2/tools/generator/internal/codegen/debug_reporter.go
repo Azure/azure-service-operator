@@ -112,8 +112,10 @@ func (dr *debugReporter) writeType(
 		dr.writeResource(rpt, rsrc, currentPackage)
 	} else if obj, ok := astmodel.AsObjectType(t); ok {
 		dr.writeObject(rpt, obj, currentPackage)
-	} else if obj, ok := astmodel.AsEnumType(t); ok {
-		dr.writeEnum(rpt, obj, currentPackage)
+	} else if enm, ok := astmodel.AsEnumType(t); ok {
+		dr.writeEnum(rpt, enm, currentPackage)
+	} else if allOf, ok := t.(*astmodel.AllOfType); ok {
+		dr.writeAllOf(rpt, allOf, currentPackage)
 	}
 }
 
@@ -170,6 +172,13 @@ func (dr *debugReporter) writeEnum(rpt *debugReport, enum *astmodel.EnumType, cu
 	for _, v := range enum.Options() {
 		rpt.add(fmt.Sprintf("%s: %s", v.Identifier, v.Value))
 	}
+}
+
+func (dr *debugReporter) writeAllOf(rpt *debugReport, allOf *astmodel.AllOfType, currentPackage astmodel.PackageReference) {
+	allOf.Types().ForEach(func(t astmodel.Type, _ int) {
+		sub := rpt.add(astmodel.DebugDescription(t, currentPackage))
+		dr.writeType(sub, t, currentPackage)
+	})
 }
 
 var dashMatcher = regexp.MustCompile("-+")
