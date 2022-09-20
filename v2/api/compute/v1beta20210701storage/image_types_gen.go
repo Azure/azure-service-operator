@@ -22,7 +22,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210701.Image
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2021-07-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -195,7 +195,7 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210701.Image
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2021-07-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`

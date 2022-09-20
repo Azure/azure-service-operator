@@ -1146,8 +1146,6 @@ func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string
 	return result
 }
 
-<<<<<<< HEAD
-=======
 // indexContainerinstanceContainerGroupWorkspaceKey an index function for containerinstance_v20211001s.ContainerGroup .spec.diagnostics.logAnalytics.workspaceKey
 func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []string {
 	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
@@ -1166,25 +1164,6 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return []string{obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Name}
 }
 
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
-func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Name}
-}
-
->>>>>>> main
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
 func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformysql_v20210501s.FlexibleServer)
@@ -1208,104 +1187,6 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 	}
 	return []string{obj.Spec.AdministratorLoginPassword.Name}
 }
-<<<<<<< HEAD
-=======
-
-// indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
-func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Name}
-}
-
-// indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
-func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Name}
-}
-
-// indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Name}
-}
-
-// indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Name}
-}
 
 // indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
 func indexWebSiteAccessKey(rawObj client.Object) []string {
@@ -1325,4 +1206,3 @@ func indexWebSiteAccessKey(rawObj client.Object) []string {
 	}
 	return result
 }
->>>>>>> main

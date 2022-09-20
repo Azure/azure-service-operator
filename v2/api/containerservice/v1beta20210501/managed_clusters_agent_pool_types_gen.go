@@ -409,7 +409,7 @@ type ManagedClusters_AgentPool_Spec struct {
 	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
-	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
@@ -1195,7 +1195,12 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 	}
 
 	// ProximityPlacementGroupID
-	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
+	if source.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
+		pool.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		pool.ProximityPlacementGroupID = nil
+	}
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -1439,7 +1444,12 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 	}
 
 	// ProximityPlacementGroupID
-	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
+	if pool.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := string(*pool.ProximityPlacementGroupID)
+		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		destination.ProximityPlacementGroupID = nil
+	}
 
 	// ScaleSetEvictionPolicy
 	if pool.ScaleSetEvictionPolicy != nil {
@@ -3669,6 +3679,8 @@ const (
 	OSType_STATUS_Linux   = OSType_STATUS("Linux")
 	OSType_STATUS_Windows = OSType_STATUS("Windows")
 )
+
+type ProximityPlacementGroupID string
 
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ScaleSetEvictionPolicy string

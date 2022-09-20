@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/image.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/image.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -313,7 +313,7 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/image.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/image.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -2383,7 +2383,7 @@ type ImageOSDisk struct {
 	ManagedDisk *SubResource `json:"managedDisk,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OsState: The OS State.
+	// OsState: The OS State. For managed images, use Generalized.
 	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required

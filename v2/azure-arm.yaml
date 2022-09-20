@@ -89,6 +89,10 @@ typeFilters:
     because: Terrifying.
 
   - action: prune
+    group: domainregistration
+    because: type definition for "...v1beta20200901/Domains_DomainOwnershipIdentifier" has two shapes
+
+  - action: prune
     group: solutions
     because: There seems to be some issue with embedded JSON objects, specifically "CreateUiDefinition"
 
@@ -116,10 +120,6 @@ typeFilters:
     name: VirtualMachineExtension
     group: compute
     because: TODO(donotmerge) - object type not resource type in determineResourceOwnership
-
-  - action: prune
-    group: web
-    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
 
   - action: prune
     group: securityinsights
@@ -786,15 +786,9 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
-      AutoStorageBaseProperties:
-        StorageAccountId:
-          $armReference: true
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      KeyVaultReference:
-        Id:
-          $armReference: true
   cache:
     2020-12-01:
       Redis:
@@ -806,18 +800,12 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
-      RedisCreateProperties:
-        SubnetId:
-          $armReference: true
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
-      RedisLinkedServerCreateProperties:
-        LinkedRedisCacheId:
-          $armReference: true
       Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
@@ -912,11 +900,11 @@ objectModelConfiguration:
       ContainerGroup:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec:
-        WorkspaceResourceId:
-          $armReference: true
       ContainerGroupSubnetId:
         Id:
+          $armReference: true
+      LogAnalytics:
+        WorkspaceResourceId:
           $armReference: true
   containerregistry:
     2021-09-01:
@@ -935,37 +923,16 @@ objectModelConfiguration:
           - AdminCredentials
           - UserCredentials
       ManagedClusterAgentPoolProfile:
-        PodSubnetID:
-          $armReference: true
-        NodePublicIPPrefixID:
-          $armReference: true
         ProximityPlacementGroupID:
           $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
-        VnetSubnetID:
-          $armReference: true
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
-        NodePublicIPPrefixID:
-          $armReference: true
-        PodSubnetID:
-          $armReference: true
         ProximityPlacementGroupID:
           $armReference: false # TODO[breaking]: Delete this and let the ARM value win
-        VnetSubnetID:
-          $armReference: true
-      ManagedClusterProperties:
-        DiskEncryptionSetId:
-          $armReference: true
       PrivateLinkResource:
         Id:
-          $armReference: true
-      ResourceReference:
-        Id:
-          $armReference: true
-      UserAssignedIdentity:
-        ResourceId:
           $armReference: true
   dbformariadb:
     2018-06-01:
@@ -1007,11 +974,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        DelegatedSubnetResourceId:
-          $armReference: true
-        PrivateDnsZoneResourceId:
-          $armReference: true
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -1028,14 +990,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        DelegatedSubnetResourceId:
-          $armReference: true
-        PrivateDnsZoneArmResourceId:
-          $armReference: true
-      ServerProperties:
-        SourceServerResourceId:
-          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
@@ -1107,9 +1061,6 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
-      VirtualNetworkRule:
-        Id:
-          $armReference: true
   eventgrid:
     2020-06-01:
       Domain:

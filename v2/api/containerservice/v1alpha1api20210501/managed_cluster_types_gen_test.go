@@ -1501,7 +1501,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Ephemeral, OSDiskType_Managed))
 	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_CBLMariner, OSSKU_Ubuntu))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_Linux, OSType_Windows))
-	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
+	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString().Map(func(it string) ProximityPlacementGroupID {
+		return ProximityPlacementGroupID(it)
+	}))
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Deallocate, ScaleSetEvictionPolicy_Delete))
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Regular, ScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())

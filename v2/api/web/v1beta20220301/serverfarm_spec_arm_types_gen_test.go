@@ -84,6 +84,7 @@ func Serverfarm_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerfarm_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerfarm_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
@@ -93,96 +94,8 @@ func AddIndependentPropertyGeneratorsForServerfarm_Spec_ARM(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForServerfarm_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerfarm_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(AppServicePlanProperties_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(Serverfarm_Properties_Spec_ARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuDescription_ARMGenerator())
-}
-
-func Test_AppServicePlanProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AppServicePlanProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAppServicePlanProperties_ARM, AppServicePlanProperties_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAppServicePlanProperties_ARM runs a test to see if a specific instance of AppServicePlanProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAppServicePlanProperties_ARM(subject AppServicePlanProperties_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AppServicePlanProperties_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AppServicePlanProperties_ARM instances for property testing - lazily instantiated by
-// AppServicePlanProperties_ARMGenerator()
-var appServicePlanProperties_ARMGenerator gopter.Gen
-
-// AppServicePlanProperties_ARMGenerator returns a generator of AppServicePlanProperties_ARM instances for property testing.
-// We first initialize appServicePlanProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AppServicePlanProperties_ARMGenerator() gopter.Gen {
-	if appServicePlanProperties_ARMGenerator != nil {
-		return appServicePlanProperties_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAppServicePlanProperties_ARM(generators)
-	appServicePlanProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AppServicePlanProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAppServicePlanProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForAppServicePlanProperties_ARM(generators)
-	appServicePlanProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AppServicePlanProperties_ARM{}), generators)
-
-	return appServicePlanProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAppServicePlanProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAppServicePlanProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ElasticScaleEnabled"] = gen.PtrOf(gen.Bool())
-	gens["FreeOfferExpirationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["HyperV"] = gen.PtrOf(gen.Bool())
-	gens["IsSpot"] = gen.PtrOf(gen.Bool())
-	gens["IsXenon"] = gen.PtrOf(gen.Bool())
-	gens["MaximumElasticWorkerCount"] = gen.PtrOf(gen.Int())
-	gens["PerSiteScaling"] = gen.PtrOf(gen.Bool())
-	gens["Reserved"] = gen.PtrOf(gen.Bool())
-	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
-	gens["TargetWorkerSizeId"] = gen.PtrOf(gen.Int())
-	gens["WorkerTierName"] = gen.PtrOf(gen.AlphaString())
-	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForAppServicePlanProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAppServicePlanProperties_ARM(gens map[string]gopter.Gen) {
-	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfile_ARMGenerator())
-	gens["KubeEnvironmentProfile"] = gen.PtrOf(KubeEnvironmentProfile_ARMGenerator())
 }
 
 func Test_ExtendedLocation_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -244,6 +157,94 @@ func ExtendedLocation_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Serverfarm_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Serverfarm_Properties_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerfarm_Properties_Spec_ARM, Serverfarm_Properties_Spec_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerfarm_Properties_Spec_ARM runs a test to see if a specific instance of Serverfarm_Properties_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerfarm_Properties_Spec_ARM(subject Serverfarm_Properties_Spec_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Serverfarm_Properties_Spec_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Serverfarm_Properties_Spec_ARM instances for property testing - lazily instantiated by
+// Serverfarm_Properties_Spec_ARMGenerator()
+var serverfarm_Properties_Spec_ARMGenerator gopter.Gen
+
+// Serverfarm_Properties_Spec_ARMGenerator returns a generator of Serverfarm_Properties_Spec_ARM instances for property testing.
+// We first initialize serverfarm_Properties_Spec_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Serverfarm_Properties_Spec_ARMGenerator() gopter.Gen {
+	if serverfarm_Properties_Spec_ARMGenerator != nil {
+		return serverfarm_Properties_Spec_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerfarm_Properties_Spec_ARM(generators)
+	serverfarm_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Serverfarm_Properties_Spec_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerfarm_Properties_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerfarm_Properties_Spec_ARM(generators)
+	serverfarm_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Serverfarm_Properties_Spec_ARM{}), generators)
+
+	return serverfarm_Properties_Spec_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerfarm_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerfarm_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["ElasticScaleEnabled"] = gen.PtrOf(gen.Bool())
+	gens["FreeOfferExpirationTime"] = gen.PtrOf(gen.AlphaString())
+	gens["HyperV"] = gen.PtrOf(gen.Bool())
+	gens["IsSpot"] = gen.PtrOf(gen.Bool())
+	gens["IsXenon"] = gen.PtrOf(gen.Bool())
+	gens["MaximumElasticWorkerCount"] = gen.PtrOf(gen.Int())
+	gens["PerSiteScaling"] = gen.PtrOf(gen.Bool())
+	gens["Reserved"] = gen.PtrOf(gen.Bool())
+	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
+	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
+	gens["TargetWorkerSizeId"] = gen.PtrOf(gen.Int())
+	gens["WorkerTierName"] = gen.PtrOf(gen.AlphaString())
+	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForServerfarm_Properties_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerfarm_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfile_ARMGenerator())
+	gens["KubeEnvironmentProfile"] = gen.PtrOf(KubeEnvironmentProfile_ARMGenerator())
 }
 
 func Test_SkuDescription_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
