@@ -42,10 +42,25 @@ func CheckTargetOwnedByObj(obj client.Object, target client.Object) error {
 	return nil
 }
 
+func safeNewObj(obj client.Object) (result client.Object, err error) {
+	defer func() {
+		if oops := recover(); oops != nil {
+			err = errors.Errorf("failed to create new %T.", obj)
+		}
+	}()
+	result = reflect.New(reflect.TypeOf(obj).Elem()).Interface().(client.Object)
+
+	// No return needed here as
+	return result, err
+}
+
 // ApplyObjAndEnsureOwner applies the object (similar to kubectl apply). If the object does not exist
 // it is created. If it exists, it is updated.
 func ApplyObjAndEnsureOwner(ctx context.Context, c client.Client, owner client.Object, obj client.Object) (controllerutil.OperationResult, error) {
-	updatedObj := reflect.New(reflect.TypeOf(obj).Elem()).Interface().(client.Object) // TODO: How risky is this from a panic perspective?
+	updatedObj, err := safeNewObj(obj)
+	if err != nil {
+		return controllerutil.OperationResultNone, err
+	}
 	updatedObj.SetNamespace(obj.GetNamespace())
 	updatedObj.SetName(obj.GetName())
 

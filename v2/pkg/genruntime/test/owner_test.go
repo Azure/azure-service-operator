@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package genruntime_test
+package test_test
 
 import (
 	"testing"

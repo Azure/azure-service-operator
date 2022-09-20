@@ -14,16 +14,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
-// TODO: ConfigMap stuff
-// TODO: how is the handling going to work... I guess we need an optional interface in genruntime?
-// TODO: can we use that same interface for secrets?
-// TODO: ExportsKubernetesResources or something like that... yea I like this
-// TODO: Problem is that secrets calls need to actually go to Azure, whereas other exports may not
-
+// KubernetesExporter defines a resource which can create other resources in Kubernetes.
 type KubernetesExporter interface {
+	// ExportKubernetesResources provides a list of Kubernetes resource for the operator to create once the resource which
+	// implements this interface is successfully provisioned. This method is invoked once a resource has been
+	// successfully created in Azure, but before the Ready condition has been marked successful.
 	ExportKubernetesResources(
 		ctx context.Context,
-		obj MetaObject, // TODO: The metaObject parameter is pointless unless we're reusing this as an extension too, since the type implementing this should be the storage type...
+		obj MetaObject,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger) ([]client.Object, error)
 }
