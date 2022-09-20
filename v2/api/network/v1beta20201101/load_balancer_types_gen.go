@@ -405,7 +405,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Id’:
 	if balancer.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*balancer.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*balancer.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1801,7 +1801,7 @@ func (pool *BackendAddressPool) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘Id’:
 	if pool.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*pool.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2558,7 +2558,7 @@ func (configuration *FrontendIPConfiguration) ConvertToARM(resolved genruntime.C
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3489,7 +3489,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property ‘Id’:
 	if pool.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*pool.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -4176,7 +4176,7 @@ func (rule *InboundNatRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5090,7 +5090,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -6030,7 +6030,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -6686,7 +6686,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property ‘Id’:
 	if probe.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*probe.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*probe.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -8533,7 +8533,7 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Id’:
 	if address.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*address.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*address.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -9267,7 +9267,7 @@ func (subnet *Subnet) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property ‘Id’:
 	if subnet.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subnet.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*subnet.Reference)
 		if err != nil {
 			return nil, err
 		}

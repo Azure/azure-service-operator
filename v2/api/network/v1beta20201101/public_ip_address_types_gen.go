@@ -411,7 +411,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Id’:
 	if address.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*address.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*address.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2732,7 +2732,7 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Id’:
 	if gateway.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*gateway.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*gateway.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3520,7 +3520,7 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 
 	// Set property ‘Id’:
 	if embedded.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3739,7 +3739,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}

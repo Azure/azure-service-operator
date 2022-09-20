@@ -4791,24 +4791,7 @@ func (reference *ImageReference) AssignProperties_From_ImageReference(source *v2
 	reference.Sku = genruntime.ClonePointerToString(source.Sku)
 
 	// Version
-	if propertyBag.Contains("Version") {
-		var version string
-		err := propertyBag.Pull("Version", &version)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'Version' from propertyBag")
-		}
-
-		reference.Version = &version
-	} else {
-		reference.Version = nil
-	}
-
-	// VersionReference
-	if source.VersionReference != nil {
-		propertyBag.Add("VersionReference", *source.VersionReference)
-	} else {
-		propertyBag.Remove("VersionReference")
-	}
+	reference.Version = genruntime.ClonePointerToString(source.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4870,24 +4853,7 @@ func (reference *ImageReference) AssignProperties_To_ImageReference(destination 
 	destination.Sku = genruntime.ClonePointerToString(reference.Sku)
 
 	// Version
-	if reference.Version != nil {
-		propertyBag.Add("Version", *reference.Version)
-	} else {
-		propertyBag.Remove("Version")
-	}
-
-	// VersionReference
-	if propertyBag.Contains("VersionReference") {
-		var versionReference genruntime.ResourceReference
-		err := propertyBag.Pull("VersionReference", &versionReference)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'VersionReference' from propertyBag")
-		}
-
-		destination.VersionReference = &versionReference
-	} else {
-		destination.VersionReference = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(reference.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

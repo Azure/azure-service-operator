@@ -391,7 +391,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Id’:
 	if network.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*network.Reference)
 		if err != nil {
 			return nil, err
 		}

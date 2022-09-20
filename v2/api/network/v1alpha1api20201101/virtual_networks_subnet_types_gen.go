@@ -372,7 +372,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Id’:
 	if subnet.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subnet.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*subnet.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1999,7 +1999,7 @@ func (configuration *ApplicationGatewayIPConfiguration) ConvertToARM(resolved ge
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2316,7 +2316,7 @@ func (delegation *Delegation) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘Id’:
 	if delegation.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*delegation.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*delegation.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3356,7 +3356,7 @@ func (table *RouteTableSpec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Id’:
 	if table.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*table.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*table.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3992,7 +3992,7 @@ func (policy *ServiceEndpointPolicySpec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Id’:
 	if policy.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*policy.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*policy.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -4401,7 +4401,7 @@ func (definition *ServiceEndpointPolicyDefinition) ConvertToARM(resolved genrunt
 
 	// Set property ‘Id’:
 	if definition.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*definition.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*definition.Reference)
 		if err != nil {
 			return nil, err
 		}

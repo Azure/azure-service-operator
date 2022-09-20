@@ -359,7 +359,7 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘Id’:
 	if table.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*table.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*table.Reference)
 		if err != nil {
 			return nil, err
 		}

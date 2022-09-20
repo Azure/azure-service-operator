@@ -416,7 +416,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Id’:
 	if gateway.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*gateway.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*gateway.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2319,7 +2319,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5045,7 +5045,7 @@ func (certificate *VpnClientRevokedCertificate) ConvertToARM(resolved genruntime
 
 	// Set property ‘Id’:
 	if certificate.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*certificate.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*certificate.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5311,7 +5311,7 @@ func (certificate *VpnClientRootCertificate) ConvertToARM(resolved genruntime.Co
 
 	// Set property ‘Id’:
 	if certificate.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*certificate.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*certificate.Reference)
 		if err != nil {
 			return nil, err
 		}

@@ -4539,6 +4539,7 @@ func AddIndependentPropertyGeneratorsForImageReference(gens map[string]gopter.Ge
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["SharedGalleryImageId"] = gen.PtrOf(gen.AlphaString())
 	gens["Sku"] = gen.PtrOf(gen.AlphaString())
+	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ImageReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

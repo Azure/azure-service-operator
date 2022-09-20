@@ -387,7 +387,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 
 	// Set property ‘Id’:
 	if peering.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*peering.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*peering.Reference)
 		if err != nil {
 			return nil, err
 		}

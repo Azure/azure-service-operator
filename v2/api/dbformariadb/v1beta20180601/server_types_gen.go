@@ -2327,23 +2327,10 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.BackupRetentionDays = &backupRetentionDays
 	}
 
-<<<<<<< HEAD
 	// Set property ‘GeoRedundantBackup’:
 	if profile.GeoRedundantBackup != nil {
 		geoRedundantBackup := *profile.GeoRedundantBackup
 		result.GeoRedundantBackup = &geoRedundantBackup
-=======
-	// Set property ‘AdministratorLoginPassword’:
-	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(create.AdministratorLoginPassword)
-	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
-	}
-	result.AdministratorLoginPassword = administratorLoginPasswordSecret
-
-	// Set property ‘CreateMode’:
-	if create.CreateMode != nil {
-		result.CreateMode = *create.CreateMode
->>>>>>> main
 	}
 
 	// Set property ‘StorageAutogrow’:

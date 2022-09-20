@@ -379,7 +379,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Id’:
 	if networkInterface.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*networkInterface.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*networkInterface.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1924,7 +1924,7 @@ func (configuration *NetworkInterfaceIPConfiguration) ConvertToARM(resolved genr
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3745,13 +3745,8 @@ func (group *NetworkSecurityGroupSpec) ConvertToARM(resolved genruntime.ConvertT
 	result := &NetworkSecurityGroupSpec_ARM{}
 
 	// Set property ‘Id’:
-<<<<<<< HEAD
 	if group.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
-=======
-	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
->>>>>>> main
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*group.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -4902,7 +4897,7 @@ func (service *PrivateLinkServiceSpec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘Id’:
 	if service.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*service.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*service.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -5380,7 +5375,7 @@ func (pool *ApplicationGatewayBackendAddressPool) ConvertToARM(resolved genrunti
 
 	// Set property ‘Id’:
 	if pool.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*pool.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*pool.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -6859,7 +6854,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 
 	// Set property ‘Id’:
 	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -7527,7 +7522,7 @@ func (rule *SecurityRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*rule.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -8819,7 +8814,7 @@ func (networkTap *VirtualNetworkTapSpec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Id’:
 	if networkTap.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*networkTap.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*networkTap.Reference)
 		if err != nil {
 			return nil, err
 		}

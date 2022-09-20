@@ -359,7 +359,7 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Id’:
 	if group.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*group.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1351,7 +1351,7 @@ func (embedded *SecurityRule_SubResourceEmbedded) ConvertToARM(resolved genrunti
 
 	// Set property ‘Id’:
 	if embedded.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
 			return nil, err
 		}

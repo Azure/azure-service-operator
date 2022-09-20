@@ -367,7 +367,7 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Id’:
 	if route.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*route.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*route.Reference)
 		if err != nil {
 			return nil, err
 		}
