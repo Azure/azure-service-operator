@@ -1673,9 +1673,9 @@ func (in *ImageReference) DeepCopyInto(out *ImageReference) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.VersionReference != nil {
-		in, out := &in.VersionReference, &out.VersionReference
-		*out = new(genruntime.ResourceReference)
+	if in.Version != nil {
+		in, out := &in.Version, &out.Version
+		*out = new(string)
 		**out = **in
 	}
 }

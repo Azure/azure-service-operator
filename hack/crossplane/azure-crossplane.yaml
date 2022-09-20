@@ -357,6 +357,10 @@ objectModelConfiguration:
       Servers_Database:
         $export: true
         $supportedFrom: "-"
+    2021-11-01:
+      Server:
+        $export: true
+        $supportedFrom: "-"
   cache:
     2020-06-01:
       Redis: 

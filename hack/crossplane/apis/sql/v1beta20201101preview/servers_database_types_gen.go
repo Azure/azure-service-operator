@@ -229,7 +229,7 @@ type ServersObservation struct {
 	HighAvailabilityReplicaCount *int `json:"highAvailabilityReplicaCount,omitempty"`
 
 	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id *armid `json:"id,omitempty"`
 
 	// Kind: Kind of database. This is metadata used for the Azure portal experience.
 	Kind *string `json:"kind,omitempty"`
