@@ -782,9 +782,15 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
+      AutoStorageBaseProperties:
+        StorageAccountId:
+          $armReference: true
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      KeyVaultReference:
+        Id:
+          $armReference: true
   cache:
     2020-12-01:
       Redis:
@@ -805,6 +811,9 @@ objectModelConfiguration:
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
+      RedisLinkedServerCreateProperties:
+        LinkedRedisCacheId:
+          $armReference: true
       Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
@@ -865,29 +874,16 @@ objectModelConfiguration:
       ApiEntityReference:
         Id:
           $armReference: true
-      ImageReference:
-        Id:
-          $armReference: true
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      SubResource:
-        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-        Id:
-          $armReference: true
-      ManagedDiskParameters:
-        Id:
-          $armReference: true
     2021-07-01:
       Image:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
-      SubResource:
-        Id:
-          $armReference: true
     2022-03-01:
       ApiEntityReference:
         Id:
@@ -896,17 +892,8 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
       ImageReference:
-        Id:
-          $armReference: true
         Version:
           $armReference: false
-      ManagedDiskParameters:
-        Id:
-          $armReference: true
-      SubResource:
-        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-        Id:
-          $armReference: true
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
@@ -944,16 +931,37 @@ objectModelConfiguration:
           - AdminCredentials
           - UserCredentials
       ManagedClusterAgentPoolProfile:
+        PodSubnetID:
+          $armReference: true
+        NodePublicIPPrefixID:
+          $armReference: true
         ProximityPlacementGroupID:
           $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
+        VnetSubnetID:
+          $armReference: true
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
+        NodePublicIPPrefixID:
+          $armReference: true
+        PodSubnetID:
+          $armReference: true
         ProximityPlacementGroupID:
           $armReference: false # TODO[breaking]: Delete this and let the ARM value win
+        VnetSubnetID:
+          $armReference: true
+      ManagedClusterProperties:
+        DiskEncryptionSetId:
+          $armReference: true
       PrivateLinkResource:
         Id:
+          $armReference: true
+      ResourceReference:
+        Id:
+          $armReference: true
+      UserAssignedIdentity:
+        ResourceId:
           $armReference: true
   dbformariadb:
     2018-06-01:
@@ -995,6 +1003,11 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneResourceId:
+          $armReference: true
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -1011,6 +1024,14 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
@@ -1082,6 +1103,9 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
   eventgrid:
     2020-06-01:
       Domain:
@@ -1247,18 +1271,12 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
     2020-11-01:
-      FrontendIPConfiguration:
-        Id:
-          $armReference: true
       LoadBalancer:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-      NetworkInterfaceIPConfiguration:
-        Id:
-          $armReference: true
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1268,9 +1286,6 @@ objectModelConfiguration:
       PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddressSpec_SubResourceEmbedded:
-        Id:
-          $armReference: true
 #      Route_RouteTable_SubResourceEmbedded:
 #        Id:
 #          $armReference: true
@@ -1289,12 +1304,6 @@ objectModelConfiguration:
 #      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
 #        Id:
 #          $armReference: true
-      ServiceEndpointPolicyDefinition:
-        Id:
-          $armReference: true
-      SubResource:
-        Id:
-          $armReference: true
 #      Subnet_VirtualNetwork_SubResourceEmbedded:
 #        Id:
 #          $armReference: true

@@ -360,6 +360,7 @@ func init() {
 	i.AddUnordered(synthesizer.handleAllOfType)
 	i.AddUnordered(synthesizer.handleTypeName)
 	i.AddUnordered(synthesizer.handleOneOf)
+	i.AddUnordered(synthesizer.handleARMIDAndString)
 
 	i.Add(synthesizer.handleOptionalOptional)
 	i.AddUnordered(synthesizer.handleOptional)
@@ -652,7 +653,7 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 	return nil, nil
 }
 
-// a validated and non-validated version of the same type become the valiated version
+// a validated and non-validated version of the same type become the validated version
 func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
 	if astmodel.TypeEquals(validated.ElementType(), right) {
 		return validated, nil
@@ -661,6 +662,15 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 	// validated(optional(T)) combined with a non-optional T becomes validated(T)
 	if astmodel.TypeEquals(validated.ElementType(), astmodel.NewOptionalType(right)) {
 		return validated.WithElement(right), nil
+	}
+
+	return nil, nil
+}
+
+// An ARM ID and a string become the ARM ID
+func (synthesizer) handleARMIDAndString(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+	if astmodel.TypeEquals(left, astmodel.ARMIDType) && astmodel.TypeEquals(right, astmodel.StringType) {
+		return astmodel.ARMIDType, nil
 	}
 
 	return nil, nil

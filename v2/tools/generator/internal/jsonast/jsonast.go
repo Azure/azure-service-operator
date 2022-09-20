@@ -491,6 +491,16 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	}
 
 	isResource := schema.extensions("x-ms-azure-resource") == true
+
+	// If we're a resource, our 'Id' property needs to have a special type
+	if isResource {
+		for i, prop := range properties {
+			if prop.HasName(astmodel.PropertyName("Id")) || prop.HasName(astmodel.PropertyName("ID")) {
+				properties[i] = prop.WithType(astmodel.NewOptionalType(astmodel.ARMIDType))
+			}
+		}
+	}
+
 	objectType := astmodel.NewObjectType().WithProperties(properties...).WithIsResource(isResource)
 
 	return objectType, nil
