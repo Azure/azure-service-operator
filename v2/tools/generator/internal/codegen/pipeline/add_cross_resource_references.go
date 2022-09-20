@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -102,15 +103,9 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			if len(crossResourceReferenceErrs) > 0 {
-				// format them nicely, it’s common to have a lot after a change
-				var builder strings.Builder
-				for _, e := range crossResourceReferenceErrs {
-					builder.WriteString("\n - ")
-					builder.WriteString(e.Error())
-				}
-
-				return nil, errors.New(builder.String())
+			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
+			if err != nil {
+				return nil, err
 			}
 
 			result, err := stripRemainingARMIDPrimitiveTypes(typesWithARMIDs)
