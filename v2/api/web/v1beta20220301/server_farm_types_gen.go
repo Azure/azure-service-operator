@@ -2122,7 +2122,7 @@ func (profile *HostingEnvironmentProfile) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Id’:
 	if profile.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -2294,7 +2294,7 @@ func (profile *KubeEnvironmentProfile) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘Id’:
 	if profile.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*profile.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.Reference)
 		if err != nil {
 			return nil, err
 		}

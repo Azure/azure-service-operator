@@ -608,7 +608,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.ScmSiteAlsoStopped = &scmSiteAlsoStopped
 	}
 	if site.ServerFarmReference != nil {
-		serverFarmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*site.ServerFarmReference)
+		serverFarmIdARMID, err := resolved.ResolvedReferences.Lookup(*site.ServerFarmReference)
 		if err != nil {
 			return nil, err
 		}
@@ -628,7 +628,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.StorageAccountRequired = &storageAccountRequired
 	}
 	if site.VirtualNetworkSubnetReference != nil {
-		virtualNetworkSubnetIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*site.VirtualNetworkSubnetReference)
+		virtualNetworkSubnetIdARMID, err := resolved.ResolvedReferences.Lookup(*site.VirtualNetworkSubnetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3064,7 +3064,7 @@ func (info *CloningInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘SourceWebAppId’:
 	if info.SourceWebAppReference != nil {
-		sourceWebAppReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*info.SourceWebAppReference)
+		sourceWebAppReferenceARMID, err := resolved.ResolvedReferences.Lookup(*info.SourceWebAppReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3080,7 +3080,7 @@ func (info *CloningInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘TrafficManagerProfileId’:
 	if info.TrafficManagerProfileReference != nil {
-		trafficManagerProfileReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*info.TrafficManagerProfileReference)
+		trafficManagerProfileReferenceARMID, err := resolved.ResolvedReferences.Lookup(*info.TrafficManagerProfileReference)
 		if err != nil {
 			return nil, err
 		}
@@ -8365,7 +8365,7 @@ func (config *ApiManagementConfig) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Id’:
 	if config.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*config.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*config.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -9874,7 +9874,7 @@ func (restriction *IpSecurityRestriction) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘VnetSubnetResourceId’:
 	if restriction.VnetSubnetResourceReference != nil {
-		vnetSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*restriction.VnetSubnetResourceReference)
+		vnetSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*restriction.VnetSubnetResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -10751,7 +10751,7 @@ func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) ConvertToA
 
 	// Set property ‘AccessKey’:
 	if accounts.AccessKey != nil {
-		accessKeySecret, err := resolved.ResolvedSecrets.LookupSecret(*accounts.AccessKey)
+		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*accounts.AccessKey)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
 		}
