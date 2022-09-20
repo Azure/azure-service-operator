@@ -1,0 +1,12 @@
+apiVersion: web.azure.com/v1beta20220301
+kind: ServerFarm
+metadata:
+  name: aso-sample-appservice
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: F1
+    tier: Free

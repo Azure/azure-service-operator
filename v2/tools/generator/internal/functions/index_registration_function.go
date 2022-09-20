@@ -200,7 +200,8 @@ func (f *IndexRegistrationFunction) handleArray(result *dst.Ident, locals *astmo
 func (f *IndexRegistrationFunction) handleMap(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition) []dst.Stmt {
 	p := remainingChain[0]
 
-	key := locals.CreateLocal("key")
+	// key in the loop would always be un-used.
+	key := "_"
 	value := locals.CreateLocal("value")
 	nilHandler := astbuilder.Continue()
 	loop := astbuilder.IterateOverMapWithValue(
