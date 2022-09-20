@@ -228,14 +228,26 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.containers.environmentVariables.secureValue",
+				Func: indexContainerinstanceContainerGroupContainersSecureValue,
+			},
+			{
+				Key:  ".spec.initContainers.environmentVariables.secureValue",
+				Func: indexContainerinstanceContainerGroupInitContainersSecureValue,
+			},
+			{
 				Key:  ".spec.imageRegistryCredentials.password",
 				Func: indexContainerinstanceContainerGroupPassword,
+			},
+			{
+				Key:  ".spec.diagnostics.logAnalytics.workspaceKey",
+				Func: indexContainerinstanceContainerGroupWorkspaceKey,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.containers.environmentVariables.secureValue", ".spec.diagnostics.logAnalytics.workspaceKey", ".spec.imageRegistryCredentials.password", ".spec.initContainers.environmentVariables.secureValue"}, &containerinstance_v20211001s.ContainerGroupList{}),
 			},
 		},
 	})
@@ -1145,6 +1157,42 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
 }
 
+// indexContainerinstanceContainerGroupContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.containers.environmentVariables.secureValue
+func indexContainerinstanceContainerGroupContainersSecureValue(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, containerItem := range obj.Spec.Containers {
+		for _, environmentVariableItem := range containerItem.EnvironmentVariables {
+			if environmentVariableItem.SecureValue == nil {
+				continue
+			}
+			result = append(result, environmentVariableItem.SecureValue.Name)
+		}
+	}
+	return result
+}
+
+// indexContainerinstanceContainerGroupInitContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.initContainers.environmentVariables.secureValue
+func indexContainerinstanceContainerGroupInitContainersSecureValue(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, initContainerItem := range obj.Spec.InitContainers {
+		for _, environmentVariableItem := range initContainerItem.EnvironmentVariables {
+			if environmentVariableItem.SecureValue == nil {
+				continue
+			}
+			result = append(result, environmentVariableItem.SecureValue.Name)
+		}
+	}
+	return result
+}
+
 // indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
 func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
@@ -1159,6 +1207,24 @@ func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string
 		result = append(result, imageRegistryCredentialItem.Password.Name)
 	}
 	return result
+}
+
+// indexContainerinstanceContainerGroupWorkspaceKey an index function for containerinstance_v20211001s.ContainerGroup .spec.diagnostics.logAnalytics.workspaceKey
+func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Diagnostics == nil {
+		return nil
+	}
+	if obj.Spec.Diagnostics.LogAnalytics == nil {
+		return nil
+	}
+	if obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey == nil {
+		return nil
+	}
+	return []string{obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Name}
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
