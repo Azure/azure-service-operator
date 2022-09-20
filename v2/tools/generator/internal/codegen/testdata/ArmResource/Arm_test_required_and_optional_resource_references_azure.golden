@@ -580,7 +580,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘OptionalVNet’:
 	if properties.OptionalVNetReference != nil {
-		optionalVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.OptionalVNetReference)
+		optionalVNetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.OptionalVNetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -590,7 +590,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘RequiredVNet’:
 	if properties.RequiredVNetReference != nil {
-		requiredVNetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.RequiredVNetReference)
+		requiredVNetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.RequiredVNetReference)
 		if err != nil {
 			return nil, err
 		}

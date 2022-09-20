@@ -1758,6 +1758,241 @@ func (destination *Destination_STATUS) AssignProperties_To_Destination_STATUS(ta
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Deprecated version of Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec instead
+type Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec struct {
+	ArchiveNameFormat   *string `json:"archiveNameFormat,omitempty"`
+	BlobContainer       *string `json:"blobContainer,omitempty"`
+	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath  *string `json:"dataLakeFolderPath,omitempty"`
+
+	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+	DataLakeSubscriptionId          *string                       `json:"dataLakeSubscriptionId,omitempty"`
+	Name                            *string                       `json:"name,omitempty"`
+	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if destination == nil {
+		return nil, nil
+	}
+	result := &Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM{}
+
+	// Set property ‘Name’:
+	if destination.Name != nil {
+		name := *destination.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if destination.ArchiveNameFormat != nil ||
+		destination.BlobContainer != nil ||
+		destination.DataLakeAccountName != nil ||
+		destination.DataLakeFolderPath != nil ||
+		destination.DataLakeSubscriptionId != nil ||
+		destination.StorageAccountResourceReference != nil {
+		result.Properties = &DestinationProperties_ARM{}
+	}
+	if destination.ArchiveNameFormat != nil {
+		archiveNameFormat := *destination.ArchiveNameFormat
+		result.Properties.ArchiveNameFormat = &archiveNameFormat
+	}
+	if destination.BlobContainer != nil {
+		blobContainer := *destination.BlobContainer
+		result.Properties.BlobContainer = &blobContainer
+	}
+	if destination.DataLakeAccountName != nil {
+		dataLakeAccountName := *destination.DataLakeAccountName
+		result.Properties.DataLakeAccountName = &dataLakeAccountName
+	}
+	if destination.DataLakeFolderPath != nil {
+		dataLakeFolderPath := *destination.DataLakeFolderPath
+		result.Properties.DataLakeFolderPath = &dataLakeFolderPath
+	}
+	if destination.DataLakeSubscriptionId != nil {
+		dataLakeSubscriptionId := *destination.DataLakeSubscriptionId
+		result.Properties.DataLakeSubscriptionId = &dataLakeSubscriptionId
+	}
+	if destination.StorageAccountResourceReference != nil {
+		storageAccountResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*destination.StorageAccountResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		storageAccountResourceId := storageAccountResourceIdARMID
+		result.Properties.StorageAccountResourceId = &storageAccountResourceId
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ArchiveNameFormat’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ArchiveNameFormat != nil {
+			archiveNameFormat := *typedInput.Properties.ArchiveNameFormat
+			destination.ArchiveNameFormat = &archiveNameFormat
+		}
+	}
+
+	// Set property ‘BlobContainer’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BlobContainer != nil {
+			blobContainer := *typedInput.Properties.BlobContainer
+			destination.BlobContainer = &blobContainer
+		}
+	}
+
+	// Set property ‘DataLakeAccountName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataLakeAccountName != nil {
+			dataLakeAccountName := *typedInput.Properties.DataLakeAccountName
+			destination.DataLakeAccountName = &dataLakeAccountName
+		}
+	}
+
+	// Set property ‘DataLakeFolderPath’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataLakeFolderPath != nil {
+			dataLakeFolderPath := *typedInput.Properties.DataLakeFolderPath
+			destination.DataLakeFolderPath = &dataLakeFolderPath
+		}
+	}
+
+	// Set property ‘DataLakeSubscriptionId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataLakeSubscriptionId != nil {
+			dataLakeSubscriptionId := *typedInput.Properties.DataLakeSubscriptionId
+			destination.DataLakeSubscriptionId = &dataLakeSubscriptionId
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		destination.Name = &name
+	}
+
+	// no assignment for property ‘StorageAccountResourceReference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec populates our Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec from the provided source Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec
+func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) AssignProperties_From_Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec(source *alpha20211101s.Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) error {
+
+	// ArchiveNameFormat
+	destination.ArchiveNameFormat = genruntime.ClonePointerToString(source.ArchiveNameFormat)
+
+	// BlobContainer
+	destination.BlobContainer = genruntime.ClonePointerToString(source.BlobContainer)
+
+	// DataLakeAccountName
+	destination.DataLakeAccountName = genruntime.ClonePointerToString(source.DataLakeAccountName)
+
+	// DataLakeFolderPath
+	destination.DataLakeFolderPath = genruntime.ClonePointerToString(source.DataLakeFolderPath)
+
+	// DataLakeSubscriptionId
+	if source.DataLakeSubscriptionId != nil {
+		dataLakeSubscriptionId := *source.DataLakeSubscriptionId
+		destination.DataLakeSubscriptionId = &dataLakeSubscriptionId
+	} else {
+		destination.DataLakeSubscriptionId = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(source.Name)
+
+	// StorageAccountResourceReference
+	if source.StorageAccountResourceReference != nil {
+		storageAccountResourceReference := source.StorageAccountResourceReference.Copy()
+		destination.StorageAccountResourceReference = &storageAccountResourceReference
+	} else {
+		destination.StorageAccountResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec populates the provided destination Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec from our Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec
+func (destination *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) AssignProperties_To_Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec(target *alpha20211101s.Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ArchiveNameFormat
+	target.ArchiveNameFormat = genruntime.ClonePointerToString(destination.ArchiveNameFormat)
+
+	// BlobContainer
+	target.BlobContainer = genruntime.ClonePointerToString(destination.BlobContainer)
+
+	// DataLakeAccountName
+	target.DataLakeAccountName = genruntime.ClonePointerToString(destination.DataLakeAccountName)
+
+	// DataLakeFolderPath
+	target.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
+
+	// DataLakeSubscriptionId
+	if destination.DataLakeSubscriptionId != nil {
+		dataLakeSubscriptionId := *destination.DataLakeSubscriptionId
+		target.DataLakeSubscriptionId = &dataLakeSubscriptionId
+	} else {
+		target.DataLakeSubscriptionId = nil
+	}
+
+	// Name
+	target.Name = genruntime.ClonePointerToString(destination.Name)
+
+	// StorageAccountResourceReference
+	if destination.StorageAccountResourceReference != nil {
+		storageAccountResourceReference := destination.StorageAccountResourceReference.Copy()
+		target.StorageAccountResourceReference = &storageAccountResourceReference
+	} else {
+		target.StorageAccountResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec. Use
+// v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec instead
+// +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
+type Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec string
+
+const (
+	Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec_Avro        = Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec("Avro")
+	Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec_AvroDeflate = Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec("AvroDeflate")
+)
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&NamespacesEventhub{}, &NamespacesEventhubList{})
 }

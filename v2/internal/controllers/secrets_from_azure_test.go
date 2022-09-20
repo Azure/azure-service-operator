@@ -73,7 +73,7 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	// We expect the ready condition to include details of the error
 	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
-	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
+	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite Secret.*which is not owned by"))
 
 	// Delete the resource, it should be able to proceed and delete the underlying Azure resource
 	tc.DeleteResourceAndWait(acct)
@@ -105,7 +105,7 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 	// Note that the error is fatal as the customer must take some action in order to resolve the problem.
 	tc.Expect(acct2.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 	tc.Expect(acct2.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
-	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
+	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite Secret.*which is not owned by"))
 }
 
 func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *testing.T) {

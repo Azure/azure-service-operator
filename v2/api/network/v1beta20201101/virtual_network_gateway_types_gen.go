@@ -510,7 +510,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Sku = &sku
 	}
 	if gateway.VNetExtendedLocationResourceReference != nil {
-		vNetExtendedLocationResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*gateway.VNetExtendedLocationResourceReference)
+		vNetExtendedLocationResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*gateway.VNetExtendedLocationResourceReference)
 		if err != nil {
 			return nil, err
 		}

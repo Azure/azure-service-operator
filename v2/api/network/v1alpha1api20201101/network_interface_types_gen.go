@@ -3745,8 +3745,13 @@ func (group *NetworkSecurityGroupSpec) ConvertToARM(resolved genruntime.ConvertT
 	result := &NetworkSecurityGroupSpec_ARM{}
 
 	// Set property ‘Id’:
+<<<<<<< HEAD
 	if group.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*group.Reference)
+=======
+	if resource.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
+>>>>>>> main
 		if err != nil {
 			return nil, err
 		}

@@ -426,7 +426,7 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.AlternateName = &alternateName
 	}
 	if namespace.ClusterArmReference != nil {
-		clusterArmIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*namespace.ClusterArmReference)
+		clusterArmIdARMID, err := resolved.ResolvedReferences.Lookup(*namespace.ClusterArmReference)
 		if err != nil {
 			return nil, err
 		}
@@ -3086,7 +3086,7 @@ func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘Id’:
 	if endpoint.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*endpoint.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*endpoint.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -3242,7 +3242,7 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 
 	// Set property ‘UserAssignedIdentity’:
 	if properties.UserAssignedIdentityReference != nil {
-		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.UserAssignedIdentityReference)
+		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.UserAssignedIdentityReference)
 		if err != nil {
 			return nil, err
 		}

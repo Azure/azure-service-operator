@@ -90,7 +90,7 @@ func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logge
 
 	log.V(Status).Info("Creating MySQL user")
 
-	password, err := secrets.LookupSecretFromPtr(user.Spec.LocalUser.Password)
+	password, err := secrets.LookupFromPtr(user.Spec.LocalUser.Password)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrap(err, "failed to look up .spec.localUser.Password")
 	}
@@ -208,7 +208,7 @@ func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger,
 	return nil
 }
 
-func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asomysql.User, secrets genruntime.ResolvedSecrets) (*sql.DB, error) {
+func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asomysql.User, secrets genruntime.Resolved[genruntime.SecretReference]) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
 	owner, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
@@ -229,7 +229,7 @@ func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, us
 	}
 	serverFQDN := *flexibleServer.Status.FullyQualifiedDomainName
 
-	adminPassword, err := secrets.LookupSecretFromPtr(user.Spec.LocalUser.ServerAdminPassword)
+	adminPassword, err := secrets.LookupFromPtr(user.Spec.LocalUser.ServerAdminPassword)
 	if err != nil {
 		err = errors.Wrap(err, "failed to look up .spec.localUser.ServerAdminPassword")
 		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)

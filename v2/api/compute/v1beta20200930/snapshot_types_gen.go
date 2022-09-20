@@ -434,7 +434,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.CreationData = &creationData
 	}
 	if snapshot.DiskAccessReference != nil {
-		diskAccessIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*snapshot.DiskAccessReference)
+		diskAccessIdARMID, err := resolved.ResolvedReferences.Lookup(*snapshot.DiskAccessReference)
 		if err != nil {
 			return nil, err
 		}

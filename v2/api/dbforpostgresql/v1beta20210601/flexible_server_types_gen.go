@@ -450,7 +450,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.AdministratorLogin = &administratorLogin
 	}
 	if server.AdministratorLoginPassword != nil {
-		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*server.AdministratorLoginPassword)
+		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*server.AdministratorLoginPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 		}
@@ -502,7 +502,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.PointInTimeUTC = &pointInTimeUTC
 	}
 	if server.SourceServerResourceReference != nil {
-		sourceServerResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*server.SourceServerResourceReference)
+		sourceServerResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*server.SourceServerResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2473,7 +2473,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
-		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.DelegatedSubnetResourceReference)
+		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.DelegatedSubnetResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2483,7 +2483,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property ‘PrivateDnsZoneArmResourceId’:
 	if network.PrivateDnsZoneArmResourceReference != nil {
-		privateDnsZoneArmResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.PrivateDnsZoneArmResourceReference)
+		privateDnsZoneArmResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.PrivateDnsZoneArmResourceReference)
 		if err != nil {
 			return nil, err
 		}

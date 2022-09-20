@@ -589,7 +589,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Id’:
 	if properties.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -599,7 +599,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘NsgIds’:
 	for _, item := range properties.NsgReferences {
-		itemARMID, err := resolved.ResolvedReferences.ARMIDOrErr(item)
+		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
 		if err != nil {
 			return nil, err
 		}
@@ -610,7 +610,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	if properties.NsgMapReferences != nil {
 		result.NsgMap = make(map[string]string, len(properties.NsgMapReferences))
 		for key, value := range properties.NsgMapReferences {
-			valueARMID, err := resolved.ResolvedReferences.ARMIDOrErr(value)
+			valueARMID, err := resolved.ResolvedReferences.Lookup(value)
 			if err != nil {
 				return nil, err
 			}
@@ -620,7 +620,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘SubnetId’:
 	if properties.SubnetReference != nil {
-		subnetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.SubnetReference)
+		subnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.SubnetReference)
 		if err != nil {
 			return nil, err
 		}

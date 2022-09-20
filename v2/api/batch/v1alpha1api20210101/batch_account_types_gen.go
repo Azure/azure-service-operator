@@ -1424,7 +1424,7 @@ func (properties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property ‘StorageAccountId’:
 	if properties.StorageAccountReference != nil {
-		storageAccountReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.StorageAccountReference)
+		storageAccountReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.StorageAccountReference)
 		if err != nil {
 			return nil, err
 		}
@@ -2056,7 +2056,7 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
 			return nil, err
 		}
