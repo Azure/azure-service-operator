@@ -7,15 +7,19 @@ package reporting
 
 import (
 	"bytes"
+
 	"github.com/onsi/gomega"
+
+	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"github.com/sebdah/goldie/v2"
-	"testing"
 )
 
 func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
+	t.Parallel()
+
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
@@ -29,6 +33,8 @@ func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
 }
 
 func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testing.T) {
+	t.Parallel()
+
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
