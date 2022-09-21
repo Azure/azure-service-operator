@@ -221,6 +221,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportResourceVersions(configuration),
+		pipeline.ReportResourceStructure(configuration),
 	}
 }
 

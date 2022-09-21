@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package reporting
 
 import (
@@ -28,7 +33,7 @@ func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testi
 	var content bytes.Buffer
 	rpt := NewTypeCatalogReport(defs)
 	rpt.InlineTypes()
-	
+
 	rpt.WriteTo(&content)
 
 	g.Assert(t, t.Name(), content.Bytes())
