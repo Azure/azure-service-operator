@@ -10,26 +10,26 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ extensions.SecretsRetriever = &ConfigurationStoreExtension{}
+var _ genruntime.KubernetesExporter = &ConfigurationStoreExtension{}
 
-func (ext *ConfigurationStoreExtension) RetrieveSecrets(
+func (ext *ConfigurationStoreExtension) ExportKubernetesResources(
 	ctx context.Context,
-	obj genruntime.ARMMetaObject,
+	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]*v1.Secret, error) {
+	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -48,7 +48,7 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 		return nil, nil
 	}
 
-	id, err := genruntime.GetAndParseResourceID(obj)
+	id, err := genruntime.GetAndParseResourceID(typedObj)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 
 		var pager *runtime.Pager[armappconfiguration.ConfigurationStoresClientListKeysResponse]
 		var resp armappconfiguration.ConfigurationStoresClientListKeysResponse
-		pager = confClient.NewListKeysPager(id.ResourceGroupName, obj.AzureName(), nil)
+		pager = confClient.NewListKeysPager(id.ResourceGroupName, typedObj.AzureName(), nil)
 		for pager.More() {
 			resp, err = pager.NextPage(ctx)
 			addSecretsToMap(resp.Value, keys)
@@ -87,7 +87,7 @@ func (ext *ConfigurationStoreExtension) RetrieveSecrets(
 		return nil, err
 	}
 
-	return secretSlice, nil
+	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
 func secretsSpecified(obj *storage.ConfigurationStore) bool {

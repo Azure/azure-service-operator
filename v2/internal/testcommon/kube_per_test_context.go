@@ -654,6 +654,12 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 	}
 }
 
+// KubeClient returns the KubeClient for the test context. The existing TestContext helpers (tc.Resource(), etc) should
+// be used unless you need a raw KubeClient.
+func (tc *KubePerTestContext) KubeClient() client.Client {
+	return tc.kubeClient
+}
+
 func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {
 	tc.T.Helper()
 

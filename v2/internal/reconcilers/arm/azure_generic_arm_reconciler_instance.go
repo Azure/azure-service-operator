@@ -8,6 +8,7 @@ package arm
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -26,7 +27,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
 type azureDeploymentReconcilerInstance struct {
@@ -332,7 +332,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
-	err = r.saveAzureSecrets(ctx)
+	err = r.saveAssociatedKubernetesResources(ctx)
 	if err != nil {
 		if _, ok := core.AsNotOwnedError(err); ok {
 			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
@@ -472,31 +472,33 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 	return nil
 }
 
-// saveAzureSecrets retrieves secrets from Azure and saves them to Kubernetes.
-// If there are no secrets to save this method is a no-op.
-func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context) error {
-	retriever := extensions.CreateSecretRetriever(ctx, r.Extension, r.ARMClient, r.Log)
-	secretSlice, err := retriever(r.Obj)
+// saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
+// If there are no resources to save this method is a no-op.
+func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ctx context.Context) error {
+	retriever := extensions.CreateKubernetesExporter(ctx, r.Extension, r.ARMClient, r.Log)
+	resources, err := retriever(r.Obj)
+	//_, err := retriever(r.Obj)
 	if err != nil {
 		return err
 	}
 
-	results, err := secrets.ApplySecretsAndEnsureOwner(ctx, r.KubeClient, r.Obj, secretSlice)
+	results, err := genruntime.ApplyObjsAndEnsureOwner(ctx, r.KubeClient, r.Obj, resources)
 	if err != nil {
 		return err
 	}
 
-	if len(results) != len(secretSlice) {
-		return errors.Errorf("unexpected results len %d not equal to secrets length %d", len(results), len(secretSlice))
+	if len(results) != len(resources) {
+		return errors.Errorf("unexpected results len %d not equal to Kuberentes resources length %d", len(results), len(resources))
 	}
 
-	for i := 0; i < len(secretSlice); i++ {
-		secret := secretSlice[i]
+	for i := 0; i < len(resources); i++ {
+		resource := resources[i]
 		result := results[i]
 
-		r.Log.V(Debug).Info("Successfully wrote secret",
-			"namespace", secret.ObjectMeta.Namespace,
-			"name", secret.ObjectMeta.Name,
+		r.Log.V(Debug).Info("Successfully created resource",
+			"namespace", resource.GetNamespace(),
+			"name", resource.GetName(),
+			"type", fmt.Sprintf("%T", resource),
 			"action", result)
 	}
 
