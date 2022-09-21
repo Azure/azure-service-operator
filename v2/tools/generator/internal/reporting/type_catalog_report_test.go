@@ -7,6 +7,8 @@ package reporting
 
 import (
 	"bytes"
+	"github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"github.com/sebdah/goldie/v2"
@@ -14,19 +16,21 @@ import (
 )
 
 func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
-	g := goldie.New(t)
+	golden := goldie.New(t)
+	g := gomega.NewWithT(t)
 
 	defs := createDefinitionSet()
 
 	var content bytes.Buffer
 	rpt := NewTypeCatalogReport(defs)
-	rpt.WriteTo(&content)
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 
-	g.Assert(t, t.Name(), content.Bytes())
+	golden.Assert(t, t.Name(), content.Bytes())
 }
 
 func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testing.T) {
-	g := goldie.New(t)
+	golden := goldie.New(t)
+	g := gomega.NewWithT(t)
 
 	defs := createDefinitionSet()
 
@@ -34,9 +38,8 @@ func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testi
 	rpt := NewTypeCatalogReport(defs)
 	rpt.InlineTypes()
 
-	rpt.WriteTo(&content)
-
-	g.Assert(t, t.Name(), content.Bytes())
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	golden.Assert(t, t.Name(), content.Bytes())
 }
 
 func createDefinitionSet() astmodel.TypeDefinitionSet {
