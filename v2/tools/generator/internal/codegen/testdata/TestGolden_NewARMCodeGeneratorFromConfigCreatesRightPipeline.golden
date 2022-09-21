@@ -65,3 +65,4 @@ deleteGenerated                                              Delete generated co
 exportPackages                                               Export packages to "."
 exportControllerResourceRegistrations             azure      Export resource registrations to ""
 reportResourceVersions                                       Generate a report listing all the resources generated
+reportResourceStructure                                      Reports the structure of resources in each package
