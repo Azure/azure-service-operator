@@ -97,8 +97,7 @@ func (tcr *TypeCatalogReport) writeDefinitions(
 func (tcr *TypeCatalogReport) writeDefinition(rpt *StructureReport, definition astmodel.TypeDefinition) {
 	name := definition.Name()
 	t := definition.Type()
-	sub := rpt.Add(
-		fmt.Sprintf("%s: %s", name.Name(), astmodel.DebugDescription(t, name.PackageReference)))
+	sub := rpt.Addf("%s: %s", name.Name(), astmodel.DebugDescription(t, name.PackageReference))
 	tcr.writeType(sub, definition.Type(), name.PackageReference)
 }
 
@@ -185,7 +184,7 @@ func (tcr *TypeCatalogReport) writeFunction(
 	rpt *StructureReport,
 	fn astmodel.Function,
 ) {
-	rpt.Add(fmt.Sprintf("%s()", fn.Name()))
+	rpt.Addf("%s()", fn.Name())
 }
 
 func (tcr *TypeCatalogReport) writeEnum(
@@ -195,7 +194,7 @@ func (tcr *TypeCatalogReport) writeEnum(
 ) {
 	tcr.writeType(rpt, enum.BaseType(), currentPackage)
 	for _, v := range enum.Options() {
-		rpt.Add(fmt.Sprintf("%s: %s", v.Identifier, v.Value))
+		rpt.Addf("%s: %s", v.Identifier, v.Value)
 	}
 }
 

@@ -6,6 +6,7 @@
 package reporting
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -27,9 +28,9 @@ func NewStructureReport(line string) *StructureReport {
 	return &StructureReport{line: line}
 }
 
-// Add adds a new StructureReport nested in the current StructureReport, returning the nested report
-func (dr *StructureReport) Add(line string) *StructureReport {
-	result := &StructureReport{line: line}
+// Addf formats a new line in the report, returning a nested report for any additional information
+func (dr *StructureReport) Addf(format string, a ...any) *StructureReport {
+	result := &StructureReport{line: fmt.Sprintf(format, a...)}
 	dr.nested = append(dr.nested, result)
 	return result
 }
