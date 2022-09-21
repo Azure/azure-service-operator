@@ -325,7 +325,7 @@ type Endpoint_STATUS struct {
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
 	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []DeepCreatedCustomDomain_STATUS `json:"customDomains,omitempty"`
+	CustomDomains []CustomDomain_STATUS_SubResourceEmbedded `json:"customDomains,omitempty"`
 
 	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReference_STATUS `json:"defaultOriginGroup,omitempty"`
@@ -490,7 +490,7 @@ func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomDomains {
-			var item1 DeepCreatedCustomDomain_STATUS
+			var item1 CustomDomain_STATUS_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -750,14 +750,14 @@ func (endpoint *Endpoint_STATUS) AssignProperties_From_Endpoint_STATUS(source *v
 
 	// CustomDomains
 	if source.CustomDomains != nil {
-		customDomainList := make([]DeepCreatedCustomDomain_STATUS, len(source.CustomDomains))
+		customDomainList := make([]CustomDomain_STATUS_SubResourceEmbedded, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain DeepCreatedCustomDomain_STATUS
-			err := customDomain.AssignProperties_From_DeepCreatedCustomDomain_STATUS(&customDomainItem)
+			var customDomain CustomDomain_STATUS_SubResourceEmbedded
+			err := customDomain.AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -986,14 +986,14 @@ func (endpoint *Endpoint_STATUS) AssignProperties_To_Endpoint_STATUS(destination
 
 	// CustomDomains
 	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v20210601s.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
+		customDomainList := make([]v20210601s.CustomDomain_STATUS_SubResourceEmbedded, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain v20210601s.DeepCreatedCustomDomain_STATUS
-			err := customDomainItem.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&customDomain)
+			var customDomain v20210601s.CustomDomain_STATUS_SubResourceEmbedded
+			err := customDomainItem.AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -2084,89 +2084,88 @@ func (endpoint *Profiles_Endpoint_Spec) SetAzureName(azureName string) {
 	endpoint.AzureName = azureName
 }
 
-type DeepCreatedCustomDomain_STATUS struct {
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// Name: Custom domain name.
-	Name *string `json:"name,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-	ValidationData *string `json:"validationData,omitempty"`
+type CustomDomain_STATUS_SubResourceEmbedded struct {
+	// Id: Resource ID.
+	Id         *string            `json:"id,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeepCreatedCustomDomain_STATUS{}
+var _ genruntime.FromARMConverter = &CustomDomain_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domain *DeepCreatedCustomDomain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeepCreatedCustomDomain_STATUS_ARM{}
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomain_STATUS_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domain *DeepCreatedCustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeepCreatedCustomDomain_STATUS_ARM)
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomain_STATUS_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedCustomDomain_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			domain.HostName = &hostName
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		embedded.Id = &id
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
 		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		domain.Name = &name
-	}
-
-	// Set property ‘ValidationData’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ValidationData != nil {
-			validationData := *typedInput.Properties.ValidationData
-			domain.ValidationData = &validationData
-		}
+		systemData := systemData1
+		embedded.SystemData = &systemData
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_DeepCreatedCustomDomain_STATUS populates our DeepCreatedCustomDomain_STATUS from the provided source DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *v20210601s.DeepCreatedCustomDomain_STATUS) error {
+// AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded populates our CustomDomain_STATUS_SubResourceEmbedded from the provided source CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded(source *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 
-	// HostName
-	domain.HostName = genruntime.ClonePointerToString(source.HostName)
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Name
-	domain.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ValidationData
-	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		embedded.SystemData = &systemDatum
+	} else {
+		embedded.SystemData = nil
+	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DeepCreatedCustomDomain_STATUS populates the provided destination DeepCreatedCustomDomain_STATUS from our DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *v20210601s.DeepCreatedCustomDomain_STATUS) error {
+// AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded populates the provided destination CustomDomain_STATUS_SubResourceEmbedded from our CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded(destination *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
-	// Name
-	destination.Name = genruntime.ClonePointerToString(domain.Name)
-
-	// ValidationData
-	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
+	// SystemData
+	if embedded.SystemData != nil {
+		var systemDatum v20210601s.SystemData_STATUS
+		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

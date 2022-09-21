@@ -2361,15 +2361,15 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 }
 
 type DataEncryption_STATUS struct {
-	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
-	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
 
 	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
 	// same region as geo backup
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
-	// PrimaryKeyURI: Primary key uri
-	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
 
 	// PrimaryUserAssignedIdentityId: Primary user identity resource id
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
@@ -2392,10 +2392,10 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataEncryption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GeoBackupKeyURI’:
-	if typedInput.GeoBackupKeyURI != nil {
-		geoBackupKeyURI := *typedInput.GeoBackupKeyURI
-		encryption.GeoBackupKeyURI = &geoBackupKeyURI
+	// Set property ‘GeoBackupKeyUri’:
+	if typedInput.GeoBackupKeyUri != nil {
+		geoBackupKeyUri := *typedInput.GeoBackupKeyUri
+		encryption.GeoBackupKeyUri = &geoBackupKeyUri
 	}
 
 	// Set property ‘GeoBackupUserAssignedIdentityId’:
@@ -2404,10 +2404,10 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		encryption.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
 	}
 
-	// Set property ‘PrimaryKeyURI’:
-	if typedInput.PrimaryKeyURI != nil {
-		primaryKeyURI := *typedInput.PrimaryKeyURI
-		encryption.PrimaryKeyURI = &primaryKeyURI
+	// Set property ‘PrimaryKeyUri’:
+	if typedInput.PrimaryKeyUri != nil {
+		primaryKeyUri := *typedInput.PrimaryKeyUri
+		encryption.PrimaryKeyUri = &primaryKeyUri
 	}
 
 	// Set property ‘PrimaryUserAssignedIdentityId’:
@@ -2429,14 +2429,14 @@ func (encryption *DataEncryption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 // AssignProperties_From_DataEncryption_STATUS populates our DataEncryption_STATUS from the provided source DataEncryption_STATUS
 func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_STATUS(source *v20210501s.DataEncryption_STATUS) error {
 
-	// GeoBackupKeyURI
-	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
+	// GeoBackupKeyUri
+	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
 
 	// GeoBackupUserAssignedIdentityId
 	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
 
-	// PrimaryKeyURI
-	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
+	// PrimaryKeyUri
+	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
 
 	// PrimaryUserAssignedIdentityId
 	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
@@ -2458,14 +2458,14 @@ func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STAT
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// GeoBackupKeyURI
-	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
+	// GeoBackupKeyUri
+	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
 
 	// GeoBackupUserAssignedIdentityId
 	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
 
-	// PrimaryKeyURI
-	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
+	// PrimaryKeyUri
+	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
 
 	// PrimaryUserAssignedIdentityId
 	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)

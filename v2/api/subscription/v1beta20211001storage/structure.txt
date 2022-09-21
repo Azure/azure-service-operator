@@ -1,0 +1,49 @@
+github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage
+├── APIVersion: enum
+│   └── "2021-10-01"
+└── Alias: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── OriginalVersion: string
+    │   ├── Properties: 
+    │   │   ├── AdditionalProperties: 
+    │   │   │   ├── ManagementGroupId: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── SubscriptionOwnerId: *string
+    │   │   │   ├── SubscriptionTenantId: *string
+    │   │   │   └── Tags: Map[string]string
+    │   │   ├── BillingScope: *string
+    │   │   ├── DisplayName: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ResellerId: *string
+    │   │   ├── SubscriptionId: *string
+    │   │   └── Workload: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Id: *string
+        ├── Name: *string
+        ├── Properties: 
+        │   ├── AcceptOwnershipState: *string
+        │   ├── AcceptOwnershipUrl: *string
+        │   ├── BillingScope: *string
+        │   ├── CreatedTime: *string
+        │   ├── DisplayName: *string
+        │   ├── ManagementGroupId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ProvisioningState: *string
+        │   ├── ResellerId: *string
+        │   ├── SubscriptionId: *string
+        │   ├── SubscriptionOwnerId: *string
+        │   ├── Tags: Map[string]string
+        │   └── Workload: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        └── Type: *string

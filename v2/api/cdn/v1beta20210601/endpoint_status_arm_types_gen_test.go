@@ -200,7 +200,7 @@ func AddIndependentPropertyGeneratorsForEndpointProperties_STATUS_ARM(gens map[s
 
 // AddRelatedPropertyGeneratorsForEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CustomDomains"] = gen.SliceOf(DeepCreatedCustomDomain_STATUS_ARMGenerator())
+	gens["CustomDomains"] = gen.SliceOf(CustomDomain_STATUS_SubResourceEmbedded_ARMGenerator())
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReference_STATUS_ARMGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicy_STATUS_ARMGenerator())
 	gens["GeoFilters"] = gen.SliceOf(GeoFilter_STATUS_ARMGenerator())
@@ -284,20 +284,20 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 		IdentityType_STATUS_User))
 }
 
-func Test_DeepCreatedCustomDomain_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CustomDomain_STATUS_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DeepCreatedCustomDomain_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS_ARM, DeepCreatedCustomDomain_STATUS_ARMGenerator()))
+		"Round trip of CustomDomain_STATUS_SubResourceEmbedded_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded_ARM, CustomDomain_STATUS_SubResourceEmbedded_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS_ARM runs a test to see if a specific instance of DeepCreatedCustomDomain_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS_ARM(subject DeepCreatedCustomDomain_STATUS_ARM) string {
+// RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded_ARM runs a test to see if a specific instance of CustomDomain_STATUS_SubResourceEmbedded_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded_ARM(subject CustomDomain_STATUS_SubResourceEmbedded_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -305,7 +305,7 @@ func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS_ARM(subject DeepC
 	}
 
 	// Deserialize back into memory
-	var actual DeepCreatedCustomDomain_STATUS_ARM
+	var actual CustomDomain_STATUS_SubResourceEmbedded_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -323,40 +323,40 @@ func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS_ARM(subject DeepC
 	return ""
 }
 
-// Generator of DeepCreatedCustomDomain_STATUS_ARM instances for property testing - lazily instantiated by
-// DeepCreatedCustomDomain_STATUS_ARMGenerator()
-var deepCreatedCustomDomain_STATUS_ARMGenerator gopter.Gen
+// Generator of CustomDomain_STATUS_SubResourceEmbedded_ARM instances for property testing - lazily instantiated by
+// CustomDomain_STATUS_SubResourceEmbedded_ARMGenerator()
+var customDomain_STATUS_SubResourceEmbedded_ARMGenerator gopter.Gen
 
-// DeepCreatedCustomDomain_STATUS_ARMGenerator returns a generator of DeepCreatedCustomDomain_STATUS_ARM instances for property testing.
-// We first initialize deepCreatedCustomDomain_STATUS_ARMGenerator with a simplified generator based on the
+// CustomDomain_STATUS_SubResourceEmbedded_ARMGenerator returns a generator of CustomDomain_STATUS_SubResourceEmbedded_ARM instances for property testing.
+// We first initialize customDomain_STATUS_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DeepCreatedCustomDomain_STATUS_ARMGenerator() gopter.Gen {
-	if deepCreatedCustomDomain_STATUS_ARMGenerator != nil {
-		return deepCreatedCustomDomain_STATUS_ARMGenerator
+func CustomDomain_STATUS_SubResourceEmbedded_ARMGenerator() gopter.Gen {
+	if customDomain_STATUS_SubResourceEmbedded_ARMGenerator != nil {
+		return customDomain_STATUS_SubResourceEmbedded_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM(generators)
-	deepCreatedCustomDomain_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DeepCreatedCustomDomain_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM(generators)
+	customDomain_STATUS_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(CustomDomain_STATUS_SubResourceEmbedded_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM(generators)
-	deepCreatedCustomDomain_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DeepCreatedCustomDomain_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM(generators)
+	AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM(generators)
+	customDomain_STATUS_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(CustomDomain_STATUS_SubResourceEmbedded_ARM{}), generators)
 
-	return deepCreatedCustomDomain_STATUS_ARMGenerator
+	return customDomain_STATUS_SubResourceEmbedded_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeepCreatedCustomDomain_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DeepCreatedCustomDomainProperties_STATUS_ARMGenerator())
+// AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
 func Test_DeepCreatedOrigin_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -842,68 +842,6 @@ func AddIndependentPropertyGeneratorsForUrlSigningKey_STATUS_ARM(gens map[string
 // AddRelatedPropertyGeneratorsForUrlSigningKey_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUrlSigningKey_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeySourceParameters"] = gen.PtrOf(KeyVaultSigningKeyParameters_STATUS_ARMGenerator())
-}
-
-func Test_DeepCreatedCustomDomainProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeepCreatedCustomDomainProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeepCreatedCustomDomainProperties_STATUS_ARM, DeepCreatedCustomDomainProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDeepCreatedCustomDomainProperties_STATUS_ARM runs a test to see if a specific instance of DeepCreatedCustomDomainProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeepCreatedCustomDomainProperties_STATUS_ARM(subject DeepCreatedCustomDomainProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DeepCreatedCustomDomainProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DeepCreatedCustomDomainProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// DeepCreatedCustomDomainProperties_STATUS_ARMGenerator()
-var deepCreatedCustomDomainProperties_STATUS_ARMGenerator gopter.Gen
-
-// DeepCreatedCustomDomainProperties_STATUS_ARMGenerator returns a generator of DeepCreatedCustomDomainProperties_STATUS_ARM instances for property testing.
-func DeepCreatedCustomDomainProperties_STATUS_ARMGenerator() gopter.Gen {
-	if deepCreatedCustomDomainProperties_STATUS_ARMGenerator != nil {
-		return deepCreatedCustomDomainProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeepCreatedCustomDomainProperties_STATUS_ARM(generators)
-	deepCreatedCustomDomainProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DeepCreatedCustomDomainProperties_STATUS_ARM{}), generators)
-
-	return deepCreatedCustomDomainProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeepCreatedCustomDomainProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeepCreatedCustomDomainProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DeepCreatedOriginGroupProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

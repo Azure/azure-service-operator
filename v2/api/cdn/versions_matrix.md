@@ -20,8 +20,7 @@
 | CookiesMatchConditionParameters_Operator                                           | v1beta20210601 |
 | CookiesMatchConditionParameters_Transforms                                         | v1beta20210601 |
 | CookiesMatchConditionParameters_TypeName                                           | v1beta20210601 |
-| DeepCreatedCustomDomainProperties_STATUS                                           | v1beta20210601 |
-| DeepCreatedCustomDomain_STATUS                                                     | v1beta20210601 |
+| CustomDomain_STATUS_SubResourceEmbedded                                            | v1beta20210601 |
 | DeepCreatedOriginGroupProperties                                                   | v1beta20210601 |
 | DeepCreatedOriginGroupProperties_STATUS                                            | v1beta20210601 |
 | DeepCreatedOriginGroup_STATUS                                                      | v1beta20210601 |

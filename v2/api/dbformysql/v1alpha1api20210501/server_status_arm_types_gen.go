@@ -61,9 +61,9 @@ type Backup_STATUS_ARM struct {
 
 // Deprecated version of DataEncryption_STATUS. Use v1beta20210501.DataEncryption_STATUS instead
 type DataEncryption_STATUS_ARM struct {
-	GeoBackupKeyURI                 *string                     `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyUri                 *string                     `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                     `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyURI                   *string                     `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyUri                   *string                     `json:"primaryKeyUri,omitempty"`
 	PrimaryUserAssignedIdentityId   *string                     `json:"primaryUserAssignedIdentityId,omitempty"`
 	Type                            *DataEncryption_Type_STATUS `json:"type,omitempty"`
 }

@@ -1,0 +1,1831 @@
+github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
+├── APIVersion: enum
+│   └── "2021-06-01"
+├── Endpoint_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── ContentTypesToCompress: Array[string]
+│   │   ├── CustomDomains: 
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "application"
+│   │   │       │   ├── "key"
+│   │   │       │   ├── "managedIdentity"
+│   │   │       │   └── "user"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "application"
+│   │   │           ├── "key"
+│   │   │           ├── "managedIdentity"
+│   │   │           └── "user"
+│   │   ├── DefaultOriginGroup: 
+│   │   │   └── Id: *string
+│   │   ├── DeliveryPolicy: 
+│   │   │   ├── Description: *string
+│   │   │   └── Rules: 
+│   │   │       ├── Actions: 
+│   │   │       │   └── Name: enum
+│   │   │       │       ├── "CacheExpiration"
+│   │   │       │       ├── "CacheKeyQueryString"
+│   │   │       │       ├── "ModifyRequestHeader"
+│   │   │       │       ├── "ModifyResponseHeader"
+│   │   │       │       ├── "OriginGroupOverride"
+│   │   │       │       ├── "RouteConfigurationOverride"
+│   │   │       │       ├── "UrlRedirect"
+│   │   │       │       ├── "UrlRewrite"
+│   │   │       │       └── "UrlSigning"
+│   │   │       ├── Conditions: 
+│   │   │       │   └── Name: enum
+│   │   │       │       ├── "ClientPort"
+│   │   │       │       ├── "Cookies"
+│   │   │       │       ├── "HostName"
+│   │   │       │       ├── "HttpVersion"
+│   │   │       │       ├── "IsDevice"
+│   │   │       │       ├── "PostArgs"
+│   │   │       │       ├── "QueryString"
+│   │   │       │       ├── "RemoteAddress"
+│   │   │       │       ├── "RequestBody"
+│   │   │       │       ├── "RequestHeader"
+│   │   │       │       ├── "RequestMethod"
+│   │   │       │       ├── "RequestScheme"
+│   │   │       │       ├── "RequestUri"
+│   │   │       │       ├── "ServerPort"
+│   │   │       │       ├── "SocketAddr"
+│   │   │       │       ├── "SslProtocol"
+│   │   │       │       ├── "UrlFileExtension"
+│   │   │       │       ├── "UrlFileName"
+│   │   │       │       └── "UrlPath"
+│   │   │       ├── Name: *string
+│   │   │       └── Order: *int
+│   │   ├── GeoFilters: 
+│   │   │   ├── Action: enum
+│   │   │   │   ├── "Allow"
+│   │   │   │   └── "Block"
+│   │   │   ├── CountryCodes: Array[string]
+│   │   │   └── RelativePath: *string
+│   │   ├── HostName: *string
+│   │   ├── IsCompressionEnabled: *bool
+│   │   ├── IsHttpAllowed: *bool
+│   │   ├── IsHttpsAllowed: *bool
+│   │   ├── OptimizationType: enum
+│   │   │   ├── "DynamicSiteAcceleration"
+│   │   │   ├── "GeneralMediaStreaming"
+│   │   │   ├── "GeneralWebDelivery"
+│   │   │   ├── "LargeFileDownload"
+│   │   │   └── "VideoOnDemandMediaStreaming"
+│   │   ├── OriginGroups: 
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: 
+│   │   │       ├── HealthProbeSettings: 
+│   │   │       │   ├── ProbeIntervalInSeconds: *int
+│   │   │       │   ├── ProbePath: *string
+│   │   │       │   ├── ProbeProtocol: enum
+│   │   │       │   │   ├── "Http"
+│   │   │       │   │   ├── "Https"
+│   │   │       │   │   └── "NotSet"
+│   │   │       │   └── ProbeRequestType: enum
+│   │   │       │       ├── "GET"
+│   │   │       │       ├── "HEAD"
+│   │   │       │       └── "NotSet"
+│   │   │       ├── Origins: 
+│   │   │       │   └── Id: *string
+│   │   │       ├── ResponseBasedOriginErrorDetectionSettings: 
+│   │   │       │   ├── HttpErrorRanges: 
+│   │   │       │   │   ├── Begin: *int
+│   │   │       │   │   └── End: *int
+│   │   │       │   ├── ResponseBasedDetectedErrorTypes: enum
+│   │   │       │   │   ├── "None"
+│   │   │       │   │   ├── "TcpAndHttpErrors"
+│   │   │       │   │   └── "TcpErrorsOnly"
+│   │   │       │   └── ResponseBasedFailoverThresholdPercentage: *int
+│   │   │       └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
+│   │   ├── OriginHostHeader: *string
+│   │   ├── OriginPath: *string
+│   │   ├── Origins: 
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: 
+│   │   │       ├── Enabled: *bool
+│   │   │       ├── HostName: *string
+│   │   │       ├── HttpPort: *int
+│   │   │       ├── HttpsPort: *int
+│   │   │       ├── OriginHostHeader: *string
+│   │   │       ├── Priority: *int
+│   │   │       ├── PrivateEndpointStatus: enum
+│   │   │       │   ├── "Approved"
+│   │   │       │   ├── "Disconnected"
+│   │   │       │   ├── "Pending"
+│   │   │       │   ├── "Rejected"
+│   │   │       │   └── "Timeout"
+│   │   │       ├── PrivateLinkAlias: *string
+│   │   │       ├── PrivateLinkApprovalMessage: *string
+│   │   │       ├── PrivateLinkLocation: *string
+│   │   │       ├── PrivateLinkResourceId: *string
+│   │   │       └── Weight: *int
+│   │   ├── ProbePath: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── QueryStringCachingBehavior: enum
+│   │   │   ├── "BypassCaching"
+│   │   │   ├── "IgnoreQueryString"
+│   │   │   ├── "NotSet"
+│   │   │   └── "UseQueryString"
+│   │   ├── ResourceState: enum
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Running"
+│   │   │   ├── "Starting"
+│   │   │   ├── "Stopped"
+│   │   │   └── "Stopping"
+│   │   ├── UrlSigningKeys: 
+│   │   │   ├── KeyId: *string
+│   │   │   └── KeySourceParameters: 
+│   │   │       ├── ResourceGroupName: *string
+│   │   │       ├── SecretName: *string
+│   │   │       ├── SecretVersion: *string
+│   │   │       ├── SubscriptionId: *string
+│   │   │       ├── TypeName: enum
+│   │   │       │   └── "KeyVaultSigningKeyParameters"
+│   │   │       └── VaultName: *string
+│   │   └── WebApplicationFirewallPolicyLink: 
+│   │       └── Id: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "application"
+│   │   │   ├── "key"
+│   │   │   ├── "managedIdentity"
+│   │   │   └── "user"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "application"
+│   │       ├── "key"
+│   │       ├── "managedIdentity"
+│   │       └── "user"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── Profile: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginResponseTimeoutSeconds: Validated[*int]
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Sku: 
+│   │   │   └── Name: enum
+│   │   │       ├── "Custom_Verizon"
+│   │   │       ├── "Premium_AzureFrontDoor"
+│   │   │       ├── "Premium_Verizon"
+│   │   │       ├── "StandardPlus_955BandWidth_ChinaCdn"
+│   │   │       ├── "StandardPlus_AvgBandWidth_ChinaCdn"
+│   │   │       ├── "StandardPlus_ChinaCdn"
+│   │   │       ├── "Standard_955BandWidth_ChinaCdn"
+│   │   │       ├── "Standard_Akamai"
+│   │   │       ├── "Standard_AvgBandWidth_ChinaCdn"
+│   │   │       ├── "Standard_AzureFrontDoor"
+│   │   │       ├── "Standard_ChinaCdn"
+│   │   │       ├── "Standard_Microsoft"
+│   │   │       └── "Standard_Verizon"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── FrontDoorId: *string
+│       ├── Id: *string
+│       ├── Kind: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OriginResponseTimeoutSeconds: *int
+│       ├── ProvisioningState: enum
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceState: enum
+│       │   ├── "Active"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   └── "Disabled"
+│       ├── Sku: 
+│       │   └── Name: enum
+│       │       ├── "Custom_Verizon"
+│       │       ├── "Premium_AzureFrontDoor"
+│       │       ├── "Premium_Verizon"
+│       │       ├── "StandardPlus_955BandWidth_ChinaCdn"
+│       │       ├── "StandardPlus_AvgBandWidth_ChinaCdn"
+│       │       ├── "StandardPlus_ChinaCdn"
+│       │       ├── "Standard_955BandWidth_ChinaCdn"
+│       │       ├── "Standard_Akamai"
+│       │       ├── "Standard_AvgBandWidth_ChinaCdn"
+│       │       ├── "Standard_AzureFrontDoor"
+│       │       ├── "Standard_ChinaCdn"
+│       │       ├── "Standard_Microsoft"
+│       │       └── "Standard_Verizon"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "application"
+│       │   │   ├── "key"
+│       │   │   ├── "managedIdentity"
+│       │   │   └── "user"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "application"
+│       │       ├── "key"
+│       │       ├── "managedIdentity"
+│       │       └── "user"
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── Profile_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── FrontDoorId: *string
+│   │   ├── OriginResponseTimeoutSeconds: *int
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── ResourceState: enum
+│   │       ├── "Active"
+│   │       ├── "Creating"
+│   │       ├── "Deleting"
+│   │       └── "Disabled"
+│   ├── Sku: 
+│   │   └── Name: enum
+│   │       ├── "Custom_Verizon"
+│   │       ├── "Premium_AzureFrontDoor"
+│   │       ├── "Premium_Verizon"
+│   │       ├── "StandardPlus_955BandWidth_ChinaCdn"
+│   │       ├── "StandardPlus_AvgBandWidth_ChinaCdn"
+│   │       ├── "StandardPlus_ChinaCdn"
+│   │       ├── "Standard_955BandWidth_ChinaCdn"
+│   │       ├── "Standard_Akamai"
+│   │       ├── "Standard_AvgBandWidth_ChinaCdn"
+│   │       ├── "Standard_AzureFrontDoor"
+│   │       ├── "Standard_ChinaCdn"
+│   │       ├── "Standard_Microsoft"
+│   │       └── "Standard_Verizon"
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "application"
+│   │   │   ├── "key"
+│   │   │   ├── "managedIdentity"
+│   │   │   └── "user"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "application"
+│   │       ├── "key"
+│   │       ├── "managedIdentity"
+│   │       └── "user"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── Profile_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── OriginResponseTimeoutSeconds: *int
+│   ├── Sku: 
+│   │   └── Name: enum
+│   │       ├── "Custom_Verizon"
+│   │       ├── "Premium_AzureFrontDoor"
+│   │       ├── "Premium_Verizon"
+│   │       ├── "StandardPlus_955BandWidth_ChinaCdn"
+│   │       ├── "StandardPlus_AvgBandWidth_ChinaCdn"
+│   │       ├── "StandardPlus_ChinaCdn"
+│   │       ├── "Standard_955BandWidth_ChinaCdn"
+│   │       ├── "Standard_Akamai"
+│   │       ├── "Standard_AvgBandWidth_ChinaCdn"
+│   │       ├── "Standard_AzureFrontDoor"
+│   │       ├── "Standard_ChinaCdn"
+│   │       ├── "Standard_Microsoft"
+│   │       └── "Standard_Verizon"
+│   └── Tags: Map[string]string
+├── ProfilesEndpoint: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── ContentTypesToCompress: Array[string]
+│   │   ├── DefaultOriginGroup: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── DeliveryPolicy: 
+│   │   │   ├── Description: *string
+│   │   │   └── Rules: 
+│   │   │       ├── Actions: 
+│   │   │       │   ├── DeliveryRuleCacheExpiration: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "CacheExpiration"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── CacheBehavior: enum
+│   │   │       │   │       │   ├── "BypassCache"
+│   │   │       │   │       │   ├── "Override"
+│   │   │       │   │       │   └── "SetIfMissing"
+│   │   │       │   │       ├── CacheDuration: *string
+│   │   │       │   │       ├── CacheType: enum
+│   │   │       │   │       │   └── "All"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
+│   │   │       │   ├── DeliveryRuleCacheKeyQueryString: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "CacheKeyQueryString"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── QueryParameters: *string
+│   │   │       │   │       ├── QueryStringBehavior: enum
+│   │   │       │   │       │   ├── "Exclude"
+│   │   │       │   │       │   ├── "ExcludeAll"
+│   │   │       │   │       │   ├── "Include"
+│   │   │       │   │       │   └── "IncludeAll"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
+│   │   │       │   ├── DeliveryRuleRequestHeader: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "ModifyRequestHeader"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── HeaderAction: enum
+│   │   │       │   │       │   ├── "Append"
+│   │   │       │   │       │   ├── "Delete"
+│   │   │       │   │       │   └── "Overwrite"
+│   │   │       │   │       ├── HeaderName: *string
+│   │   │       │   │       ├── TypeName: enum
+│   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
+│   │   │       │   │       └── Value: *string
+│   │   │       │   ├── DeliveryRuleResponseHeader: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "ModifyResponseHeader"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── HeaderAction: enum
+│   │   │       │   │       │   ├── "Append"
+│   │   │       │   │       │   ├── "Delete"
+│   │   │       │   │       │   └── "Overwrite"
+│   │   │       │   │       ├── HeaderName: *string
+│   │   │       │   │       ├── TypeName: enum
+│   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
+│   │   │       │   │       └── Value: *string
+│   │   │       │   ├── DeliveryRuleRouteConfigurationOverride: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RouteConfigurationOverride"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── CacheConfiguration: 
+│   │   │       │   │       │   ├── CacheBehavior: enum
+│   │   │       │   │       │   │   ├── "HonorOrigin"
+│   │   │       │   │       │   │   ├── "OverrideAlways"
+│   │   │       │   │       │   │   └── "OverrideIfOriginMissing"
+│   │   │       │   │       │   ├── CacheDuration: *string
+│   │   │       │   │       │   ├── IsCompressionEnabled: enum
+│   │   │       │   │       │   │   ├── "Disabled"
+│   │   │       │   │       │   │   └── "Enabled"
+│   │   │       │   │       │   ├── QueryParameters: *string
+│   │   │       │   │       │   └── QueryStringCachingBehavior: enum
+│   │   │       │   │       │       ├── "IgnoreQueryString"
+│   │   │       │   │       │       ├── "IgnoreSpecifiedQueryStrings"
+│   │   │       │   │       │       ├── "IncludeSpecifiedQueryStrings"
+│   │   │       │   │       │       └── "UseQueryString"
+│   │   │       │   │       ├── OriginGroupOverride: 
+│   │   │       │   │       │   ├── ForwardingProtocol: enum
+│   │   │       │   │       │   │   ├── "HttpOnly"
+│   │   │       │   │       │   │   ├── "HttpsOnly"
+│   │   │       │   │       │   │   └── "MatchRequest"
+│   │   │       │   │       │   └── OriginGroup: 
+│   │   │       │   │       │       └── Reference: *genruntime.ResourceReference
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
+│   │   │       │   ├── OriginGroupOverride: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "OriginGroupOverride"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── OriginGroup: 
+│   │   │       │   │       │   └── Reference: *genruntime.ResourceReference
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+│   │   │       │   ├── UrlRedirect: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "UrlRedirect"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── CustomFragment: *string
+│   │   │       │   │       ├── CustomHostname: *string
+│   │   │       │   │       ├── CustomPath: *string
+│   │   │       │   │       ├── CustomQueryString: *string
+│   │   │       │   │       ├── DestinationProtocol: enum
+│   │   │       │   │       │   ├── "Http"
+│   │   │       │   │       │   ├── "Https"
+│   │   │       │   │       │   └── "MatchRequest"
+│   │   │       │   │       ├── RedirectType: enum
+│   │   │       │   │       │   ├── "Found"
+│   │   │       │   │       │   ├── "Moved"
+│   │   │       │   │       │   ├── "PermanentRedirect"
+│   │   │       │   │       │   └── "TemporaryRedirect"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleUrlRedirectActionParameters"
+│   │   │       │   ├── UrlRewrite: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "UrlRewrite"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── Destination: *string
+│   │   │       │   │       ├── PreserveUnmatchedPath: *bool
+│   │   │       │   │       ├── SourcePattern: *string
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleUrlRewriteActionParameters"
+│   │   │       │   └── UrlSigning: 
+│   │   │       │       ├── Name: enum
+│   │   │       │       │   └── "UrlSigning"
+│   │   │       │       └── Parameters: 
+│   │   │       │           ├── Algorithm: enum
+│   │   │       │           │   └── "SHA256"
+│   │   │       │           ├── ParameterNameOverride: 
+│   │   │       │           │   ├── ParamIndicator: enum
+│   │   │       │           │   │   ├── "Expires"
+│   │   │       │           │   │   ├── "KeyId"
+│   │   │       │           │   │   └── "Signature"
+│   │   │       │           │   └── ParamName: *string
+│   │   │       │           └── TypeName: enum
+│   │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
+│   │   │       ├── Conditions: 
+│   │   │       │   ├── DeliveryRuleClientPort: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "ClientPort"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
+│   │   │       │   ├── DeliveryRuleCookies: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "Cookies"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Selector: *string
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
+│   │   │       │   ├── DeliveryRuleHostName: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "HostName"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
+│   │   │       │   ├── DeliveryRuleHttpVersion: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "HttpVersion"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   └── "Equal"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
+│   │   │       │   ├── DeliveryRuleIsDevice: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "IsDevice"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: enum
+│   │   │       │   │       │   ├── "Desktop"
+│   │   │       │   │       │   └── "Mobile"
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   └── "Equal"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
+│   │   │       │   ├── DeliveryRulePostArgs: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "PostArgs"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Selector: *string
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
+│   │   │       │   ├── DeliveryRuleQueryString: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "QueryString"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
+│   │   │       │   ├── DeliveryRuleRemoteAddress: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RemoteAddress"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "GeoMatch"
+│   │   │       │   │       │   └── "IPMatch"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
+│   │   │       │   ├── DeliveryRuleRequestBody: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RequestBody"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
+│   │   │       │   ├── DeliveryRuleRequestHeader: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RequestHeader"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Selector: *string
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
+│   │   │       │   ├── DeliveryRuleRequestMethod: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RequestMethod"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: enum
+│   │   │       │   │       │   ├── "DELETE"
+│   │   │       │   │       │   ├── "GET"
+│   │   │       │   │       │   ├── "HEAD"
+│   │   │       │   │       │   ├── "OPTIONS"
+│   │   │       │   │       │   ├── "POST"
+│   │   │       │   │       │   ├── "PUT"
+│   │   │       │   │       │   └── "TRACE"
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   └── "Equal"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
+│   │   │       │   ├── DeliveryRuleRequestScheme: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RequestScheme"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: enum
+│   │   │       │   │       │   ├── "HTTP"
+│   │   │       │   │       │   └── "HTTPS"
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   └── "Equal"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
+│   │   │       │   ├── DeliveryRuleRequestUri: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "RequestUri"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
+│   │   │       │   ├── DeliveryRuleServerPort: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "ServerPort"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
+│   │   │       │   ├── DeliveryRuleSocketAddr: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "SocketAddr"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   └── "IPMatch"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
+│   │   │       │   ├── DeliveryRuleSslProtocol: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "SslProtocol"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: enum
+│   │   │       │   │       │   ├── "TLSv1"
+│   │   │       │   │       │   ├── "TLSv1.1"
+│   │   │       │   │       │   └── "TLSv1.2"
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   └── "Equal"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
+│   │   │       │   ├── DeliveryRuleUrlFileExtension: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "UrlFileExtension"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
+│   │   │       │   ├── DeliveryRuleUrlFileName: 
+│   │   │       │   │   ├── Name: enum
+│   │   │       │   │   │   └── "UrlFileName"
+│   │   │       │   │   └── Parameters: 
+│   │   │       │   │       ├── MatchValues: Array[string]
+│   │   │       │   │       ├── NegateCondition: *bool
+│   │   │       │   │       ├── Operator: enum
+│   │   │       │   │       │   ├── "Any"
+│   │   │       │   │       │   ├── "BeginsWith"
+│   │   │       │   │       │   ├── "Contains"
+│   │   │       │   │       │   ├── "EndsWith"
+│   │   │       │   │       │   ├── "Equal"
+│   │   │       │   │       │   ├── "GreaterThan"
+│   │   │       │   │       │   ├── "GreaterThanOrEqual"
+│   │   │       │   │       │   ├── "LessThan"
+│   │   │       │   │       │   ├── "LessThanOrEqual"
+│   │   │       │   │       │   └── "RegEx"
+│   │   │       │   │       ├── Transforms: enum
+│   │   │       │   │       │   ├── "Lowercase"
+│   │   │       │   │       │   ├── "RemoveNulls"
+│   │   │       │   │       │   ├── "Trim"
+│   │   │       │   │       │   ├── "Uppercase"
+│   │   │       │   │       │   ├── "UrlDecode"
+│   │   │       │   │       │   └── "UrlEncode"
+│   │   │       │   │       └── TypeName: enum
+│   │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
+│   │   │       │   └── DeliveryRuleUrlPath: 
+│   │   │       │       ├── Name: enum
+│   │   │       │       │   └── "UrlPath"
+│   │   │       │       └── Parameters: 
+│   │   │       │           ├── MatchValues: Array[string]
+│   │   │       │           ├── NegateCondition: *bool
+│   │   │       │           ├── Operator: enum
+│   │   │       │           │   ├── "Any"
+│   │   │       │           │   ├── "BeginsWith"
+│   │   │       │           │   ├── "Contains"
+│   │   │       │           │   ├── "EndsWith"
+│   │   │       │           │   ├── "Equal"
+│   │   │       │           │   ├── "GreaterThan"
+│   │   │       │           │   ├── "GreaterThanOrEqual"
+│   │   │       │           │   ├── "LessThan"
+│   │   │       │           │   ├── "LessThanOrEqual"
+│   │   │       │           │   ├── "RegEx"
+│   │   │       │           │   └── "Wildcard"
+│   │   │       │           ├── Transforms: enum
+│   │   │       │           │   ├── "Lowercase"
+│   │   │       │           │   ├── "RemoveNulls"
+│   │   │       │           │   ├── "Trim"
+│   │   │       │           │   ├── "Uppercase"
+│   │   │       │           │   ├── "UrlDecode"
+│   │   │       │           │   └── "UrlEncode"
+│   │   │       │           └── TypeName: enum
+│   │   │       │               └── "DeliveryRuleUrlPathMatchConditionParameters"
+│   │   │       ├── Name: *string
+│   │   │       └── Order: *int
+│   │   ├── GeoFilters: 
+│   │   │   ├── Action: enum
+│   │   │   │   ├── "Allow"
+│   │   │   │   └── "Block"
+│   │   │   ├── CountryCodes: Array[string]
+│   │   │   └── RelativePath: *string
+│   │   ├── IsCompressionEnabled: *bool
+│   │   ├── IsHttpAllowed: *bool
+│   │   ├── IsHttpsAllowed: *bool
+│   │   ├── Location: *string
+│   │   ├── OptimizationType: enum
+│   │   │   ├── "DynamicSiteAcceleration"
+│   │   │   ├── "GeneralMediaStreaming"
+│   │   │   ├── "GeneralWebDelivery"
+│   │   │   ├── "LargeFileDownload"
+│   │   │   └── "VideoOnDemandMediaStreaming"
+│   │   ├── OriginGroups: 
+│   │   │   ├── HealthProbeSettings: 
+│   │   │   │   ├── ProbeIntervalInSeconds: Validated[*int]
+│   │   │   │   ├── ProbePath: *string
+│   │   │   │   ├── ProbeProtocol: enum
+│   │   │   │   │   ├── "Http"
+│   │   │   │   │   ├── "Https"
+│   │   │   │   │   └── "NotSet"
+│   │   │   │   └── ProbeRequestType: enum
+│   │   │   │       ├── "GET"
+│   │   │   │       ├── "HEAD"
+│   │   │   │       └── "NotSet"
+│   │   │   ├── Name: *string
+│   │   │   ├── Origins: 
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ResponseBasedOriginErrorDetectionSettings: 
+│   │   │   │   ├── HttpErrorRanges: 
+│   │   │   │   │   ├── Begin: Validated[*int]
+│   │   │   │   │   └── End: Validated[*int]
+│   │   │   │   ├── ResponseBasedDetectedErrorTypes: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "TcpAndHttpErrors"
+│   │   │   │   │   └── "TcpErrorsOnly"
+│   │   │   │   └── ResponseBasedFailoverThresholdPercentage: Validated[*int]
+│   │   │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Validated[*int]
+│   │   ├── OriginHostHeader: *string
+│   │   ├── OriginPath: *string
+│   │   ├── Origins: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── HostName: *string
+│   │   │   ├── HttpPort: Validated[*int]
+│   │   │   ├── HttpsPort: Validated[*int]
+│   │   │   ├── Name: *string
+│   │   │   ├── OriginHostHeader: *string
+│   │   │   ├── Priority: Validated[*int]
+│   │   │   ├── PrivateLinkAlias: *string
+│   │   │   ├── PrivateLinkApprovalMessage: *string
+│   │   │   ├── PrivateLinkLocationReference: *genruntime.ResourceReference
+│   │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
+│   │   │   └── Weight: Validated[*int]
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── ProbePath: *string
+│   │   ├── QueryStringCachingBehavior: enum
+│   │   │   ├── "BypassCaching"
+│   │   │   ├── "IgnoreQueryString"
+│   │   │   ├── "NotSet"
+│   │   │   └── "UseQueryString"
+│   │   ├── Tags: Map[string]string
+│   │   ├── UrlSigningKeys: 
+│   │   │   ├── KeyId: *string
+│   │   │   └── KeySourceParameters: 
+│   │   │       ├── ResourceGroupName: *string
+│   │   │       ├── SecretName: *string
+│   │   │       ├── SecretVersion: *string
+│   │   │       ├── SubscriptionId: *string
+│   │   │       ├── TypeName: enum
+│   │   │       │   └── "KeyVaultSigningKeyParameters"
+│   │   │       └── VaultName: *string
+│   │   └── WebApplicationFirewallPolicyLink: 
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ContentTypesToCompress: Array[string]
+│       ├── CustomDomains: 
+│       │   ├── Id: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "application"
+│       │       │   ├── "key"
+│       │       │   ├── "managedIdentity"
+│       │       │   └── "user"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "application"
+│       │           ├── "key"
+│       │           ├── "managedIdentity"
+│       │           └── "user"
+│       ├── DefaultOriginGroup: 
+│       │   └── Id: *string
+│       ├── DeliveryPolicy: 
+│       │   ├── Description: *string
+│       │   └── Rules: 
+│       │       ├── Actions: 
+│       │       │   └── Name: enum
+│       │       │       ├── "CacheExpiration"
+│       │       │       ├── "CacheKeyQueryString"
+│       │       │       ├── "ModifyRequestHeader"
+│       │       │       ├── "ModifyResponseHeader"
+│       │       │       ├── "OriginGroupOverride"
+│       │       │       ├── "RouteConfigurationOverride"
+│       │       │       ├── "UrlRedirect"
+│       │       │       ├── "UrlRewrite"
+│       │       │       └── "UrlSigning"
+│       │       ├── Conditions: 
+│       │       │   └── Name: enum
+│       │       │       ├── "ClientPort"
+│       │       │       ├── "Cookies"
+│       │       │       ├── "HostName"
+│       │       │       ├── "HttpVersion"
+│       │       │       ├── "IsDevice"
+│       │       │       ├── "PostArgs"
+│       │       │       ├── "QueryString"
+│       │       │       ├── "RemoteAddress"
+│       │       │       ├── "RequestBody"
+│       │       │       ├── "RequestHeader"
+│       │       │       ├── "RequestMethod"
+│       │       │       ├── "RequestScheme"
+│       │       │       ├── "RequestUri"
+│       │       │       ├── "ServerPort"
+│       │       │       ├── "SocketAddr"
+│       │       │       ├── "SslProtocol"
+│       │       │       ├── "UrlFileExtension"
+│       │       │       ├── "UrlFileName"
+│       │       │       └── "UrlPath"
+│       │       ├── Name: *string
+│       │       └── Order: *int
+│       ├── GeoFilters: 
+│       │   ├── Action: enum
+│       │   │   ├── "Allow"
+│       │   │   └── "Block"
+│       │   ├── CountryCodes: Array[string]
+│       │   └── RelativePath: *string
+│       ├── HostName: *string
+│       ├── Id: *string
+│       ├── IsCompressionEnabled: *bool
+│       ├── IsHttpAllowed: *bool
+│       ├── IsHttpsAllowed: *bool
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OptimizationType: enum
+│       │   ├── "DynamicSiteAcceleration"
+│       │   ├── "GeneralMediaStreaming"
+│       │   ├── "GeneralWebDelivery"
+│       │   ├── "LargeFileDownload"
+│       │   └── "VideoOnDemandMediaStreaming"
+│       ├── OriginGroups: 
+│       │   ├── HealthProbeSettings: 
+│       │   │   ├── ProbeIntervalInSeconds: *int
+│       │   │   ├── ProbePath: *string
+│       │   │   ├── ProbeProtocol: enum
+│       │   │   │   ├── "Http"
+│       │   │   │   ├── "Https"
+│       │   │   │   └── "NotSet"
+│       │   │   └── ProbeRequestType: enum
+│       │   │       ├── "GET"
+│       │   │       ├── "HEAD"
+│       │   │       └── "NotSet"
+│       │   ├── Name: *string
+│       │   ├── Origins: 
+│       │   │   └── Id: *string
+│       │   ├── ResponseBasedOriginErrorDetectionSettings: 
+│       │   │   ├── HttpErrorRanges: 
+│       │   │   │   ├── Begin: *int
+│       │   │   │   └── End: *int
+│       │   │   ├── ResponseBasedDetectedErrorTypes: enum
+│       │   │   │   ├── "None"
+│       │   │   │   ├── "TcpAndHttpErrors"
+│       │   │   │   └── "TcpErrorsOnly"
+│       │   │   └── ResponseBasedFailoverThresholdPercentage: *int
+│       │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
+│       ├── OriginHostHeader: *string
+│       ├── OriginPath: *string
+│       ├── Origins: 
+│       │   ├── Enabled: *bool
+│       │   ├── HostName: *string
+│       │   ├── HttpPort: *int
+│       │   ├── HttpsPort: *int
+│       │   ├── Name: *string
+│       │   ├── OriginHostHeader: *string
+│       │   ├── Priority: *int
+│       │   ├── PrivateEndpointStatus: enum
+│       │   │   ├── "Approved"
+│       │   │   ├── "Disconnected"
+│       │   │   ├── "Pending"
+│       │   │   ├── "Rejected"
+│       │   │   └── "Timeout"
+│       │   ├── PrivateLinkAlias: *string
+│       │   ├── PrivateLinkApprovalMessage: *string
+│       │   ├── PrivateLinkLocation: *string
+│       │   ├── PrivateLinkResourceId: *string
+│       │   └── Weight: *int
+│       ├── ProbePath: *string
+│       ├── ProvisioningState: enum
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── QueryStringCachingBehavior: enum
+│       │   ├── "BypassCaching"
+│       │   ├── "IgnoreQueryString"
+│       │   ├── "NotSet"
+│       │   └── "UseQueryString"
+│       ├── ResourceState: enum
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Running"
+│       │   ├── "Starting"
+│       │   ├── "Stopped"
+│       │   └── "Stopping"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "application"
+│       │   │   ├── "key"
+│       │   │   ├── "managedIdentity"
+│       │   │   └── "user"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "application"
+│       │       ├── "key"
+│       │       ├── "managedIdentity"
+│       │       └── "user"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UrlSigningKeys: 
+│       │   ├── KeyId: *string
+│       │   └── KeySourceParameters: 
+│       │       ├── ResourceGroupName: *string
+│       │       ├── SecretName: *string
+│       │       ├── SecretVersion: *string
+│       │       ├── SubscriptionId: *string
+│       │       ├── TypeName: enum
+│       │       │   └── "KeyVaultSigningKeyParameters"
+│       │       └── VaultName: *string
+│       └── WebApplicationFirewallPolicyLink: 
+│           └── Id: *string
+└── Profiles_Endpoint_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── ContentTypesToCompress: Array[string]
+    │   ├── DefaultOriginGroup: 
+    │   │   └── Id: *string
+    │   ├── DeliveryPolicy: 
+    │   │   ├── Description: *string
+    │   │   └── Rules: 
+    │   │       ├── Actions: 
+    │   │       │   ├── DeliveryRuleCacheExpiration: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "CacheExpiration"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── CacheBehavior: enum
+    │   │       │   │       │   ├── "BypassCache"
+    │   │       │   │       │   ├── "Override"
+    │   │       │   │       │   └── "SetIfMissing"
+    │   │       │   │       ├── CacheDuration: *string
+    │   │       │   │       ├── CacheType: enum
+    │   │       │   │       │   └── "All"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
+    │   │       │   ├── DeliveryRuleCacheKeyQueryString: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "CacheKeyQueryString"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── QueryParameters: *string
+    │   │       │   │       ├── QueryStringBehavior: enum
+    │   │       │   │       │   ├── "Exclude"
+    │   │       │   │       │   ├── "ExcludeAll"
+    │   │       │   │       │   ├── "Include"
+    │   │       │   │       │   └── "IncludeAll"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
+    │   │       │   ├── DeliveryRuleRequestHeader: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "ModifyRequestHeader"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── HeaderAction: enum
+    │   │       │   │       │   ├── "Append"
+    │   │       │   │       │   ├── "Delete"
+    │   │       │   │       │   └── "Overwrite"
+    │   │       │   │       ├── HeaderName: *string
+    │   │       │   │       ├── TypeName: enum
+    │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
+    │   │       │   │       └── Value: *string
+    │   │       │   ├── DeliveryRuleResponseHeader: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "ModifyResponseHeader"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── HeaderAction: enum
+    │   │       │   │       │   ├── "Append"
+    │   │       │   │       │   ├── "Delete"
+    │   │       │   │       │   └── "Overwrite"
+    │   │       │   │       ├── HeaderName: *string
+    │   │       │   │       ├── TypeName: enum
+    │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
+    │   │       │   │       └── Value: *string
+    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RouteConfigurationOverride"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── CacheConfiguration: 
+    │   │       │   │       │   ├── CacheBehavior: enum
+    │   │       │   │       │   │   ├── "HonorOrigin"
+    │   │       │   │       │   │   ├── "OverrideAlways"
+    │   │       │   │       │   │   └── "OverrideIfOriginMissing"
+    │   │       │   │       │   ├── CacheDuration: *string
+    │   │       │   │       │   ├── IsCompressionEnabled: enum
+    │   │       │   │       │   │   ├── "Disabled"
+    │   │       │   │       │   │   └── "Enabled"
+    │   │       │   │       │   ├── QueryParameters: *string
+    │   │       │   │       │   └── QueryStringCachingBehavior: enum
+    │   │       │   │       │       ├── "IgnoreQueryString"
+    │   │       │   │       │       ├── "IgnoreSpecifiedQueryStrings"
+    │   │       │   │       │       ├── "IncludeSpecifiedQueryStrings"
+    │   │       │   │       │       └── "UseQueryString"
+    │   │       │   │       ├── OriginGroupOverride: 
+    │   │       │   │       │   ├── ForwardingProtocol: enum
+    │   │       │   │       │   │   ├── "HttpOnly"
+    │   │       │   │       │   │   ├── "HttpsOnly"
+    │   │       │   │       │   │   └── "MatchRequest"
+    │   │       │   │       │   └── OriginGroup: 
+    │   │       │   │       │       └── Id: *string
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
+    │   │       │   ├── OriginGroupOverride: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "OriginGroupOverride"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── OriginGroup: 
+    │   │       │   │       │   └── Id: *string
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+    │   │       │   ├── UrlRedirect: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "UrlRedirect"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── CustomFragment: *string
+    │   │       │   │       ├── CustomHostname: *string
+    │   │       │   │       ├── CustomPath: *string
+    │   │       │   │       ├── CustomQueryString: *string
+    │   │       │   │       ├── DestinationProtocol: enum
+    │   │       │   │       │   ├── "Http"
+    │   │       │   │       │   ├── "Https"
+    │   │       │   │       │   └── "MatchRequest"
+    │   │       │   │       ├── RedirectType: enum
+    │   │       │   │       │   ├── "Found"
+    │   │       │   │       │   ├── "Moved"
+    │   │       │   │       │   ├── "PermanentRedirect"
+    │   │       │   │       │   └── "TemporaryRedirect"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleUrlRedirectActionParameters"
+    │   │       │   ├── UrlRewrite: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "UrlRewrite"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── Destination: *string
+    │   │       │   │       ├── PreserveUnmatchedPath: *bool
+    │   │       │   │       ├── SourcePattern: *string
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleUrlRewriteActionParameters"
+    │   │       │   └── UrlSigning: 
+    │   │       │       ├── Name: enum
+    │   │       │       │   └── "UrlSigning"
+    │   │       │       └── Parameters: 
+    │   │       │           ├── Algorithm: enum
+    │   │       │           │   └── "SHA256"
+    │   │       │           ├── ParameterNameOverride: 
+    │   │       │           │   ├── ParamIndicator: enum
+    │   │       │           │   │   ├── "Expires"
+    │   │       │           │   │   ├── "KeyId"
+    │   │       │           │   │   └── "Signature"
+    │   │       │           │   └── ParamName: *string
+    │   │       │           └── TypeName: enum
+    │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
+    │   │       ├── Conditions: 
+    │   │       │   ├── DeliveryRuleClientPort: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "ClientPort"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
+    │   │       │   ├── DeliveryRuleCookies: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "Cookies"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Selector: *string
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
+    │   │       │   ├── DeliveryRuleHostName: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "HostName"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
+    │   │       │   ├── DeliveryRuleHttpVersion: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "HttpVersion"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   └── "Equal"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
+    │   │       │   ├── DeliveryRuleIsDevice: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "IsDevice"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: enum
+    │   │       │   │       │   ├── "Desktop"
+    │   │       │   │       │   └── "Mobile"
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   └── "Equal"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
+    │   │       │   ├── DeliveryRulePostArgs: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "PostArgs"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Selector: *string
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
+    │   │       │   ├── DeliveryRuleQueryString: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "QueryString"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
+    │   │       │   ├── DeliveryRuleRemoteAddress: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RemoteAddress"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "GeoMatch"
+    │   │       │   │       │   └── "IPMatch"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
+    │   │       │   ├── DeliveryRuleRequestBody: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RequestBody"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
+    │   │       │   ├── DeliveryRuleRequestHeader: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RequestHeader"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Selector: *string
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
+    │   │       │   ├── DeliveryRuleRequestMethod: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RequestMethod"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: enum
+    │   │       │   │       │   ├── "DELETE"
+    │   │       │   │       │   ├── "GET"
+    │   │       │   │       │   ├── "HEAD"
+    │   │       │   │       │   ├── "OPTIONS"
+    │   │       │   │       │   ├── "POST"
+    │   │       │   │       │   ├── "PUT"
+    │   │       │   │       │   └── "TRACE"
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   └── "Equal"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
+    │   │       │   ├── DeliveryRuleRequestScheme: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RequestScheme"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: enum
+    │   │       │   │       │   ├── "HTTP"
+    │   │       │   │       │   └── "HTTPS"
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   └── "Equal"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
+    │   │       │   ├── DeliveryRuleRequestUri: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "RequestUri"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
+    │   │       │   ├── DeliveryRuleServerPort: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "ServerPort"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
+    │   │       │   ├── DeliveryRuleSocketAddr: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "SocketAddr"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   └── "IPMatch"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
+    │   │       │   ├── DeliveryRuleSslProtocol: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "SslProtocol"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: enum
+    │   │       │   │       │   ├── "TLSv1"
+    │   │       │   │       │   ├── "TLSv1.1"
+    │   │       │   │       │   └── "TLSv1.2"
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   └── "Equal"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
+    │   │       │   ├── DeliveryRuleUrlFileExtension: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "UrlFileExtension"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
+    │   │       │   ├── DeliveryRuleUrlFileName: 
+    │   │       │   │   ├── Name: enum
+    │   │       │   │   │   └── "UrlFileName"
+    │   │       │   │   └── Parameters: 
+    │   │       │   │       ├── MatchValues: Array[string]
+    │   │       │   │       ├── NegateCondition: *bool
+    │   │       │   │       ├── Operator: enum
+    │   │       │   │       │   ├── "Any"
+    │   │       │   │       │   ├── "BeginsWith"
+    │   │       │   │       │   ├── "Contains"
+    │   │       │   │       │   ├── "EndsWith"
+    │   │       │   │       │   ├── "Equal"
+    │   │       │   │       │   ├── "GreaterThan"
+    │   │       │   │       │   ├── "GreaterThanOrEqual"
+    │   │       │   │       │   ├── "LessThan"
+    │   │       │   │       │   ├── "LessThanOrEqual"
+    │   │       │   │       │   └── "RegEx"
+    │   │       │   │       ├── Transforms: enum
+    │   │       │   │       │   ├── "Lowercase"
+    │   │       │   │       │   ├── "RemoveNulls"
+    │   │       │   │       │   ├── "Trim"
+    │   │       │   │       │   ├── "Uppercase"
+    │   │       │   │       │   ├── "UrlDecode"
+    │   │       │   │       │   └── "UrlEncode"
+    │   │       │   │       └── TypeName: enum
+    │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
+    │   │       │   └── DeliveryRuleUrlPath: 
+    │   │       │       ├── Name: enum
+    │   │       │       │   └── "UrlPath"
+    │   │       │       └── Parameters: 
+    │   │       │           ├── MatchValues: Array[string]
+    │   │       │           ├── NegateCondition: *bool
+    │   │       │           ├── Operator: enum
+    │   │       │           │   ├── "Any"
+    │   │       │           │   ├── "BeginsWith"
+    │   │       │           │   ├── "Contains"
+    │   │       │           │   ├── "EndsWith"
+    │   │       │           │   ├── "Equal"
+    │   │       │           │   ├── "GreaterThan"
+    │   │       │           │   ├── "GreaterThanOrEqual"
+    │   │       │           │   ├── "LessThan"
+    │   │       │           │   ├── "LessThanOrEqual"
+    │   │       │           │   ├── "RegEx"
+    │   │       │           │   └── "Wildcard"
+    │   │       │           ├── Transforms: enum
+    │   │       │           │   ├── "Lowercase"
+    │   │       │           │   ├── "RemoveNulls"
+    │   │       │           │   ├── "Trim"
+    │   │       │           │   ├── "Uppercase"
+    │   │       │           │   ├── "UrlDecode"
+    │   │       │           │   └── "UrlEncode"
+    │   │       │           └── TypeName: enum
+    │   │       │               └── "DeliveryRuleUrlPathMatchConditionParameters"
+    │   │       ├── Name: *string
+    │   │       └── Order: *int
+    │   ├── GeoFilters: 
+    │   │   ├── Action: enum
+    │   │   │   ├── "Allow"
+    │   │   │   └── "Block"
+    │   │   ├── CountryCodes: Array[string]
+    │   │   └── RelativePath: *string
+    │   ├── IsCompressionEnabled: *bool
+    │   ├── IsHttpAllowed: *bool
+    │   ├── IsHttpsAllowed: *bool
+    │   ├── OptimizationType: enum
+    │   │   ├── "DynamicSiteAcceleration"
+    │   │   ├── "GeneralMediaStreaming"
+    │   │   ├── "GeneralWebDelivery"
+    │   │   ├── "LargeFileDownload"
+    │   │   └── "VideoOnDemandMediaStreaming"
+    │   ├── OriginGroups: 
+    │   │   ├── Name: *string
+    │   │   └── Properties: 
+    │   │       ├── HealthProbeSettings: 
+    │   │       │   ├── ProbeIntervalInSeconds: *int
+    │   │       │   ├── ProbePath: *string
+    │   │       │   ├── ProbeProtocol: enum
+    │   │       │   │   ├── "Http"
+    │   │       │   │   ├── "Https"
+    │   │       │   │   └── "NotSet"
+    │   │       │   └── ProbeRequestType: enum
+    │   │       │       ├── "GET"
+    │   │       │       ├── "HEAD"
+    │   │       │       └── "NotSet"
+    │   │       ├── Origins: 
+    │   │       │   └── Id: *string
+    │   │       ├── ResponseBasedOriginErrorDetectionSettings: 
+    │   │       │   ├── HttpErrorRanges: 
+    │   │       │   │   ├── Begin: *int
+    │   │       │   │   └── End: *int
+    │   │       │   ├── ResponseBasedDetectedErrorTypes: enum
+    │   │       │   │   ├── "None"
+    │   │       │   │   ├── "TcpAndHttpErrors"
+    │   │       │   │   └── "TcpErrorsOnly"
+    │   │       │   └── ResponseBasedFailoverThresholdPercentage: *int
+    │   │       └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
+    │   ├── OriginHostHeader: *string
+    │   ├── OriginPath: *string
+    │   ├── Origins: 
+    │   │   ├── Name: *string
+    │   │   └── Properties: 
+    │   │       ├── Enabled: *bool
+    │   │       ├── HostName: *string
+    │   │       ├── HttpPort: *int
+    │   │       ├── HttpsPort: *int
+    │   │       ├── OriginHostHeader: *string
+    │   │       ├── Priority: *int
+    │   │       ├── PrivateLinkAlias: *string
+    │   │       ├── PrivateLinkApprovalMessage: *string
+    │   │       ├── PrivateLinkLocation: *string
+    │   │       ├── PrivateLinkResourceId: *string
+    │   │       └── Weight: *int
+    │   ├── ProbePath: *string
+    │   ├── QueryStringCachingBehavior: enum
+    │   │   ├── "BypassCaching"
+    │   │   ├── "IgnoreQueryString"
+    │   │   ├── "NotSet"
+    │   │   └── "UseQueryString"
+    │   ├── UrlSigningKeys: 
+    │   │   ├── KeyId: *string
+    │   │   └── KeySourceParameters: 
+    │   │       ├── ResourceGroupName: *string
+    │   │       ├── SecretName: *string
+    │   │       ├── SecretVersion: *string
+    │   │       ├── SubscriptionId: *string
+    │   │       ├── TypeName: enum
+    │   │       │   └── "KeyVaultSigningKeyParameters"
+    │   │       └── VaultName: *string
+    │   └── WebApplicationFirewallPolicyLink: 
+    │       └── Id: *string
+    └── Tags: Map[string]string

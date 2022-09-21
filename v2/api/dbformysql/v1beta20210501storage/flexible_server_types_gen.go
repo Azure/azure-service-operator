@@ -275,9 +275,9 @@ type DataEncryption struct {
 
 // Storage version of v1beta20210501.DataEncryption_STATUS
 type DataEncryption_STATUS struct {
-	GeoBackupKeyURI                 *string                `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyURI                   *string                `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyUri                   *string                `json:"primaryKeyUri,omitempty"`
 	PrimaryUserAssignedIdentityId   *string                `json:"primaryUserAssignedIdentityId,omitempty"`
 	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type                            *string                `json:"type,omitempty"`

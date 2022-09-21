@@ -1,0 +1,83 @@
+github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage
+├── APIVersion: enum
+│   └── "2021-03-01"
+├── RedisEnterprise: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── MinimumTlsVersion: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: Map[string]string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── HostName: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MinimumTlsVersion: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── RedisVersion: *string
+│       ├── ResourceState: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Zones: Array[string]
+└── RedisEnterpriseDatabase: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── ClientProtocol: *string
+    │   ├── ClusteringPolicy: *string
+    │   ├── EvictionPolicy: *string
+    │   ├── Location: *string
+    │   ├── Modules: 
+    │   │   ├── Args: *string
+    │   │   ├── Name: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── Persistence: 
+    │   │   ├── AofEnabled: *bool
+    │   │   ├── AofFrequency: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── RdbEnabled: *bool
+    │   │   └── RdbFrequency: *string
+    │   ├── Port: *int
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── ClientProtocol: *string
+        ├── ClusteringPolicy: *string
+        ├── Conditions: Array[conditions.Condition]
+        ├── EvictionPolicy: *string
+        ├── Id: *string
+        ├── Modules: 
+        │   ├── Args: *string
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Version: *string
+        ├── Name: *string
+        ├── Persistence: 
+        │   ├── AofEnabled: *bool
+        │   ├── AofFrequency: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── RdbEnabled: *bool
+        │   └── RdbFrequency: *string
+        ├── Port: *int
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── ResourceState: *string
+        └── Type: *string

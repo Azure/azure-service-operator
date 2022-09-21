@@ -1,0 +1,316 @@
+github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage
+├── APIVersion: enum
+│   └── "2020-06-01"
+├── Domain: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── InboundIpRules: 
+│   │   │   ├── Action: *string
+│   │   │   ├── IpMask: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── InputSchema: *string
+│   │   ├── InputSchemaMapping: 
+│   │   │   ├── InputSchemaMappingType: *string
+│   │   │   ├── Properties: 
+│   │   │   │   ├── DataVersion: 
+│   │   │   │   │   ├── DefaultValue: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceField: *string
+│   │   │   │   ├── EventTime: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceField: *string
+│   │   │   │   ├── EventType: 
+│   │   │   │   │   ├── DefaultValue: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceField: *string
+│   │   │   │   ├── Id: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceField: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Subject: 
+│   │   │   │   │   ├── DefaultValue: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceField: *string
+│   │   │   │   └── Topic: 
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── SourceField: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicNetworkAccess: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Endpoint: *string
+│       ├── Id: *string
+│       ├── InboundIpRules: 
+│       │   ├── Action: *string
+│       │   ├── IpMask: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── InputSchema: *string
+│       ├── InputSchemaMapping: 
+│       │   ├── InputSchemaMappingType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── MetricResourceId: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── DomainsTopic: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── EventSubscription: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── DeadLetterDestination: 
+│   │   │   ├── EndpointType: *string
+│   │   │   ├── Properties: 
+│   │   │   │   ├── BlobContainerName: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Destination: 
+│   │   │   ├── AzureFunction: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── MaxEventsPerBatch: *int
+│   │   │   │   │   ├── PreferredBatchSizeInKilobytes: *int
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── EventHub: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── HybridConnection: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ServiceBusQueue: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ServiceBusTopic: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── StorageQueue: 
+│   │   │   │   ├── EndpointType: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── QueueName: *string
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── WebHook: 
+│   │   │       ├── EndpointType: *string
+│   │   │       ├── Properties: 
+│   │   │       │   ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │   │       │   ├── AzureActiveDirectoryTenantId: *string
+│   │   │       │   ├── EndpointUrl: *string
+│   │   │       │   ├── MaxEventsPerBatch: *int
+│   │   │       │   ├── PreferredBatchSizeInKilobytes: *int
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   ├── EventDeliverySchema: *string
+│   │   ├── ExpirationTimeUtc: *string
+│   │   ├── Filter: 
+│   │   │   ├── AdvancedFilters: 
+│   │   │   │   ├── BoolEquals: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Value: *bool
+│   │   │   │   ├── NumberGreaterThan: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Value: *float64
+│   │   │   │   ├── NumberGreaterThanOrEquals: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Value: *float64
+│   │   │   │   ├── NumberIn: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[float64]
+│   │   │   │   ├── NumberLessThan: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Value: *float64
+│   │   │   │   ├── NumberLessThanOrEquals: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Value: *float64
+│   │   │   │   ├── NumberNotIn: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[float64]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── StringBeginsWith: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[string]
+│   │   │   │   ├── StringContains: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[string]
+│   │   │   │   ├── StringEndsWith: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[string]
+│   │   │   │   ├── StringIn: 
+│   │   │   │   │   ├── Key: *string
+│   │   │   │   │   ├── OperatorType: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Values: Array[string]
+│   │   │   │   └── StringNotIn: 
+│   │   │   │       ├── Key: *string
+│   │   │   │       ├── OperatorType: *string
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── Values: Array[string]
+│   │   │   ├── IncludedEventTypes: Array[string]
+│   │   │   ├── IsSubjectCaseSensitive: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SubjectBeginsWith: *string
+│   │   │   └── SubjectEndsWith: *string
+│   │   ├── Labels: Array[string]
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.ArbitraryOwnerReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RetryPolicy: 
+│   │   │   ├── EventTimeToLiveInMinutes: *int
+│   │   │   ├── MaxDeliveryAttempts: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DeadLetterDestination: 
+│       │   ├── EndpointType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Destination: 
+│       │   ├── EndpointType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── EventDeliverySchema: *string
+│       ├── ExpirationTimeUtc: *string
+│       ├── Filter: 
+│       │   ├── AdvancedFilters: 
+│       │   │   ├── Key: *string
+│       │   │   ├── OperatorType: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── IncludedEventTypes: Array[string]
+│       │   ├── IsSubjectCaseSensitive: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SubjectBeginsWith: *string
+│       │   └── SubjectEndsWith: *string
+│       ├── Id: *string
+│       ├── Labels: Array[string]
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── RetryPolicy: 
+│       │   ├── EventTimeToLiveInMinutes: *int
+│       │   ├── MaxDeliveryAttempts: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Topic: *string
+│       └── Type: *string
+└── Topic: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Endpoint: *string
+        ├── Id: *string
+        ├── InboundIpRules: 
+        │   ├── Action: *string
+        │   ├── IpMask: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── InputSchema: *string
+        ├── InputSchemaMapping: 
+        │   ├── InputSchemaMappingType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Location: *string
+        ├── MetricResourceId: *string
+        ├── Name: *string
+        ├── PrivateEndpointConnections: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── PublicNetworkAccess: *string
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: Map[string]string
+        └── Type: *string

@@ -1,0 +1,461 @@
+github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
+├── APIVersion: enum
+│   └── "2021-05-01"
+├── Database_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Charset: *string
+│   │   └── Collation: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── FirewallRule_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── EndIpAddress: *string
+│   │   └── StartIpAddress: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── FlexibleServer: Resource
+│   ├── Spec: 
+│   │   ├── AdministratorLogin: *string
+│   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
+│   │   ├── AvailabilityZone: *string
+│   │   ├── AzureName: string
+│   │   ├── Backup: 
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   └── GeoRedundantBackup: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Default"
+│   │   │   ├── "GeoRestore"
+│   │   │   ├── "PointInTimeRestore"
+│   │   │   └── "Replica"
+│   │   ├── DataEncryption: 
+│   │   │   ├── GeoBackupKeyURI: *string
+│   │   │   ├── GeoBackupUserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   ├── PrimaryKeyURI: *string
+│   │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   └── Type: enum
+│   │   │       ├── "AzureKeyVault"
+│   │   │       └── "SystemManaged"
+│   │   ├── HighAvailability: 
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   ├── "SameZone"
+│   │   │   │   └── "ZoneRedundant"
+│   │   │   └── StandbyAvailabilityZone: *string
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       └── "UserAssigned"
+│   │   ├── Location: *string
+│   │   ├── MaintenanceWindow: 
+│   │   │   ├── CustomWindow: *string
+│   │   │   ├── DayOfWeek: *int
+│   │   │   ├── StartHour: *int
+│   │   │   └── StartMinute: *int
+│   │   ├── Network: 
+│   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
+│   │   │   └── PrivateDnsZoneResourceReference: *genruntime.ResourceReference
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── ReplicationRole: enum
+│   │   │   ├── "None"
+│   │   │   ├── "Replica"
+│   │   │   └── "Source"
+│   │   ├── RestorePointInTime: Validated[*string]
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: enum
+│   │   │       ├── "Burstable"
+│   │   │       ├── "GeneralPurpose"
+│   │   │       └── "MemoryOptimized"
+│   │   ├── SourceServerResourceId: *string
+│   │   ├── Storage: 
+│   │   │   ├── AutoGrow: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "Enabled"
+│   │   │   ├── Iops: *int
+│   │   │   └── StorageSizeGB: *int
+│   │   ├── Tags: Map[string]string
+│   │   └── Version: enum
+│   │       ├── "5.7"
+│   │       └── "8.0.21"
+│   └── Status: 
+│       ├── AdministratorLogin: *string
+│       ├── AvailabilityZone: *string
+│       ├── Backup: 
+│       │   ├── BackupRetentionDays: *int
+│       │   ├── EarliestRestoreDate: *string
+│       │   └── GeoRedundantBackup: enum
+│       │       ├── "Disabled"
+│       │       └── "Enabled"
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreateMode: enum
+│       │   ├── "Default"
+│       │   ├── "GeoRestore"
+│       │   ├── "PointInTimeRestore"
+│       │   └── "Replica"
+│       ├── DataEncryption: 
+│       │   ├── GeoBackupKeyUri: *string
+│       │   ├── GeoBackupUserAssignedIdentityId: *string
+│       │   ├── PrimaryKeyUri: *string
+│       │   ├── PrimaryUserAssignedIdentityId: *string
+│       │   └── Type: enum
+│       │       ├── "AzureKeyVault"
+│       │       └── "SystemManaged"
+│       ├── FullyQualifiedDomainName: *string
+│       ├── HighAvailability: 
+│       │   ├── Mode: enum
+│       │   │   ├── "Disabled"
+│       │   │   ├── "SameZone"
+│       │   │   └── "ZoneRedundant"
+│       │   ├── StandbyAvailabilityZone: *string
+│       │   └── State: enum
+│       │       ├── "CreatingStandby"
+│       │       ├── "FailingOver"
+│       │       ├── "Healthy"
+│       │       ├── "NotEnabled"
+│       │       └── "RemovingStandby"
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: Map[string]v1.JSON
+│       ├── Location: *string
+│       ├── MaintenanceWindow: 
+│       │   ├── CustomWindow: *string
+│       │   ├── DayOfWeek: *int
+│       │   ├── StartHour: *int
+│       │   └── StartMinute: *int
+│       ├── Name: *string
+│       ├── Network: 
+│       │   ├── DelegatedSubnetResourceId: *string
+│       │   ├── PrivateDnsZoneResourceId: *string
+│       │   └── PublicNetworkAccess: enum
+│       │       ├── "Disabled"
+│       │       └── "Enabled"
+│       ├── ReplicaCapacity: *int
+│       ├── ReplicationRole: enum
+│       │   ├── "None"
+│       │   ├── "Replica"
+│       │   └── "Source"
+│       ├── RestorePointInTime: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   └── Tier: enum
+│       │       ├── "Burstable"
+│       │       ├── "GeneralPurpose"
+│       │       └── "MemoryOptimized"
+│       ├── SourceServerResourceId: *string
+│       ├── State: enum
+│       │   ├── "Disabled"
+│       │   ├── "Dropping"
+│       │   ├── "Ready"
+│       │   ├── "Starting"
+│       │   ├── "Stopped"
+│       │   ├── "Stopping"
+│       │   └── "Updating"
+│       ├── Storage: 
+│       │   ├── AutoGrow: enum
+│       │   │   ├── "Disabled"
+│       │   │   └── "Enabled"
+│       │   ├── Iops: *int
+│       │   ├── StorageSizeGB: *int
+│       │   └── StorageSku: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Version: enum
+│           ├── "5.7"
+│           └── "8.0.21"
+├── FlexibleServer_Spec_ARM: 
+│   ├── Identity: 
+│   │   └── Type: enum
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AdministratorLogin: *string
+│   │   ├── AdministratorLoginPassword: *string
+│   │   ├── AvailabilityZone: *string
+│   │   ├── Backup: 
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   └── GeoRedundantBackup: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Default"
+│   │   │   ├── "GeoRestore"
+│   │   │   ├── "PointInTimeRestore"
+│   │   │   └── "Replica"
+│   │   ├── DataEncryption: 
+│   │   │   ├── GeoBackupKeyURI: *string
+│   │   │   ├── GeoBackupUserAssignedIdentityId: *string
+│   │   │   ├── PrimaryKeyURI: *string
+│   │   │   ├── PrimaryUserAssignedIdentityId: *string
+│   │   │   └── Type: enum
+│   │   │       ├── "AzureKeyVault"
+│   │   │       └── "SystemManaged"
+│   │   ├── HighAvailability: 
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   ├── "SameZone"
+│   │   │   │   └── "ZoneRedundant"
+│   │   │   └── StandbyAvailabilityZone: *string
+│   │   ├── MaintenanceWindow: 
+│   │   │   ├── CustomWindow: *string
+│   │   │   ├── DayOfWeek: *int
+│   │   │   ├── StartHour: *int
+│   │   │   └── StartMinute: *int
+│   │   ├── Network: 
+│   │   │   ├── DelegatedSubnetResourceId: *string
+│   │   │   └── PrivateDnsZoneResourceId: *string
+│   │   ├── ReplicationRole: enum
+│   │   │   ├── "None"
+│   │   │   ├── "Replica"
+│   │   │   └── "Source"
+│   │   ├── RestorePointInTime: *string
+│   │   ├── SourceServerResourceId: *string
+│   │   ├── Storage: 
+│   │   │   ├── AutoGrow: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "Enabled"
+│   │   │   ├── Iops: *int
+│   │   │   └── StorageSizeGB: *int
+│   │   └── Version: enum
+│   │       ├── "5.7"
+│   │       └── "8.0.21"
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: enum
+│   │       ├── "Burstable"
+│   │       ├── "GeneralPurpose"
+│   │       └── "MemoryOptimized"
+│   └── Tags: Map[string]string
+├── FlexibleServersDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Charset: *string
+│   │   ├── Collation: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Charset: *string
+│       ├── Collation: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── FlexibleServersFirewallRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── EndIpAddress: Validated[*string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── StartIpAddress: Validated[*string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── EndIpAddress: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── StartIpAddress: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── FlexibleServers_Database_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Charset: *string
+│   │   └── Collation: *string
+│   └── Tags: Map[string]string
+├── FlexibleServers_FirewallRule_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── EndIpAddress: *string
+│   │   └── StartIpAddress: *string
+│   └── Tags: Map[string]string
+└── Server_STATUS_ARM: 
+    ├── Id: *string
+    ├── Identity: 
+    │   ├── PrincipalId: *string
+    │   ├── TenantId: *string
+    │   ├── Type: enum
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: Map[string]v1.JSON
+    ├── Location: *string
+    ├── Name: *string
+    ├── Properties: 
+    │   ├── AdministratorLogin: *string
+    │   ├── AvailabilityZone: *string
+    │   ├── Backup: 
+    │   │   ├── BackupRetentionDays: *int
+    │   │   ├── EarliestRestoreDate: *string
+    │   │   └── GeoRedundantBackup: enum
+    │   │       ├── "Disabled"
+    │   │       └── "Enabled"
+    │   ├── CreateMode: enum
+    │   │   ├── "Default"
+    │   │   ├── "GeoRestore"
+    │   │   ├── "PointInTimeRestore"
+    │   │   └── "Replica"
+    │   ├── DataEncryption: 
+    │   │   ├── GeoBackupKeyUri: *string
+    │   │   ├── GeoBackupUserAssignedIdentityId: *string
+    │   │   ├── PrimaryKeyUri: *string
+    │   │   ├── PrimaryUserAssignedIdentityId: *string
+    │   │   └── Type: enum
+    │   │       ├── "AzureKeyVault"
+    │   │       └── "SystemManaged"
+    │   ├── FullyQualifiedDomainName: *string
+    │   ├── HighAvailability: 
+    │   │   ├── Mode: enum
+    │   │   │   ├── "Disabled"
+    │   │   │   ├── "SameZone"
+    │   │   │   └── "ZoneRedundant"
+    │   │   ├── StandbyAvailabilityZone: *string
+    │   │   └── State: enum
+    │   │       ├── "CreatingStandby"
+    │   │       ├── "FailingOver"
+    │   │       ├── "Healthy"
+    │   │       ├── "NotEnabled"
+    │   │       └── "RemovingStandby"
+    │   ├── MaintenanceWindow: 
+    │   │   ├── CustomWindow: *string
+    │   │   ├── DayOfWeek: *int
+    │   │   ├── StartHour: *int
+    │   │   └── StartMinute: *int
+    │   ├── Network: 
+    │   │   ├── DelegatedSubnetResourceId: *string
+    │   │   ├── PrivateDnsZoneResourceId: *string
+    │   │   └── PublicNetworkAccess: enum
+    │   │       ├── "Disabled"
+    │   │       └── "Enabled"
+    │   ├── ReplicaCapacity: *int
+    │   ├── ReplicationRole: enum
+    │   │   ├── "None"
+    │   │   ├── "Replica"
+    │   │   └── "Source"
+    │   ├── RestorePointInTime: *string
+    │   ├── SourceServerResourceId: *string
+    │   ├── State: enum
+    │   │   ├── "Disabled"
+    │   │   ├── "Dropping"
+    │   │   ├── "Ready"
+    │   │   ├── "Starting"
+    │   │   ├── "Stopped"
+    │   │   ├── "Stopping"
+    │   │   └── "Updating"
+    │   ├── Storage: 
+    │   │   ├── AutoGrow: enum
+    │   │   │   ├── "Disabled"
+    │   │   │   └── "Enabled"
+    │   │   ├── Iops: *int
+    │   │   ├── StorageSizeGB: *int
+    │   │   └── StorageSku: *string
+    │   └── Version: enum
+    │       ├── "5.7"
+    │       └── "8.0.21"
+    ├── Sku: 
+    │   ├── Name: *string
+    │   └── Tier: enum
+    │       ├── "Burstable"
+    │       ├── "GeneralPurpose"
+    │       └── "MemoryOptimized"
+    ├── SystemData: 
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: enum
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: enum
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: Map[string]string
+    └── Type: *string

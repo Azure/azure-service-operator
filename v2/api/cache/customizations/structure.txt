@@ -1,0 +1,7 @@
+github.com/Azure/azure-service-operator/v2/api/cache/customizations
+├── RedisEnterpriseDatabaseExtension: 
+├── RedisEnterpriseExtension: 
+├── RedisExtension: 
+├── RedisFirewallRuleExtension: 
+├── RedisLinkedServerExtension: 
+└── RedisPatchScheduleExtension: 

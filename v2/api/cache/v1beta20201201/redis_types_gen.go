@@ -1017,9 +1017,7 @@ type RedisResource_STATUS struct {
 	// etc.
 	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
-	// RedisVersion: Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value
-	// 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in
-	// a PUT/PATCH request. Supported versions: 4.0, 6.0.
+	// RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ReplicasPerMaster: The number of replicas to be created per primary.

@@ -1,0 +1,1119 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage
+├── APIVersion: enum
+│   └── "2020-12-01"
+├── VirtualMachine: Resource
+│   ├── Spec: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AvailabilitySet: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── AzureName: string
+│   │   ├── BillingProfile: 
+│   │   │   ├── MaxPrice: *float64
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── DiagnosticsProfile: 
+│   │   │   ├── BootDiagnostics: 
+│   │   │   │   ├── Enabled: *bool
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── StorageUri: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── EvictionPolicy: *string
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── ExtensionsTimeBudget: *string
+│   │   ├── HardwareProfile: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── VmSize: *string
+│   │   ├── Host: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── HostGroup: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── LicenseType: *string
+│   │   ├── Location: *string
+│   │   ├── NetworkProfile: 
+│   │   │   ├── NetworkInterfaces: 
+│   │   │   │   ├── Primary: *bool
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── OriginalVersion: string
+│   │   ├── OsProfile: 
+│   │   │   ├── AdminPassword: *genruntime.SecretReference
+│   │   │   ├── AdminUsername: *string
+│   │   │   ├── AllowExtensionOperations: *bool
+│   │   │   ├── ComputerName: *string
+│   │   │   ├── CustomData: *string
+│   │   │   ├── LinuxConfiguration: 
+│   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   ├── PatchMode: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   └── Ssh: 
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── PublicKeys: 
+│   │   │   │           ├── KeyData: *string
+│   │   │   │           ├── Path: *string
+│   │   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RequireGuestProvisionSignal: *bool
+│   │   │   ├── Secrets: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── SourceVault: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── VaultCertificates: 
+│   │   │   │       ├── CertificateStore: *string
+│   │   │   │       ├── CertificateUrl: *string
+│   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── WindowsConfiguration: 
+│   │   │       ├── AdditionalUnattendContent: 
+│   │   │       │   ├── ComponentName: *string
+│   │   │       │   ├── Content: *string
+│   │   │       │   ├── PassName: *string
+│   │   │       │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   └── SettingName: *string
+│   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │       ├── PatchSettings: 
+│   │   │       │   ├── EnableHotpatching: *bool
+│   │   │       │   ├── PatchMode: *string
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── ProvisionVMAgent: *bool
+│   │   │       ├── TimeZone: *string
+│   │   │       └── WinRM: 
+│   │   │           ├── Listeners: 
+│   │   │           │   ├── CertificateUrl: *string
+│   │   │           │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │           │   └── Protocol: *string
+│   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Plan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Publisher: *string
+│   │   ├── PlatformFaultDomain: *int
+│   │   ├── Priority: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── SecurityProfile: 
+│   │   │   ├── EncryptionAtHost: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SecurityType: *string
+│   │   │   └── UefiSettings: 
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── SecureBootEnabled: *bool
+│   │   │       └── VTpmEnabled: *bool
+│   │   ├── StorageProfile: 
+│   │   │   ├── DataDisks: 
+│   │   │   │   ├── Caching: *string
+│   │   │   │   ├── CreateOption: *string
+│   │   │   │   ├── DetachOption: *string
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── Image: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── StorageAccountType: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── ToBeDetached: *bool
+│   │   │   │   ├── Vhd: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   └── WriteAcceleratorEnabled: *bool
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Offer: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Publisher: *string
+│   │   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── Sku: *string
+│   │   │   │   └── Version: *string
+│   │   │   ├── OsDisk: 
+│   │   │   │   ├── Caching: *string
+│   │   │   │   ├── CreateOption: *string
+│   │   │   │   ├── DiffDiskSettings: 
+│   │   │   │   │   ├── Option: *string
+│   │   │   │   │   ├── Placement: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── EncryptionSettings: 
+│   │   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── Enabled: *bool
+│   │   │   │   │   ├── KeyEncryptionKey: 
+│   │   │   │   │   │   ├── KeyUrl: *string
+│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Image: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── StorageAccountType: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── OsType: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Vhd: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   └── WriteAcceleratorEnabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: Map[string]string
+│   │   ├── VirtualMachineScaleSet: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── AdditionalCapabilities: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── UltraSSDEnabled: *bool
+│       ├── AvailabilitySet: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BillingProfile: 
+│       │   ├── MaxPrice: *float64
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DiagnosticsProfile: 
+│       │   ├── BootDiagnostics: 
+│       │   │   ├── Enabled: *bool
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── StorageUri: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── EvictionPolicy: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── ExtensionsTimeBudget: *string
+│       ├── HardwareProfile: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── VmSize: *string
+│       ├── Host: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── HostGroup: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   └── Type: *string
+│       ├── InstanceView: 
+│       │   ├── AssignedHost: *string
+│       │   ├── BootDiagnostics: 
+│       │   │   ├── ConsoleScreenshotBlobUri: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SerialConsoleLogBlobUri: *string
+│       │   │   └── Status: 
+│       │   │       ├── Code: *string
+│       │   │       ├── DisplayStatus: *string
+│       │   │       ├── Level: *string
+│       │   │       ├── Message: *string
+│       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │   │       └── Time: *string
+│       │   ├── ComputerName: *string
+│       │   ├── Disks: 
+│       │   │   ├── EncryptionSettings: 
+│       │   │   │   ├── DiskEncryptionKey: 
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   ├── SecretUrl: *string
+│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │       ├── Id: *string
+│       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Enabled: *bool
+│       │   │   │   ├── KeyEncryptionKey: 
+│       │   │   │   │   ├── KeyUrl: *string
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │       ├── Id: *string
+│       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Statuses: 
+│       │   │       ├── Code: *string
+│       │   │       ├── DisplayStatus: *string
+│       │   │       ├── Level: *string
+│       │   │       ├── Message: *string
+│       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │   │       └── Time: *string
+│       │   ├── Extensions: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── HyperVGeneration: *string
+│       │   ├── MaintenanceRedeployStatus: 
+│       │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
+│       │   │   ├── LastOperationMessage: *string
+│       │   │   ├── LastOperationResultCode: *string
+│       │   │   ├── MaintenanceWindowEndTime: *string
+│       │   │   ├── MaintenanceWindowStartTime: *string
+│       │   │   ├── PreMaintenanceWindowEndTime: *string
+│       │   │   ├── PreMaintenanceWindowStartTime: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── OsName: *string
+│       │   ├── OsVersion: *string
+│       │   ├── PatchStatus: 
+│       │   │   ├── AvailablePatchSummary: 
+│       │   │   │   ├── AssessmentActivityId: *string
+│       │   │   │   ├── CriticalAndSecurityPatchCount: *int
+│       │   │   │   ├── Error: 
+│       │   │   │   │   ├── Code: *string
+│       │   │   │   │   ├── Details: 
+│       │   │   │   │   │   ├── Code: *string
+│       │   │   │   │   │   ├── Message: *string
+│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   │   └── Target: *string
+│       │   │   │   │   ├── Innererror: 
+│       │   │   │   │   │   ├── Errordetail: *string
+│       │   │   │   │   │   ├── Exceptiontype: *string
+│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   ├── Message: *string
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   └── Target: *string
+│       │   │   │   ├── LastModifiedTime: *string
+│       │   │   │   ├── OtherPatchCount: *int
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── RebootPending: *bool
+│       │   │   │   ├── StartTime: *string
+│       │   │   │   └── Status: *string
+│       │   │   ├── ConfigurationStatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── LastPatchInstallationSummary: 
+│       │   │   │   ├── Error: 
+│       │   │   │   │   ├── Code: *string
+│       │   │   │   │   ├── Details: 
+│       │   │   │   │   │   ├── Code: *string
+│       │   │   │   │   │   ├── Message: *string
+│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   │   └── Target: *string
+│       │   │   │   │   ├── Innererror: 
+│       │   │   │   │   │   ├── Errordetail: *string
+│       │   │   │   │   │   ├── Exceptiontype: *string
+│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   ├── Message: *string
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   └── Target: *string
+│       │   │   │   ├── ExcludedPatchCount: *int
+│       │   │   │   ├── FailedPatchCount: *int
+│       │   │   │   ├── InstallationActivityId: *string
+│       │   │   │   ├── InstalledPatchCount: *int
+│       │   │   │   ├── LastModifiedTime: *string
+│       │   │   │   ├── MaintenanceWindowExceeded: *bool
+│       │   │   │   ├── NotSelectedPatchCount: *int
+│       │   │   │   ├── PendingPatchCount: *int
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── StartTime: *string
+│       │   │   │   └── Status: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PlatformFaultDomain: *int
+│       │   ├── PlatformUpdateDomain: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RdpThumbPrint: *string
+│       │   ├── Statuses: 
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: *string
+│       │   │   ├── Message: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Time: *string
+│       │   ├── VmAgent: 
+│       │   │   ├── ExtensionHandlers: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Status: 
+│       │   │   │   │   ├── Code: *string
+│       │   │   │   │   ├── DisplayStatus: *string
+│       │   │   │   │   ├── Level: *string
+│       │   │   │   │   ├── Message: *string
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   └── Time: *string
+│       │   │   │   ├── Type: *string
+│       │   │   │   └── TypeHandlerVersion: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   └── VmAgentVersion: *string
+│       │   └── VmHealth: 
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── Status: 
+│       │           ├── Code: *string
+│       │           ├── DisplayStatus: *string
+│       │           ├── Level: *string
+│       │           ├── Message: *string
+│       │           ├── PropertyBag: genruntime.PropertyBag
+│       │           └── Time: *string
+│       ├── LicenseType: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── NetworkProfile: 
+│       │   ├── NetworkInterfaces: 
+│       │   │   ├── Id: *string
+│       │   │   ├── Primary: *bool
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── OsProfile: 
+│       │   ├── AdminUsername: *string
+│       │   ├── AllowExtensionOperations: *bool
+│       │   ├── ComputerName: *string
+│       │   ├── CustomData: *string
+│       │   ├── LinuxConfiguration: 
+│       │   │   ├── DisablePasswordAuthentication: *bool
+│       │   │   ├── PatchSettings: 
+│       │   │   │   ├── PatchMode: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ProvisionVMAgent: *bool
+│       │   │   └── Ssh: 
+│       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │   │       └── PublicKeys: 
+│       │   │           ├── KeyData: *string
+│       │   │           ├── Path: *string
+│       │   │           └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequireGuestProvisionSignal: *bool
+│       │   ├── Secrets: 
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SourceVault: 
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   └── VaultCertificates: 
+│       │   │       ├── CertificateStore: *string
+│       │   │       ├── CertificateUrl: *string
+│       │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   └── WindowsConfiguration: 
+│       │       ├── AdditionalUnattendContent: 
+│       │       │   ├── ComponentName: *string
+│       │       │   ├── Content: *string
+│       │       │   ├── PassName: *string
+│       │       │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   └── SettingName: *string
+│       │       ├── EnableAutomaticUpdates: *bool
+│       │       ├── PatchSettings: 
+│       │       │   ├── EnableHotpatching: *bool
+│       │       │   ├── PatchMode: *string
+│       │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── ProvisionVMAgent: *bool
+│       │       ├── TimeZone: *string
+│       │       └── WinRM: 
+│       │           ├── Listeners: 
+│       │           │   ├── CertificateUrl: *string
+│       │           │   ├── PropertyBag: genruntime.PropertyBag
+│       │           │   └── Protocol: *string
+│       │           └── PropertyBag: genruntime.PropertyBag
+│       ├── Plan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Publisher: *string
+│       ├── PlatformFaultDomain: *int
+│       ├── Priority: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ProximityPlacementGroup: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Resources: 
+│       │   ├── AutoUpgradeMinorVersion: *bool
+│       │   ├── EnableAutomaticUpgrade: *bool
+│       │   ├── ForceUpdateTag: *string
+│       │   ├── Id: *string
+│       │   ├── InstanceView: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── Location: *string
+│       │   ├── Name: *string
+│       │   ├── PropertiesType: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProtectedSettings: Map[string]v1.JSON
+│       │   ├── ProvisioningState: *string
+│       │   ├── Publisher: *string
+│       │   ├── Settings: Map[string]v1.JSON
+│       │   ├── Tags: Map[string]string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
+│       ├── SecurityProfile: 
+│       │   ├── EncryptionAtHost: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SecurityType: *string
+│       │   └── UefiSettings: 
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── SecureBootEnabled: *bool
+│       │       └── VTpmEnabled: *bool
+│       ├── StorageProfile: 
+│       │   ├── DataDisks: 
+│       │   │   ├── Caching: *string
+│       │   │   ├── CreateOption: *string
+│       │   │   ├── DetachOption: *string
+│       │   │   ├── DiskIOPSReadWrite: *int
+│       │   │   ├── DiskMBpsReadWrite: *int
+│       │   │   ├── DiskSizeGB: *int
+│       │   │   ├── Image: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Uri: *string
+│       │   │   ├── Lun: *int
+│       │   │   ├── ManagedDisk: 
+│       │   │   │   ├── DiskEncryptionSet: 
+│       │   │   │   │   ├── Id: *string
+│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Id: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── StorageAccountType: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ToBeDetached: *bool
+│       │   │   ├── Vhd: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Uri: *string
+│       │   │   └── WriteAcceleratorEnabled: *bool
+│       │   ├── ImageReference: 
+│       │   │   ├── ExactVersion: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── Offer: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Publisher: *string
+│       │   │   ├── Sku: *string
+│       │   │   └── Version: *string
+│       │   ├── OsDisk: 
+│       │   │   ├── Caching: *string
+│       │   │   ├── CreateOption: *string
+│       │   │   ├── DiffDiskSettings: 
+│       │   │   │   ├── Option: *string
+│       │   │   │   ├── Placement: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── DiskSizeGB: *int
+│       │   │   ├── EncryptionSettings: 
+│       │   │   │   ├── DiskEncryptionKey: 
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   ├── SecretUrl: *string
+│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │       ├── Id: *string
+│       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Enabled: *bool
+│       │   │   │   ├── KeyEncryptionKey: 
+│       │   │   │   │   ├── KeyUrl: *string
+│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │       ├── Id: *string
+│       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Image: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Uri: *string
+│       │   │   ├── ManagedDisk: 
+│       │   │   │   ├── DiskEncryptionSet: 
+│       │   │   │   │   ├── Id: *string
+│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Id: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── StorageAccountType: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── OsType: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Vhd: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Uri: *string
+│       │   │   └── WriteAcceleratorEnabled: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── VirtualMachineScaleSet: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── VmId: *string
+│       └── Zones: Array[string]
+└── VirtualMachineScaleSet: Resource
+    ├── Spec: 
+    │   ├── AdditionalCapabilities: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── UltraSSDEnabled: *bool
+    │   ├── AutomaticRepairsPolicy: 
+    │   │   ├── Enabled: *bool
+    │   │   ├── GracePeriod: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── AzureName: string
+    │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+    │   ├── ExtendedLocation: 
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── HostGroup: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── Identity: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── Location: *string
+    │   ├── OrchestrationMode: *string
+    │   ├── OriginalVersion: string
+    │   ├── Overprovision: *bool
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── Plan: 
+    │   │   ├── Name: *string
+    │   │   ├── Product: *string
+    │   │   ├── PromotionCode: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Publisher: *string
+    │   ├── PlatformFaultDomainCount: *int
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProximityPlacementGroup: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── ScaleInPolicy: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Rules: Array[string]
+    │   ├── SinglePlacementGroup: *bool
+    │   ├── Sku: 
+    │   │   ├── Capacity: *int
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Tier: *string
+    │   ├── Tags: Map[string]string
+    │   ├── UpgradePolicy: 
+    │   │   ├── AutomaticOSUpgradePolicy: 
+    │   │   │   ├── DisableAutomaticRollback: *bool
+    │   │   │   ├── EnableAutomaticOSUpgrade: *bool
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Mode: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── RollingUpgradePolicy: 
+    │   │       ├── EnableCrossZoneUpgrade: *bool
+    │   │       ├── MaxBatchInstancePercent: *int
+    │   │       ├── MaxUnhealthyInstancePercent: *int
+    │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+    │   │       ├── PauseTimeBetweenBatches: *string
+    │   │       ├── PrioritizeUnhealthyInstances: *bool
+    │   │       └── PropertyBag: genruntime.PropertyBag
+    │   ├── VirtualMachineProfile: 
+    │   │   ├── BillingProfile: 
+    │   │   │   ├── MaxPrice: *float64
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── DiagnosticsProfile: 
+    │   │   │   ├── BootDiagnostics: 
+    │   │   │   │   ├── Enabled: *bool
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── StorageUri: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── EvictionPolicy: *string
+    │   │   ├── ExtensionProfile: 
+    │   │   │   ├── Extensions: 
+    │   │   │   │   ├── Name: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── Publisher: *string
+    │   │   │   │   ├── Settings: Map[string]v1.JSON
+    │   │   │   │   ├── Type: *string
+    │   │   │   │   └── TypeHandlerVersion: *string
+    │   │   │   ├── ExtensionsTimeBudget: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── LicenseType: *string
+    │   │   ├── NetworkProfile: 
+    │   │   │   ├── HealthProbe: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── NetworkInterfaceConfigurations: 
+    │   │   │   │   ├── DnsSettings: 
+    │   │   │   │   │   ├── DnsServers: Array[string]
+    │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── EnableAcceleratedNetworking: *bool
+    │   │   │   │   ├── EnableFpga: *bool
+    │   │   │   │   ├── EnableIPForwarding: *bool
+    │   │   │   │   ├── Id: *string
+    │   │   │   │   ├── IpConfigurations: 
+    │   │   │   │   │   ├── ApplicationGatewayBackendAddressPools: 
+    │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── ApplicationSecurityGroups: 
+    │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── Id: *string
+    │   │   │   │   │   ├── LoadBalancerBackendAddressPools: 
+    │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── LoadBalancerInboundNatPools: 
+    │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── Name: *string
+    │   │   │   │   │   ├── Primary: *bool
+    │   │   │   │   │   ├── PrivateIPAddressVersion: *string
+    │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   ├── PublicIPAddressConfiguration: 
+    │   │   │   │   │   │   ├── DnsSettings: 
+    │   │   │   │   │   │   │   ├── DomainNameLabel: *string
+    │   │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   ├── IdleTimeoutInMinutes: *int
+    │   │   │   │   │   │   ├── IpTags: 
+    │   │   │   │   │   │   │   ├── IpTagType: *string
+    │   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   │   └── Tag: *string
+    │   │   │   │   │   │   ├── Name: *string
+    │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │   ├── PublicIPAddressVersion: *string
+    │   │   │   │   │   │   └── PublicIPPrefix: 
+    │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   └── Subnet: 
+    │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   │   ├── Name: *string
+    │   │   │   │   ├── NetworkSecurityGroup: 
+    │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   ├── Primary: *bool
+    │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── OsProfile: 
+    │   │   │   ├── AdminPassword: *genruntime.SecretReference
+    │   │   │   ├── AdminUsername: *string
+    │   │   │   ├── ComputerNamePrefix: *string
+    │   │   │   ├── CustomData: *string
+    │   │   │   ├── LinuxConfiguration: 
+    │   │   │   │   ├── DisablePasswordAuthentication: *bool
+    │   │   │   │   ├── PatchSettings: 
+    │   │   │   │   │   ├── PatchMode: *string
+    │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── ProvisionVMAgent: *bool
+    │   │   │   │   └── Ssh: 
+    │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │       └── PublicKeys: 
+    │   │   │   │           ├── KeyData: *string
+    │   │   │   │           ├── Path: *string
+    │   │   │   │           └── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Secrets: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── SourceVault: 
+    │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   │   └── VaultCertificates: 
+    │   │   │   │       ├── CertificateStore: *string
+    │   │   │   │       ├── CertificateUrl: *string
+    │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── WindowsConfiguration: 
+    │   │   │       ├── AdditionalUnattendContent: 
+    │   │   │       │   ├── ComponentName: *string
+    │   │   │       │   ├── Content: *string
+    │   │   │       │   ├── PassName: *string
+    │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       │   └── SettingName: *string
+    │   │   │       ├── EnableAutomaticUpdates: *bool
+    │   │   │       ├── PatchSettings: 
+    │   │   │       │   ├── EnableHotpatching: *bool
+    │   │   │       │   ├── PatchMode: *string
+    │   │   │       │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       ├── ProvisionVMAgent: *bool
+    │   │   │       ├── TimeZone: *string
+    │   │   │       └── WinRM: 
+    │   │   │           ├── Listeners: 
+    │   │   │           │   ├── CertificateUrl: *string
+    │   │   │           │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │           │   └── Protocol: *string
+    │   │   │           └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Priority: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ScheduledEventsProfile: 
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── TerminateNotificationProfile: 
+    │   │   │       ├── Enable: *bool
+    │   │   │       ├── NotBeforeTimeout: *string
+    │   │   │       └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── SecurityProfile: 
+    │   │   │   ├── EncryptionAtHost: *bool
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── SecurityType: *string
+    │   │   │   └── UefiSettings: 
+    │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       ├── SecureBootEnabled: *bool
+    │   │   │       └── VTpmEnabled: *bool
+    │   │   └── StorageProfile: 
+    │   │       ├── DataDisks: 
+    │   │       │   ├── Caching: *string
+    │   │       │   ├── CreateOption: *string
+    │   │       │   ├── DiskIOPSReadWrite: *int
+    │   │       │   ├── DiskMBpsReadWrite: *int
+    │   │       │   ├── DiskSizeGB: *int
+    │   │       │   ├── Lun: *int
+    │   │       │   ├── ManagedDisk: 
+    │   │       │   │   ├── DiskEncryptionSet: 
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   └── StorageAccountType: *string
+    │   │       │   ├── Name: *string
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   └── WriteAcceleratorEnabled: *bool
+    │   │       ├── ImageReference: 
+    │   │       │   ├── Offer: *string
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── Publisher: *string
+    │   │       │   ├── Reference: *genruntime.ResourceReference
+    │   │       │   ├── Sku: *string
+    │   │       │   └── Version: *string
+    │   │       ├── OsDisk: 
+    │   │       │   ├── Caching: *string
+    │   │       │   ├── CreateOption: *string
+    │   │       │   ├── DiffDiskSettings: 
+    │   │       │   │   ├── Option: *string
+    │   │       │   │   ├── Placement: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DiskSizeGB: *int
+    │   │       │   ├── Image: 
+    │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   └── Uri: *string
+    │   │       │   ├── ManagedDisk: 
+    │   │       │   │   ├── DiskEncryptionSet: 
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   └── StorageAccountType: *string
+    │   │       │   ├── Name: *string
+    │   │       │   ├── OsType: *string
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── VhdContainers: Array[string]
+    │   │       │   └── WriteAcceleratorEnabled: *bool
+    │   │       └── PropertyBag: genruntime.PropertyBag
+    │   ├── ZoneBalance: *bool
+    │   └── Zones: Array[string]
+    └── Status: 
+        ├── AdditionalCapabilities: 
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── UltraSSDEnabled: *bool
+        ├── AutomaticRepairsPolicy: 
+        │   ├── Enabled: *bool
+        │   ├── GracePeriod: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Conditions: Array[conditions.Condition]
+        ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+        ├── ExtendedLocation: 
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Type: *string
+        ├── HostGroup: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Id: *string
+        ├── Identity: 
+        │   ├── PrincipalId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── TenantId: *string
+        │   └── Type: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── OrchestrationMode: *string
+        ├── Overprovision: *bool
+        ├── Plan: 
+        │   ├── Name: *string
+        │   ├── Product: *string
+        │   ├── PromotionCode: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Publisher: *string
+        ├── PlatformFaultDomainCount: *int
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── ProximityPlacementGroup: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── ScaleInPolicy: 
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Rules: Array[string]
+        ├── SinglePlacementGroup: *bool
+        ├── Sku: 
+        │   ├── Capacity: *int
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Tier: *string
+        ├── Tags: Map[string]string
+        ├── Type: *string
+        ├── UniqueId: *string
+        ├── UpgradePolicy: 
+        │   ├── AutomaticOSUpgradePolicy: 
+        │   │   ├── DisableAutomaticRollback: *bool
+        │   │   ├── EnableAutomaticOSUpgrade: *bool
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── Mode: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── RollingUpgradePolicy: 
+        │       ├── EnableCrossZoneUpgrade: *bool
+        │       ├── MaxBatchInstancePercent: *int
+        │       ├── MaxUnhealthyInstancePercent: *int
+        │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+        │       ├── PauseTimeBetweenBatches: *string
+        │       ├── PrioritizeUnhealthyInstances: *bool
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── VirtualMachineProfile: 
+        │   ├── BillingProfile: 
+        │   │   ├── MaxPrice: *float64
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── DiagnosticsProfile: 
+        │   │   ├── BootDiagnostics: 
+        │   │   │   ├── Enabled: *bool
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── StorageUri: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── EvictionPolicy: *string
+        │   ├── ExtensionProfile: 
+        │   │   ├── Extensions: 
+        │   │   │   ├── AutoUpgradeMinorVersion: *bool
+        │   │   │   ├── EnableAutomaticUpgrade: *bool
+        │   │   │   ├── ForceUpdateTag: *string
+        │   │   │   ├── Id: *string
+        │   │   │   ├── Name: *string
+        │   │   │   ├── PropertiesType: *string
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── ProtectedSettings: Map[string]v1.JSON
+        │   │   │   ├── ProvisionAfterExtensions: Array[string]
+        │   │   │   ├── ProvisioningState: *string
+        │   │   │   ├── Publisher: *string
+        │   │   │   ├── Settings: Map[string]v1.JSON
+        │   │   │   ├── Type: *string
+        │   │   │   └── TypeHandlerVersion: *string
+        │   │   ├── ExtensionsTimeBudget: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── LicenseType: *string
+        │   ├── NetworkProfile: 
+        │   │   ├── HealthProbe: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── NetworkInterfaceConfigurations: 
+        │   │   │   ├── DnsSettings: 
+        │   │   │   │   ├── DnsServers: Array[string]
+        │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── EnableAcceleratedNetworking: *bool
+        │   │   │   ├── EnableFpga: *bool
+        │   │   │   ├── EnableIPForwarding: *bool
+        │   │   │   ├── Id: *string
+        │   │   │   ├── IpConfigurations: 
+        │   │   │   │   ├── ApplicationGatewayBackendAddressPools: 
+        │   │   │   │   │   ├── Id: *string
+        │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── ApplicationSecurityGroups: 
+        │   │   │   │   │   ├── Id: *string
+        │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── Id: *string
+        │   │   │   │   ├── LoadBalancerBackendAddressPools: 
+        │   │   │   │   │   ├── Id: *string
+        │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── LoadBalancerInboundNatPools: 
+        │   │   │   │   │   ├── Id: *string
+        │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── Name: *string
+        │   │   │   │   ├── Primary: *bool
+        │   │   │   │   ├── PrivateIPAddressVersion: *string
+        │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── PublicIPAddressConfiguration: 
+        │   │   │   │   │   ├── DnsSettings: 
+        │   │   │   │   │   │   ├── DomainNameLabel: *string
+        │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   │   ├── IdleTimeoutInMinutes: *int
+        │   │   │   │   │   ├── IpTags: 
+        │   │   │   │   │   │   ├── IpTagType: *string
+        │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   │   │   └── Tag: *string
+        │   │   │   │   │   ├── Name: *string
+        │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   │   ├── PublicIPAddressVersion: *string
+        │   │   │   │   │   └── PublicIPPrefix: 
+        │   │   │   │   │       ├── Id: *string
+        │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   └── Subnet: 
+        │   │   │   │       ├── Id: *string
+        │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── Name: *string
+        │   │   │   ├── NetworkSecurityGroup: 
+        │   │   │   │   ├── Id: *string
+        │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── Primary: *bool
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── OsProfile: 
+        │   │   ├── AdminUsername: *string
+        │   │   ├── ComputerNamePrefix: *string
+        │   │   ├── CustomData: *string
+        │   │   ├── LinuxConfiguration: 
+        │   │   │   ├── DisablePasswordAuthentication: *bool
+        │   │   │   ├── PatchSettings: 
+        │   │   │   │   ├── PatchMode: *string
+        │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── ProvisionVMAgent: *bool
+        │   │   │   └── Ssh: 
+        │   │   │       ├── PropertyBag: genruntime.PropertyBag
+        │   │   │       └── PublicKeys: 
+        │   │   │           ├── KeyData: *string
+        │   │   │           ├── Path: *string
+        │   │   │           └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── Secrets: 
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── SourceVault: 
+        │   │   │   │   ├── Id: *string
+        │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── VaultCertificates: 
+        │   │   │       ├── CertificateStore: *string
+        │   │   │       ├── CertificateUrl: *string
+        │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   └── WindowsConfiguration: 
+        │   │       ├── AdditionalUnattendContent: 
+        │   │       │   ├── ComponentName: *string
+        │   │       │   ├── Content: *string
+        │   │       │   ├── PassName: *string
+        │   │       │   ├── PropertyBag: genruntime.PropertyBag
+        │   │       │   └── SettingName: *string
+        │   │       ├── EnableAutomaticUpdates: *bool
+        │   │       ├── PatchSettings: 
+        │   │       │   ├── EnableHotpatching: *bool
+        │   │       │   ├── PatchMode: *string
+        │   │       │   └── PropertyBag: genruntime.PropertyBag
+        │   │       ├── PropertyBag: genruntime.PropertyBag
+        │   │       ├── ProvisionVMAgent: *bool
+        │   │       ├── TimeZone: *string
+        │   │       └── WinRM: 
+        │   │           ├── Listeners: 
+        │   │           │   ├── CertificateUrl: *string
+        │   │           │   ├── PropertyBag: genruntime.PropertyBag
+        │   │           │   └── Protocol: *string
+        │   │           └── PropertyBag: genruntime.PropertyBag
+        │   ├── Priority: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ScheduledEventsProfile: 
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── TerminateNotificationProfile: 
+        │   │       ├── Enable: *bool
+        │   │       ├── NotBeforeTimeout: *string
+        │   │       └── PropertyBag: genruntime.PropertyBag
+        │   ├── SecurityProfile: 
+        │   │   ├── EncryptionAtHost: *bool
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── SecurityType: *string
+        │   │   └── UefiSettings: 
+        │   │       ├── PropertyBag: genruntime.PropertyBag
+        │   │       ├── SecureBootEnabled: *bool
+        │   │       └── VTpmEnabled: *bool
+        │   └── StorageProfile: 
+        │       ├── DataDisks: 
+        │       │   ├── Caching: *string
+        │       │   ├── CreateOption: *string
+        │       │   ├── DiskIOPSReadWrite: *int
+        │       │   ├── DiskMBpsReadWrite: *int
+        │       │   ├── DiskSizeGB: *int
+        │       │   ├── Lun: *int
+        │       │   ├── ManagedDisk: 
+        │       │   │   ├── DiskEncryptionSet: 
+        │       │   │   │   ├── Id: *string
+        │       │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   └── StorageAccountType: *string
+        │       │   ├── Name: *string
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   └── WriteAcceleratorEnabled: *bool
+        │       ├── ImageReference: 
+        │       │   ├── ExactVersion: *string
+        │       │   ├── Id: *string
+        │       │   ├── Offer: *string
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   ├── Publisher: *string
+        │       │   ├── Sku: *string
+        │       │   └── Version: *string
+        │       ├── OsDisk: 
+        │       │   ├── Caching: *string
+        │       │   ├── CreateOption: *string
+        │       │   ├── DiffDiskSettings: 
+        │       │   │   ├── Option: *string
+        │       │   │   ├── Placement: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DiskSizeGB: *int
+        │       │   ├── Image: 
+        │       │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   └── Uri: *string
+        │       │   ├── ManagedDisk: 
+        │       │   │   ├── DiskEncryptionSet: 
+        │       │   │   │   ├── Id: *string
+        │       │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   └── StorageAccountType: *string
+        │       │   ├── Name: *string
+        │       │   ├── OsType: *string
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   ├── VhdContainers: Array[string]
+        │       │   └── WriteAcceleratorEnabled: *bool
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── ZoneBalance: *bool
+        └── Zones: Array[string]

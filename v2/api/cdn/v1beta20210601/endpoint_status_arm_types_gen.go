@@ -27,7 +27,7 @@ type EndpointProperties_STATUS_ARM struct {
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
 	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []DeepCreatedCustomDomain_STATUS_ARM `json:"customDomains,omitempty"`
+	CustomDomains []CustomDomain_STATUS_SubResourceEmbedded_ARM `json:"customDomains,omitempty"`
 
 	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReference_STATUS_ARM `json:"defaultOriginGroup,omitempty"`
@@ -118,10 +118,10 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type DeepCreatedCustomDomain_STATUS_ARM struct {
-	// Name: Custom domain name.
-	Name       *string                                       `json:"name,omitempty"`
-	Properties *DeepCreatedCustomDomainProperties_STATUS_ARM `json:"properties,omitempty"`
+type CustomDomain_STATUS_SubResourceEmbedded_ARM struct {
+	// Id: Resource ID.
+	Id         *string                `json:"id,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type DeepCreatedOrigin_STATUS_ARM struct {
@@ -221,15 +221,6 @@ type UrlSigningKey_STATUS_ARM struct {
 
 	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS_ARM `json:"keySourceParameters,omitempty"`
-}
-
-type DeepCreatedCustomDomainProperties_STATUS_ARM struct {
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-	ValidationData *string `json:"validationData,omitempty"`
 }
 
 type DeepCreatedOriginGroupProperties_STATUS_ARM struct {

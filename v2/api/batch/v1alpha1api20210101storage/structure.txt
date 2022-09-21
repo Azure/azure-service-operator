@@ -1,0 +1,88 @@
+github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
+├── APIVersion: enum
+│   └── "2021-01-01"
+└── BatchAccount: Resource
+    ├── Spec: 
+    │   ├── AutoStorage: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── StorageAccountReference: *genruntime.ResourceReference
+    │   ├── AzureName: Validated[string]
+    │   ├── Encryption: 
+    │   │   ├── KeySource: *string
+    │   │   ├── KeyVaultProperties: 
+    │   │   │   ├── KeyIdentifier: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── Identity: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── KeyVaultReference: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Reference: *genruntime.ResourceReference
+    │   │   └── Url: *string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PoolAllocationMode: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PublicNetworkAccess: *string
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── AccountEndpoint: *string
+        ├── ActiveJobAndJobScheduleQuota: *int
+        ├── AutoStorage: 
+        │   ├── LastKeySync: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── StorageAccountId: *string
+        ├── Conditions: Array[conditions.Condition]
+        ├── DedicatedCoreQuota: *int
+        ├── DedicatedCoreQuotaPerVMFamily: 
+        │   ├── CoreQuota: *int
+        │   ├── Name: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── DedicatedCoreQuotaPerVMFamilyEnforced: *bool
+        ├── Encryption: 
+        │   ├── KeySource: *string
+        │   ├── KeyVaultProperties: 
+        │   │   ├── KeyIdentifier: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Id: *string
+        ├── Identity: 
+        │   ├── PrincipalId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── TenantId: *string
+        │   ├── Type: *string
+        │   └── UserAssignedIdentities: 
+        │       ├── ClientId: *string
+        │       ├── PrincipalId: *string
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── KeyVaultReference: 
+        │   ├── Id: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Url: *string
+        ├── Location: *string
+        ├── LowPriorityCoreQuota: *int
+        ├── Name: *string
+        ├── PoolAllocationMode: *string
+        ├── PoolQuota: *int
+        ├── PrivateEndpointConnections: 
+        │   ├── Etag: *string
+        │   ├── Id: *string
+        │   ├── Name: *string
+        │   ├── PrivateEndpoint: 
+        │   │   ├── Id: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── PrivateLinkServiceConnectionState: 
+        │   │   ├── ActionRequired: *string
+        │   │   ├── Description: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Status: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ProvisioningState: *string
+        │   └── Type: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── PublicNetworkAccess: *string
+        ├── Tags: Map[string]string
+        └── Type: *string

@@ -313,7 +313,7 @@ func AddIndependentPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForEndpoint_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomDomains"] = gen.SliceOf(DeepCreatedCustomDomain_STATUSGenerator())
+	gens["CustomDomains"] = gen.SliceOf(CustomDomain_STATUS_SubResourceEmbeddedGenerator())
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicy_STATUSGenerator())
 	gens["GeoFilters"] = gen.SliceOf(GeoFilter_STATUSGenerator())
@@ -467,32 +467,32 @@ func AddRelatedPropertyGeneratorsForProfiles_Endpoint_Spec(gens map[string]gopte
 	gens["WebApplicationFirewallPolicyLink"] = gen.PtrOf(EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkGenerator())
 }
 
-func Test_DeepCreatedCustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_CustomDomain_STATUS_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DeepCreatedCustomDomain_STATUS to DeepCreatedCustomDomain_STATUS via AssignProperties_To_DeepCreatedCustomDomain_STATUS & AssignProperties_From_DeepCreatedCustomDomain_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeepCreatedCustomDomain_STATUS, DeepCreatedCustomDomain_STATUSGenerator()))
+		"Round trip from CustomDomain_STATUS_SubResourceEmbedded to CustomDomain_STATUS_SubResourceEmbedded via AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded & AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCustomDomain_STATUS_SubResourceEmbedded, CustomDomain_STATUS_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeepCreatedCustomDomain_STATUS tests if a specific instance of DeepCreatedCustomDomain_STATUS can be assigned to v1beta20210601storage and back losslessly
-func RunPropertyAssignmentTestForDeepCreatedCustomDomain_STATUS(subject DeepCreatedCustomDomain_STATUS) string {
+// RunPropertyAssignmentTestForCustomDomain_STATUS_SubResourceEmbedded tests if a specific instance of CustomDomain_STATUS_SubResourceEmbedded can be assigned to v1beta20210601storage and back losslessly
+func RunPropertyAssignmentTestForCustomDomain_STATUS_SubResourceEmbedded(subject CustomDomain_STATUS_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.DeepCreatedCustomDomain_STATUS
-	err := copied.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&other)
+	var other v20210601s.CustomDomain_STATUS_SubResourceEmbedded
+	err := copied.AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeepCreatedCustomDomain_STATUS
-	err = actual.AssignProperties_From_DeepCreatedCustomDomain_STATUS(&other)
+	var actual CustomDomain_STATUS_SubResourceEmbedded
+	err = actual.AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -509,20 +509,20 @@ func RunPropertyAssignmentTestForDeepCreatedCustomDomain_STATUS(subject DeepCrea
 	return ""
 }
 
-func Test_DeepCreatedCustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_CustomDomain_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DeepCreatedCustomDomain_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS, DeepCreatedCustomDomain_STATUSGenerator()))
+		"Round trip of CustomDomain_STATUS_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded, CustomDomain_STATUS_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS runs a test to see if a specific instance of DeepCreatedCustomDomain_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS(subject DeepCreatedCustomDomain_STATUS) string {
+// RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded runs a test to see if a specific instance of CustomDomain_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForCustomDomain_STATUS_SubResourceEmbedded(subject CustomDomain_STATUS_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -530,7 +530,7 @@ func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS(subject DeepCreat
 	}
 
 	// Deserialize back into memory
-	var actual DeepCreatedCustomDomain_STATUS
+	var actual CustomDomain_STATUS_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -548,28 +548,40 @@ func RunJSONSerializationTestForDeepCreatedCustomDomain_STATUS(subject DeepCreat
 	return ""
 }
 
-// Generator of DeepCreatedCustomDomain_STATUS instances for property testing - lazily instantiated by
-// DeepCreatedCustomDomain_STATUSGenerator()
-var deepCreatedCustomDomain_STATUSGenerator gopter.Gen
+// Generator of CustomDomain_STATUS_SubResourceEmbedded instances for property testing - lazily instantiated by
+// CustomDomain_STATUS_SubResourceEmbeddedGenerator()
+var customDomain_STATUS_SubResourceEmbeddedGenerator gopter.Gen
 
-// DeepCreatedCustomDomain_STATUSGenerator returns a generator of DeepCreatedCustomDomain_STATUS instances for property testing.
-func DeepCreatedCustomDomain_STATUSGenerator() gopter.Gen {
-	if deepCreatedCustomDomain_STATUSGenerator != nil {
-		return deepCreatedCustomDomain_STATUSGenerator
+// CustomDomain_STATUS_SubResourceEmbeddedGenerator returns a generator of CustomDomain_STATUS_SubResourceEmbedded instances for property testing.
+// We first initialize customDomain_STATUS_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func CustomDomain_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
+	if customDomain_STATUS_SubResourceEmbeddedGenerator != nil {
+		return customDomain_STATUS_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS(generators)
-	deepCreatedCustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(DeepCreatedCustomDomain_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded(generators)
+	customDomain_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(CustomDomain_STATUS_SubResourceEmbedded{}), generators)
 
-	return deepCreatedCustomDomain_STATUSGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded(generators)
+	customDomain_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(CustomDomain_STATUS_SubResourceEmbedded{}), generators)
+
+	return customDomain_STATUS_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForCustomDomain_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_DeepCreatedOrigin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

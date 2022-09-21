@@ -1,0 +1,1251 @@
+github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
+├── APIVersion: enum
+│   └── "2021-05-15"
+├── DatabaseAccount: Resource
+│   ├── Spec: 
+│   │   ├── AnalyticalStorageConfiguration: 
+│   │   │   └── SchemaType: enum
+│   │   │       ├── "FullFidelity"
+│   │   │       └── "WellDefined"
+│   │   ├── ApiProperties: 
+│   │   │   └── ServerVersion: enum
+│   │   │       ├── "3.2"
+│   │   │       ├── "3.6"
+│   │   │       └── "4.0"
+│   │   ├── AzureName: Validated[string]
+│   │   ├── BackupPolicy: 
+│   │   │   ├── Continuous: 
+│   │   │   │   └── Type: enum
+│   │   │   │       └── "Continuous"
+│   │   │   └── Periodic: 
+│   │   │       ├── PeriodicModeProperties: 
+│   │   │       │   ├── BackupIntervalInMinutes: Validated[*int]
+│   │   │       │   └── BackupRetentionIntervalInHours: Validated[*int]
+│   │   │       └── Type: enum
+│   │   │           └── "Periodic"
+│   │   ├── Capabilities: 
+│   │   │   └── Name: *string
+│   │   ├── ConnectorOffer: enum
+│   │   │   └── "Small"
+│   │   ├── ConsistencyPolicy: 
+│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   │   │   ├── "BoundedStaleness"
+│   │   │   │   ├── "ConsistentPrefix"
+│   │   │   │   ├── "Eventual"
+│   │   │   │   ├── "Session"
+│   │   │   │   └── "Strong"
+│   │   │   ├── MaxIntervalInSeconds: Validated[*int]
+│   │   │   └── MaxStalenessPrefix: Validated[*int]
+│   │   ├── Cors: 
+│   │   │   ├── AllowedHeaders: *string
+│   │   │   ├── AllowedMethods: *string
+│   │   │   ├── AllowedOrigins: *string
+│   │   │   ├── ExposedHeaders: *string
+│   │   │   └── MaxAgeInSeconds: Validated[*int]
+│   │   ├── DatabaseAccountOfferType: enum
+│   │   │   └── "Standard"
+│   │   ├── DefaultIdentity: *string
+│   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
+│   │   ├── EnableAnalyticalStorage: *bool
+│   │   ├── EnableAutomaticFailover: *bool
+│   │   ├── EnableCassandraConnector: *bool
+│   │   ├── EnableFreeTier: *bool
+│   │   ├── EnableMultipleWriteLocations: *bool
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned,UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── IpRules: 
+│   │   │   └── IpAddressOrRange: *string
+│   │   ├── IsVirtualNetworkFilterEnabled: *bool
+│   │   ├── KeyVaultKeyUri: *string
+│   │   ├── Kind: enum
+│   │   │   ├── "GlobalDocumentDB"
+│   │   │   ├── "MongoDB"
+│   │   │   └── "Parse"
+│   │   ├── Location: *string
+│   │   ├── Locations: 
+│   │   │   ├── FailoverPriority: Validated[*int]
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   └── LocationName: *string
+│   │   ├── NetworkAclBypass: enum
+│   │   │   ├── "AzureServices"
+│   │   │   └── "None"
+│   │   ├── NetworkAclBypassResourceIds: Array[string]
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
+│   │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   │       ├── SecondaryMasterKey: *genruntime.SecretDestination
+│   │   │       └── SecondaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Tags: Map[string]string
+│   │   └── VirtualNetworkRules: 
+│   │       ├── IgnoreMissingVNetServiceEndpoint: *bool
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: 
+│       ├── AnalyticalStorageConfiguration: 
+│       │   └── SchemaType: enum
+│       │       ├── "FullFidelity"
+│       │       └── "WellDefined"
+│       ├── ApiProperties: 
+│       │   └── ServerVersion: enum
+│       │       ├── "3.2"
+│       │       ├── "3.6"
+│       │       └── "4.0"
+│       ├── BackupPolicy: 
+│       │   └── Type: enum
+│       │       ├── "Continuous"
+│       │       └── "Periodic"
+│       ├── Capabilities: 
+│       │   └── Name: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ConnectorOffer: enum
+│       │   └── "Small"
+│       ├── ConsistencyPolicy: 
+│       │   ├── DefaultConsistencyLevel: enum
+│       │   │   ├── "BoundedStaleness"
+│       │   │   ├── "ConsistentPrefix"
+│       │   │   ├── "Eventual"
+│       │   │   ├── "Session"
+│       │   │   └── "Strong"
+│       │   ├── MaxIntervalInSeconds: *int
+│       │   └── MaxStalenessPrefix: *int
+│       ├── Cors: 
+│       │   ├── AllowedHeaders: *string
+│       │   ├── AllowedMethods: *string
+│       │   ├── AllowedOrigins: *string
+│       │   ├── ExposedHeaders: *string
+│       │   └── MaxAgeInSeconds: *int
+│       ├── DatabaseAccountOfferType: enum
+│       │   └── "Standard"
+│       ├── DefaultIdentity: *string
+│       ├── DisableKeyBasedMetadataWriteAccess: *bool
+│       ├── DocumentEndpoint: *string
+│       ├── EnableAnalyticalStorage: *bool
+│       ├── EnableAutomaticFailover: *bool
+│       ├── EnableCassandraConnector: *bool
+│       ├── EnableFreeTier: *bool
+│       ├── EnableMultipleWriteLocations: *bool
+│       ├── FailoverPolicies: 
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   └── LocationName: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned,UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── IpRules: 
+│       │   └── IpAddressOrRange: *string
+│       ├── IsVirtualNetworkFilterEnabled: *bool
+│       ├── KeyVaultKeyUri: *string
+│       ├── Kind: enum
+│       │   ├── "GlobalDocumentDB"
+│       │   ├── "MongoDB"
+│       │   └── "Parse"
+│       ├── Location: *string
+│       ├── Locations: 
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   └── ProvisioningState: *string
+│       ├── Name: *string
+│       ├── NetworkAclBypass: enum
+│       │   ├── "AzureServices"
+│       │   └── "None"
+│       ├── NetworkAclBypassResourceIds: Array[string]
+│       ├── PrivateEndpointConnections: 
+│       │   └── Id: *string
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccess: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── ReadLocations: 
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   └── ProvisioningState: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── VirtualNetworkRules: 
+│       │   ├── Id: *string
+│       │   └── IgnoreMissingVNetServiceEndpoint: *bool
+│       └── WriteLocations: 
+│           ├── DocumentEndpoint: *string
+│           ├── FailoverPriority: *int
+│           ├── Id: *string
+│           ├── IsZoneRedundant: *bool
+│           ├── LocationName: *string
+│           └── ProvisioningState: *string
+├── DatabaseAccountGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Kind: enum
+│   │   ├── "GlobalDocumentDB"
+│   │   ├── "MongoDB"
+│   │   └── "Parse"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AnalyticalStorageConfiguration: 
+│   │   │   └── SchemaType: enum
+│   │   │       ├── "FullFidelity"
+│   │   │       └── "WellDefined"
+│   │   ├── ApiProperties: 
+│   │   │   └── ServerVersion: enum
+│   │   │       ├── "3.2"
+│   │   │       ├── "3.6"
+│   │   │       └── "4.0"
+│   │   ├── BackupPolicy: 
+│   │   │   └── Type: enum
+│   │   │       ├── "Continuous"
+│   │   │       └── "Periodic"
+│   │   ├── Capabilities: 
+│   │   │   └── Name: *string
+│   │   ├── ConnectorOffer: enum
+│   │   │   └── "Small"
+│   │   ├── ConsistencyPolicy: 
+│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   │   │   ├── "BoundedStaleness"
+│   │   │   │   ├── "ConsistentPrefix"
+│   │   │   │   ├── "Eventual"
+│   │   │   │   ├── "Session"
+│   │   │   │   └── "Strong"
+│   │   │   ├── MaxIntervalInSeconds: *int
+│   │   │   └── MaxStalenessPrefix: *int
+│   │   ├── Cors: 
+│   │   │   ├── AllowedHeaders: *string
+│   │   │   ├── AllowedMethods: *string
+│   │   │   ├── AllowedOrigins: *string
+│   │   │   ├── ExposedHeaders: *string
+│   │   │   └── MaxAgeInSeconds: *int
+│   │   ├── DatabaseAccountOfferType: enum
+│   │   │   └── "Standard"
+│   │   ├── DefaultIdentity: *string
+│   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
+│   │   ├── DocumentEndpoint: *string
+│   │   ├── EnableAnalyticalStorage: *bool
+│   │   ├── EnableAutomaticFailover: *bool
+│   │   ├── EnableCassandraConnector: *bool
+│   │   ├── EnableFreeTier: *bool
+│   │   ├── EnableMultipleWriteLocations: *bool
+│   │   ├── FailoverPolicies: 
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── Id: *string
+│   │   │   └── LocationName: *string
+│   │   ├── IpRules: 
+│   │   │   └── IpAddressOrRange: *string
+│   │   ├── IsVirtualNetworkFilterEnabled: *bool
+│   │   ├── KeyVaultKeyUri: *string
+│   │   ├── Locations: 
+│   │   │   ├── DocumentEndpoint: *string
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   ├── LocationName: *string
+│   │   │   └── ProvisioningState: *string
+│   │   ├── NetworkAclBypass: enum
+│   │   │   ├── "AzureServices"
+│   │   │   └── "None"
+│   │   ├── NetworkAclBypassResourceIds: Array[string]
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: *string
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── ReadLocations: 
+│   │   │   ├── DocumentEndpoint: *string
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   ├── LocationName: *string
+│   │   │   └── ProvisioningState: *string
+│   │   ├── VirtualNetworkRules: 
+│   │   │   ├── Id: *string
+│   │   │   └── IgnoreMissingVNetServiceEndpoint: *bool
+│   │   └── WriteLocations: 
+│   │       ├── DocumentEndpoint: *string
+│   │       ├── FailoverPriority: *int
+│   │       ├── Id: *string
+│   │       ├── IsZoneRedundant: *bool
+│   │       ├── LocationName: *string
+│   │       └── ProvisioningState: *string
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── DatabaseAccount_Spec_ARM: 
+│   ├── Identity: 
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned,UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Kind: enum
+│   │   ├── "GlobalDocumentDB"
+│   │   ├── "MongoDB"
+│   │   └── "Parse"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AnalyticalStorageConfiguration: 
+│   │   │   └── SchemaType: enum
+│   │   │       ├── "FullFidelity"
+│   │   │       └── "WellDefined"
+│   │   ├── ApiProperties: 
+│   │   │   └── ServerVersion: enum
+│   │   │       ├── "3.2"
+│   │   │       ├── "3.6"
+│   │   │       └── "4.0"
+│   │   ├── BackupPolicy: 
+│   │   │   ├── Continuous: 
+│   │   │   │   └── Type: enum
+│   │   │   │       └── "Continuous"
+│   │   │   └── Periodic: 
+│   │   │       ├── PeriodicModeProperties: 
+│   │   │       │   ├── BackupIntervalInMinutes: *int
+│   │   │       │   └── BackupRetentionIntervalInHours: *int
+│   │   │       └── Type: enum
+│   │   │           └── "Periodic"
+│   │   ├── Capabilities: 
+│   │   │   └── Name: *string
+│   │   ├── ConnectorOffer: enum
+│   │   │   └── "Small"
+│   │   ├── ConsistencyPolicy: 
+│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   │   │   ├── "BoundedStaleness"
+│   │   │   │   ├── "ConsistentPrefix"
+│   │   │   │   ├── "Eventual"
+│   │   │   │   ├── "Session"
+│   │   │   │   └── "Strong"
+│   │   │   ├── MaxIntervalInSeconds: *int
+│   │   │   └── MaxStalenessPrefix: *int
+│   │   ├── Cors: 
+│   │   │   ├── AllowedHeaders: *string
+│   │   │   ├── AllowedMethods: *string
+│   │   │   ├── AllowedOrigins: *string
+│   │   │   ├── ExposedHeaders: *string
+│   │   │   └── MaxAgeInSeconds: *int
+│   │   ├── DatabaseAccountOfferType: enum
+│   │   │   └── "Standard"
+│   │   ├── DefaultIdentity: *string
+│   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
+│   │   ├── EnableAnalyticalStorage: *bool
+│   │   ├── EnableAutomaticFailover: *bool
+│   │   ├── EnableCassandraConnector: *bool
+│   │   ├── EnableFreeTier: *bool
+│   │   ├── EnableMultipleWriteLocations: *bool
+│   │   ├── IpRules: 
+│   │   │   └── IpAddressOrRange: *string
+│   │   ├── IsVirtualNetworkFilterEnabled: *bool
+│   │   ├── KeyVaultKeyUri: *string
+│   │   ├── Locations: 
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   └── LocationName: *string
+│   │   ├── NetworkAclBypass: enum
+│   │   │   ├── "AzureServices"
+│   │   │   └── "None"
+│   │   ├── NetworkAclBypassResourceIds: Array[string]
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   └── VirtualNetworkRules: 
+│   │       ├── Id: *string
+│   │       └── IgnoreMissingVNetServiceEndpoint: *bool
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_MongodbDatabase_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       └── Id: *string
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── Id: *string
+│   │       ├── Indexes: 
+│   │       │   ├── Key: 
+│   │       │   │   └── Keys: Array[string]
+│   │       │   └── Options: 
+│   │       │       ├── ExpireAfterSeconds: *int
+│   │       │       └── Unique: *bool
+│   │       └── ShardKey: Map[string]string
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── AutoscaleSettings: 
+│   │       │   ├── AutoUpgradePolicy: 
+│   │       │   │   └── ThroughputPolicy: 
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── AutoscaleSettings: 
+│   │       │   ├── AutoUpgradePolicy: 
+│   │       │   │   └── ThroughputPolicy: 
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabase_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       └── Id: *string
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── ConflictResolutionPolicy: 
+│   │       │   ├── ConflictResolutionPath: *string
+│   │       │   ├── ConflictResolutionProcedure: *string
+│   │       │   └── Mode: enum
+│   │       │       ├── "Custom"
+│   │       │       └── "LastWriterWins"
+│   │       ├── DefaultTtl: *int
+│   │       ├── Id: *string
+│   │       ├── IndexingPolicy: 
+│   │       │   ├── Automatic: *bool
+│   │       │   ├── CompositeIndexes: 
+│   │       │   │   ├── Order: enum
+│   │       │   │   │   ├── "ascending"
+│   │       │   │   │   └── "descending"
+│   │       │   │   └── Path: *string
+│   │       │   ├── ExcludedPaths: 
+│   │       │   │   └── Path: *string
+│   │       │   ├── IncludedPaths: 
+│   │       │   │   ├── Indexes: 
+│   │       │   │   │   ├── DataType: enum
+│   │       │   │   │   │   ├── "LineString"
+│   │       │   │   │   │   ├── "MultiPolygon"
+│   │       │   │   │   │   ├── "Number"
+│   │       │   │   │   │   ├── "Point"
+│   │       │   │   │   │   ├── "Polygon"
+│   │       │   │   │   │   └── "String"
+│   │       │   │   │   ├── Kind: enum
+│   │       │   │   │   │   ├── "Hash"
+│   │       │   │   │   │   ├── "Range"
+│   │       │   │   │   │   └── "Spatial"
+│   │       │   │   │   └── Precision: *int
+│   │       │   │   └── Path: *string
+│   │       │   ├── IndexingMode: enum
+│   │       │   │   ├── "consistent"
+│   │       │   │   ├── "lazy"
+│   │       │   │   └── "none"
+│   │       │   └── SpatialIndexes: 
+│   │       │       ├── Path: *string
+│   │       │       └── Types: enum
+│   │       │           ├── "LineString"
+│   │       │           ├── "MultiPolygon"
+│   │       │           ├── "Point"
+│   │       │           └── "Polygon"
+│   │       ├── PartitionKey: 
+│   │       │   ├── Kind: enum
+│   │       │   │   ├── "Hash"
+│   │       │   │   ├── "MultiHash"
+│   │       │   │   └── "Range"
+│   │       │   ├── Paths: Array[string]
+│   │       │   └── Version: *int
+│   │       └── UniqueKeyPolicy: 
+│   │           └── UniqueKeys: 
+│   │               └── Paths: Array[string]
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       └── Id: *string
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── AutoscaleSettings: 
+│   │       │   ├── AutoUpgradePolicy: 
+│   │       │   │   └── ThroughputPolicy: 
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       ├── Id: *string
+│   │       ├── TriggerOperation: enum
+│   │       │   ├── "All"
+│   │       │   ├── "Create"
+│   │       │   ├── "Delete"
+│   │       │   ├── "Replace"
+│   │       │   └── "Update"
+│   │       └── TriggerType: enum
+│   │           ├── "Post"
+│   │           └── "Pre"
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       └── Id: *string
+│   └── Tags: Map[string]string
+├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── AutoscaleSettings: 
+│   │       │   ├── AutoUpgradePolicy: 
+│   │       │   │   └── ThroughputPolicy: 
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: Map[string]string
+├── MongoDBCollectionGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Indexes: 
+│   │       │   ├── Key: 
+│   │       │   │   └── Keys: Array[string]
+│   │       │   └── Options: 
+│   │       │       ├── ExpireAfterSeconds: *int
+│   │       │       └── Unique: *bool
+│   │       ├── Rid: *string
+│   │       ├── ShardKey: Map[string]string
+│   │       └── Ts: *float64
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── MongoDBDatabaseGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       └── Ts: *float64
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── MongodbDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   └── Id: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollection: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── Indexes: 
+│   │   │   │   ├── Key: 
+│   │   │   │   │   └── Keys: Array[string]
+│   │   │   │   └── Options: 
+│   │   │   │       ├── ExpireAfterSeconds: *int
+│   │   │   │       └── Unique: *bool
+│   │   │   └── ShardKey: Map[string]string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: 
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Indexes: 
+│       │   │   ├── Key: 
+│       │   │   │   └── Keys: Array[string]
+│       │   │   └── Options: 
+│       │   │       ├── ExpireAfterSeconds: *int
+│       │   │       └── Unique: *bool
+│       │   ├── Rid: *string
+│       │   ├── ShardKey: Map[string]string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlContainerGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── ConflictResolutionPolicy: 
+│   │       │   ├── ConflictResolutionPath: *string
+│   │       │   ├── ConflictResolutionProcedure: *string
+│   │       │   └── Mode: enum
+│   │       │       ├── "Custom"
+│   │       │       └── "LastWriterWins"
+│   │       ├── DefaultTtl: *int
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── IndexingPolicy: 
+│   │       │   ├── Automatic: *bool
+│   │       │   ├── CompositeIndexes: 
+│   │       │   │   ├── Order: enum
+│   │       │   │   │   ├── "ascending"
+│   │       │   │   │   └── "descending"
+│   │       │   │   └── Path: *string
+│   │       │   ├── ExcludedPaths: 
+│   │       │   │   └── Path: *string
+│   │       │   ├── IncludedPaths: 
+│   │       │   │   ├── Indexes: 
+│   │       │   │   │   ├── DataType: enum
+│   │       │   │   │   │   ├── "LineString"
+│   │       │   │   │   │   ├── "MultiPolygon"
+│   │       │   │   │   │   ├── "Number"
+│   │       │   │   │   │   ├── "Point"
+│   │       │   │   │   │   ├── "Polygon"
+│   │       │   │   │   │   └── "String"
+│   │       │   │   │   ├── Kind: enum
+│   │       │   │   │   │   ├── "Hash"
+│   │       │   │   │   │   ├── "Range"
+│   │       │   │   │   │   └── "Spatial"
+│   │       │   │   │   └── Precision: *int
+│   │       │   │   └── Path: *string
+│   │       │   ├── IndexingMode: enum
+│   │       │   │   ├── "consistent"
+│   │       │   │   ├── "lazy"
+│   │       │   │   └── "none"
+│   │       │   └── SpatialIndexes: 
+│   │       │       ├── Path: *string
+│   │       │       └── Types: enum
+│   │       │           ├── "LineString"
+│   │       │           ├── "MultiPolygon"
+│   │       │           ├── "Point"
+│   │       │           └── "Polygon"
+│   │       ├── PartitionKey: 
+│   │       │   ├── Kind: enum
+│   │       │   │   ├── "Hash"
+│   │       │   │   ├── "MultiHash"
+│   │       │   │   └── "Range"
+│   │       │   ├── Paths: Array[string]
+│   │       │   ├── SystemKey: *bool
+│   │       │   └── Version: *int
+│   │       ├── Rid: *string
+│   │       ├── Ts: *float64
+│   │       └── UniqueKeyPolicy: 
+│   │           └── UniqueKeys: 
+│   │               └── Paths: Array[string]
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── SqlDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   └── Id: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: 
+│       │   ├── Colls: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── Users: *string
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainer: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── ConflictResolutionPolicy: 
+│   │   │   │   ├── ConflictResolutionPath: *string
+│   │   │   │   ├── ConflictResolutionProcedure: *string
+│   │   │   │   └── Mode: enum
+│   │   │   │       ├── "Custom"
+│   │   │   │       └── "LastWriterWins"
+│   │   │   ├── DefaultTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IndexingPolicy: 
+│   │   │   │   ├── Automatic: *bool
+│   │   │   │   ├── CompositeIndexes: 
+│   │   │   │   │   ├── Order: enum
+│   │   │   │   │   │   ├── "ascending"
+│   │   │   │   │   │   └── "descending"
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── ExcludedPaths: 
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── IncludedPaths: 
+│   │   │   │   │   ├── Indexes: 
+│   │   │   │   │   │   ├── DataType: enum
+│   │   │   │   │   │   │   ├── "LineString"
+│   │   │   │   │   │   │   ├── "MultiPolygon"
+│   │   │   │   │   │   │   ├── "Number"
+│   │   │   │   │   │   │   ├── "Point"
+│   │   │   │   │   │   │   ├── "Polygon"
+│   │   │   │   │   │   │   └── "String"
+│   │   │   │   │   │   ├── Kind: enum
+│   │   │   │   │   │   │   ├── "Hash"
+│   │   │   │   │   │   │   ├── "Range"
+│   │   │   │   │   │   │   └── "Spatial"
+│   │   │   │   │   │   └── Precision: *int
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── IndexingMode: enum
+│   │   │   │   │   ├── "consistent"
+│   │   │   │   │   ├── "lazy"
+│   │   │   │   │   └── "none"
+│   │   │   │   └── SpatialIndexes: 
+│   │   │   │       ├── Path: *string
+│   │   │   │       └── Types: enum
+│   │   │   │           ├── "LineString"
+│   │   │   │           ├── "MultiPolygon"
+│   │   │   │           ├── "Point"
+│   │   │   │           └── "Polygon"
+│   │   │   ├── PartitionKey: 
+│   │   │   │   ├── Kind: enum
+│   │   │   │   │   ├── "Hash"
+│   │   │   │   │   ├── "MultiHash"
+│   │   │   │   │   └── "Range"
+│   │   │   │   ├── Paths: Array[string]
+│   │   │   │   └── Version: Validated[*int]
+│   │   │   └── UniqueKeyPolicy: 
+│   │   │       └── UniqueKeys: 
+│   │   │           └── Paths: Array[string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: 
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── ConflictResolutionPolicy: 
+│       │   │   ├── ConflictResolutionPath: *string
+│       │   │   ├── ConflictResolutionProcedure: *string
+│       │   │   └── Mode: enum
+│       │   │       ├── "Custom"
+│       │   │       └── "LastWriterWins"
+│       │   ├── DefaultTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── IndexingPolicy: 
+│       │   │   ├── Automatic: *bool
+│       │   │   ├── CompositeIndexes: 
+│       │   │   │   ├── Order: enum
+│       │   │   │   │   ├── "ascending"
+│       │   │   │   │   └── "descending"
+│       │   │   │   └── Path: *string
+│       │   │   ├── ExcludedPaths: 
+│       │   │   │   └── Path: *string
+│       │   │   ├── IncludedPaths: 
+│       │   │   │   ├── Indexes: 
+│       │   │   │   │   ├── DataType: enum
+│       │   │   │   │   │   ├── "LineString"
+│       │   │   │   │   │   ├── "MultiPolygon"
+│       │   │   │   │   │   ├── "Number"
+│       │   │   │   │   │   ├── "Point"
+│       │   │   │   │   │   ├── "Polygon"
+│       │   │   │   │   │   └── "String"
+│       │   │   │   │   ├── Kind: enum
+│       │   │   │   │   │   ├── "Hash"
+│       │   │   │   │   │   ├── "Range"
+│       │   │   │   │   │   └── "Spatial"
+│       │   │   │   │   └── Precision: *int
+│       │   │   │   └── Path: *string
+│       │   │   ├── IndexingMode: enum
+│       │   │   │   ├── "consistent"
+│       │   │   │   ├── "lazy"
+│       │   │   │   └── "none"
+│       │   │   └── SpatialIndexes: 
+│       │   │       ├── Path: *string
+│       │   │       └── Types: enum
+│       │   │           ├── "LineString"
+│       │   │           ├── "MultiPolygon"
+│       │   │           ├── "Point"
+│       │   │           └── "Polygon"
+│       │   ├── PartitionKey: 
+│       │   │   ├── Kind: enum
+│       │   │   │   ├── "Hash"
+│       │   │   │   ├── "MultiHash"
+│       │   │   │   └── "Range"
+│       │   │   ├── Paths: Array[string]
+│       │   │   ├── SystemKey: *bool
+│       │   │   └── Version: *int
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── UniqueKeyPolicy: 
+│       │       └── UniqueKeys: 
+│       │           └── Paths: Array[string]
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   └── Id: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerTrigger: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── TriggerOperation: enum
+│   │   │   │   ├── "All"
+│   │   │   │   ├── "Create"
+│   │   │   │   ├── "Delete"
+│   │   │   │   ├── "Replace"
+│   │   │   │   └── "Update"
+│   │   │   └── TriggerType: enum
+│   │   │       ├── "Post"
+│   │   │       └── "Pre"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   ├── TriggerOperation: enum
+│       │   │   ├── "All"
+│       │   │   ├── "Create"
+│       │   │   ├── "Delete"
+│       │   │   ├── "Replace"
+│       │   │   └── "Update"
+│       │   ├── TriggerType: enum
+│       │   │   ├── "Post"
+│       │   │   └── "Pre"
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   └── Id: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: 
+│   │       ├── Colls: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       ├── Ts: *float64
+│   │       └── Users: *string
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── SqlDatabaseThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlStoredProcedureGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       └── Ts: *float64
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── SqlTriggerGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       ├── TriggerOperation: enum
+│   │       │   ├── "All"
+│   │       │   ├── "Create"
+│   │       │   ├── "Delete"
+│   │       │   ├── "Replace"
+│   │       │   └── "Update"
+│   │       ├── TriggerType: enum
+│   │       │   ├── "Post"
+│   │       │   └── "Pre"
+│   │       └── Ts: *float64
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── SqlUserDefinedFunctionGetResults_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   └── Resource: 
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       └── Ts: *float64
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── ThroughputSettingsGetResults_STATUS_ARM: 
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── Properties: 
+    │   └── Resource: 
+    │       ├── AutoscaleSettings: 
+    │       │   ├── AutoUpgradePolicy: 
+    │       │   │   └── ThroughputPolicy: 
+    │       │   │       ├── IncrementPercent: *int
+    │       │   │       └── IsEnabled: *bool
+    │       │   ├── MaxThroughput: *int
+    │       │   └── TargetMaxThroughput: *int
+    │       ├── Etag: *string
+    │       ├── MinimumThroughput: *string
+    │       ├── OfferReplacePending: *string
+    │       ├── Rid: *string
+    │       ├── Throughput: *int
+    │       └── Ts: *float64
+    ├── Tags: Map[string]string
+    └── Type: *string

@@ -1270,9 +1270,9 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 // Storage version of v1alpha1api20210501.DataEncryption_STATUS
 // Deprecated version of DataEncryption_STATUS. Use v1beta20210501.DataEncryption_STATUS instead
 type DataEncryption_STATUS struct {
-	GeoBackupKeyURI                 *string                `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyURI                   *string                `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyUri                   *string                `json:"primaryKeyUri,omitempty"`
 	PrimaryUserAssignedIdentityId   *string                `json:"primaryUserAssignedIdentityId,omitempty"`
 	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type                            *string                `json:"type,omitempty"`
@@ -1283,14 +1283,14 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// GeoBackupKeyURI
-	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
+	// GeoBackupKeyUri
+	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
 
 	// GeoBackupUserAssignedIdentityId
 	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
 
-	// PrimaryKeyURI
-	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
+	// PrimaryKeyUri
+	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
 
 	// PrimaryUserAssignedIdentityId
 	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
@@ -1314,14 +1314,14 @@ func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STAT
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
-	// GeoBackupKeyURI
-	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
+	// GeoBackupKeyUri
+	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
 
 	// GeoBackupUserAssignedIdentityId
 	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
 
-	// PrimaryKeyURI
-	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
+	// PrimaryKeyUri
+	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
 
 	// PrimaryUserAssignedIdentityId
 	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)

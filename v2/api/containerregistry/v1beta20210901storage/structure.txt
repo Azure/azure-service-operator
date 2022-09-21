@@ -1,0 +1,146 @@
+github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage
+├── APIVersion: enum
+│   └── "2021-09-01"
+└── Registry: Resource
+    ├── Spec: 
+    │   ├── AdminUserEnabled: *bool
+    │   ├── AzureName: Validated[string]
+    │   ├── DataEndpointEnabled: *bool
+    │   ├── Encryption: 
+    │   │   ├── KeyVaultProperties: 
+    │   │   │   ├── Identity: *string
+    │   │   │   ├── KeyIdentifier: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Status: *string
+    │   ├── Identity: 
+    │   │   ├── PrincipalId: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── TenantId: *string
+    │   │   ├── Type: *string
+    │   │   └── UserAssignedIdentities: 
+    │   │       ├── ClientId: *string
+    │   │       ├── PrincipalId: *string
+    │   │       └── PropertyBag: genruntime.PropertyBag
+    │   ├── Location: *string
+    │   ├── NetworkRuleBypassOptions: *string
+    │   ├── NetworkRuleSet: 
+    │   │   ├── DefaultAction: *string
+    │   │   ├── IpRules: 
+    │   │   │   ├── Action: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Value: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── Policies: 
+    │   │   ├── ExportPolicy: 
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Status: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── QuarantinePolicy: 
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Status: *string
+    │   │   ├── RetentionPolicy: 
+    │   │   │   ├── Days: *int
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Status: *string
+    │   │   └── TrustPolicy: 
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       ├── Status: *string
+    │   │       └── Type: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PublicNetworkAccess: *string
+    │   ├── Sku: 
+    │   │   ├── Name: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── Tags: Map[string]string
+    │   └── ZoneRedundancy: *string
+    └── Status: 
+        ├── AdminUserEnabled: *bool
+        ├── Conditions: Array[conditions.Condition]
+        ├── CreationDate: *string
+        ├── DataEndpointEnabled: *bool
+        ├── DataEndpointHostNames: Array[string]
+        ├── Encryption: 
+        │   ├── KeyVaultProperties: 
+        │   │   ├── Identity: *string
+        │   │   ├── KeyIdentifier: *string
+        │   │   ├── KeyRotationEnabled: *bool
+        │   │   ├── LastKeyRotationTimestamp: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── VersionedKeyIdentifier: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Status: *string
+        ├── Id: *string
+        ├── Identity: 
+        │   ├── PrincipalId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── TenantId: *string
+        │   ├── Type: *string
+        │   └── UserAssignedIdentities: 
+        │       ├── ClientId: *string
+        │       ├── PrincipalId: *string
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── Location: *string
+        ├── LoginServer: *string
+        ├── Name: *string
+        ├── NetworkRuleBypassOptions: *string
+        ├── NetworkRuleSet: 
+        │   ├── DefaultAction: *string
+        │   ├── IpRules: 
+        │   │   ├── Action: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Value: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Policies: 
+        │   ├── ExportPolicy: 
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Status: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── QuarantinePolicy: 
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Status: *string
+        │   ├── RetentionPolicy: 
+        │   │   ├── Days: *int
+        │   │   ├── LastUpdatedTime: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Status: *string
+        │   └── TrustPolicy: 
+        │       ├── PropertyBag: genruntime.PropertyBag
+        │       ├── Status: *string
+        │       └── Type: *string
+        ├── PrivateEndpointConnections: 
+        │   ├── Id: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── SystemData: 
+        │       ├── CreatedAt: *string
+        │       ├── CreatedBy: *string
+        │       ├── CreatedByType: *string
+        │       ├── LastModifiedAt: *string
+        │       ├── LastModifiedBy: *string
+        │       ├── LastModifiedByType: *string
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── PublicNetworkAccess: *string
+        ├── Sku: 
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Tier: *string
+        ├── Status: 
+        │   ├── DisplayStatus: *string
+        │   ├── Message: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Timestamp: *string
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: Map[string]string
+        ├── Type: *string
+        └── ZoneRedundancy: *string
