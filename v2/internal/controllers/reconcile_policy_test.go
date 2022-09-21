@@ -96,8 +96,14 @@ func testDeleteSkipped(t *testing.T, policy string) {
 
 	// Update to skip reconcile
 	old := rg.DeepCopy()
+	rg.Status.Conditions[0].ObservedGeneration = -1 // This is a hack so that we can tell when reconcile has happened to avoid a race
+	tc.PatchStatus(old, rg)
+
 	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
 	tc.Patch(old, rg)
+	rv := rg.GetResourceVersion()
+	print(rv)
+	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
 
 	tc.DeleteResourceAndWait(rg)
 
