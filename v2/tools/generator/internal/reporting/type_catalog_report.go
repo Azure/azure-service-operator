@@ -14,14 +14,15 @@ import (
 )
 
 type TypeCatalogReport struct {
-	title             string
-	defs              astmodel.TypeDefinitionSet
-	optionInlineTypes bool // If set to true, referenced types are inlined at the point of use by a property
+	title        string
+	defs         astmodel.TypeDefinitionSet
+	inlinedTypes astmodel.TypeNameSet // Set of types that we inline when generating the report
 }
 
 func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
 	return &TypeCatalogReport{
-		defs: defs,
+		defs:         defs,
+		inlinedTypes: astmodel.NewTypeNameSet(),
 	}
 }
 
@@ -54,9 +55,23 @@ func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
 	return err
 }
 
-// InlineTypes specifies that the generated report should inline referenced types
+// InlineTypes specifies that the generated report should inline types where referenced,
+// We achieve this by scanning for properties with types we have definitions for
 func (tcr *TypeCatalogReport) InlineTypes() {
-	tcr.optionInlineTypes = true
+	for _, def := range tcr.defs {
+		if c, ok := astmodel.AsPropertyContainer(def.Type()); ok {
+			tcr.inlineTypesFrom(c)
+		}
+	}
+}
+
+// inlineTypesFrom inlines the types referenced by the property container
+func (tcr *TypeCatalogReport) inlineTypesFrom(container astmodel.PropertyContainer) {
+	for _, prop := range container.Properties().AsSlice() {
+		if n, ok := astmodel.AsTypeName(prop.PropertyType()); ok {
+			tcr.inlinedTypes.Add(n)
+		}
+	}
 }
 
 func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
@@ -87,7 +102,9 @@ func (tcr *TypeCatalogReport) writeDefinitions(
 	})
 
 	for _, d := range defs {
-		tcr.writeDefinition(rpt, d)
+		if !tcr.inlinedTypes.Contains(d.Name()) {
+			tcr.writeDefinition(rpt, d)
+		}
 	}
 }
 
@@ -161,10 +178,11 @@ func (tcr *TypeCatalogReport) writeProperty(
 
 	propertyType := prop.PropertyType()
 
-	if n, ok := astmodel.AsTypeName(propertyType); ok && tcr.optionInlineTypes {
-		// We're inlining types, we don't need to write the type here
+	if n, ok := astmodel.AsTypeName(propertyType); ok && tcr.inlinedTypes.Contains(n) {
+		// We're inlining types, so don't bother writing the property type
 		sub := rpt.Addf("%s", prop.PropertyName())
 		if def, ok := tcr.defs[n]; ok {
+			tcr.inlinedTypes.Add(n)
 			tcr.writeType(sub, def.Type(), currentPackage)
 		} else {
 			sub.Addf("No definition found for %s", n)

@@ -11,6 +11,30 @@ import (
 func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
 	g := goldie.New(t)
 
+	defs := createDefinitionSet()
+
+	var content bytes.Buffer
+	rpt := NewTypeCatalogReport(defs)
+	rpt.WriteTo(&content)
+
+	g.Assert(t, t.Name(), content.Bytes())
+}
+
+func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testing.T) {
+	g := goldie.New(t)
+
+	defs := createDefinitionSet()
+
+	var content bytes.Buffer
+	rpt := NewTypeCatalogReport(defs)
+	rpt.InlineTypes()
+	
+	rpt.WriteTo(&content)
+
+	g.Assert(t, t.Name(), content.Bytes())
+}
+
+func createDefinitionSet() astmodel.TypeDefinitionSet {
 	testSpec := test.CreateSpec(
 		test.Pkg2020,
 		"TestResource",
@@ -32,10 +56,5 @@ func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
 	defs.Add(testResource)
 	defs.Add(testSpec)
 	defs.Add(testStatus)
-
-	var content bytes.Buffer
-	rpt := NewTypeCatalogReport(defs)
-	rpt.WriteTo(&content)
-
-	g.Assert(t, t.Name(), content.Bytes())
+	return defs
 }
