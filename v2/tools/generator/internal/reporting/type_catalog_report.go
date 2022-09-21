@@ -6,6 +6,7 @@
 package reporting
 
 import (
+	"fmt"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
 	"io"
@@ -14,9 +15,10 @@ import (
 )
 
 type TypeCatalogReport struct {
-	title        string
-	defs         astmodel.TypeDefinitionSet
-	inlinedTypes astmodel.TypeNameSet // Set of types that we inline when generating the report
+	title                  string
+	defs                   astmodel.TypeDefinitionSet
+	inlinedTypes           astmodel.TypeNameSet // Set of types that we inline when generating the report
+	optionIncludeFunctions bool
 }
 
 func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
@@ -55,6 +57,11 @@ func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
 	return err
 }
 
+// IncludeFunctions specifies that the generated report should include functions
+func (tcr *TypeCatalogReport) IncludeFunctions() {
+	tcr.optionIncludeFunctions = true
+}
+
 // InlineTypes specifies that the generated report should inline types where referenced,
 // We achieve this by scanning for properties with types we have definitions for
 func (tcr *TypeCatalogReport) InlineTypes() {
@@ -68,8 +75,9 @@ func (tcr *TypeCatalogReport) InlineTypes() {
 // inlineTypesFrom inlines the types referenced by the property container
 func (tcr *TypeCatalogReport) inlineTypesFrom(container astmodel.PropertyContainer) {
 	for _, prop := range container.Properties().AsSlice() {
-		if n, ok := astmodel.AsTypeName(prop.PropertyType()); ok {
-			tcr.inlinedTypes.Add(n)
+		// Check to see if this property references a definition that can be inlined
+		if def, ok := tcr.asDefinitionToInline(prop.PropertyType()); ok {
+			tcr.inlinedTypes.Add(def.Name())
 		}
 	}
 }
@@ -113,8 +121,7 @@ func (tcr *TypeCatalogReport) writeDefinitions(
 // definition is the definition to write.
 func (tcr *TypeCatalogReport) writeDefinition(rpt *StructureReport, definition astmodel.TypeDefinition) {
 	name := definition.Name()
-	t := definition.Type()
-	sub := rpt.Addf("%s: %s", name.Name(), astmodel.DebugDescription(t, name.PackageReference))
+	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortName(definition))
 	tcr.writeType(sub, definition.Type(), name.PackageReference)
 }
 
@@ -150,8 +157,10 @@ func (tcr *TypeCatalogReport) writeResource(
 		tcr.writeProperty(rpt, prop, currentPackage)
 	}
 
-	for _, fn := range resource.Functions() {
-		tcr.writeFunction(rpt, fn)
+	if tcr.optionIncludeFunctions {
+		for _, fn := range resource.Functions() {
+			tcr.writeFunction(rpt, fn)
+		}
 	}
 }
 
@@ -165,8 +174,10 @@ func (tcr *TypeCatalogReport) writeObject(
 		tcr.writeProperty(rpt, prop, currentPackage)
 	}
 
-	for _, fn := range obj.Functions() {
-		tcr.writeFunction(rpt, fn)
+	if tcr.optionIncludeFunctions {
+		for _, fn := range obj.Functions() {
+			tcr.writeFunction(rpt, fn)
+		}
 	}
 }
 
@@ -175,27 +186,68 @@ func (tcr *TypeCatalogReport) writeProperty(
 	prop *astmodel.PropertyDefinition,
 	currentPackage astmodel.PackageReference,
 ) {
-
-	propertyType := prop.PropertyType()
-
-	if n, ok := astmodel.AsTypeName(propertyType); ok && tcr.inlinedTypes.Contains(n) {
-		// We're inlining types, so don't bother writing the property type
-		sub := rpt.Addf("%s", prop.PropertyName())
-		if def, ok := tcr.defs[n]; ok {
-			tcr.inlinedTypes.Add(n)
-			tcr.writeType(sub, def.Type(), currentPackage)
-		} else {
-			sub.Addf("No definition found for %s", n)
-		}
-
+	if def, ok := tcr.asDefinitionToInline(prop.PropertyType()); ok && tcr.inlinedTypes.Contains(def.Name()) {
+		// When inlining the type, we use a shortname to avoid the type name being repeated
+		sub := rpt.Addf("%s: %s", prop.PropertyName(), tcr.asShortName(*def))
+		tcr.writeType(sub, def.Type(), currentPackage)
 		return
 	}
 
-	// By default, just give the name of the property and a description of the type
+	// Base case, give the name of the property and a description of the type
 	rpt.Addf(
 		"%s: %s",
 		prop.PropertyName(),
-		astmodel.DebugDescription(propertyType, currentPackage))
+		astmodel.DebugDescription(prop.PropertyType(), currentPackage))
+}
+
+// asDefinitionToInline returns the definition to inline, if any, along with a short name to display above
+func (tcr *TypeCatalogReport) asDefinitionToInline(t astmodel.Type) (*astmodel.TypeDefinition, bool) {
+
+	// We can inline a typename if we have a definition for it
+	if n, ok := astmodel.AsTypeName(t); ok {
+		if def, ok := tcr.defs[n]; ok {
+			return &def, true
+		}
+	}
+
+	if m, ok := astmodel.AsMapType(t); ok {
+		// We can inline the value of a map if we have a definition for it
+		def, ok := tcr.asDefinitionToInline(m.ValueType())
+		return def, ok
+	}
+
+	if a, ok := astmodel.AsArrayType(t); ok {
+		// We can inline the element of an array if we have a definition for it
+		def, ok := tcr.asDefinitionToInline(a.Element())
+		return def, ok
+	}
+
+	return nil, false
+}
+
+// asShortName returns a short name for the type, for use when it's inlined
+func (tcr *TypeCatalogReport) asShortName(def astmodel.TypeDefinition) string {
+	if _, r := astmodel.AsResourceType(def.Type()); r {
+		return "Resource"
+	}
+
+	if _, ok := astmodel.AsEnumType(def.Type()); ok {
+		return "enum"
+	}
+
+	if m, ok := astmodel.AsMapType(def.Type()); ok {
+		return fmt.Sprintf(
+			"map[%s]",
+			astmodel.DebugDescription(m.KeyType(), def.Name().PackageReference))
+	}
+
+	if a, ok := astmodel.AsArrayType(def.Type()); ok {
+		return fmt.Sprintf(
+			"%s[]",
+			astmodel.DebugDescription(a.Element(), def.Name().PackageReference))
+	}
+
+	return ""
 }
 
 func (tcr *TypeCatalogReport) writeFunction(
@@ -212,7 +264,7 @@ func (tcr *TypeCatalogReport) writeEnum(
 ) {
 	tcr.writeType(rpt, enum.BaseType(), currentPackage)
 	for _, v := range enum.Options() {
-		rpt.Addf("%s: %s", v.Identifier, v.Value)
+		rpt.Addf("%s", v.Value)
 	}
 }
 

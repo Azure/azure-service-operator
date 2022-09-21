@@ -1,10 +1,10 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-├── TestResource: Resource[TestResource_Spec+TestResource_STATUS]
+├── TestResource: Resource
 │   ├── Spec: TestResource_Spec
 │   └── Status: TestResource_STATUS
-├── TestResource_STATUS: Object
+├── TestResource_STATUS: 
 │   └── Status: string
-└── TestResource_Spec: Object
+└── TestResource_Spec: 
     ├── FamilyName: string
     ├── FullName: string
     └── KnownAs: string
