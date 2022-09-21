@@ -38,6 +38,7 @@ func (person *Person_Spec) OriginalVersion() string {
 }
 
 type Person_STATUS struct {
+	// Status: Current status
 	Status string `json:"status,omitempty"`
 }
 
