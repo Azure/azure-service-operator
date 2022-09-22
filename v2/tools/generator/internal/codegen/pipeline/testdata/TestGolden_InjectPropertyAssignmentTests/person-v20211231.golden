@@ -176,6 +176,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 }
 
 type Person_STATUS struct {
+	// Status: Current status
 	Status string `json:"status,omitempty"`
 }
 

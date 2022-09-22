@@ -47,10 +47,11 @@
  }
  
  type Person_STATUS struct {
--	Status string `json:"status,omitempty"`
 +	// Conditions: The observed state of the resource
 +	Conditions []conditions.Condition `json:"conditions,omitempty"`
-+	Status     string                 `json:"status,omitempty"`
++
+ 	// Status: Current status
+ 	Status string `json:"status,omitempty"`
  }
  
  func init() {
