@@ -72,10 +72,12 @@ type ResourceReference struct {
 	ARMID string `json:"armId,omitempty"`
 }
 
+// IsDirectARMReference returns true if this ResourceReference is referring to an ARMID directly.
 func (ref ResourceReference) IsDirectARMReference() bool {
 	return ref.ARMID != "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""
 }
 
+// IsKubernetesReference returns true if this ResourceReference is referring to a Kubernetes resource.
 func (ref ResourceReference) IsKubernetesReference() bool {
 	return ref.ARMID == "" && ref.Name != "" && ref.Group != "" && ref.Kind != ""
 }

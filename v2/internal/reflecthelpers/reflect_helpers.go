@@ -42,11 +42,10 @@ func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, 
 	result := make(map[interface{}]struct{})
 
 	visitor := NewReflectVisitor()
-	visitor.VisitStruct = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		if reflect.TypeOf(it) == t {
-			val := reflect.ValueOf(it)
-			if val.CanInterface() {
-				result[val.Interface()] = struct{}{}
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		if it.Type() == t {
+			if it.CanInterface() {
+				result[it.Interface()] = struct{}{}
 			}
 			return nil
 		}
