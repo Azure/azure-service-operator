@@ -11,37 +11,37 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestConfigurableBool_WhenNoConfiguredValueToRead_ReturnsNoValue(t *testing.T) {
+func TestConfigurable_WhenNoConfiguredValueToRead_ReturnsNoValue(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var s configurableBool
+	var s configurable[bool]
 
 	actual, ok := s.read()
 	g.Expect(actual).To(BeFalse())
 	g.Expect(ok).To(BeFalse())
 }
 
-func TestConfigurableBool_WhenNoConfiguredValueToRead_DoesNotReportUnconsumed(t *testing.T) {
+func TestConfigurable_WhenNoConfiguredValueToRead_DoesNotReportUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	var s configurableBool
+	var s configurable[bool]
 	g.Expect(s.isUnconsumed()).To(BeFalse())
 }
 
-func TestConfigurableBool_WhenConfiguredValue_ReportsUnconsumed(t *testing.T) {
+func TestConfigurable_WhenConfiguredValue_ReportsUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const expected = true
-	var s configurableBool
+	var s configurable[bool]
 	s.write(expected)
 	g.Expect(s.isUnconsumed()).To(BeTrue())
 }
 
-func TestConfigurableBool_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) {
+func TestConfigurable_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const expected = true
-	var s configurableBool
+	var s configurable[bool]
 	s.write(expected)
 
 	actual, ok := s.read()
@@ -50,11 +50,11 @@ func TestConfigurableBool_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) 
 	g.Expect(s.isUnconsumed()).To(BeFalse())
 }
 
-func TestConfigurableBool_WhenValueWritten_MarkedAsUnconsumed(t *testing.T) {
+func TestConfigurable_WhenValueWritten_MarkedAsUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const v = true
-	var s configurableBool
+	var s configurable[bool]
 	s.write(v)
 
 	g.Expect(s.isUnconsumed()).To(BeTrue())
