@@ -110,14 +110,14 @@ func secretsToWrite(obj *redis.Redis, accessKeys armredis.AccessKeys) ([]*v1.Sec
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryKey, to.String(accessKeys.PrimaryKey))
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryKey, to.String(accessKeys.SecondaryKey))
-	collector.AddSecretValue(operatorSpecSecrets.HostName, to.String(obj.Status.HostName))
-	collector.AddSecretValue(operatorSpecSecrets.Port, intPtrToString(obj.Status.Port))
-	collector.AddSecretValue(operatorSpecSecrets.SSLPort, intPtrToString(obj.Status.SslPort))
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.String(accessKeys.PrimaryKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryKey, to.String(accessKeys.SecondaryKey))
+	collector.AddValue(operatorSpecSecrets.HostName, to.String(obj.Status.HostName))
+	collector.AddValue(operatorSpecSecrets.Port, intPtrToString(obj.Status.Port))
+	collector.AddValue(operatorSpecSecrets.SSLPort, intPtrToString(obj.Status.SslPort))
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }
 
 func intPtrToString(i *int) string {

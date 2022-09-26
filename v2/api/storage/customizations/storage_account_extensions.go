@@ -125,21 +125,21 @@ func secretsToWrite(obj *storage.StorageAccount, keys map[string]string) ([]*v1.
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.Key1, keys["key1"])
-	collector.AddSecretValue(operatorSpecSecrets.Key2, keys["key2"])
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.Key1, keys["key1"])
+	collector.AddValue(operatorSpecSecrets.Key2, keys["key2"])
 	// There are tons of different endpoints we could write, including secondary endpoints.
 	// For now we're just exposing the main ones. See:
 	// https://docs.microsoft.com/en-us/rest/api/storagerp/storage-accounts/get-properties for more details
 	if obj.Status.PrimaryEndpoints != nil {
 		eps := obj.Status.PrimaryEndpoints
-		collector.AddSecretValue(operatorSpecSecrets.BlobEndpoint, to.String(eps.Blob))
-		collector.AddSecretValue(operatorSpecSecrets.QueueEndpoint, to.String(eps.Queue))
-		collector.AddSecretValue(operatorSpecSecrets.TableEndpoint, to.String(eps.Table))
-		collector.AddSecretValue(operatorSpecSecrets.FileEndpoint, to.String(eps.File))
-		collector.AddSecretValue(operatorSpecSecrets.WebEndpoint, to.String(eps.Web))
-		collector.AddSecretValue(operatorSpecSecrets.DfsEndpoint, to.String(eps.Dfs))
+		collector.AddValue(operatorSpecSecrets.BlobEndpoint, to.String(eps.Blob))
+		collector.AddValue(operatorSpecSecrets.QueueEndpoint, to.String(eps.Queue))
+		collector.AddValue(operatorSpecSecrets.TableEndpoint, to.String(eps.Table))
+		collector.AddValue(operatorSpecSecrets.FileEndpoint, to.String(eps.File))
+		collector.AddValue(operatorSpecSecrets.WebEndpoint, to.String(eps.Web))
+		collector.AddValue(operatorSpecSecrets.DfsEndpoint, to.String(eps.Dfs))
 	}
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }
