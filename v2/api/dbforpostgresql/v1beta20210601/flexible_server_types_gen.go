@@ -2709,6 +2709,7 @@ const (
 	ServerVersion_STATUS_11 = ServerVersion_STATUS("11")
 	ServerVersion_STATUS_12 = ServerVersion_STATUS("12")
 	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
+	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku

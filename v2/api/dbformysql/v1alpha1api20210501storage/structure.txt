@@ -70,9 +70,9 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       ├── Conditions: Array[conditions.Condition]
 │       ├── CreateMode: *string
 │       ├── DataEncryption: 
-│       │   ├── GeoBackupKeyUri: *string
+│       │   ├── GeoBackupKeyURI: *string
 │       │   ├── GeoBackupUserAssignedIdentityId: *string
-│       │   ├── PrimaryKeyUri: *string
+│       │   ├── PrimaryKeyURI: *string
 │       │   ├── PrimaryUserAssignedIdentityId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string

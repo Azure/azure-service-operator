@@ -129,9 +129,9 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
 │       │   ├── "PointInTimeRestore"
 │       │   └── "Replica"
 │       ├── DataEncryption: 
-│       │   ├── GeoBackupKeyUri: *string
+│       │   ├── GeoBackupKeyURI: *string
 │       │   ├── GeoBackupUserAssignedIdentityId: *string
-│       │   ├── PrimaryKeyUri: *string
+│       │   ├── PrimaryKeyURI: *string
 │       │   ├── PrimaryUserAssignedIdentityId: *string
 │       │   └── Type: enum
 │       │       ├── "AzureKeyVault"
@@ -380,9 +380,9 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
     │   │   ├── "PointInTimeRestore"
     │   │   └── "Replica"
     │   ├── DataEncryption: 
-    │   │   ├── GeoBackupKeyUri: *string
+    │   │   ├── GeoBackupKeyURI: *string
     │   │   ├── GeoBackupUserAssignedIdentityId: *string
-    │   │   ├── PrimaryKeyUri: *string
+    │   │   ├── PrimaryKeyURI: *string
     │   │   ├── PrimaryUserAssignedIdentityId: *string
     │   │   └── Type: enum
     │   │       ├── "AzureKeyVault"

@@ -8,22 +8,10 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   ├── Properties: 
 │   │   ├── ContentTypesToCompress: Array[string]
 │   │   ├── CustomDomains: 
-│   │   │   ├── Id: *string
-│   │   │   └── SystemData: 
-│   │   │       ├── CreatedAt: *string
-│   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: enum
-│   │   │       │   ├── "application"
-│   │   │       │   ├── "key"
-│   │   │       │   ├── "managedIdentity"
-│   │   │       │   └── "user"
-│   │   │       ├── LastModifiedAt: *string
-│   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: enum
-│   │   │           ├── "application"
-│   │   │           ├── "key"
-│   │   │           ├── "managedIdentity"
-│   │   │           └── "user"
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: 
+│   │   │       ├── HostName: *string
+│   │   │       └── ValidationData: *string
 │   │   ├── DefaultOriginGroup: 
 │   │   │   └── Id: *string
 │   │   ├── DeliveryPolicy: 
@@ -992,22 +980,9 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       ├── Conditions: Array[conditions.Condition]
 │       ├── ContentTypesToCompress: Array[string]
 │       ├── CustomDomains: 
-│       │   ├── Id: *string
-│       │   └── SystemData: 
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: enum
-│       │       │   ├── "application"
-│       │       │   ├── "key"
-│       │       │   ├── "managedIdentity"
-│       │       │   └── "user"
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: enum
-│       │           ├── "application"
-│       │           ├── "key"
-│       │           ├── "managedIdentity"
-│       │           └── "user"
+│       │   ├── HostName: *string
+│       │   ├── Name: *string
+│       │   └── ValidationData: *string
 │       ├── DefaultOriginGroup: 
 │       │   └── Id: *string
 │       ├── DeliveryPolicy: 

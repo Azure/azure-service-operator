@@ -120,15 +120,15 @@ type Backup_STATUS_ARM struct {
 }
 
 type DataEncryption_STATUS_ARM struct {
-	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
-	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
 
 	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
 	// same region as geo backup
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
-	// PrimaryKeyUri: Primary key uri
-	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
+	// PrimaryKeyURI: Primary key uri
+	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
 
 	// PrimaryUserAssignedIdentityId: Primary user identity resource id
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`

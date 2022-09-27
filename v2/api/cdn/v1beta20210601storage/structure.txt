@@ -414,16 +414,10 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         ├── Conditions: Array[conditions.Condition]
         ├── ContentTypesToCompress: Array[string]
         ├── CustomDomains: 
-        │   ├── Id: *string
+        │   ├── HostName: *string
+        │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SystemData: 
-        │       ├── CreatedAt: *string
-        │       ├── CreatedBy: *string
-        │       ├── CreatedByType: *string
-        │       ├── LastModifiedAt: *string
-        │       ├── LastModifiedBy: *string
-        │       ├── LastModifiedByType: *string
-        │       └── PropertyBag: genruntime.PropertyBag
+        │   └── ValidationData: *string
         ├── DefaultOriginGroup: 
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag

@@ -920,11 +920,11 @@ objectModelConfiguration:
       ContainerGroup:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+      ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec:
+        WorkspaceResourceId:
+          $armReference: true
       ContainerGroupSubnetId:
         Id:
-          $armReference: true
-      LogAnalytics:
-        WorkspaceResourceId:
           $armReference: true
   containerregistry:
     2021-09-01:

@@ -211,7 +211,8 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       └── Version: enum
 │           ├── "11"
 │           ├── "12"
-│           └── "13"
+│           ├── "13"
+│           └── "14"
 ├── FlexibleServer_Spec_ARM: 
 │   ├── Location: *string
 │   ├── Name: string
@@ -440,7 +441,8 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
     │   └── Version: enum
     │       ├── "11"
     │       ├── "12"
-    │       └── "13"
+    │       ├── "13"
+    │       └── "14"
     ├── Sku: 
     │   ├── Name: *string
     │   └── Tier: enum
