@@ -125,7 +125,7 @@ func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
 
 	existing := set[def.Name()]
 	if !TypeEquals(def.Type(), existing.Type()) {
-		return errors.Errorf("type definition for %q has two shapes: %s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
+		return errors.Errorf("type definition for %q has two shapes: \r\n%s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
 	}
 
 	// Can safely skip this add
