@@ -7,9 +7,11 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/kylelemons/godebug/diff"
 	"regexp"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/kr/pretty"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
@@ -156,7 +158,14 @@ func DiffTypes(x, y interface{}) string {
 	regexCompare := cmp.Comparer(func(x, y regexp.Regexp) bool {
 		return x.String() == y.String()
 	})
-	return cmp.Diff(x, y, allowAll, regexCompare)
+
+	if cmp.Equal(x, y, allowAll, regexCompare) {
+		return ""
+	}
+
+	return diff.Diff(
+		pretty.Sprint(x),
+		pretty.Sprint(y))
 }
 
 // AddAllAllowDuplicates adds multiple definitions to the set.
