@@ -66,7 +66,7 @@ func nameInnerTypes(
 
 		enumName := hint.AsTypeName(def.Name().PackageReference)
 		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
-		namedEnum = namedEnum.WithDescription(getDescription(enumName))
+		namedEnum = namedEnum.WithDescription(getDescription(enumName)...)
 
 		resultTypes = append(resultTypes, namedEnum)
 
@@ -151,7 +151,7 @@ func nameInnerTypes(
 		objectName := hint.AsTypeName(def.Name().PackageReference)
 
 		namedObjectType := astmodel.MakeTypeDefinition(objectName, it.WithProperties(props...))
-		namedObjectType = namedObjectType.WithDescription(getDescription(objectName))
+		namedObjectType = namedObjectType.WithDescription(getDescription(objectName)...)
 
 		resultTypes = append(resultTypes, namedObjectType)
 
@@ -177,7 +177,7 @@ func nameInnerTypes(
 		resourceName := hint.AsTypeName(def.Name().PackageReference)
 
 		it = it.WithSpec(spec).WithStatus(status)
-		resource := astmodel.MakeTypeDefinition(resourceName, it).WithDescription(getDescription(resourceName))
+		resource := astmodel.MakeTypeDefinition(resourceName, it).WithDescription(getDescription(resourceName)...)
 		resultTypes = append(resultTypes, resource)
 
 		return resource.Name(), nil

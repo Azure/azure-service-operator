@@ -732,7 +732,7 @@ func generateDefinitionsFor(
 			fmt.Sprintf("Generated from: %s", schema.url().String()),
 		}
 
-		definition = definition.WithDescription(description)
+		definition = definition.WithDescription(description...)
 	}
 
 	scanner.addTypeDefinition(definition)

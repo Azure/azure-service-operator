@@ -31,7 +31,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 		"Person",
 		test.CreateSpec(test.Pkg2020, "Person"),
 		test.CreateStatus(test.Pkg2020, "Person")).
-		WithDescription(person2020desc)
+		WithDescription(person2020desc...)
 
 	address2020 := test.CreateResource(
 		test.Pkg2020,
@@ -48,7 +48,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 		"Person",
 		test.CreateSpec(test.Pkg2021, "Person"),
 		test.CreateStatus(test.Pkg2021, "Person")).
-		WithDescription(person2021desc)
+		WithDescription(person2021desc...)
 
 	address2021 := test.CreateResource(
 		test.Pkg2021,
