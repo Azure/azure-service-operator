@@ -25,19 +25,19 @@ func (pf PolicyFunc) Do(req *policy.Request) (*http.Response, error) {
 
 var _ policy.Policy = PolicyFunc(nil)
 
-type mockTokenCred struct{}
+type MockTokenCredential struct{}
 
-func (mockTokenCred) NewAuthenticationPolicy() policy.Policy {
+func (MockTokenCredential) NewAuthenticationPolicy() policy.Policy {
 	return PolicyFunc(func(req *policy.Request) (*http.Response, error) {
 		return req.Next()
 	})
 }
 
-func (mockTokenCred) GetToken(context.Context, policy.TokenRequestOptions) (azcore.AccessToken, error) {
+func (MockTokenCredential) GetToken(context.Context, policy.TokenRequestOptions) (azcore.AccessToken, error) {
 	return azcore.AccessToken{
 		Token:     "abc123",
 		ExpiresOn: time.Now().Add(1 * time.Hour),
 	}, nil
 }
 
-var _ azcore.TokenCredential = mockTokenCred{}
+var _ azcore.TokenCredential = MockTokenCredential{}
