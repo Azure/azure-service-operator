@@ -29,20 +29,20 @@ func NewStructureReport(line string) *StructureReport {
 }
 
 // Addf formats a new line in the report, returning a nested report for any additional information
-func (dr *StructureReport) Addf(format string, a ...any) *StructureReport {
+func (sr *StructureReport) Addf(format string, a ...any) *StructureReport {
 	result := &StructureReport{line: fmt.Sprintf(format, a...)}
-	dr.nested = append(dr.nested, result)
+	sr.nested = append(sr.nested, result)
 	return result
 }
 
-func (dr *StructureReport) SaveTo(writer io.Writer) error {
+func (sr *StructureReport) SaveTo(writer io.Writer) error {
 	var indents []string
 
-	return dr.writeBlock(writer, indents, "", "")
+	return sr.writeBlock(writer, indents, "", "")
 }
 
 // writeTo writes a block of lines from this StructureReport to a writer
-func (dr *StructureReport) writeBlock(
+func (sr *StructureReport) writeBlock(
 	writer io.Writer,
 	indents []string,
 	prefixForItem string,
@@ -61,7 +61,7 @@ func (dr *StructureReport) writeBlock(
 		return err
 	}
 
-	_, err = io.WriteString(writer, dr.line)
+	_, err = io.WriteString(writer, sr.line)
 	if err != nil {
 		return err
 	}
@@ -72,10 +72,10 @@ func (dr *StructureReport) writeBlock(
 	}
 
 	nested := append(indents, prefixForSubItems)
-	for index, line := range dr.nested {
+	for index, line := range sr.nested {
 		ind := itemPrefix
 		sub := blockIndent
-		if index == len(dr.nested)-1 {
+		if index == len(sr.nested)-1 {
 			ind = lastItemPrefix
 			sub = lastBlockIndent
 		}
