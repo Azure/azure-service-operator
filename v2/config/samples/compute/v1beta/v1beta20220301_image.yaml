@@ -1,7 +1,7 @@
 apiVersion: compute.azure.com/v1beta20220301
 kind: Image
 metadata:
-  name: aso-sample-image
+  name: aso-sample-image-20220301
   namespace: default
 spec:
   hyperVGeneration: V2

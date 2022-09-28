@@ -1,0 +1,28 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: LoadBalancer
+metadata:
+  name: sampleloadbalancervmss
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: Standard
+  frontendIPConfigurations:
+    - name: LoadBalancerFrontend
+      publicIPAddress:
+        reference:
+          group: network.azure.com
+          kind: PublicIPAddress
+          name: samplepublicipvmss
+  inboundNatPools:
+    - name: samplenatpoolvmss
+      frontendIPConfiguration:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/frontendIPConfigurations/LoadBalancerFrontend
+      protocol: Tcp
+      frontendPortRangeStart: 50000
+      frontendPortRangeEnd: 51000
+      backendPort: 22
+

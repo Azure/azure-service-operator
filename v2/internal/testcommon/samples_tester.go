@@ -12,8 +12,11 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
@@ -24,27 +27,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-const refsPackage = "refs"
-
-//TODO(super-harsh) Need a take on helper methods to perform reflection/parsing and write up a few
-// helper methods which can find and replace the distinct property values for the excluded resources below.
+const (
+	refsPackage          = "refs"
+	defaultResourceGroup = "aso-sample-rg"
+)
 
 // exclusions slice contains RESOURCES to exclude from test
 var exclusions = []string{
 	// Excluding webtest as it contains hidden link reference
 	"webtest",
-
-	// Below resources are excluded as they contain internal references or armIDs.
-	// Compute
-	"virtualmachine",
-	"virtualmachinescaleset",
-	"image",
-	// Network
-	"loadbalancer",
-	"virtualnetworkgateway",
-	"virtualnetworksvirtualnetworkpeering",
-	// MachineLearningServices
-	"workspacescompute",
 
 	// Excluding dbformysql/user as is not an ARM resource
 	"user",
@@ -54,13 +45,14 @@ var exclusions = []string{
 }
 
 type SamplesTester struct {
-	noSpaceNamer     ResourceNamer
-	decoder          runtime.Decoder
-	scheme           *runtime.Scheme
-	groupVersionPath string
-	namespace        string
-	useRandomName    bool
-	rgName           string
+	noSpaceNamer      ResourceNamer
+	decoder           runtime.Decoder
+	scheme            *runtime.Scheme
+	groupVersionPath  string
+	namespace         string
+	useRandomName     bool
+	rgName            string
+	azureSubscription string
 }
 
 type SampleObject struct {
@@ -75,15 +67,23 @@ func NewSampleObject() *SampleObject {
 	}
 }
 
-func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, groupVersionPath string, namespace string, useRandomName bool, rgName string) *SamplesTester {
+func NewSamplesTester(
+	noSpaceNamer ResourceNamer,
+	scheme *runtime.Scheme,
+	groupVersionPath string,
+	namespace string,
+	useRandomName bool,
+	rgName string,
+	azureSubscription string) *SamplesTester {
 	return &SamplesTester{
-		noSpaceNamer:     noSpaceNamer,
-		decoder:          serializer.NewCodecFactory(scheme).UniversalDecoder(),
-		scheme:           scheme,
-		groupVersionPath: groupVersionPath,
-		namespace:        namespace,
-		useRandomName:    useRandomName,
-		rgName:           rgName,
+		noSpaceNamer:      noSpaceNamer,
+		decoder:           serializer.NewCodecFactory(scheme).UniversalDecoder(),
+		scheme:            scheme,
+		groupVersionPath:  groupVersionPath,
+		namespace:         namespace,
+		useRandomName:     useRandomName,
+		rgName:            rgName,
+		azureSubscription: azureSubscription,
 	}
 }
 
@@ -120,11 +120,11 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	}
 
 	// We add ownership once we have all the resources in the map
-	err = t.setOwnership(samples.SamplesMap)
+	err = t.setOwnershipAndReferences(samples.SamplesMap)
 	if err != nil {
 		return nil, err
 	}
-	err = t.setOwnership(samples.RefsMap)
+	err = t.setOwnershipAndReferences(samples.RefsMap)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +133,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 
 // handleObject handles the sample object by adding it into the samples map. If key already exists, then we append a
 // random string to the key and add it to the map so that we don't overwrite the sample. As keys are only used to find
-// if owner Kind actually exist in the map so it should be fine to append random string here.
+// if owner Kind actually exist in the map, so it should be fine to append random string here.
 func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples map[string]genruntime.ARMMetaObject) {
 	kind := sample.GetObjectKind().GroupVersionKind().Kind
 	_, found := samples[kind]
@@ -177,7 +177,7 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 	return obj.(genruntime.ARMMetaObject), nil
 }
 
-func (t *SamplesTester) setOwnership(samples map[string]genruntime.ARMMetaObject) error {
+func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.ARMMetaObject) error {
 	for gk, sample := range samples {
 		// We don't apply ownership to the resources which have no owner
 		if sample.Owner() == nil {
@@ -187,7 +187,7 @@ func (t *SamplesTester) setOwnership(samples map[string]genruntime.ARMMetaObject
 		var ownersName string
 		if sample.Owner().Kind == resolver.ResourceGroupKind {
 			ownersName = t.rgName
-		} else {
+		} else if t.useRandomName {
 			owner, ok := samples[sample.Owner().Kind]
 			if !ok {
 				return fmt.Errorf("owner: %s, does not exist for resource '%s'", sample.Owner().Kind, gk)
@@ -195,7 +195,14 @@ func (t *SamplesTester) setOwnership(samples map[string]genruntime.ARMMetaObject
 			ownersName = owner.GetName()
 		}
 
-		sample = setOwnersName(sample, ownersName)
+		if ownersName != "" {
+			var err error
+			sample = setOwnersName(sample, ownersName)
+			sample, err = t.findAndSetARMIDReferences(sample)
+			if err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
@@ -227,4 +234,44 @@ func IsSampleExcluded(path string, exclusions []string) bool {
 		}
 	}
 	return false
+}
+
+func (t *SamplesTester) findAndSetARMIDReferences(obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
+	resourceRefType := reflect.TypeOf(genruntime.ResourceReference{})
+	visitor := reflecthelpers.NewReflectVisitor()
+	visitor.VisitStruct = func(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx interface{}) error {
+
+		if it.Type() == resourceRefType {
+			if it.CanInterface() {
+				reference := it.Interface().(genruntime.ResourceReference)
+				if reference.ARMID != "" {
+					armIDField := it.FieldByName("ARMID")
+					if !armIDField.CanSet() {
+						return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+					}
+
+					//Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
+					subMatcher := regexp.MustCompile("\\/([0]+-?)+\\/")
+					armIDString := armIDField.String()
+					armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
+					armIDString = subMatcher.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+
+					armIDField.SetString(armIDString)
+				}
+			} else {
+				// This should be impossible given how the visitor works
+				return errors.New("genruntime.ResourceReference field was unexpectedly nil")
+			}
+			return nil
+		}
+
+		return reflecthelpers.IdentityVisitStruct(this, it, ctx)
+	}
+
+	err := visitor.Visit(obj, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "scanning for references of type %s", resourceRefType.String())
+	}
+
+	return obj, nil
 }

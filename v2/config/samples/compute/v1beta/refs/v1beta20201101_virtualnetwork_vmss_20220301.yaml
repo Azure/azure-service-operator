@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: VirtualNetwork
+metadata:
+  name: samplevnetvmss1
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  addressSpace:
+    addressPrefixes:
+      - 10.0.0.0/16

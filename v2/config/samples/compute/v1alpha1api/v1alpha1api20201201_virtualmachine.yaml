@@ -4,29 +4,26 @@ metadata:
   name: samplevm
   namespace: default
 spec:
-  location: westcentralus
-  owner:
-    name: aso-sample-rg
   hardwareProfile:
-    vmSize: "Standard_A1_v2"
-  storageProfile:
-    imageReference:
-      publisher: Canonical
-      offer: UbuntuServer
-      sku: 18.04-lts
-      version: latest
-  osProfile:
-    computerNamePrefix: computer
-    adminUsername: adminUser
-    linuxConfiguration:
-      disablePasswordAuthentication: true
-      ssh:
-        publicKeys:
-          - keyData: ssh-rsa AAAAB  # Specify your SSH public key here
-            path: /home/adminUser/.ssh/authorized_keys
+    vmSize: Standard_A1_v2
+  location: westus3
   networkProfile:
     networkInterfaces:
       - reference:
           group: network.azure.com
           kind: NetworkInterface
           name: samplenic
+  osProfile:
+    adminPassword:
+      key: password
+      name: aso-sample-vmsecret
+    adminUsername: bloom
+    computerName: poppy
+  owner:
+    name: aso-sample-rg
+  storageProfile:
+    imageReference:
+      offer: UbuntuServer
+      publisher: Canonical
+      sku: 18.04-LTS
+      version: latest

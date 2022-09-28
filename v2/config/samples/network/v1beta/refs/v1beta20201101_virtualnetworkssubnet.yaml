@@ -1,0 +1,10 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: gatewaysubnet
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: samplevnet2
+  addressPrefix: 172.16.0.0/16
