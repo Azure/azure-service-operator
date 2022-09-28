@@ -1,0 +1,468 @@
+github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601
+├── APIVersion: enum
+│   └── "2021-06-01"
+├── Configuration_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AllowedValues: *string
+│   │   ├── DataType: enum
+│   │   │   ├── "Boolean"
+│   │   │   ├── "Enumeration"
+│   │   │   ├── "Integer"
+│   │   │   └── "Numeric"
+│   │   ├── DefaultValue: *string
+│   │   ├── Description: *string
+│   │   ├── DocumentationLink: *string
+│   │   ├── IsConfigPendingRestart: *bool
+│   │   ├── IsDynamicConfig: *bool
+│   │   ├── IsReadOnly: *bool
+│   │   ├── Source: *string
+│   │   ├── Unit: *string
+│   │   └── Value: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Database_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Charset: *string
+│   │   └── Collation: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── FirewallRule_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── EndIpAddress: *string
+│   │   └── StartIpAddress: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── FlexibleServer: Resource
+│   ├── Spec: 
+│   │   ├── AdministratorLogin: *string
+│   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
+│   │   ├── AvailabilityZone: *string
+│   │   ├── AzureName: string
+│   │   ├── Backup: 
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   └── GeoRedundantBackup: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Create"
+│   │   │   ├── "Default"
+│   │   │   ├── "PointInTimeRestore"
+│   │   │   └── "Update"
+│   │   ├── HighAvailability: 
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "ZoneRedundant"
+│   │   │   └── StandbyAvailabilityZone: *string
+│   │   ├── Location: *string
+│   │   ├── MaintenanceWindow: 
+│   │   │   ├── CustomWindow: *string
+│   │   │   ├── DayOfWeek: *int
+│   │   │   ├── StartHour: *int
+│   │   │   └── StartMinute: *int
+│   │   ├── Network: 
+│   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
+│   │   │   └── PrivateDnsZoneArmResourceReference: *genruntime.ResourceReference
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PointInTimeUTC: Validated[*string]
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: enum
+│   │   │       ├── "Burstable"
+│   │   │       ├── "GeneralPurpose"
+│   │   │       └── "MemoryOptimized"
+│   │   ├── SourceServerResourceReference: *genruntime.ResourceReference
+│   │   ├── Storage: 
+│   │   │   └── StorageSizeGB: *int
+│   │   ├── Tags: Map[string]string
+│   │   └── Version: enum
+│   │       ├── "11"
+│   │       ├── "12"
+│   │       ├── "13"
+│   │       └── "14"
+│   └── Status: 
+│       ├── AdministratorLogin: *string
+│       ├── AvailabilityZone: *string
+│       ├── Backup: 
+│       │   ├── BackupRetentionDays: *int
+│       │   ├── EarliestRestoreDate: *string
+│       │   └── GeoRedundantBackup: enum
+│       │       ├── "Disabled"
+│       │       └── "Enabled"
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreateMode: enum
+│       │   ├── "Create"
+│       │   ├── "Default"
+│       │   ├── "PointInTimeRestore"
+│       │   └── "Update"
+│       ├── FullyQualifiedDomainName: *string
+│       ├── HighAvailability: 
+│       │   ├── Mode: enum
+│       │   │   ├── "Disabled"
+│       │   │   └── "ZoneRedundant"
+│       │   ├── StandbyAvailabilityZone: *string
+│       │   └── State: enum
+│       │       ├── "CreatingStandby"
+│       │       ├── "FailingOver"
+│       │       ├── "Healthy"
+│       │       ├── "NotEnabled"
+│       │       ├── "RemovingStandby"
+│       │       └── "ReplicatingData"
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MaintenanceWindow: 
+│       │   ├── CustomWindow: *string
+│       │   ├── DayOfWeek: *int
+│       │   ├── StartHour: *int
+│       │   └── StartMinute: *int
+│       ├── MinorVersion: *string
+│       ├── Name: *string
+│       ├── Network: 
+│       │   ├── DelegatedSubnetResourceId: *string
+│       │   ├── PrivateDnsZoneArmResourceId: *string
+│       │   └── PublicNetworkAccess: enum
+│       │       ├── "Disabled"
+│       │       └── "Enabled"
+│       ├── PointInTimeUTC: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   └── Tier: enum
+│       │       ├── "Burstable"
+│       │       ├── "GeneralPurpose"
+│       │       └── "MemoryOptimized"
+│       ├── SourceServerResourceId: *string
+│       ├── State: enum
+│       │   ├── "Disabled"
+│       │   ├── "Dropping"
+│       │   ├── "Ready"
+│       │   ├── "Starting"
+│       │   ├── "Stopped"
+│       │   ├── "Stopping"
+│       │   └── "Updating"
+│       ├── Storage: 
+│       │   └── StorageSizeGB: *int
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Version: enum
+│           ├── "11"
+│           ├── "12"
+│           ├── "13"
+│           └── "14"
+├── FlexibleServer_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AdministratorLogin: *string
+│   │   ├── AdministratorLoginPassword: *string
+│   │   ├── AvailabilityZone: *string
+│   │   ├── Backup: 
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   └── GeoRedundantBackup: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Create"
+│   │   │   ├── "Default"
+│   │   │   ├── "PointInTimeRestore"
+│   │   │   └── "Update"
+│   │   ├── HighAvailability: 
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "ZoneRedundant"
+│   │   │   └── StandbyAvailabilityZone: *string
+│   │   ├── MaintenanceWindow: 
+│   │   │   ├── CustomWindow: *string
+│   │   │   ├── DayOfWeek: *int
+│   │   │   ├── StartHour: *int
+│   │   │   └── StartMinute: *int
+│   │   ├── Network: 
+│   │   │   ├── DelegatedSubnetResourceId: *string
+│   │   │   └── PrivateDnsZoneArmResourceId: *string
+│   │   ├── PointInTimeUTC: *string
+│   │   ├── SourceServerResourceId: *string
+│   │   ├── Storage: 
+│   │   │   └── StorageSizeGB: *int
+│   │   └── Version: enum
+│   │       ├── "11"
+│   │       ├── "12"
+│   │       ├── "13"
+│   │       └── "14"
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: enum
+│   │       ├── "Burstable"
+│   │       ├── "GeneralPurpose"
+│   │       └── "MemoryOptimized"
+│   └── Tags: Map[string]string
+├── FlexibleServersConfiguration: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Source: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── Value: *string
+│   └── Status: 
+│       ├── AllowedValues: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DataType: enum
+│       │   ├── "Boolean"
+│       │   ├── "Enumeration"
+│       │   ├── "Integer"
+│       │   └── "Numeric"
+│       ├── DefaultValue: *string
+│       ├── Description: *string
+│       ├── DocumentationLink: *string
+│       ├── Id: *string
+│       ├── IsConfigPendingRestart: *bool
+│       ├── IsDynamicConfig: *bool
+│       ├── IsReadOnly: *bool
+│       ├── Name: *string
+│       ├── Source: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       ├── Unit: *string
+│       └── Value: *string
+├── FlexibleServersDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Charset: *string
+│   │   ├── Collation: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Charset: *string
+│       ├── Collation: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── FlexibleServersFirewallRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── EndIpAddress: Validated[*string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── StartIpAddress: Validated[*string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── EndIpAddress: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── StartIpAddress: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── FlexibleServers_Configuration_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Source: *string
+│   │   └── Value: *string
+│   └── Tags: Map[string]string
+├── FlexibleServers_Database_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Charset: *string
+│   │   └── Collation: *string
+│   └── Tags: Map[string]string
+├── FlexibleServers_FirewallRule_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── EndIpAddress: *string
+│   │   └── StartIpAddress: *string
+│   └── Tags: Map[string]string
+└── Server_STATUS_ARM: 
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── Properties: 
+    │   ├── AdministratorLogin: *string
+    │   ├── AvailabilityZone: *string
+    │   ├── Backup: 
+    │   │   ├── BackupRetentionDays: *int
+    │   │   ├── EarliestRestoreDate: *string
+    │   │   └── GeoRedundantBackup: enum
+    │   │       ├── "Disabled"
+    │   │       └── "Enabled"
+    │   ├── CreateMode: enum
+    │   │   ├── "Create"
+    │   │   ├── "Default"
+    │   │   ├── "PointInTimeRestore"
+    │   │   └── "Update"
+    │   ├── FullyQualifiedDomainName: *string
+    │   ├── HighAvailability: 
+    │   │   ├── Mode: enum
+    │   │   │   ├── "Disabled"
+    │   │   │   └── "ZoneRedundant"
+    │   │   ├── StandbyAvailabilityZone: *string
+    │   │   └── State: enum
+    │   │       ├── "CreatingStandby"
+    │   │       ├── "FailingOver"
+    │   │       ├── "Healthy"
+    │   │       ├── "NotEnabled"
+    │   │       ├── "RemovingStandby"
+    │   │       └── "ReplicatingData"
+    │   ├── MaintenanceWindow: 
+    │   │   ├── CustomWindow: *string
+    │   │   ├── DayOfWeek: *int
+    │   │   ├── StartHour: *int
+    │   │   └── StartMinute: *int
+    │   ├── MinorVersion: *string
+    │   ├── Network: 
+    │   │   ├── DelegatedSubnetResourceId: *string
+    │   │   ├── PrivateDnsZoneArmResourceId: *string
+    │   │   └── PublicNetworkAccess: enum
+    │   │       ├── "Disabled"
+    │   │       └── "Enabled"
+    │   ├── PointInTimeUTC: *string
+    │   ├── SourceServerResourceId: *string
+    │   ├── State: enum
+    │   │   ├── "Disabled"
+    │   │   ├── "Dropping"
+    │   │   ├── "Ready"
+    │   │   ├── "Starting"
+    │   │   ├── "Stopped"
+    │   │   ├── "Stopping"
+    │   │   └── "Updating"
+    │   ├── Storage: 
+    │   │   └── StorageSizeGB: *int
+    │   └── Version: enum
+    │       ├── "11"
+    │       ├── "12"
+    │       ├── "13"
+    │       └── "14"
+    ├── Sku: 
+    │   ├── Name: *string
+    │   └── Tier: enum
+    │       ├── "Burstable"
+    │       ├── "GeneralPurpose"
+    │       └── "MemoryOptimized"
+    ├── SystemData: 
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: enum
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: enum
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: Map[string]string
+    └── Type: *string

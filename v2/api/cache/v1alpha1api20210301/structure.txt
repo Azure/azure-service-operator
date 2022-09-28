@@ -1,0 +1,315 @@
+github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301
+├── APIVersion: enum
+│   └── "2021-03-01"
+├── Cluster_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── HostName: *string
+│   │   ├── MinimumTlsVersion: enum
+│   │   │   ├── "1.0"
+│   │   │   ├── "1.1"
+│   │   │   └── "1.2"
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── RedisVersion: *string
+│   │   └── ResourceState: enum
+│   │       ├── "CreateFailed"
+│   │       ├── "Creating"
+│   │       ├── "DeleteFailed"
+│   │       ├── "Deleting"
+│   │       ├── "DisableFailed"
+│   │       ├── "Disabled"
+│   │       ├── "Disabling"
+│   │       ├── "EnableFailed"
+│   │       ├── "Enabling"
+│   │       ├── "Running"
+│   │       ├── "UpdateFailed"
+│   │       └── "Updating"
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   └── Name: enum
+│   │       ├── "EnterpriseFlash_F1500"
+│   │       ├── "EnterpriseFlash_F300"
+│   │       ├── "EnterpriseFlash_F700"
+│   │       ├── "Enterprise_E10"
+│   │       ├── "Enterprise_E100"
+│   │       ├── "Enterprise_E20"
+│   │       └── "Enterprise_E50"
+│   ├── Tags: Map[string]string
+│   ├── Type: *string
+│   └── Zones: Array[string]
+├── Database_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── ClientProtocol: enum
+│   │   │   ├── "Encrypted"
+│   │   │   └── "Plaintext"
+│   │   ├── ClusteringPolicy: enum
+│   │   │   ├── "EnterpriseCluster"
+│   │   │   └── "OSSCluster"
+│   │   ├── EvictionPolicy: enum
+│   │   │   ├── "AllKeysLFU"
+│   │   │   ├── "AllKeysLRU"
+│   │   │   ├── "AllKeysRandom"
+│   │   │   ├── "NoEviction"
+│   │   │   ├── "VolatileLFU"
+│   │   │   ├── "VolatileLRU"
+│   │   │   ├── "VolatileRandom"
+│   │   │   └── "VolatileTTL"
+│   │   ├── Modules: 
+│   │   │   ├── Args: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Version: *string
+│   │   ├── Persistence: 
+│   │   │   ├── AofEnabled: *bool
+│   │   │   ├── AofFrequency: enum
+│   │   │   │   ├── "1s"
+│   │   │   │   └── "always"
+│   │   │   ├── RdbEnabled: *bool
+│   │   │   └── RdbFrequency: enum
+│   │   │       ├── "12h"
+│   │   │       ├── "1h"
+│   │   │       └── "6h"
+│   │   ├── Port: *int
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── ResourceState: enum
+│   │       ├── "CreateFailed"
+│   │       ├── "Creating"
+│   │       ├── "DeleteFailed"
+│   │       ├── "Deleting"
+│   │       ├── "DisableFailed"
+│   │       ├── "Disabled"
+│   │       ├── "Disabling"
+│   │       ├── "EnableFailed"
+│   │       ├── "Enabling"
+│   │       ├── "Running"
+│   │       ├── "UpdateFailed"
+│   │       └── "Updating"
+│   └── Type: *string
+├── RedisEnterprise: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── MinimumTlsVersion: enum
+│   │   │   ├── "1.0"
+│   │   │   ├── "1.1"
+│   │   │   └── "1.2"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   └── Name: enum
+│   │   │       ├── "EnterpriseFlash_F1500"
+│   │   │       ├── "EnterpriseFlash_F300"
+│   │   │       ├── "EnterpriseFlash_F700"
+│   │   │       ├── "Enterprise_E10"
+│   │   │       ├── "Enterprise_E100"
+│   │   │       ├── "Enterprise_E20"
+│   │   │       └── "Enterprise_E50"
+│   │   ├── Tags: Map[string]string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── HostName: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MinimumTlsVersion: enum
+│       │   ├── "1.0"
+│       │   ├── "1.1"
+│       │   └── "1.2"
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   └── Id: *string
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── RedisVersion: *string
+│       ├── ResourceState: enum
+│       │   ├── "CreateFailed"
+│       │   ├── "Creating"
+│       │   ├── "DeleteFailed"
+│       │   ├── "Deleting"
+│       │   ├── "DisableFailed"
+│       │   ├── "Disabled"
+│       │   ├── "Disabling"
+│       │   ├── "EnableFailed"
+│       │   ├── "Enabling"
+│       │   ├── "Running"
+│       │   ├── "UpdateFailed"
+│       │   └── "Updating"
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   └── Name: enum
+│       │       ├── "EnterpriseFlash_F1500"
+│       │       ├── "EnterpriseFlash_F300"
+│       │       ├── "EnterpriseFlash_F700"
+│       │       ├── "Enterprise_E10"
+│       │       ├── "Enterprise_E100"
+│       │       ├── "Enterprise_E20"
+│       │       └── "Enterprise_E50"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Zones: Array[string]
+├── RedisEnterpriseDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── ClientProtocol: enum
+│   │   │   ├── "Encrypted"
+│   │   │   └── "Plaintext"
+│   │   ├── ClusteringPolicy: enum
+│   │   │   ├── "EnterpriseCluster"
+│   │   │   └── "OSSCluster"
+│   │   ├── EvictionPolicy: enum
+│   │   │   ├── "AllKeysLFU"
+│   │   │   ├── "AllKeysLRU"
+│   │   │   ├── "AllKeysRandom"
+│   │   │   ├── "NoEviction"
+│   │   │   ├── "VolatileLFU"
+│   │   │   ├── "VolatileLRU"
+│   │   │   ├── "VolatileRandom"
+│   │   │   └── "VolatileTTL"
+│   │   ├── Location: *string
+│   │   ├── Modules: 
+│   │   │   ├── Args: *string
+│   │   │   └── Name: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Persistence: 
+│   │   │   ├── AofEnabled: *bool
+│   │   │   ├── AofFrequency: enum
+│   │   │   │   ├── "1s"
+│   │   │   │   └── "always"
+│   │   │   ├── RdbEnabled: *bool
+│   │   │   └── RdbFrequency: enum
+│   │   │       ├── "12h"
+│   │   │       ├── "1h"
+│   │   │       └── "6h"
+│   │   ├── Port: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── ClientProtocol: enum
+│       │   ├── "Encrypted"
+│       │   └── "Plaintext"
+│       ├── ClusteringPolicy: enum
+│       │   ├── "EnterpriseCluster"
+│       │   └── "OSSCluster"
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── EvictionPolicy: enum
+│       │   ├── "AllKeysLFU"
+│       │   ├── "AllKeysLRU"
+│       │   ├── "AllKeysRandom"
+│       │   ├── "NoEviction"
+│       │   ├── "VolatileLFU"
+│       │   ├── "VolatileLRU"
+│       │   ├── "VolatileRandom"
+│       │   └── "VolatileTTL"
+│       ├── Id: *string
+│       ├── Modules: 
+│       │   ├── Args: *string
+│       │   ├── Name: *string
+│       │   └── Version: *string
+│       ├── Name: *string
+│       ├── Persistence: 
+│       │   ├── AofEnabled: *bool
+│       │   ├── AofFrequency: enum
+│       │   │   ├── "1s"
+│       │   │   └── "always"
+│       │   ├── RdbEnabled: *bool
+│       │   └── RdbFrequency: enum
+│       │       ├── "12h"
+│       │       ├── "1h"
+│       │       └── "6h"
+│       ├── Port: *int
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceState: enum
+│       │   ├── "CreateFailed"
+│       │   ├── "Creating"
+│       │   ├── "DeleteFailed"
+│       │   ├── "Deleting"
+│       │   ├── "DisableFailed"
+│       │   ├── "Disabled"
+│       │   ├── "Disabling"
+│       │   ├── "EnableFailed"
+│       │   ├── "Enabling"
+│       │   ├── "Running"
+│       │   ├── "UpdateFailed"
+│       │   └── "Updating"
+│       └── Type: *string
+├── RedisEnterprise_Database_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── ClientProtocol: enum
+│   │   │   ├── "Encrypted"
+│   │   │   └── "Plaintext"
+│   │   ├── ClusteringPolicy: enum
+│   │   │   ├── "EnterpriseCluster"
+│   │   │   └── "OSSCluster"
+│   │   ├── EvictionPolicy: enum
+│   │   │   ├── "AllKeysLFU"
+│   │   │   ├── "AllKeysLRU"
+│   │   │   ├── "AllKeysRandom"
+│   │   │   ├── "NoEviction"
+│   │   │   ├── "VolatileLFU"
+│   │   │   ├── "VolatileLRU"
+│   │   │   ├── "VolatileRandom"
+│   │   │   └── "VolatileTTL"
+│   │   ├── Modules: 
+│   │   │   ├── Args: *string
+│   │   │   └── Name: *string
+│   │   ├── Persistence: 
+│   │   │   ├── AofEnabled: *bool
+│   │   │   ├── AofFrequency: enum
+│   │   │   │   ├── "1s"
+│   │   │   │   └── "always"
+│   │   │   ├── RdbEnabled: *bool
+│   │   │   └── RdbFrequency: enum
+│   │   │       ├── "12h"
+│   │   │       ├── "1h"
+│   │   │       └── "6h"
+│   │   └── Port: *int
+│   └── Tags: Map[string]string
+└── RedisEnterprise_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   └── MinimumTlsVersion: enum
+    │       ├── "1.0"
+    │       ├── "1.1"
+    │       └── "1.2"
+    ├── Sku: 
+    │   ├── Capacity: *int
+    │   └── Name: enum
+    │       ├── "EnterpriseFlash_F1500"
+    │       ├── "EnterpriseFlash_F300"
+    │       ├── "EnterpriseFlash_F700"
+    │       ├── "Enterprise_E10"
+    │       ├── "Enterprise_E100"
+    │       ├── "Enterprise_E20"
+    │       └── "Enterprise_E50"
+    ├── Tags: Map[string]string
+    └── Zones: Array[string]

@@ -1,0 +1,503 @@
+github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
+├── APIVersion: enum
+│   └── "2021-01-01-preview"
+├── Namespace: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── Location: *string
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       └── Endpoint: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: enum
+│   │   │   │   ├── "Basic"
+│   │   │   │   ├── "Premium"
+│   │   │   │   └── "Standard"
+│   │   │   └── Tier: enum
+│   │   │       ├── "Basic"
+│   │   │       ├── "Premium"
+│   │   │       └── "Standard"
+│   │   ├── Tags: Map[string]string
+│   │   └── ZoneRedundant: *bool
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── Encryption: 
+│       │   ├── KeySource: enum
+│       │   │   └── "Microsoft.KeyVault"
+│       │   ├── KeyVaultProperties: 
+│       │   │   ├── Identity: 
+│       │   │   │   └── UserAssignedIdentity: *string
+│       │   │   ├── KeyName: *string
+│       │   │   ├── KeyVaultUri: *string
+│       │   │   └── KeyVersion: *string
+│       │   └── RequireInfrastructureEncryption: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── Location: *string
+│       ├── MetricId: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "Application"
+│       │       │   ├── "Key"
+│       │       │   ├── "ManagedIdentity"
+│       │       │   └── "User"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "Application"
+│       │           ├── "Key"
+│       │           ├── "ManagedIdentity"
+│       │           └── "User"
+│       ├── ProvisioningState: *string
+│       ├── ServiceBusEndpoint: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: enum
+│       │   │   ├── "Basic"
+│       │   │   ├── "Premium"
+│       │   │   └── "Standard"
+│       │   └── Tier: enum
+│       │       ├── "Basic"
+│       │       ├── "Premium"
+│       │       └── "Standard"
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UpdatedAt: *string
+│       └── ZoneRedundant: *bool
+├── Namespace_Spec_ARM: 
+│   ├── Identity: 
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned, UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: enum
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: enum
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   └── Tags: Map[string]string
+├── NamespacesQueue: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: Validated[*string]
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: Validated[*string]
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated[*string]
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── Location: *string
+│   │   ├── LockDuration: Validated[*string]
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── RequiresSession: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── Id: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       ├── MaxSizeInMegabytes: *int
+│       ├── MessageCount: *int
+│       ├── Name: *string
+│       ├── RequiresDuplicateDetection: *bool
+│       ├── RequiresSession: *bool
+│       ├── SizeInBytes: *int
+│       ├── Status: enum
+│       │   ├── "Active"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Disabled"
+│       │   ├── "ReceiveDisabled"
+│       │   ├── "Renaming"
+│       │   ├── "Restoring"
+│       │   ├── "SendDisabled"
+│       │   └── "Unknown"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesTopic: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: Validated[*string]
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DefaultMessageTimeToLive: Validated[*string]
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated[*string]
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── Location: *string
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── SupportOrdering: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── Id: *string
+│       ├── MaxSizeInMegabytes: *int
+│       ├── Name: *string
+│       ├── RequiresDuplicateDetection: *bool
+│       ├── SizeInBytes: *int
+│       ├── Status: enum
+│       │   ├── "Active"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Disabled"
+│       │   ├── "ReceiveDisabled"
+│       │   ├── "Renaming"
+│       │   ├── "Restoring"
+│       │   ├── "SendDisabled"
+│       │   └── "Unknown"
+│       ├── SubscriptionCount: *int
+│       ├── SupportOrdering: *bool
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── Namespaces_Queue_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   └── RequiresSession: *bool
+│   └── Tags: Map[string]string
+├── Namespaces_Topic_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   └── SupportOrdering: *bool
+│   └── Tags: Map[string]string
+├── SBNamespace_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CreatedAt: *string
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── MetricId: *string
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ServiceBusEndpoint: *string
+│   │   ├── Status: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: enum
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: enum
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── SBQueue_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AccessedAt: *string
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── CountDetails: 
+│   │   │   ├── ActiveMessageCount: *int
+│   │   │   ├── DeadLetterMessageCount: *int
+│   │   │   ├── ScheduledMessageCount: *int
+│   │   │   ├── TransferDeadLetterMessageCount: *int
+│   │   │   └── TransferMessageCount: *int
+│   │   ├── CreatedAt: *string
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── MessageCount: *int
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── RequiresSession: *bool
+│   │   ├── SizeInBytes: *int
+│   │   ├── Status: enum
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   └── UpdatedAt: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+└── SBTopic_STATUS_ARM: 
+    ├── Id: *string
+    ├── Name: *string
+    ├── Properties: 
+    │   ├── AccessedAt: *string
+    │   ├── AutoDeleteOnIdle: *string
+    │   ├── CountDetails: 
+    │   │   ├── ActiveMessageCount: *int
+    │   │   ├── DeadLetterMessageCount: *int
+    │   │   ├── ScheduledMessageCount: *int
+    │   │   ├── TransferDeadLetterMessageCount: *int
+    │   │   └── TransferMessageCount: *int
+    │   ├── CreatedAt: *string
+    │   ├── DefaultMessageTimeToLive: *string
+    │   ├── DuplicateDetectionHistoryTimeWindow: *string
+    │   ├── EnableBatchedOperations: *bool
+    │   ├── EnableExpress: *bool
+    │   ├── EnablePartitioning: *bool
+    │   ├── MaxSizeInMegabytes: *int
+    │   ├── RequiresDuplicateDetection: *bool
+    │   ├── SizeInBytes: *int
+    │   ├── Status: enum
+    │   │   ├── "Active"
+    │   │   ├── "Creating"
+    │   │   ├── "Deleting"
+    │   │   ├── "Disabled"
+    │   │   ├── "ReceiveDisabled"
+    │   │   ├── "Renaming"
+    │   │   ├── "Restoring"
+    │   │   ├── "SendDisabled"
+    │   │   └── "Unknown"
+    │   ├── SubscriptionCount: *int
+    │   ├── SupportOrdering: *bool
+    │   └── UpdatedAt: *string
+    ├── SystemData: 
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: enum
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: enum
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string

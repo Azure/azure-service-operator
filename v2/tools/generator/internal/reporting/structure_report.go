@@ -3,9 +3,10 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package reporting
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -16,32 +17,32 @@ const (
 	lastBlockIndent = "    "
 )
 
-// debugReport represents a heirarchical dump of debug information
-type debugReport struct {
+// StructureReport represents a hierarchical dump of structural information
+type StructureReport struct {
 	line   string
-	nested []*debugReport
+	nested []*StructureReport
 }
 
-// newDebugReport creates a new debugReport
-func newDebugReport(line string) *debugReport {
-	return &debugReport{line: line}
+// NewStructureReport creates a new StructureReport
+func NewStructureReport(line string) *StructureReport {
+	return &StructureReport{line: line}
 }
 
-// add adds a new debugReport nested in the current debugReport, returning the nested report
-func (dr *debugReport) add(line string) *debugReport {
-	result := &debugReport{line: line}
-	dr.nested = append(dr.nested, result)
+// Addf formats a new line in the report, returning a nested report for any additional information
+func (sr *StructureReport) Addf(format string, a ...any) *StructureReport {
+	result := &StructureReport{line: fmt.Sprintf(format, a...)}
+	sr.nested = append(sr.nested, result)
 	return result
 }
 
-func (dr *debugReport) saveTo(writer io.Writer) error {
+func (sr *StructureReport) SaveTo(writer io.Writer) error {
 	var indents []string
 
-	return dr.writeBlock(writer, indents, "", "")
+	return sr.writeBlock(writer, indents, "", "")
 }
 
-// writeTo writes a block of lines from this debugReport to a writer
-func (dr *debugReport) writeBlock(
+// writeTo writes a block of lines from this StructureReport to a writer
+func (sr *StructureReport) writeBlock(
 	writer io.Writer,
 	indents []string,
 	prefixForItem string,
@@ -60,7 +61,7 @@ func (dr *debugReport) writeBlock(
 		return err
 	}
 
-	_, err = io.WriteString(writer, dr.line)
+	_, err = io.WriteString(writer, sr.line)
 	if err != nil {
 		return err
 	}
@@ -71,10 +72,10 @@ func (dr *debugReport) writeBlock(
 	}
 
 	nested := append(indents, prefixForSubItems)
-	for index, line := range dr.nested {
+	for index, line := range sr.nested {
 		ind := itemPrefix
 		sub := blockIndent
-		if index == len(dr.nested)-1 {
+		if index == len(sr.nested)-1 {
 			ind = lastItemPrefix
 			sub = lastBlockIndent
 		}

@@ -1,0 +1,13 @@
+github.com/Azure/azure-service-operator/v2/api/network/customizations
+├── LoadBalancerExtension: 
+├── NetworkInterfaceExtension: 
+├── NetworkSecurityGroupExtension: 
+├── NetworkSecurityGroupsSecurityRuleExtension: 
+├── PrivateDnsZoneExtension: 
+├── PublicIPAddressExtension: 
+├── RouteTableExtension: 
+├── RouteTablesRouteExtension: 
+├── VirtualNetworkExtension: 
+├── VirtualNetworkGatewayExtension: 
+├── VirtualNetworksSubnetExtension: 
+└── VirtualNetworksVirtualNetworkPeeringExtension: 

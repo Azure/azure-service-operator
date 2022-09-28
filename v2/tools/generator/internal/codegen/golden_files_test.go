@@ -163,7 +163,8 @@ func NewTestCodeGenerator(
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,
 			pipeline.ReportOnTypesAndVersionsStageID,
-			pipeline.ReportResourceVersionsStageID)
+			pipeline.ReportResourceVersionsStageID,
+			pipeline.ReportResourceStructureStageId)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(
 				pipeline.CreateARMTypesStageID,
@@ -186,7 +187,8 @@ func NewTestCodeGenerator(
 		codegen.RemoveStages(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
-			pipeline.ReportResourceVersionsStageID)
+			pipeline.ReportResourceVersionsStageID,
+			pipeline.ReportResourceStructureStageId)
 		if !testConfig.HasARMResources {
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}

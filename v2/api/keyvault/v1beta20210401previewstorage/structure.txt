@@ -1,0 +1,119 @@
+github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage
+├── APIVersion: enum
+│   └── "2021-04-01-preview"
+└── Vault: Resource
+    ├── Spec: 
+    │   ├── AzureName: Validated[string]
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── Properties: 
+    │   │   ├── AccessPolicies: 
+    │   │   │   ├── ApplicationId: *string
+    │   │   │   ├── ObjectId: *string
+    │   │   │   ├── Permissions: 
+    │   │   │   │   ├── Certificates: Array[string]
+    │   │   │   │   ├── Keys: Array[string]
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── Secrets: Array[string]
+    │   │   │   │   └── Storage: Array[string]
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── TenantId: *string
+    │   │   ├── CreateMode: *string
+    │   │   ├── EnablePurgeProtection: *bool
+    │   │   ├── EnableRbacAuthorization: *bool
+    │   │   ├── EnableSoftDelete: *bool
+    │   │   ├── EnabledForDeployment: *bool
+    │   │   ├── EnabledForDiskEncryption: *bool
+    │   │   ├── EnabledForTemplateDeployment: *bool
+    │   │   ├── NetworkAcls: 
+    │   │   │   ├── Bypass: *string
+    │   │   │   ├── DefaultAction: *string
+    │   │   │   ├── IpRules: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Value: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── VirtualNetworkRules: 
+    │   │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
+    │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ProvisioningState: *string
+    │   │   ├── Sku: 
+    │   │   │   ├── Family: *string
+    │   │   │   ├── Name: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── SoftDeleteRetentionInDays: *int
+    │   │   ├── TenantId: *string
+    │   │   └── VaultUri: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Id: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── Properties: 
+        │   ├── AccessPolicies: 
+        │   │   ├── ApplicationId: *string
+        │   │   ├── ObjectId: *string
+        │   │   ├── Permissions: 
+        │   │   │   ├── Certificates: Array[string]
+        │   │   │   ├── Keys: Array[string]
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── Secrets: Array[string]
+        │   │   │   └── Storage: Array[string]
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── TenantId: *string
+        │   ├── CreateMode: *string
+        │   ├── EnablePurgeProtection: *bool
+        │   ├── EnableRbacAuthorization: *bool
+        │   ├── EnableSoftDelete: *bool
+        │   ├── EnabledForDeployment: *bool
+        │   ├── EnabledForDiskEncryption: *bool
+        │   ├── EnabledForTemplateDeployment: *bool
+        │   ├── HsmPoolResourceId: *string
+        │   ├── NetworkAcls: 
+        │   │   ├── Bypass: *string
+        │   │   ├── DefaultAction: *string
+        │   │   ├── IpRules: 
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── Value: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── VirtualNetworkRules: 
+        │   │       ├── Id: *string
+        │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
+        │   │       └── PropertyBag: genruntime.PropertyBag
+        │   ├── PrivateEndpointConnections: 
+        │   │   ├── Etag: *string
+        │   │   ├── Id: *string
+        │   │   ├── PrivateEndpoint: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── PrivateLinkServiceConnectionState: 
+        │   │   │   ├── ActionsRequired: *string
+        │   │   │   ├── Description: *string
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── Status: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── ProvisioningState: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ProvisioningState: *string
+        │   ├── Sku: 
+        │   │   ├── Family: *string
+        │   │   ├── Name: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── SoftDeleteRetentionInDays: *int
+        │   ├── TenantId: *string
+        │   └── VaultUri: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: Map[string]string
+        └── Type: *string

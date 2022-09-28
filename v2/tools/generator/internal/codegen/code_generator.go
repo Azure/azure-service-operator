@@ -221,6 +221,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportResourceVersions(configuration),
+		pipeline.ReportResourceStructure(configuration),
 	}
 }
 
@@ -231,8 +232,8 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	if generator.debugReporter != nil {
 		// Generate a diagram containing our stages
 		outputFolder := generator.debugReporter.outputFolder
-		diagram := newDebugDiagram(outputFolder)
-		err := diagram.writeDiagram(generator.pipeline)
+		diagram := pipeline.NewPipelineDiagram(outputFolder)
+		err := diagram.WriteDiagram(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
 		}

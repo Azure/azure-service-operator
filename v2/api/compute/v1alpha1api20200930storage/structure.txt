@@ -1,0 +1,298 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage
+├── APIVersion: enum
+│   └── "2020-09-30"
+├── Disk: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── BurstingEnabled: *bool
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: *string
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SourceResourceReference: *genruntime.ResourceReference
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessReference: *genruntime.ResourceReference
+│   │   ├── DiskIOPSReadOnly: *int
+│   │   ├── DiskIOPSReadWrite: *int
+│   │   ├── DiskMBpsReadOnly: *int
+│   │   ├── DiskMBpsReadWrite: *int
+│   │   ├── DiskSizeGB: *int
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── KeyEncryptionKey: 
+│   │   │   │   │   ├── KeyUrl: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── EncryptionSettingsVersion: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── HyperVGeneration: *string
+│   │   ├── Location: *string
+│   │   ├── MaxShares: *int
+│   │   ├── NetworkAccessPolicy: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── OsType: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Publisher: *string
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: Map[string]string
+│   │   ├── Tier: *string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── BurstingEnabled: *bool
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreationData: 
+│       │   ├── CreateOption: *string
+│       │   ├── GalleryImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   ├── Lun: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── ImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   ├── Lun: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LogicalSectorSize: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SourceResourceId: *string
+│       │   ├── SourceUniqueId: *string
+│       │   ├── SourceUri: *string
+│       │   ├── StorageAccountId: *string
+│       │   └── UploadSizeBytes: *int
+│       ├── DiskAccessId: *string
+│       ├── DiskIOPSReadOnly: *int
+│       ├── DiskIOPSReadWrite: *int
+│       ├── DiskMBpsReadOnly: *int
+│       ├── DiskMBpsReadWrite: *int
+│       ├── DiskSizeBytes: *int
+│       ├── DiskSizeGB: *int
+│       ├── DiskState: *string
+│       ├── Encryption: 
+│       │   ├── DiskEncryptionSetId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── EncryptionSettingsCollection: 
+│       │   ├── Enabled: *bool
+│       │   ├── EncryptionSettings: 
+│       │   │   ├── DiskEncryptionKey: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── SecretUrl: *string
+│       │   │   │   └── SourceVault: 
+│       │   │   │       ├── Id: *string
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── KeyEncryptionKey: 
+│       │   │   │   ├── KeyUrl: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── SourceVault: 
+│       │   │   │       ├── Id: *string
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── EncryptionSettingsVersion: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── HyperVGeneration: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── ManagedBy: *string
+│       ├── ManagedByExtended: Array[string]
+│       ├── MaxShares: *int
+│       ├── Name: *string
+│       ├── NetworkAccessPolicy: *string
+│       ├── OsType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PurchasePlan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Publisher: *string
+│       ├── ShareInfo: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── VmUri: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Tier: *string
+│       ├── TimeCreated: *string
+│       ├── Type: *string
+│       ├── UniqueId: *string
+│       └── Zones: Array[string]
+└── Snapshot: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── CreationData: 
+    │   │   ├── CreateOption: *string
+    │   │   ├── GalleryImageReference: 
+    │   │   │   ├── Lun: *int
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   ├── ImageReference: 
+    │   │   │   ├── Lun: *int
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   ├── LogicalSectorSize: *int
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── SourceResourceReference: *genruntime.ResourceReference
+    │   │   ├── SourceUri: *string
+    │   │   ├── StorageAccountId: *string
+    │   │   └── UploadSizeBytes: *int
+    │   ├── DiskAccessReference: *genruntime.ResourceReference
+    │   ├── DiskSizeGB: *int
+    │   ├── DiskState: *string
+    │   ├── Encryption: 
+    │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── EncryptionSettingsCollection: 
+    │   │   ├── Enabled: *bool
+    │   │   ├── EncryptionSettings: 
+    │   │   │   ├── DiskEncryptionKey: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── SecretUrl: *string
+    │   │   │   │   └── SourceVault: 
+    │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── KeyEncryptionKey: 
+    │   │   │   │   ├── KeyUrl: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceVault: 
+    │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── EncryptionSettingsVersion: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── ExtendedLocation: 
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── HyperVGeneration: *string
+    │   ├── Incremental: *bool
+    │   ├── Location: *string
+    │   ├── NetworkAccessPolicy: *string
+    │   ├── OriginalVersion: string
+    │   ├── OsType: *string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PurchasePlan: 
+    │   │   ├── Name: *string
+    │   │   ├── Product: *string
+    │   │   ├── PromotionCode: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Publisher: *string
+    │   ├── Sku: 
+    │   │   ├── Name: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── CreationData: 
+        │   ├── CreateOption: *string
+        │   ├── GalleryImageReference: 
+        │   │   ├── Id: *string
+        │   │   ├── Lun: *int
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── ImageReference: 
+        │   │   ├── Id: *string
+        │   │   ├── Lun: *int
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── LogicalSectorSize: *int
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── SourceResourceId: *string
+        │   ├── SourceUniqueId: *string
+        │   ├── SourceUri: *string
+        │   ├── StorageAccountId: *string
+        │   └── UploadSizeBytes: *int
+        ├── DiskAccessId: *string
+        ├── DiskSizeBytes: *int
+        ├── DiskSizeGB: *int
+        ├── DiskState: *string
+        ├── Encryption: 
+        │   ├── DiskEncryptionSetId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Type: *string
+        ├── EncryptionSettingsCollection: 
+        │   ├── Enabled: *bool
+        │   ├── EncryptionSettings: 
+        │   │   ├── DiskEncryptionKey: 
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── SecretUrl: *string
+        │   │   │   └── SourceVault: 
+        │   │   │       ├── Id: *string
+        │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── KeyEncryptionKey: 
+        │   │   │   ├── KeyUrl: *string
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── SourceVault: 
+        │   │   │       ├── Id: *string
+        │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── EncryptionSettingsVersion: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── ExtendedLocation: 
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Type: *string
+        ├── HyperVGeneration: *string
+        ├── Id: *string
+        ├── Incremental: *bool
+        ├── Location: *string
+        ├── ManagedBy: *string
+        ├── Name: *string
+        ├── NetworkAccessPolicy: *string
+        ├── OsType: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── PurchasePlan: 
+        │   ├── Name: *string
+        │   ├── Product: *string
+        │   ├── PromotionCode: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Publisher: *string
+        ├── Sku: 
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Tier: *string
+        ├── Tags: Map[string]string
+        ├── TimeCreated: *string
+        ├── Type: *string
+        └── UniqueId: *string

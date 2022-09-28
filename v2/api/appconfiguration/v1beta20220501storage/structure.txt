@@ -1,0 +1,97 @@
+github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage
+├── APIVersion: enum
+│   └── "2022-05-01"
+└── ConfigurationStore: Resource
+    ├── Spec: 
+    │   ├── AzureName: Validated[string]
+    │   ├── CreateMode: *string
+    │   ├── DisableLocalAuth: *bool
+    │   ├── EnablePurgeProtection: *bool
+    │   ├── Encryption: 
+    │   │   ├── KeyVaultProperties: 
+    │   │   │   ├── IdentityClientId: *string
+    │   │   │   ├── KeyIdentifier: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── Identity: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── Location: *string
+    │   ├── OperatorSpec: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Secrets: 
+    │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
+    │   │       ├── PrimaryKey: *genruntime.SecretDestination
+    │   │       ├── PrimaryKeyID: *genruntime.SecretDestination
+    │   │       ├── PrimaryReadOnlyConnectionString: *genruntime.SecretDestination
+    │   │       ├── PrimaryReadOnlyKey: *genruntime.SecretDestination
+    │   │       ├── PrimaryReadOnlyKeyID: *genruntime.SecretDestination
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       ├── SecondaryConnectionString: *genruntime.SecretDestination
+    │   │       ├── SecondaryKey: *genruntime.SecretDestination
+    │   │       ├── SecondaryKeyID: *genruntime.SecretDestination
+    │   │       ├── SecondaryReadOnlyConnectionString: *genruntime.SecretDestination
+    │   │       ├── SecondaryReadOnlyKey: *genruntime.SecretDestination
+    │   │       └── SecondaryReadOnlyKeyID: *genruntime.SecretDestination
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PublicNetworkAccess: *string
+    │   ├── Sku: 
+    │   │   ├── Name: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── SoftDeleteRetentionInDays: *int
+    │   ├── SystemData: 
+    │   │   ├── CreatedAt: *string
+    │   │   ├── CreatedBy: *string
+    │   │   ├── CreatedByType: *string
+    │   │   ├── LastModifiedAt: *string
+    │   │   ├── LastModifiedBy: *string
+    │   │   ├── LastModifiedByType: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── CreateMode: *string
+        ├── CreationDate: *string
+        ├── DisableLocalAuth: *bool
+        ├── EnablePurgeProtection: *bool
+        ├── Encryption: 
+        │   ├── KeyVaultProperties: 
+        │   │   ├── IdentityClientId: *string
+        │   │   ├── KeyIdentifier: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Endpoint: *string
+        ├── Id: *string
+        ├── Identity: 
+        │   ├── PrincipalId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── TenantId: *string
+        │   ├── Type: *string
+        │   └── UserAssignedIdentities: 
+        │       ├── ClientId: *string
+        │       ├── PrincipalId: *string
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── Location: *string
+        ├── Name: *string
+        ├── PrivateEndpointConnections: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── PublicNetworkAccess: *string
+        ├── Sku: 
+        │   ├── Name: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── SoftDeleteRetentionInDays: *int
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: Map[string]string
+        └── Type: *string
