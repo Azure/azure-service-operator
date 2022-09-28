@@ -488,7 +488,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 // to “ResourceTypeDifferentTypeSomething”.
 func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string) (string, string, string, error) {
 	group := ""
-	nameParts := []string{}
+	var nameParts []string
 
 	urlParts := strings.Split(operationPath, "/")
 	reading := false
