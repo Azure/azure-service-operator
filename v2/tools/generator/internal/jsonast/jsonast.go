@@ -696,10 +696,10 @@ func generateDefinitionsFor(
 	scanner *SchemaScanner,
 	typeName astmodel.TypeName,
 	schema Schema,
-) (astmodel.Type, error) {
+) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
-		return nil, err
+		return astmodel.EmptyTypeName, err
 	}
 
 	url := schema.url()
@@ -715,7 +715,7 @@ func generateDefinitionsFor(
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
-		return nil, err
+		return astmodel.EmptyTypeName, err
 	}
 
 	//TODO(donotmerge): This code and below does nothing. schema.url() is always empty?
