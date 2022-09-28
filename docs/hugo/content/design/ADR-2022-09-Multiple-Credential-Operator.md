@@ -7,13 +7,17 @@ title: '2022-09: Support For Multiple Credentials Under Global Operator'
 Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription.
 To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
 
+**Global Secret(aso-controller-settings)** is a currently existing one and is used as default for all Azure Resources
+
 **Namespaced Secrets** will be used for all Azure Resources within a specific cluster namespace
+
 **Per-resource-group Secrets** will be used for all Azure Resources within a specific Resource Group
+
 **Per-resource Secrets** will be used for specific resources
 
 ## Credential selection hierarchy
 
-We'll be using a pattern to determine which of the above secrets we use for operation on a resource. As in the below flow chart, if a resource is applied to the operator and the resource exists, operator would fetch the apply credentials in a following manner. If its a new resource, operator would have to go through the secret selection hierarchy. Where, operator would first check if Per-resource or per-resource-group secret exists, if not, then will check for the namespaced secret. If any of the above is provided, operator would perform actions according to the **options** below. If none is provided, we'll fallback to use the global credential for that resource, which is the default cluster scoped secret(aso-controller-settings) in ASO namespace used today. 
+We'll be using a pattern to determine which of the above secrets we use for operation on a resource. As in the below flow chart, if a resource is applied to the operator and the resource exists, operator would fetch and apply credentials in a following manner. If it's a new resource, operator would have to go through the secret selection hierarchy. Where, operator would first check if Per-resource or per-resource-group secret exists, if not, then will check for the namespaced secret. If any of the above is provided, operator would perform actions according to the **options** below. If none is provided, we'll fallback to use the global credential for that resource, which is the default cluster scoped secret(aso-controller-settings) in ASO namespace used today. 
 
 ![hierarchy](images/adr-2022-09-multiple-credential-operator.png) 
 
@@ -43,6 +47,8 @@ NOTE: Annotation/condition will be added on the resource while creation which wi
 
 **Cons:**
 1. Not very flexible, as users don't have much control for which resource they want to use which credential
+2. Can not re-use a secret across Resource Groups. Will have to specify secrets individually for each Resource Group, even if they are same
+3. Not friendly to apply-at-once code, as there could be a race while applying secret and resource at the same time
 
 ### Option 2: Configuration using annotations
 
@@ -112,11 +118,8 @@ TBD
 3. per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.
 
 ## Open questions
-1. Do we need to support both per-resource and per-resource-group credentials? 
-2. Do we want a serviceoperator.azure.com/subscription-id annotation that we write? We can use this to protect against users accidentally updating credential to move resources between subscriptions.
-3. Spell out what fields are in aso-credential. clientid/subscriptionid/tenantId/etc?
-4. How are we going to make this work for Managed Identity?
-5. Replace the above-mentioned(in options) annotations with spec property?
+1. Spell out what fields are in aso-credential. clientid/subscriptionid/tenantId/etc?
+2. How are we going to make this work for Managed Identity?
 
 ## Consequences
 
