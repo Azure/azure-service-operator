@@ -6,6 +6,7 @@ package v20200101
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -63,11 +64,14 @@ type Person_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// FamilyNameReference: Shared name of the family
-	FamilyNameReference *genruntime.ResourceReference `armReference:"FamilyName" json:"familyNameReference,omitempty"`
+	// FamilyName: Shared name of the family
+	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
+
+	// FamilyNameConfigRef: Shared name of the family
+	FamilyNameConfigRef *genruntime.ConfigMapReference `json:"familyNameConfigRef,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
-	FullName *string `json:"fullName,omitempty"`
+	FullName *genruntime.ConfigMapReference `json:"fullName,omitempty"`
 
 	// KnownAs: How the person is generally known
 	KnownAs *string `json:"knownAs,omitempty"`
@@ -86,21 +90,32 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if person.FamilyNameReference != nil ||
+	if person.FamilyName != nil ||
+		person.FamilyNameConfigRef != nil ||
 		person.FullName != nil ||
 		person.KnownAs != nil {
 		result.Properties = &PersonProperties_ARM{}
 	}
-	if person.FamilyNameReference != nil {
-		familyNameARMID, err := resolved.ResolvedReferences.Lookup(*person.FamilyNameReference)
+	if person.FamilyName != nil {
+		familyName := *person.FamilyName
+		result.Properties.FamilyName = &familyName
+	}
+	if person.FamilyNameConfigRef != nil {
+		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FamilyNameConfigRef)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
 		}
-		familyName := familyNameARMID
+		familyName := familyNameValue
 		result.Properties.FamilyName = &familyName
 	}
 	if person.FullName != nil {
-		result.Properties.FullName = *person.FullName
+		var temp string
+		tempValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FullName)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property temp")
+		}
+		temp = tempValue
+		result.Properties.FullName = temp
 	}
 	if person.KnownAs != nil {
 		result.Properties.KnownAs = *person.KnownAs
@@ -123,13 +138,18 @@ func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// Set property ‘AzureName’:
 	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘FamilyNameReference’
-
-	// Set property ‘FullName’:
+	// Set property ‘FamilyName’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		person.FullName = &typedInput.Properties.FullName
+		if typedInput.Properties.FamilyName != nil {
+			familyName := *typedInput.Properties.FamilyName
+			person.FamilyName = &familyName
+		}
 	}
+
+	// no assignment for property ‘FamilyNameConfigRef’
+
+	// no assignment for property ‘FullName’
 
 	// Set property ‘KnownAs’:
 	// copying flattened property:
@@ -168,7 +188,8 @@ func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 type PersonProperties_ARM struct {
-	FamilyName *string `json:"familyName,omitempty"`
+	// FamilyName: Shared name of the family
+	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
 	FullName string `json:"fullName,omitempty"`

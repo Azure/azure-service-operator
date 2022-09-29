@@ -191,7 +191,8 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 		return nil
 	}
 
-	tempVarIdent := params.Locals.CreateLocal(params.NameHint)
+	locals := params.Locals.Clone()
+	tempVarIdent := locals.CreateLocal(params.NameHint)
 
 	innerStatements := builder.BuildConversion(
 		ConversionParameters{
@@ -202,7 +203,7 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 			NameHint:          params.NameHint,
 			ConversionContext: append(params.ConversionContext, destinationType),
 			AssignmentHandler: AssignmentHandlerDefine,
-			Locals:            params.Locals.Clone(),
+			Locals:            locals,
 		})
 
 	// Tack on the final assignment
@@ -498,7 +499,8 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 
 	// a more complex conversion is needed
 	srcType := optSrc.Element()
-	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
+	locals := params.Locals.Clone()
+	tmpLocal := builder.CreateLocal(locals, "temp", params.NameHint)
 
 	conversion := builder.BuildConversion(
 		ConversionParameters{
@@ -509,7 +511,7 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 			NameHint:          tmpLocal,
 			ConversionContext: nil,
 			AssignmentHandler: nil,
-			Locals:            params.Locals,
+			Locals:            locals,
 		})
 
 	if len(conversion) == 0 {
@@ -520,7 +522,12 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, params.DestinationType.AsType(builder.CodeGenerationContext), ""))
 	result = append(result, conversion...)
 	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))
-	return result
+
+	return []dst.Stmt{
+		astbuilder.IfNotNil(
+			params.GetSource(),
+			result...),
+	}
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element

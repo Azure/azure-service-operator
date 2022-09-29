@@ -152,6 +152,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-alpha", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
 

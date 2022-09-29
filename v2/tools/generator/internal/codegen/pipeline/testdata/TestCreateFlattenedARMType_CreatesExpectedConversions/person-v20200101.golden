@@ -53,62 +53,6 @@ type Person_STATUS_ARM struct {
 	Status string `json:"status,omitempty"`
 }
 
-type PersonProperties struct {
-	// FamilyName: Shared name of the family
-	FamilyName string `json:"familyName,omitempty"`
-
-	// FullName: As would be used to address mail
-	FullName string `json:"fullName,omitempty"`
-
-	// KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PersonProperties{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if properties == nil {
-		return nil, nil
-	}
-	result := &PersonProperties_ARM{}
-
-	// Set property ‘FamilyName’:
-	result.FamilyName = properties.FamilyName
-
-	// Set property ‘FullName’:
-	result.FullName = properties.FullName
-
-	// Set property ‘KnownAs’:
-	result.KnownAs = properties.KnownAs
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *PersonProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PersonProperties_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PersonProperties_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersonProperties_ARM, got %T", armInput)
-	}
-
-	// Set property ‘FamilyName’:
-	properties.FamilyName = typedInput.FamilyName
-
-	// Set property ‘FullName’:
-	properties.FullName = typedInput.FullName
-
-	// Set property ‘KnownAs’:
-	properties.KnownAs = typedInput.KnownAs
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={v2020}
 type APIVersion string
 
