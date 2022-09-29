@@ -8,15 +8,16 @@ package genruntime
 import (
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // SecretReference is a reference to a Kubernetes secret and key in the same namespace as
 // the resource it is on.
 // +kubebuilder:object:generate=true
 type SecretReference struct {
-	// SecretName is the name of the Kubernetes secret being referenced.
+	// Name is the name of the Kubernetes secret being referenced.
 	// The secret must be in the same namespace as the resource
 	// +kubebuilder:validation:Required
 	Name string `json:"name"`
@@ -39,8 +40,8 @@ func (s SecretReference) String() string {
 	return fmt.Sprintf("Name: %q, Key: %q", s.Name, s.Key)
 }
 
-// ToNamespacedRef creates a NamespacedSecretReference from this SecretReference in the given namespace
-func (s SecretReference) ToNamespacedRef(namespace string) NamespacedSecretReference {
+// AsNamespacedRef creates a NamespacedSecretReference from this SecretReference in the given namespace
+func (s SecretReference) AsNamespacedRef(namespace string) NamespacedSecretReference {
 	return NamespacedSecretReference{
 		SecretReference: s,
 		Namespace:       namespace,
@@ -54,15 +55,16 @@ type NamespacedSecretReference struct {
 }
 
 func (s NamespacedSecretReference) String() string {
-	return fmt.Sprintf("Namespace: %q, %s", s.Namespace, s.SecretReference.String())
+	return fmt.Sprintf("Namespace: %q, %s", s.Namespace, s.SecretReference)
 }
 
-// SecretDestination describes the location to store a single secret value
+// SecretDestination describes the location to store a single secret value.
+// Note: This is similar to ConfigMapDestination in configmaps.go. Changes to one should likely also be made to the other.
 type SecretDestination struct {
 	// Note: We could embed SecretReference here, but it makes our life harder because then our reflection based tools will "find" SecretReference's
 	// inside of SecretDestination and try to resolve them. It also gives a worse experience when using the Go Types (the YAML is the same either way).
 
-	// SecretName is the name of the Kubernetes secret being referenced.
+	// Name is the name of the Kubernetes secret being referenced.
 	// The secret must be in the same namespace as the resource
 	// +kubebuilder:validation:Required
 	Name string `json:"name"`
@@ -86,30 +88,30 @@ func (s SecretDestination) String() string {
 	return fmt.Sprintf("Name: %q, Key: %q", s.Name, s.Key)
 }
 
-type secretKeyPair struct {
-	secret string
-	key    string
+type keyPair struct {
+	name string
+	key  string
 }
 
-func makeKeyPair(dest *SecretDestination) secretKeyPair {
-	return secretKeyPair{
-		secret: dest.Name,
-		key:    dest.Key,
+func makeKeyPairFromSecret(dest *SecretDestination) keyPair {
+	return keyPair{
+		name: dest.Name,
+		key:  dest.Key,
 	}
 }
 
-// ValidateSecretDestinations checks that no destination is writing to the same secret/key, as that could cause
+// ValidateSecretDestinations checks that no two destinations are writing to the same secret/key, as that could cause
 // those secrets to overwrite one another.
 func ValidateSecretDestinations(destinations []*SecretDestination) error {
 	// Map of secret -> keys
-	locations := set.Make[secretKeyPair]()
+	locations := set.Make[keyPair]()
 
 	for _, dest := range destinations {
 		if dest == nil {
 			continue
 		}
 
-		pair := makeKeyPair(dest)
+		pair := makeKeyPairFromSecret(dest)
 		if locations.Contains(pair) {
 			return errors.Errorf("cannot write more than one secret to destination %s", dest.String())
 		}
