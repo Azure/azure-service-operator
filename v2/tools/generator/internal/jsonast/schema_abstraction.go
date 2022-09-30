@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"regexp"
@@ -21,6 +22,7 @@ import (
 // both JSON Schema and Swagger; but this is not yet done.
 type Schema interface {
 	url() *url.URL
+	Id() string // Unique ID of this Schema within the document (if any)
 	title() *string
 	description() *string
 
@@ -44,8 +46,9 @@ type Schema interface {
 
 	// complex things
 	hasOneOf() bool
-	oneOf() []Schema
-	discriminator() string
+	oneOf() []Schema // Returns any directly embedded definitions held within a OneOf
+	discriminator() string                // Returns the name of the discriminator field, or "" if it has none
+	discriminatorValues() set.Set[string] // Finds the set of expected discriminators, or nil if this has none
 
 	hasAnyOf() bool
 	anyOf() []Schema

@@ -22,8 +22,9 @@ import (
 
 // OpenAPISchema implements the Schema abstraction for go-openapi
 type OpenAPISchema struct {
+	name          string // name of the schema (may be empty if nested)
 	inner         spec.Schema
-	fileName      string
+	fileName      string // fully qualified file path of the file from which this schema was loaded
 	outputPackage astmodel.LocalPackageReference
 	idFactory     astmodel.IdentifierFactory
 	loader        OpenAPIFileLoader
@@ -55,6 +56,10 @@ func (schema *OpenAPISchema) transformOpenAPISlice(slice []spec.Schema) []Schema
 	}
 
 	return result
+}
+
+func (schema *OpenAPISchema) Id() string {
+	return schema.name
 }
 
 func (schema *OpenAPISchema) title() *string {
@@ -100,6 +105,36 @@ func (schema *OpenAPISchema) hasOneOf() bool {
 
 func (schema *OpenAPISchema) oneOf() []Schema {
 	return schema.transformOpenAPISlice(schema.inner.OneOf)
+}
+
+//!! TODO: This is expensive to evaluate, so cache the result
+func (schema *OpenAPISchema) discriminatorValues() set.Set[string] {
+	// Must have a discriminator
+	discriminator := schema.inner.Discriminator
+	if discriminator == "" {
+		// No options, no error
+		return nil
+	}
+
+	// Find the discriminator property
+	discriminatorProperty, ok := schema.properties()[discriminator]
+	if !ok {
+		// For now, if there is no discriminator property, we just ignore it
+		return nil
+	}
+
+	// Expect the discriminator property to be an enum
+	enumValues := discriminatorProperty.enumValues()
+	if len(enumValues) == 0 {
+		return nil
+	}
+
+	result := set.Make[string]()
+	for _, v := range enumValues {
+		result.Add(strings.Trim(v, "\""))
+	}
+
+	return result
 }
 
 func (schema *OpenAPISchema) discriminator() string {

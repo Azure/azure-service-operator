@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"regexp"
@@ -57,6 +58,10 @@ func (schema GoJSONSchema) url() *url.URL {
 	return schema.inner.ID.GetUrl()
 }
 
+func (schema GoJSONSchema) Id() string {
+	return "" // Not used, GoJSONSchema going away soon
+}
+
 func (schema GoJSONSchema) title() *string {
 	return schema.inner.Title
 }
@@ -99,6 +104,12 @@ func (schema GoJSONSchema) discriminator() string {
 
 func (schema GoJSONSchema) oneOf() []Schema {
 	return schema.transformGoJSONSlice(schema.inner.OneOf)
+}
+
+// expectedLooseOneOfOptions returns an empty set because JSON Schema don't work this way
+func (schema GoJSONSchema) discriminatorValues() set.Set[string] {
+	// Never have any
+	return nil
 }
 
 func (schema GoJSONSchema) properties() map[string]Schema {
@@ -261,7 +272,7 @@ func (schema GoJSONSchema) refObjectName() (string, error) {
 }
 
 func (schema GoJSONSchema) readOnly() bool {
-	// JSON Schema doesn’t provide readonlyness,
+	// JSON Schema does not provide readonlyness,
 	// that is only in Swagger
 	return false
 }
