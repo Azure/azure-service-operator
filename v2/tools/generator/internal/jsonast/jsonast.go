@@ -788,7 +788,16 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	return generateOneOfUnionType(ctx, schema, schema.oneOf(), scanner)
+	if oneOf := schema.oneOf(); len(oneOf) > 0 {
+		// The various OneOf options are embedded in the schema, so we can directly generate our desired type
+		return generateOneOfUnionType(ctx, schema, oneOf, scanner)
+	}
+
+	discriminator := createDiscriminatorProperty(schema)
+
+	// We've found a base OneOf that will have options defined elsewhere
+	klog.V(0).Infof("Found OneOf Base %s with discriminator %s", schema.Id(), discriminator.PropertyName())
+	return astmodel.NewBaseOneOfType(schema.Id(), discriminator), nil
 }
 
 func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
@@ -806,19 +815,7 @@ func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Sch
 		}
 	}
 
-	var discriminatorProperty *astmodel.PropertyDefinition
-	if discriminator := schema.discriminator(); discriminator != "" {
-		var values []astmodel.EnumValue
-		for v := range schema.discriminatorValues() {
-			values = append(values, astmodel.MakeEnumValue(v, v))
-		}
-
-		propertyType := astmodel.NewEnumType(astmodel.StringType, values...)
-		discriminatorProperty = astmodel.NewPropertyDefinition(
-			astmodel.PropertyName(discriminator),
-			discriminator,
-			propertyType)
-	}
+	discriminatorProperty := createDiscriminatorProperty(schema)
 
 	var result astmodel.Type = astmodel.NewCompleteOneOfType(schema.Id(), discriminatorProperty, types...)
 
@@ -833,6 +830,30 @@ func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Sch
 	}
 
 	return result, nil
+}
+
+func createDiscriminatorProperty(schema Schema) *astmodel.PropertyDefinition {
+	discriminator := schema.discriminator()
+
+	// If no discriminator, we can't create a property definition
+	if discriminator == "" {
+		return nil
+	}
+
+	// Collect the enum values into an enum type
+	var values []astmodel.EnumValue
+	for v := range schema.discriminatorValues() {
+		values = append(values, astmodel.MakeEnumValue(v, v))
+	}
+
+	enumType := astmodel.NewEnumType(astmodel.StringType, values...)
+
+	// Build the property definition
+	result := astmodel.NewPropertyDefinition(
+		astmodel.PropertyName(discriminator),
+		discriminator,
+		enumType)
+	return result
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -901,7 +922,7 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 	switch {
 	case len(schema.enumValues()) > 0: // this should come before the primitive checks below
 		return Enum, nil
-	case schema.hasOneOf():
+	case schema.hasOneOf() || schema.discriminator() != "":
 		return OneOf, nil
 	case schema.hasAllOf():
 		return AllOf, nil
