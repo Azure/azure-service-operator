@@ -14,14 +14,19 @@ import (
 	"github.com/pkg/errors"
 )
 
-// OneOfType represents something that can be any
-// one of a number of selected types
+// OneOfType represents something that can be any one of a number of selected types
+// We have three forms:
+// Completed - one that has been fully constructed and is ready to use
+// Base - defines the base type and has a list of valid discriminator values
+// Option - defines one of the potential types and has a discriminator value and a name to identify the relevant Base
+
 type OneOfType struct {
-	// invariants:
-	// - all types are unique (enforced by TypeSet)
-	// - length > 1
-	// - no nested OneOfs (aside from indirectly via TypeName)
-	types TypeSet
+	kind                  OneOfKind           // What kind of OneOf do we have?
+	name                  string              // Name of the OneOf
+	discriminatorProperty *PropertyDefinition // Defines the discriminator
+	types                 TypeSet             // Set of all possible types
+	discriminatorValue    string              // Value used to identify this option
+	baseName              string              // Name of the expected base type
 }
 
 var _ Type = &OneOfType{}
@@ -30,27 +35,14 @@ var _ Type = &OneOfType{}
 // maintaining the invariants. If only one unique type
 // is passed, the result will be that type, not a OneOf.
 func BuildOneOfType(types ...Type) Type {
-	uniqueTypes := MakeTypeSet()
-	for _, t := range types {
-		if oneOf, ok := t.(*OneOfType); ok {
-			oneOf.types.ForEach(func(t Type, _ int) {
-				uniqueTypes.Add(t)
-			})
-		} else {
-			uniqueTypes.Add(t)
-		}
+	uniqueTypes := flattenTypesForOneOf(types)
+	if t, ok := uniqueTypes.Only(); ok {
+		return t
 	}
 
-	if uniqueTypes.Len() == 1 {
-		var result Type
-		uniqueTypes.ForEach(func(t Type, _ int) {
-			result = t
-		})
-
-		return result
+	return &OneOfType{
+		types: uniqueTypes,
 	}
-
-	return &OneOfType{uniqueTypes}
 }
 
 // Types returns what types the OneOf can be.
