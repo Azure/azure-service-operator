@@ -289,7 +289,7 @@ func defaultTypeHandlers() map[SchemaType]TypeHandler {
 	}
 }
 
-func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func stringHandler(_ context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.StringType
 
 	maxLength := schema.maxLength()
@@ -806,7 +806,21 @@ func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Sch
 		}
 	}
 
-	result := astmodel.BuildOneOfType(types...)
+	var discriminatorProperty *astmodel.PropertyDefinition
+	if discriminator := schema.discriminator(); discriminator != "" {
+		var values []astmodel.EnumValue
+		for v := range schema.discriminatorValues() {
+			values = append(values, astmodel.MakeEnumValue(v, v))
+		}
+
+		propertyType := astmodel.NewEnumType(astmodel.StringType, values...)
+		discriminatorProperty = astmodel.NewPropertyDefinition(
+			astmodel.PropertyName(discriminator),
+			discriminator,
+			propertyType)
+	}
+
+	var result astmodel.Type = astmodel.NewCompleteOneOfType(schema.Id(), discriminatorProperty, types...)
 
 	// if the node that contains the oneOf(/anyOf) defines other properties, create an object type with them inside to merge
 	if len(schema.properties()) > 0 {
@@ -827,7 +841,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
 	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %s\n", schema.url()) // TODO: was Ref.URL
-	return generateOneOfUnionType(ctx, schema, schema.anyOf(), scanner)
+	return oneOfHandler(ctx, scanner, schema)
 }
 
 func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -882,6 +896,7 @@ func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
 }
 
 func getSubSchemaType(schema Schema) (SchemaType, error) {
+
 	// handle special nodes:
 	switch {
 	case len(schema.enumValues()) > 0: // this should come before the primitive checks below
