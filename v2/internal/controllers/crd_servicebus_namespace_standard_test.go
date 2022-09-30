@@ -25,7 +25,7 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sku := servicebus.SBSku_Name_Standard
-	namespace := NewNamespace(tc, rg, sku)
+	namespace := NewServicebusNamespace(tc, rg, sku)
 
 	tc.CreateResourceAndWait(namespace)
 
@@ -53,7 +53,7 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
-func NewNamespace(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
+func NewServicebusNamespace(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),

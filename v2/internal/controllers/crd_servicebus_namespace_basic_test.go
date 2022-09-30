@@ -23,7 +23,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sku := servicebus.SBSku_Name_Basic
-	namespace := NewNamespace(tc, rg, sku)
+	namespace := NewServicebusNamespace(tc, rg, sku)
 
 	tc.CreateResourceAndWait(namespace)
 
