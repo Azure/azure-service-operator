@@ -44,13 +44,8 @@ func BuildAllOfType(types ...Type) Type {
 		}
 	}
 
-	if uniqueTypes.Len() == 1 {
-		var result Type
-		uniqueTypes.ForEach(func(t Type, _ int) {
-			result = t
-		})
-
-		return result
+	if t, ok := uniqueTypes.Only(); ok {
+		return t
 	}
 
 	// see if there are any OneOfs inside

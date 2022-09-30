@@ -101,3 +101,11 @@ func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 func (ts TypeSet) Len() int {
 	return len(ts.types)
 }
+
+func (ts TypeSet) Only() (Type, bool) {
+	if len(ts.types) != 1 {
+		return nil, false
+	}
+
+	return ts.types[0], true
+}
