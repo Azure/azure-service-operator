@@ -292,7 +292,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv","name":"asotest-topic-cwiusv","type":"Microsoft.ServiceBus/Namespaces/Topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv","name":"asotest-topic-cwiusv","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -328,7 +328,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt","name":"asotest-queue-qxxgdt","type":"Microsoft.ServiceBus/Namespaces/Queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt","name":"asotest-queue-qxxgdt","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -360,7 +360,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv","name":"asotest-topic-cwiusv","type":"Microsoft.ServiceBus/Namespaces/Topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv","name":"asotest-topic-cwiusv","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -392,7 +392,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt","name":"asotest-queue-qxxgdt","type":"Microsoft.ServiceBus/Namespaces/Queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/queues/asotest-queue-qxxgdt","name":"asotest-queue-qxxgdt","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -444,22 +444,26 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: ""
+    body: '{"location":"westus2","name":"asotest-subscription-nczass"}'
     form: {}
     headers:
       Accept:
       - application/json
+      Content-Length:
+      - "59"
+      Content-Type:
+      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv?api-version=2021-01-01-preview
-    method: DELETE
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass?api-version=2021-01-01-preview
+    method: PUT
   response:
-    body: ""
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass","name":"asotest-subscription-nczass","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "0"
+      Content-Type:
+      - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
@@ -468,6 +472,108 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass","name":"asotest-subscription-nczass","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-subrule-wlogvz"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "54"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass/rules/asotest-subrule-wlogvz?api-version=2021-01-01-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass/rules/asotest-subrule-wlogvz","name":"asotest-subrule-wlogvz","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass/rules/asotest-subrule-wlogvz?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass/rules/asotest-subrule-wlogvz","name":"asotest-subrule-wlogvz","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -508,6 +614,66 @@ interactions:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass/rules/asotest-subrule-wlogvz?api-version=2021-01-01-preview
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv/subscriptions/asotest-subscription-nczass?api-version=2021-01-01-preview
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -591,6 +757,36 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo/topics/asotest-topic-cwiusv?api-version=2021-01-01-preview
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo?api-version=2021-01-01-preview
     method: DELETE
   response:
@@ -633,7 +829,7 @@ interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "639"
+      - "641"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -643,7 +839,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "41"
+      - "35"
       Server:
       - Service-Bus-Resource-Provider/SN1
       - Microsoft-HTTPAPI/2.0
@@ -775,7 +971,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-agwubx/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-nrqflo?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 5a83477d-9fe6-46bd-a16f-60629bc5271b","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 1aeaafa6-5621-43bd-8396-b4cfbbd4649e","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache

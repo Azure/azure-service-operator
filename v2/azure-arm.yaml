@@ -1313,6 +1313,12 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.0.0-beta.3
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.0.0-beta.3
   signalrservice:
     2021-10-01:
       SignalR:

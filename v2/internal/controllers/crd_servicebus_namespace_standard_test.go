@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -23,19 +24,8 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	zoneRedundant := false
 	sku := servicebus.SBSku_Name_Standard
-	namespace := &servicebus.Namespace{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),
-		Spec: servicebus.Namespace_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Sku: &servicebus.SBSku{
-				Name: &sku,
-			},
-			ZoneRedundant: &zoneRedundant,
-		},
-	}
+	namespace := NewNamespace(tc, rg, sku)
 
 	tc.CreateResourceAndWait(namespace)
 
@@ -61,6 +51,22 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 
 	// Ensure that the resource was really deleted in Azure
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
+}
+
+func NewNamespace(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
+	zoneRedundant := false
+	namespace := &servicebus.Namespace{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),
+		Spec: servicebus.Namespace_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Sku: &servicebus.SBSku{
+				Name: &sku,
+			},
+			ZoneRedundant: &zoneRedundant,
+		},
+	}
+	return namespace
 }
 
 func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, namespace *servicebus.Namespace) {
@@ -97,4 +103,50 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	// a basic assertion on a property
 	tc.Expect(topic.Status.SizeInBytes).ToNot(BeNil())
 	tc.Expect(*topic.Status.SizeInBytes).To(Equal(0))
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Namespace secrets",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscription_CRUD(tc, topic) },
+		},
+	)
+}
+
+func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic client.Object) {
+	subscription := &servicebus.NamespacesTopicsSubscription{
+		ObjectMeta: tc.MakeObjectMeta("subscription"),
+		Spec: servicebus.Namespaces_Topics_Subscription_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(sbTopic),
+		},
+	}
+	tc.ExportAsSample(subscription)
+
+	tc.CreateResourceAndWait(subscription)
+	defer tc.DeleteResourceAndWait(subscription)
+
+	tc.Expect(subscription.Status.Id).ToNot(BeNil())
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Namespace secrets",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscriptions_Rule_CRUD(tc, subscription) },
+		},
+	)
+}
+
+func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
+
+	rule := &servicebus.NamespacesTopicsSubscriptionsRule{
+		ObjectMeta: tc.MakeObjectMeta("subrule"),
+		Spec: servicebus.Namespaces_Topics_Subscriptions_Rule_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(sbSubscription),
+		},
+	}
+
+	tc.CreateResourceAndWait(rule)
+	defer tc.DeleteResourceAndWait(rule)
+
+	tc.Expect(rule.Status.Id).ToNot(BeNil())
 }
