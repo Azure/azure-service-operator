@@ -32,13 +32,19 @@ type OpenAPISchema struct {
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
+	name string,
 	schema spec.Schema,
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPIFileLoader,
-) Schema {
-	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
+	cache OpenAPIFileLoader) Schema {
+	return &OpenAPISchema{
+		name:          name,
+		inner:         schema,
+		fileName:      fileName,
+		outputPackage: outputPackage,
+		idFactory:     idFactory,
+		loader:        cache}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
@@ -364,23 +370,24 @@ func (schema *OpenAPISchema) readOnly() bool {
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
+	ref := schema.inner.Ref
+	fileName, result, packageAndSwagger := loadRefSchema(ref, schema.fileName, schema.loader)
 
 	// if the pkg comes back nil, that means we should keep using the current package
 	// this happens for some ‘common’ types defined in files that don’t have groups or versions
 
 	outputPackage := schema.outputPackage
-	if pkg != nil {
-		outputPackage = *pkg
+	if packageAndSwagger.Package != nil {
+		outputPackage = *packageAndSwagger.Package
 	}
 
-	return &OpenAPISchema{
+	return MakeOpenAPISchema(
+		nameFromRef(ref),
 		result,
 		fileName,
 		outputPackage,
 		schema.idFactory,
-		schema.loader,
-	}
+		schema.loader)
 }
 
 // findFileForRef identifies the schema path for a ref, relative to the give schema path
@@ -398,7 +405,7 @@ func loadRef(
 	ref spec.Ref,
 	relativeToSchemaPath string,
 	loader OpenAPIFileLoader,
-) (string, interface{}, *astmodel.LocalPackageReference) {
+) (string, interface{}, PackageAndSwagger) {
 	absPath, err := findFileForRef(relativeToSchemaPath, ref)
 	if err != nil {
 		panic(err)
@@ -414,17 +421,17 @@ func loadRef(
 		panic(fmt.Sprintf("cannot resolve ref %s in file %s (from %s): %s", ref.String(), absPath, relativeToSchemaPath, err))
 	}
 
-	return absPath, result, packageAndSwagger.Package
+	return absPath, result, packageAndSwagger
 }
 
-func loadRefSchema(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
+func loadRefSchema(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Schema, PackageAndSwagger) {
 	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
 	return absPath, result.(spec.Schema), pkg
 }
 
-func loadRefParameter(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Parameter, *astmodel.LocalPackageReference) {
-	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
-	return absPath, result.(spec.Parameter), pkg
+func loadRefParameter(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Parameter) {
+	absPath, result, _ := loadRef(ref, relativeToSchemaPath, loader)
+	return absPath, result.(spec.Parameter)
 }
 
 func (schema *OpenAPISchema) refObjectName() string {

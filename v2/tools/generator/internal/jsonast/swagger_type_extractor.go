@@ -257,7 +257,7 @@ func (extractor *SwaggerTypeExtractor) fullyResolveParameter(param spec.Paramete
 		return extractor.swaggerPath, param
 	}
 
-	paramPath, param, _ := loadRefParameter(param.Ref, extractor.swaggerPath, extractor.cache)
+	paramPath, param := loadRefParameter(param.Ref, extractor.swaggerPath, extractor.cache)
 	if param.Ref.GetURL() == nil {
 		return paramPath, param
 	}
@@ -274,7 +274,8 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 	}
 
 	result := MakeOpenAPISchema(
-		*param.Schema, // all params marked as 'body' have schemas
+		nameFromRef(param.Schema.Ref),
+		*param.Schema,
 		paramPath,
 		extractor.outputPackage,
 		extractor.idFactory,
@@ -287,26 +288,29 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 	// the schema can either be directly included
 	if response.Schema != nil {
 
-		schema := MakeOpenAPISchema(
+		schema := *response.Schema
+		result := MakeOpenAPISchema(
+			nameFromRef(schema.Ref),
 			*response.Schema,
 			extractor.swaggerPath,
 			extractor.outputPackage,
 			extractor.idFactory,
 			extractor.cache)
 
-		return &schema, isMarkedAsARMResource(schema)
+		return &result, isMarkedAsARMResource(result)
 	}
 
 	// or it can be under a $ref
-	if response.Ref.GetURL() != nil {
-
-		refFilePath, refSchema, pkg := loadRefSchema(response.Ref, extractor.swaggerPath, extractor.cache)
+	ref := response.Ref
+	if ref.GetURL() != nil {
+		refFilePath, refSchema, packageAndSwagger := loadRefSchema(ref, extractor.swaggerPath, extractor.cache)
 		outputPackage := extractor.outputPackage
-		if pkg != nil {
-			outputPackage = *pkg
+		if packageAndSwagger.Package != nil {
+			outputPackage = *packageAndSwagger.Package
 		}
 
 		schema := MakeOpenAPISchema(
+			nameFromRef(ref),
 			refSchema,
 			refFilePath,
 			outputPackage,
@@ -544,6 +548,20 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	name := strings.Join(nameParts, "_")
 
 	return group, resource, name, nil
+}
+
+func nameFromRef(ref spec.Ref) string {
+	url := ref.GetURL()
+	if url == nil {
+		return ""
+	}
+
+	parts := strings.Split(url.Fragment, "/")
+	if len(parts) == 0 {
+		return "'"
+	}
+
+	return parts[len(parts)-1]
 }
 
 // SwaggerGroupRegex matches a “group” (Swagger ‘namespace’)
