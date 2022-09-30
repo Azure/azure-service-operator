@@ -56,7 +56,7 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 func NewServicebusNamespace(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbstandard")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namespace")),
 		Spec: servicebus.Namespace_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
