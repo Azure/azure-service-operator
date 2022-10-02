@@ -479,6 +479,12 @@ func (tc *KubePerTestContext) Patch(old client.Object, new client.Object) {
 	tc.Expect(tc.kubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
 }
 
+// PatchStatus should be used sparingly but can be helpful to make a change to Status so that we can detect subsequent
+// reconciles even if there was no change to generation or resourceVersion
+func (tc *KubePerTestContext) PatchStatus(old client.Object, new client.Object) {
+	tc.Expect(tc.kubeClient.Status().Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
+}
+
 func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.Object) error {
 	return tc.kubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))
 }
@@ -646,6 +652,12 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 		Group: gvk.Group,
 		Kind:  gvk.Kind,
 	}
+}
+
+// KubeClient returns the KubeClient for the test context. The existing TestContext helpers (tc.Resource(), etc) should
+// be used unless you need a raw KubeClient.
+func (tc *KubePerTestContext) KubeClient() client.Client {
+	return tc.kubeClient
 }
 
 func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {

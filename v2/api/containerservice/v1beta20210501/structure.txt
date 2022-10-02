@@ -1,0 +1,1503 @@
+github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
+├── APIVersion: enum
+│   └── "2021-05-01"
+├── AgentPool_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AvailabilityZones: Array[string]
+│   │   ├── Count: *int
+│   │   ├── EnableAutoScaling: *bool
+│   │   ├── EnableEncryptionAtHost: *bool
+│   │   ├── EnableFIPS: *bool
+│   │   ├── EnableNodePublicIP: *bool
+│   │   ├── EnableUltraSSD: *bool
+│   │   ├── GpuInstanceProfile: enum
+│   │   │   ├── "MIG1g"
+│   │   │   ├── "MIG2g"
+│   │   │   ├── "MIG3g"
+│   │   │   ├── "MIG4g"
+│   │   │   └── "MIG7g"
+│   │   ├── KubeletConfig: 
+│   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   ├── CpuCfsQuota: *bool
+│   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   ├── CpuManagerPolicy: *string
+│   │   │   ├── FailSwapOn: *bool
+│   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   ├── PodMaxPids: *int
+│   │   │   └── TopologyManagerPolicy: *string
+│   │   ├── KubeletDiskType: enum
+│   │   │   ├── "OS"
+│   │   │   └── "Temporary"
+│   │   ├── LinuxOSConfig: 
+│   │   │   ├── SwapFileSizeMB: *int
+│   │   │   ├── Sysctls: 
+│   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   ├── FsFileMax: *int
+│   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   └── TransparentHugePageEnabled: *string
+│   │   ├── MaxCount: *int
+│   │   ├── MaxPods: *int
+│   │   ├── MinCount: *int
+│   │   ├── Mode: enum
+│   │   │   ├── "System"
+│   │   │   └── "User"
+│   │   ├── NodeImageVersion: *string
+│   │   ├── NodeLabels: Map[string]string
+│   │   ├── NodePublicIPPrefixID: *string
+│   │   ├── NodeTaints: Array[string]
+│   │   ├── OrchestratorVersion: *string
+│   │   ├── OsDiskSizeGB: *int
+│   │   ├── OsDiskType: enum
+│   │   │   ├── "Ephemeral"
+│   │   │   └── "Managed"
+│   │   ├── OsSKU: enum
+│   │   │   ├── "CBLMariner"
+│   │   │   └── "Ubuntu"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── PodSubnetID: *string
+│   │   ├── PowerState: 
+│   │   │   └── Code: enum
+│   │   │       ├── "Running"
+│   │   │       └── "Stopped"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ProximityPlacementGroupID: *string
+│   │   ├── ScaleSetEvictionPolicy: enum
+│   │   │   ├── "Deallocate"
+│   │   │   └── "Delete"
+│   │   ├── ScaleSetPriority: enum
+│   │   │   ├── "Regular"
+│   │   │   └── "Spot"
+│   │   ├── SpotMaxPrice: *float64
+│   │   ├── Tags: Map[string]string
+│   │   ├── Type: enum
+│   │   │   ├── "AvailabilitySet"
+│   │   │   └── "VirtualMachineScaleSets"
+│   │   ├── UpgradeSettings: 
+│   │   │   └── MaxSurge: *string
+│   │   ├── VmSize: *string
+│   │   └── VnetSubnetID: *string
+│   └── Type: *string
+├── ManagedCluster: Resource
+│   ├── Spec: 
+│   │   ├── AadProfile: 
+│   │   │   ├── AdminGroupObjectIDs: Array[string]
+│   │   │   ├── ClientAppID: *string
+│   │   │   ├── EnableAzureRBAC: *bool
+│   │   │   ├── Managed: *bool
+│   │   │   ├── ServerAppID: *string
+│   │   │   ├── ServerAppSecret: *string
+│   │   │   └── TenantID: *string
+│   │   ├── AddonProfiles: 
+│   │   │   ├── Config: Map[string]string
+│   │   │   └── Enabled: *bool
+│   │   ├── AgentPoolProfiles: 
+│   │   │   ├── AvailabilityZones: Array[string]
+│   │   │   ├── Count: *int
+│   │   │   ├── EnableAutoScaling: *bool
+│   │   │   ├── EnableEncryptionAtHost: *bool
+│   │   │   ├── EnableFIPS: *bool
+│   │   │   ├── EnableNodePublicIP: *bool
+│   │   │   ├── EnableUltraSSD: *bool
+│   │   │   ├── GpuInstanceProfile: enum
+│   │   │   │   ├── "MIG1g"
+│   │   │   │   ├── "MIG2g"
+│   │   │   │   ├── "MIG3g"
+│   │   │   │   ├── "MIG4g"
+│   │   │   │   └── "MIG7g"
+│   │   │   ├── KubeletConfig: 
+│   │   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   │   ├── ContainerLogMaxFiles: Validated[*int]
+│   │   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   │   ├── CpuCfsQuota: *bool
+│   │   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   │   ├── CpuManagerPolicy: *string
+│   │   │   │   ├── FailSwapOn: *bool
+│   │   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   │   ├── PodMaxPids: *int
+│   │   │   │   └── TopologyManagerPolicy: *string
+│   │   │   ├── KubeletDiskType: enum
+│   │   │   │   ├── "OS"
+│   │   │   │   └── "Temporary"
+│   │   │   ├── LinuxOSConfig: 
+│   │   │   │   ├── SwapFileSizeMB: *int
+│   │   │   │   ├── Sysctls: 
+│   │   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   │   ├── FsFileMax: *int
+│   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   │   └── TransparentHugePageEnabled: *string
+│   │   │   ├── MaxCount: *int
+│   │   │   ├── MaxPods: *int
+│   │   │   ├── MinCount: *int
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "System"
+│   │   │   │   └── "User"
+│   │   │   ├── Name: Validated[*string]
+│   │   │   ├── NodeLabels: Map[string]string
+│   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
+│   │   │   ├── NodeTaints: Array[string]
+│   │   │   ├── OrchestratorVersion: *string
+│   │   │   ├── OsDiskSizeGB: Validated[*int]
+│   │   │   ├── OsDiskType: enum
+│   │   │   │   ├── "Ephemeral"
+│   │   │   │   └── "Managed"
+│   │   │   ├── OsSKU: enum
+│   │   │   │   ├── "CBLMariner"
+│   │   │   │   └── "Ubuntu"
+│   │   │   ├── OsType: enum
+│   │   │   │   ├── "Linux"
+│   │   │   │   └── "Windows"
+│   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
+│   │   │   ├── ProximityPlacementGroupID: Validated[*string]
+│   │   │   ├── ScaleSetEvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ScaleSetPriority: enum
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── SpotMaxPrice: *float64
+│   │   │   ├── Tags: Map[string]string
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "AvailabilitySet"
+│   │   │   │   └── "VirtualMachineScaleSets"
+│   │   │   ├── UpgradeSettings: 
+│   │   │   │   └── MaxSurge: *string
+│   │   │   ├── VmSize: *string
+│   │   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
+│   │   ├── ApiServerAccessProfile: 
+│   │   │   ├── AuthorizedIPRanges: Array[string]
+│   │   │   ├── EnablePrivateCluster: *bool
+│   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
+│   │   │   └── PrivateDNSZone: *string
+│   │   ├── AutoScalerProfile: 
+│   │   │   ├── BalanceSimilarNodeGroups: *string
+│   │   │   ├── Expander: enum
+│   │   │   │   ├── "least-waste"
+│   │   │   │   ├── "most-pods"
+│   │   │   │   ├── "priority"
+│   │   │   │   └── "random"
+│   │   │   ├── MaxEmptyBulkDelete: *string
+│   │   │   ├── MaxGracefulTerminationSec: *string
+│   │   │   ├── MaxNodeProvisionTime: *string
+│   │   │   ├── MaxTotalUnreadyPercentage: *string
+│   │   │   ├── NewPodScaleUpDelay: *string
+│   │   │   ├── OkTotalUnreadyCount: *string
+│   │   │   ├── ScaleDownDelayAfterAdd: *string
+│   │   │   ├── ScaleDownDelayAfterDelete: *string
+│   │   │   ├── ScaleDownDelayAfterFailure: *string
+│   │   │   ├── ScaleDownUnneededTime: *string
+│   │   │   ├── ScaleDownUnreadyTime: *string
+│   │   │   ├── ScaleDownUtilizationThreshold: *string
+│   │   │   ├── ScanInterval: *string
+│   │   │   ├── SkipNodesWithLocalStorage: *string
+│   │   │   └── SkipNodesWithSystemPods: *string
+│   │   ├── AutoUpgradeProfile: 
+│   │   │   └── UpgradeChannel: enum
+│   │   │       ├── "node-image"
+│   │   │       ├── "none"
+│   │   │       ├── "patch"
+│   │   │       ├── "rapid"
+│   │   │       └── "stable"
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DisableLocalAccounts: *bool
+│   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
+│   │   ├── DnsPrefix: *string
+│   │   ├── EnablePodSecurityPolicy: *bool
+│   │   ├── EnableRBAC: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── FqdnSubdomain: *string
+│   │   ├── HttpProxyConfig: 
+│   │   │   ├── HttpProxy: *string
+│   │   │   ├── HttpsProxy: *string
+│   │   │   ├── NoProxy: Array[string]
+│   │   │   └── TrustedCa: *string
+│   │   ├── Identity: 
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── IdentityProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   ├── KubernetesVersion: *string
+│   │   ├── LinuxProfile: 
+│   │   │   ├── AdminUsername: Validated[*string]
+│   │   │   └── Ssh: 
+│   │   │       └── PublicKeys: 
+│   │   │           └── KeyData: *string
+│   │   ├── Location: *string
+│   │   ├── NetworkProfile: 
+│   │   │   ├── DnsServiceIP: Validated[*string]
+│   │   │   ├── DockerBridgeCidr: Validated[*string]
+│   │   │   ├── LoadBalancerProfile: 
+│   │   │   │   ├── AllocatedOutboundPorts: Validated[*int]
+│   │   │   │   ├── EffectiveOutboundIPs: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── IdleTimeoutInMinutes: Validated[*int]
+│   │   │   │   ├── ManagedOutboundIPs: 
+│   │   │   │   │   └── Count: Validated[*int]
+│   │   │   │   ├── OutboundIPPrefixes: 
+│   │   │   │   │   └── PublicIPPrefixes: 
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── OutboundIPs: 
+│   │   │   │       └── PublicIPs: 
+│   │   │   │           └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LoadBalancerSku: enum
+│   │   │   │   ├── "basic"
+│   │   │   │   └── "standard"
+│   │   │   ├── NetworkMode: enum
+│   │   │   │   ├── "bridge"
+│   │   │   │   └── "transparent"
+│   │   │   ├── NetworkPlugin: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "kubenet"
+│   │   │   ├── NetworkPolicy: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "calico"
+│   │   │   ├── OutboundType: enum
+│   │   │   │   ├── "loadBalancer"
+│   │   │   │   └── "userDefinedRouting"
+│   │   │   ├── PodCidr: Validated[*string]
+│   │   │   └── ServiceCidr: Validated[*string]
+│   │   ├── NodeResourceGroup: *string
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       ├── AdminCredentials: *genruntime.SecretDestination
+│   │   │       └── UserCredentials: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PodIdentityProfile: 
+│   │   │   ├── AllowNetworkPluginKubenet: *bool
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── UserAssignedIdentities: 
+│   │   │   │   ├── BindingSelector: *string
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── ClientId: *string
+│   │   │   │   │   ├── ObjectId: *string
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Namespace: *string
+│   │   │   └── UserAssignedIdentityExceptions: 
+│   │   │       ├── Name: *string
+│   │   │       ├── Namespace: *string
+│   │   │       └── PodLabels: Map[string]string
+│   │   ├── PrivateLinkResources: 
+│   │   │   ├── GroupId: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   ├── RequiredMembers: Array[string]
+│   │   │   └── Type: *string
+│   │   ├── ServicePrincipalProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   └── Secret: *string
+│   │   ├── Sku: 
+│   │   │   ├── Name: enum
+│   │   │   │   └── "Basic"
+│   │   │   └── Tier: enum
+│   │   │       ├── "Free"
+│   │   │       └── "Paid"
+│   │   ├── Tags: Map[string]string
+│   │   └── WindowsProfile: 
+│   │       ├── AdminPassword: *string
+│   │       ├── AdminUsername: *string
+│   │       ├── EnableCSIProxy: *bool
+│   │       └── LicenseType: enum
+│   │           ├── "None"
+│   │           └── "Windows_Server"
+│   └── Status: 
+│       ├── AadProfile: 
+│       │   ├── AdminGroupObjectIDs: Array[string]
+│       │   ├── ClientAppID: *string
+│       │   ├── EnableAzureRBAC: *bool
+│       │   ├── Managed: *bool
+│       │   ├── ServerAppID: *string
+│       │   ├── ServerAppSecret: *string
+│       │   └── TenantID: *string
+│       ├── AddonProfiles: *v1.JSON
+│       ├── AgentPoolProfiles: 
+│       │   ├── AvailabilityZones: Array[string]
+│       │   ├── Count: *int
+│       │   ├── EnableAutoScaling: *bool
+│       │   ├── EnableEncryptionAtHost: *bool
+│       │   ├── EnableFIPS: *bool
+│       │   ├── EnableNodePublicIP: *bool
+│       │   ├── EnableUltraSSD: *bool
+│       │   ├── GpuInstanceProfile: enum
+│       │   │   ├── "MIG1g"
+│       │   │   ├── "MIG2g"
+│       │   │   ├── "MIG3g"
+│       │   │   ├── "MIG4g"
+│       │   │   └── "MIG7g"
+│       │   ├── KubeletConfig: 
+│       │   │   ├── AllowedUnsafeSysctls: Array[string]
+│       │   │   ├── ContainerLogMaxFiles: *int
+│       │   │   ├── ContainerLogMaxSizeMB: *int
+│       │   │   ├── CpuCfsQuota: *bool
+│       │   │   ├── CpuCfsQuotaPeriod: *string
+│       │   │   ├── CpuManagerPolicy: *string
+│       │   │   ├── FailSwapOn: *bool
+│       │   │   ├── ImageGcHighThreshold: *int
+│       │   │   ├── ImageGcLowThreshold: *int
+│       │   │   ├── PodMaxPids: *int
+│       │   │   └── TopologyManagerPolicy: *string
+│       │   ├── KubeletDiskType: enum
+│       │   │   ├── "OS"
+│       │   │   └── "Temporary"
+│       │   ├── LinuxOSConfig: 
+│       │   │   ├── SwapFileSizeMB: *int
+│       │   │   ├── Sysctls: 
+│       │   │   │   ├── FsAioMaxNr: *int
+│       │   │   │   ├── FsFileMax: *int
+│       │   │   │   ├── FsInotifyMaxUserWatches: *int
+│       │   │   │   ├── FsNrOpen: *int
+│       │   │   │   ├── KernelThreadsMax: *int
+│       │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│       │   │   │   ├── NetCoreOptmemMax: *int
+│       │   │   │   ├── NetCoreRmemDefault: *int
+│       │   │   │   ├── NetCoreRmemMax: *int
+│       │   │   │   ├── NetCoreSomaxconn: *int
+│       │   │   │   ├── NetCoreWmemDefault: *int
+│       │   │   │   ├── NetCoreWmemMax: *int
+│       │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│       │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│       │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│       │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│       │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│       │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│       │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│       │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│       │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│       │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│       │   │   │   ├── VmMaxMapCount: *int
+│       │   │   │   ├── VmSwappiness: *int
+│       │   │   │   └── VmVfsCachePressure: *int
+│       │   │   ├── TransparentHugePageDefrag: *string
+│       │   │   └── TransparentHugePageEnabled: *string
+│       │   ├── MaxCount: *int
+│       │   ├── MaxPods: *int
+│       │   ├── MinCount: *int
+│       │   ├── Mode: enum
+│       │   │   ├── "System"
+│       │   │   └── "User"
+│       │   ├── Name: *string
+│       │   ├── NodeImageVersion: *string
+│       │   ├── NodeLabels: Map[string]string
+│       │   ├── NodePublicIPPrefixID: *string
+│       │   ├── NodeTaints: Array[string]
+│       │   ├── OrchestratorVersion: *string
+│       │   ├── OsDiskSizeGB: *int
+│       │   ├── OsDiskType: enum
+│       │   │   ├── "Ephemeral"
+│       │   │   └── "Managed"
+│       │   ├── OsSKU: enum
+│       │   │   ├── "CBLMariner"
+│       │   │   └── "Ubuntu"
+│       │   ├── OsType: enum
+│       │   │   ├── "Linux"
+│       │   │   └── "Windows"
+│       │   ├── PodSubnetID: *string
+│       │   ├── PowerState: 
+│       │   │   └── Code: enum
+│       │   │       ├── "Running"
+│       │   │       └── "Stopped"
+│       │   ├── ProvisioningState: *string
+│       │   ├── ProximityPlacementGroupID: *string
+│       │   ├── ScaleSetEvictionPolicy: enum
+│       │   │   ├── "Deallocate"
+│       │   │   └── "Delete"
+│       │   ├── ScaleSetPriority: enum
+│       │   │   ├── "Regular"
+│       │   │   └── "Spot"
+│       │   ├── SpotMaxPrice: *float64
+│       │   ├── Tags: Map[string]string
+│       │   ├── Type: enum
+│       │   │   ├── "AvailabilitySet"
+│       │   │   └── "VirtualMachineScaleSets"
+│       │   ├── UpgradeSettings: 
+│       │   │   └── MaxSurge: *string
+│       │   ├── VmSize: *string
+│       │   └── VnetSubnetID: *string
+│       ├── ApiServerAccessProfile: 
+│       │   ├── AuthorizedIPRanges: Array[string]
+│       │   ├── EnablePrivateCluster: *bool
+│       │   ├── EnablePrivateClusterPublicFQDN: *bool
+│       │   └── PrivateDNSZone: *string
+│       ├── AutoScalerProfile: 
+│       │   ├── BalanceSimilarNodeGroups: *string
+│       │   ├── Expander: enum
+│       │   │   ├── "least-waste"
+│       │   │   ├── "most-pods"
+│       │   │   ├── "priority"
+│       │   │   └── "random"
+│       │   ├── MaxEmptyBulkDelete: *string
+│       │   ├── MaxGracefulTerminationSec: *string
+│       │   ├── MaxNodeProvisionTime: *string
+│       │   ├── MaxTotalUnreadyPercentage: *string
+│       │   ├── NewPodScaleUpDelay: *string
+│       │   ├── OkTotalUnreadyCount: *string
+│       │   ├── ScaleDownDelayAfterAdd: *string
+│       │   ├── ScaleDownDelayAfterDelete: *string
+│       │   ├── ScaleDownDelayAfterFailure: *string
+│       │   ├── ScaleDownUnneededTime: *string
+│       │   ├── ScaleDownUnreadyTime: *string
+│       │   ├── ScaleDownUtilizationThreshold: *string
+│       │   ├── ScanInterval: *string
+│       │   ├── SkipNodesWithLocalStorage: *string
+│       │   └── SkipNodesWithSystemPods: *string
+│       ├── AutoUpgradeProfile: 
+│       │   └── UpgradeChannel: enum
+│       │       ├── "node-image"
+│       │       ├── "none"
+│       │       ├── "patch"
+│       │       ├── "rapid"
+│       │       └── "stable"
+│       ├── AzurePortalFQDN: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DisableLocalAccounts: *bool
+│       ├── DiskEncryptionSetID: *string
+│       ├── DnsPrefix: *string
+│       ├── EnablePodSecurityPolicy: *bool
+│       ├── EnableRBAC: *bool
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── Fqdn: *string
+│       ├── FqdnSubdomain: *string
+│       ├── HttpProxyConfig: 
+│       │   ├── HttpProxy: *string
+│       │   ├── HttpsProxy: *string
+│       │   ├── NoProxy: Array[string]
+│       │   └── TrustedCa: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── IdentityProfile: *v1.JSON
+│       ├── KubernetesVersion: *string
+│       ├── LinuxProfile: 
+│       │   ├── AdminUsername: *string
+│       │   └── Ssh: 
+│       │       └── PublicKeys: 
+│       │           └── KeyData: *string
+│       ├── Location: *string
+│       ├── MaxAgentPools: *int
+│       ├── Name: *string
+│       ├── NetworkProfile: 
+│       │   ├── DnsServiceIP: *string
+│       │   ├── DockerBridgeCidr: *string
+│       │   ├── LoadBalancerProfile: 
+│       │   │   ├── AllocatedOutboundPorts: *int
+│       │   │   ├── EffectiveOutboundIPs: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── IdleTimeoutInMinutes: *int
+│       │   │   ├── ManagedOutboundIPs: 
+│       │   │   │   └── Count: *int
+│       │   │   ├── OutboundIPPrefixes: 
+│       │   │   │   └── PublicIPPrefixes: 
+│       │   │   │       └── Id: *string
+│       │   │   └── OutboundIPs: 
+│       │   │       └── PublicIPs: 
+│       │   │           └── Id: *string
+│       │   ├── LoadBalancerSku: enum
+│       │   │   ├── "basic"
+│       │   │   └── "standard"
+│       │   ├── NetworkMode: enum
+│       │   │   ├── "bridge"
+│       │   │   └── "transparent"
+│       │   ├── NetworkPlugin: enum
+│       │   │   ├── "azure"
+│       │   │   └── "kubenet"
+│       │   ├── NetworkPolicy: enum
+│       │   │   ├── "azure"
+│       │   │   └── "calico"
+│       │   ├── OutboundType: enum
+│       │   │   ├── "loadBalancer"
+│       │   │   └── "userDefinedRouting"
+│       │   ├── PodCidr: *string
+│       │   └── ServiceCidr: *string
+│       ├── NodeResourceGroup: *string
+│       ├── PodIdentityProfile: 
+│       │   ├── AllowNetworkPluginKubenet: *bool
+│       │   ├── Enabled: *bool
+│       │   ├── UserAssignedIdentities: 
+│       │   │   ├── BindingSelector: *string
+│       │   │   ├── Identity: 
+│       │   │   │   ├── ClientId: *string
+│       │   │   │   ├── ObjectId: *string
+│       │   │   │   └── ResourceId: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── Namespace: *string
+│       │   │   ├── ProvisioningInfo: 
+│       │   │   │   └── Error: 
+│       │   │   │       └── Error: 
+│       │   │   │           ├── Code: *string
+│       │   │   │           ├── Details: 
+│       │   │   │           │   ├── Code: *string
+│       │   │   │           │   ├── Message: *string
+│       │   │   │           │   └── Target: *string
+│       │   │   │           ├── Message: *string
+│       │   │   │           └── Target: *string
+│       │   │   └── ProvisioningState: enum
+│       │   │       ├── "Assigned"
+│       │   │       ├── "Deleting"
+│       │   │       ├── "Failed"
+│       │   │       └── "Updating"
+│       │   └── UserAssignedIdentityExceptions: 
+│       │       ├── Name: *string
+│       │       ├── Namespace: *string
+│       │       └── PodLabels: Map[string]string
+│       ├── PowerState: 
+│       │   └── Code: enum
+│       │       ├── "Running"
+│       │       └── "Stopped"
+│       ├── PrivateFQDN: *string
+│       ├── PrivateLinkResources: 
+│       │   ├── GroupId: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateLinkServiceID: *string
+│       │   ├── RequiredMembers: Array[string]
+│       │   └── Type: *string
+│       ├── ProvisioningState: *string
+│       ├── ServicePrincipalProfile: 
+│       │   ├── ClientId: *string
+│       │   └── Secret: *string
+│       ├── Sku: 
+│       │   ├── Name: enum
+│       │   │   └── "Basic"
+│       │   └── Tier: enum
+│       │       ├── "Free"
+│       │       └── "Paid"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── WindowsProfile: 
+│           ├── AdminPassword: *string
+│           ├── AdminUsername: *string
+│           ├── EnableCSIProxy: *bool
+│           └── LicenseType: enum
+│               ├── "None"
+│               └── "Windows_Server"
+├── ManagedCluster_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AadProfile: 
+│   │   │   ├── AdminGroupObjectIDs: Array[string]
+│   │   │   ├── ClientAppID: *string
+│   │   │   ├── EnableAzureRBAC: *bool
+│   │   │   ├── Managed: *bool
+│   │   │   ├── ServerAppID: *string
+│   │   │   ├── ServerAppSecret: *string
+│   │   │   └── TenantID: *string
+│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AgentPoolProfiles: 
+│   │   │   ├── AvailabilityZones: Array[string]
+│   │   │   ├── Count: *int
+│   │   │   ├── EnableAutoScaling: *bool
+│   │   │   ├── EnableEncryptionAtHost: *bool
+│   │   │   ├── EnableFIPS: *bool
+│   │   │   ├── EnableNodePublicIP: *bool
+│   │   │   ├── EnableUltraSSD: *bool
+│   │   │   ├── GpuInstanceProfile: enum
+│   │   │   │   ├── "MIG1g"
+│   │   │   │   ├── "MIG2g"
+│   │   │   │   ├── "MIG3g"
+│   │   │   │   ├── "MIG4g"
+│   │   │   │   └── "MIG7g"
+│   │   │   ├── KubeletConfig: 
+│   │   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   │   ├── CpuCfsQuota: *bool
+│   │   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   │   ├── CpuManagerPolicy: *string
+│   │   │   │   ├── FailSwapOn: *bool
+│   │   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   │   ├── PodMaxPids: *int
+│   │   │   │   └── TopologyManagerPolicy: *string
+│   │   │   ├── KubeletDiskType: enum
+│   │   │   │   ├── "OS"
+│   │   │   │   └── "Temporary"
+│   │   │   ├── LinuxOSConfig: 
+│   │   │   │   ├── SwapFileSizeMB: *int
+│   │   │   │   ├── Sysctls: 
+│   │   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   │   ├── FsFileMax: *int
+│   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   │   └── TransparentHugePageEnabled: *string
+│   │   │   ├── MaxCount: *int
+│   │   │   ├── MaxPods: *int
+│   │   │   ├── MinCount: *int
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "System"
+│   │   │   │   └── "User"
+│   │   │   ├── Name: *string
+│   │   │   ├── NodeImageVersion: *string
+│   │   │   ├── NodeLabels: Map[string]string
+│   │   │   ├── NodePublicIPPrefixID: *string
+│   │   │   ├── NodeTaints: Array[string]
+│   │   │   ├── OrchestratorVersion: *string
+│   │   │   ├── OsDiskSizeGB: *int
+│   │   │   ├── OsDiskType: enum
+│   │   │   │   ├── "Ephemeral"
+│   │   │   │   └── "Managed"
+│   │   │   ├── OsSKU: enum
+│   │   │   │   ├── "CBLMariner"
+│   │   │   │   └── "Ubuntu"
+│   │   │   ├── OsType: enum
+│   │   │   │   ├── "Linux"
+│   │   │   │   └── "Windows"
+│   │   │   ├── PodSubnetID: *string
+│   │   │   ├── PowerState: 
+│   │   │   │   └── Code: enum
+│   │   │   │       ├── "Running"
+│   │   │   │       └── "Stopped"
+│   │   │   ├── ProvisioningState: *string
+│   │   │   ├── ProximityPlacementGroupID: *string
+│   │   │   ├── ScaleSetEvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ScaleSetPriority: enum
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── SpotMaxPrice: *float64
+│   │   │   ├── Tags: Map[string]string
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "AvailabilitySet"
+│   │   │   │   └── "VirtualMachineScaleSets"
+│   │   │   ├── UpgradeSettings: 
+│   │   │   │   └── MaxSurge: *string
+│   │   │   ├── VmSize: *string
+│   │   │   └── VnetSubnetID: *string
+│   │   ├── ApiServerAccessProfile: 
+│   │   │   ├── AuthorizedIPRanges: Array[string]
+│   │   │   ├── EnablePrivateCluster: *bool
+│   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
+│   │   │   └── PrivateDNSZone: *string
+│   │   ├── AutoScalerProfile: 
+│   │   │   ├── BalanceSimilarNodeGroups: *string
+│   │   │   ├── Expander: enum
+│   │   │   │   ├── "least-waste"
+│   │   │   │   ├── "most-pods"
+│   │   │   │   ├── "priority"
+│   │   │   │   └── "random"
+│   │   │   ├── MaxEmptyBulkDelete: *string
+│   │   │   ├── MaxGracefulTerminationSec: *string
+│   │   │   ├── MaxNodeProvisionTime: *string
+│   │   │   ├── MaxTotalUnreadyPercentage: *string
+│   │   │   ├── NewPodScaleUpDelay: *string
+│   │   │   ├── OkTotalUnreadyCount: *string
+│   │   │   ├── ScaleDownDelayAfterAdd: *string
+│   │   │   ├── ScaleDownDelayAfterDelete: *string
+│   │   │   ├── ScaleDownDelayAfterFailure: *string
+│   │   │   ├── ScaleDownUnneededTime: *string
+│   │   │   ├── ScaleDownUnreadyTime: *string
+│   │   │   ├── ScaleDownUtilizationThreshold: *string
+│   │   │   ├── ScanInterval: *string
+│   │   │   ├── SkipNodesWithLocalStorage: *string
+│   │   │   └── SkipNodesWithSystemPods: *string
+│   │   ├── AutoUpgradeProfile: 
+│   │   │   └── UpgradeChannel: enum
+│   │   │       ├── "node-image"
+│   │   │       ├── "none"
+│   │   │       ├── "patch"
+│   │   │       ├── "rapid"
+│   │   │       └── "stable"
+│   │   ├── AzurePortalFQDN: *string
+│   │   ├── DisableLocalAccounts: *bool
+│   │   ├── DiskEncryptionSetID: *string
+│   │   ├── DnsPrefix: *string
+│   │   ├── EnablePodSecurityPolicy: *bool
+│   │   ├── EnableRBAC: *bool
+│   │   ├── Fqdn: *string
+│   │   ├── FqdnSubdomain: *string
+│   │   ├── HttpProxyConfig: 
+│   │   │   ├── HttpProxy: *string
+│   │   │   ├── HttpsProxy: *string
+│   │   │   ├── NoProxy: Array[string]
+│   │   │   └── TrustedCa: *string
+│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── KubernetesVersion: *string
+│   │   ├── LinuxProfile: 
+│   │   │   ├── AdminUsername: *string
+│   │   │   └── Ssh: 
+│   │   │       └── PublicKeys: 
+│   │   │           └── KeyData: *string
+│   │   ├── MaxAgentPools: *int
+│   │   ├── NetworkProfile: 
+│   │   │   ├── DnsServiceIP: *string
+│   │   │   ├── DockerBridgeCidr: *string
+│   │   │   ├── LoadBalancerProfile: 
+│   │   │   │   ├── AllocatedOutboundPorts: *int
+│   │   │   │   ├── EffectiveOutboundIPs: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   │   ├── ManagedOutboundIPs: 
+│   │   │   │   │   └── Count: *int
+│   │   │   │   ├── OutboundIPPrefixes: 
+│   │   │   │   │   └── PublicIPPrefixes: 
+│   │   │   │   │       └── Id: *string
+│   │   │   │   └── OutboundIPs: 
+│   │   │   │       └── PublicIPs: 
+│   │   │   │           └── Id: *string
+│   │   │   ├── LoadBalancerSku: enum
+│   │   │   │   ├── "basic"
+│   │   │   │   └── "standard"
+│   │   │   ├── NetworkMode: enum
+│   │   │   │   ├── "bridge"
+│   │   │   │   └── "transparent"
+│   │   │   ├── NetworkPlugin: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "kubenet"
+│   │   │   ├── NetworkPolicy: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "calico"
+│   │   │   ├── OutboundType: enum
+│   │   │   │   ├── "loadBalancer"
+│   │   │   │   └── "userDefinedRouting"
+│   │   │   ├── PodCidr: *string
+│   │   │   └── ServiceCidr: *string
+│   │   ├── NodeResourceGroup: *string
+│   │   ├── PodIdentityProfile: 
+│   │   │   ├── AllowNetworkPluginKubenet: *bool
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── UserAssignedIdentities: 
+│   │   │   │   ├── BindingSelector: *string
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── ClientId: *string
+│   │   │   │   │   ├── ObjectId: *string
+│   │   │   │   │   └── ResourceId: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Namespace: *string
+│   │   │   │   ├── ProvisioningInfo: 
+│   │   │   │   │   └── Error: 
+│   │   │   │   │       └── Error: 
+│   │   │   │   │           ├── Code: *string
+│   │   │   │   │           ├── Details: 
+│   │   │   │   │           │   ├── Code: *string
+│   │   │   │   │           │   ├── Message: *string
+│   │   │   │   │           │   └── Target: *string
+│   │   │   │   │           ├── Message: *string
+│   │   │   │   │           └── Target: *string
+│   │   │   │   └── ProvisioningState: enum
+│   │   │   │       ├── "Assigned"
+│   │   │   │       ├── "Deleting"
+│   │   │   │       ├── "Failed"
+│   │   │   │       └── "Updating"
+│   │   │   └── UserAssignedIdentityExceptions: 
+│   │   │       ├── Name: *string
+│   │   │       ├── Namespace: *string
+│   │   │       └── PodLabels: Map[string]string
+│   │   ├── PowerState: 
+│   │   │   └── Code: enum
+│   │   │       ├── "Running"
+│   │   │       └── "Stopped"
+│   │   ├── PrivateFQDN: *string
+│   │   ├── PrivateLinkResources: 
+│   │   │   ├── GroupId: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateLinkServiceID: *string
+│   │   │   ├── RequiredMembers: Array[string]
+│   │   │   └── Type: *string
+│   │   ├── ProvisioningState: *string
+│   │   ├── ServicePrincipalProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   └── Secret: *string
+│   │   └── WindowsProfile: 
+│   │       ├── AdminPassword: *string
+│   │       ├── AdminUsername: *string
+│   │       ├── EnableCSIProxy: *bool
+│   │       └── LicenseType: enum
+│   │           ├── "None"
+│   │           └── "Windows_Server"
+│   ├── Sku: 
+│   │   ├── Name: enum
+│   │   │   └── "Basic"
+│   │   └── Tier: enum
+│   │       ├── "Free"
+│   │       └── "Paid"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── ManagedCluster_Spec_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Identity: 
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AadProfile: 
+│   │   │   ├── AdminGroupObjectIDs: Array[string]
+│   │   │   ├── ClientAppID: *string
+│   │   │   ├── EnableAzureRBAC: *bool
+│   │   │   ├── Managed: *bool
+│   │   │   ├── ServerAppID: *string
+│   │   │   ├── ServerAppSecret: *string
+│   │   │   └── TenantID: *string
+│   │   ├── AddonProfiles: 
+│   │   │   ├── Config: Map[string]string
+│   │   │   └── Enabled: *bool
+│   │   ├── AgentPoolProfiles: 
+│   │   │   ├── AvailabilityZones: Array[string]
+│   │   │   ├── Count: *int
+│   │   │   ├── EnableAutoScaling: *bool
+│   │   │   ├── EnableEncryptionAtHost: *bool
+│   │   │   ├── EnableFIPS: *bool
+│   │   │   ├── EnableNodePublicIP: *bool
+│   │   │   ├── EnableUltraSSD: *bool
+│   │   │   ├── GpuInstanceProfile: enum
+│   │   │   │   ├── "MIG1g"
+│   │   │   │   ├── "MIG2g"
+│   │   │   │   ├── "MIG3g"
+│   │   │   │   ├── "MIG4g"
+│   │   │   │   └── "MIG7g"
+│   │   │   ├── KubeletConfig: 
+│   │   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   │   ├── CpuCfsQuota: *bool
+│   │   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   │   ├── CpuManagerPolicy: *string
+│   │   │   │   ├── FailSwapOn: *bool
+│   │   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   │   ├── PodMaxPids: *int
+│   │   │   │   └── TopologyManagerPolicy: *string
+│   │   │   ├── KubeletDiskType: enum
+│   │   │   │   ├── "OS"
+│   │   │   │   └── "Temporary"
+│   │   │   ├── LinuxOSConfig: 
+│   │   │   │   ├── SwapFileSizeMB: *int
+│   │   │   │   ├── Sysctls: 
+│   │   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   │   ├── FsFileMax: *int
+│   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   │   └── TransparentHugePageEnabled: *string
+│   │   │   ├── MaxCount: *int
+│   │   │   ├── MaxPods: *int
+│   │   │   ├── MinCount: *int
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "System"
+│   │   │   │   └── "User"
+│   │   │   ├── Name: *string
+│   │   │   ├── NodeLabels: Map[string]string
+│   │   │   ├── NodePublicIPPrefixID: *string
+│   │   │   ├── NodeTaints: Array[string]
+│   │   │   ├── OrchestratorVersion: *string
+│   │   │   ├── OsDiskSizeGB: *int
+│   │   │   ├── OsDiskType: enum
+│   │   │   │   ├── "Ephemeral"
+│   │   │   │   └── "Managed"
+│   │   │   ├── OsSKU: enum
+│   │   │   │   ├── "CBLMariner"
+│   │   │   │   └── "Ubuntu"
+│   │   │   ├── OsType: enum
+│   │   │   │   ├── "Linux"
+│   │   │   │   └── "Windows"
+│   │   │   ├── PodSubnetID: *string
+│   │   │   ├── ProximityPlacementGroupID: *string
+│   │   │   ├── ScaleSetEvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ScaleSetPriority: enum
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── SpotMaxPrice: *float64
+│   │   │   ├── Tags: Map[string]string
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "AvailabilitySet"
+│   │   │   │   └── "VirtualMachineScaleSets"
+│   │   │   ├── UpgradeSettings: 
+│   │   │   │   └── MaxSurge: *string
+│   │   │   ├── VmSize: *string
+│   │   │   └── VnetSubnetID: *string
+│   │   ├── ApiServerAccessProfile: 
+│   │   │   ├── AuthorizedIPRanges: Array[string]
+│   │   │   ├── EnablePrivateCluster: *bool
+│   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
+│   │   │   └── PrivateDNSZone: *string
+│   │   ├── AutoScalerProfile: 
+│   │   │   ├── BalanceSimilarNodeGroups: *string
+│   │   │   ├── Expander: enum
+│   │   │   │   ├── "least-waste"
+│   │   │   │   ├── "most-pods"
+│   │   │   │   ├── "priority"
+│   │   │   │   └── "random"
+│   │   │   ├── MaxEmptyBulkDelete: *string
+│   │   │   ├── MaxGracefulTerminationSec: *string
+│   │   │   ├── MaxNodeProvisionTime: *string
+│   │   │   ├── MaxTotalUnreadyPercentage: *string
+│   │   │   ├── NewPodScaleUpDelay: *string
+│   │   │   ├── OkTotalUnreadyCount: *string
+│   │   │   ├── ScaleDownDelayAfterAdd: *string
+│   │   │   ├── ScaleDownDelayAfterDelete: *string
+│   │   │   ├── ScaleDownDelayAfterFailure: *string
+│   │   │   ├── ScaleDownUnneededTime: *string
+│   │   │   ├── ScaleDownUnreadyTime: *string
+│   │   │   ├── ScaleDownUtilizationThreshold: *string
+│   │   │   ├── ScanInterval: *string
+│   │   │   ├── SkipNodesWithLocalStorage: *string
+│   │   │   └── SkipNodesWithSystemPods: *string
+│   │   ├── AutoUpgradeProfile: 
+│   │   │   └── UpgradeChannel: enum
+│   │   │       ├── "node-image"
+│   │   │       ├── "none"
+│   │   │       ├── "patch"
+│   │   │       ├── "rapid"
+│   │   │       └── "stable"
+│   │   ├── DisableLocalAccounts: *bool
+│   │   ├── DiskEncryptionSetID: *string
+│   │   ├── DnsPrefix: *string
+│   │   ├── EnablePodSecurityPolicy: *bool
+│   │   ├── EnableRBAC: *bool
+│   │   ├── FqdnSubdomain: *string
+│   │   ├── HttpProxyConfig: 
+│   │   │   ├── HttpProxy: *string
+│   │   │   ├── HttpsProxy: *string
+│   │   │   ├── NoProxy: Array[string]
+│   │   │   └── TrustedCa: *string
+│   │   ├── IdentityProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceId: *string
+│   │   ├── KubernetesVersion: *string
+│   │   ├── LinuxProfile: 
+│   │   │   ├── AdminUsername: *string
+│   │   │   └── Ssh: 
+│   │   │       └── PublicKeys: 
+│   │   │           └── KeyData: *string
+│   │   ├── NetworkProfile: 
+│   │   │   ├── DnsServiceIP: *string
+│   │   │   ├── DockerBridgeCidr: *string
+│   │   │   ├── LoadBalancerProfile: 
+│   │   │   │   ├── AllocatedOutboundPorts: *int
+│   │   │   │   ├── EffectiveOutboundIPs: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   │   ├── ManagedOutboundIPs: 
+│   │   │   │   │   └── Count: *int
+│   │   │   │   ├── OutboundIPPrefixes: 
+│   │   │   │   │   └── PublicIPPrefixes: 
+│   │   │   │   │       └── Id: *string
+│   │   │   │   └── OutboundIPs: 
+│   │   │   │       └── PublicIPs: 
+│   │   │   │           └── Id: *string
+│   │   │   ├── LoadBalancerSku: enum
+│   │   │   │   ├── "basic"
+│   │   │   │   └── "standard"
+│   │   │   ├── NetworkMode: enum
+│   │   │   │   ├── "bridge"
+│   │   │   │   └── "transparent"
+│   │   │   ├── NetworkPlugin: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "kubenet"
+│   │   │   ├── NetworkPolicy: enum
+│   │   │   │   ├── "azure"
+│   │   │   │   └── "calico"
+│   │   │   ├── OutboundType: enum
+│   │   │   │   ├── "loadBalancer"
+│   │   │   │   └── "userDefinedRouting"
+│   │   │   ├── PodCidr: *string
+│   │   │   └── ServiceCidr: *string
+│   │   ├── NodeResourceGroup: *string
+│   │   ├── PodIdentityProfile: 
+│   │   │   ├── AllowNetworkPluginKubenet: *bool
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── UserAssignedIdentities: 
+│   │   │   │   ├── BindingSelector: *string
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── ClientId: *string
+│   │   │   │   │   ├── ObjectId: *string
+│   │   │   │   │   └── ResourceId: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Namespace: *string
+│   │   │   └── UserAssignedIdentityExceptions: 
+│   │   │       ├── Name: *string
+│   │   │       ├── Namespace: *string
+│   │   │       └── PodLabels: Map[string]string
+│   │   ├── PrivateLinkResources: 
+│   │   │   ├── GroupId: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── RequiredMembers: Array[string]
+│   │   │   └── Type: *string
+│   │   ├── ServicePrincipalProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   └── Secret: *string
+│   │   └── WindowsProfile: 
+│   │       ├── AdminPassword: *string
+│   │       ├── AdminUsername: *string
+│   │       ├── EnableCSIProxy: *bool
+│   │       └── LicenseType: enum
+│   │           ├── "None"
+│   │           └── "Windows_Server"
+│   ├── Sku: 
+│   │   ├── Name: enum
+│   │   │   └── "Basic"
+│   │   └── Tier: enum
+│   │       ├── "Free"
+│   │       └── "Paid"
+│   └── Tags: Map[string]string
+├── ManagedClustersAgentPool: Resource
+│   ├── Spec: 
+│   │   ├── AvailabilityZones: Array[string]
+│   │   ├── AzureName: string
+│   │   ├── Count: *int
+│   │   ├── EnableAutoScaling: *bool
+│   │   ├── EnableEncryptionAtHost: *bool
+│   │   ├── EnableFIPS: *bool
+│   │   ├── EnableNodePublicIP: *bool
+│   │   ├── EnableUltraSSD: *bool
+│   │   ├── GpuInstanceProfile: enum
+│   │   │   ├── "MIG1g"
+│   │   │   ├── "MIG2g"
+│   │   │   ├── "MIG3g"
+│   │   │   ├── "MIG4g"
+│   │   │   └── "MIG7g"
+│   │   ├── KubeletConfig: 
+│   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   ├── ContainerLogMaxFiles: Validated[*int]
+│   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   ├── CpuCfsQuota: *bool
+│   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   ├── CpuManagerPolicy: *string
+│   │   │   ├── FailSwapOn: *bool
+│   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   ├── PodMaxPids: *int
+│   │   │   └── TopologyManagerPolicy: *string
+│   │   ├── KubeletDiskType: enum
+│   │   │   ├── "OS"
+│   │   │   └── "Temporary"
+│   │   ├── LinuxOSConfig: 
+│   │   │   ├── SwapFileSizeMB: *int
+│   │   │   ├── Sysctls: 
+│   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   ├── FsFileMax: *int
+│   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   └── TransparentHugePageEnabled: *string
+│   │   ├── Location: *string
+│   │   ├── MaxCount: *int
+│   │   ├── MaxPods: *int
+│   │   ├── MinCount: *int
+│   │   ├── Mode: enum
+│   │   │   ├── "System"
+│   │   │   └── "User"
+│   │   ├── NodeLabels: Map[string]string
+│   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
+│   │   ├── NodeTaints: Array[string]
+│   │   ├── OrchestratorVersion: *string
+│   │   ├── OsDiskSizeGB: Validated[*int]
+│   │   ├── OsDiskType: enum
+│   │   │   ├── "Ephemeral"
+│   │   │   └── "Managed"
+│   │   ├── OsSKU: enum
+│   │   │   ├── "CBLMariner"
+│   │   │   └── "Ubuntu"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
+│   │   ├── ProximityPlacementGroupID: Validated[*string]
+│   │   ├── ScaleSetEvictionPolicy: enum
+│   │   │   ├── "Deallocate"
+│   │   │   └── "Delete"
+│   │   ├── ScaleSetPriority: enum
+│   │   │   ├── "Regular"
+│   │   │   └── "Spot"
+│   │   ├── SpotMaxPrice: *float64
+│   │   ├── Tags: Map[string]string
+│   │   ├── Type: enum
+│   │   │   ├── "AvailabilitySet"
+│   │   │   └── "VirtualMachineScaleSets"
+│   │   ├── UpgradeSettings: 
+│   │   │   └── MaxSurge: *string
+│   │   ├── VmSize: *string
+│   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
+│   └── Status: 
+│       ├── AvailabilityZones: Array[string]
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Count: *int
+│       ├── EnableAutoScaling: *bool
+│       ├── EnableEncryptionAtHost: *bool
+│       ├── EnableFIPS: *bool
+│       ├── EnableNodePublicIP: *bool
+│       ├── EnableUltraSSD: *bool
+│       ├── GpuInstanceProfile: enum
+│       │   ├── "MIG1g"
+│       │   ├── "MIG2g"
+│       │   ├── "MIG3g"
+│       │   ├── "MIG4g"
+│       │   └── "MIG7g"
+│       ├── Id: *string
+│       ├── KubeletConfig: 
+│       │   ├── AllowedUnsafeSysctls: Array[string]
+│       │   ├── ContainerLogMaxFiles: *int
+│       │   ├── ContainerLogMaxSizeMB: *int
+│       │   ├── CpuCfsQuota: *bool
+│       │   ├── CpuCfsQuotaPeriod: *string
+│       │   ├── CpuManagerPolicy: *string
+│       │   ├── FailSwapOn: *bool
+│       │   ├── ImageGcHighThreshold: *int
+│       │   ├── ImageGcLowThreshold: *int
+│       │   ├── PodMaxPids: *int
+│       │   └── TopologyManagerPolicy: *string
+│       ├── KubeletDiskType: enum
+│       │   ├── "OS"
+│       │   └── "Temporary"
+│       ├── LinuxOSConfig: 
+│       │   ├── SwapFileSizeMB: *int
+│       │   ├── Sysctls: 
+│       │   │   ├── FsAioMaxNr: *int
+│       │   │   ├── FsFileMax: *int
+│       │   │   ├── FsInotifyMaxUserWatches: *int
+│       │   │   ├── FsNrOpen: *int
+│       │   │   ├── KernelThreadsMax: *int
+│       │   │   ├── NetCoreNetdevMaxBacklog: *int
+│       │   │   ├── NetCoreOptmemMax: *int
+│       │   │   ├── NetCoreRmemDefault: *int
+│       │   │   ├── NetCoreRmemMax: *int
+│       │   │   ├── NetCoreSomaxconn: *int
+│       │   │   ├── NetCoreWmemDefault: *int
+│       │   │   ├── NetCoreWmemMax: *int
+│       │   │   ├── NetIpv4IpLocalPortRange: *string
+│       │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│       │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│       │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│       │   │   ├── NetIpv4TcpFinTimeout: *int
+│       │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│       │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│       │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│       │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│       │   │   ├── NetIpv4TcpTwReuse: *bool
+│       │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│       │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│       │   │   ├── NetNetfilterNfConntrackMax: *int
+│       │   │   ├── VmMaxMapCount: *int
+│       │   │   ├── VmSwappiness: *int
+│       │   │   └── VmVfsCachePressure: *int
+│       │   ├── TransparentHugePageDefrag: *string
+│       │   └── TransparentHugePageEnabled: *string
+│       ├── MaxCount: *int
+│       ├── MaxPods: *int
+│       ├── MinCount: *int
+│       ├── Mode: enum
+│       │   ├── "System"
+│       │   └── "User"
+│       ├── Name: *string
+│       ├── NodeImageVersion: *string
+│       ├── NodeLabels: Map[string]string
+│       ├── NodePublicIPPrefixID: *string
+│       ├── NodeTaints: Array[string]
+│       ├── OrchestratorVersion: *string
+│       ├── OsDiskSizeGB: *int
+│       ├── OsDiskType: enum
+│       │   ├── "Ephemeral"
+│       │   └── "Managed"
+│       ├── OsSKU: enum
+│       │   ├── "CBLMariner"
+│       │   └── "Ubuntu"
+│       ├── OsType: enum
+│       │   ├── "Linux"
+│       │   └── "Windows"
+│       ├── PodSubnetID: *string
+│       ├── PowerState: 
+│       │   └── Code: enum
+│       │       ├── "Running"
+│       │       └── "Stopped"
+│       ├── PropertiesType: enum
+│       │   ├── "AvailabilitySet"
+│       │   └── "VirtualMachineScaleSets"
+│       ├── ProvisioningState: *string
+│       ├── ProximityPlacementGroupID: *string
+│       ├── ScaleSetEvictionPolicy: enum
+│       │   ├── "Deallocate"
+│       │   └── "Delete"
+│       ├── ScaleSetPriority: enum
+│       │   ├── "Regular"
+│       │   └── "Spot"
+│       ├── SpotMaxPrice: *float64
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UpgradeSettings: 
+│       │   └── MaxSurge: *string
+│       ├── VmSize: *string
+│       └── VnetSubnetID: *string
+└── ManagedClusters_AgentPool_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    └── Properties: 
+        ├── AvailabilityZones: Array[string]
+        ├── Count: *int
+        ├── EnableAutoScaling: *bool
+        ├── EnableEncryptionAtHost: *bool
+        ├── EnableFIPS: *bool
+        ├── EnableNodePublicIP: *bool
+        ├── EnableUltraSSD: *bool
+        ├── GpuInstanceProfile: enum
+        │   ├── "MIG1g"
+        │   ├── "MIG2g"
+        │   ├── "MIG3g"
+        │   ├── "MIG4g"
+        │   └── "MIG7g"
+        ├── KubeletConfig: 
+        │   ├── AllowedUnsafeSysctls: Array[string]
+        │   ├── ContainerLogMaxFiles: *int
+        │   ├── ContainerLogMaxSizeMB: *int
+        │   ├── CpuCfsQuota: *bool
+        │   ├── CpuCfsQuotaPeriod: *string
+        │   ├── CpuManagerPolicy: *string
+        │   ├── FailSwapOn: *bool
+        │   ├── ImageGcHighThreshold: *int
+        │   ├── ImageGcLowThreshold: *int
+        │   ├── PodMaxPids: *int
+        │   └── TopologyManagerPolicy: *string
+        ├── KubeletDiskType: enum
+        │   ├── "OS"
+        │   └── "Temporary"
+        ├── LinuxOSConfig: 
+        │   ├── SwapFileSizeMB: *int
+        │   ├── Sysctls: 
+        │   │   ├── FsAioMaxNr: *int
+        │   │   ├── FsFileMax: *int
+        │   │   ├── FsInotifyMaxUserWatches: *int
+        │   │   ├── FsNrOpen: *int
+        │   │   ├── KernelThreadsMax: *int
+        │   │   ├── NetCoreNetdevMaxBacklog: *int
+        │   │   ├── NetCoreOptmemMax: *int
+        │   │   ├── NetCoreRmemDefault: *int
+        │   │   ├── NetCoreRmemMax: *int
+        │   │   ├── NetCoreSomaxconn: *int
+        │   │   ├── NetCoreWmemDefault: *int
+        │   │   ├── NetCoreWmemMax: *int
+        │   │   ├── NetIpv4IpLocalPortRange: *string
+        │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+        │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+        │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+        │   │   ├── NetIpv4TcpFinTimeout: *int
+        │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+        │   │   ├── NetIpv4TcpKeepaliveTime: *int
+        │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+        │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+        │   │   ├── NetIpv4TcpTwReuse: *bool
+        │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+        │   │   ├── NetNetfilterNfConntrackBuckets: *int
+        │   │   ├── NetNetfilterNfConntrackMax: *int
+        │   │   ├── VmMaxMapCount: *int
+        │   │   ├── VmSwappiness: *int
+        │   │   └── VmVfsCachePressure: *int
+        │   ├── TransparentHugePageDefrag: *string
+        │   └── TransparentHugePageEnabled: *string
+        ├── MaxCount: *int
+        ├── MaxPods: *int
+        ├── MinCount: *int
+        ├── Mode: enum
+        │   ├── "System"
+        │   └── "User"
+        ├── NodeLabels: Map[string]string
+        ├── NodePublicIPPrefixID: *string
+        ├── NodeTaints: Array[string]
+        ├── OrchestratorVersion: *string
+        ├── OsDiskSizeGB: *int
+        ├── OsDiskType: enum
+        │   ├── "Ephemeral"
+        │   └── "Managed"
+        ├── OsSKU: enum
+        │   ├── "CBLMariner"
+        │   └── "Ubuntu"
+        ├── OsType: enum
+        │   ├── "Linux"
+        │   └── "Windows"
+        ├── PodSubnetID: *string
+        ├── ProximityPlacementGroupID: *string
+        ├── ScaleSetEvictionPolicy: enum
+        │   ├── "Deallocate"
+        │   └── "Delete"
+        ├── ScaleSetPriority: enum
+        │   ├── "Regular"
+        │   └── "Spot"
+        ├── SpotMaxPrice: *float64
+        ├── Tags: Map[string]string
+        ├── Type: enum
+        │   ├── "AvailabilitySet"
+        │   └── "VirtualMachineScaleSets"
+        ├── UpgradeSettings: 
+        │   └── MaxSurge: *string
+        ├── VmSize: *string
+        └── VnetSubnetID: *string

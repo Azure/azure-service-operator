@@ -1,0 +1,218 @@
+github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501
+├── APIVersion: enum
+│   └── "2022-05-01"
+├── ConfigurationStore: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Default"
+│   │   │   └── "Recover"
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── EnablePurgeProtection: *bool
+│   │   ├── Encryption: 
+│   │   │   └── KeyVaultProperties: 
+│   │   │       ├── IdentityClientId: *string
+│   │   │       └── KeyIdentifier: *string
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── Location: *string
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
+│   │   │       ├── PrimaryKey: *genruntime.SecretDestination
+│   │   │       ├── PrimaryKeyID: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadOnlyConnectionString: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadOnlyKey: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadOnlyKeyID: *genruntime.SecretDestination
+│   │   │       ├── SecondaryConnectionString: *genruntime.SecretDestination
+│   │   │       ├── SecondaryKey: *genruntime.SecretDestination
+│   │   │       ├── SecondaryKeyID: *genruntime.SecretDestination
+│   │   │       ├── SecondaryReadOnlyConnectionString: *genruntime.SecretDestination
+│   │   │       ├── SecondaryReadOnlyKey: *genruntime.SecretDestination
+│   │   │       └── SecondaryReadOnlyKeyID: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Sku: 
+│   │   │   └── Name: *string
+│   │   ├── SoftDeleteRetentionInDays: *int
+│   │   ├── SystemData: 
+│   │   │   ├── CreatedAt: Validated[*string]
+│   │   │   ├── CreatedBy: *string
+│   │   │   ├── CreatedByType: enum
+│   │   │   │   ├── "Application"
+│   │   │   │   ├── "Key"
+│   │   │   │   ├── "ManagedIdentity"
+│   │   │   │   └── "User"
+│   │   │   ├── LastModifiedAt: Validated[*string]
+│   │   │   ├── LastModifiedBy: *string
+│   │   │   └── LastModifiedByType: enum
+│   │   │       ├── "Application"
+│   │   │       ├── "Key"
+│   │   │       ├── "ManagedIdentity"
+│   │   │       └── "User"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreateMode: enum
+│       │   ├── "Default"
+│       │   └── "Recover"
+│       ├── CreationDate: *string
+│       ├── DisableLocalAuth: *bool
+│       ├── EnablePurgeProtection: *bool
+│       ├── Encryption: 
+│       │   └── KeyVaultProperties: 
+│       │       ├── IdentityClientId: *string
+│       │       └── KeyIdentifier: *string
+│       ├── Endpoint: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   └── Id: *string
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── PublicNetworkAccess: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── Sku: 
+│       │   └── Name: *string
+│       ├── SoftDeleteRetentionInDays: *int
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── ConfigurationStore_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CreateMode: enum
+│   │   │   ├── "Default"
+│   │   │   └── "Recover"
+│   │   ├── CreationDate: *string
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── EnablePurgeProtection: *bool
+│   │   ├── Encryption: 
+│   │   │   └── KeyVaultProperties: 
+│   │   │       ├── IdentityClientId: *string
+│   │   │       └── KeyIdentifier: *string
+│   │   ├── Endpoint: *string
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   └── SoftDeleteRetentionInDays: *int
+│   ├── Sku: 
+│   │   └── Name: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── ConfigurationStore_Spec_ARM: 
+    ├── Identity: 
+    │   └── Type: enum
+    │       ├── "None"
+    │       ├── "SystemAssigned"
+    │       ├── "SystemAssigned, UserAssigned"
+    │       └── "UserAssigned"
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── CreateMode: enum
+    │   │   ├── "Default"
+    │   │   └── "Recover"
+    │   ├── DisableLocalAuth: *bool
+    │   ├── EnablePurgeProtection: *bool
+    │   ├── Encryption: 
+    │   │   └── KeyVaultProperties: 
+    │   │       ├── IdentityClientId: *string
+    │   │       └── KeyIdentifier: *string
+    │   ├── PublicNetworkAccess: enum
+    │   │   ├── "Disabled"
+    │   │   └── "Enabled"
+    │   └── SoftDeleteRetentionInDays: *int
+    ├── Sku: 
+    │   └── Name: *string
+    ├── SystemData: 
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: enum
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: enum
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Tags: Map[string]string

@@ -38,11 +38,10 @@ func CreateSpec(
 
 // CreateStatus makes a status for testing
 func CreateStatus(pkg astmodel.PackageReference, name string) astmodel.TypeDefinition {
-	statusProperty := astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType)
 	statusName := astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
 	return astmodel.MakeTypeDefinition(
 		statusName,
-		astmodel.NewObjectType().WithProperties(statusProperty))
+		astmodel.NewObjectType().WithProperties(StatusProperty))
 }
 
 // CreateObjectDefinition makes an object for testing

@@ -1,0 +1,580 @@
+github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
+├── APIVersion: enum
+│   └── "2021-11-01"
+├── AuthorizationRule_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   └── Rights: enum
+│   │       ├── "Listen"
+│   │       ├── "Manage"
+│   │       └── "Send"
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── ConsumerGroup_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CreatedAt: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── UserMetadata: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── EHNamespace_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AlternateName: *string
+│   │   ├── ClusterArmId: *string
+│   │   ├── CreatedAt: *string
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── IsAutoInflateEnabled: *bool
+│   │   ├── KafkaEnabled: *bool
+│   │   ├── MaximumThroughputUnits: *int
+│   │   ├── MetricId: *string
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ServiceBusEndpoint: *string
+│   │   ├── Status: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: enum
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: enum
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── Eventhub_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CaptureDescription: 
+│   │   │   ├── Destination: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Properties: 
+│   │   │   │       ├── ArchiveNameFormat: *string
+│   │   │   │       ├── BlobContainer: *string
+│   │   │   │       ├── DataLakeAccountName: *string
+│   │   │   │       ├── DataLakeFolderPath: *string
+│   │   │   │       ├── DataLakeSubscriptionId: *string
+│   │   │   │       └── StorageAccountResourceId: *string
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Encoding: enum
+│   │   │   │   ├── "Avro"
+│   │   │   │   └── "AvroDeflate"
+│   │   │   ├── IntervalInSeconds: *int
+│   │   │   ├── SizeLimitInBytes: *int
+│   │   │   └── SkipEmptyArchives: *bool
+│   │   ├── CreatedAt: *string
+│   │   ├── MessageRetentionInDays: *int
+│   │   ├── PartitionCount: *int
+│   │   ├── PartitionIds: Array[string]
+│   │   ├── Status: enum
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   └── UpdatedAt: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Namespace: Resource
+│   ├── Spec: 
+│   │   ├── AlternateName: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── ClusterArmReference: *genruntime.ResourceReference
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── IsAutoInflateEnabled: *bool
+│   │   ├── KafkaEnabled: *bool
+│   │   ├── Location: *string
+│   │   ├── MaximumThroughputUnits: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   └── PrivateEndpoint: 
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: Validated[*int]
+│   │   │   ├── Name: enum
+│   │   │   │   ├── "Basic"
+│   │   │   │   ├── "Premium"
+│   │   │   │   └── "Standard"
+│   │   │   └── Tier: enum
+│   │   │       ├── "Basic"
+│   │   │       ├── "Premium"
+│   │   │       └── "Standard"
+│   │   ├── Tags: Map[string]string
+│   │   └── ZoneRedundant: *bool
+│   └── Status: 
+│       ├── AlternateName: *string
+│       ├── ClusterArmId: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── DisableLocalAuth: *bool
+│       ├── Encryption: 
+│       │   ├── KeySource: enum
+│       │   │   └── "Microsoft.KeyVault"
+│       │   ├── KeyVaultProperties: 
+│       │   │   ├── Identity: 
+│       │   │   │   └── UserAssignedIdentity: *string
+│       │   │   ├── KeyName: *string
+│       │   │   ├── KeyVaultUri: *string
+│       │   │   └── KeyVersion: *string
+│       │   └── RequireInfrastructureEncryption: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── IsAutoInflateEnabled: *bool
+│       ├── KafkaEnabled: *bool
+│       ├── Location: *string
+│       ├── MaximumThroughputUnits: *int
+│       ├── MetricId: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "Application"
+│       │       │   ├── "Key"
+│       │       │   ├── "ManagedIdentity"
+│       │       │   └── "User"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "Application"
+│       │           ├── "Key"
+│       │           ├── "ManagedIdentity"
+│       │           └── "User"
+│       ├── ProvisioningState: *string
+│       ├── ServiceBusEndpoint: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: enum
+│       │   │   ├── "Basic"
+│       │   │   ├── "Premium"
+│       │   │   └── "Standard"
+│       │   └── Tier: enum
+│       │       ├── "Basic"
+│       │       ├── "Premium"
+│       │       └── "Standard"
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UpdatedAt: *string
+│       └── ZoneRedundant: *bool
+├── Namespace_Spec_ARM: 
+│   ├── Identity: 
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned, UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AlternateName: *string
+│   │   ├── ClusterArmId: *string
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── IsAutoInflateEnabled: *bool
+│   │   ├── KafkaEnabled: *bool
+│   │   ├── MaximumThroughputUnits: *int
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   └── Properties: 
+│   │   │       └── PrivateEndpoint: 
+│   │   │           └── Id: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: enum
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: enum
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   └── Tags: Map[string]string
+├── NamespacesAuthorizationRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Rights: enum
+│   │   │   ├── "Listen"
+│   │   │   ├── "Manage"
+│   │   │   └── "Send"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Rights: enum
+│       │   ├── "Listen"
+│       │   ├── "Manage"
+│       │   └── "Send"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── NamespacesEventhub: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── CaptureDescription: 
+│   │   │   ├── Destination: 
+│   │   │   │   ├── ArchiveNameFormat: *string
+│   │   │   │   ├── BlobContainer: *string
+│   │   │   │   ├── DataLakeAccountName: *string
+│   │   │   │   ├── DataLakeFolderPath: *string
+│   │   │   │   ├── DataLakeSubscriptionId: Validated[*string]
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── StorageAccountResourceReference: *genruntime.ResourceReference
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Encoding: enum
+│   │   │   │   ├── "Avro"
+│   │   │   │   └── "AvroDeflate"
+│   │   │   ├── IntervalInSeconds: *int
+│   │   │   ├── SizeLimitInBytes: *int
+│   │   │   └── SkipEmptyArchives: *bool
+│   │   ├── Location: *string
+│   │   ├── MessageRetentionInDays: Validated[*int]
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PartitionCount: Validated[*int]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── CaptureDescription: 
+│       │   ├── Destination: 
+│       │   │   ├── ArchiveNameFormat: *string
+│       │   │   ├── BlobContainer: *string
+│       │   │   ├── DataLakeAccountName: *string
+│       │   │   ├── DataLakeFolderPath: *string
+│       │   │   ├── DataLakeSubscriptionId: *string
+│       │   │   ├── Name: *string
+│       │   │   └── StorageAccountResourceId: *string
+│       │   ├── Enabled: *bool
+│       │   ├── Encoding: enum
+│       │   │   ├── "Avro"
+│       │   │   └── "AvroDeflate"
+│       │   ├── IntervalInSeconds: *int
+│       │   ├── SizeLimitInBytes: *int
+│       │   └── SkipEmptyArchives: *bool
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MessageRetentionInDays: *int
+│       ├── Name: *string
+│       ├── PartitionCount: *int
+│       ├── PartitionIds: Array[string]
+│       ├── Status: enum
+│       │   ├── "Active"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Disabled"
+│       │   ├── "ReceiveDisabled"
+│       │   ├── "Renaming"
+│       │   ├── "Restoring"
+│       │   ├── "SendDisabled"
+│       │   └── "Unknown"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesEventhubsAuthorizationRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Rights: enum
+│   │   │   ├── "Listen"
+│   │   │   ├── "Manage"
+│   │   │   └── "Send"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Rights: enum
+│       │   ├── "Listen"
+│       │   ├── "Manage"
+│       │   └── "Send"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── NamespacesEventhubsConsumerGroup: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Tags: Map[string]string
+│   │   └── UserMetadata: *string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       ├── UpdatedAt: *string
+│       └── UserMetadata: *string
+├── Namespaces_AuthorizationRule_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Rights: enum
+│   │       ├── "Listen"
+│   │       ├── "Manage"
+│   │       └── "Send"
+│   └── Tags: Map[string]string
+├── Namespaces_Eventhub_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── CaptureDescription: 
+│   │   │   ├── Destination: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Properties: 
+│   │   │   │       ├── ArchiveNameFormat: *string
+│   │   │   │       ├── BlobContainer: *string
+│   │   │   │       ├── DataLakeAccountName: *string
+│   │   │   │       ├── DataLakeFolderPath: *string
+│   │   │   │       ├── DataLakeSubscriptionId: *string
+│   │   │   │       └── StorageAccountResourceId: *string
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Encoding: enum
+│   │   │   │   ├── "Avro"
+│   │   │   │   └── "AvroDeflate"
+│   │   │   ├── IntervalInSeconds: *int
+│   │   │   ├── SizeLimitInBytes: *int
+│   │   │   └── SkipEmptyArchives: *bool
+│   │   ├── MessageRetentionInDays: *int
+│   │   └── PartitionCount: *int
+│   └── Tags: Map[string]string
+├── Namespaces_Eventhubs_AuthorizationRule_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   └── Rights: enum
+│   │       ├── "Listen"
+│   │       ├── "Manage"
+│   │       └── "Send"
+│   └── Tags: Map[string]string
+└── Namespaces_Eventhubs_Consumergroup_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   └── UserMetadata: *string
+    └── Tags: Map[string]string

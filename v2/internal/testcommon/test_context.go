@@ -233,7 +233,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 	} else {
 		// if we are replaying, we won't need auth
 		// and we use a dummy subscription ID/tenant ID
-		creds = mockTokenCred{}
+		creds = MockTokenCredential{}
 		azureIDs.tenantID = uuid.Nil.String()
 		azureIDs.subscriptionID = uuid.Nil.String()
 		azureIDs.billingInvoiceID = DummyBillingId

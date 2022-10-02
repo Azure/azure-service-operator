@@ -1,0 +1,681 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
+├── APIVersion: enum
+│   └── "2020-09-30"
+├── Disk: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── BurstingEnabled: *bool
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: enum
+│   │   │   │   ├── "Attach"
+│   │   │   │   ├── "Copy"
+│   │   │   │   ├── "Empty"
+│   │   │   │   ├── "FromImage"
+│   │   │   │   ├── "Import"
+│   │   │   │   ├── "Restore"
+│   │   │   │   └── "Upload"
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── SourceResourceReference: *genruntime.ResourceReference
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessReference: *genruntime.ResourceReference
+│   │   ├── DiskIOPSReadOnly: *int
+│   │   ├── DiskIOPSReadWrite: *int
+│   │   ├── DiskMBpsReadOnly: *int
+│   │   ├── DiskMBpsReadWrite: *int
+│   │   ├── DiskSizeGB: *int
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
+│   │   │   └── Type: enum
+│   │   │       ├── "EncryptionAtRestWithCustomerKey"
+│   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│   │   │       └── "EncryptionAtRestWithPlatformKey"
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │       ├── KeyUrl: *string
+│   │   │   │       └── SourceVault: 
+│   │   │   │           └── Reference: *genruntime.ResourceReference
+│   │   │   └── EncryptionSettingsVersion: *string
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── Location: *string
+│   │   ├── MaxShares: *int
+│   │   ├── NetworkAccessPolicy: enum
+│   │   │   ├── "AllowAll"
+│   │   │   ├── "AllowPrivate"
+│   │   │   └── "DenyAll"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── Sku: 
+│   │   │   └── Name: enum
+│   │   │       ├── "Premium_LRS"
+│   │   │       ├── "StandardSSD_LRS"
+│   │   │       ├── "Standard_LRS"
+│   │   │       └── "UltraSSD_LRS"
+│   │   ├── Tags: Map[string]string
+│   │   ├── Tier: *string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── BurstingEnabled: *bool
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreationData: 
+│       │   ├── CreateOption: enum
+│       │   │   ├── "Attach"
+│       │   │   ├── "Copy"
+│       │   │   ├── "Empty"
+│       │   │   ├── "FromImage"
+│       │   │   ├── "Import"
+│       │   │   ├── "Restore"
+│       │   │   └── "Upload"
+│       │   ├── GalleryImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   └── Lun: *int
+│       │   ├── ImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   └── Lun: *int
+│       │   ├── LogicalSectorSize: *int
+│       │   ├── SourceResourceId: *string
+│       │   ├── SourceUniqueId: *string
+│       │   ├── SourceUri: *string
+│       │   ├── StorageAccountId: *string
+│       │   └── UploadSizeBytes: *int
+│       ├── DiskAccessId: *string
+│       ├── DiskIOPSReadOnly: *int
+│       ├── DiskIOPSReadWrite: *int
+│       ├── DiskMBpsReadOnly: *int
+│       ├── DiskMBpsReadWrite: *int
+│       ├── DiskSizeBytes: *int
+│       ├── DiskSizeGB: *int
+│       ├── DiskState: enum
+│       │   ├── "ActiveSAS"
+│       │   ├── "ActiveUpload"
+│       │   ├── "Attached"
+│       │   ├── "ReadyToUpload"
+│       │   ├── "Reserved"
+│       │   └── "Unattached"
+│       ├── Encryption: 
+│       │   ├── DiskEncryptionSetId: *string
+│       │   └── Type: enum
+│       │       ├── "EncryptionAtRestWithCustomerKey"
+│       │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│       │       └── "EncryptionAtRestWithPlatformKey"
+│       ├── EncryptionSettingsCollection: 
+│       │   ├── Enabled: *bool
+│       │   ├── EncryptionSettings: 
+│       │   │   ├── DiskEncryptionKey: 
+│       │   │   │   ├── SecretUrl: *string
+│       │   │   │   └── SourceVault: 
+│       │   │   │       └── Id: *string
+│       │   │   └── KeyEncryptionKey: 
+│       │   │       ├── KeyUrl: *string
+│       │   │       └── SourceVault: 
+│       │   │           └── Id: *string
+│       │   └── EncryptionSettingsVersion: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── HyperVGeneration: enum
+│       │   ├── "V1"
+│       │   └── "V2"
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── ManagedBy: *string
+│       ├── ManagedByExtended: Array[string]
+│       ├── MaxShares: *int
+│       ├── Name: *string
+│       ├── NetworkAccessPolicy: enum
+│       │   ├── "AllowAll"
+│       │   ├── "AllowPrivate"
+│       │   └── "DenyAll"
+│       ├── OsType: enum
+│       │   ├── "Linux"
+│       │   └── "Windows"
+│       ├── ProvisioningState: *string
+│       ├── PurchasePlan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   └── Publisher: *string
+│       ├── ShareInfo: 
+│       │   └── VmUri: *string
+│       ├── Sku: 
+│       │   ├── Name: enum
+│       │   │   ├── "Premium_LRS"
+│       │   │   ├── "StandardSSD_LRS"
+│       │   │   ├── "Standard_LRS"
+│       │   │   └── "UltraSSD_LRS"
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Tier: *string
+│       ├── TimeCreated: *string
+│       ├── Type: *string
+│       ├── UniqueId: *string
+│       └── Zones: Array[string]
+├── Disk_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── ManagedBy: *string
+│   ├── ManagedByExtended: Array[string]
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── BurstingEnabled: *bool
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: enum
+│   │   │   │   ├── "Attach"
+│   │   │   │   ├── "Copy"
+│   │   │   │   ├── "Empty"
+│   │   │   │   ├── "FromImage"
+│   │   │   │   ├── "Import"
+│   │   │   │   ├── "Restore"
+│   │   │   │   └── "Upload"
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── SourceResourceId: *string
+│   │   │   ├── SourceUniqueId: *string
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessId: *string
+│   │   ├── DiskIOPSReadOnly: *int
+│   │   ├── DiskIOPSReadWrite: *int
+│   │   ├── DiskMBpsReadOnly: *int
+│   │   ├── DiskMBpsReadWrite: *int
+│   │   ├── DiskSizeBytes: *int
+│   │   ├── DiskSizeGB: *int
+│   │   ├── DiskState: enum
+│   │   │   ├── "ActiveSAS"
+│   │   │   ├── "ActiveUpload"
+│   │   │   ├── "Attached"
+│   │   │   ├── "ReadyToUpload"
+│   │   │   ├── "Reserved"
+│   │   │   └── "Unattached"
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetId: *string
+│   │   │   └── Type: enum
+│   │   │       ├── "EncryptionAtRestWithCustomerKey"
+│   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│   │   │       └── "EncryptionAtRestWithPlatformKey"
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       └── Id: *string
+│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │       ├── KeyUrl: *string
+│   │   │   │       └── SourceVault: 
+│   │   │   │           └── Id: *string
+│   │   │   └── EncryptionSettingsVersion: *string
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── MaxShares: *int
+│   │   ├── NetworkAccessPolicy: enum
+│   │   │   ├── "AllowAll"
+│   │   │   ├── "AllowPrivate"
+│   │   │   └── "DenyAll"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── ProvisioningState: *string
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── ShareInfo: 
+│   │   │   └── VmUri: *string
+│   │   ├── Tier: *string
+│   │   ├── TimeCreated: *string
+│   │   └── UniqueId: *string
+│   ├── Sku: 
+│   │   ├── Name: enum
+│   │   │   ├── "Premium_LRS"
+│   │   │   ├── "StandardSSD_LRS"
+│   │   │   ├── "Standard_LRS"
+│   │   │   └── "UltraSSD_LRS"
+│   │   └── Tier: *string
+│   ├── Tags: Map[string]string
+│   ├── Type: *string
+│   └── Zones: Array[string]
+├── Disk_Spec_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── BurstingEnabled: *bool
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: enum
+│   │   │   │   ├── "Attach"
+│   │   │   │   ├── "Copy"
+│   │   │   │   ├── "Empty"
+│   │   │   │   ├── "FromImage"
+│   │   │   │   ├── "Import"
+│   │   │   │   ├── "Restore"
+│   │   │   │   └── "Upload"
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── SourceResourceId: *string
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessId: *string
+│   │   ├── DiskIOPSReadOnly: *int
+│   │   ├── DiskIOPSReadWrite: *int
+│   │   ├── DiskMBpsReadOnly: *int
+│   │   ├── DiskMBpsReadWrite: *int
+│   │   ├── DiskSizeGB: *int
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetId: *string
+│   │   │   └── Type: enum
+│   │   │       ├── "EncryptionAtRestWithCustomerKey"
+│   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│   │   │       └── "EncryptionAtRestWithPlatformKey"
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       └── Id: *string
+│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │       ├── KeyUrl: *string
+│   │   │   │       └── SourceVault: 
+│   │   │   │           └── Id: *string
+│   │   │   └── EncryptionSettingsVersion: *string
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── MaxShares: *int
+│   │   ├── NetworkAccessPolicy: enum
+│   │   │   ├── "AllowAll"
+│   │   │   ├── "AllowPrivate"
+│   │   │   └── "DenyAll"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   └── Tier: *string
+│   ├── Sku: 
+│   │   └── Name: enum
+│   │       ├── "Premium_LRS"
+│   │       ├── "StandardSSD_LRS"
+│   │       ├── "Standard_LRS"
+│   │       └── "UltraSSD_LRS"
+│   ├── Tags: Map[string]string
+│   └── Zones: Array[string]
+├── Snapshot: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: enum
+│   │   │   │   ├── "Attach"
+│   │   │   │   ├── "Copy"
+│   │   │   │   ├── "Empty"
+│   │   │   │   ├── "FromImage"
+│   │   │   │   ├── "Import"
+│   │   │   │   ├── "Restore"
+│   │   │   │   └── "Upload"
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Lun: *int
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── SourceResourceReference: *genruntime.ResourceReference
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessReference: *genruntime.ResourceReference
+│   │   ├── DiskSizeGB: *int
+│   │   ├── DiskState: enum
+│   │   │   ├── "ActiveSAS"
+│   │   │   ├── "ActiveUpload"
+│   │   │   ├── "Attached"
+│   │   │   ├── "ReadyToUpload"
+│   │   │   ├── "Reserved"
+│   │   │   └── "Unattached"
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
+│   │   │   └── Type: enum
+│   │   │       ├── "EncryptionAtRestWithCustomerKey"
+│   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│   │   │       └── "EncryptionAtRestWithPlatformKey"
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │       ├── KeyUrl: *string
+│   │   │   │       └── SourceVault: 
+│   │   │   │           └── Reference: *genruntime.ResourceReference
+│   │   │   └── EncryptionSettingsVersion: *string
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── Incremental: *bool
+│   │   ├── Location: *string
+│   │   ├── NetworkAccessPolicy: enum
+│   │   │   ├── "AllowAll"
+│   │   │   ├── "AllowPrivate"
+│   │   │   └── "DenyAll"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── Sku: 
+│   │   │   └── Name: enum
+│   │   │       ├── "Premium_LRS"
+│   │   │       ├── "Standard_LRS"
+│   │   │       └── "Standard_ZRS"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreationData: 
+│       │   ├── CreateOption: enum
+│       │   │   ├── "Attach"
+│       │   │   ├── "Copy"
+│       │   │   ├── "Empty"
+│       │   │   ├── "FromImage"
+│       │   │   ├── "Import"
+│       │   │   ├── "Restore"
+│       │   │   └── "Upload"
+│       │   ├── GalleryImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   └── Lun: *int
+│       │   ├── ImageReference: 
+│       │   │   ├── Id: *string
+│       │   │   └── Lun: *int
+│       │   ├── LogicalSectorSize: *int
+│       │   ├── SourceResourceId: *string
+│       │   ├── SourceUniqueId: *string
+│       │   ├── SourceUri: *string
+│       │   ├── StorageAccountId: *string
+│       │   └── UploadSizeBytes: *int
+│       ├── DiskAccessId: *string
+│       ├── DiskSizeBytes: *int
+│       ├── DiskSizeGB: *int
+│       ├── DiskState: enum
+│       │   ├── "ActiveSAS"
+│       │   ├── "ActiveUpload"
+│       │   ├── "Attached"
+│       │   ├── "ReadyToUpload"
+│       │   ├── "Reserved"
+│       │   └── "Unattached"
+│       ├── Encryption: 
+│       │   ├── DiskEncryptionSetId: *string
+│       │   └── Type: enum
+│       │       ├── "EncryptionAtRestWithCustomerKey"
+│       │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│       │       └── "EncryptionAtRestWithPlatformKey"
+│       ├── EncryptionSettingsCollection: 
+│       │   ├── Enabled: *bool
+│       │   ├── EncryptionSettings: 
+│       │   │   ├── DiskEncryptionKey: 
+│       │   │   │   ├── SecretUrl: *string
+│       │   │   │   └── SourceVault: 
+│       │   │   │       └── Id: *string
+│       │   │   └── KeyEncryptionKey: 
+│       │   │       ├── KeyUrl: *string
+│       │   │       └── SourceVault: 
+│       │   │           └── Id: *string
+│       │   └── EncryptionSettingsVersion: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── HyperVGeneration: enum
+│       │   ├── "V1"
+│       │   └── "V2"
+│       ├── Id: *string
+│       ├── Incremental: *bool
+│       ├── Location: *string
+│       ├── ManagedBy: *string
+│       ├── Name: *string
+│       ├── NetworkAccessPolicy: enum
+│       │   ├── "AllowAll"
+│       │   ├── "AllowPrivate"
+│       │   └── "DenyAll"
+│       ├── OsType: enum
+│       │   ├── "Linux"
+│       │   └── "Windows"
+│       ├── ProvisioningState: *string
+│       ├── PurchasePlan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   └── Publisher: *string
+│       ├── Sku: 
+│       │   ├── Name: enum
+│       │   │   ├── "Premium_LRS"
+│       │   │   ├── "Standard_LRS"
+│       │   │   └── "Standard_ZRS"
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── TimeCreated: *string
+│       ├── Type: *string
+│       └── UniqueId: *string
+├── Snapshot_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── ManagedBy: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CreationData: 
+│   │   │   ├── CreateOption: enum
+│   │   │   │   ├── "Attach"
+│   │   │   │   ├── "Copy"
+│   │   │   │   ├── "Empty"
+│   │   │   │   ├── "FromImage"
+│   │   │   │   ├── "Import"
+│   │   │   │   ├── "Restore"
+│   │   │   │   └── "Upload"
+│   │   │   ├── GalleryImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── Lun: *int
+│   │   │   ├── LogicalSectorSize: *int
+│   │   │   ├── SourceResourceId: *string
+│   │   │   ├── SourceUniqueId: *string
+│   │   │   ├── SourceUri: *string
+│   │   │   ├── StorageAccountId: *string
+│   │   │   └── UploadSizeBytes: *int
+│   │   ├── DiskAccessId: *string
+│   │   ├── DiskSizeBytes: *int
+│   │   ├── DiskSizeGB: *int
+│   │   ├── DiskState: enum
+│   │   │   ├── "ActiveSAS"
+│   │   │   ├── "ActiveUpload"
+│   │   │   ├── "Attached"
+│   │   │   ├── "ReadyToUpload"
+│   │   │   ├── "Reserved"
+│   │   │   └── "Unattached"
+│   │   ├── Encryption: 
+│   │   │   ├── DiskEncryptionSetId: *string
+│   │   │   └── Type: enum
+│   │   │       ├── "EncryptionAtRestWithCustomerKey"
+│   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+│   │   │       └── "EncryptionAtRestWithPlatformKey"
+│   │   ├── EncryptionSettingsCollection: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── EncryptionSettings: 
+│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │       └── Id: *string
+│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │       ├── KeyUrl: *string
+│   │   │   │       └── SourceVault: 
+│   │   │   │           └── Id: *string
+│   │   │   └── EncryptionSettingsVersion: *string
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── Incremental: *bool
+│   │   ├── NetworkAccessPolicy: enum
+│   │   │   ├── "AllowAll"
+│   │   │   ├── "AllowPrivate"
+│   │   │   └── "DenyAll"
+│   │   ├── OsType: enum
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── ProvisioningState: *string
+│   │   ├── PurchasePlan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── TimeCreated: *string
+│   │   └── UniqueId: *string
+│   ├── Sku: 
+│   │   ├── Name: enum
+│   │   │   ├── "Premium_LRS"
+│   │   │   ├── "Standard_LRS"
+│   │   │   └── "Standard_ZRS"
+│   │   └── Tier: *string
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── Snapshot_Spec_ARM: 
+    ├── ExtendedLocation: 
+    │   ├── Name: *string
+    │   └── Type: enum
+    │       └── "EdgeZone"
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── CreationData: 
+    │   │   ├── CreateOption: enum
+    │   │   │   ├── "Attach"
+    │   │   │   ├── "Copy"
+    │   │   │   ├── "Empty"
+    │   │   │   ├── "FromImage"
+    │   │   │   ├── "Import"
+    │   │   │   ├── "Restore"
+    │   │   │   └── "Upload"
+    │   │   ├── GalleryImageReference: 
+    │   │   │   ├── Id: *string
+    │   │   │   └── Lun: *int
+    │   │   ├── ImageReference: 
+    │   │   │   ├── Id: *string
+    │   │   │   └── Lun: *int
+    │   │   ├── LogicalSectorSize: *int
+    │   │   ├── SourceResourceId: *string
+    │   │   ├── SourceUri: *string
+    │   │   ├── StorageAccountId: *string
+    │   │   └── UploadSizeBytes: *int
+    │   ├── DiskAccessId: *string
+    │   ├── DiskSizeGB: *int
+    │   ├── DiskState: enum
+    │   │   ├── "ActiveSAS"
+    │   │   ├── "ActiveUpload"
+    │   │   ├── "Attached"
+    │   │   ├── "ReadyToUpload"
+    │   │   ├── "Reserved"
+    │   │   └── "Unattached"
+    │   ├── Encryption: 
+    │   │   ├── DiskEncryptionSetId: *string
+    │   │   └── Type: enum
+    │   │       ├── "EncryptionAtRestWithCustomerKey"
+    │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
+    │   │       └── "EncryptionAtRestWithPlatformKey"
+    │   ├── EncryptionSettingsCollection: 
+    │   │   ├── Enabled: *bool
+    │   │   ├── EncryptionSettings: 
+    │   │   │   ├── DiskEncryptionKey: 
+    │   │   │   │   ├── SecretUrl: *string
+    │   │   │   │   └── SourceVault: 
+    │   │   │   │       └── Id: *string
+    │   │   │   └── KeyEncryptionKey: 
+    │   │   │       ├── KeyUrl: *string
+    │   │   │       └── SourceVault: 
+    │   │   │           └── Id: *string
+    │   │   └── EncryptionSettingsVersion: *string
+    │   ├── HyperVGeneration: enum
+    │   │   ├── "V1"
+    │   │   └── "V2"
+    │   ├── Incremental: *bool
+    │   ├── NetworkAccessPolicy: enum
+    │   │   ├── "AllowAll"
+    │   │   ├── "AllowPrivate"
+    │   │   └── "DenyAll"
+    │   ├── OsType: enum
+    │   │   ├── "Linux"
+    │   │   └── "Windows"
+    │   └── PurchasePlan: 
+    │       ├── Name: *string
+    │       ├── Product: *string
+    │       ├── PromotionCode: *string
+    │       └── Publisher: *string
+    ├── Sku: 
+    │   └── Name: enum
+    │       ├── "Premium_LRS"
+    │       ├── "Standard_LRS"
+    │       └── "Standard_ZRS"
+    └── Tags: Map[string]string

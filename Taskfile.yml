@@ -327,7 +327,10 @@ tasks:
     deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
+    # We run these in sequence right now because it doesn't gain us much speed to go in parallel
     - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+    - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
+    - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
@@ -350,8 +353,20 @@ tasks:
         vars:
           INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
           OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.md'
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
+    - go test -covermode atomic -coverprofile=coverage-integration-genruntime-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
+    - go test -covermode atomic -coverprofile=coverage-integration-genericarmclient-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.

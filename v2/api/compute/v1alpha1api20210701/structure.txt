@@ -1,0 +1,262 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701
+├── APIVersion: enum
+│   └── "2021-07-01"
+├── Image: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── SourceVirtualMachine: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── StorageProfile: 
+│   │   │   ├── DataDisks: 
+│   │   │   │   ├── BlobUri: *string
+│   │   │   │   ├── Caching: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "ReadOnly"
+│   │   │   │   │   └── "ReadWrite"
+│   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── Snapshot: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── StorageAccountType: enum
+│   │   │   │       ├── "Premium_LRS"
+│   │   │   │       ├── "Premium_ZRS"
+│   │   │   │       ├── "StandardSSD_LRS"
+│   │   │   │       ├── "StandardSSD_ZRS"
+│   │   │   │       ├── "Standard_LRS"
+│   │   │   │       └── "UltraSSD_LRS"
+│   │   │   ├── OsDisk: 
+│   │   │   │   ├── BlobUri: *string
+│   │   │   │   ├── Caching: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "ReadOnly"
+│   │   │   │   │   └── "ReadWrite"
+│   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── OsState: enum
+│   │   │   │   │   ├── "Generalized"
+│   │   │   │   │   └── "Specialized"
+│   │   │   │   ├── OsType: enum
+│   │   │   │   │   ├── "Linux"
+│   │   │   │   │   └── "Windows"
+│   │   │   │   ├── Snapshot: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── StorageAccountType: enum
+│   │   │   │       ├── "Premium_LRS"
+│   │   │   │       ├── "Premium_ZRS"
+│   │   │   │       ├── "StandardSSD_LRS"
+│   │   │   │       ├── "StandardSSD_ZRS"
+│   │   │   │       ├── "Standard_LRS"
+│   │   │   │       └── "UltraSSD_LRS"
+│   │   │   └── ZoneResilient: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── HyperVGeneration: enum
+│       │   ├── "V1"
+│       │   └── "V2"
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *string
+│       ├── SourceVirtualMachine: 
+│       │   └── Id: *string
+│       ├── StorageProfile: 
+│       │   ├── DataDisks: 
+│       │   │   ├── BlobUri: *string
+│       │   │   ├── Caching: enum
+│       │   │   │   ├── "None"
+│       │   │   │   ├── "ReadOnly"
+│       │   │   │   └── "ReadWrite"
+│       │   │   ├── DiskEncryptionSet: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── DiskSizeGB: *int
+│       │   │   ├── Lun: *int
+│       │   │   ├── ManagedDisk: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── Snapshot: 
+│       │   │   │   └── Id: *string
+│       │   │   └── StorageAccountType: enum
+│       │   │       ├── "Premium_LRS"
+│       │   │       ├── "Premium_ZRS"
+│       │   │       ├── "StandardSSD_LRS"
+│       │   │       ├── "StandardSSD_ZRS"
+│       │   │       ├── "Standard_LRS"
+│       │   │       └── "UltraSSD_LRS"
+│       │   ├── OsDisk: 
+│       │   │   ├── BlobUri: *string
+│       │   │   ├── Caching: enum
+│       │   │   │   ├── "None"
+│       │   │   │   ├── "ReadOnly"
+│       │   │   │   └── "ReadWrite"
+│       │   │   ├── DiskEncryptionSet: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── DiskSizeGB: *int
+│       │   │   ├── ManagedDisk: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── OsState: enum
+│       │   │   │   ├── "Generalized"
+│       │   │   │   └── "Specialized"
+│       │   │   ├── OsType: enum
+│       │   │   │   ├── "Linux"
+│       │   │   │   └── "Windows"
+│       │   │   ├── Snapshot: 
+│       │   │   │   └── Id: *string
+│       │   │   └── StorageAccountType: enum
+│       │   │       ├── "Premium_LRS"
+│       │   │       ├── "Premium_ZRS"
+│       │   │       ├── "StandardSSD_LRS"
+│       │   │       ├── "StandardSSD_ZRS"
+│       │   │       ├── "Standard_LRS"
+│       │   │       └── "UltraSSD_LRS"
+│       │   └── ZoneResilient: *bool
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── Image_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── HyperVGeneration: enum
+│   │   │   ├── "V1"
+│   │   │   └── "V2"
+│   │   ├── ProvisioningState: *string
+│   │   ├── SourceVirtualMachine: 
+│   │   │   └── Id: *string
+│   │   └── StorageProfile: 
+│   │       ├── DataDisks: 
+│   │       │   ├── BlobUri: *string
+│   │       │   ├── Caching: enum
+│   │       │   │   ├── "None"
+│   │       │   │   ├── "ReadOnly"
+│   │       │   │   └── "ReadWrite"
+│   │       │   ├── DiskEncryptionSet: 
+│   │       │   │   └── Id: *string
+│   │       │   ├── DiskSizeGB: *int
+│   │       │   ├── Lun: *int
+│   │       │   ├── ManagedDisk: 
+│   │       │   │   └── Id: *string
+│   │       │   ├── Snapshot: 
+│   │       │   │   └── Id: *string
+│   │       │   └── StorageAccountType: enum
+│   │       │       ├── "Premium_LRS"
+│   │       │       ├── "Premium_ZRS"
+│   │       │       ├── "StandardSSD_LRS"
+│   │       │       ├── "StandardSSD_ZRS"
+│   │       │       ├── "Standard_LRS"
+│   │       │       └── "UltraSSD_LRS"
+│   │       ├── OsDisk: 
+│   │       │   ├── BlobUri: *string
+│   │       │   ├── Caching: enum
+│   │       │   │   ├── "None"
+│   │       │   │   ├── "ReadOnly"
+│   │       │   │   └── "ReadWrite"
+│   │       │   ├── DiskEncryptionSet: 
+│   │       │   │   └── Id: *string
+│   │       │   ├── DiskSizeGB: *int
+│   │       │   ├── ManagedDisk: 
+│   │       │   │   └── Id: *string
+│   │       │   ├── OsState: enum
+│   │       │   │   ├── "Generalized"
+│   │       │   │   └── "Specialized"
+│   │       │   ├── OsType: enum
+│   │       │   │   ├── "Linux"
+│   │       │   │   └── "Windows"
+│   │       │   ├── Snapshot: 
+│   │       │   │   └── Id: *string
+│   │       │   └── StorageAccountType: enum
+│   │       │       ├── "Premium_LRS"
+│   │       │       ├── "Premium_ZRS"
+│   │       │       ├── "StandardSSD_LRS"
+│   │       │       ├── "StandardSSD_ZRS"
+│   │       │       ├── "Standard_LRS"
+│   │       │       └── "UltraSSD_LRS"
+│   │       └── ZoneResilient: *bool
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── Image_Spec_ARM: 
+    ├── ExtendedLocation: 
+    │   ├── Name: *string
+    │   └── Type: enum
+    │       └── "EdgeZone"
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── HyperVGeneration: enum
+    │   │   ├── "V1"
+    │   │   └── "V2"
+    │   ├── SourceVirtualMachine: 
+    │   │   └── Id: *string
+    │   └── StorageProfile: 
+    │       ├── DataDisks: 
+    │       │   ├── BlobUri: *string
+    │       │   ├── Caching: enum
+    │       │   │   ├── "None"
+    │       │   │   ├── "ReadOnly"
+    │       │   │   └── "ReadWrite"
+    │       │   ├── DiskEncryptionSet: 
+    │       │   │   └── Id: *string
+    │       │   ├── DiskSizeGB: *int
+    │       │   ├── Lun: *int
+    │       │   ├── ManagedDisk: 
+    │       │   │   └── Id: *string
+    │       │   ├── Snapshot: 
+    │       │   │   └── Id: *string
+    │       │   └── StorageAccountType: enum
+    │       │       ├── "Premium_LRS"
+    │       │       ├── "Premium_ZRS"
+    │       │       ├── "StandardSSD_LRS"
+    │       │       ├── "StandardSSD_ZRS"
+    │       │       ├── "Standard_LRS"
+    │       │       └── "UltraSSD_LRS"
+    │       ├── OsDisk: 
+    │       │   ├── BlobUri: *string
+    │       │   ├── Caching: enum
+    │       │   │   ├── "None"
+    │       │   │   ├── "ReadOnly"
+    │       │   │   └── "ReadWrite"
+    │       │   ├── DiskEncryptionSet: 
+    │       │   │   └── Id: *string
+    │       │   ├── DiskSizeGB: *int
+    │       │   ├── ManagedDisk: 
+    │       │   │   └── Id: *string
+    │       │   ├── OsState: enum
+    │       │   │   ├── "Generalized"
+    │       │   │   └── "Specialized"
+    │       │   ├── OsType: enum
+    │       │   │   ├── "Linux"
+    │       │   │   └── "Windows"
+    │       │   ├── Snapshot: 
+    │       │   │   └── Id: *string
+    │       │   └── StorageAccountType: enum
+    │       │       ├── "Premium_LRS"
+    │       │       ├── "Premium_ZRS"
+    │       │       ├── "StandardSSD_LRS"
+    │       │       ├── "StandardSSD_ZRS"
+    │       │       ├── "Standard_LRS"
+    │       │       └── "UltraSSD_LRS"
+    │       └── ZoneResilient: *bool
+    └── Tags: Map[string]string

@@ -42,11 +42,10 @@ func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, 
 	result := make(map[interface{}]struct{})
 
 	visitor := NewReflectVisitor()
-	visitor.VisitStruct = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		if reflect.TypeOf(it) == t {
-			val := reflect.ValueOf(it)
-			if val.CanInterface() {
-				result[val.Interface()] = struct{}{}
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		if it.Type() == t {
+			if it.CanInterface() {
+				result[it.Interface()] = struct{}{}
 			}
 			return nil
 		}
@@ -87,6 +86,21 @@ func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference],
 	result := set.Make[genruntime.SecretReference]()
 	for k := range untypedResult {
 		result.Add(k.(genruntime.SecretReference))
+	}
+
+	return result, nil
+}
+
+// FindConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
+func FindConfigMapReferences(obj interface{}) (set.Set[genruntime.ConfigMapReference], error) {
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ConfigMapReference{}))
+	if err != nil {
+		return nil, err
+	}
+
+	result := set.Make[genruntime.ConfigMapReference]()
+	for k := range untypedResult {
+		result.Add(k.(genruntime.ConfigMapReference))
 	}
 
 	return result, nil

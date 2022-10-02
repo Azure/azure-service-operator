@@ -1,0 +1,249 @@
+github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
+├── APIVersion: enum
+│   └── "2021-11-01"
+├── Namespace: Resource
+│   ├── Spec: 
+│   │   ├── AlternateName: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── ClusterArmReference: *genruntime.ResourceReference
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: *string
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   ├── KeyVersion: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IsAutoInflateEnabled: *bool
+│   │   ├── KafkaEnabled: *bool
+│   │   ├── Location: *string
+│   │   ├── MaximumThroughputUnits: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── PrivateEndpoint: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── ZoneRedundant: *bool
+│   └── Status: 
+│       ├── AlternateName: *string
+│       ├── ClusterArmId: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── DisableLocalAuth: *bool
+│       ├── Encryption: 
+│       │   ├── KeySource: *string
+│       │   ├── KeyVaultProperties: 
+│       │   │   ├── Identity: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── UserAssignedIdentity: *string
+│       │   │   ├── KeyName: *string
+│       │   │   ├── KeyVaultUri: *string
+│       │   │   ├── KeyVersion: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RequireInfrastructureEncryption: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── IsAutoInflateEnabled: *bool
+│       ├── KafkaEnabled: *bool
+│       ├── Location: *string
+│       ├── MaximumThroughputUnits: *int
+│       ├── MetricId: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: *string
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       ├── LastModifiedByType: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ServiceBusEndpoint: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UpdatedAt: *string
+│       └── ZoneRedundant: *bool
+├── NamespacesAuthorizationRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Rights: Array[string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Rights: Array[string]
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── NamespacesEventhub: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── CaptureDescription: 
+│   │   │   ├── Destination: 
+│   │   │   │   ├── ArchiveNameFormat: *string
+│   │   │   │   ├── BlobContainer: *string
+│   │   │   │   ├── DataLakeAccountName: *string
+│   │   │   │   ├── DataLakeFolderPath: *string
+│   │   │   │   ├── DataLakeSubscriptionId: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── StorageAccountResourceReference: *genruntime.ResourceReference
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Encoding: *string
+│   │   │   ├── IntervalInSeconds: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SizeLimitInBytes: *int
+│   │   │   └── SkipEmptyArchives: *bool
+│   │   ├── Location: *string
+│   │   ├── MessageRetentionInDays: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PartitionCount: *int
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── CaptureDescription: 
+│       │   ├── Destination: 
+│       │   │   ├── ArchiveNameFormat: *string
+│       │   │   ├── BlobContainer: *string
+│       │   │   ├── DataLakeAccountName: *string
+│       │   │   ├── DataLakeFolderPath: *string
+│       │   │   ├── DataLakeSubscriptionId: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── StorageAccountResourceId: *string
+│       │   ├── Enabled: *bool
+│       │   ├── Encoding: *string
+│       │   ├── IntervalInSeconds: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SizeLimitInBytes: *int
+│       │   └── SkipEmptyArchives: *bool
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MessageRetentionInDays: *int
+│       ├── Name: *string
+│       ├── PartitionCount: *int
+│       ├── PartitionIds: Array[string]
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesEventhubsAuthorizationRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Rights: Array[string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Rights: Array[string]
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+└── NamespacesEventhubsConsumerGroup: Resource
+    ├── Spec: 
+    │   ├── AzureName: Validated[string]
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── Tags: Map[string]string
+    │   └── UserMetadata: *string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── CreatedAt: *string
+        ├── Id: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Type: *string
+        ├── UpdatedAt: *string
+        └── UserMetadata: *string

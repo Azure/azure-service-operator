@@ -30,8 +30,8 @@ func Test_ReflectVisitor_VisitsSimpleStruct(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		visitedTypes = append(visitedTypes, reflect.TypeOf(it).Kind())
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
 	}
@@ -57,8 +57,8 @@ func Test_ReflectVisitor_VisitsPtrToSimpleStruct(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		visitedTypes = append(visitedTypes, reflect.TypeOf(it).Kind())
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
 	}
@@ -84,8 +84,8 @@ func Test_ReflectVisitor_VisitsStructWithNilField(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		visitedTypes = append(visitedTypes, reflect.TypeOf(it).Kind())
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
 	}
@@ -111,8 +111,8 @@ func Test_ReflectVisitor_VisitsSlice(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		visitedTypes = append(visitedTypes, reflect.TypeOf(it).Kind())
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
 	}
@@ -153,8 +153,8 @@ func Test_ReflectVisitor_VisitsMap(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		visitedTypes = append(visitedTypes, reflect.TypeOf(it).Kind())
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
 	}
@@ -187,4 +187,47 @@ func Test_ReflectVisitor_VisitsMap(t *testing.T) {
 		g.Expect(visitedTypes[i+1]).To(Equal(reflect.Int32))
 		g.Expect(visitedTypes[i+2]).To(Equal(reflect.String))
 	}
+}
+
+func Test_ReflectVisitor_ModifiesStructs(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	visitor := NewReflectVisitor()
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		field := it.FieldByName("ChangeInt")
+		field.SetInt(5)
+
+		return IdentityVisitStruct(this, it, ctx)
+	}
+
+	type innerStruct struct {
+		ChangeInt int
+		Name      string
+	}
+
+	type outerStruct struct {
+		ChangeInt int
+		Inner     innerStruct
+		InnerPtr  *innerStruct
+	}
+
+	s := outerStruct{
+		ChangeInt: 2,
+		Inner: innerStruct{
+			ChangeInt: 1,
+			Name:      "inner",
+		},
+		InnerPtr: &innerStruct{
+			ChangeInt: 2,
+			Name:      "innerPtr",
+		},
+	}
+
+	err := visitor.Visit(&s, nil)
+	g.Expect(err).NotTo(HaveOccurred())
+
+	g.Expect(s.ChangeInt).To(Equal(5))
+	g.Expect(s.Inner.ChangeInt).To(Equal(5))
+	g.Expect(s.InnerPtr.ChangeInt).To(Equal(5))
 }

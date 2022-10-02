@@ -25,6 +25,7 @@ import (
 type Resolver struct {
 	client                   kubeclient.Client
 	kubeSecretResolver       SecretResolver
+	kubeConfigMapResolver    ConfigMapResolver
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
@@ -32,6 +33,7 @@ func NewResolver(client kubeclient.Client) *Resolver {
 	return &Resolver{
 		client:                   client,
 		kubeSecretResolver:       NewKubeSecretResolver(client),
+		kubeConfigMapResolver:    NewKubeConfigMapResolver(client),
 		reconciledResourceLookup: make(map[schema.GroupKind]schema.GroupVersionKind),
 	}
 }
@@ -111,7 +113,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 	// Include the namespace
 	namespacedRefs := make(map[genruntime.NamespacedResourceReference]struct{}, len(refs))
 	for ref := range refs {
-		namespacedRefs[ref.ToNamespacedRef(metaObject.GetNamespace())] = struct{}{}
+		namespacedRefs[ref.AsNamespacedRef(metaObject.GetNamespace())] = struct{}{}
 	}
 
 	// resolve them
@@ -235,13 +237,43 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 	// Include the namespace
 	namespacedSecretRefs := set.Make[genruntime.NamespacedSecretReference]()
 	for ref := range refs {
-		namespacedSecretRefs.Add(ref.ToNamespacedRef(metaObject.GetNamespace()))
+		namespacedSecretRefs.Add(ref.AsNamespacedRef(metaObject.GetNamespace()))
 	}
 
 	// resolve them
 	resolvedSecrets, err := r.ResolveSecretReferences(ctx, namespacedSecretRefs)
 	if err != nil {
 		return genruntime.Resolved[genruntime.SecretReference]{}, errors.Wrapf(err, "failed resolving secret references")
+	}
+
+	return resolvedSecrets, nil
+}
+
+// ResolveConfigMapReferences resolves all provided secret references
+func (r *Resolver) ResolveConfigMapReferences(
+	ctx context.Context,
+	refs set.Set[genruntime.NamespacedConfigMapReference],
+) (genruntime.Resolved[genruntime.ConfigMapReference], error) {
+	return r.kubeConfigMapResolver.ResolveConfigMapReferences(ctx, refs)
+}
+
+// ResolveResourceConfigMapReferences resolves the specified genruntime.MetaObject's configmap references.
+func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.ConfigMapReference], error) {
+	refs, err := reflecthelpers.FindConfigMapReferences(metaObject)
+	if err != nil {
+		return genruntime.Resolved[genruntime.ConfigMapReference]{}, errors.Wrapf(err, "finding config maps on %q", metaObject.GetName())
+	}
+
+	// Include the namespace
+	namespacedConfigMapReferences := set.Make[genruntime.NamespacedConfigMapReference]()
+	for ref := range refs {
+		namespacedConfigMapReferences.Add(ref.AsNamespacedRef(metaObject.GetNamespace()))
+	}
+
+	// resolve them
+	resolvedSecrets, err := r.ResolveConfigMapReferences(ctx, namespacedConfigMapReferences)
+	if err != nil {
+		return genruntime.Resolved[genruntime.ConfigMapReference]{}, errors.Wrapf(err, "failed resolving config map references")
 	}
 
 	return resolvedSecrets, nil
@@ -268,10 +300,17 @@ func (r *Resolver) ResolveAll(ctx context.Context, metaObject genruntime.ARMMeta
 		return nil, genruntime.ConvertToARMResolvedDetails{}, err
 	}
 
+	// Resolve all configmaps
+	resolvedConfigMaps, err := r.ResolveResourceConfigMapReferences(ctx, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
 	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
 		Name:               resourceHierarchy.AzureName(),
 		ResolvedReferences: resolvedRefs,
 		ResolvedSecrets:    resolvedSecrets,
+		ResolvedConfigMaps: resolvedConfigMaps,
 	}
 
 	return resourceHierarchy, resolvedDetails, nil

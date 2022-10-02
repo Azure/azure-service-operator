@@ -22,6 +22,10 @@ type ConvertToARMResolvedDetails struct {
 	// ResolvedSecrets is a set of secret references which have been resolved to the corresponding
 	// secret value.
 	ResolvedSecrets Resolved[SecretReference]
+
+	// ResolvedConfigMaps is a set of config map references which have been resolved to the corresponding
+	// config map value.
+	ResolvedConfigMaps Resolved[ConfigMapReference]
 }
 
 type ToARMConverter interface {

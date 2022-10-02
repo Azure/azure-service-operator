@@ -417,7 +417,7 @@ func newSecret(tc *testcommon.KubePerTestContext, key string, password string) *
 func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *mysql.FlexibleServer {
 	// Force this test to run in a region that is not capacity constrained.
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
-	location := to.StringPtr("West US")
+	location := to.StringPtr("East US")
 
 	version := mysql.ServerVersion_8021
 	secretRef := genruntime.SecretReference{
