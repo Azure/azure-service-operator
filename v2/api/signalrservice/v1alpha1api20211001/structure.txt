@@ -1,0 +1,470 @@
+github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001
+├── APIVersion: enum
+│   └── "2021-10-01"
+├── SignalR: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Cors: 
+│   │   │   └── AllowedOrigins: Array[string]
+│   │   ├── DisableAadAuth: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Features: 
+│   │   │   ├── Flag: enum
+│   │   │   │   ├── "EnableConnectivityLogs"
+│   │   │   │   ├── "EnableLiveTrace"
+│   │   │   │   ├── "EnableMessagingLogs"
+│   │   │   │   └── "ServiceMode"
+│   │   │   ├── Properties: Map[string]string
+│   │   │   └── Value: Validated[*string]
+│   │   ├── Identity: 
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── Kind: enum
+│   │   │   ├── "RawWebSockets"
+│   │   │   └── "SignalR"
+│   │   ├── Location: *string
+│   │   ├── NetworkACLs: 
+│   │   │   ├── DefaultAction: enum
+│   │   │   │   ├── "Allow"
+│   │   │   │   └── "Deny"
+│   │   │   ├── PrivateEndpoints: 
+│   │   │   │   ├── Allow: enum
+│   │   │   │   │   ├── "ClientConnection"
+│   │   │   │   │   ├── "RESTAPI"
+│   │   │   │   │   ├── "ServerConnection"
+│   │   │   │   │   └── "Trace"
+│   │   │   │   ├── Deny: enum
+│   │   │   │   │   ├── "ClientConnection"
+│   │   │   │   │   ├── "RESTAPI"
+│   │   │   │   │   ├── "ServerConnection"
+│   │   │   │   │   └── "Trace"
+│   │   │   │   └── Name: *string
+│   │   │   └── PublicNetwork: 
+│   │   │       ├── Allow: enum
+│   │   │       │   ├── "ClientConnection"
+│   │   │       │   ├── "RESTAPI"
+│   │   │       │   ├── "ServerConnection"
+│   │   │       │   └── "Trace"
+│   │   │       └── Deny: enum
+│   │   │           ├── "ClientConnection"
+│   │   │           ├── "RESTAPI"
+│   │   │           ├── "ServerConnection"
+│   │   │           └── "Trace"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── ResourceLogConfiguration: 
+│   │   │   └── Categories: 
+│   │   │       ├── Enabled: *string
+│   │   │       └── Name: *string
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: enum
+│   │   │       ├── "Basic"
+│   │   │       ├── "Free"
+│   │   │       ├── "Premium"
+│   │   │       └── "Standard"
+│   │   ├── Tags: Map[string]string
+│   │   ├── Tls: 
+│   │   │   └── ClientCertEnabled: *bool
+│   │   └── Upstream: 
+│   │       └── Templates: 
+│   │           ├── Auth: 
+│   │           │   ├── ManagedIdentity: 
+│   │           │   │   └── Resource: *string
+│   │           │   └── Type: enum
+│   │           │       ├── "ManagedIdentity"
+│   │           │       └── "None"
+│   │           ├── CategoryPattern: *string
+│   │           ├── EventPattern: *string
+│   │           ├── HubPattern: *string
+│   │           └── UrlTemplate: *string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Cors: 
+│       │   └── AllowedOrigins: Array[string]
+│       ├── DisableAadAuth: *bool
+│       ├── DisableLocalAuth: *bool
+│       ├── ExternalIP: *string
+│       ├── Features: 
+│       │   ├── Flag: enum
+│       │   │   ├── "EnableConnectivityLogs"
+│       │   │   ├── "EnableLiveTrace"
+│       │   │   ├── "EnableMessagingLogs"
+│       │   │   └── "ServiceMode"
+│       │   ├── Properties: Map[string]string
+│       │   └── Value: *string
+│       ├── HostName: *string
+│       ├── HostNamePrefix: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── Kind: enum
+│       │   ├── "RawWebSockets"
+│       │   └── "SignalR"
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── NetworkACLs: 
+│       │   ├── DefaultAction: enum
+│       │   │   ├── "Allow"
+│       │   │   └── "Deny"
+│       │   ├── PrivateEndpoints: 
+│       │   │   ├── Allow: enum
+│       │   │   │   ├── "ClientConnection"
+│       │   │   │   ├── "RESTAPI"
+│       │   │   │   ├── "ServerConnection"
+│       │   │   │   └── "Trace"
+│       │   │   ├── Deny: enum
+│       │   │   │   ├── "ClientConnection"
+│       │   │   │   ├── "RESTAPI"
+│       │   │   │   ├── "ServerConnection"
+│       │   │   │   └── "Trace"
+│       │   │   └── Name: *string
+│       │   └── PublicNetwork: 
+│       │       ├── Allow: enum
+│       │       │   ├── "ClientConnection"
+│       │       │   ├── "RESTAPI"
+│       │       │   ├── "ServerConnection"
+│       │       │   └── "Trace"
+│       │       └── Deny: enum
+│       │           ├── "ClientConnection"
+│       │           ├── "RESTAPI"
+│       │           ├── "ServerConnection"
+│       │           └── "Trace"
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "Application"
+│       │       │   ├── "Key"
+│       │       │   ├── "ManagedIdentity"
+│       │       │   └── "User"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "Application"
+│       │           ├── "Key"
+│       │           ├── "ManagedIdentity"
+│       │           └── "User"
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Moving"
+│       │   ├── "Running"
+│       │   ├── "Succeeded"
+│       │   ├── "Unknown"
+│       │   └── "Updating"
+│       ├── PublicNetworkAccess: *string
+│       ├── PublicPort: *int
+│       ├── ResourceLogConfiguration: 
+│       │   └── Categories: 
+│       │       ├── Enabled: *string
+│       │       └── Name: *string
+│       ├── ServerPort: *int
+│       ├── SharedPrivateLinkResources: 
+│       │   ├── Id: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "Application"
+│       │       │   ├── "Key"
+│       │       │   ├── "ManagedIdentity"
+│       │       │   └── "User"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "Application"
+│       │           ├── "Key"
+│       │           ├── "ManagedIdentity"
+│       │           └── "User"
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Family: *string
+│       │   ├── Name: *string
+│       │   ├── Size: *string
+│       │   └── Tier: enum
+│       │       ├── "Basic"
+│       │       ├── "Free"
+│       │       ├── "Premium"
+│       │       └── "Standard"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── Tls: 
+│       │   └── ClientCertEnabled: *bool
+│       ├── Type: *string
+│       ├── Upstream: 
+│       │   └── Templates: 
+│       │       ├── Auth: 
+│       │       │   ├── ManagedIdentity: 
+│       │       │   │   └── Resource: *string
+│       │       │   └── Type: enum
+│       │       │       ├── "ManagedIdentity"
+│       │       │       └── "None"
+│       │       ├── CategoryPattern: *string
+│       │       ├── EventPattern: *string
+│       │       ├── HubPattern: *string
+│       │       └── UrlTemplate: *string
+│       └── Version: *string
+├── SignalRResource_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Kind: enum
+│   │   ├── "RawWebSockets"
+│   │   └── "SignalR"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Cors: 
+│   │   │   └── AllowedOrigins: Array[string]
+│   │   ├── DisableAadAuth: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── ExternalIP: *string
+│   │   ├── Features: 
+│   │   │   ├── Flag: enum
+│   │   │   │   ├── "EnableConnectivityLogs"
+│   │   │   │   ├── "EnableLiveTrace"
+│   │   │   │   ├── "EnableMessagingLogs"
+│   │   │   │   └── "ServiceMode"
+│   │   │   ├── Properties: Map[string]string
+│   │   │   └── Value: *string
+│   │   ├── HostName: *string
+│   │   ├── HostNamePrefix: *string
+│   │   ├── NetworkACLs: 
+│   │   │   ├── DefaultAction: enum
+│   │   │   │   ├── "Allow"
+│   │   │   │   └── "Deny"
+│   │   │   ├── PrivateEndpoints: 
+│   │   │   │   ├── Allow: enum
+│   │   │   │   │   ├── "ClientConnection"
+│   │   │   │   │   ├── "RESTAPI"
+│   │   │   │   │   ├── "ServerConnection"
+│   │   │   │   │   └── "Trace"
+│   │   │   │   ├── Deny: enum
+│   │   │   │   │   ├── "ClientConnection"
+│   │   │   │   │   ├── "RESTAPI"
+│   │   │   │   │   ├── "ServerConnection"
+│   │   │   │   │   └── "Trace"
+│   │   │   │   └── Name: *string
+│   │   │   └── PublicNetwork: 
+│   │   │       ├── Allow: enum
+│   │   │       │   ├── "ClientConnection"
+│   │   │       │   ├── "RESTAPI"
+│   │   │       │   ├── "ServerConnection"
+│   │   │       │   └── "Trace"
+│   │   │       └── Deny: enum
+│   │   │           ├── "ClientConnection"
+│   │   │           ├── "RESTAPI"
+│   │   │           ├── "ServerConnection"
+│   │   │           └── "Trace"
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   ├── "Succeeded"
+│   │   │   ├── "Unknown"
+│   │   │   └── "Updating"
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── PublicPort: *int
+│   │   ├── ResourceLogConfiguration: 
+│   │   │   └── Categories: 
+│   │   │       ├── Enabled: *string
+│   │   │       └── Name: *string
+│   │   ├── ServerPort: *int
+│   │   ├── SharedPrivateLinkResources: 
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── Tls: 
+│   │   │   └── ClientCertEnabled: *bool
+│   │   ├── Upstream: 
+│   │   │   └── Templates: 
+│   │   │       ├── Auth: 
+│   │   │       │   ├── ManagedIdentity: 
+│   │   │       │   │   └── Resource: *string
+│   │   │       │   └── Type: enum
+│   │   │       │       ├── "ManagedIdentity"
+│   │   │       │       └── "None"
+│   │   │       ├── CategoryPattern: *string
+│   │   │       ├── EventPattern: *string
+│   │   │       ├── HubPattern: *string
+│   │   │       └── UrlTemplate: *string
+│   │   └── Version: *string
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   └── Tier: enum
+│   │       ├── "Basic"
+│   │       ├── "Free"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── SignalR_Spec_ARM: 
+    ├── Identity: 
+    │   ├── Type: enum
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: Map[string]v1.JSON
+    ├── Kind: enum
+    │   ├── "RawWebSockets"
+    │   └── "SignalR"
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── Cors: 
+    │   │   └── AllowedOrigins: Array[string]
+    │   ├── DisableAadAuth: *bool
+    │   ├── DisableLocalAuth: *bool
+    │   ├── Features: 
+    │   │   ├── Flag: enum
+    │   │   │   ├── "EnableConnectivityLogs"
+    │   │   │   ├── "EnableLiveTrace"
+    │   │   │   ├── "EnableMessagingLogs"
+    │   │   │   └── "ServiceMode"
+    │   │   ├── Properties: Map[string]string
+    │   │   └── Value: *string
+    │   ├── NetworkACLs: 
+    │   │   ├── DefaultAction: enum
+    │   │   │   ├── "Allow"
+    │   │   │   └── "Deny"
+    │   │   ├── PrivateEndpoints: 
+    │   │   │   ├── Allow: enum
+    │   │   │   │   ├── "ClientConnection"
+    │   │   │   │   ├── "RESTAPI"
+    │   │   │   │   ├── "ServerConnection"
+    │   │   │   │   └── "Trace"
+    │   │   │   ├── Deny: enum
+    │   │   │   │   ├── "ClientConnection"
+    │   │   │   │   ├── "RESTAPI"
+    │   │   │   │   ├── "ServerConnection"
+    │   │   │   │   └── "Trace"
+    │   │   │   └── Name: *string
+    │   │   └── PublicNetwork: 
+    │   │       ├── Allow: enum
+    │   │       │   ├── "ClientConnection"
+    │   │       │   ├── "RESTAPI"
+    │   │       │   ├── "ServerConnection"
+    │   │       │   └── "Trace"
+    │   │       └── Deny: enum
+    │   │           ├── "ClientConnection"
+    │   │           ├── "RESTAPI"
+    │   │           ├── "ServerConnection"
+    │   │           └── "Trace"
+    │   ├── PublicNetworkAccess: *string
+    │   ├── ResourceLogConfiguration: 
+    │   │   └── Categories: 
+    │   │       ├── Enabled: *string
+    │   │       └── Name: *string
+    │   ├── Tls: 
+    │   │   └── ClientCertEnabled: *bool
+    │   └── Upstream: 
+    │       └── Templates: 
+    │           ├── Auth: 
+    │           │   ├── ManagedIdentity: 
+    │           │   │   └── Resource: *string
+    │           │   └── Type: enum
+    │           │       ├── "ManagedIdentity"
+    │           │       └── "None"
+    │           ├── CategoryPattern: *string
+    │           ├── EventPattern: *string
+    │           ├── HubPattern: *string
+    │           └── UrlTemplate: *string
+    ├── Sku: 
+    │   ├── Capacity: *int
+    │   ├── Name: *string
+    │   └── Tier: enum
+    │       ├── "Basic"
+    │       ├── "Free"
+    │       ├── "Premium"
+    │       └── "Standard"
+    └── Tags: Map[string]string

@@ -1,0 +1,108 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage
+├── APIVersion: enum
+│   └── "2021-07-01"
+└── Image: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── ExtendedLocation: 
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── HyperVGeneration: *string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── SourceVirtualMachine: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── StorageProfile: 
+    │   │   ├── DataDisks: 
+    │   │   │   ├── BlobUri: *string
+    │   │   │   ├── Caching: *string
+    │   │   │   ├── DiskEncryptionSet: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── DiskSizeGB: *int
+    │   │   │   ├── Lun: *int
+    │   │   │   ├── ManagedDisk: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Snapshot: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   └── StorageAccountType: *string
+    │   │   ├── OsDisk: 
+    │   │   │   ├── BlobUri: *string
+    │   │   │   ├── Caching: *string
+    │   │   │   ├── DiskEncryptionSet: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── DiskSizeGB: *int
+    │   │   │   ├── ManagedDisk: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   ├── OsState: *string
+    │   │   │   ├── OsType: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Snapshot: 
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   │   └── StorageAccountType: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ZoneResilient: *bool
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── ExtendedLocation: 
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Type: *string
+        ├── HyperVGeneration: *string
+        ├── Id: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── SourceVirtualMachine: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── StorageProfile: 
+        │   ├── DataDisks: 
+        │   │   ├── BlobUri: *string
+        │   │   ├── Caching: *string
+        │   │   ├── DiskEncryptionSet: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── DiskSizeGB: *int
+        │   │   ├── Lun: *int
+        │   │   ├── ManagedDisk: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── Snapshot: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   └── StorageAccountType: *string
+        │   ├── OsDisk: 
+        │   │   ├── BlobUri: *string
+        │   │   ├── Caching: *string
+        │   │   ├── DiskEncryptionSet: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── DiskSizeGB: *int
+        │   │   ├── ManagedDisk: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── OsState: *string
+        │   │   ├── OsType: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── Snapshot: 
+        │   │   │   ├── Id: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   └── StorageAccountType: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── ZoneResilient: *bool
+        ├── Tags: Map[string]string
+        └── Type: *string

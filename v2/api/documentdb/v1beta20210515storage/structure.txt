@@ -1,0 +1,734 @@
+github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
+├── APIVersion: enum
+│   └── "2021-05-15"
+├── DatabaseAccount: Resource
+│   ├── Spec: 
+│   │   ├── AnalyticalStorageConfiguration: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── SchemaType: *string
+│   │   ├── ApiProperties: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ServerVersion: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── BackupPolicy: 
+│   │   │   ├── Continuous: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   ├── Periodic: 
+│   │   │   │   ├── PeriodicModeProperties: 
+│   │   │   │   │   ├── BackupIntervalInMinutes: *int
+│   │   │   │   │   ├── BackupRetentionIntervalInHours: *int
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Capabilities: 
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── ConnectorOffer: *string
+│   │   ├── ConsistencyPolicy: 
+│   │   │   ├── DefaultConsistencyLevel: *string
+│   │   │   ├── MaxIntervalInSeconds: *int
+│   │   │   ├── MaxStalenessPrefix: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Cors: 
+│   │   │   ├── AllowedHeaders: *string
+│   │   │   ├── AllowedMethods: *string
+│   │   │   ├── AllowedOrigins: *string
+│   │   │   ├── ExposedHeaders: *string
+│   │   │   ├── MaxAgeInSeconds: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── DatabaseAccountOfferType: *string
+│   │   ├── DefaultIdentity: *string
+│   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
+│   │   ├── EnableAnalyticalStorage: *bool
+│   │   ├── EnableAutomaticFailover: *bool
+│   │   ├── EnableCassandraConnector: *bool
+│   │   ├── EnableFreeTier: *bool
+│   │   ├── EnableMultipleWriteLocations: *bool
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IpRules: 
+│   │   │   ├── IpAddressOrRange: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── IsVirtualNetworkFilterEnabled: *bool
+│   │   ├── KeyVaultKeyUri: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── Locations: 
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   ├── LocationName: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── NetworkAclBypass: *string
+│   │   ├── NetworkAclBypassResourceIds: Array[string]
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
+│   │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── SecondaryMasterKey: *genruntime.SecretDestination
+│   │   │       └── SecondaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── VirtualNetworkRules: 
+│   │       ├── IgnoreMissingVNetServiceEndpoint: *bool
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: 
+│       ├── AnalyticalStorageConfiguration: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SchemaType: *string
+│       ├── ApiProperties: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ServerVersion: *string
+│       ├── BackupPolicy: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Capabilities: 
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ConnectorOffer: *string
+│       ├── ConsistencyPolicy: 
+│       │   ├── DefaultConsistencyLevel: *string
+│       │   ├── MaxIntervalInSeconds: *int
+│       │   ├── MaxStalenessPrefix: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Cors: 
+│       │   ├── AllowedHeaders: *string
+│       │   ├── AllowedMethods: *string
+│       │   ├── AllowedOrigins: *string
+│       │   ├── ExposedHeaders: *string
+│       │   ├── MaxAgeInSeconds: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── DatabaseAccountOfferType: *string
+│       ├── DefaultIdentity: *string
+│       ├── DisableKeyBasedMetadataWriteAccess: *bool
+│       ├── DocumentEndpoint: *string
+│       ├── EnableAnalyticalStorage: *bool
+│       ├── EnableAutomaticFailover: *bool
+│       ├── EnableCassandraConnector: *bool
+│       ├── EnableFreeTier: *bool
+│       ├── EnableMultipleWriteLocations: *bool
+│       ├── FailoverPolicies: 
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── LocationName: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── IpRules: 
+│       │   ├── IpAddressOrRange: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── IsVirtualNetworkFilterEnabled: *bool
+│       ├── KeyVaultKeyUri: *string
+│       ├── Kind: *string
+│       ├── Location: *string
+│       ├── Locations: 
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ProvisioningState: *string
+│       ├── Name: *string
+│       ├── NetworkAclBypass: *string
+│       ├── NetworkAclBypassResourceIds: Array[string]
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── ReadLocations: 
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ProvisioningState: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── VirtualNetworkRules: 
+│       │   ├── Id: *string
+│       │   ├── IgnoreMissingVNetServiceEndpoint: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── WriteLocations: 
+│           ├── DocumentEndpoint: *string
+│           ├── FailoverPriority: *int
+│           ├── Id: *string
+│           ├── IsZoneRedundant: *bool
+│           ├── LocationName: *string
+│           ├── PropertyBag: genruntime.PropertyBag
+│           └── ProvisioningState: *string
+├── MongodbDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollection: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── Indexes: 
+│   │   │   │   ├── Key: 
+│   │   │   │   │   ├── Keys: Array[string]
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Options: 
+│   │   │   │   │   ├── ExpireAfterSeconds: *int
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Unique: *bool
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ShardKey: Map[string]string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Indexes: 
+│       │   │   ├── Key: 
+│       │   │   │   ├── Keys: Array[string]
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Options: 
+│       │   │   │   ├── ExpireAfterSeconds: *int
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Unique: *bool
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── ShardKey: Map[string]string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── Colls: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── Users: *string
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainer: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── ConflictResolutionPolicy: 
+│   │   │   │   ├── ConflictResolutionPath: *string
+│   │   │   │   ├── ConflictResolutionProcedure: *string
+│   │   │   │   ├── Mode: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── DefaultTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IndexingPolicy: 
+│   │   │   │   ├── Automatic: *bool
+│   │   │   │   ├── CompositeIndexes: 
+│   │   │   │   │   ├── Order: *string
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── ExcludedPaths: 
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── IncludedPaths: 
+│   │   │   │   │   ├── Indexes: 
+│   │   │   │   │   │   ├── DataType: *string
+│   │   │   │   │   │   ├── Kind: *string
+│   │   │   │   │   │   ├── Precision: *int
+│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── IndexingMode: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── SpatialIndexes: 
+│   │   │   │       ├── Path: *string
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── Types: Array[string]
+│   │   │   ├── PartitionKey: 
+│   │   │   │   ├── Kind: *string
+│   │   │   │   ├── Paths: Array[string]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Version: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UniqueKeyPolicy: 
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── UniqueKeys: 
+│   │   │           ├── Paths: Array[string]
+│   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── ConflictResolutionPolicy: 
+│       │   │   ├── ConflictResolutionPath: *string
+│       │   │   ├── ConflictResolutionProcedure: *string
+│       │   │   ├── Mode: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── DefaultTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── IndexingPolicy: 
+│       │   │   ├── Automatic: *bool
+│       │   │   ├── CompositeIndexes: 
+│       │   │   │   ├── Order: *string
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ExcludedPaths: 
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── IncludedPaths: 
+│       │   │   │   ├── Indexes: 
+│       │   │   │   │   ├── DataType: *string
+│       │   │   │   │   ├── Kind: *string
+│       │   │   │   │   ├── Precision: *int
+│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── IndexingMode: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── SpatialIndexes: 
+│       │   │       ├── Path: *string
+│       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │   │       └── Types: Array[string]
+│       │   ├── PartitionKey: 
+│       │   │   ├── Kind: *string
+│       │   │   ├── Paths: Array[string]
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SystemKey: *bool
+│       │   │   └── Version: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── UniqueKeyPolicy: 
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── UniqueKeys: 
+│       │           ├── Paths: Array[string]
+│       │           └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerTrigger: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── TriggerOperation: *string
+│   │   │   └── TriggerType: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── TriggerOperation: *string
+│       │   ├── TriggerType: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── SqlDatabaseThroughputSetting: Resource
+│   ├── Spec: 
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: 
+│   │   │   ├── AutoscaleSettings: 
+│   │   │   │   ├── AutoUpgradePolicy: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: 
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: 
+│       │   ├── AutoscaleSettings: 
+│       │   │   ├── AutoUpgradePolicy: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: 
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+└── SqlRoleAssignment: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PrincipalId: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── RoleDefinitionId: *string
+    │   └── Scope: *string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Id: *string
+        ├── Name: *string
+        ├── PrincipalId: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── RoleDefinitionId: *string
+        ├── Scope: *string
+        └── Type: *string

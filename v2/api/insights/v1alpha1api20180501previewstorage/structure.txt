@@ -1,0 +1,92 @@
+github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previewstorage
+├── APIVersion: enum
+│   └── "2018-05-01-preview"
+└── Webtest: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── Configuration: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── WebTest: *string
+    │   ├── Description: *string
+    │   ├── Enabled: *bool
+    │   ├── Frequency: *int
+    │   ├── Kind: *string
+    │   ├── Location: *string
+    │   ├── Locations: 
+    │   │   ├── Id: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── Name: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── Request: 
+    │   │   ├── FollowRedirects: *bool
+    │   │   ├── Headers: 
+    │   │   │   ├── Key: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Value: *string
+    │   │   ├── HttpVerb: *string
+    │   │   ├── ParseDependentRequests: *bool
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── RequestBody: *string
+    │   │   └── RequestUrl: *string
+    │   ├── RetryEnabled: *bool
+    │   ├── SyntheticMonitorId: *string
+    │   ├── Tags: Map[string]string
+    │   ├── Timeout: *int
+    │   └── ValidationRules: 
+    │       ├── ContentValidation: 
+    │       │   ├── ContentMatch: *string
+    │       │   ├── IgnoreCase: *bool
+    │       │   ├── PassIfTextFound: *bool
+    │       │   └── PropertyBag: genruntime.PropertyBag
+    │       ├── ExpectedHttpStatusCode: *int
+    │       ├── IgnoreHttpsStatusCode: *bool
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       ├── SSLCertRemainingLifetimeCheck: *int
+    │       └── SSLCheck: *bool
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Configuration: 
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── WebTest: *string
+        ├── Description: *string
+        ├── Enabled: *bool
+        ├── Frequency: *int
+        ├── Id: *string
+        ├── Kind: *string
+        ├── Location: *string
+        ├── Locations: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Name: *string
+        ├── PropertiesName: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── Request: 
+        │   ├── FollowRedirects: *bool
+        │   ├── Headers: 
+        │   │   ├── Key: *string
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── Value: *string
+        │   ├── HttpVerb: *string
+        │   ├── ParseDependentRequests: *bool
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── RequestBody: *string
+        │   └── RequestUrl: *string
+        ├── RetryEnabled: *bool
+        ├── SyntheticMonitorId: *string
+        ├── Tags: *v1.JSON
+        ├── Timeout: *int
+        ├── Type: *string
+        └── ValidationRules: 
+            ├── ContentValidation: 
+            │   ├── ContentMatch: *string
+            │   ├── IgnoreCase: *bool
+            │   ├── PassIfTextFound: *bool
+            │   └── PropertyBag: genruntime.PropertyBag
+            ├── ExpectedHttpStatusCode: *int
+            ├── IgnoreHttpsStatusCode: *bool
+            ├── PropertyBag: genruntime.PropertyBag
+            ├── SSLCertRemainingLifetimeCheck: *int
+            └── SSLCheck: *bool

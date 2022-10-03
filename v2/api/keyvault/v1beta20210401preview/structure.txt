@@ -1,0 +1,493 @@
+github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
+├── APIVersion: enum
+│   └── "2021-04-01-preview"
+├── Vault: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Properties: 
+│   │   │   ├── AccessPolicies: 
+│   │   │   │   ├── ApplicationId: Validated[*string]
+│   │   │   │   ├── ObjectId: *string
+│   │   │   │   ├── Permissions: 
+│   │   │   │   │   ├── Certificates: enum
+│   │   │   │   │   │   ├── "backup"
+│   │   │   │   │   │   ├── "create"
+│   │   │   │   │   │   ├── "delete"
+│   │   │   │   │   │   ├── "deleteissuers"
+│   │   │   │   │   │   ├── "get"
+│   │   │   │   │   │   ├── "getissuers"
+│   │   │   │   │   │   ├── "import"
+│   │   │   │   │   │   ├── "list"
+│   │   │   │   │   │   ├── "listissuers"
+│   │   │   │   │   │   ├── "managecontacts"
+│   │   │   │   │   │   ├── "manageissuers"
+│   │   │   │   │   │   ├── "purge"
+│   │   │   │   │   │   ├── "recover"
+│   │   │   │   │   │   ├── "restore"
+│   │   │   │   │   │   ├── "setissuers"
+│   │   │   │   │   │   └── "update"
+│   │   │   │   │   ├── Keys: enum
+│   │   │   │   │   │   ├── "backup"
+│   │   │   │   │   │   ├── "create"
+│   │   │   │   │   │   ├── "decrypt"
+│   │   │   │   │   │   ├── "delete"
+│   │   │   │   │   │   ├── "encrypt"
+│   │   │   │   │   │   ├── "get"
+│   │   │   │   │   │   ├── "import"
+│   │   │   │   │   │   ├── "list"
+│   │   │   │   │   │   ├── "purge"
+│   │   │   │   │   │   ├── "recover"
+│   │   │   │   │   │   ├── "release"
+│   │   │   │   │   │   ├── "restore"
+│   │   │   │   │   │   ├── "sign"
+│   │   │   │   │   │   ├── "unwrapKey"
+│   │   │   │   │   │   ├── "update"
+│   │   │   │   │   │   ├── "verify"
+│   │   │   │   │   │   └── "wrapKey"
+│   │   │   │   │   ├── Secrets: enum
+│   │   │   │   │   │   ├── "backup"
+│   │   │   │   │   │   ├── "delete"
+│   │   │   │   │   │   ├── "get"
+│   │   │   │   │   │   ├── "list"
+│   │   │   │   │   │   ├── "purge"
+│   │   │   │   │   │   ├── "recover"
+│   │   │   │   │   │   ├── "restore"
+│   │   │   │   │   │   └── "set"
+│   │   │   │   │   └── Storage: enum
+│   │   │   │   │       ├── "backup"
+│   │   │   │   │       ├── "delete"
+│   │   │   │   │       ├── "deletesas"
+│   │   │   │   │       ├── "get"
+│   │   │   │   │       ├── "getsas"
+│   │   │   │   │       ├── "list"
+│   │   │   │   │       ├── "listsas"
+│   │   │   │   │       ├── "purge"
+│   │   │   │   │       ├── "recover"
+│   │   │   │   │       ├── "regeneratekey"
+│   │   │   │   │       ├── "restore"
+│   │   │   │   │       ├── "set"
+│   │   │   │   │       ├── "setsas"
+│   │   │   │   │       └── "update"
+│   │   │   │   └── TenantId: Validated[*string]
+│   │   │   ├── CreateMode: enum
+│   │   │   │   ├── "default"
+│   │   │   │   └── "recover"
+│   │   │   ├── EnablePurgeProtection: *bool
+│   │   │   ├── EnableRbacAuthorization: *bool
+│   │   │   ├── EnableSoftDelete: *bool
+│   │   │   ├── EnabledForDeployment: *bool
+│   │   │   ├── EnabledForDiskEncryption: *bool
+│   │   │   ├── EnabledForTemplateDeployment: *bool
+│   │   │   ├── NetworkAcls: 
+│   │   │   │   ├── Bypass: enum
+│   │   │   │   │   ├── "AzureServices"
+│   │   │   │   │   └── "None"
+│   │   │   │   ├── DefaultAction: enum
+│   │   │   │   │   ├── "Allow"
+│   │   │   │   │   └── "Deny"
+│   │   │   │   ├── IpRules: 
+│   │   │   │   │   └── Value: *string
+│   │   │   │   └── VirtualNetworkRules: 
+│   │   │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
+│   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ProvisioningState: enum
+│   │   │   │   ├── "RegisteringDns"
+│   │   │   │   └── "Succeeded"
+│   │   │   ├── Sku: 
+│   │   │   │   ├── Family: enum
+│   │   │   │   │   └── "A"
+│   │   │   │   └── Name: enum
+│   │   │   │       ├── "premium"
+│   │   │   │       └── "standard"
+│   │   │   ├── SoftDeleteRetentionInDays: *int
+│   │   │   ├── TenantId: Validated[*string]
+│   │   │   └── VaultUri: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Properties: 
+│       │   ├── AccessPolicies: 
+│       │   │   ├── ApplicationId: *string
+│       │   │   ├── ObjectId: *string
+│       │   │   ├── Permissions: 
+│       │   │   │   ├── Certificates: enum
+│       │   │   │   │   ├── "backup"
+│       │   │   │   │   ├── "create"
+│       │   │   │   │   ├── "delete"
+│       │   │   │   │   ├── "deleteissuers"
+│       │   │   │   │   ├── "get"
+│       │   │   │   │   ├── "getissuers"
+│       │   │   │   │   ├── "import"
+│       │   │   │   │   ├── "list"
+│       │   │   │   │   ├── "listissuers"
+│       │   │   │   │   ├── "managecontacts"
+│       │   │   │   │   ├── "manageissuers"
+│       │   │   │   │   ├── "purge"
+│       │   │   │   │   ├── "recover"
+│       │   │   │   │   ├── "restore"
+│       │   │   │   │   ├── "setissuers"
+│       │   │   │   │   └── "update"
+│       │   │   │   ├── Keys: enum
+│       │   │   │   │   ├── "backup"
+│       │   │   │   │   ├── "create"
+│       │   │   │   │   ├── "decrypt"
+│       │   │   │   │   ├── "delete"
+│       │   │   │   │   ├── "encrypt"
+│       │   │   │   │   ├── "get"
+│       │   │   │   │   ├── "import"
+│       │   │   │   │   ├── "list"
+│       │   │   │   │   ├── "purge"
+│       │   │   │   │   ├── "recover"
+│       │   │   │   │   ├── "release"
+│       │   │   │   │   ├── "restore"
+│       │   │   │   │   ├── "sign"
+│       │   │   │   │   ├── "unwrapKey"
+│       │   │   │   │   ├── "update"
+│       │   │   │   │   ├── "verify"
+│       │   │   │   │   └── "wrapKey"
+│       │   │   │   ├── Secrets: enum
+│       │   │   │   │   ├── "backup"
+│       │   │   │   │   ├── "delete"
+│       │   │   │   │   ├── "get"
+│       │   │   │   │   ├── "list"
+│       │   │   │   │   ├── "purge"
+│       │   │   │   │   ├── "recover"
+│       │   │   │   │   ├── "restore"
+│       │   │   │   │   └── "set"
+│       │   │   │   └── Storage: enum
+│       │   │   │       ├── "backup"
+│       │   │   │       ├── "delete"
+│       │   │   │       ├── "deletesas"
+│       │   │   │       ├── "get"
+│       │   │   │       ├── "getsas"
+│       │   │   │       ├── "list"
+│       │   │   │       ├── "listsas"
+│       │   │   │       ├── "purge"
+│       │   │   │       ├── "recover"
+│       │   │   │       ├── "regeneratekey"
+│       │   │   │       ├── "restore"
+│       │   │   │       ├── "set"
+│       │   │   │       ├── "setsas"
+│       │   │   │       └── "update"
+│       │   │   └── TenantId: *string
+│       │   ├── CreateMode: enum
+│       │   │   ├── "default"
+│       │   │   └── "recover"
+│       │   ├── EnablePurgeProtection: *bool
+│       │   ├── EnableRbacAuthorization: *bool
+│       │   ├── EnableSoftDelete: *bool
+│       │   ├── EnabledForDeployment: *bool
+│       │   ├── EnabledForDiskEncryption: *bool
+│       │   ├── EnabledForTemplateDeployment: *bool
+│       │   ├── HsmPoolResourceId: *string
+│       │   ├── NetworkAcls: 
+│       │   │   ├── Bypass: enum
+│       │   │   │   ├── "AzureServices"
+│       │   │   │   └── "None"
+│       │   │   ├── DefaultAction: enum
+│       │   │   │   ├── "Allow"
+│       │   │   │   └── "Deny"
+│       │   │   ├── IpRules: 
+│       │   │   │   └── Value: *string
+│       │   │   └── VirtualNetworkRules: 
+│       │   │       ├── Id: *string
+│       │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
+│       │   ├── PrivateEndpointConnections: 
+│       │   │   ├── Etag: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── PrivateEndpoint: 
+│       │   │   │   └── Id: *string
+│       │   │   ├── PrivateLinkServiceConnectionState: 
+│       │   │   │   ├── ActionsRequired: enum
+│       │   │   │   │   └── "None"
+│       │   │   │   ├── Description: *string
+│       │   │   │   └── Status: enum
+│       │   │   │       ├── "Approved"
+│       │   │   │       ├── "Disconnected"
+│       │   │   │       ├── "Pending"
+│       │   │   │       └── "Rejected"
+│       │   │   └── ProvisioningState: enum
+│       │   │       ├── "Creating"
+│       │   │       ├── "Deleting"
+│       │   │       ├── "Disconnected"
+│       │   │       ├── "Failed"
+│       │   │       ├── "Succeeded"
+│       │   │       └── "Updating"
+│       │   ├── ProvisioningState: enum
+│       │   │   ├── "RegisteringDns"
+│       │   │   └── "Succeeded"
+│       │   ├── Sku: 
+│       │   │   ├── Family: enum
+│       │   │   │   └── "A"
+│       │   │   └── Name: enum
+│       │   │       ├── "premium"
+│       │   │       └── "standard"
+│       │   ├── SoftDeleteRetentionInDays: *int
+│       │   ├── TenantId: *string
+│       │   └── VaultUri: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── Vault_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AccessPolicies: 
+│   │   │   ├── ApplicationId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   ├── Permissions: 
+│   │   │   │   ├── Certificates: enum
+│   │   │   │   │   ├── "backup"
+│   │   │   │   │   ├── "create"
+│   │   │   │   │   ├── "delete"
+│   │   │   │   │   ├── "deleteissuers"
+│   │   │   │   │   ├── "get"
+│   │   │   │   │   ├── "getissuers"
+│   │   │   │   │   ├── "import"
+│   │   │   │   │   ├── "list"
+│   │   │   │   │   ├── "listissuers"
+│   │   │   │   │   ├── "managecontacts"
+│   │   │   │   │   ├── "manageissuers"
+│   │   │   │   │   ├── "purge"
+│   │   │   │   │   ├── "recover"
+│   │   │   │   │   ├── "restore"
+│   │   │   │   │   ├── "setissuers"
+│   │   │   │   │   └── "update"
+│   │   │   │   ├── Keys: enum
+│   │   │   │   │   ├── "backup"
+│   │   │   │   │   ├── "create"
+│   │   │   │   │   ├── "decrypt"
+│   │   │   │   │   ├── "delete"
+│   │   │   │   │   ├── "encrypt"
+│   │   │   │   │   ├── "get"
+│   │   │   │   │   ├── "import"
+│   │   │   │   │   ├── "list"
+│   │   │   │   │   ├── "purge"
+│   │   │   │   │   ├── "recover"
+│   │   │   │   │   ├── "release"
+│   │   │   │   │   ├── "restore"
+│   │   │   │   │   ├── "sign"
+│   │   │   │   │   ├── "unwrapKey"
+│   │   │   │   │   ├── "update"
+│   │   │   │   │   ├── "verify"
+│   │   │   │   │   └── "wrapKey"
+│   │   │   │   ├── Secrets: enum
+│   │   │   │   │   ├── "backup"
+│   │   │   │   │   ├── "delete"
+│   │   │   │   │   ├── "get"
+│   │   │   │   │   ├── "list"
+│   │   │   │   │   ├── "purge"
+│   │   │   │   │   ├── "recover"
+│   │   │   │   │   ├── "restore"
+│   │   │   │   │   └── "set"
+│   │   │   │   └── Storage: enum
+│   │   │   │       ├── "backup"
+│   │   │   │       ├── "delete"
+│   │   │   │       ├── "deletesas"
+│   │   │   │       ├── "get"
+│   │   │   │       ├── "getsas"
+│   │   │   │       ├── "list"
+│   │   │   │       ├── "listsas"
+│   │   │   │       ├── "purge"
+│   │   │   │       ├── "recover"
+│   │   │   │       ├── "regeneratekey"
+│   │   │   │       ├── "restore"
+│   │   │   │       ├── "set"
+│   │   │   │       ├── "setsas"
+│   │   │   │       └── "update"
+│   │   │   └── TenantId: *string
+│   │   ├── CreateMode: enum
+│   │   │   ├── "default"
+│   │   │   └── "recover"
+│   │   ├── EnablePurgeProtection: *bool
+│   │   ├── EnableRbacAuthorization: *bool
+│   │   ├── EnableSoftDelete: *bool
+│   │   ├── EnabledForDeployment: *bool
+│   │   ├── EnabledForDiskEncryption: *bool
+│   │   ├── EnabledForTemplateDeployment: *bool
+│   │   ├── HsmPoolResourceId: *string
+│   │   ├── NetworkAcls: 
+│   │   │   ├── Bypass: enum
+│   │   │   │   ├── "AzureServices"
+│   │   │   │   └── "None"
+│   │   │   ├── DefaultAction: enum
+│   │   │   │   ├── "Allow"
+│   │   │   │   └── "Deny"
+│   │   │   ├── IpRules: 
+│   │   │   │   └── Value: *string
+│   │   │   └── VirtualNetworkRules: 
+│   │   │       ├── Id: *string
+│   │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Etag: *string
+│   │   │   ├── Id: *string
+│   │   │   └── Properties: 
+│   │   │       ├── PrivateEndpoint: 
+│   │   │       │   └── Id: *string
+│   │   │       ├── PrivateLinkServiceConnectionState: 
+│   │   │       │   ├── ActionsRequired: enum
+│   │   │       │   │   └── "None"
+│   │   │       │   ├── Description: *string
+│   │   │       │   └── Status: enum
+│   │   │       │       ├── "Approved"
+│   │   │       │       ├── "Disconnected"
+│   │   │       │       ├── "Pending"
+│   │   │       │       └── "Rejected"
+│   │   │       └── ProvisioningState: enum
+│   │   │           ├── "Creating"
+│   │   │           ├── "Deleting"
+│   │   │           ├── "Disconnected"
+│   │   │           ├── "Failed"
+│   │   │           ├── "Succeeded"
+│   │   │           └── "Updating"
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "RegisteringDns"
+│   │   │   └── "Succeeded"
+│   │   ├── Sku: 
+│   │   │   ├── Family: enum
+│   │   │   │   └── "A"
+│   │   │   └── Name: enum
+│   │   │       ├── "premium"
+│   │   │       └── "standard"
+│   │   ├── SoftDeleteRetentionInDays: *int
+│   │   ├── TenantId: *string
+│   │   └── VaultUri: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── Vault_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── AccessPolicies: 
+    │   │   ├── ApplicationId: *string
+    │   │   ├── ObjectId: *string
+    │   │   ├── Permissions: 
+    │   │   │   ├── Certificates: enum
+    │   │   │   │   ├── "backup"
+    │   │   │   │   ├── "create"
+    │   │   │   │   ├── "delete"
+    │   │   │   │   ├── "deleteissuers"
+    │   │   │   │   ├── "get"
+    │   │   │   │   ├── "getissuers"
+    │   │   │   │   ├── "import"
+    │   │   │   │   ├── "list"
+    │   │   │   │   ├── "listissuers"
+    │   │   │   │   ├── "managecontacts"
+    │   │   │   │   ├── "manageissuers"
+    │   │   │   │   ├── "purge"
+    │   │   │   │   ├── "recover"
+    │   │   │   │   ├── "restore"
+    │   │   │   │   ├── "setissuers"
+    │   │   │   │   └── "update"
+    │   │   │   ├── Keys: enum
+    │   │   │   │   ├── "backup"
+    │   │   │   │   ├── "create"
+    │   │   │   │   ├── "decrypt"
+    │   │   │   │   ├── "delete"
+    │   │   │   │   ├── "encrypt"
+    │   │   │   │   ├── "get"
+    │   │   │   │   ├── "import"
+    │   │   │   │   ├── "list"
+    │   │   │   │   ├── "purge"
+    │   │   │   │   ├── "recover"
+    │   │   │   │   ├── "release"
+    │   │   │   │   ├── "restore"
+    │   │   │   │   ├── "sign"
+    │   │   │   │   ├── "unwrapKey"
+    │   │   │   │   ├── "update"
+    │   │   │   │   ├── "verify"
+    │   │   │   │   └── "wrapKey"
+    │   │   │   ├── Secrets: enum
+    │   │   │   │   ├── "backup"
+    │   │   │   │   ├── "delete"
+    │   │   │   │   ├── "get"
+    │   │   │   │   ├── "list"
+    │   │   │   │   ├── "purge"
+    │   │   │   │   ├── "recover"
+    │   │   │   │   ├── "restore"
+    │   │   │   │   └── "set"
+    │   │   │   └── Storage: enum
+    │   │   │       ├── "backup"
+    │   │   │       ├── "delete"
+    │   │   │       ├── "deletesas"
+    │   │   │       ├── "get"
+    │   │   │       ├── "getsas"
+    │   │   │       ├── "list"
+    │   │   │       ├── "listsas"
+    │   │   │       ├── "purge"
+    │   │   │       ├── "recover"
+    │   │   │       ├── "regeneratekey"
+    │   │   │       ├── "restore"
+    │   │   │       ├── "set"
+    │   │   │       ├── "setsas"
+    │   │   │       └── "update"
+    │   │   └── TenantId: *string
+    │   ├── CreateMode: enum
+    │   │   ├── "default"
+    │   │   └── "recover"
+    │   ├── EnablePurgeProtection: *bool
+    │   ├── EnableRbacAuthorization: *bool
+    │   ├── EnableSoftDelete: *bool
+    │   ├── EnabledForDeployment: *bool
+    │   ├── EnabledForDiskEncryption: *bool
+    │   ├── EnabledForTemplateDeployment: *bool
+    │   ├── NetworkAcls: 
+    │   │   ├── Bypass: enum
+    │   │   │   ├── "AzureServices"
+    │   │   │   └── "None"
+    │   │   ├── DefaultAction: enum
+    │   │   │   ├── "Allow"
+    │   │   │   └── "Deny"
+    │   │   ├── IpRules: 
+    │   │   │   └── Value: *string
+    │   │   └── VirtualNetworkRules: 
+    │   │       ├── Id: *string
+    │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
+    │   ├── ProvisioningState: enum
+    │   │   ├── "RegisteringDns"
+    │   │   └── "Succeeded"
+    │   ├── Sku: 
+    │   │   ├── Family: enum
+    │   │   │   └── "A"
+    │   │   └── Name: enum
+    │   │       ├── "premium"
+    │   │       └── "standard"
+    │   ├── SoftDeleteRetentionInDays: *int
+    │   ├── TenantId: *string
+    │   └── VaultUri: *string
+    └── Tags: Map[string]string

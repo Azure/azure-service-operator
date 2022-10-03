@@ -6,11 +6,9 @@
 package codegen
 
 import (
-	"fmt"
-	"io/ioutil"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 	"path"
 	"regexp"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -38,138 +36,17 @@ func newDebugReporter(groupSelector string, outputFolder string) *debugReporter 
 }
 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
-	report, err := dr.createReport(state)
-	if err != nil {
-		return errors.Wrapf(err, "failed to create debug report for stage %d", stage)
-	}
+	included := state.Definitions().Where(
+		func(def astmodel.TypeDefinition) bool {
+			grp, _ := def.Name().PackageReference.GroupVersion()
+			return dr.groupSelector.Matches(grp)
+		})
 
-	// Save the template to the debug directory
+	tcr := reporting.NewTypeCatalogReport(included)
+	tcr.IncludeFunctions()
 	filename := dr.createFileName(stage, description)
-	err = ioutil.WriteFile(filename, []byte(report), 0600)
-	return errors.Wrapf(err, "failed to write debug log to %s", filename)
-}
-
-func (dr *debugReporter) createReport(state *pipeline.State) (string, error) {
-	var buffer strings.Builder
-
-	packages := dr.findPackages(state.Definitions())
-	for _, pkg := range packages {
-		grp, _ := pkg.GroupVersion()
-		if !dr.groupSelector.Matches(grp) {
-			// Skip this package
-			continue
-		}
-
-		rpt := newDebugReport(pkg.PackagePath())
-		dr.writeDefinitions(rpt, dr.inPackage(pkg, state.Definitions()))
-
-		err := rpt.saveTo(&buffer)
-		if err != nil {
-			return "", errors.Wrapf(err, "failed to create debug report for %s", pkg.PackagePath())
-		}
-	}
-
-	return buffer.String(), nil
-}
-
-// writeDefinitions writes the definitions to the debug report.
-// rpt is the debug report to write to.
-// definitions is the set of definitions to write.
-// Definitions are written in alphabetical order.
-func (dr *debugReporter) writeDefinitions(rpt *debugReport, definitions astmodel.TypeDefinitionSet) {
-	defs := definitions.AsSlice()
-	sort.Slice(defs, func(i, j int) bool {
-		return defs[i].Name().Name() < defs[j].Name().Name()
-	})
-
-	for _, d := range defs {
-		dr.writeDefinition(rpt, d)
-	}
-}
-
-// writeDefinition writes the definition to the debug report.
-// rpt is the debug report to write to.
-// definition is the definition to write.
-func (dr *debugReporter) writeDefinition(rpt *debugReport, definition astmodel.TypeDefinition) {
-	name := definition.Name()
-	t := definition.Type()
-	sub := rpt.add(
-		fmt.Sprintf("%s: %s", name.Name(), astmodel.DebugDescription(t, name.PackageReference)))
-	dr.writeType(sub, definition.Type(), name.PackageReference)
-}
-
-// writeType writes the type to the debug report.
-// rpt is the debug report to write to.
-// t is the type to write.
-// currentPackage is the package that the type is defined in (used to simplify type descriptions).
-// Only complex types where astmodel.DebugDescription is insufficient are written.
-func (dr *debugReporter) writeType(
-	rpt *debugReport,
-	t astmodel.Type,
-	currentPackage astmodel.PackageReference,
-) {
-	if rsrc, ok := astmodel.AsResourceType(t); ok {
-		dr.writeResource(rpt, rsrc, currentPackage)
-	} else if obj, ok := astmodel.AsObjectType(t); ok {
-		dr.writeObject(rpt, obj, currentPackage)
-	} else if obj, ok := astmodel.AsEnumType(t); ok {
-		dr.writeEnum(rpt, obj, currentPackage)
-	}
-}
-
-// writeResource writes the resource to the debug report.
-// rpt is the debug report to write to.
-// resource is the resource to write.
-// currentPackage is the package that the resource is defined in (used to simplify type descriptions).
-func (dr *debugReporter) writeResource(
-	rpt *debugReport,
-	resource *astmodel.ResourceType,
-	currentPackage astmodel.PackageReference,
-) {
-	for _, prop := range resource.Properties().AsSlice() {
-		dr.writeProperty(rpt, prop, currentPackage)
-	}
-
-	for _, fn := range resource.Functions() {
-		dr.writeFunction(rpt, fn)
-	}
-}
-
-// writeObject writes the object to the debug report.
-func (dr *debugReporter) writeObject(
-	rpt *debugReport,
-	obj *astmodel.ObjectType,
-	currentPackage astmodel.PackageReference,
-) {
-	for _, prop := range obj.Properties().AsSlice() {
-		dr.writeProperty(rpt, prop, currentPackage)
-	}
-
-	for _, fn := range obj.Functions() {
-		dr.writeFunction(rpt, fn)
-	}
-}
-
-func (dr *debugReporter) writeProperty(
-	rpt *debugReport,
-	prop *astmodel.PropertyDefinition,
-	currentPackage astmodel.PackageReference,
-) {
-	rpt.add(fmt.Sprintf(
-		"%s: %s",
-		prop.PropertyName(),
-		astmodel.DebugDescription(prop.PropertyType(), currentPackage)))
-}
-
-func (dr *debugReporter) writeFunction(rpt *debugReport, fn astmodel.Function) {
-	rpt.add(fmt.Sprintf("%s()", fn.Name()))
-}
-
-func (dr *debugReporter) writeEnum(rpt *debugReport, enum *astmodel.EnumType, currentPackage astmodel.PackageReference) {
-	dr.writeType(rpt, enum.BaseType(), currentPackage)
-	for _, v := range enum.Options() {
-		rpt.add(fmt.Sprintf("%s: %s", v.Identifier, v.Value))
-	}
+	err := tcr.SaveTo(filename)
+	return errors.Wrapf(err, "failed to save type catalog to %s", filename)
 }
 
 var dashMatcher = regexp.MustCompile("-+")
@@ -193,31 +70,4 @@ func (dr *debugReporter) createFileName(stage int, description string) string {
 	filename := strconv.Itoa(stage+1) + "-" + stageName + ".txt"
 
 	return path.Join(dr.outputFolder, filename)
-}
-
-func (dr *debugReporter) findPackages(def astmodel.TypeDefinitionSet) []astmodel.PackageReference {
-	packages := astmodel.NewPackageReferenceSet()
-	for _, def := range def {
-		packages.AddReference(def.Name().PackageReference)
-	}
-
-	result := packages.AsSortedSlice(func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
-		return astmodel.ComparePathAndVersion(left.PackagePath(), right.PackagePath())
-	})
-
-	return result
-}
-
-func (dr *debugReporter) inPackage(
-	ref astmodel.PackageReference,
-	def astmodel.TypeDefinitionSet,
-) astmodel.TypeDefinitionSet {
-	result := make(astmodel.TypeDefinitionSet)
-	for _, def := range def {
-		if def.Name().PackageReference == ref {
-			result.Add(def)
-		}
-	}
-
-	return result
 }
