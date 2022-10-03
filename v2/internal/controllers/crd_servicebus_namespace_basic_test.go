@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -37,6 +38,10 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 				ServiceBus_Queue_CRUD(tc, namespace)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Namespace secrets",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+		},
 	)
 
 	tc.DeleteResourceAndWait(namespace)
@@ -62,4 +67,20 @@ func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	// a basic assertion on a property
 	tc.Expect(queue.Status.SizeInBytes).ToNot(BeNil())
 	tc.Expect(*queue.Status.SizeInBytes).To(Equal(0))
+}
+
+func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, namespace *servicebus.Namespace) {
+	old := namespace.DeepCopy()
+	secret := "s1"
+	namespace.Spec.OperatorSpec = &servicebus.NamespaceOperatorSpec{
+		Secrets: &servicebus.NamespaceOperatorSecrets{
+			Endpoint: &genruntime.SecretDestination{
+				Name: secret,
+				Key:  "endpoint",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, namespace)
+
+	tc.ExpectSecretHasKeys(secret, "endpoint")
 }

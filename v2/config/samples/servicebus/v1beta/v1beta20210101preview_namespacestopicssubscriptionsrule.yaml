@@ -6,3 +6,12 @@ metadata:
 spec:
   owner:
     name: sampletopicsubscription
+  action:
+    sqlExpression: "SET myproperty=myvalue"
+    requiresPreprocessing: false
+    compatibilityLevel: 20
+  correlationFilter:
+    contentType: text
+  filterType: SqlFilter
+  sqlFilter:
+    sqlExpression: "StoreId IN ('Store1','Store2','Store3')"

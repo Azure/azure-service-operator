@@ -286,6 +286,154 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │       └── "User"
 │       ├── Type: *string
 │       └── UpdatedAt: *string
+├── NamespacesTopicsSubscription: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: Validated[*string]
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: Validated[*string]
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated[*string]
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── Location: *string
+│   │   ├── LockDuration: Validated[*string]
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── RequiresSession: *bool
+│   │   ├── Status: enum
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── Id: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       ├── MessageCount: *int
+│       ├── Name: *string
+│       ├── RequiresSession: *bool
+│       ├── Status: enum
+│       │   ├── "Active"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Disabled"
+│       │   ├── "ReceiveDisabled"
+│       │   ├── "Renaming"
+│       │   ├── "Restoring"
+│       │   ├── "SendDisabled"
+│       │   └── "Unknown"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesTopicsSubscriptionsRule: Resource
+│   ├── Spec: 
+│   │   ├── Action: 
+│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── CorrelationFilter: 
+│   │   │   ├── ContentType: *string
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── Label: *string
+│   │   │   ├── MessageId: *string
+│   │   │   ├── Properties: Map[string]string
+│   │   │   ├── ReplyTo: *string
+│   │   │   ├── ReplyToSessionId: *string
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   ├── SessionId: *string
+│   │   │   └── To: *string
+│   │   ├── FilterType: enum
+│   │   │   ├── "CorrelationFilter"
+│   │   │   └── "SqlFilter"
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── SqlFilter: 
+│   │   │   ├── CompatibilityLevel: Validated[*int]
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Action: 
+│       │   ├── CompatibilityLevel: *int
+│       │   ├── RequiresPreprocessing: *bool
+│       │   └── SqlExpression: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CorrelationFilter: 
+│       │   ├── ContentType: *string
+│       │   ├── CorrelationId: *string
+│       │   ├── Label: *string
+│       │   ├── MessageId: *string
+│       │   ├── Properties: Map[string]string
+│       │   ├── ReplyTo: *string
+│       │   ├── ReplyToSessionId: *string
+│       │   ├── RequiresPreprocessing: *bool
+│       │   ├── SessionId: *string
+│       │   └── To: *string
+│       ├── FilterType: enum
+│       │   ├── "CorrelationFilter"
+│       │   └── "SqlFilter"
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── SqlFilter: 
+│       │   ├── CompatibilityLevel: *int
+│       │   ├── RequiresPreprocessing: *bool
+│       │   └── SqlExpression: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
 ├── Namespaces_Queue_Spec_ARM: 
 │   ├── Location: *string
 │   ├── Name: string
@@ -319,6 +467,101 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── RequiresDuplicateDetection: *bool
 │   │   └── SupportOrdering: *bool
 │   └── Tags: Map[string]string
+├── Namespaces_Topics_Subscription_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── RequiresSession: *bool
+│   │   └── Status: enum
+│   │       ├── "Active"
+│   │       ├── "Creating"
+│   │       ├── "Deleting"
+│   │       ├── "Disabled"
+│   │       ├── "ReceiveDisabled"
+│   │       ├── "Renaming"
+│   │       ├── "Restoring"
+│   │       ├── "SendDisabled"
+│   │       └── "Unknown"
+│   └── Tags: Map[string]string
+├── Namespaces_Topics_Subscriptions_Rule_Spec_ARM: 
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── Action: 
+│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   ├── CorrelationFilter: 
+│   │   │   ├── ContentType: *string
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── Label: *string
+│   │   │   ├── MessageId: *string
+│   │   │   ├── Properties: Map[string]string
+│   │   │   ├── ReplyTo: *string
+│   │   │   ├── ReplyToSessionId: *string
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   ├── SessionId: *string
+│   │   │   └── To: *string
+│   │   ├── FilterType: enum
+│   │   │   ├── "CorrelationFilter"
+│   │   │   └── "SqlFilter"
+│   │   └── SqlFilter: 
+│   │       ├── CompatibilityLevel: *int
+│   │       ├── RequiresPreprocessing: *bool
+│   │       └── SqlExpression: *string
+│   └── Tags: Map[string]string
+├── Rule_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Action: 
+│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   ├── CorrelationFilter: 
+│   │   │   ├── ContentType: *string
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── Label: *string
+│   │   │   ├── MessageId: *string
+│   │   │   ├── Properties: Map[string]string
+│   │   │   ├── ReplyTo: *string
+│   │   │   ├── ReplyToSessionId: *string
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   ├── SessionId: *string
+│   │   │   └── To: *string
+│   │   ├── FilterType: enum
+│   │   │   ├── "CorrelationFilter"
+│   │   │   └── "SqlFilter"
+│   │   └── SqlFilter: 
+│   │       ├── CompatibilityLevel: *int
+│   │       ├── RequiresPreprocessing: *bool
+│   │       └── SqlExpression: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
 ├── SBNamespace_STATUS_ARM: 
 │   ├── Id: *string
 │   ├── Identity: 
@@ -424,6 +667,57 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── RequiresDuplicateDetection: *bool
 │   │   ├── RequiresSession: *bool
 │   │   ├── SizeInBytes: *int
+│   │   ├── Status: enum
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   └── UpdatedAt: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── SBSubscription_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AccessedAt: *string
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── CountDetails: 
+│   │   │   ├── ActiveMessageCount: *int
+│   │   │   ├── DeadLetterMessageCount: *int
+│   │   │   ├── ScheduledMessageCount: *int
+│   │   │   ├── TransferDeadLetterMessageCount: *int
+│   │   │   └── TransferMessageCount: *int
+│   │   ├── CreatedAt: *string
+│   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── MessageCount: *int
+│   │   ├── RequiresSession: *bool
 │   │   ├── Status: enum
 │   │   │   ├── "Active"
 │   │   │   ├── "Creating"

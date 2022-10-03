@@ -14,7 +14,6 @@ import (
 
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
@@ -33,10 +32,6 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	armId := *namespace.Status.Id
 
 	tc.RunParallelSubtests(
-		testcommon.Subtest{
-			Name: "Namespace secrets",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
-		},
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
@@ -69,22 +64,6 @@ func NewServicebusNamespace(tc *testcommon.KubePerTestContext, rg *resources.Res
 	return namespace
 }
 
-func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, namespace *servicebus.Namespace) {
-	old := namespace.DeepCopy()
-	secret := "s1"
-	namespace.Spec.OperatorSpec = &servicebus.NamespaceOperatorSpec{
-		Secrets: &servicebus.NamespaceOperatorSecrets{
-			Endpoint: &genruntime.SecretDestination{
-				Name: secret,
-				Key:  "endpoint",
-			},
-		},
-	}
-	tc.PatchResourceAndWait(old, namespace)
-
-	tc.ExpectSecretHasKeys(secret, "endpoint")
-}
-
 // Topics can only be created in Standard or Premium SKUs
 func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{
@@ -106,7 +85,7 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
-			Name: "Namespace secrets",
+			Name: "Subscription CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscription_CRUD(tc, topic) },
 		},
 	)
@@ -123,16 +102,20 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 	tc.ExportAsSample(subscription)
 
 	tc.CreateResourceAndWait(subscription)
-	defer tc.DeleteResourceAndWait(subscription)
 
 	tc.Expect(subscription.Status.Id).ToNot(BeNil())
+	armId := *subscription.Status.Id
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
-			Name: "Namespace secrets",
+			Name: "SubscriptionsRule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscriptions_Rule_CRUD(tc, subscription) },
 		},
 	)
+
+	tc.DeleteResourceAndWait(subscription)
+	// Ensure that the resource was really deleted in Azure
+	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
 func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
@@ -146,7 +129,11 @@ func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSub
 	}
 
 	tc.CreateResourceAndWait(rule)
-	defer tc.DeleteResourceAndWait(rule)
 
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
+	armId := *rule.Status.Id
+
+	tc.DeleteResourceAndWait(rule)
+	// Ensure that the resource was really deleted in Azure
+	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
