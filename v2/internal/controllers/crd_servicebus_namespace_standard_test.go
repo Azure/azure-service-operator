@@ -99,7 +99,6 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 			Owner:    testcommon.AsOwner(sbTopic),
 		},
 	}
-	tc.ExportAsSample(subscription)
 
 	tc.CreateResourceAndWait(subscription)
 
