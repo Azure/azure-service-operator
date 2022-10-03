@@ -72,11 +72,12 @@ func (tcr *TypeCatalogReport) InlineTypes() {
 	}
 }
 
-// inlineTypesFrom inlines the types referenced by the property container
+// inlineTypesFrom ensures we will inline any candidate types referenced by the property container
 func (tcr *TypeCatalogReport) inlineTypesFrom(container astmodel.PropertyContainer) {
+	emptySet := astmodel.NewTypeNameSet()
 	for _, prop := range container.Properties().AsSlice() {
 		// Check to see if this property references a definition that can be inlined
-		if def, ok := tcr.asDefinitionToInline(prop.PropertyType()); ok {
+		if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), emptySet); ok {
 			tcr.inlinedTypes.Add(def.Name())
 		}
 	}
@@ -119,42 +120,51 @@ func (tcr *TypeCatalogReport) writeDefinitions(
 // writeDefinition writes the definition to the debug report.
 // rpt is the debug report to write to.
 // definition is the definition to write.
-func (tcr *TypeCatalogReport) writeDefinition(rpt *StructureReport, definition astmodel.TypeDefinition) {
+func (tcr *TypeCatalogReport) writeDefinition(
+	rpt *StructureReport,
+	definition astmodel.TypeDefinition,
+) {
 	name := definition.Name()
+	parentTypes := astmodel.NewTypeNameSet(name)
 	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortName(definition))
-	tcr.writeType(sub, definition.Type(), name.PackageReference)
+	tcr.writeType(sub, definition.Type(), name.PackageReference, parentTypes)
 }
 
 // writeType writes the type to the debug report.
 // rpt is the debug report to write to.
 // t is the type to write.
 // currentPackage is the package that the type is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
 // Only complex types where astmodel.DebugDescription is insufficient are written.
 func (tcr *TypeCatalogReport) writeType(
 	rpt *StructureReport,
 	t astmodel.Type,
 	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
 ) {
 	if rsrc, ok := astmodel.AsResourceType(t); ok {
-		tcr.writeResource(rpt, rsrc, currentPackage)
+		tcr.writeResource(rpt, rsrc, currentPackage, parentTypes)
 	} else if obj, ok := astmodel.AsObjectType(t); ok {
-		tcr.writeObject(rpt, obj, currentPackage)
+		tcr.writeObject(rpt, obj, currentPackage, parentTypes)
 	} else if obj, ok := astmodel.AsEnumType(t); ok {
-		tcr.writeEnum(rpt, obj, currentPackage)
+		tcr.writeEnum(rpt, obj, currentPackage, parentTypes)
 	}
 }
 
 // writeResource writes the resource to the debug report.
 // rpt is the debug report to write to.
+// name is the name of the resource.
 // resource is the resource to write.
 // currentPackage is the package that the resource is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) writeResource(
 	rpt *StructureReport,
 	resource *astmodel.ResourceType,
 	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
 ) {
 	for _, prop := range resource.Properties().AsSlice() {
-		tcr.writeProperty(rpt, prop, currentPackage)
+		tcr.writeProperty(rpt, prop, currentPackage, parentTypes)
 	}
 
 	if tcr.optionIncludeFunctions {
@@ -164,14 +174,19 @@ func (tcr *TypeCatalogReport) writeResource(
 	}
 }
 
-// writeObject writes the object to the debug report.
+// writeObject writes the object to the debug report..
+// rpt is the debug report to write to.
+// obj is the object to write.
+// currentPackage is the package that the object is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that have already been written (used to avoid infinite recursion).
 func (tcr *TypeCatalogReport) writeObject(
 	rpt *StructureReport,
 	obj *astmodel.ObjectType,
 	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
 ) {
 	for _, prop := range obj.Properties().AsSlice() {
-		tcr.writeProperty(rpt, prop, currentPackage)
+		tcr.writeProperty(rpt, prop, currentPackage, parentTypes)
 	}
 
 	if tcr.optionIncludeFunctions {
@@ -181,15 +196,23 @@ func (tcr *TypeCatalogReport) writeObject(
 	}
 }
 
+// writeProperty writes an individual property to the debug report, potentially inlining it's type
+// rpt is the (sub)report we're writing to.
+// prop is the property to write.
+// currentPackage is the package that the property is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are parents of the property (used to detect cycles).
 func (tcr *TypeCatalogReport) writeProperty(
 	rpt *StructureReport,
 	prop *astmodel.PropertyDefinition,
 	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
 ) {
-	if def, ok := tcr.asDefinitionToInline(prop.PropertyType()); ok && tcr.inlinedTypes.Contains(def.Name()) {
+	if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), parentTypes); ok && tcr.inlinedTypes.Contains(def.Name()) {
 		// When inlining the type, we use a shortname to avoid the type name being repeated
+		pt := parentTypes.Copy()
+		pt.Add(def.Name())
 		sub := rpt.Addf("%s: %s", prop.PropertyName(), tcr.asShortName(*def))
-		tcr.writeType(sub, def.Type(), currentPackage)
+		tcr.writeType(sub, def.Type(), currentPackage, pt)
 		return
 	}
 
@@ -200,11 +223,20 @@ func (tcr *TypeCatalogReport) writeProperty(
 		astmodel.DebugDescription(prop.PropertyType(), currentPackage))
 }
 
-// asDefinitionToInline returns the definition to inline, if any, along with a short name to display above
-func (tcr *TypeCatalogReport) asDefinitionToInline(t astmodel.Type) (*astmodel.TypeDefinition, bool) {
+// asDefinitionToInline returns the definition to inline, if any.
+// t is the type we're considering inlining.
+// parentTypes is a set of all the types we're already inlining (to avoid infinite recursion).
+func (tcr *TypeCatalogReport) asDefinitionToInline(
+	t astmodel.Type,
+	parentTypes astmodel.TypeNameSet,
+) (*astmodel.TypeDefinition, bool) {
 
-	// We can inline a typename if we have a definition for it
+	// We can inline a typename if we have a definition for it, and if it's not already inlined
 	if n, ok := astmodel.AsTypeName(t); ok {
+		if parentTypes.Contains(n) {
+			return nil, false
+		}
+
 		if def, ok := tcr.defs[n]; ok {
 			return &def, true
 		}
@@ -212,13 +244,13 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(t astmodel.Type) (*astmodel.T
 
 	if m, ok := astmodel.AsMapType(t); ok {
 		// We can inline the value of a map if we have a definition for it
-		def, ok := tcr.asDefinitionToInline(m.ValueType())
+		def, ok := tcr.asDefinitionToInline(m.ValueType(), parentTypes)
 		return def, ok
 	}
 
 	if a, ok := astmodel.AsArrayType(t); ok {
 		// We can inline the element of an array if we have a definition for it
-		def, ok := tcr.asDefinitionToInline(a.Element())
+		def, ok := tcr.asDefinitionToInline(a.Element(), parentTypes)
 		return def, ok
 	}
 
@@ -257,12 +289,18 @@ func (tcr *TypeCatalogReport) writeFunction(
 	rpt.Addf("%s()", fn.Name())
 }
 
+// writeEnum writes an enum to the report
+// rpt is the report to write to.
+// enum is the enum to write.
+// currentPackage is the package that the enum is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) writeEnum(
 	rpt *StructureReport,
 	enum *astmodel.EnumType,
 	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
 ) {
-	tcr.writeType(rpt, enum.BaseType(), currentPackage)
+	tcr.writeType(rpt, enum.BaseType(), currentPackage, parentTypes)
 	for _, v := range enum.Options() {
 		rpt.Addf("%s", v.Value)
 	}
