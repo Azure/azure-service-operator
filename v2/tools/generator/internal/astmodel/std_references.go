@@ -110,7 +110,8 @@ var (
 	ValidatorInterfaceName          = MakeTypeName(ControllerRuntimeAdmission, "Validator")
 
 	// Type names - Core types
-	SecretType = MakeTypeName(CoreV1Reference, "Secret")
+	SecretType    = MakeTypeName(CoreV1Reference, "Secret")
+	ConfigMapType = MakeTypeName(CoreV1Reference, "ConfigMap")
 
 	// Type names - stdlib types
 	ContextType = MakeTypeName(ContextReference, "Context")

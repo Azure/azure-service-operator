@@ -13,6 +13,7 @@ import (
 type CompositeLiteralBuilder struct {
 	structType dst.Expr
 	elts       []dst.Expr
+	newLines   bool
 }
 
 // NewCompositeLiteralBuilder creates a new instance for initialization of the specified struct
@@ -20,7 +21,14 @@ type CompositeLiteralBuilder struct {
 func NewCompositeLiteralBuilder(structType dst.Expr) *CompositeLiteralBuilder {
 	return &CompositeLiteralBuilder{
 		structType: structType,
+		newLines:   true,
 	}
+}
+
+// WithoutNewLines returns the CompositeLiteralBuilder without NewLines enabled
+func (b *CompositeLiteralBuilder) WithoutNewLines() *CompositeLiteralBuilder {
+	b.newLines = false
+	return b
 }
 
 // AddField adds initialization of another field
@@ -30,9 +38,10 @@ func (b *CompositeLiteralBuilder) AddField(name string, value dst.Expr) *Composi
 		Key:   dst.NewIdent(name),
 		Value: dst.Clone(value).(dst.Expr),
 	}
-
-	expr.Decs.Before = dst.NewLine
-	expr.Decs.After = dst.NewLine
+	if b.newLines {
+		expr.Decs.Before = dst.NewLine
+		expr.Decs.After = dst.NewLine
+	}
 
 	b.elts = append(b.elts, expr)
 	return b

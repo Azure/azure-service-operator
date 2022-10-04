@@ -1148,7 +1148,7 @@ func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
 	if obj.Spec.OsProfile.AdminPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.OsProfile.AdminPassword.Name}
+	return obj.Spec.OsProfile.AdminPassword.Index()
 }
 
 // indexComputeVirtualMachineScaleSetAdminPassword an index function for compute_v20220301s.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
@@ -1166,7 +1166,7 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 	if obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+	return obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Index()
 }
 
 // indexContainerinstanceContainerGroupContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.containers.environmentVariables.secureValue
@@ -1181,7 +1181,7 @@ func indexContainerinstanceContainerGroupContainersSecureValue(rawObj client.Obj
 			if environmentVariableItem.SecureValue == nil {
 				continue
 			}
-			result = append(result, environmentVariableItem.SecureValue.Name)
+			result = append(result, environmentVariableItem.SecureValue.Index()...)
 		}
 	}
 	return result
@@ -1199,7 +1199,7 @@ func indexContainerinstanceContainerGroupInitContainersSecureValue(rawObj client
 			if environmentVariableItem.SecureValue == nil {
 				continue
 			}
-			result = append(result, environmentVariableItem.SecureValue.Name)
+			result = append(result, environmentVariableItem.SecureValue.Index()...)
 		}
 	}
 	return result
@@ -1216,7 +1216,7 @@ func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string
 		if imageRegistryCredentialItem.Password == nil {
 			continue
 		}
-		result = append(result, imageRegistryCredentialItem.Password.Name)
+		result = append(result, imageRegistryCredentialItem.Password.Index()...)
 	}
 	return result
 }
@@ -1236,7 +1236,7 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	if obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey == nil {
 		return nil
 	}
-	return []string{obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Name}
+	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
@@ -1254,7 +1254,7 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Name}
+	return obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Index()
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
@@ -1266,7 +1266,7 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	if obj.Spec.AdministratorLoginPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.AdministratorLoginPassword.Name}
+	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
 // indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20210601s.FlexibleServer .spec.administratorLoginPassword
@@ -1278,7 +1278,7 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 	if obj.Spec.AdministratorLoginPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.AdministratorLoginPassword.Name}
+	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
@@ -1302,7 +1302,7 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj clien
 	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword == nil {
 		return nil
 	}
-	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Name}
+	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
@@ -1326,7 +1326,7 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj c
 	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey == nil {
 		return nil
 	}
-	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Name}
+	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
@@ -1350,7 +1350,7 @@ func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj clien
 	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password == nil {
 		return nil
 	}
-	return []string{obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Name}
+	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
@@ -1374,7 +1374,7 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password == nil {
 		return nil
 	}
-	return []string{obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Name}
+	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
 }
 
 // indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
@@ -1391,7 +1391,7 @@ func indexWebSiteAccessKey(rawObj client.Object) []string {
 		if value.AccessKey == nil {
 			continue
 		}
-		result = append(result, value.AccessKey.Name)
+		result = append(result, value.AccessKey.Index()...)
 	}
 	return result
 }
