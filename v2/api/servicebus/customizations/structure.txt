@@ -1,4 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/servicebus/customizations
 ├── NamespaceExtension: 
 ├── NamespacesQueueExtension: 
-└── NamespacesTopicExtension: 
+├── NamespacesTopicExtension: 
+├── NamespacesTopicsSubscriptionExtension: 
+└── NamespacesTopicsSubscriptionsRuleExtension: 
