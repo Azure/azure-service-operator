@@ -163,14 +163,4 @@ func AddIndependentPropertyGeneratorsForSBSubscriptionProperties_ARM(gens map[st
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SBSubscriptionProperties_Status_Active,
-		SBSubscriptionProperties_Status_Creating,
-		SBSubscriptionProperties_Status_Deleting,
-		SBSubscriptionProperties_Status_Disabled,
-		SBSubscriptionProperties_Status_ReceiveDisabled,
-		SBSubscriptionProperties_Status_Renaming,
-		SBSubscriptionProperties_Status_Restoring,
-		SBSubscriptionProperties_Status_SendDisabled,
-		SBSubscriptionProperties_Status_Unknown))
 }

@@ -151,7 +151,6 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 

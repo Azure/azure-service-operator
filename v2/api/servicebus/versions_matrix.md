@@ -48,7 +48,6 @@
 | SBSku_Tier_STATUS                                    | v1alpha1api20210101preview | v1beta20210101preview |
 | SBSubscriptionProperties                             |                            | v1beta20210101preview |
 | SBSubscriptionProperties_STATUS                      |                            | v1beta20210101preview |
-| SBSubscriptionProperties_Status                      |                            | v1beta20210101preview |
 | SBSubscription_STATUS                                |                            | v1beta20210101preview |
 | SBTopicProperties                                    | v1alpha1api20210101preview | v1beta20210101preview |
 | SBTopicProperties_STATUS                             | v1alpha1api20210101preview | v1beta20210101preview |

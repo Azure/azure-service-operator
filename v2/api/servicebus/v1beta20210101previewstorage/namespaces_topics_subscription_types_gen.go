@@ -157,7 +157,6 @@ type Namespaces_Topics_Subscription_Spec struct {
 	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopic"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresSession *bool                              `json:"requiresSession,omitempty"`
-	Status          *string                            `json:"status,omitempty"`
 	Tags            map[string]string                  `json:"tags,omitempty"`
 }
 

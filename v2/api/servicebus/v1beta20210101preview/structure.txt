@@ -302,16 +302,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── RequiresSession: *bool
-│   │   ├── Status: enum
-│   │   │   ├── "Active"
-│   │   │   ├── "Creating"
-│   │   │   ├── "Deleting"
-│   │   │   ├── "Disabled"
-│   │   │   ├── "ReceiveDisabled"
-│   │   │   ├── "Renaming"
-│   │   │   ├── "Restoring"
-│   │   │   ├── "SendDisabled"
-│   │   │   └── "Unknown"
 │   │   └── Tags: Map[string]string
 │   └── Status: 
 │       ├── AccessedAt: *string
@@ -481,17 +471,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── ForwardTo: *string
 │   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
-│   │   ├── RequiresSession: *bool
-│   │   └── Status: enum
-│   │       ├── "Active"
-│   │       ├── "Creating"
-│   │       ├── "Deleting"
-│   │       ├── "Disabled"
-│   │       ├── "ReceiveDisabled"
-│   │       ├── "Renaming"
-│   │       ├── "Restoring"
-│   │       ├── "SendDisabled"
-│   │       └── "Unknown"
+│   │   └── RequiresSession: *bool
 │   └── Tags: Map[string]string
 ├── Namespaces_Topics_Subscriptions_Rule_Spec_ARM: 
 │   ├── Location: *string

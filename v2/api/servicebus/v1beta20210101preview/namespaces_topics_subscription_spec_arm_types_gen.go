@@ -76,7 +76,4 @@ type SBSubscriptionProperties_ARM struct {
 
 	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
-
-	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *SBSubscriptionProperties_Status `json:"status,omitempty"`
 }

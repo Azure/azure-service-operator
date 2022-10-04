@@ -229,7 +229,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequiresSession: *bool
-│   │   ├── Status: *string
 │   │   └── Tags: Map[string]string
 │   └── Status: 
 │       ├── AccessedAt: *string

@@ -372,9 +372,6 @@ type Namespaces_Topics_Subscription_Spec struct {
 	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
 
-	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *SBSubscriptionProperties_Status `json:"status,omitempty"`
-
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -408,8 +405,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 		subscription.ForwardTo != nil ||
 		subscription.LockDuration != nil ||
 		subscription.MaxDeliveryCount != nil ||
-		subscription.RequiresSession != nil ||
-		subscription.Status != nil {
+		subscription.RequiresSession != nil {
 		result.Properties = &SBSubscriptionProperties_ARM{}
 	}
 	if subscription.AutoDeleteOnIdle != nil {
@@ -455,10 +451,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 	if subscription.RequiresSession != nil {
 		requiresSession := *subscription.RequiresSession
 		result.Properties.RequiresSession = &requiresSession
-	}
-	if subscription.Status != nil {
-		status := *subscription.Status
-		result.Properties.Status = &status
 	}
 
 	// Set property ‘Tags’:
@@ -593,15 +585,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		if typedInput.Properties.RequiresSession != nil {
 			requiresSession := *typedInput.Properties.RequiresSession
 			subscription.RequiresSession = &requiresSession
-		}
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			subscription.Status = &status
 		}
 	}
 
@@ -757,14 +740,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 		subscription.RequiresSession = nil
 	}
 
-	// Status
-	if source.Status != nil {
-		status := SBSubscriptionProperties_Status(*source.Status)
-		subscription.Status = &status
-	} else {
-		subscription.Status = nil
-	}
-
 	// Tags
 	subscription.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -865,14 +840,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.RequiresSession = &requiresSession
 	} else {
 		destination.RequiresSession = nil
-	}
-
-	// Status
-	if subscription.Status != nil {
-		status := string(*subscription.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
 	}
 
 	// Tags
@@ -1470,21 +1437,6 @@ func (subscription *SBSubscription_STATUS) AssignProperties_To_SBSubscription_ST
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"Active","Creating","Deleting","Disabled","ReceiveDisabled","Renaming","Restoring","SendDisabled","Unknown"}
-type SBSubscriptionProperties_Status string
-
-const (
-	SBSubscriptionProperties_Status_Active          = SBSubscriptionProperties_Status("Active")
-	SBSubscriptionProperties_Status_Creating        = SBSubscriptionProperties_Status("Creating")
-	SBSubscriptionProperties_Status_Deleting        = SBSubscriptionProperties_Status("Deleting")
-	SBSubscriptionProperties_Status_Disabled        = SBSubscriptionProperties_Status("Disabled")
-	SBSubscriptionProperties_Status_ReceiveDisabled = SBSubscriptionProperties_Status("ReceiveDisabled")
-	SBSubscriptionProperties_Status_Renaming        = SBSubscriptionProperties_Status("Renaming")
-	SBSubscriptionProperties_Status_Restoring       = SBSubscriptionProperties_Status("Restoring")
-	SBSubscriptionProperties_Status_SendDisabled    = SBSubscriptionProperties_Status("SendDisabled")
-	SBSubscriptionProperties_Status_Unknown         = SBSubscriptionProperties_Status("Unknown")
-)
 
 func init() {
 	SchemeBuilder.Register(&NamespacesTopicsSubscription{}, &NamespacesTopicsSubscriptionList{})
