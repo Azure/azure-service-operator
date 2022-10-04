@@ -1686,11 +1686,6 @@ func (in *Namespaces_Topics_Subscription_Spec) DeepCopyInto(out *Namespaces_Topi
 		*out = new(bool)
 		**out = **in
 	}
-	if in.Status != nil {
-		in, out := &in.Status, &out.Status
-		*out = new(SBSubscriptionProperties_Status)
-		**out = **in
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -2851,11 +2846,6 @@ func (in *SBSubscriptionProperties_ARM) DeepCopyInto(out *SBSubscriptionProperti
 	if in.RequiresSession != nil {
 		in, out := &in.RequiresSession, &out.RequiresSession
 		*out = new(bool)
-		**out = **in
-	}
-	if in.Status != nil {
-		in, out := &in.Status, &out.Status
-		*out = new(SBSubscriptionProperties_Status)
 		**out = **in
 	}
 }
