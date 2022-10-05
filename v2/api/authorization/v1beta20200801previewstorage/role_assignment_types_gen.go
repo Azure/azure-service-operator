@@ -150,10 +150,11 @@ type RoleAssignment_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	// extension resource, which means that any other Azure resource can be its owner.
-	Owner         *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-	PrincipalId   *string                             `json:"principalId,omitempty"`
-	PrincipalType *string                             `json:"principalType,omitempty"`
-	PropertyBag   genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+	Owner                 *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	PrincipalId           *string                             `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalIdFromConfig *genruntime.ConfigMapReference      `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalType         *string                             `json:"principalType,omitempty"`
+	PropertyBag           genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.

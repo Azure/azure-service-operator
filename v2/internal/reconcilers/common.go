@@ -152,10 +152,17 @@ type ReconcilerCommon struct {
 
 func ClassifyResolverError(err error) error {
 	// If it's specifically secret not found, say so
-	var typedErr *resolver.SecretNotFound
-	if errors.As(err, &typedErr) {
+	var secretErr *resolver.SecretNotFound
+	if errors.As(err, &secretErr) {
 		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
 	}
+
+	// If it's specifically configmap not found, say so
+	var configMapErr *resolver.ConfigMapNotFound
+	if errors.As(err, &configMapErr) {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonConfigMapNotFound)
+	}
+
 	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
 	// everything is classified as something, so for now it's good enough.
 	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)

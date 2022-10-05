@@ -153,7 +153,21 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
-	result = append(result, &registration.StorageType{Obj: new(authorization_v20200801ps.RoleAssignment)})
+	result = append(result, &registration.StorageType{
+		Obj: new(authorization_v20200801ps.RoleAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexAuthorizationRoleAssignmentPrincipalIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20200801ps.RoleAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisFirewallRule)})
@@ -290,7 +304,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerTrigger)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlRoleAssignment)})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20210515s.SqlRoleAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v20210515s.SqlRoleAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.EventSubscription)})
@@ -976,6 +1004,18 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
+// indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig
+func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*authorization_v20200801ps.RoleAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
 // indexComputeVirtualMachineAdminPassword an index function for compute_v20220301s.VirtualMachine .spec.osProfile.adminPassword
 func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*compute_v20220301s.VirtualMachine)
@@ -1119,6 +1159,18 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 		return nil
 	}
 	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v20210515s.SqlRoleAssignment .spec.principalIdFromConfig
+func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20210515s.SqlRoleAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword

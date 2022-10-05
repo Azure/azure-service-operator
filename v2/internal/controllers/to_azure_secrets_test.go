@@ -22,6 +22,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
+// Note: This file is very similar to to_azure_configmaps_test.go. The same cases should be covered there as well.
+
 // Note that this test uses a VM purely as an example resource which has a secret. The behavior will
 // be the same for any resource that uses the azure_generic_arm_reconciler
 func Test_MissingSecret_ReturnsError_ReconcilesSuccessfullyWhenSecretAdded(t *testing.T) {

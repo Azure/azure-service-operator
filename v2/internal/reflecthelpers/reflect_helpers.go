@@ -163,7 +163,7 @@ func FindOptionalConfigMapReferences(obj interface{}) ([]*genruntime.OptionalCon
 	}
 
 	collector := make(map[string][]*genruntime.OptionalConfigMapReferencePair)
-	suffix := "ConfigRef" // TODO This is astmodel.OptionalConfigMapReferenceSuffix
+	suffix := "FromConfig" // TODO This is astmodel.OptionalConfigMapReferenceSuffix
 
 	// This could probably be more efficient, but this avoids code duplication, and we're not dealing
 	// with huge collections here.

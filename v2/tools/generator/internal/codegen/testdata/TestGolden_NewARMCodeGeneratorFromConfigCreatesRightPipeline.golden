@@ -30,7 +30,7 @@ stripUnreferenced                                            Strip unreferenced 
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences                        azure      Replace cross-resource references with genruntime.ResourceReference
 addSecrets                                        azure      Replace properties flagged as secret with genruntime.SecretReference
-addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>ConfigRef property.
+addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 createTypesForBackwardCompatibility               azure      Create clones of types for backward compatibility with prior ASO versions
 reportTypesAndVersions                            azure      Generate reports on types and versions in each package
 createArmTypes                                    azure      Create types for interaction with ARM

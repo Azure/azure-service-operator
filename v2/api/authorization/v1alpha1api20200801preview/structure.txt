@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 ├── APIVersion: Enum (1 value)
 │   └── "2020-08-01-preview"
 ├── RoleAssignment: Resource
-│   ├── Spec: Object (11 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
 │   │   ├── Condition: *string
 │   │   ├── ConditionVersion: *string
@@ -11,6 +11,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── PrincipalId: *string
+│   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrincipalType: Enum (4 values)
 │   │   │   ├── "ForeignGroup"
 │   │   │   ├── "Group"

@@ -28,8 +28,8 @@ type Person_Spec struct {
 	// FamilyName: Shared name of the family
 	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
 
-	// FamilyNameConfigRef: Shared name of the family
-	FamilyNameConfigRef *genruntime.ConfigMapReference `json:"familyNameConfigRef,omitempty" optionalConfigMapPair:"FamilyName"`
+	// FamilyNameFromConfig: Shared name of the family
+	FamilyNameFromConfig *genruntime.ConfigMapReference `json:"familyNameFromConfig,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
 	FullName genruntime.ConfigMapReference `json:"fullName,omitempty"`
