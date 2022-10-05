@@ -16,6 +16,3 @@ spec:
   priority: 101
   direction: Inbound
   description: Allow access to any source port
-
-
-

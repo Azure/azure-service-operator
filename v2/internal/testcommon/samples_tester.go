@@ -32,6 +32,9 @@ const (
 	defaultResourceGroup = "aso-sample-rg"
 )
 
+// Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
+var subRegex = regexp.MustCompile("\\/([0]+-?)+\\/")
+
 // exclusions slice contains RESOURCES to exclude from test
 var exclusions = []string{
 	// Excluding webtest as it contains hidden link reference
@@ -185,7 +188,7 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 		}
 
 		// Here if we set the owner's name for resources. We only set the owner name if,
-		// Owner.Kind is ResourceGroup(As we have random rg names) or if we're using random names for resources.
+		// Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
 		// Otherwise, we let it be the same as on samples.
 		var ownersName string
 		if sample.Owner().Kind == resolver.ResourceGroupKind {
@@ -268,11 +271,9 @@ func (t *SamplesTester) setARMReference(this *reflecthelpers.ReflectVisitor, it 
 				return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
 			}
 
-			// Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
-			subMatcher := regexp.MustCompile("\\/([0]+-?)+\\/")
 			armIDString := armIDField.String()
 			armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
-			armIDString = subMatcher.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+			armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
 
 			armIDField.SetString(armIDString)
 		}
