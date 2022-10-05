@@ -1,0 +1,162 @@
+github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
+├── APIVersion: enum
+│   └── "2020-02-02"
+├── ApplicationInsightsComponent_STATUS_ARM: 
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AppId: *string
+│   │   ├── ApplicationId: *string
+│   │   ├── Application_Type: enum
+│   │   │   ├── "other"
+│   │   │   └── "web"
+│   │   ├── ConnectionString: *string
+│   │   ├── CreationDate: *string
+│   │   ├── DisableIpMasking: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Flow_Type: enum
+│   │   │   └── "Bluefield"
+│   │   ├── ForceCustomerStorageForProfiler: *bool
+│   │   ├── HockeyAppId: *string
+│   │   ├── HockeyAppToken: *string
+│   │   ├── ImmediatePurgeDataOn30Days: *bool
+│   │   ├── IngestionMode: enum
+│   │   │   ├── "ApplicationInsights"
+│   │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
+│   │   │   └── "LogAnalytics"
+│   │   ├── InstrumentationKey: *string
+│   │   ├── LaMigrationDate: *string
+│   │   ├── Name: *string
+│   │   ├── PrivateLinkScopedResources: 
+│   │   │   ├── ResourceId: *string
+│   │   │   └── ScopeId: *string
+│   │   ├── ProvisioningState: *string
+│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Request_Source: enum
+│   │   │   └── "rest"
+│   │   ├── RetentionInDays: *int
+│   │   ├── SamplingPercentage: *float64
+│   │   ├── TenantId: *string
+│   │   └── WorkspaceResourceId: *string
+│   ├── Tags: *v1.JSON
+│   └── Type: *string
+├── Component: Resource
+│   ├── Spec: 
+│   │   ├── Application_Type: enum
+│   │   │   ├── "other"
+│   │   │   └── "web"
+│   │   ├── AzureName: string
+│   │   ├── DisableIpMasking: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Etag: *string
+│   │   ├── Flow_Type: enum
+│   │   │   └── "Bluefield"
+│   │   ├── ForceCustomerStorageForProfiler: *bool
+│   │   ├── HockeyAppId: *string
+│   │   ├── ImmediatePurgeDataOn30Days: *bool
+│   │   ├── IngestionMode: enum
+│   │   │   ├── "ApplicationInsights"
+│   │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
+│   │   │   └── "LogAnalytics"
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Request_Source: enum
+│   │   │   └── "rest"
+│   │   ├── RetentionInDays: *int
+│   │   ├── SamplingPercentage: *float64
+│   │   ├── Tags: Map[string]string
+│   │   └── WorkspaceResourceReference: *genruntime.ResourceReference
+│   └── Status: 
+│       ├── AppId: *string
+│       ├── ApplicationId: *string
+│       ├── Application_Type: enum
+│       │   ├── "other"
+│       │   └── "web"
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ConnectionString: *string
+│       ├── CreationDate: *string
+│       ├── DisableIpMasking: *bool
+│       ├── DisableLocalAuth: *bool
+│       ├── Etag: *string
+│       ├── Flow_Type: enum
+│       │   └── "Bluefield"
+│       ├── ForceCustomerStorageForProfiler: *bool
+│       ├── HockeyAppId: *string
+│       ├── HockeyAppToken: *string
+│       ├── Id: *string
+│       ├── ImmediatePurgeDataOn30Days: *bool
+│       ├── IngestionMode: enum
+│       │   ├── "ApplicationInsights"
+│       │   ├── "ApplicationInsightsWithDiagnosticSettings"
+│       │   └── "LogAnalytics"
+│       ├── InstrumentationKey: *string
+│       ├── Kind: *string
+│       ├── LaMigrationDate: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PrivateLinkScopedResources: 
+│       │   ├── ResourceId: *string
+│       │   └── ScopeId: *string
+│       ├── PropertiesName: *string
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccessForIngestion: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── PublicNetworkAccessForQuery: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── Request_Source: enum
+│       │   └── "rest"
+│       ├── RetentionInDays: *int
+│       ├── SamplingPercentage: *float64
+│       ├── Tags: *v1.JSON
+│       ├── TenantId: *string
+│       ├── Type: *string
+│       └── WorkspaceResourceId: *string
+└── Component_Spec_ARM: 
+    ├── Etag: *string
+    ├── Kind: *string
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── Application_Type: enum
+    │   │   ├── "other"
+    │   │   └── "web"
+    │   ├── DisableIpMasking: *bool
+    │   ├── DisableLocalAuth: *bool
+    │   ├── Flow_Type: enum
+    │   │   └── "Bluefield"
+    │   ├── ForceCustomerStorageForProfiler: *bool
+    │   ├── HockeyAppId: *string
+    │   ├── ImmediatePurgeDataOn30Days: *bool
+    │   ├── IngestionMode: enum
+    │   │   ├── "ApplicationInsights"
+    │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
+    │   │   └── "LogAnalytics"
+    │   ├── PublicNetworkAccessForIngestion: enum
+    │   │   ├── "Disabled"
+    │   │   └── "Enabled"
+    │   ├── PublicNetworkAccessForQuery: enum
+    │   │   ├── "Disabled"
+    │   │   └── "Enabled"
+    │   ├── Request_Source: enum
+    │   │   └── "rest"
+    │   ├── RetentionInDays: *int
+    │   ├── SamplingPercentage: *float64
+    │   └── WorkspaceResourceId: *string
+    └── Tags: Map[string]string

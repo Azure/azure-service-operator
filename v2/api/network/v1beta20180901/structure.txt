@@ -1,0 +1,47 @@
+github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
+├── APIVersion: enum
+│   └── "2018-09-01"
+├── PrivateDnsZone: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Etag: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Etag: *string
+│       ├── MaxNumberOfRecordSets: *int
+│       ├── MaxNumberOfVirtualNetworkLinks: *int
+│       ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
+│       ├── NumberOfRecordSets: *int
+│       ├── NumberOfVirtualNetworkLinks: *int
+│       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
+│       └── ProvisioningState: enum
+│           ├── "Canceled"
+│           ├── "Creating"
+│           ├── "Deleting"
+│           ├── "Failed"
+│           ├── "Succeeded"
+│           └── "Updating"
+├── PrivateDnsZone_Spec_ARM: 
+│   ├── Etag: *string
+│   ├── Location: *string
+│   ├── Name: string
+│   └── Tags: Map[string]string
+└── PrivateZone_STATUS_ARM: 
+    ├── Etag: *string
+    └── Properties: 
+        ├── MaxNumberOfRecordSets: *int
+        ├── MaxNumberOfVirtualNetworkLinks: *int
+        ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
+        ├── NumberOfRecordSets: *int
+        ├── NumberOfVirtualNetworkLinks: *int
+        ├── NumberOfVirtualNetworkLinksWithRegistration: *int
+        └── ProvisioningState: enum
+            ├── "Canceled"
+            ├── "Creating"
+            ├── "Deleting"
+            ├── "Failed"
+            ├── "Succeeded"
+            └── "Updating"

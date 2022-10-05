@@ -1,0 +1,2952 @@
+github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
+├── APIVersion: enum
+│   └── "2020-12-01"
+├── VirtualMachine: Resource
+│   ├── Spec: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AvailabilitySet: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── AzureName: string
+│   │   ├── BillingProfile: 
+│   │   │   └── MaxPrice: *float64
+│   │   ├── DiagnosticsProfile: 
+│   │   │   └── BootDiagnostics: 
+│   │   │       ├── Enabled: *bool
+│   │   │       └── StorageUri: *string
+│   │   ├── EvictionPolicy: enum
+│   │   │   ├── "Deallocate"
+│   │   │   └── "Delete"
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── ExtensionsTimeBudget: *string
+│   │   ├── HardwareProfile: 
+│   │   │   └── VmSize: enum
+│   │   │       ├── "Basic_A0"
+│   │   │       ├── "Basic_A1"
+│   │   │       ├── "Basic_A2"
+│   │   │       ├── "Basic_A3"
+│   │   │       ├── "Basic_A4"
+│   │   │       ├── "Standard_A0"
+│   │   │       ├── "Standard_A1"
+│   │   │       ├── "Standard_A10"
+│   │   │       ├── "Standard_A11"
+│   │   │       ├── "Standard_A1_v2"
+│   │   │       ├── "Standard_A2"
+│   │   │       ├── "Standard_A2m_v2"
+│   │   │       ├── "Standard_A2_v2"
+│   │   │       ├── "Standard_A3"
+│   │   │       ├── "Standard_A4"
+│   │   │       ├── "Standard_A4m_v2"
+│   │   │       ├── "Standard_A4_v2"
+│   │   │       ├── "Standard_A5"
+│   │   │       ├── "Standard_A6"
+│   │   │       ├── "Standard_A7"
+│   │   │       ├── "Standard_A8"
+│   │   │       ├── "Standard_A8m_v2"
+│   │   │       ├── "Standard_A8_v2"
+│   │   │       ├── "Standard_A9"
+│   │   │       ├── "Standard_B1ms"
+│   │   │       ├── "Standard_B1s"
+│   │   │       ├── "Standard_B2ms"
+│   │   │       ├── "Standard_B2s"
+│   │   │       ├── "Standard_B4ms"
+│   │   │       ├── "Standard_B8ms"
+│   │   │       ├── "Standard_D1"
+│   │   │       ├── "Standard_D11"
+│   │   │       ├── "Standard_D11_v2"
+│   │   │       ├── "Standard_D12"
+│   │   │       ├── "Standard_D12_v2"
+│   │   │       ├── "Standard_D13"
+│   │   │       ├── "Standard_D13_v2"
+│   │   │       ├── "Standard_D14"
+│   │   │       ├── "Standard_D14_v2"
+│   │   │       ├── "Standard_D15_v2"
+│   │   │       ├── "Standard_D16s_v3"
+│   │   │       ├── "Standard_D16_v3"
+│   │   │       ├── "Standard_D1_v2"
+│   │   │       ├── "Standard_D2"
+│   │   │       ├── "Standard_D2s_v3"
+│   │   │       ├── "Standard_D2_v2"
+│   │   │       ├── "Standard_D2_v3"
+│   │   │       ├── "Standard_D3"
+│   │   │       ├── "Standard_D32s_v3"
+│   │   │       ├── "Standard_D32_v3"
+│   │   │       ├── "Standard_D3_v2"
+│   │   │       ├── "Standard_D4"
+│   │   │       ├── "Standard_D4s_v3"
+│   │   │       ├── "Standard_D4_v2"
+│   │   │       ├── "Standard_D4_v3"
+│   │   │       ├── "Standard_D5_v2"
+│   │   │       ├── "Standard_D64s_v3"
+│   │   │       ├── "Standard_D64_v3"
+│   │   │       ├── "Standard_D8s_v3"
+│   │   │       ├── "Standard_D8_v3"
+│   │   │       ├── "Standard_DS1"
+│   │   │       ├── "Standard_DS11"
+│   │   │       ├── "Standard_DS11_v2"
+│   │   │       ├── "Standard_DS12"
+│   │   │       ├── "Standard_DS12_v2"
+│   │   │       ├── "Standard_DS13"
+│   │   │       ├── "Standard_DS13-2_v2"
+│   │   │       ├── "Standard_DS13-4_v2"
+│   │   │       ├── "Standard_DS13_v2"
+│   │   │       ├── "Standard_DS14"
+│   │   │       ├── "Standard_DS14-4_v2"
+│   │   │       ├── "Standard_DS14-8_v2"
+│   │   │       ├── "Standard_DS14_v2"
+│   │   │       ├── "Standard_DS15_v2"
+│   │   │       ├── "Standard_DS1_v2"
+│   │   │       ├── "Standard_DS2"
+│   │   │       ├── "Standard_DS2_v2"
+│   │   │       ├── "Standard_DS3"
+│   │   │       ├── "Standard_DS3_v2"
+│   │   │       ├── "Standard_DS4"
+│   │   │       ├── "Standard_DS4_v2"
+│   │   │       ├── "Standard_DS5_v2"
+│   │   │       ├── "Standard_E16s_v3"
+│   │   │       ├── "Standard_E16_v3"
+│   │   │       ├── "Standard_E2s_v3"
+│   │   │       ├── "Standard_E2_v3"
+│   │   │       ├── "Standard_E32-16_v3"
+│   │   │       ├── "Standard_E32-8s_v3"
+│   │   │       ├── "Standard_E32s_v3"
+│   │   │       ├── "Standard_E32_v3"
+│   │   │       ├── "Standard_E4s_v3"
+│   │   │       ├── "Standard_E4_v3"
+│   │   │       ├── "Standard_E64-16s_v3"
+│   │   │       ├── "Standard_E64-32s_v3"
+│   │   │       ├── "Standard_E64s_v3"
+│   │   │       ├── "Standard_E64_v3"
+│   │   │       ├── "Standard_E8s_v3"
+│   │   │       ├── "Standard_E8_v3"
+│   │   │       ├── "Standard_F1"
+│   │   │       ├── "Standard_F16"
+│   │   │       ├── "Standard_F16s"
+│   │   │       ├── "Standard_F16s_v2"
+│   │   │       ├── "Standard_F1s"
+│   │   │       ├── "Standard_F2"
+│   │   │       ├── "Standard_F2s"
+│   │   │       ├── "Standard_F2s_v2"
+│   │   │       ├── "Standard_F32s_v2"
+│   │   │       ├── "Standard_F4"
+│   │   │       ├── "Standard_F4s"
+│   │   │       ├── "Standard_F4s_v2"
+│   │   │       ├── "Standard_F64s_v2"
+│   │   │       ├── "Standard_F72s_v2"
+│   │   │       ├── "Standard_F8"
+│   │   │       ├── "Standard_F8s"
+│   │   │       ├── "Standard_F8s_v2"
+│   │   │       ├── "Standard_G1"
+│   │   │       ├── "Standard_G2"
+│   │   │       ├── "Standard_G3"
+│   │   │       ├── "Standard_G4"
+│   │   │       ├── "Standard_G5"
+│   │   │       ├── "Standard_GS1"
+│   │   │       ├── "Standard_GS2"
+│   │   │       ├── "Standard_GS3"
+│   │   │       ├── "Standard_GS4"
+│   │   │       ├── "Standard_GS4-4"
+│   │   │       ├── "Standard_GS4-8"
+│   │   │       ├── "Standard_GS5"
+│   │   │       ├── "Standard_GS5-16"
+│   │   │       ├── "Standard_GS5-8"
+│   │   │       ├── "Standard_H16"
+│   │   │       ├── "Standard_H16m"
+│   │   │       ├── "Standard_H16mr"
+│   │   │       ├── "Standard_H16r"
+│   │   │       ├── "Standard_H8"
+│   │   │       ├── "Standard_H8m"
+│   │   │       ├── "Standard_L16s"
+│   │   │       ├── "Standard_L32s"
+│   │   │       ├── "Standard_L4s"
+│   │   │       ├── "Standard_L8s"
+│   │   │       ├── "Standard_M128-32ms"
+│   │   │       ├── "Standard_M128-64ms"
+│   │   │       ├── "Standard_M128ms"
+│   │   │       ├── "Standard_M128s"
+│   │   │       ├── "Standard_M64-16ms"
+│   │   │       ├── "Standard_M64-32ms"
+│   │   │       ├── "Standard_M64ms"
+│   │   │       ├── "Standard_M64s"
+│   │   │       ├── "Standard_NC12"
+│   │   │       ├── "Standard_NC12s_v2"
+│   │   │       ├── "Standard_NC12s_v3"
+│   │   │       ├── "Standard_NC24"
+│   │   │       ├── "Standard_NC24r"
+│   │   │       ├── "Standard_NC24rs_v2"
+│   │   │       ├── "Standard_NC24rs_v3"
+│   │   │       ├── "Standard_NC24s_v2"
+│   │   │       ├── "Standard_NC24s_v3"
+│   │   │       ├── "Standard_NC6"
+│   │   │       ├── "Standard_NC6s_v2"
+│   │   │       ├── "Standard_NC6s_v3"
+│   │   │       ├── "Standard_ND12s"
+│   │   │       ├── "Standard_ND24rs"
+│   │   │       ├── "Standard_ND24s"
+│   │   │       ├── "Standard_ND6s"
+│   │   │       ├── "Standard_NV12"
+│   │   │       ├── "Standard_NV24"
+│   │   │       └── "Standard_NV6"
+│   │   ├── Host: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── HostGroup: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── LicenseType: *string
+│   │   ├── Location: *string
+│   │   ├── NetworkProfile: 
+│   │   │   └── NetworkInterfaces: 
+│   │   │       ├── Primary: *bool
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── OsProfile: 
+│   │   │   ├── AdminPassword: *genruntime.SecretReference
+│   │   │   ├── AdminUsername: *string
+│   │   │   ├── AllowExtensionOperations: *bool
+│   │   │   ├── ComputerName: *string
+│   │   │   ├── CustomData: *string
+│   │   │   ├── LinuxConfiguration: 
+│   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   └── PatchMode: enum
+│   │   │   │   │       ├── "AutomaticByPlatform"
+│   │   │   │   │       └── "ImageDefault"
+│   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   └── Ssh: 
+│   │   │   │       └── PublicKeys: 
+│   │   │   │           ├── KeyData: *string
+│   │   │   │           └── Path: *string
+│   │   │   ├── RequireGuestProvisionSignal: *bool
+│   │   │   ├── Secrets: 
+│   │   │   │   ├── SourceVault: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── VaultCertificates: 
+│   │   │   │       ├── CertificateStore: *string
+│   │   │   │       └── CertificateUrl: *string
+│   │   │   └── WindowsConfiguration: 
+│   │   │       ├── AdditionalUnattendContent: 
+│   │   │       │   ├── ComponentName: enum
+│   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│   │   │       │   ├── Content: *string
+│   │   │       │   ├── PassName: enum
+│   │   │       │   │   └── "OobeSystem"
+│   │   │       │   └── SettingName: enum
+│   │   │       │       ├── "AutoLogon"
+│   │   │       │       └── "FirstLogonCommands"
+│   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │       ├── PatchSettings: 
+│   │   │       │   ├── EnableHotpatching: *bool
+│   │   │       │   └── PatchMode: enum
+│   │   │       │       ├── "AutomaticByOS"
+│   │   │       │       ├── "AutomaticByPlatform"
+│   │   │       │       └── "Manual"
+│   │   │       ├── ProvisionVMAgent: *bool
+│   │   │       ├── TimeZone: *string
+│   │   │       └── WinRM: 
+│   │   │           └── Listeners: 
+│   │   │               ├── CertificateUrl: *string
+│   │   │               └── Protocol: enum
+│   │   │                   ├── "Http"
+│   │   │                   └── "Https"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Plan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── PlatformFaultDomain: *int
+│   │   ├── Priority: enum
+│   │   │   ├── "Low"
+│   │   │   ├── "Regular"
+│   │   │   └── "Spot"
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── SecurityProfile: 
+│   │   │   ├── EncryptionAtHost: *bool
+│   │   │   ├── SecurityType: enum
+│   │   │   │   └── "TrustedLaunch"
+│   │   │   └── UefiSettings: 
+│   │   │       ├── SecureBootEnabled: *bool
+│   │   │       └── VTpmEnabled: *bool
+│   │   ├── StorageProfile: 
+│   │   │   ├── DataDisks: 
+│   │   │   │   ├── Caching: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "ReadOnly"
+│   │   │   │   │   └── "ReadWrite"
+│   │   │   │   ├── CreateOption: enum
+│   │   │   │   │   ├── "Attach"
+│   │   │   │   │   ├── "Empty"
+│   │   │   │   │   └── "FromImage"
+│   │   │   │   ├── DetachOption: enum
+│   │   │   │   │   └── "ForceDetach"
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── Image: 
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── StorageAccountType: enum
+│   │   │   │   │       ├── "Premium_LRS"
+│   │   │   │   │       ├── "Premium_ZRS"
+│   │   │   │   │       ├── "StandardSSD_LRS"
+│   │   │   │   │       ├── "StandardSSD_ZRS"
+│   │   │   │   │       ├── "Standard_LRS"
+│   │   │   │   │       └── "UltraSSD_LRS"
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── ToBeDetached: *bool
+│   │   │   │   ├── Vhd: 
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   └── WriteAcceleratorEnabled: *bool
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── Offer: *string
+│   │   │   │   ├── Publisher: *string
+│   │   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── Sku: *string
+│   │   │   │   └── Version: *string
+│   │   │   └── OsDisk: 
+│   │   │       ├── Caching: enum
+│   │   │       │   ├── "None"
+│   │   │       │   ├── "ReadOnly"
+│   │   │       │   └── "ReadWrite"
+│   │   │       ├── CreateOption: enum
+│   │   │       │   ├── "Attach"
+│   │   │       │   ├── "Empty"
+│   │   │       │   └── "FromImage"
+│   │   │       ├── DiffDiskSettings: 
+│   │   │       │   ├── Option: enum
+│   │   │       │   │   └── "Local"
+│   │   │       │   └── Placement: enum
+│   │   │       │       ├── "CacheDisk"
+│   │   │       │       └── "ResourceDisk"
+│   │   │       ├── DiskSizeGB: *int
+│   │   │       ├── EncryptionSettings: 
+│   │   │       │   ├── DiskEncryptionKey: 
+│   │   │       │   │   ├── SecretUrl: *string
+│   │   │       │   │   └── SourceVault: 
+│   │   │       │   │       └── Reference: *genruntime.ResourceReference
+│   │   │       │   ├── Enabled: *bool
+│   │   │       │   └── KeyEncryptionKey: 
+│   │   │       │       ├── KeyUrl: *string
+│   │   │       │       └── SourceVault: 
+│   │   │       │           └── Reference: *genruntime.ResourceReference
+│   │   │       ├── Image: 
+│   │   │       │   └── Uri: *string
+│   │   │       ├── ManagedDisk: 
+│   │   │       │   ├── DiskEncryptionSet: 
+│   │   │       │   │   └── Reference: *genruntime.ResourceReference
+│   │   │       │   ├── Reference: *genruntime.ResourceReference
+│   │   │       │   └── StorageAccountType: enum
+│   │   │       │       ├── "Premium_LRS"
+│   │   │       │       ├── "Premium_ZRS"
+│   │   │       │       ├── "StandardSSD_LRS"
+│   │   │       │       ├── "StandardSSD_ZRS"
+│   │   │       │       ├── "Standard_LRS"
+│   │   │       │       └── "UltraSSD_LRS"
+│   │   │       ├── Name: *string
+│   │   │       ├── OsType: enum
+│   │   │       │   ├── "Linux"
+│   │   │       │   └── "Windows"
+│   │   │       ├── Vhd: 
+│   │   │       │   └── Uri: *string
+│   │   │       └── WriteAcceleratorEnabled: *bool
+│   │   ├── Tags: Map[string]string
+│   │   ├── VirtualMachineScaleSet: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── AdditionalCapabilities: 
+│       │   └── UltraSSDEnabled: *bool
+│       ├── AvailabilitySet: 
+│       │   └── Id: *string
+│       ├── BillingProfile: 
+│       │   └── MaxPrice: *float64
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DiagnosticsProfile: 
+│       │   └── BootDiagnostics: 
+│       │       ├── Enabled: *bool
+│       │       └── StorageUri: *string
+│       ├── EvictionPolicy: enum
+│       │   ├── "Deallocate"
+│       │   └── "Delete"
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── ExtensionsTimeBudget: *string
+│       ├── HardwareProfile: 
+│       │   └── VmSize: enum
+│       │       ├── "Basic_A0"
+│       │       ├── "Basic_A1"
+│       │       ├── "Basic_A2"
+│       │       ├── "Basic_A3"
+│       │       ├── "Basic_A4"
+│       │       ├── "Standard_A0"
+│       │       ├── "Standard_A1"
+│       │       ├── "Standard_A10"
+│       │       ├── "Standard_A11"
+│       │       ├── "Standard_A1_v2"
+│       │       ├── "Standard_A2"
+│       │       ├── "Standard_A2m_v2"
+│       │       ├── "Standard_A2_v2"
+│       │       ├── "Standard_A3"
+│       │       ├── "Standard_A4"
+│       │       ├── "Standard_A4m_v2"
+│       │       ├── "Standard_A4_v2"
+│       │       ├── "Standard_A5"
+│       │       ├── "Standard_A6"
+│       │       ├── "Standard_A7"
+│       │       ├── "Standard_A8"
+│       │       ├── "Standard_A8m_v2"
+│       │       ├── "Standard_A8_v2"
+│       │       ├── "Standard_A9"
+│       │       ├── "Standard_B1ms"
+│       │       ├── "Standard_B1s"
+│       │       ├── "Standard_B2ms"
+│       │       ├── "Standard_B2s"
+│       │       ├── "Standard_B4ms"
+│       │       ├── "Standard_B8ms"
+│       │       ├── "Standard_D1"
+│       │       ├── "Standard_D11"
+│       │       ├── "Standard_D11_v2"
+│       │       ├── "Standard_D12"
+│       │       ├── "Standard_D12_v2"
+│       │       ├── "Standard_D13"
+│       │       ├── "Standard_D13_v2"
+│       │       ├── "Standard_D14"
+│       │       ├── "Standard_D14_v2"
+│       │       ├── "Standard_D15_v2"
+│       │       ├── "Standard_D16s_v3"
+│       │       ├── "Standard_D16_v3"
+│       │       ├── "Standard_D1_v2"
+│       │       ├── "Standard_D2"
+│       │       ├── "Standard_D2s_v3"
+│       │       ├── "Standard_D2_v2"
+│       │       ├── "Standard_D2_v3"
+│       │       ├── "Standard_D3"
+│       │       ├── "Standard_D32s_v3"
+│       │       ├── "Standard_D32_v3"
+│       │       ├── "Standard_D3_v2"
+│       │       ├── "Standard_D4"
+│       │       ├── "Standard_D4s_v3"
+│       │       ├── "Standard_D4_v2"
+│       │       ├── "Standard_D4_v3"
+│       │       ├── "Standard_D5_v2"
+│       │       ├── "Standard_D64s_v3"
+│       │       ├── "Standard_D64_v3"
+│       │       ├── "Standard_D8s_v3"
+│       │       ├── "Standard_D8_v3"
+│       │       ├── "Standard_DS1"
+│       │       ├── "Standard_DS11"
+│       │       ├── "Standard_DS11_v2"
+│       │       ├── "Standard_DS12"
+│       │       ├── "Standard_DS12_v2"
+│       │       ├── "Standard_DS13"
+│       │       ├── "Standard_DS13-2_v2"
+│       │       ├── "Standard_DS13-4_v2"
+│       │       ├── "Standard_DS13_v2"
+│       │       ├── "Standard_DS14"
+│       │       ├── "Standard_DS14-4_v2"
+│       │       ├── "Standard_DS14-8_v2"
+│       │       ├── "Standard_DS14_v2"
+│       │       ├── "Standard_DS15_v2"
+│       │       ├── "Standard_DS1_v2"
+│       │       ├── "Standard_DS2"
+│       │       ├── "Standard_DS2_v2"
+│       │       ├── "Standard_DS3"
+│       │       ├── "Standard_DS3_v2"
+│       │       ├── "Standard_DS4"
+│       │       ├── "Standard_DS4_v2"
+│       │       ├── "Standard_DS5_v2"
+│       │       ├── "Standard_E16s_v3"
+│       │       ├── "Standard_E16_v3"
+│       │       ├── "Standard_E2s_v3"
+│       │       ├── "Standard_E2_v3"
+│       │       ├── "Standard_E32-16_v3"
+│       │       ├── "Standard_E32-8s_v3"
+│       │       ├── "Standard_E32s_v3"
+│       │       ├── "Standard_E32_v3"
+│       │       ├── "Standard_E4s_v3"
+│       │       ├── "Standard_E4_v3"
+│       │       ├── "Standard_E64-16s_v3"
+│       │       ├── "Standard_E64-32s_v3"
+│       │       ├── "Standard_E64s_v3"
+│       │       ├── "Standard_E64_v3"
+│       │       ├── "Standard_E8s_v3"
+│       │       ├── "Standard_E8_v3"
+│       │       ├── "Standard_F1"
+│       │       ├── "Standard_F16"
+│       │       ├── "Standard_F16s"
+│       │       ├── "Standard_F16s_v2"
+│       │       ├── "Standard_F1s"
+│       │       ├── "Standard_F2"
+│       │       ├── "Standard_F2s"
+│       │       ├── "Standard_F2s_v2"
+│       │       ├── "Standard_F32s_v2"
+│       │       ├── "Standard_F4"
+│       │       ├── "Standard_F4s"
+│       │       ├── "Standard_F4s_v2"
+│       │       ├── "Standard_F64s_v2"
+│       │       ├── "Standard_F72s_v2"
+│       │       ├── "Standard_F8"
+│       │       ├── "Standard_F8s"
+│       │       ├── "Standard_F8s_v2"
+│       │       ├── "Standard_G1"
+│       │       ├── "Standard_G2"
+│       │       ├── "Standard_G3"
+│       │       ├── "Standard_G4"
+│       │       ├── "Standard_G5"
+│       │       ├── "Standard_GS1"
+│       │       ├── "Standard_GS2"
+│       │       ├── "Standard_GS3"
+│       │       ├── "Standard_GS4"
+│       │       ├── "Standard_GS4-4"
+│       │       ├── "Standard_GS4-8"
+│       │       ├── "Standard_GS5"
+│       │       ├── "Standard_GS5-16"
+│       │       ├── "Standard_GS5-8"
+│       │       ├── "Standard_H16"
+│       │       ├── "Standard_H16m"
+│       │       ├── "Standard_H16mr"
+│       │       ├── "Standard_H16r"
+│       │       ├── "Standard_H8"
+│       │       ├── "Standard_H8m"
+│       │       ├── "Standard_L16s"
+│       │       ├── "Standard_L32s"
+│       │       ├── "Standard_L4s"
+│       │       ├── "Standard_L8s"
+│       │       ├── "Standard_M128-32ms"
+│       │       ├── "Standard_M128-64ms"
+│       │       ├── "Standard_M128ms"
+│       │       ├── "Standard_M128s"
+│       │       ├── "Standard_M64-16ms"
+│       │       ├── "Standard_M64-32ms"
+│       │       ├── "Standard_M64ms"
+│       │       ├── "Standard_M64s"
+│       │       ├── "Standard_NC12"
+│       │       ├── "Standard_NC12s_v2"
+│       │       ├── "Standard_NC12s_v3"
+│       │       ├── "Standard_NC24"
+│       │       ├── "Standard_NC24r"
+│       │       ├── "Standard_NC24rs_v2"
+│       │       ├── "Standard_NC24rs_v3"
+│       │       ├── "Standard_NC24s_v2"
+│       │       ├── "Standard_NC24s_v3"
+│       │       ├── "Standard_NC6"
+│       │       ├── "Standard_NC6s_v2"
+│       │       ├── "Standard_NC6s_v3"
+│       │       ├── "Standard_ND12s"
+│       │       ├── "Standard_ND24rs"
+│       │       ├── "Standard_ND24s"
+│       │       ├── "Standard_ND6s"
+│       │       ├── "Standard_NV12"
+│       │       ├── "Standard_NV24"
+│       │       └── "Standard_NV6"
+│       ├── Host: 
+│       │   └── Id: *string
+│       ├── HostGroup: 
+│       │   └── Id: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   └── Type: enum
+│       │       ├── "None"
+│       │       ├── "SystemAssigned"
+│       │       ├── "SystemAssigned, UserAssigned"
+│       │       └── "UserAssigned"
+│       ├── InstanceView: 
+│       │   ├── AssignedHost: *string
+│       │   ├── BootDiagnostics: 
+│       │   │   ├── ConsoleScreenshotBlobUri: *string
+│       │   │   ├── SerialConsoleLogBlobUri: *string
+│       │   │   └── Status: 
+│       │   │       ├── Code: *string
+│       │   │       ├── DisplayStatus: *string
+│       │   │       ├── Level: enum
+│       │   │       │   ├── "Error"
+│       │   │       │   ├── "Info"
+│       │   │       │   └── "Warning"
+│       │   │       ├── Message: *string
+│       │   │       └── Time: *string
+│       │   ├── ComputerName: *string
+│       │   ├── Disks: 
+│       │   │   ├── EncryptionSettings: 
+│       │   │   │   ├── DiskEncryptionKey: 
+│       │   │   │   │   ├── SecretUrl: *string
+│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │       └── Id: *string
+│       │   │   │   ├── Enabled: *bool
+│       │   │   │   └── KeyEncryptionKey: 
+│       │   │   │       ├── KeyUrl: *string
+│       │   │   │       └── SourceVault: 
+│       │   │   │           └── Id: *string
+│       │   │   ├── Name: *string
+│       │   │   └── Statuses: 
+│       │   │       ├── Code: *string
+│       │   │       ├── DisplayStatus: *string
+│       │   │       ├── Level: enum
+│       │   │       │   ├── "Error"
+│       │   │       │   ├── "Info"
+│       │   │       │   └── "Warning"
+│       │   │       ├── Message: *string
+│       │   │       └── Time: *string
+│       │   ├── Extensions: 
+│       │   │   ├── Name: *string
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── HyperVGeneration: enum
+│       │   │   ├── "V1"
+│       │   │   └── "V2"
+│       │   ├── MaintenanceRedeployStatus: 
+│       │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
+│       │   │   ├── LastOperationMessage: *string
+│       │   │   ├── LastOperationResultCode: enum
+│       │   │   │   ├── "MaintenanceAborted"
+│       │   │   │   ├── "MaintenanceCompleted"
+│       │   │   │   ├── "None"
+│       │   │   │   └── "RetryLater"
+│       │   │   ├── MaintenanceWindowEndTime: *string
+│       │   │   ├── MaintenanceWindowStartTime: *string
+│       │   │   ├── PreMaintenanceWindowEndTime: *string
+│       │   │   └── PreMaintenanceWindowStartTime: *string
+│       │   ├── OsName: *string
+│       │   ├── OsVersion: *string
+│       │   ├── PatchStatus: 
+│       │   │   ├── AvailablePatchSummary: 
+│       │   │   │   ├── AssessmentActivityId: *string
+│       │   │   │   ├── CriticalAndSecurityPatchCount: *int
+│       │   │   │   ├── Error: 
+│       │   │   │   │   ├── Code: *string
+│       │   │   │   │   ├── Details: 
+│       │   │   │   │   │   ├── Code: *string
+│       │   │   │   │   │   ├── Message: *string
+│       │   │   │   │   │   └── Target: *string
+│       │   │   │   │   ├── Innererror: 
+│       │   │   │   │   │   ├── Errordetail: *string
+│       │   │   │   │   │   └── Exceptiontype: *string
+│       │   │   │   │   ├── Message: *string
+│       │   │   │   │   └── Target: *string
+│       │   │   │   ├── LastModifiedTime: *string
+│       │   │   │   ├── OtherPatchCount: *int
+│       │   │   │   ├── RebootPending: *bool
+│       │   │   │   ├── StartTime: *string
+│       │   │   │   └── Status: enum
+│       │   │   │       ├── "CompletedWithWarnings"
+│       │   │   │       ├── "Failed"
+│       │   │   │       ├── "InProgress"
+│       │   │   │       ├── "Succeeded"
+│       │   │   │       └── "Unknown"
+│       │   │   ├── ConfigurationStatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   └── LastPatchInstallationSummary: 
+│       │   │       ├── Error: 
+│       │   │       │   ├── Code: *string
+│       │   │       │   ├── Details: 
+│       │   │       │   │   ├── Code: *string
+│       │   │       │   │   ├── Message: *string
+│       │   │       │   │   └── Target: *string
+│       │   │       │   ├── Innererror: 
+│       │   │       │   │   ├── Errordetail: *string
+│       │   │       │   │   └── Exceptiontype: *string
+│       │   │       │   ├── Message: *string
+│       │   │       │   └── Target: *string
+│       │   │       ├── ExcludedPatchCount: *int
+│       │   │       ├── FailedPatchCount: *int
+│       │   │       ├── InstallationActivityId: *string
+│       │   │       ├── InstalledPatchCount: *int
+│       │   │       ├── LastModifiedTime: *string
+│       │   │       ├── MaintenanceWindowExceeded: *bool
+│       │   │       ├── NotSelectedPatchCount: *int
+│       │   │       ├── PendingPatchCount: *int
+│       │   │       ├── StartTime: *string
+│       │   │       └── Status: enum
+│       │   │           ├── "CompletedWithWarnings"
+│       │   │           ├── "Failed"
+│       │   │           ├── "InProgress"
+│       │   │           ├── "Succeeded"
+│       │   │           └── "Unknown"
+│       │   ├── PlatformFaultDomain: *int
+│       │   ├── PlatformUpdateDomain: *int
+│       │   ├── RdpThumbPrint: *string
+│       │   ├── Statuses: 
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: enum
+│       │   │   │   ├── "Error"
+│       │   │   │   ├── "Info"
+│       │   │   │   └── "Warning"
+│       │   │   ├── Message: *string
+│       │   │   └── Time: *string
+│       │   ├── VmAgent: 
+│       │   │   ├── ExtensionHandlers: 
+│       │   │   │   ├── Status: 
+│       │   │   │   │   ├── Code: *string
+│       │   │   │   │   ├── DisplayStatus: *string
+│       │   │   │   │   ├── Level: enum
+│       │   │   │   │   │   ├── "Error"
+│       │   │   │   │   │   ├── "Info"
+│       │   │   │   │   │   └── "Warning"
+│       │   │   │   │   ├── Message: *string
+│       │   │   │   │   └── Time: *string
+│       │   │   │   ├── Type: *string
+│       │   │   │   └── TypeHandlerVersion: *string
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   └── VmAgentVersion: *string
+│       │   └── VmHealth: 
+│       │       └── Status: 
+│       │           ├── Code: *string
+│       │           ├── DisplayStatus: *string
+│       │           ├── Level: enum
+│       │           │   ├── "Error"
+│       │           │   ├── "Info"
+│       │           │   └── "Warning"
+│       │           ├── Message: *string
+│       │           └── Time: *string
+│       ├── LicenseType: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── NetworkProfile: 
+│       │   └── NetworkInterfaces: 
+│       │       ├── Id: *string
+│       │       └── Primary: *bool
+│       ├── OsProfile: 
+│       │   ├── AdminUsername: *string
+│       │   ├── AllowExtensionOperations: *bool
+│       │   ├── ComputerName: *string
+│       │   ├── CustomData: *string
+│       │   ├── LinuxConfiguration: 
+│       │   │   ├── DisablePasswordAuthentication: *bool
+│       │   │   ├── PatchSettings: 
+│       │   │   │   └── PatchMode: enum
+│       │   │   │       ├── "AutomaticByPlatform"
+│       │   │   │       └── "ImageDefault"
+│       │   │   ├── ProvisionVMAgent: *bool
+│       │   │   └── Ssh: 
+│       │   │       └── PublicKeys: 
+│       │   │           ├── KeyData: *string
+│       │   │           └── Path: *string
+│       │   ├── RequireGuestProvisionSignal: *bool
+│       │   ├── Secrets: 
+│       │   │   ├── SourceVault: 
+│       │   │   │   └── Id: *string
+│       │   │   └── VaultCertificates: 
+│       │   │       ├── CertificateStore: *string
+│       │   │       └── CertificateUrl: *string
+│       │   └── WindowsConfiguration: 
+│       │       ├── AdditionalUnattendContent: 
+│       │       │   ├── ComponentName: enum
+│       │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│       │       │   ├── Content: *string
+│       │       │   ├── PassName: enum
+│       │       │   │   └── "OobeSystem"
+│       │       │   └── SettingName: enum
+│       │       │       ├── "AutoLogon"
+│       │       │       └── "FirstLogonCommands"
+│       │       ├── EnableAutomaticUpdates: *bool
+│       │       ├── PatchSettings: 
+│       │       │   ├── EnableHotpatching: *bool
+│       │       │   └── PatchMode: enum
+│       │       │       ├── "AutomaticByOS"
+│       │       │       ├── "AutomaticByPlatform"
+│       │       │       └── "Manual"
+│       │       ├── ProvisionVMAgent: *bool
+│       │       ├── TimeZone: *string
+│       │       └── WinRM: 
+│       │           └── Listeners: 
+│       │               ├── CertificateUrl: *string
+│       │               └── Protocol: enum
+│       │                   ├── "Http"
+│       │                   └── "Https"
+│       ├── Plan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   └── Publisher: *string
+│       ├── PlatformFaultDomain: *int
+│       ├── Priority: enum
+│       │   ├── "Low"
+│       │   ├── "Regular"
+│       │   └── "Spot"
+│       ├── ProvisioningState: *string
+│       ├── ProximityPlacementGroup: 
+│       │   └── Id: *string
+│       ├── Resources: 
+│       │   ├── AutoUpgradeMinorVersion: *bool
+│       │   ├── EnableAutomaticUpgrade: *bool
+│       │   ├── ForceUpdateTag: *string
+│       │   ├── Id: *string
+│       │   ├── InstanceView: 
+│       │   │   ├── Name: *string
+│       │   │   ├── Statuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: 
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: enum
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── Location: *string
+│       │   ├── Name: *string
+│       │   ├── PropertiesType: *string
+│       │   ├── ProtectedSettings: Map[string]v1.JSON
+│       │   ├── ProvisioningState: *string
+│       │   ├── Publisher: *string
+│       │   ├── Settings: Map[string]v1.JSON
+│       │   ├── Tags: Map[string]string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
+│       ├── SecurityProfile: 
+│       │   ├── EncryptionAtHost: *bool
+│       │   ├── SecurityType: enum
+│       │   │   └── "TrustedLaunch"
+│       │   └── UefiSettings: 
+│       │       ├── SecureBootEnabled: *bool
+│       │       └── VTpmEnabled: *bool
+│       ├── StorageProfile: 
+│       │   ├── DataDisks: 
+│       │   │   ├── Caching: enum
+│       │   │   │   ├── "None"
+│       │   │   │   ├── "ReadOnly"
+│       │   │   │   └── "ReadWrite"
+│       │   │   ├── CreateOption: enum
+│       │   │   │   ├── "Attach"
+│       │   │   │   ├── "Empty"
+│       │   │   │   └── "FromImage"
+│       │   │   ├── DetachOption: enum
+│       │   │   │   └── "ForceDetach"
+│       │   │   ├── DiskIOPSReadWrite: *int
+│       │   │   ├── DiskMBpsReadWrite: *int
+│       │   │   ├── DiskSizeGB: *int
+│       │   │   ├── Image: 
+│       │   │   │   └── Uri: *string
+│       │   │   ├── Lun: *int
+│       │   │   ├── ManagedDisk: 
+│       │   │   │   ├── DiskEncryptionSet: 
+│       │   │   │   │   └── Id: *string
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── StorageAccountType: enum
+│       │   │   │       ├── "Premium_LRS"
+│       │   │   │       ├── "Premium_ZRS"
+│       │   │   │       ├── "StandardSSD_LRS"
+│       │   │   │       ├── "StandardSSD_ZRS"
+│       │   │   │       ├── "Standard_LRS"
+│       │   │   │       └── "UltraSSD_LRS"
+│       │   │   ├── Name: *string
+│       │   │   ├── ToBeDetached: *bool
+│       │   │   ├── Vhd: 
+│       │   │   │   └── Uri: *string
+│       │   │   └── WriteAcceleratorEnabled: *bool
+│       │   ├── ImageReference: 
+│       │   │   ├── ExactVersion: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── Offer: *string
+│       │   │   ├── Publisher: *string
+│       │   │   ├── Sku: *string
+│       │   │   └── Version: *string
+│       │   └── OsDisk: 
+│       │       ├── Caching: enum
+│       │       │   ├── "None"
+│       │       │   ├── "ReadOnly"
+│       │       │   └── "ReadWrite"
+│       │       ├── CreateOption: enum
+│       │       │   ├── "Attach"
+│       │       │   ├── "Empty"
+│       │       │   └── "FromImage"
+│       │       ├── DiffDiskSettings: 
+│       │       │   ├── Option: enum
+│       │       │   │   └── "Local"
+│       │       │   └── Placement: enum
+│       │       │       ├── "CacheDisk"
+│       │       │       └── "ResourceDisk"
+│       │       ├── DiskSizeGB: *int
+│       │       ├── EncryptionSettings: 
+│       │       │   ├── DiskEncryptionKey: 
+│       │       │   │   ├── SecretUrl: *string
+│       │       │   │   └── SourceVault: 
+│       │       │   │       └── Id: *string
+│       │       │   ├── Enabled: *bool
+│       │       │   └── KeyEncryptionKey: 
+│       │       │       ├── KeyUrl: *string
+│       │       │       └── SourceVault: 
+│       │       │           └── Id: *string
+│       │       ├── Image: 
+│       │       │   └── Uri: *string
+│       │       ├── ManagedDisk: 
+│       │       │   ├── DiskEncryptionSet: 
+│       │       │   │   └── Id: *string
+│       │       │   ├── Id: *string
+│       │       │   └── StorageAccountType: enum
+│       │       │       ├── "Premium_LRS"
+│       │       │       ├── "Premium_ZRS"
+│       │       │       ├── "StandardSSD_LRS"
+│       │       │       ├── "StandardSSD_ZRS"
+│       │       │       ├── "Standard_LRS"
+│       │       │       └── "UltraSSD_LRS"
+│       │       ├── Name: *string
+│       │       ├── OsType: enum
+│       │       │   ├── "Linux"
+│       │       │   └── "Windows"
+│       │       ├── Vhd: 
+│       │       │   └── Uri: *string
+│       │       └── WriteAcceleratorEnabled: *bool
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── VirtualMachineScaleSet: 
+│       │   └── Id: *string
+│       ├── VmId: *string
+│       └── Zones: Array[string]
+├── VirtualMachineScaleSet: Resource
+│   ├── Spec: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AutomaticRepairsPolicy: 
+│   │   │   ├── Enabled: *bool
+│   │   │   └── GracePeriod: *string
+│   │   ├── AzureName: string
+│   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   └── Type: enum
+│   │   │       └── "EdgeZone"
+│   │   ├── HostGroup: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── Location: *string
+│   │   ├── OrchestrationMode: enum
+│   │   │   ├── "Flexible"
+│   │   │   └── "Uniform"
+│   │   ├── Overprovision: *bool
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Plan: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Product: *string
+│   │   │   ├── PromotionCode: *string
+│   │   │   └── Publisher: *string
+│   │   ├── PlatformFaultDomainCount: *int
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── ScaleInPolicy: 
+│   │   │   └── Rules: enum
+│   │   │       ├── "Default"
+│   │   │       ├── "NewestVM"
+│   │   │       └── "OldestVM"
+│   │   ├── SinglePlacementGroup: *bool
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   ├── UpgradePolicy: 
+│   │   │   ├── AutomaticOSUpgradePolicy: 
+│   │   │   │   ├── DisableAutomaticRollback: *bool
+│   │   │   │   └── EnableAutomaticOSUpgrade: *bool
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Automatic"
+│   │   │   │   ├── "Manual"
+│   │   │   │   └── "Rolling"
+│   │   │   └── RollingUpgradePolicy: 
+│   │   │       ├── EnableCrossZoneUpgrade: *bool
+│   │   │       ├── MaxBatchInstancePercent: Validated[*int]
+│   │   │       ├── MaxUnhealthyInstancePercent: Validated[*int]
+│   │   │       ├── MaxUnhealthyUpgradedInstancePercent: Validated[*int]
+│   │   │       ├── PauseTimeBetweenBatches: *string
+│   │   │       └── PrioritizeUnhealthyInstances: *bool
+│   │   ├── VirtualMachineProfile: 
+│   │   │   ├── BillingProfile: 
+│   │   │   │   └── MaxPrice: *float64
+│   │   │   ├── DiagnosticsProfile: 
+│   │   │   │   └── BootDiagnostics: 
+│   │   │   │       ├── Enabled: *bool
+│   │   │   │       └── StorageUri: *string
+│   │   │   ├── EvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ExtensionProfile: 
+│   │   │   │   ├── Extensions: 
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   ├── Publisher: Validated[*string]
+│   │   │   │   │   ├── Settings: Map[string]v1.JSON
+│   │   │   │   │   ├── Type: Validated[*string]
+│   │   │   │   │   └── TypeHandlerVersion: Validated[*string]
+│   │   │   │   └── ExtensionsTimeBudget: *string
+│   │   │   ├── LicenseType: *string
+│   │   │   ├── NetworkProfile: 
+│   │   │   │   ├── HealthProbe: 
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── NetworkInterfaceConfigurations: 
+│   │   │   │       ├── DnsSettings: 
+│   │   │   │       │   └── DnsServers: Array[string]
+│   │   │   │       ├── EnableAcceleratedNetworking: *bool
+│   │   │   │       ├── EnableFpga: *bool
+│   │   │   │       ├── EnableIPForwarding: *bool
+│   │   │   │       ├── Id: *string
+│   │   │   │       ├── IpConfigurations: 
+│   │   │   │       │   ├── ApplicationGatewayBackendAddressPools: 
+│   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   ├── ApplicationSecurityGroups: 
+│   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   ├── Id: *string
+│   │   │   │       │   ├── LoadBalancerBackendAddressPools: 
+│   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   ├── LoadBalancerInboundNatPools: 
+│   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   ├── Name: *string
+│   │   │   │       │   ├── Primary: *bool
+│   │   │   │       │   ├── PrivateIPAddressVersion: enum
+│   │   │   │       │   │   ├── "IPv4"
+│   │   │   │       │   │   └── "IPv6"
+│   │   │   │       │   ├── PublicIPAddressConfiguration: 
+│   │   │   │       │   │   ├── DnsSettings: 
+│   │   │   │       │   │   │   └── DomainNameLabel: *string
+│   │   │   │       │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   │       │   │   ├── IpTags: 
+│   │   │   │       │   │   │   ├── IpTagType: *string
+│   │   │   │       │   │   │   └── Tag: *string
+│   │   │   │       │   │   ├── Name: *string
+│   │   │   │       │   │   ├── PublicIPAddressVersion: enum
+│   │   │   │       │   │   │   ├── "IPv4"
+│   │   │   │       │   │   │   └── "IPv6"
+│   │   │   │       │   │   └── PublicIPPrefix: 
+│   │   │   │       │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   └── Subnet: 
+│   │   │   │       │       └── Reference: *genruntime.ResourceReference
+│   │   │   │       ├── Name: *string
+│   │   │   │       ├── NetworkSecurityGroup: 
+│   │   │   │       │   └── Reference: *genruntime.ResourceReference
+│   │   │   │       └── Primary: *bool
+│   │   │   ├── OsProfile: 
+│   │   │   │   ├── AdminPassword: *genruntime.SecretReference
+│   │   │   │   ├── AdminUsername: *string
+│   │   │   │   ├── ComputerNamePrefix: *string
+│   │   │   │   ├── CustomData: *string
+│   │   │   │   ├── LinuxConfiguration: 
+│   │   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   │   └── PatchMode: enum
+│   │   │   │   │   │       ├── "AutomaticByPlatform"
+│   │   │   │   │   │       └── "ImageDefault"
+│   │   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   │   └── Ssh: 
+│   │   │   │   │       └── PublicKeys: 
+│   │   │   │   │           ├── KeyData: *string
+│   │   │   │   │           └── Path: *string
+│   │   │   │   ├── Secrets: 
+│   │   │   │   │   ├── SourceVault: 
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── VaultCertificates: 
+│   │   │   │   │       ├── CertificateStore: *string
+│   │   │   │   │       └── CertificateUrl: *string
+│   │   │   │   └── WindowsConfiguration: 
+│   │   │   │       ├── AdditionalUnattendContent: 
+│   │   │   │       │   ├── ComponentName: enum
+│   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│   │   │   │       │   ├── Content: *string
+│   │   │   │       │   ├── PassName: enum
+│   │   │   │       │   │   └── "OobeSystem"
+│   │   │   │       │   └── SettingName: enum
+│   │   │   │       │       ├── "AutoLogon"
+│   │   │   │       │       └── "FirstLogonCommands"
+│   │   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │   │       ├── PatchSettings: 
+│   │   │   │       │   ├── EnableHotpatching: *bool
+│   │   │   │       │   └── PatchMode: enum
+│   │   │   │       │       ├── "AutomaticByOS"
+│   │   │   │       │       ├── "AutomaticByPlatform"
+│   │   │   │       │       └── "Manual"
+│   │   │   │       ├── ProvisionVMAgent: *bool
+│   │   │   │       ├── TimeZone: *string
+│   │   │   │       └── WinRM: 
+│   │   │   │           └── Listeners: 
+│   │   │   │               ├── CertificateUrl: *string
+│   │   │   │               └── Protocol: enum
+│   │   │   │                   ├── "Http"
+│   │   │   │                   └── "Https"
+│   │   │   ├── Priority: enum
+│   │   │   │   ├── "Low"
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── ScheduledEventsProfile: 
+│   │   │   │   └── TerminateNotificationProfile: 
+│   │   │   │       ├── Enable: *bool
+│   │   │   │       └── NotBeforeTimeout: *string
+│   │   │   ├── SecurityProfile: 
+│   │   │   │   ├── EncryptionAtHost: *bool
+│   │   │   │   ├── SecurityType: enum
+│   │   │   │   │   └── "TrustedLaunch"
+│   │   │   │   └── UefiSettings: 
+│   │   │   │       ├── SecureBootEnabled: *bool
+│   │   │   │       └── VTpmEnabled: *bool
+│   │   │   └── StorageProfile: 
+│   │   │       ├── DataDisks: 
+│   │   │       │   ├── Caching: enum
+│   │   │       │   │   ├── "None"
+│   │   │       │   │   ├── "ReadOnly"
+│   │   │       │   │   └── "ReadWrite"
+│   │   │       │   ├── CreateOption: enum
+│   │   │       │   │   ├── "Attach"
+│   │   │       │   │   ├── "Empty"
+│   │   │       │   │   └── "FromImage"
+│   │   │       │   ├── DiskIOPSReadWrite: *int
+│   │   │       │   ├── DiskMBpsReadWrite: *int
+│   │   │       │   ├── DiskSizeGB: *int
+│   │   │       │   ├── Lun: *int
+│   │   │       │   ├── ManagedDisk: 
+│   │   │       │   │   ├── DiskEncryptionSet: 
+│   │   │       │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │       │   │   └── StorageAccountType: enum
+│   │   │       │   │       ├── "Premium_LRS"
+│   │   │       │   │       ├── "Premium_ZRS"
+│   │   │       │   │       ├── "StandardSSD_LRS"
+│   │   │       │   │       ├── "StandardSSD_ZRS"
+│   │   │       │   │       ├── "Standard_LRS"
+│   │   │       │   │       └── "UltraSSD_LRS"
+│   │   │       │   ├── Name: *string
+│   │   │       │   └── WriteAcceleratorEnabled: *bool
+│   │   │       ├── ImageReference: 
+│   │   │       │   ├── Offer: *string
+│   │   │       │   ├── Publisher: *string
+│   │   │       │   ├── Reference: *genruntime.ResourceReference
+│   │   │       │   ├── Sku: *string
+│   │   │       │   └── Version: *string
+│   │   │       └── OsDisk: 
+│   │   │           ├── Caching: enum
+│   │   │           │   ├── "None"
+│   │   │           │   ├── "ReadOnly"
+│   │   │           │   └── "ReadWrite"
+│   │   │           ├── CreateOption: enum
+│   │   │           │   ├── "Attach"
+│   │   │           │   ├── "Empty"
+│   │   │           │   └── "FromImage"
+│   │   │           ├── DiffDiskSettings: 
+│   │   │           │   ├── Option: enum
+│   │   │           │   │   └── "Local"
+│   │   │           │   └── Placement: enum
+│   │   │           │       ├── "CacheDisk"
+│   │   │           │       └── "ResourceDisk"
+│   │   │           ├── DiskSizeGB: *int
+│   │   │           ├── Image: 
+│   │   │           │   └── Uri: *string
+│   │   │           ├── ManagedDisk: 
+│   │   │           │   ├── DiskEncryptionSet: 
+│   │   │           │   │   └── Reference: *genruntime.ResourceReference
+│   │   │           │   └── StorageAccountType: enum
+│   │   │           │       ├── "Premium_LRS"
+│   │   │           │       ├── "Premium_ZRS"
+│   │   │           │       ├── "StandardSSD_LRS"
+│   │   │           │       ├── "StandardSSD_ZRS"
+│   │   │           │       ├── "Standard_LRS"
+│   │   │           │       └── "UltraSSD_LRS"
+│   │   │           ├── Name: *string
+│   │   │           ├── OsType: enum
+│   │   │           │   ├── "Linux"
+│   │   │           │   └── "Windows"
+│   │   │           ├── VhdContainers: Array[string]
+│   │   │           └── WriteAcceleratorEnabled: *bool
+│   │   ├── ZoneBalance: *bool
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── AdditionalCapabilities: 
+│       │   └── UltraSSDEnabled: *bool
+│       ├── AutomaticRepairsPolicy: 
+│       │   ├── Enabled: *bool
+│       │   └── GracePeriod: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: enum
+│       │       └── "EdgeZone"
+│       ├── HostGroup: 
+│       │   └── Id: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   └── Type: enum
+│       │       ├── "None"
+│       │       ├── "SystemAssigned"
+│       │       ├── "SystemAssigned, UserAssigned"
+│       │       └── "UserAssigned"
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OrchestrationMode: enum
+│       │   ├── "Flexible"
+│       │   └── "Uniform"
+│       ├── Overprovision: *bool
+│       ├── Plan: 
+│       │   ├── Name: *string
+│       │   ├── Product: *string
+│       │   ├── PromotionCode: *string
+│       │   └── Publisher: *string
+│       ├── PlatformFaultDomainCount: *int
+│       ├── ProvisioningState: *string
+│       ├── ProximityPlacementGroup: 
+│       │   └── Id: *string
+│       ├── ScaleInPolicy: 
+│       │   └── Rules: enum
+│       │       ├── "Default"
+│       │       ├── "NewestVM"
+│       │       └── "OldestVM"
+│       ├── SinglePlacementGroup: *bool
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UniqueId: *string
+│       ├── UpgradePolicy: 
+│       │   ├── AutomaticOSUpgradePolicy: 
+│       │   │   ├── DisableAutomaticRollback: *bool
+│       │   │   └── EnableAutomaticOSUpgrade: *bool
+│       │   ├── Mode: enum
+│       │   │   ├── "Automatic"
+│       │   │   ├── "Manual"
+│       │   │   └── "Rolling"
+│       │   └── RollingUpgradePolicy: 
+│       │       ├── EnableCrossZoneUpgrade: *bool
+│       │       ├── MaxBatchInstancePercent: *int
+│       │       ├── MaxUnhealthyInstancePercent: *int
+│       │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+│       │       ├── PauseTimeBetweenBatches: *string
+│       │       └── PrioritizeUnhealthyInstances: *bool
+│       ├── VirtualMachineProfile: 
+│       │   ├── BillingProfile: 
+│       │   │   └── MaxPrice: *float64
+│       │   ├── DiagnosticsProfile: 
+│       │   │   └── BootDiagnostics: 
+│       │   │       ├── Enabled: *bool
+│       │   │       └── StorageUri: *string
+│       │   ├── EvictionPolicy: enum
+│       │   │   ├── "Deallocate"
+│       │   │   └── "Delete"
+│       │   ├── ExtensionProfile: 
+│       │   │   ├── Extensions: 
+│       │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│       │   │   │   ├── EnableAutomaticUpgrade: *bool
+│       │   │   │   ├── ForceUpdateTag: *string
+│       │   │   │   ├── Id: *string
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertiesType: *string
+│       │   │   │   ├── ProtectedSettings: Map[string]v1.JSON
+│       │   │   │   ├── ProvisionAfterExtensions: Array[string]
+│       │   │   │   ├── ProvisioningState: *string
+│       │   │   │   ├── Publisher: *string
+│       │   │   │   ├── Settings: Map[string]v1.JSON
+│       │   │   │   ├── Type: *string
+│       │   │   │   └── TypeHandlerVersion: *string
+│       │   │   └── ExtensionsTimeBudget: *string
+│       │   ├── LicenseType: *string
+│       │   ├── NetworkProfile: 
+│       │   │   ├── HealthProbe: 
+│       │   │   │   └── Id: *string
+│       │   │   └── NetworkInterfaceConfigurations: 
+│       │   │       ├── DnsSettings: 
+│       │   │       │   └── DnsServers: Array[string]
+│       │   │       ├── EnableAcceleratedNetworking: *bool
+│       │   │       ├── EnableFpga: *bool
+│       │   │       ├── EnableIPForwarding: *bool
+│       │   │       ├── Id: *string
+│       │   │       ├── IpConfigurations: 
+│       │   │       │   ├── ApplicationGatewayBackendAddressPools: 
+│       │   │       │   │   └── Id: *string
+│       │   │       │   ├── ApplicationSecurityGroups: 
+│       │   │       │   │   └── Id: *string
+│       │   │       │   ├── Id: *string
+│       │   │       │   ├── LoadBalancerBackendAddressPools: 
+│       │   │       │   │   └── Id: *string
+│       │   │       │   ├── LoadBalancerInboundNatPools: 
+│       │   │       │   │   └── Id: *string
+│       │   │       │   ├── Name: *string
+│       │   │       │   ├── Primary: *bool
+│       │   │       │   ├── PrivateIPAddressVersion: enum
+│       │   │       │   │   ├── "IPv4"
+│       │   │       │   │   └── "IPv6"
+│       │   │       │   ├── PublicIPAddressConfiguration: 
+│       │   │       │   │   ├── DnsSettings: 
+│       │   │       │   │   │   └── DomainNameLabel: *string
+│       │   │       │   │   ├── IdleTimeoutInMinutes: *int
+│       │   │       │   │   ├── IpTags: 
+│       │   │       │   │   │   ├── IpTagType: *string
+│       │   │       │   │   │   └── Tag: *string
+│       │   │       │   │   ├── Name: *string
+│       │   │       │   │   ├── PublicIPAddressVersion: enum
+│       │   │       │   │   │   ├── "IPv4"
+│       │   │       │   │   │   └── "IPv6"
+│       │   │       │   │   └── PublicIPPrefix: 
+│       │   │       │   │       └── Id: *string
+│       │   │       │   └── Subnet: 
+│       │   │       │       └── Id: *string
+│       │   │       ├── Name: *string
+│       │   │       ├── NetworkSecurityGroup: 
+│       │   │       │   └── Id: *string
+│       │   │       └── Primary: *bool
+│       │   ├── OsProfile: 
+│       │   │   ├── AdminUsername: *string
+│       │   │   ├── ComputerNamePrefix: *string
+│       │   │   ├── CustomData: *string
+│       │   │   ├── LinuxConfiguration: 
+│       │   │   │   ├── DisablePasswordAuthentication: *bool
+│       │   │   │   ├── PatchSettings: 
+│       │   │   │   │   └── PatchMode: enum
+│       │   │   │   │       ├── "AutomaticByPlatform"
+│       │   │   │   │       └── "ImageDefault"
+│       │   │   │   ├── ProvisionVMAgent: *bool
+│       │   │   │   └── Ssh: 
+│       │   │   │       └── PublicKeys: 
+│       │   │   │           ├── KeyData: *string
+│       │   │   │           └── Path: *string
+│       │   │   ├── Secrets: 
+│       │   │   │   ├── SourceVault: 
+│       │   │   │   │   └── Id: *string
+│       │   │   │   └── VaultCertificates: 
+│       │   │   │       ├── CertificateStore: *string
+│       │   │   │       └── CertificateUrl: *string
+│       │   │   └── WindowsConfiguration: 
+│       │   │       ├── AdditionalUnattendContent: 
+│       │   │       │   ├── ComponentName: enum
+│       │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│       │   │       │   ├── Content: *string
+│       │   │       │   ├── PassName: enum
+│       │   │       │   │   └── "OobeSystem"
+│       │   │       │   └── SettingName: enum
+│       │   │       │       ├── "AutoLogon"
+│       │   │       │       └── "FirstLogonCommands"
+│       │   │       ├── EnableAutomaticUpdates: *bool
+│       │   │       ├── PatchSettings: 
+│       │   │       │   ├── EnableHotpatching: *bool
+│       │   │       │   └── PatchMode: enum
+│       │   │       │       ├── "AutomaticByOS"
+│       │   │       │       ├── "AutomaticByPlatform"
+│       │   │       │       └── "Manual"
+│       │   │       ├── ProvisionVMAgent: *bool
+│       │   │       ├── TimeZone: *string
+│       │   │       └── WinRM: 
+│       │   │           └── Listeners: 
+│       │   │               ├── CertificateUrl: *string
+│       │   │               └── Protocol: enum
+│       │   │                   ├── "Http"
+│       │   │                   └── "Https"
+│       │   ├── Priority: enum
+│       │   │   ├── "Low"
+│       │   │   ├── "Regular"
+│       │   │   └── "Spot"
+│       │   ├── ScheduledEventsProfile: 
+│       │   │   └── TerminateNotificationProfile: 
+│       │   │       ├── Enable: *bool
+│       │   │       └── NotBeforeTimeout: *string
+│       │   ├── SecurityProfile: 
+│       │   │   ├── EncryptionAtHost: *bool
+│       │   │   ├── SecurityType: enum
+│       │   │   │   └── "TrustedLaunch"
+│       │   │   └── UefiSettings: 
+│       │   │       ├── SecureBootEnabled: *bool
+│       │   │       └── VTpmEnabled: *bool
+│       │   └── StorageProfile: 
+│       │       ├── DataDisks: 
+│       │       │   ├── Caching: enum
+│       │       │   │   ├── "None"
+│       │       │   │   ├── "ReadOnly"
+│       │       │   │   └── "ReadWrite"
+│       │       │   ├── CreateOption: enum
+│       │       │   │   ├── "Attach"
+│       │       │   │   ├── "Empty"
+│       │       │   │   └── "FromImage"
+│       │       │   ├── DiskIOPSReadWrite: *int
+│       │       │   ├── DiskMBpsReadWrite: *int
+│       │       │   ├── DiskSizeGB: *int
+│       │       │   ├── Lun: *int
+│       │       │   ├── ManagedDisk: 
+│       │       │   │   ├── DiskEncryptionSet: 
+│       │       │   │   │   └── Id: *string
+│       │       │   │   └── StorageAccountType: enum
+│       │       │   │       ├── "Premium_LRS"
+│       │       │   │       ├── "Premium_ZRS"
+│       │       │   │       ├── "StandardSSD_LRS"
+│       │       │   │       ├── "StandardSSD_ZRS"
+│       │       │   │       ├── "Standard_LRS"
+│       │       │   │       └── "UltraSSD_LRS"
+│       │       │   ├── Name: *string
+│       │       │   └── WriteAcceleratorEnabled: *bool
+│       │       ├── ImageReference: 
+│       │       │   ├── ExactVersion: *string
+│       │       │   ├── Id: *string
+│       │       │   ├── Offer: *string
+│       │       │   ├── Publisher: *string
+│       │       │   ├── Sku: *string
+│       │       │   └── Version: *string
+│       │       └── OsDisk: 
+│       │           ├── Caching: enum
+│       │           │   ├── "None"
+│       │           │   ├── "ReadOnly"
+│       │           │   └── "ReadWrite"
+│       │           ├── CreateOption: enum
+│       │           │   ├── "Attach"
+│       │           │   ├── "Empty"
+│       │           │   └── "FromImage"
+│       │           ├── DiffDiskSettings: 
+│       │           │   ├── Option: enum
+│       │           │   │   └── "Local"
+│       │           │   └── Placement: enum
+│       │           │       ├── "CacheDisk"
+│       │           │       └── "ResourceDisk"
+│       │           ├── DiskSizeGB: *int
+│       │           ├── Image: 
+│       │           │   └── Uri: *string
+│       │           ├── ManagedDisk: 
+│       │           │   ├── DiskEncryptionSet: 
+│       │           │   │   └── Id: *string
+│       │           │   └── StorageAccountType: enum
+│       │           │       ├── "Premium_LRS"
+│       │           │       ├── "Premium_ZRS"
+│       │           │       ├── "StandardSSD_LRS"
+│       │           │       ├── "StandardSSD_ZRS"
+│       │           │       ├── "Standard_LRS"
+│       │           │       └── "UltraSSD_LRS"
+│       │           ├── Name: *string
+│       │           ├── OsType: enum
+│       │           │   ├── "Linux"
+│       │           │   └── "Windows"
+│       │           ├── VhdContainers: Array[string]
+│       │           └── WriteAcceleratorEnabled: *bool
+│       ├── ZoneBalance: *bool
+│       └── Zones: Array[string]
+├── VirtualMachineScaleSet_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned, UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Plan: 
+│   │   ├── Name: *string
+│   │   ├── Product: *string
+│   │   ├── PromotionCode: *string
+│   │   └── Publisher: *string
+│   ├── Properties: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AutomaticRepairsPolicy: 
+│   │   │   ├── Enabled: *bool
+│   │   │   └── GracePeriod: *string
+│   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+│   │   ├── HostGroup: 
+│   │   │   └── Id: *string
+│   │   ├── OrchestrationMode: enum
+│   │   │   ├── "Flexible"
+│   │   │   └── "Uniform"
+│   │   ├── Overprovision: *bool
+│   │   ├── PlatformFaultDomainCount: *int
+│   │   ├── ProvisioningState: *string
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   └── Id: *string
+│   │   ├── ScaleInPolicy: 
+│   │   │   └── Rules: enum
+│   │   │       ├── "Default"
+│   │   │       ├── "NewestVM"
+│   │   │       └── "OldestVM"
+│   │   ├── SinglePlacementGroup: *bool
+│   │   ├── UniqueId: *string
+│   │   ├── UpgradePolicy: 
+│   │   │   ├── AutomaticOSUpgradePolicy: 
+│   │   │   │   ├── DisableAutomaticRollback: *bool
+│   │   │   │   └── EnableAutomaticOSUpgrade: *bool
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Automatic"
+│   │   │   │   ├── "Manual"
+│   │   │   │   └── "Rolling"
+│   │   │   └── RollingUpgradePolicy: 
+│   │   │       ├── EnableCrossZoneUpgrade: *bool
+│   │   │       ├── MaxBatchInstancePercent: *int
+│   │   │       ├── MaxUnhealthyInstancePercent: *int
+│   │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+│   │   │       ├── PauseTimeBetweenBatches: *string
+│   │   │       └── PrioritizeUnhealthyInstances: *bool
+│   │   ├── VirtualMachineProfile: 
+│   │   │   ├── BillingProfile: 
+│   │   │   │   └── MaxPrice: *float64
+│   │   │   ├── DiagnosticsProfile: 
+│   │   │   │   └── BootDiagnostics: 
+│   │   │   │       ├── Enabled: *bool
+│   │   │   │       └── StorageUri: *string
+│   │   │   ├── EvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ExtensionProfile: 
+│   │   │   │   ├── Extensions: 
+│   │   │   │   │   ├── Id: *string
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   ├── Properties: 
+│   │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │   │   ├── ForceUpdateTag: *string
+│   │   │   │   │   │   ├── ProtectedSettings: Map[string]v1.JSON
+│   │   │   │   │   │   ├── ProvisionAfterExtensions: Array[string]
+│   │   │   │   │   │   ├── ProvisioningState: *string
+│   │   │   │   │   │   ├── Publisher: *string
+│   │   │   │   │   │   ├── Settings: Map[string]v1.JSON
+│   │   │   │   │   │   ├── Type: *string
+│   │   │   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   │   │   └── Type: *string
+│   │   │   │   └── ExtensionsTimeBudget: *string
+│   │   │   ├── LicenseType: *string
+│   │   │   ├── NetworkProfile: 
+│   │   │   │   ├── HealthProbe: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   └── NetworkInterfaceConfigurations: 
+│   │   │   │       ├── Id: *string
+│   │   │   │       ├── Name: *string
+│   │   │   │       └── Properties: 
+│   │   │   │           ├── DnsSettings: 
+│   │   │   │           │   └── DnsServers: Array[string]
+│   │   │   │           ├── EnableAcceleratedNetworking: *bool
+│   │   │   │           ├── EnableFpga: *bool
+│   │   │   │           ├── EnableIPForwarding: *bool
+│   │   │   │           ├── IpConfigurations: 
+│   │   │   │           │   ├── Id: *string
+│   │   │   │           │   ├── Name: *string
+│   │   │   │           │   └── Properties: 
+│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── ApplicationSecurityGroups: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── LoadBalancerBackendAddressPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── LoadBalancerInboundNatPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── Primary: *bool
+│   │   │   │           │       ├── PrivateIPAddressVersion: enum
+│   │   │   │           │       │   ├── "IPv4"
+│   │   │   │           │       │   └── "IPv6"
+│   │   │   │           │       ├── PublicIPAddressConfiguration: 
+│   │   │   │           │       │   ├── Name: *string
+│   │   │   │           │       │   └── Properties: 
+│   │   │   │           │       │       ├── DnsSettings: 
+│   │   │   │           │       │       │   └── DomainNameLabel: *string
+│   │   │   │           │       │       ├── IdleTimeoutInMinutes: *int
+│   │   │   │           │       │       ├── IpTags: 
+│   │   │   │           │       │       │   ├── IpTagType: *string
+│   │   │   │           │       │       │   └── Tag: *string
+│   │   │   │           │       │       ├── PublicIPAddressVersion: enum
+│   │   │   │           │       │       │   ├── "IPv4"
+│   │   │   │           │       │       │   └── "IPv6"
+│   │   │   │           │       │       └── PublicIPPrefix: 
+│   │   │   │           │       │           └── Id: *string
+│   │   │   │           │       └── Subnet: 
+│   │   │   │           │           └── Id: *string
+│   │   │   │           ├── NetworkSecurityGroup: 
+│   │   │   │           │   └── Id: *string
+│   │   │   │           └── Primary: *bool
+│   │   │   ├── OsProfile: 
+│   │   │   │   ├── AdminUsername: *string
+│   │   │   │   ├── ComputerNamePrefix: *string
+│   │   │   │   ├── CustomData: *string
+│   │   │   │   ├── LinuxConfiguration: 
+│   │   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   │   └── PatchMode: enum
+│   │   │   │   │   │       ├── "AutomaticByPlatform"
+│   │   │   │   │   │       └── "ImageDefault"
+│   │   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   │   └── Ssh: 
+│   │   │   │   │       └── PublicKeys: 
+│   │   │   │   │           ├── KeyData: *string
+│   │   │   │   │           └── Path: *string
+│   │   │   │   ├── Secrets: 
+│   │   │   │   │   ├── SourceVault: 
+│   │   │   │   │   │   └── Id: *string
+│   │   │   │   │   └── VaultCertificates: 
+│   │   │   │   │       ├── CertificateStore: *string
+│   │   │   │   │       └── CertificateUrl: *string
+│   │   │   │   └── WindowsConfiguration: 
+│   │   │   │       ├── AdditionalUnattendContent: 
+│   │   │   │       │   ├── ComponentName: enum
+│   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│   │   │   │       │   ├── Content: *string
+│   │   │   │       │   ├── PassName: enum
+│   │   │   │       │   │   └── "OobeSystem"
+│   │   │   │       │   └── SettingName: enum
+│   │   │   │       │       ├── "AutoLogon"
+│   │   │   │       │       └── "FirstLogonCommands"
+│   │   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │   │       ├── PatchSettings: 
+│   │   │   │       │   ├── EnableHotpatching: *bool
+│   │   │   │       │   └── PatchMode: enum
+│   │   │   │       │       ├── "AutomaticByOS"
+│   │   │   │       │       ├── "AutomaticByPlatform"
+│   │   │   │       │       └── "Manual"
+│   │   │   │       ├── ProvisionVMAgent: *bool
+│   │   │   │       ├── TimeZone: *string
+│   │   │   │       └── WinRM: 
+│   │   │   │           └── Listeners: 
+│   │   │   │               ├── CertificateUrl: *string
+│   │   │   │               └── Protocol: enum
+│   │   │   │                   ├── "Http"
+│   │   │   │                   └── "Https"
+│   │   │   ├── Priority: enum
+│   │   │   │   ├── "Low"
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── ScheduledEventsProfile: 
+│   │   │   │   └── TerminateNotificationProfile: 
+│   │   │   │       ├── Enable: *bool
+│   │   │   │       └── NotBeforeTimeout: *string
+│   │   │   ├── SecurityProfile: 
+│   │   │   │   ├── EncryptionAtHost: *bool
+│   │   │   │   ├── SecurityType: enum
+│   │   │   │   │   └── "TrustedLaunch"
+│   │   │   │   └── UefiSettings: 
+│   │   │   │       ├── SecureBootEnabled: *bool
+│   │   │   │       └── VTpmEnabled: *bool
+│   │   │   └── StorageProfile: 
+│   │   │       ├── DataDisks: 
+│   │   │       │   ├── Caching: enum
+│   │   │       │   │   ├── "None"
+│   │   │       │   │   ├── "ReadOnly"
+│   │   │       │   │   └── "ReadWrite"
+│   │   │       │   ├── CreateOption: enum
+│   │   │       │   │   ├── "Attach"
+│   │   │       │   │   ├── "Empty"
+│   │   │       │   │   └── "FromImage"
+│   │   │       │   ├── DiskIOPSReadWrite: *int
+│   │   │       │   ├── DiskMBpsReadWrite: *int
+│   │   │       │   ├── DiskSizeGB: *int
+│   │   │       │   ├── Lun: *int
+│   │   │       │   ├── ManagedDisk: 
+│   │   │       │   │   ├── DiskEncryptionSet: 
+│   │   │       │   │   │   └── Id: *string
+│   │   │       │   │   └── StorageAccountType: enum
+│   │   │       │   │       ├── "Premium_LRS"
+│   │   │       │   │       ├── "Premium_ZRS"
+│   │   │       │   │       ├── "StandardSSD_LRS"
+│   │   │       │   │       ├── "StandardSSD_ZRS"
+│   │   │       │   │       ├── "Standard_LRS"
+│   │   │       │   │       └── "UltraSSD_LRS"
+│   │   │       │   ├── Name: *string
+│   │   │       │   └── WriteAcceleratorEnabled: *bool
+│   │   │       ├── ImageReference: 
+│   │   │       │   ├── ExactVersion: *string
+│   │   │       │   ├── Id: *string
+│   │   │       │   ├── Offer: *string
+│   │   │       │   ├── Publisher: *string
+│   │   │       │   ├── Sku: *string
+│   │   │       │   └── Version: *string
+│   │   │       └── OsDisk: 
+│   │   │           ├── Caching: enum
+│   │   │           │   ├── "None"
+│   │   │           │   ├── "ReadOnly"
+│   │   │           │   └── "ReadWrite"
+│   │   │           ├── CreateOption: enum
+│   │   │           │   ├── "Attach"
+│   │   │           │   ├── "Empty"
+│   │   │           │   └── "FromImage"
+│   │   │           ├── DiffDiskSettings: 
+│   │   │           │   ├── Option: enum
+│   │   │           │   │   └── "Local"
+│   │   │           │   └── Placement: enum
+│   │   │           │       ├── "CacheDisk"
+│   │   │           │       └── "ResourceDisk"
+│   │   │           ├── DiskSizeGB: *int
+│   │   │           ├── Image: 
+│   │   │           │   └── Uri: *string
+│   │   │           ├── ManagedDisk: 
+│   │   │           │   ├── DiskEncryptionSet: 
+│   │   │           │   │   └── Id: *string
+│   │   │           │   └── StorageAccountType: enum
+│   │   │           │       ├── "Premium_LRS"
+│   │   │           │       ├── "Premium_ZRS"
+│   │   │           │       ├── "StandardSSD_LRS"
+│   │   │           │       ├── "StandardSSD_ZRS"
+│   │   │           │       ├── "Standard_LRS"
+│   │   │           │       └── "UltraSSD_LRS"
+│   │   │           ├── Name: *string
+│   │   │           ├── OsType: enum
+│   │   │           │   ├── "Linux"
+│   │   │           │   └── "Windows"
+│   │   │           ├── VhdContainers: Array[string]
+│   │   │           └── WriteAcceleratorEnabled: *bool
+│   │   └── ZoneBalance: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── Tags: Map[string]string
+│   ├── Type: *string
+│   └── Zones: Array[string]
+├── VirtualMachineScaleSet_Spec_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Identity: 
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned, UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Plan: 
+│   │   ├── Name: *string
+│   │   ├── Product: *string
+│   │   ├── PromotionCode: *string
+│   │   └── Publisher: *string
+│   ├── Properties: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AutomaticRepairsPolicy: 
+│   │   │   ├── Enabled: *bool
+│   │   │   └── GracePeriod: *string
+│   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
+│   │   ├── HostGroup: 
+│   │   │   └── Id: *string
+│   │   ├── OrchestrationMode: enum
+│   │   │   ├── "Flexible"
+│   │   │   └── "Uniform"
+│   │   ├── Overprovision: *bool
+│   │   ├── PlatformFaultDomainCount: *int
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   └── Id: *string
+│   │   ├── ScaleInPolicy: 
+│   │   │   └── Rules: enum
+│   │   │       ├── "Default"
+│   │   │       ├── "NewestVM"
+│   │   │       └── "OldestVM"
+│   │   ├── SinglePlacementGroup: *bool
+│   │   ├── UpgradePolicy: 
+│   │   │   ├── AutomaticOSUpgradePolicy: 
+│   │   │   │   ├── DisableAutomaticRollback: *bool
+│   │   │   │   └── EnableAutomaticOSUpgrade: *bool
+│   │   │   ├── Mode: enum
+│   │   │   │   ├── "Automatic"
+│   │   │   │   ├── "Manual"
+│   │   │   │   └── "Rolling"
+│   │   │   └── RollingUpgradePolicy: 
+│   │   │       ├── EnableCrossZoneUpgrade: *bool
+│   │   │       ├── MaxBatchInstancePercent: *int
+│   │   │       ├── MaxUnhealthyInstancePercent: *int
+│   │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+│   │   │       ├── PauseTimeBetweenBatches: *string
+│   │   │       └── PrioritizeUnhealthyInstances: *bool
+│   │   ├── VirtualMachineProfile: 
+│   │   │   ├── BillingProfile: 
+│   │   │   │   └── MaxPrice: *float64
+│   │   │   ├── DiagnosticsProfile: 
+│   │   │   │   └── BootDiagnostics: 
+│   │   │   │       ├── Enabled: *bool
+│   │   │   │       └── StorageUri: *string
+│   │   │   ├── EvictionPolicy: enum
+│   │   │   │   ├── "Deallocate"
+│   │   │   │   └── "Delete"
+│   │   │   ├── ExtensionProfile: 
+│   │   │   │   ├── Extensions: 
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   └── Properties: 
+│   │   │   │   │       ├── Publisher: *string
+│   │   │   │   │       ├── Settings: Map[string]v1.JSON
+│   │   │   │   │       ├── Type: *string
+│   │   │   │   │       └── TypeHandlerVersion: *string
+│   │   │   │   └── ExtensionsTimeBudget: *string
+│   │   │   ├── LicenseType: *string
+│   │   │   ├── NetworkProfile: 
+│   │   │   │   ├── HealthProbe: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   └── NetworkInterfaceConfigurations: 
+│   │   │   │       ├── Id: *string
+│   │   │   │       ├── Name: *string
+│   │   │   │       └── Properties: 
+│   │   │   │           ├── DnsSettings: 
+│   │   │   │           │   └── DnsServers: Array[string]
+│   │   │   │           ├── EnableAcceleratedNetworking: *bool
+│   │   │   │           ├── EnableFpga: *bool
+│   │   │   │           ├── EnableIPForwarding: *bool
+│   │   │   │           ├── IpConfigurations: 
+│   │   │   │           │   ├── Id: *string
+│   │   │   │           │   ├── Name: *string
+│   │   │   │           │   └── Properties: 
+│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── ApplicationSecurityGroups: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── LoadBalancerBackendAddressPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── LoadBalancerInboundNatPools: 
+│   │   │   │           │       │   └── Id: *string
+│   │   │   │           │       ├── Primary: *bool
+│   │   │   │           │       ├── PrivateIPAddressVersion: enum
+│   │   │   │           │       │   ├── "IPv4"
+│   │   │   │           │       │   └── "IPv6"
+│   │   │   │           │       ├── PublicIPAddressConfiguration: 
+│   │   │   │           │       │   ├── Name: *string
+│   │   │   │           │       │   └── Properties: 
+│   │   │   │           │       │       ├── DnsSettings: 
+│   │   │   │           │       │       │   └── DomainNameLabel: *string
+│   │   │   │           │       │       ├── IdleTimeoutInMinutes: *int
+│   │   │   │           │       │       ├── IpTags: 
+│   │   │   │           │       │       │   ├── IpTagType: *string
+│   │   │   │           │       │       │   └── Tag: *string
+│   │   │   │           │       │       ├── PublicIPAddressVersion: enum
+│   │   │   │           │       │       │   ├── "IPv4"
+│   │   │   │           │       │       │   └── "IPv6"
+│   │   │   │           │       │       └── PublicIPPrefix: 
+│   │   │   │           │       │           └── Id: *string
+│   │   │   │           │       └── Subnet: 
+│   │   │   │           │           └── Id: *string
+│   │   │   │           ├── NetworkSecurityGroup: 
+│   │   │   │           │   └── Id: *string
+│   │   │   │           └── Primary: *bool
+│   │   │   ├── OsProfile: 
+│   │   │   │   ├── AdminPassword: *string
+│   │   │   │   ├── AdminUsername: *string
+│   │   │   │   ├── ComputerNamePrefix: *string
+│   │   │   │   ├── CustomData: *string
+│   │   │   │   ├── LinuxConfiguration: 
+│   │   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   │   └── PatchMode: enum
+│   │   │   │   │   │       ├── "AutomaticByPlatform"
+│   │   │   │   │   │       └── "ImageDefault"
+│   │   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   │   └── Ssh: 
+│   │   │   │   │       └── PublicKeys: 
+│   │   │   │   │           ├── KeyData: *string
+│   │   │   │   │           └── Path: *string
+│   │   │   │   ├── Secrets: 
+│   │   │   │   │   ├── SourceVault: 
+│   │   │   │   │   │   └── Id: *string
+│   │   │   │   │   └── VaultCertificates: 
+│   │   │   │   │       ├── CertificateStore: *string
+│   │   │   │   │       └── CertificateUrl: *string
+│   │   │   │   └── WindowsConfiguration: 
+│   │   │   │       ├── AdditionalUnattendContent: 
+│   │   │   │       │   ├── ComponentName: enum
+│   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│   │   │   │       │   ├── Content: *string
+│   │   │   │       │   ├── PassName: enum
+│   │   │   │       │   │   └── "OobeSystem"
+│   │   │   │       │   └── SettingName: enum
+│   │   │   │       │       ├── "AutoLogon"
+│   │   │   │       │       └── "FirstLogonCommands"
+│   │   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │   │       ├── PatchSettings: 
+│   │   │   │       │   ├── EnableHotpatching: *bool
+│   │   │   │       │   └── PatchMode: enum
+│   │   │   │       │       ├── "AutomaticByOS"
+│   │   │   │       │       ├── "AutomaticByPlatform"
+│   │   │   │       │       └── "Manual"
+│   │   │   │       ├── ProvisionVMAgent: *bool
+│   │   │   │       ├── TimeZone: *string
+│   │   │   │       └── WinRM: 
+│   │   │   │           └── Listeners: 
+│   │   │   │               ├── CertificateUrl: *string
+│   │   │   │               └── Protocol: enum
+│   │   │   │                   ├── "Http"
+│   │   │   │                   └── "Https"
+│   │   │   ├── Priority: enum
+│   │   │   │   ├── "Low"
+│   │   │   │   ├── "Regular"
+│   │   │   │   └── "Spot"
+│   │   │   ├── ScheduledEventsProfile: 
+│   │   │   │   └── TerminateNotificationProfile: 
+│   │   │   │       ├── Enable: *bool
+│   │   │   │       └── NotBeforeTimeout: *string
+│   │   │   ├── SecurityProfile: 
+│   │   │   │   ├── EncryptionAtHost: *bool
+│   │   │   │   ├── SecurityType: enum
+│   │   │   │   │   └── "TrustedLaunch"
+│   │   │   │   └── UefiSettings: 
+│   │   │   │       ├── SecureBootEnabled: *bool
+│   │   │   │       └── VTpmEnabled: *bool
+│   │   │   └── StorageProfile: 
+│   │   │       ├── DataDisks: 
+│   │   │       │   ├── Caching: enum
+│   │   │       │   │   ├── "None"
+│   │   │       │   │   ├── "ReadOnly"
+│   │   │       │   │   └── "ReadWrite"
+│   │   │       │   ├── CreateOption: enum
+│   │   │       │   │   ├── "Attach"
+│   │   │       │   │   ├── "Empty"
+│   │   │       │   │   └── "FromImage"
+│   │   │       │   ├── DiskIOPSReadWrite: *int
+│   │   │       │   ├── DiskMBpsReadWrite: *int
+│   │   │       │   ├── DiskSizeGB: *int
+│   │   │       │   ├── Lun: *int
+│   │   │       │   ├── ManagedDisk: 
+│   │   │       │   │   ├── DiskEncryptionSet: 
+│   │   │       │   │   │   └── Id: *string
+│   │   │       │   │   └── StorageAccountType: enum
+│   │   │       │   │       ├── "Premium_LRS"
+│   │   │       │   │       ├── "Premium_ZRS"
+│   │   │       │   │       ├── "StandardSSD_LRS"
+│   │   │       │   │       ├── "StandardSSD_ZRS"
+│   │   │       │   │       ├── "Standard_LRS"
+│   │   │       │   │       └── "UltraSSD_LRS"
+│   │   │       │   ├── Name: *string
+│   │   │       │   └── WriteAcceleratorEnabled: *bool
+│   │   │       ├── ImageReference: 
+│   │   │       │   ├── Id: *string
+│   │   │       │   ├── Offer: *string
+│   │   │       │   ├── Publisher: *string
+│   │   │       │   ├── Sku: *string
+│   │   │       │   └── Version: *string
+│   │   │       └── OsDisk: 
+│   │   │           ├── Caching: enum
+│   │   │           │   ├── "None"
+│   │   │           │   ├── "ReadOnly"
+│   │   │           │   └── "ReadWrite"
+│   │   │           ├── CreateOption: enum
+│   │   │           │   ├── "Attach"
+│   │   │           │   ├── "Empty"
+│   │   │           │   └── "FromImage"
+│   │   │           ├── DiffDiskSettings: 
+│   │   │           │   ├── Option: enum
+│   │   │           │   │   └── "Local"
+│   │   │           │   └── Placement: enum
+│   │   │           │       ├── "CacheDisk"
+│   │   │           │       └── "ResourceDisk"
+│   │   │           ├── DiskSizeGB: *int
+│   │   │           ├── Image: 
+│   │   │           │   └── Uri: *string
+│   │   │           ├── ManagedDisk: 
+│   │   │           │   ├── DiskEncryptionSet: 
+│   │   │           │   │   └── Id: *string
+│   │   │           │   └── StorageAccountType: enum
+│   │   │           │       ├── "Premium_LRS"
+│   │   │           │       ├── "Premium_ZRS"
+│   │   │           │       ├── "StandardSSD_LRS"
+│   │   │           │       ├── "StandardSSD_ZRS"
+│   │   │           │       ├── "Standard_LRS"
+│   │   │           │       └── "UltraSSD_LRS"
+│   │   │           ├── Name: *string
+│   │   │           ├── OsType: enum
+│   │   │           │   ├── "Linux"
+│   │   │           │   └── "Windows"
+│   │   │           ├── VhdContainers: Array[string]
+│   │   │           └── WriteAcceleratorEnabled: *bool
+│   │   └── ZoneBalance: *bool
+│   ├── Sku: 
+│   │   ├── Capacity: *int
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── Tags: Map[string]string
+│   └── Zones: Array[string]
+├── VirtualMachine_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: enum
+│   │       └── "EdgeZone"
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   └── Type: enum
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       ├── "SystemAssigned, UserAssigned"
+│   │       └── "UserAssigned"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Plan: 
+│   │   ├── Name: *string
+│   │   ├── Product: *string
+│   │   ├── PromotionCode: *string
+│   │   └── Publisher: *string
+│   ├── Properties: 
+│   │   ├── AdditionalCapabilities: 
+│   │   │   └── UltraSSDEnabled: *bool
+│   │   ├── AvailabilitySet: 
+│   │   │   └── Id: *string
+│   │   ├── BillingProfile: 
+│   │   │   └── MaxPrice: *float64
+│   │   ├── DiagnosticsProfile: 
+│   │   │   └── BootDiagnostics: 
+│   │   │       ├── Enabled: *bool
+│   │   │       └── StorageUri: *string
+│   │   ├── EvictionPolicy: enum
+│   │   │   ├── "Deallocate"
+│   │   │   └── "Delete"
+│   │   ├── ExtensionsTimeBudget: *string
+│   │   ├── HardwareProfile: 
+│   │   │   └── VmSize: enum
+│   │   │       ├── "Basic_A0"
+│   │   │       ├── "Basic_A1"
+│   │   │       ├── "Basic_A2"
+│   │   │       ├── "Basic_A3"
+│   │   │       ├── "Basic_A4"
+│   │   │       ├── "Standard_A0"
+│   │   │       ├── "Standard_A1"
+│   │   │       ├── "Standard_A10"
+│   │   │       ├── "Standard_A11"
+│   │   │       ├── "Standard_A1_v2"
+│   │   │       ├── "Standard_A2"
+│   │   │       ├── "Standard_A2m_v2"
+│   │   │       ├── "Standard_A2_v2"
+│   │   │       ├── "Standard_A3"
+│   │   │       ├── "Standard_A4"
+│   │   │       ├── "Standard_A4m_v2"
+│   │   │       ├── "Standard_A4_v2"
+│   │   │       ├── "Standard_A5"
+│   │   │       ├── "Standard_A6"
+│   │   │       ├── "Standard_A7"
+│   │   │       ├── "Standard_A8"
+│   │   │       ├── "Standard_A8m_v2"
+│   │   │       ├── "Standard_A8_v2"
+│   │   │       ├── "Standard_A9"
+│   │   │       ├── "Standard_B1ms"
+│   │   │       ├── "Standard_B1s"
+│   │   │       ├── "Standard_B2ms"
+│   │   │       ├── "Standard_B2s"
+│   │   │       ├── "Standard_B4ms"
+│   │   │       ├── "Standard_B8ms"
+│   │   │       ├── "Standard_D1"
+│   │   │       ├── "Standard_D11"
+│   │   │       ├── "Standard_D11_v2"
+│   │   │       ├── "Standard_D12"
+│   │   │       ├── "Standard_D12_v2"
+│   │   │       ├── "Standard_D13"
+│   │   │       ├── "Standard_D13_v2"
+│   │   │       ├── "Standard_D14"
+│   │   │       ├── "Standard_D14_v2"
+│   │   │       ├── "Standard_D15_v2"
+│   │   │       ├── "Standard_D16s_v3"
+│   │   │       ├── "Standard_D16_v3"
+│   │   │       ├── "Standard_D1_v2"
+│   │   │       ├── "Standard_D2"
+│   │   │       ├── "Standard_D2s_v3"
+│   │   │       ├── "Standard_D2_v2"
+│   │   │       ├── "Standard_D2_v3"
+│   │   │       ├── "Standard_D3"
+│   │   │       ├── "Standard_D32s_v3"
+│   │   │       ├── "Standard_D32_v3"
+│   │   │       ├── "Standard_D3_v2"
+│   │   │       ├── "Standard_D4"
+│   │   │       ├── "Standard_D4s_v3"
+│   │   │       ├── "Standard_D4_v2"
+│   │   │       ├── "Standard_D4_v3"
+│   │   │       ├── "Standard_D5_v2"
+│   │   │       ├── "Standard_D64s_v3"
+│   │   │       ├── "Standard_D64_v3"
+│   │   │       ├── "Standard_D8s_v3"
+│   │   │       ├── "Standard_D8_v3"
+│   │   │       ├── "Standard_DS1"
+│   │   │       ├── "Standard_DS11"
+│   │   │       ├── "Standard_DS11_v2"
+│   │   │       ├── "Standard_DS12"
+│   │   │       ├── "Standard_DS12_v2"
+│   │   │       ├── "Standard_DS13"
+│   │   │       ├── "Standard_DS13-2_v2"
+│   │   │       ├── "Standard_DS13-4_v2"
+│   │   │       ├── "Standard_DS13_v2"
+│   │   │       ├── "Standard_DS14"
+│   │   │       ├── "Standard_DS14-4_v2"
+│   │   │       ├── "Standard_DS14-8_v2"
+│   │   │       ├── "Standard_DS14_v2"
+│   │   │       ├── "Standard_DS15_v2"
+│   │   │       ├── "Standard_DS1_v2"
+│   │   │       ├── "Standard_DS2"
+│   │   │       ├── "Standard_DS2_v2"
+│   │   │       ├── "Standard_DS3"
+│   │   │       ├── "Standard_DS3_v2"
+│   │   │       ├── "Standard_DS4"
+│   │   │       ├── "Standard_DS4_v2"
+│   │   │       ├── "Standard_DS5_v2"
+│   │   │       ├── "Standard_E16s_v3"
+│   │   │       ├── "Standard_E16_v3"
+│   │   │       ├── "Standard_E2s_v3"
+│   │   │       ├── "Standard_E2_v3"
+│   │   │       ├── "Standard_E32-16_v3"
+│   │   │       ├── "Standard_E32-8s_v3"
+│   │   │       ├── "Standard_E32s_v3"
+│   │   │       ├── "Standard_E32_v3"
+│   │   │       ├── "Standard_E4s_v3"
+│   │   │       ├── "Standard_E4_v3"
+│   │   │       ├── "Standard_E64-16s_v3"
+│   │   │       ├── "Standard_E64-32s_v3"
+│   │   │       ├── "Standard_E64s_v3"
+│   │   │       ├── "Standard_E64_v3"
+│   │   │       ├── "Standard_E8s_v3"
+│   │   │       ├── "Standard_E8_v3"
+│   │   │       ├── "Standard_F1"
+│   │   │       ├── "Standard_F16"
+│   │   │       ├── "Standard_F16s"
+│   │   │       ├── "Standard_F16s_v2"
+│   │   │       ├── "Standard_F1s"
+│   │   │       ├── "Standard_F2"
+│   │   │       ├── "Standard_F2s"
+│   │   │       ├── "Standard_F2s_v2"
+│   │   │       ├── "Standard_F32s_v2"
+│   │   │       ├── "Standard_F4"
+│   │   │       ├── "Standard_F4s"
+│   │   │       ├── "Standard_F4s_v2"
+│   │   │       ├── "Standard_F64s_v2"
+│   │   │       ├── "Standard_F72s_v2"
+│   │   │       ├── "Standard_F8"
+│   │   │       ├── "Standard_F8s"
+│   │   │       ├── "Standard_F8s_v2"
+│   │   │       ├── "Standard_G1"
+│   │   │       ├── "Standard_G2"
+│   │   │       ├── "Standard_G3"
+│   │   │       ├── "Standard_G4"
+│   │   │       ├── "Standard_G5"
+│   │   │       ├── "Standard_GS1"
+│   │   │       ├── "Standard_GS2"
+│   │   │       ├── "Standard_GS3"
+│   │   │       ├── "Standard_GS4"
+│   │   │       ├── "Standard_GS4-4"
+│   │   │       ├── "Standard_GS4-8"
+│   │   │       ├── "Standard_GS5"
+│   │   │       ├── "Standard_GS5-16"
+│   │   │       ├── "Standard_GS5-8"
+│   │   │       ├── "Standard_H16"
+│   │   │       ├── "Standard_H16m"
+│   │   │       ├── "Standard_H16mr"
+│   │   │       ├── "Standard_H16r"
+│   │   │       ├── "Standard_H8"
+│   │   │       ├── "Standard_H8m"
+│   │   │       ├── "Standard_L16s"
+│   │   │       ├── "Standard_L32s"
+│   │   │       ├── "Standard_L4s"
+│   │   │       ├── "Standard_L8s"
+│   │   │       ├── "Standard_M128-32ms"
+│   │   │       ├── "Standard_M128-64ms"
+│   │   │       ├── "Standard_M128ms"
+│   │   │       ├── "Standard_M128s"
+│   │   │       ├── "Standard_M64-16ms"
+│   │   │       ├── "Standard_M64-32ms"
+│   │   │       ├── "Standard_M64ms"
+│   │   │       ├── "Standard_M64s"
+│   │   │       ├── "Standard_NC12"
+│   │   │       ├── "Standard_NC12s_v2"
+│   │   │       ├── "Standard_NC12s_v3"
+│   │   │       ├── "Standard_NC24"
+│   │   │       ├── "Standard_NC24r"
+│   │   │       ├── "Standard_NC24rs_v2"
+│   │   │       ├── "Standard_NC24rs_v3"
+│   │   │       ├── "Standard_NC24s_v2"
+│   │   │       ├── "Standard_NC24s_v3"
+│   │   │       ├── "Standard_NC6"
+│   │   │       ├── "Standard_NC6s_v2"
+│   │   │       ├── "Standard_NC6s_v3"
+│   │   │       ├── "Standard_ND12s"
+│   │   │       ├── "Standard_ND24rs"
+│   │   │       ├── "Standard_ND24s"
+│   │   │       ├── "Standard_ND6s"
+│   │   │       ├── "Standard_NV12"
+│   │   │       ├── "Standard_NV24"
+│   │   │       └── "Standard_NV6"
+│   │   ├── Host: 
+│   │   │   └── Id: *string
+│   │   ├── HostGroup: 
+│   │   │   └── Id: *string
+│   │   ├── InstanceView: 
+│   │   │   ├── AssignedHost: *string
+│   │   │   ├── BootDiagnostics: 
+│   │   │   │   ├── ConsoleScreenshotBlobUri: *string
+│   │   │   │   ├── SerialConsoleLogBlobUri: *string
+│   │   │   │   └── Status: 
+│   │   │   │       ├── Code: *string
+│   │   │   │       ├── DisplayStatus: *string
+│   │   │   │       ├── Level: enum
+│   │   │   │       │   ├── "Error"
+│   │   │   │       │   ├── "Info"
+│   │   │   │       │   └── "Warning"
+│   │   │   │       ├── Message: *string
+│   │   │   │       └── Time: *string
+│   │   │   ├── ComputerName: *string
+│   │   │   ├── Disks: 
+│   │   │   │   ├── EncryptionSettings: 
+│   │   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   │       └── Id: *string
+│   │   │   │   │   ├── Enabled: *bool
+│   │   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   │       ├── KeyUrl: *string
+│   │   │   │   │       └── SourceVault: 
+│   │   │   │   │           └── Id: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Statuses: 
+│   │   │   │       ├── Code: *string
+│   │   │   │       ├── DisplayStatus: *string
+│   │   │   │       ├── Level: enum
+│   │   │   │       │   ├── "Error"
+│   │   │   │       │   ├── "Info"
+│   │   │   │       │   └── "Warning"
+│   │   │   │       ├── Message: *string
+│   │   │   │       └── Time: *string
+│   │   │   ├── Extensions: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Statuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Substatuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Type: *string
+│   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   ├── HyperVGeneration: enum
+│   │   │   │   ├── "V1"
+│   │   │   │   └── "V2"
+│   │   │   ├── MaintenanceRedeployStatus: 
+│   │   │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
+│   │   │   │   ├── LastOperationMessage: *string
+│   │   │   │   ├── LastOperationResultCode: enum
+│   │   │   │   │   ├── "MaintenanceAborted"
+│   │   │   │   │   ├── "MaintenanceCompleted"
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   └── "RetryLater"
+│   │   │   │   ├── MaintenanceWindowEndTime: *string
+│   │   │   │   ├── MaintenanceWindowStartTime: *string
+│   │   │   │   ├── PreMaintenanceWindowEndTime: *string
+│   │   │   │   └── PreMaintenanceWindowStartTime: *string
+│   │   │   ├── OsName: *string
+│   │   │   ├── OsVersion: *string
+│   │   │   ├── PatchStatus: 
+│   │   │   │   ├── AvailablePatchSummary: 
+│   │   │   │   │   ├── AssessmentActivityId: *string
+│   │   │   │   │   ├── CriticalAndSecurityPatchCount: *int
+│   │   │   │   │   ├── Error: 
+│   │   │   │   │   │   ├── Code: *string
+│   │   │   │   │   │   ├── Details: 
+│   │   │   │   │   │   │   ├── Code: *string
+│   │   │   │   │   │   │   ├── Message: *string
+│   │   │   │   │   │   │   └── Target: *string
+│   │   │   │   │   │   ├── Innererror: 
+│   │   │   │   │   │   │   ├── Errordetail: *string
+│   │   │   │   │   │   │   └── Exceptiontype: *string
+│   │   │   │   │   │   ├── Message: *string
+│   │   │   │   │   │   └── Target: *string
+│   │   │   │   │   ├── LastModifiedTime: *string
+│   │   │   │   │   ├── OtherPatchCount: *int
+│   │   │   │   │   ├── RebootPending: *bool
+│   │   │   │   │   ├── StartTime: *string
+│   │   │   │   │   └── Status: enum
+│   │   │   │   │       ├── "CompletedWithWarnings"
+│   │   │   │   │       ├── "Failed"
+│   │   │   │   │       ├── "InProgress"
+│   │   │   │   │       ├── "Succeeded"
+│   │   │   │   │       └── "Unknown"
+│   │   │   │   ├── ConfigurationStatuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   └── LastPatchInstallationSummary: 
+│   │   │   │       ├── Error: 
+│   │   │   │       │   ├── Code: *string
+│   │   │   │       │   ├── Details: 
+│   │   │   │       │   │   ├── Code: *string
+│   │   │   │       │   │   ├── Message: *string
+│   │   │   │       │   │   └── Target: *string
+│   │   │   │       │   ├── Innererror: 
+│   │   │   │       │   │   ├── Errordetail: *string
+│   │   │   │       │   │   └── Exceptiontype: *string
+│   │   │   │       │   ├── Message: *string
+│   │   │   │       │   └── Target: *string
+│   │   │   │       ├── ExcludedPatchCount: *int
+│   │   │   │       ├── FailedPatchCount: *int
+│   │   │   │       ├── InstallationActivityId: *string
+│   │   │   │       ├── InstalledPatchCount: *int
+│   │   │   │       ├── LastModifiedTime: *string
+│   │   │   │       ├── MaintenanceWindowExceeded: *bool
+│   │   │   │       ├── NotSelectedPatchCount: *int
+│   │   │   │       ├── PendingPatchCount: *int
+│   │   │   │       ├── StartTime: *string
+│   │   │   │       └── Status: enum
+│   │   │   │           ├── "CompletedWithWarnings"
+│   │   │   │           ├── "Failed"
+│   │   │   │           ├── "InProgress"
+│   │   │   │           ├── "Succeeded"
+│   │   │   │           └── "Unknown"
+│   │   │   ├── PlatformFaultDomain: *int
+│   │   │   ├── PlatformUpdateDomain: *int
+│   │   │   ├── RdpThumbPrint: *string
+│   │   │   ├── Statuses: 
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   ├── Level: enum
+│   │   │   │   │   ├── "Error"
+│   │   │   │   │   ├── "Info"
+│   │   │   │   │   └── "Warning"
+│   │   │   │   ├── Message: *string
+│   │   │   │   └── Time: *string
+│   │   │   ├── VmAgent: 
+│   │   │   │   ├── ExtensionHandlers: 
+│   │   │   │   │   ├── Status: 
+│   │   │   │   │   │   ├── Code: *string
+│   │   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   │   ├── Message: *string
+│   │   │   │   │   │   └── Time: *string
+│   │   │   │   │   ├── Type: *string
+│   │   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   │   ├── Statuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   └── VmAgentVersion: *string
+│   │   │   └── VmHealth: 
+│   │   │       └── Status: 
+│   │   │           ├── Code: *string
+│   │   │           ├── DisplayStatus: *string
+│   │   │           ├── Level: enum
+│   │   │           │   ├── "Error"
+│   │   │           │   ├── "Info"
+│   │   │           │   └── "Warning"
+│   │   │           ├── Message: *string
+│   │   │           └── Time: *string
+│   │   ├── LicenseType: *string
+│   │   ├── NetworkProfile: 
+│   │   │   └── NetworkInterfaces: 
+│   │   │       ├── Id: *string
+│   │   │       └── Properties: 
+│   │   │           └── Primary: *bool
+│   │   ├── OsProfile: 
+│   │   │   ├── AdminUsername: *string
+│   │   │   ├── AllowExtensionOperations: *bool
+│   │   │   ├── ComputerName: *string
+│   │   │   ├── CustomData: *string
+│   │   │   ├── LinuxConfiguration: 
+│   │   │   │   ├── DisablePasswordAuthentication: *bool
+│   │   │   │   ├── PatchSettings: 
+│   │   │   │   │   └── PatchMode: enum
+│   │   │   │   │       ├── "AutomaticByPlatform"
+│   │   │   │   │       └── "ImageDefault"
+│   │   │   │   ├── ProvisionVMAgent: *bool
+│   │   │   │   └── Ssh: 
+│   │   │   │       └── PublicKeys: 
+│   │   │   │           ├── KeyData: *string
+│   │   │   │           └── Path: *string
+│   │   │   ├── RequireGuestProvisionSignal: *bool
+│   │   │   ├── Secrets: 
+│   │   │   │   ├── SourceVault: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   └── VaultCertificates: 
+│   │   │   │       ├── CertificateStore: *string
+│   │   │   │       └── CertificateUrl: *string
+│   │   │   └── WindowsConfiguration: 
+│   │   │       ├── AdditionalUnattendContent: 
+│   │   │       │   ├── ComponentName: enum
+│   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+│   │   │       │   ├── Content: *string
+│   │   │       │   ├── PassName: enum
+│   │   │       │   │   └── "OobeSystem"
+│   │   │       │   └── SettingName: enum
+│   │   │       │       ├── "AutoLogon"
+│   │   │       │       └── "FirstLogonCommands"
+│   │   │       ├── EnableAutomaticUpdates: *bool
+│   │   │       ├── PatchSettings: 
+│   │   │       │   ├── EnableHotpatching: *bool
+│   │   │       │   └── PatchMode: enum
+│   │   │       │       ├── "AutomaticByOS"
+│   │   │       │       ├── "AutomaticByPlatform"
+│   │   │       │       └── "Manual"
+│   │   │       ├── ProvisionVMAgent: *bool
+│   │   │       ├── TimeZone: *string
+│   │   │       └── WinRM: 
+│   │   │           └── Listeners: 
+│   │   │               ├── CertificateUrl: *string
+│   │   │               └── Protocol: enum
+│   │   │                   ├── "Http"
+│   │   │                   └── "Https"
+│   │   ├── PlatformFaultDomain: *int
+│   │   ├── Priority: enum
+│   │   │   ├── "Low"
+│   │   │   ├── "Regular"
+│   │   │   └── "Spot"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ProximityPlacementGroup: 
+│   │   │   └── Id: *string
+│   │   ├── SecurityProfile: 
+│   │   │   ├── EncryptionAtHost: *bool
+│   │   │   ├── SecurityType: enum
+│   │   │   │   └── "TrustedLaunch"
+│   │   │   └── UefiSettings: 
+│   │   │       ├── SecureBootEnabled: *bool
+│   │   │       └── VTpmEnabled: *bool
+│   │   ├── StorageProfile: 
+│   │   │   ├── DataDisks: 
+│   │   │   │   ├── Caching: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "ReadOnly"
+│   │   │   │   │   └── "ReadWrite"
+│   │   │   │   ├── CreateOption: enum
+│   │   │   │   │   ├── "Attach"
+│   │   │   │   │   ├── "Empty"
+│   │   │   │   │   └── "FromImage"
+│   │   │   │   ├── DetachOption: enum
+│   │   │   │   │   └── "ForceDetach"
+│   │   │   │   ├── DiskIOPSReadWrite: *int
+│   │   │   │   ├── DiskMBpsReadWrite: *int
+│   │   │   │   ├── DiskSizeGB: *int
+│   │   │   │   ├── Image: 
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   ├── Lun: *int
+│   │   │   │   ├── ManagedDisk: 
+│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   │   │   └── Id: *string
+│   │   │   │   │   ├── Id: *string
+│   │   │   │   │   └── StorageAccountType: enum
+│   │   │   │   │       ├── "Premium_LRS"
+│   │   │   │   │       ├── "Premium_ZRS"
+│   │   │   │   │       ├── "StandardSSD_LRS"
+│   │   │   │   │       ├── "StandardSSD_ZRS"
+│   │   │   │   │       ├── "Standard_LRS"
+│   │   │   │   │       └── "UltraSSD_LRS"
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── ToBeDetached: *bool
+│   │   │   │   ├── Vhd: 
+│   │   │   │   │   └── Uri: *string
+│   │   │   │   └── WriteAcceleratorEnabled: *bool
+│   │   │   ├── ImageReference: 
+│   │   │   │   ├── ExactVersion: *string
+│   │   │   │   ├── Id: *string
+│   │   │   │   ├── Offer: *string
+│   │   │   │   ├── Publisher: *string
+│   │   │   │   ├── Sku: *string
+│   │   │   │   └── Version: *string
+│   │   │   └── OsDisk: 
+│   │   │       ├── Caching: enum
+│   │   │       │   ├── "None"
+│   │   │       │   ├── "ReadOnly"
+│   │   │       │   └── "ReadWrite"
+│   │   │       ├── CreateOption: enum
+│   │   │       │   ├── "Attach"
+│   │   │       │   ├── "Empty"
+│   │   │       │   └── "FromImage"
+│   │   │       ├── DiffDiskSettings: 
+│   │   │       │   ├── Option: enum
+│   │   │       │   │   └── "Local"
+│   │   │       │   └── Placement: enum
+│   │   │       │       ├── "CacheDisk"
+│   │   │       │       └── "ResourceDisk"
+│   │   │       ├── DiskSizeGB: *int
+│   │   │       ├── EncryptionSettings: 
+│   │   │       │   ├── DiskEncryptionKey: 
+│   │   │       │   │   ├── SecretUrl: *string
+│   │   │       │   │   └── SourceVault: 
+│   │   │       │   │       └── Id: *string
+│   │   │       │   ├── Enabled: *bool
+│   │   │       │   └── KeyEncryptionKey: 
+│   │   │       │       ├── KeyUrl: *string
+│   │   │       │       └── SourceVault: 
+│   │   │       │           └── Id: *string
+│   │   │       ├── Image: 
+│   │   │       │   └── Uri: *string
+│   │   │       ├── ManagedDisk: 
+│   │   │       │   ├── DiskEncryptionSet: 
+│   │   │       │   │   └── Id: *string
+│   │   │       │   ├── Id: *string
+│   │   │       │   └── StorageAccountType: enum
+│   │   │       │       ├── "Premium_LRS"
+│   │   │       │       ├── "Premium_ZRS"
+│   │   │       │       ├── "StandardSSD_LRS"
+│   │   │       │       ├── "StandardSSD_ZRS"
+│   │   │       │       ├── "Standard_LRS"
+│   │   │       │       └── "UltraSSD_LRS"
+│   │   │       ├── Name: *string
+│   │   │       ├── OsType: enum
+│   │   │       │   ├── "Linux"
+│   │   │       │   └── "Windows"
+│   │   │       ├── Vhd: 
+│   │   │       │   └── Uri: *string
+│   │   │       └── WriteAcceleratorEnabled: *bool
+│   │   ├── VirtualMachineScaleSet: 
+│   │   │   └── Id: *string
+│   │   └── VmId: *string
+│   ├── Resources: 
+│   │   ├── Id: *string
+│   │   ├── Location: *string
+│   │   ├── Name: *string
+│   │   ├── Properties: 
+│   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   ├── ForceUpdateTag: *string
+│   │   │   ├── InstanceView: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Statuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Substatuses: 
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: enum
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Type: *string
+│   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   ├── ProtectedSettings: Map[string]v1.JSON
+│   │   │   ├── ProvisioningState: *string
+│   │   │   ├── Publisher: *string
+│   │   │   ├── Settings: Map[string]v1.JSON
+│   │   │   ├── Type: *string
+│   │   │   └── TypeHandlerVersion: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── Type: *string
+│   ├── Tags: Map[string]string
+│   ├── Type: *string
+│   └── Zones: Array[string]
+└── VirtualMachine_Spec_ARM: 
+    ├── ExtendedLocation: 
+    │   ├── Name: *string
+    │   └── Type: enum
+    │       └── "EdgeZone"
+    ├── Identity: 
+    │   └── Type: enum
+    │       ├── "None"
+    │       ├── "SystemAssigned"
+    │       ├── "SystemAssigned, UserAssigned"
+    │       └── "UserAssigned"
+    ├── Location: *string
+    ├── Name: string
+    ├── Plan: 
+    │   ├── Name: *string
+    │   ├── Product: *string
+    │   ├── PromotionCode: *string
+    │   └── Publisher: *string
+    ├── Properties: 
+    │   ├── AdditionalCapabilities: 
+    │   │   └── UltraSSDEnabled: *bool
+    │   ├── AvailabilitySet: 
+    │   │   └── Id: *string
+    │   ├── BillingProfile: 
+    │   │   └── MaxPrice: *float64
+    │   ├── DiagnosticsProfile: 
+    │   │   └── BootDiagnostics: 
+    │   │       ├── Enabled: *bool
+    │   │       └── StorageUri: *string
+    │   ├── EvictionPolicy: enum
+    │   │   ├── "Deallocate"
+    │   │   └── "Delete"
+    │   ├── ExtensionsTimeBudget: *string
+    │   ├── HardwareProfile: 
+    │   │   └── VmSize: enum
+    │   │       ├── "Basic_A0"
+    │   │       ├── "Basic_A1"
+    │   │       ├── "Basic_A2"
+    │   │       ├── "Basic_A3"
+    │   │       ├── "Basic_A4"
+    │   │       ├── "Standard_A0"
+    │   │       ├── "Standard_A1"
+    │   │       ├── "Standard_A10"
+    │   │       ├── "Standard_A11"
+    │   │       ├── "Standard_A1_v2"
+    │   │       ├── "Standard_A2"
+    │   │       ├── "Standard_A2m_v2"
+    │   │       ├── "Standard_A2_v2"
+    │   │       ├── "Standard_A3"
+    │   │       ├── "Standard_A4"
+    │   │       ├── "Standard_A4m_v2"
+    │   │       ├── "Standard_A4_v2"
+    │   │       ├── "Standard_A5"
+    │   │       ├── "Standard_A6"
+    │   │       ├── "Standard_A7"
+    │   │       ├── "Standard_A8"
+    │   │       ├── "Standard_A8m_v2"
+    │   │       ├── "Standard_A8_v2"
+    │   │       ├── "Standard_A9"
+    │   │       ├── "Standard_B1ms"
+    │   │       ├── "Standard_B1s"
+    │   │       ├── "Standard_B2ms"
+    │   │       ├── "Standard_B2s"
+    │   │       ├── "Standard_B4ms"
+    │   │       ├── "Standard_B8ms"
+    │   │       ├── "Standard_D1"
+    │   │       ├── "Standard_D11"
+    │   │       ├── "Standard_D11_v2"
+    │   │       ├── "Standard_D12"
+    │   │       ├── "Standard_D12_v2"
+    │   │       ├── "Standard_D13"
+    │   │       ├── "Standard_D13_v2"
+    │   │       ├── "Standard_D14"
+    │   │       ├── "Standard_D14_v2"
+    │   │       ├── "Standard_D15_v2"
+    │   │       ├── "Standard_D16s_v3"
+    │   │       ├── "Standard_D16_v3"
+    │   │       ├── "Standard_D1_v2"
+    │   │       ├── "Standard_D2"
+    │   │       ├── "Standard_D2s_v3"
+    │   │       ├── "Standard_D2_v2"
+    │   │       ├── "Standard_D2_v3"
+    │   │       ├── "Standard_D3"
+    │   │       ├── "Standard_D32s_v3"
+    │   │       ├── "Standard_D32_v3"
+    │   │       ├── "Standard_D3_v2"
+    │   │       ├── "Standard_D4"
+    │   │       ├── "Standard_D4s_v3"
+    │   │       ├── "Standard_D4_v2"
+    │   │       ├── "Standard_D4_v3"
+    │   │       ├── "Standard_D5_v2"
+    │   │       ├── "Standard_D64s_v3"
+    │   │       ├── "Standard_D64_v3"
+    │   │       ├── "Standard_D8s_v3"
+    │   │       ├── "Standard_D8_v3"
+    │   │       ├── "Standard_DS1"
+    │   │       ├── "Standard_DS11"
+    │   │       ├── "Standard_DS11_v2"
+    │   │       ├── "Standard_DS12"
+    │   │       ├── "Standard_DS12_v2"
+    │   │       ├── "Standard_DS13"
+    │   │       ├── "Standard_DS13-2_v2"
+    │   │       ├── "Standard_DS13-4_v2"
+    │   │       ├── "Standard_DS13_v2"
+    │   │       ├── "Standard_DS14"
+    │   │       ├── "Standard_DS14-4_v2"
+    │   │       ├── "Standard_DS14-8_v2"
+    │   │       ├── "Standard_DS14_v2"
+    │   │       ├── "Standard_DS15_v2"
+    │   │       ├── "Standard_DS1_v2"
+    │   │       ├── "Standard_DS2"
+    │   │       ├── "Standard_DS2_v2"
+    │   │       ├── "Standard_DS3"
+    │   │       ├── "Standard_DS3_v2"
+    │   │       ├── "Standard_DS4"
+    │   │       ├── "Standard_DS4_v2"
+    │   │       ├── "Standard_DS5_v2"
+    │   │       ├── "Standard_E16s_v3"
+    │   │       ├── "Standard_E16_v3"
+    │   │       ├── "Standard_E2s_v3"
+    │   │       ├── "Standard_E2_v3"
+    │   │       ├── "Standard_E32-16_v3"
+    │   │       ├── "Standard_E32-8s_v3"
+    │   │       ├── "Standard_E32s_v3"
+    │   │       ├── "Standard_E32_v3"
+    │   │       ├── "Standard_E4s_v3"
+    │   │       ├── "Standard_E4_v3"
+    │   │       ├── "Standard_E64-16s_v3"
+    │   │       ├── "Standard_E64-32s_v3"
+    │   │       ├── "Standard_E64s_v3"
+    │   │       ├── "Standard_E64_v3"
+    │   │       ├── "Standard_E8s_v3"
+    │   │       ├── "Standard_E8_v3"
+    │   │       ├── "Standard_F1"
+    │   │       ├── "Standard_F16"
+    │   │       ├── "Standard_F16s"
+    │   │       ├── "Standard_F16s_v2"
+    │   │       ├── "Standard_F1s"
+    │   │       ├── "Standard_F2"
+    │   │       ├── "Standard_F2s"
+    │   │       ├── "Standard_F2s_v2"
+    │   │       ├── "Standard_F32s_v2"
+    │   │       ├── "Standard_F4"
+    │   │       ├── "Standard_F4s"
+    │   │       ├── "Standard_F4s_v2"
+    │   │       ├── "Standard_F64s_v2"
+    │   │       ├── "Standard_F72s_v2"
+    │   │       ├── "Standard_F8"
+    │   │       ├── "Standard_F8s"
+    │   │       ├── "Standard_F8s_v2"
+    │   │       ├── "Standard_G1"
+    │   │       ├── "Standard_G2"
+    │   │       ├── "Standard_G3"
+    │   │       ├── "Standard_G4"
+    │   │       ├── "Standard_G5"
+    │   │       ├── "Standard_GS1"
+    │   │       ├── "Standard_GS2"
+    │   │       ├── "Standard_GS3"
+    │   │       ├── "Standard_GS4"
+    │   │       ├── "Standard_GS4-4"
+    │   │       ├── "Standard_GS4-8"
+    │   │       ├── "Standard_GS5"
+    │   │       ├── "Standard_GS5-16"
+    │   │       ├── "Standard_GS5-8"
+    │   │       ├── "Standard_H16"
+    │   │       ├── "Standard_H16m"
+    │   │       ├── "Standard_H16mr"
+    │   │       ├── "Standard_H16r"
+    │   │       ├── "Standard_H8"
+    │   │       ├── "Standard_H8m"
+    │   │       ├── "Standard_L16s"
+    │   │       ├── "Standard_L32s"
+    │   │       ├── "Standard_L4s"
+    │   │       ├── "Standard_L8s"
+    │   │       ├── "Standard_M128-32ms"
+    │   │       ├── "Standard_M128-64ms"
+    │   │       ├── "Standard_M128ms"
+    │   │       ├── "Standard_M128s"
+    │   │       ├── "Standard_M64-16ms"
+    │   │       ├── "Standard_M64-32ms"
+    │   │       ├── "Standard_M64ms"
+    │   │       ├── "Standard_M64s"
+    │   │       ├── "Standard_NC12"
+    │   │       ├── "Standard_NC12s_v2"
+    │   │       ├── "Standard_NC12s_v3"
+    │   │       ├── "Standard_NC24"
+    │   │       ├── "Standard_NC24r"
+    │   │       ├── "Standard_NC24rs_v2"
+    │   │       ├── "Standard_NC24rs_v3"
+    │   │       ├── "Standard_NC24s_v2"
+    │   │       ├── "Standard_NC24s_v3"
+    │   │       ├── "Standard_NC6"
+    │   │       ├── "Standard_NC6s_v2"
+    │   │       ├── "Standard_NC6s_v3"
+    │   │       ├── "Standard_ND12s"
+    │   │       ├── "Standard_ND24rs"
+    │   │       ├── "Standard_ND24s"
+    │   │       ├── "Standard_ND6s"
+    │   │       ├── "Standard_NV12"
+    │   │       ├── "Standard_NV24"
+    │   │       └── "Standard_NV6"
+    │   ├── Host: 
+    │   │   └── Id: *string
+    │   ├── HostGroup: 
+    │   │   └── Id: *string
+    │   ├── LicenseType: *string
+    │   ├── NetworkProfile: 
+    │   │   └── NetworkInterfaces: 
+    │   │       ├── Id: *string
+    │   │       └── Properties: 
+    │   │           └── Primary: *bool
+    │   ├── OsProfile: 
+    │   │   ├── AdminPassword: *string
+    │   │   ├── AdminUsername: *string
+    │   │   ├── AllowExtensionOperations: *bool
+    │   │   ├── ComputerName: *string
+    │   │   ├── CustomData: *string
+    │   │   ├── LinuxConfiguration: 
+    │   │   │   ├── DisablePasswordAuthentication: *bool
+    │   │   │   ├── PatchSettings: 
+    │   │   │   │   └── PatchMode: enum
+    │   │   │   │       ├── "AutomaticByPlatform"
+    │   │   │   │       └── "ImageDefault"
+    │   │   │   ├── ProvisionVMAgent: *bool
+    │   │   │   └── Ssh: 
+    │   │   │       └── PublicKeys: 
+    │   │   │           ├── KeyData: *string
+    │   │   │           └── Path: *string
+    │   │   ├── RequireGuestProvisionSignal: *bool
+    │   │   ├── Secrets: 
+    │   │   │   ├── SourceVault: 
+    │   │   │   │   └── Id: *string
+    │   │   │   └── VaultCertificates: 
+    │   │   │       ├── CertificateStore: *string
+    │   │   │       └── CertificateUrl: *string
+    │   │   └── WindowsConfiguration: 
+    │   │       ├── AdditionalUnattendContent: 
+    │   │       │   ├── ComponentName: enum
+    │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
+    │   │       │   ├── Content: *string
+    │   │       │   ├── PassName: enum
+    │   │       │   │   └── "OobeSystem"
+    │   │       │   └── SettingName: enum
+    │   │       │       ├── "AutoLogon"
+    │   │       │       └── "FirstLogonCommands"
+    │   │       ├── EnableAutomaticUpdates: *bool
+    │   │       ├── PatchSettings: 
+    │   │       │   ├── EnableHotpatching: *bool
+    │   │       │   └── PatchMode: enum
+    │   │       │       ├── "AutomaticByOS"
+    │   │       │       ├── "AutomaticByPlatform"
+    │   │       │       └── "Manual"
+    │   │       ├── ProvisionVMAgent: *bool
+    │   │       ├── TimeZone: *string
+    │   │       └── WinRM: 
+    │   │           └── Listeners: 
+    │   │               ├── CertificateUrl: *string
+    │   │               └── Protocol: enum
+    │   │                   ├── "Http"
+    │   │                   └── "Https"
+    │   ├── PlatformFaultDomain: *int
+    │   ├── Priority: enum
+    │   │   ├── "Low"
+    │   │   ├── "Regular"
+    │   │   └── "Spot"
+    │   ├── ProximityPlacementGroup: 
+    │   │   └── Id: *string
+    │   ├── SecurityProfile: 
+    │   │   ├── EncryptionAtHost: *bool
+    │   │   ├── SecurityType: enum
+    │   │   │   └── "TrustedLaunch"
+    │   │   └── UefiSettings: 
+    │   │       ├── SecureBootEnabled: *bool
+    │   │       └── VTpmEnabled: *bool
+    │   ├── StorageProfile: 
+    │   │   ├── DataDisks: 
+    │   │   │   ├── Caching: enum
+    │   │   │   │   ├── "None"
+    │   │   │   │   ├── "ReadOnly"
+    │   │   │   │   └── "ReadWrite"
+    │   │   │   ├── CreateOption: enum
+    │   │   │   │   ├── "Attach"
+    │   │   │   │   ├── "Empty"
+    │   │   │   │   └── "FromImage"
+    │   │   │   ├── DetachOption: enum
+    │   │   │   │   └── "ForceDetach"
+    │   │   │   ├── DiskSizeGB: *int
+    │   │   │   ├── Image: 
+    │   │   │   │   └── Uri: *string
+    │   │   │   ├── Lun: *int
+    │   │   │   ├── ManagedDisk: 
+    │   │   │   │   ├── DiskEncryptionSet: 
+    │   │   │   │   │   └── Id: *string
+    │   │   │   │   ├── Id: *string
+    │   │   │   │   └── StorageAccountType: enum
+    │   │   │   │       ├── "Premium_LRS"
+    │   │   │   │       ├── "Premium_ZRS"
+    │   │   │   │       ├── "StandardSSD_LRS"
+    │   │   │   │       ├── "StandardSSD_ZRS"
+    │   │   │   │       ├── "Standard_LRS"
+    │   │   │   │       └── "UltraSSD_LRS"
+    │   │   │   ├── Name: *string
+    │   │   │   ├── ToBeDetached: *bool
+    │   │   │   ├── Vhd: 
+    │   │   │   │   └── Uri: *string
+    │   │   │   └── WriteAcceleratorEnabled: *bool
+    │   │   ├── ImageReference: 
+    │   │   │   ├── Id: *string
+    │   │   │   ├── Offer: *string
+    │   │   │   ├── Publisher: *string
+    │   │   │   ├── Sku: *string
+    │   │   │   └── Version: *string
+    │   │   └── OsDisk: 
+    │   │       ├── Caching: enum
+    │   │       │   ├── "None"
+    │   │       │   ├── "ReadOnly"
+    │   │       │   └── "ReadWrite"
+    │   │       ├── CreateOption: enum
+    │   │       │   ├── "Attach"
+    │   │       │   ├── "Empty"
+    │   │       │   └── "FromImage"
+    │   │       ├── DiffDiskSettings: 
+    │   │       │   ├── Option: enum
+    │   │       │   │   └── "Local"
+    │   │       │   └── Placement: enum
+    │   │       │       ├── "CacheDisk"
+    │   │       │       └── "ResourceDisk"
+    │   │       ├── DiskSizeGB: *int
+    │   │       ├── EncryptionSettings: 
+    │   │       │   ├── DiskEncryptionKey: 
+    │   │       │   │   ├── SecretUrl: *string
+    │   │       │   │   └── SourceVault: 
+    │   │       │   │       └── Id: *string
+    │   │       │   ├── Enabled: *bool
+    │   │       │   └── KeyEncryptionKey: 
+    │   │       │       ├── KeyUrl: *string
+    │   │       │       └── SourceVault: 
+    │   │       │           └── Id: *string
+    │   │       ├── Image: 
+    │   │       │   └── Uri: *string
+    │   │       ├── ManagedDisk: 
+    │   │       │   ├── DiskEncryptionSet: 
+    │   │       │   │   └── Id: *string
+    │   │       │   ├── Id: *string
+    │   │       │   └── StorageAccountType: enum
+    │   │       │       ├── "Premium_LRS"
+    │   │       │       ├── "Premium_ZRS"
+    │   │       │       ├── "StandardSSD_LRS"
+    │   │       │       ├── "StandardSSD_ZRS"
+    │   │       │       ├── "Standard_LRS"
+    │   │       │       └── "UltraSSD_LRS"
+    │   │       ├── Name: *string
+    │   │       ├── OsType: enum
+    │   │       │   ├── "Linux"
+    │   │       │   └── "Windows"
+    │   │       ├── Vhd: 
+    │   │       │   └── Uri: *string
+    │   │       └── WriteAcceleratorEnabled: *bool
+    │   └── VirtualMachineScaleSet: 
+    │       └── Id: *string
+    ├── Tags: Map[string]string
+    └── Zones: Array[string]

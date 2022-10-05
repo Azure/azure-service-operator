@@ -1,0 +1,638 @@
+github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
+├── APIVersion: enum
+│   └── "2021-04-01"
+├── StorageAccount: Resource
+│   ├── Spec: 
+│   │   ├── AccessTier: *string
+│   │   ├── AllowBlobPublicAccess: *bool
+│   │   ├── AllowCrossTenantReplication: *bool
+│   │   ├── AllowSharedKeyAccess: *bool
+│   │   ├── AzureFilesIdentityBasedAuthentication: 
+│   │   │   ├── ActiveDirectoryProperties: 
+│   │   │   │   ├── AzureStorageSid: *string
+│   │   │   │   ├── DomainGuid: *string
+│   │   │   │   ├── DomainName: *string
+│   │   │   │   ├── DomainSid: *string
+│   │   │   │   ├── ForestName: *string
+│   │   │   │   ├── NetBiosDomainName: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── DefaultSharePermission: *string
+│   │   │   ├── DirectoryServiceOptions: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AzureName: Validated[string]
+│   │   ├── CustomDomain: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UseSubDomainName: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── Identity: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   ├── KeySource: *string
+│   │   │   ├── Keyvaultproperties: 
+│   │   │   │   ├── Keyname: *string
+│   │   │   │   ├── Keyvaulturi: *string
+│   │   │   │   ├── Keyversion: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RequireInfrastructureEncryption: *bool
+│   │   │   └── Services: 
+│   │   │       ├── Blob: 
+│   │   │       │   ├── Enabled: *bool
+│   │   │       │   ├── KeyType: *string
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── File: 
+│   │   │       │   ├── Enabled: *bool
+│   │   │       │   ├── KeyType: *string
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── Queue: 
+│   │   │       │   ├── Enabled: *bool
+│   │   │       │   ├── KeyType: *string
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Table: 
+│   │   │           ├── Enabled: *bool
+│   │   │           ├── KeyType: *string
+│   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IsHnsEnabled: *bool
+│   │   ├── IsNfsV3Enabled: *bool
+│   │   ├── KeyPolicy: 
+│   │   │   ├── KeyExpirationPeriodInDays: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Kind: *string
+│   │   ├── LargeFileSharesState: *string
+│   │   ├── Location: *string
+│   │   ├── MinimumTlsVersion: *string
+│   │   ├── NetworkAcls: 
+│   │   │   ├── Bypass: *string
+│   │   │   ├── DefaultAction: *string
+│   │   │   ├── IpRules: 
+│   │   │   │   ├── Action: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Value: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ResourceAccessRules: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── TenantId: *string
+│   │   │   └── VirtualNetworkRules: 
+│   │   │       ├── Action: *string
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── Reference: *genruntime.ResourceReference
+│   │   │       └── State: *string
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── BlobEndpoint: *genruntime.SecretDestination
+│   │   │       ├── DfsEndpoint: *genruntime.SecretDestination
+│   │   │       ├── FileEndpoint: *genruntime.SecretDestination
+│   │   │       ├── Key1: *genruntime.SecretDestination
+│   │   │       ├── Key2: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── QueueEndpoint: *genruntime.SecretDestination
+│   │   │       ├── TableEndpoint: *genruntime.SecretDestination
+│   │   │       └── WebEndpoint: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RoutingPreference: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublishInternetEndpoints: *bool
+│   │   │   ├── PublishMicrosoftEndpoints: *bool
+│   │   │   └── RoutingChoice: *string
+│   │   ├── SasPolicy: 
+│   │   │   ├── ExpirationAction: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── SasExpirationPeriod: *string
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── SupportsHttpsTrafficOnly: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessTier: *string
+│       ├── AllowBlobPublicAccess: *bool
+│       ├── AllowCrossTenantReplication: *bool
+│       ├── AllowSharedKeyAccess: *bool
+│       ├── AzureFilesIdentityBasedAuthentication: 
+│       │   ├── ActiveDirectoryProperties: 
+│       │   │   ├── AzureStorageSid: *string
+│       │   │   ├── DomainGuid: *string
+│       │   │   ├── DomainName: *string
+│       │   │   ├── DomainSid: *string
+│       │   │   ├── ForestName: *string
+│       │   │   ├── NetBiosDomainName: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── DefaultSharePermission: *string
+│       │   ├── DirectoryServiceOptions: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BlobRestoreStatus: 
+│       │   ├── FailureReason: *string
+│       │   ├── Parameters: 
+│       │   │   ├── BlobRanges: 
+│       │   │   │   ├── EndRange: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── StartRange: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TimeToRestore: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreId: *string
+│       │   └── Status: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreationTime: *string
+│       ├── CustomDomain: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── UseSubDomainName: *bool
+│       ├── Encryption: 
+│       │   ├── Identity: 
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── UserAssignedIdentity: *string
+│       │   ├── KeySource: *string
+│       │   ├── Keyvaultproperties: 
+│       │   │   ├── CurrentVersionedKeyIdentifier: *string
+│       │   │   ├── Keyname: *string
+│       │   │   ├── Keyvaulturi: *string
+│       │   │   ├── Keyversion: *string
+│       │   │   ├── LastKeyRotationTimestamp: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequireInfrastructureEncryption: *bool
+│       │   └── Services: 
+│       │       ├── Blob: 
+│       │       │   ├── Enabled: *bool
+│       │       │   ├── KeyType: *string
+│       │       │   ├── LastEnabledTime: *string
+│       │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       ├── File: 
+│       │       │   ├── Enabled: *bool
+│       │       │   ├── KeyType: *string
+│       │       │   ├── LastEnabledTime: *string
+│       │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── Queue: 
+│       │       │   ├── Enabled: *bool
+│       │       │   ├── KeyType: *string
+│       │       │   ├── LastEnabledTime: *string
+│       │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       └── Table: 
+│       │           ├── Enabled: *bool
+│       │           ├── KeyType: *string
+│       │           ├── LastEnabledTime: *string
+│       │           └── PropertyBag: genruntime.PropertyBag
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── FailoverInProgress: *bool
+│       ├── GeoReplicationStats: 
+│       │   ├── CanFailover: *bool
+│       │   ├── LastSyncTime: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Status: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── IsHnsEnabled: *bool
+│       ├── IsNfsV3Enabled: *bool
+│       ├── KeyCreationTime: 
+│       │   ├── Key1: *string
+│       │   ├── Key2: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── KeyPolicy: 
+│       │   ├── KeyExpirationPeriodInDays: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Kind: *string
+│       ├── LargeFileSharesState: *string
+│       ├── LastGeoFailoverTime: *string
+│       ├── Location: *string
+│       ├── MinimumTlsVersion: *string
+│       ├── Name: *string
+│       ├── NetworkAcls: 
+│       │   ├── Bypass: *string
+│       │   ├── DefaultAction: *string
+│       │   ├── IpRules: 
+│       │   │   ├── Action: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Value: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ResourceAccessRules: 
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ResourceId: *string
+│       │   │   └── TenantId: *string
+│       │   └── VirtualNetworkRules: 
+│       │       ├── Action: *string
+│       │       ├── Id: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── State: *string
+│       ├── PrimaryEndpoints: 
+│       │   ├── Blob: *string
+│       │   ├── Dfs: *string
+│       │   ├── File: *string
+│       │   ├── InternetEndpoints: 
+│       │   │   ├── Blob: *string
+│       │   │   ├── Dfs: *string
+│       │   │   ├── File: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Web: *string
+│       │   ├── MicrosoftEndpoints: 
+│       │   │   ├── Blob: *string
+│       │   │   ├── Dfs: *string
+│       │   │   ├── File: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Queue: *string
+│       │   │   ├── Table: *string
+│       │   │   └── Web: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Queue: *string
+│       │   ├── Table: *string
+│       │   └── Web: *string
+│       ├── PrimaryLocation: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── RoutingPreference: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── PublishInternetEndpoints: *bool
+│       │   ├── PublishMicrosoftEndpoints: *bool
+│       │   └── RoutingChoice: *string
+│       ├── SasPolicy: 
+│       │   ├── ExpirationAction: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SasExpirationPeriod: *string
+│       ├── SecondaryEndpoints: 
+│       │   ├── Blob: *string
+│       │   ├── Dfs: *string
+│       │   ├── File: *string
+│       │   ├── InternetEndpoints: 
+│       │   │   ├── Blob: *string
+│       │   │   ├── Dfs: *string
+│       │   │   ├── File: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Web: *string
+│       │   ├── MicrosoftEndpoints: 
+│       │   │   ├── Blob: *string
+│       │   │   ├── Dfs: *string
+│       │   │   ├── File: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Queue: *string
+│       │   │   ├── Table: *string
+│       │   │   └── Web: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Queue: *string
+│       │   ├── Table: *string
+│       │   └── Web: *string
+│       ├── SecondaryLocation: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── StatusOfPrimary: *string
+│       ├── StatusOfSecondary: *string
+│       ├── SupportsHttpsTrafficOnly: *bool
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── StorageAccountsBlobService: Resource
+│   ├── Spec: 
+│   │   ├── AutomaticSnapshotPolicyEnabled: *bool
+│   │   ├── ChangeFeed: 
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RetentionInDays: *int
+│   │   ├── ContainerDeleteRetentionPolicy: 
+│   │   │   ├── Days: *int
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Cors: 
+│   │   │   ├── CorsRules: 
+│   │   │   │   ├── AllowedHeaders: Array[string]
+│   │   │   │   ├── AllowedMethods: Array[string]
+│   │   │   │   ├── AllowedOrigins: Array[string]
+│   │   │   │   ├── ExposedHeaders: Array[string]
+│   │   │   │   ├── MaxAgeInSeconds: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── DefaultServiceVersion: *string
+│   │   ├── DeleteRetentionPolicy: 
+│   │   │   ├── Days: *int
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── IsVersioningEnabled: *bool
+│   │   ├── LastAccessTimeTrackingPolicy: 
+│   │   │   ├── BlobType: Array[string]
+│   │   │   ├── Enable: *bool
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── TrackingGranularityInDays: *int
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RestorePolicy: 
+│   │   │   ├── Days: *int
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AutomaticSnapshotPolicyEnabled: *bool
+│       ├── ChangeFeed: 
+│       │   ├── Enabled: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RetentionInDays: *int
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ContainerDeleteRetentionPolicy: 
+│       │   ├── Days: *int
+│       │   ├── Enabled: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Cors: 
+│       │   ├── CorsRules: 
+│       │   │   ├── AllowedHeaders: Array[string]
+│       │   │   ├── AllowedMethods: Array[string]
+│       │   │   ├── AllowedOrigins: Array[string]
+│       │   │   ├── ExposedHeaders: Array[string]
+│       │   │   ├── MaxAgeInSeconds: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── DefaultServiceVersion: *string
+│       ├── DeleteRetentionPolicy: 
+│       │   ├── Days: *int
+│       │   ├── Enabled: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── IsVersioningEnabled: *bool
+│       ├── LastAccessTimeTrackingPolicy: 
+│       │   ├── BlobType: Array[string]
+│       │   ├── Enable: *bool
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── TrackingGranularityInDays: *int
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RestorePolicy: 
+│       │   ├── Days: *int
+│       │   ├── Enabled: *bool
+│       │   ├── LastEnabledTime: *string
+│       │   ├── MinRestoreTime: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       └── Type: *string
+├── StorageAccountsBlobServicesContainer: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DefaultEncryptionScope: *string
+│   │   ├── DenyEncryptionScopeOverride: *bool
+│   │   ├── ImmutableStorageWithVersioning: 
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Location: *string
+│   │   ├── Metadata: Map[string]string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicAccess: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DefaultEncryptionScope: *string
+│       ├── Deleted: *bool
+│       ├── DeletedTime: *string
+│       ├── DenyEncryptionScopeOverride: *bool
+│       ├── Etag: *string
+│       ├── HasImmutabilityPolicy: *bool
+│       ├── HasLegalHold: *bool
+│       ├── Id: *string
+│       ├── ImmutabilityPolicy: 
+│       │   ├── AllowProtectedAppendWrites: *bool
+│       │   ├── Etag: *string
+│       │   ├── ImmutabilityPeriodSinceCreationInDays: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── State: *string
+│       │   └── UpdateHistory: 
+│       │       ├── ImmutabilityPeriodSinceCreationInDays: *int
+│       │       ├── ObjectIdentifier: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── TenantId: *string
+│       │       ├── Timestamp: *string
+│       │       ├── Update: *string
+│       │       └── Upn: *string
+│       ├── ImmutableStorageWithVersioning: 
+│       │   ├── Enabled: *bool
+│       │   ├── MigrationState: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── TimeStamp: *string
+│       ├── LastModifiedTime: *string
+│       ├── LeaseDuration: *string
+│       ├── LeaseState: *string
+│       ├── LeaseStatus: *string
+│       ├── LegalHold: 
+│       │   ├── HasLegalHold: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tags: 
+│       │       ├── ObjectIdentifier: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── Tag: *string
+│       │       ├── TenantId: *string
+│       │       ├── Timestamp: *string
+│       │       └── Upn: *string
+│       ├── Metadata: Map[string]string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── PublicAccess: *string
+│       ├── RemainingRetentionDays: *int
+│       ├── Type: *string
+│       └── Version: *string
+├── StorageAccountsManagementPolicy: Resource
+│   ├── Spec: 
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Policy: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Rules: 
+│   │   │       ├── Definition: 
+│   │   │       │   ├── Actions: 
+│   │   │       │   │   ├── BaseBlob: 
+│   │   │       │   │   │   ├── Delete: 
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
+│   │   │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
+│   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   ├── TierToArchive: 
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
+│   │   │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   └── TierToCool: 
+│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
+│   │   │       │   │   │       ├── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   ├── Snapshot: 
+│   │   │       │   │   │   ├── Delete: 
+│   │   │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   ├── TierToArchive: 
+│   │   │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   └── TierToCool: 
+│   │   │       │   │   │       ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   └── Version: 
+│   │   │       │   │       ├── Delete: 
+│   │   │       │   │       │   ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │       ├── TierToArchive: 
+│   │   │       │   │       │   ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │       └── TierToCool: 
+│   │   │       │   │           ├── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   ├── Filters: 
+│   │   │       │   │   ├── BlobIndexMatch: 
+│   │   │       │   │   │   ├── Name: *string
+│   │   │       │   │   │   ├── Op: *string
+│   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   │   │   └── Value: *string
+│   │   │       │   │   ├── BlobTypes: Array[string]
+│   │   │       │   │   ├── PrefixMatch: Array[string]
+│   │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── Enabled: *bool
+│   │   │       ├── Name: *string
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Type: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── LastModifiedTime: *string
+│       ├── Name: *string
+│       ├── Policy: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Rules: 
+│       │       ├── Definition: 
+│       │       │   ├── Actions: 
+│       │       │   │   ├── BaseBlob: 
+│       │       │   │   │   ├── Delete: 
+│       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│       │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *float64
+│       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
+│       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│       │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *float64
+│       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│       │       │   │   │       ├── DaysAfterModificationGreaterThan: *float64
+│       │       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   │   ├── Snapshot: 
+│       │       │   │   │   ├── Delete: 
+│       │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │       ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │       │   │   └── Version: 
+│       │       │   │       ├── Delete: 
+│       │       │   │       │   ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │       │   │       ├── TierToArchive: 
+│       │       │   │       │   ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   │       └── TierToCool: 
+│       │       │   │           ├── DaysAfterCreationGreaterThan: *float64
+│       │       │   │           └── PropertyBag: genruntime.PropertyBag
+│       │       │   ├── Filters: 
+│       │       │   │   ├── BlobIndexMatch: 
+│       │       │   │   │   ├── Name: *string
+│       │       │   │   │   ├── Op: *string
+│       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   │   │   └── Value: *string
+│       │       │   │   ├── BlobTypes: Array[string]
+│       │       │   │   ├── PrefixMatch: Array[string]
+│       │       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │       │   └── PropertyBag: genruntime.PropertyBag
+│       │       ├── Enabled: *bool
+│       │       ├── Name: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── Type: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── StorageAccountsQueueService: Resource
+│   ├── Spec: 
+│   │   ├── Cors: 
+│   │   │   ├── CorsRules: 
+│   │   │   │   ├── AllowedHeaders: Array[string]
+│   │   │   │   ├── AllowedMethods: Array[string]
+│   │   │   │   ├── AllowedOrigins: Array[string]
+│   │   │   │   ├── ExposedHeaders: Array[string]
+│   │   │   │   ├── MaxAgeInSeconds: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Cors: 
+│       │   ├── CorsRules: 
+│       │   │   ├── AllowedHeaders: Array[string]
+│       │   │   ├── AllowedMethods: Array[string]
+│       │   │   ├── AllowedOrigins: Array[string]
+│       │   │   ├── ExposedHeaders: Array[string]
+│       │   │   ├── MaxAgeInSeconds: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+└── StorageAccountsQueueServicesQueue: Resource
+    ├── Spec: 
+    │   ├── AzureName: Validated[string]
+    │   ├── Location: *string
+    │   ├── Metadata: Map[string]string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── ApproximateMessageCount: *int
+        ├── Conditions: Array[conditions.Condition]
+        ├── Id: *string
+        ├── Metadata: Map[string]string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        └── Type: *string

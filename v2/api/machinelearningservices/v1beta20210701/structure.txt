@@ -1,0 +1,1039 @@
+github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701
+├── APIVersion: enum
+│   └── "2021-07-01"
+├── ComputeResource_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       ├── PrincipalId: *string
+│   │       └── TenantId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── ComputeLocation: *string
+│   │   ├── ComputeType: enum
+│   │   │   ├── "AKS"
+│   │   │   ├── "AmlCompute"
+│   │   │   ├── "ComputeInstance"
+│   │   │   ├── "DataFactory"
+│   │   │   ├── "DataLakeAnalytics"
+│   │   │   ├── "Databricks"
+│   │   │   ├── "HDInsight"
+│   │   │   ├── "Kubernetes"
+│   │   │   ├── "SynapseSpark"
+│   │   │   └── "VirtualMachine"
+│   │   ├── CreatedOn: *string
+│   │   ├── Description: *string
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── IsAttachedCompute: *bool
+│   │   ├── ModifiedOn: *string
+│   │   ├── ProvisioningErrors: 
+│   │   │   └── Error: 
+│   │   │       ├── AdditionalInfo: 
+│   │   │       │   ├── Info: Map[string]v1.JSON
+│   │   │       │   └── Type: *string
+│   │   │       ├── Code: *string
+│   │   │       ├── Details: 
+│   │   │       │   ├── AdditionalInfo: 
+│   │   │       │   │   ├── Info: Map[string]v1.JSON
+│   │   │       │   │   └── Type: *string
+│   │   │       │   ├── Code: *string
+│   │   │       │   ├── Message: *string
+│   │   │       │   └── Target: *string
+│   │   │       ├── Message: *string
+│   │   │       └── Target: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   ├── "Unknown"
+│   │   │   └── "Updating"
+│   │   └── ResourceId: *string
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── Workspace: Resource
+│   ├── Spec: 
+│   │   ├── AllowPublicAccessWhenBehindVnet: *bool
+│   │   ├── ApplicationInsightsReference: *genruntime.ResourceReference
+│   │   ├── AzureName: string
+│   │   ├── ContainerRegistryReference: *genruntime.ResourceReference
+│   │   ├── Description: *string
+│   │   ├── DiscoveryUrl: *string
+│   │   ├── Encryption: 
+│   │   │   ├── Identity: 
+│   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── IdentityClientId: *string
+│   │   │   │   ├── KeyIdentifier: *string
+│   │   │   │   └── KeyVaultArmId: *string
+│   │   │   └── Status: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── FriendlyName: *string
+│   │   ├── HbiWorkspace: *bool
+│   │   ├── Identity: 
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── ImageBuildCompute: *string
+│   │   ├── KeyVaultReference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OperatorSpec: 
+│   │   │   └── Secrets: 
+│   │   │       ├── AppInsightsInstrumentationKey: *genruntime.SecretDestination
+│   │   │       ├── ContainerRegistryPassword: *genruntime.SecretDestination
+│   │   │       ├── ContainerRegistryPassword2: *genruntime.SecretDestination
+│   │   │       ├── ContainerRegistryUserName: *genruntime.SecretDestination
+│   │   │       ├── PrimaryNotebookAccessKey: *genruntime.SecretDestination
+│   │   │       ├── SecondaryNotebookAccessKey: *genruntime.SecretDestination
+│   │   │       └── UserStorageKey: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── ServiceManagedResourcesSettings: 
+│   │   │   └── CosmosDb: 
+│   │   │       └── CollectionsThroughput: *int
+│   │   ├── SharedPrivateLinkResources: 
+│   │   │   ├── GroupId: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
+│   │   │   ├── RequestMessage: *string
+│   │   │   └── Status: enum
+│   │   │       ├── "Approved"
+│   │   │       ├── "Disconnected"
+│   │   │       ├── "Pending"
+│   │   │       ├── "Rejected"
+│   │   │       └── "Timeout"
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: *string
+│   │   ├── StorageAccountReference: *genruntime.ResourceReference
+│   │   ├── SystemData: 
+│   │   │   ├── CreatedAt: Validated[*string]
+│   │   │   ├── CreatedBy: *string
+│   │   │   ├── CreatedByType: enum
+│   │   │   │   ├── "Application"
+│   │   │   │   ├── "Key"
+│   │   │   │   ├── "ManagedIdentity"
+│   │   │   │   └── "User"
+│   │   │   ├── LastModifiedAt: Validated[*string]
+│   │   │   ├── LastModifiedBy: *string
+│   │   │   └── LastModifiedByType: enum
+│   │   │       ├── "Application"
+│   │   │       ├── "Key"
+│   │   │       ├── "ManagedIdentity"
+│   │   │       └── "User"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AllowPublicAccessWhenBehindVnet: *bool
+│       ├── ApplicationInsights: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ContainerRegistry: *string
+│       ├── Description: *string
+│       ├── DiscoveryUrl: *string
+│       ├── Encryption: 
+│       │   ├── Identity: 
+│       │   │   └── UserAssignedIdentity: *string
+│       │   ├── KeyVaultProperties: 
+│       │   │   ├── IdentityClientId: *string
+│       │   │   ├── KeyIdentifier: *string
+│       │   │   └── KeyVaultArmId: *string
+│       │   └── Status: enum
+│       │       ├── "Disabled"
+│       │       └── "Enabled"
+│       ├── FriendlyName: *string
+│       ├── HbiWorkspace: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned,UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── TenantId: *string
+│       ├── ImageBuildCompute: *string
+│       ├── KeyVault: *string
+│       ├── Location: *string
+│       ├── MlFlowTrackingUri: *string
+│       ├── Name: *string
+│       ├── NotebookInfo: 
+│       │   ├── Fqdn: *string
+│       │   ├── NotebookPreparationError: 
+│       │   │   ├── ErrorMessage: *string
+│       │   │   └── StatusCode: *int
+│       │   └── ResourceId: *string
+│       ├── PrimaryUserAssignedIdentity: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   ├── Identity: 
+│       │   │   ├── PrincipalId: *string
+│       │   │   ├── TenantId: *string
+│       │   │   ├── Type: enum
+│       │   │   │   ├── "None"
+│       │   │   │   ├── "SystemAssigned"
+│       │   │   │   ├── "SystemAssigned,UserAssigned"
+│       │   │   │   └── "UserAssigned"
+│       │   │   └── UserAssignedIdentities: 
+│       │   │       ├── ClientId: *string
+│       │   │       ├── PrincipalId: *string
+│       │   │       └── TenantId: *string
+│       │   ├── Sku: 
+│       │   │   ├── Name: *string
+│       │   │   └── Tier: *string
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: enum
+│       │       │   ├── "Application"
+│       │       │   ├── "Key"
+│       │       │   ├── "ManagedIdentity"
+│       │       │   └── "User"
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       └── LastModifiedByType: enum
+│       │           ├── "Application"
+│       │           ├── "Key"
+│       │           ├── "ManagedIdentity"
+│       │           └── "User"
+│       ├── PrivateLinkCount: *int
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   ├── "Unknown"
+│       │   └── "Updating"
+│       ├── PublicNetworkAccess: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── ServiceManagedResourcesSettings: 
+│       │   └── CosmosDb: 
+│       │       └── CollectionsThroughput: *int
+│       ├── ServiceProvisionedResourceGroup: *string
+│       ├── SharedPrivateLinkResources: 
+│       │   ├── GroupId: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateLinkResourceId: *string
+│       │   ├── RequestMessage: *string
+│       │   └── Status: enum
+│       │       ├── "Approved"
+│       │       ├── "Disconnected"
+│       │       ├── "Pending"
+│       │       ├── "Rejected"
+│       │       └── "Timeout"
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   └── Tier: *string
+│       ├── StorageAccount: *string
+│       ├── StorageHnsEnabled: *bool
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       ├── TenantId: *string
+│       ├── Type: *string
+│       └── WorkspaceId: *string
+├── WorkspaceConnection_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AuthType: *string
+│   │   ├── Category: *string
+│   │   ├── Target: *string
+│   │   ├── Value: *string
+│   │   └── ValueFormat: enum
+│   │       └── "JSON"
+│   └── Type: *string
+├── Workspace_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       ├── PrincipalId: *string
+│   │       └── TenantId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AllowPublicAccessWhenBehindVnet: *bool
+│   │   ├── ApplicationInsights: *string
+│   │   ├── ContainerRegistry: *string
+│   │   ├── Description: *string
+│   │   ├── DiscoveryUrl: *string
+│   │   ├── Encryption: 
+│   │   │   ├── Identity: 
+│   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── IdentityClientId: *string
+│   │   │   │   ├── KeyIdentifier: *string
+│   │   │   │   └── KeyVaultArmId: *string
+│   │   │   └── Status: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── FriendlyName: *string
+│   │   ├── HbiWorkspace: *bool
+│   │   ├── ImageBuildCompute: *string
+│   │   ├── KeyVault: *string
+│   │   ├── MlFlowTrackingUri: *string
+│   │   ├── NotebookInfo: 
+│   │   │   ├── Fqdn: *string
+│   │   │   ├── NotebookPreparationError: 
+│   │   │   │   ├── ErrorMessage: *string
+│   │   │   │   └── StatusCode: *int
+│   │   │   └── ResourceId: *string
+│   │   ├── PrimaryUserAssignedIdentity: *string
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Id: *string
+│   │   │   ├── Identity: 
+│   │   │   │   ├── PrincipalId: *string
+│   │   │   │   ├── TenantId: *string
+│   │   │   │   ├── Type: enum
+│   │   │   │   │   ├── "None"
+│   │   │   │   │   ├── "SystemAssigned"
+│   │   │   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   │   │   └── "UserAssigned"
+│   │   │   │   └── UserAssignedIdentities: 
+│   │   │   │       ├── ClientId: *string
+│   │   │   │       ├── PrincipalId: *string
+│   │   │   │       └── TenantId: *string
+│   │   │   ├── Sku: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Tier: *string
+│   │   │   └── SystemData: 
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: enum
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: enum
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── PrivateLinkCount: *int
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   ├── "Unknown"
+│   │   │   └── "Updating"
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── ServiceManagedResourcesSettings: 
+│   │   │   └── CosmosDb: 
+│   │   │       └── CollectionsThroughput: *int
+│   │   ├── ServiceProvisionedResourceGroup: *string
+│   │   ├── SharedPrivateLinkResources: 
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: 
+│   │   │       ├── GroupId: *string
+│   │   │       ├── PrivateLinkResourceId: *string
+│   │   │       ├── RequestMessage: *string
+│   │   │       └── Status: enum
+│   │   │           ├── "Approved"
+│   │   │           ├── "Disconnected"
+│   │   │           ├── "Pending"
+│   │   │           ├── "Rejected"
+│   │   │           └── "Timeout"
+│   │   ├── StorageAccount: *string
+│   │   ├── StorageHnsEnabled: *bool
+│   │   ├── TenantId: *string
+│   │   └── WorkspaceId: *string
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── Workspace_Spec_ARM: 
+│   ├── Identity: 
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AllowPublicAccessWhenBehindVnet: *bool
+│   │   ├── ApplicationInsights: *string
+│   │   ├── ContainerRegistry: *string
+│   │   ├── Description: *string
+│   │   ├── DiscoveryUrl: *string
+│   │   ├── Encryption: 
+│   │   │   ├── Identity: 
+│   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── IdentityClientId: *string
+│   │   │   │   ├── KeyIdentifier: *string
+│   │   │   │   └── KeyVaultArmId: *string
+│   │   │   └── Status: enum
+│   │   │       ├── "Disabled"
+│   │   │       └── "Enabled"
+│   │   ├── FriendlyName: *string
+│   │   ├── HbiWorkspace: *bool
+│   │   ├── ImageBuildCompute: *string
+│   │   ├── KeyVault: *string
+│   │   ├── PrimaryUserAssignedIdentity: *string
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── ServiceManagedResourcesSettings: 
+│   │   │   └── CosmosDb: 
+│   │   │       └── CollectionsThroughput: *int
+│   │   ├── SharedPrivateLinkResources: 
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: 
+│   │   │       ├── GroupId: *string
+│   │   │       ├── PrivateLinkResourceId: *string
+│   │   │       ├── RequestMessage: *string
+│   │   │       └── Status: enum
+│   │   │           ├── "Approved"
+│   │   │           ├── "Disconnected"
+│   │   │           ├── "Pending"
+│   │   │           ├── "Rejected"
+│   │   │           └── "Timeout"
+│   │   └── StorageAccount: *string
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Tags: Map[string]string
+├── WorkspacesCompute: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Identity: 
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Properties: 
+│   │   │   ├── AKS: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "AKS"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── AgentCount: Validated[*int]
+│   │   │   │   │   ├── AgentVmSize: *string
+│   │   │   │   │   ├── AksNetworkingConfiguration: 
+│   │   │   │   │   │   ├── DnsServiceIP: Validated[*string]
+│   │   │   │   │   │   ├── DockerBridgeCidr: Validated[*string]
+│   │   │   │   │   │   ├── ServiceCidr: Validated[*string]
+│   │   │   │   │   │   └── SubnetReference: *genruntime.ResourceReference
+│   │   │   │   │   ├── ClusterFqdn: *string
+│   │   │   │   │   ├── ClusterPurpose: enum
+│   │   │   │   │   │   ├── "DenseProd"
+│   │   │   │   │   │   ├── "DevTest"
+│   │   │   │   │   │   └── "FastProd"
+│   │   │   │   │   ├── LoadBalancerSubnet: *string
+│   │   │   │   │   ├── LoadBalancerType: enum
+│   │   │   │   │   │   ├── "InternalLoadBalancer"
+│   │   │   │   │   │   └── "PublicIp"
+│   │   │   │   │   └── SslConfiguration: 
+│   │   │   │   │       ├── Cert: *string
+│   │   │   │   │       ├── Cname: *string
+│   │   │   │   │       ├── Key: *string
+│   │   │   │   │       ├── LeafDomainLabel: *string
+│   │   │   │   │       ├── OverwriteExistingDomain: *bool
+│   │   │   │   │       └── Status: enum
+│   │   │   │   │           ├── "Auto"
+│   │   │   │   │           ├── "Disabled"
+│   │   │   │   │           └── "Enabled"
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── AmlCompute: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "AmlCompute"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── EnableNodePublicIp: *bool
+│   │   │   │   │   ├── IsolatedNetwork: *bool
+│   │   │   │   │   ├── OsType: enum
+│   │   │   │   │   │   ├── "Linux"
+│   │   │   │   │   │   └── "Windows"
+│   │   │   │   │   ├── RemoteLoginPortPublicAccess: enum
+│   │   │   │   │   │   ├── "Disabled"
+│   │   │   │   │   │   ├── "Enabled"
+│   │   │   │   │   │   └── "NotSpecified"
+│   │   │   │   │   ├── ScaleSettings: 
+│   │   │   │   │   │   ├── MaxNodeCount: *int
+│   │   │   │   │   │   ├── MinNodeCount: *int
+│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: Validated[*string]
+│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── UserAccountCredentials: 
+│   │   │   │   │   │   ├── AdminUserName: *string
+│   │   │   │   │   │   ├── AdminUserPassword: *genruntime.SecretReference
+│   │   │   │   │   │   └── AdminUserSshPublicKey: *genruntime.SecretReference
+│   │   │   │   │   ├── VirtualMachineImage: 
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   ├── VmPriority: enum
+│   │   │   │   │   │   ├── "Dedicated"
+│   │   │   │   │   │   └── "LowPriority"
+│   │   │   │   │   └── VmSize: *string
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── ComputeInstance: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "ComputeInstance"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── ApplicationSharingPolicy: enum
+│   │   │   │   │   │   ├── "Personal"
+│   │   │   │   │   │   └── "Shared"
+│   │   │   │   │   ├── ComputeInstanceAuthorizationType: enum
+│   │   │   │   │   │   └── "personal"
+│   │   │   │   │   ├── PersonalComputeInstanceSettings: 
+│   │   │   │   │   │   └── AssignedUser: 
+│   │   │   │   │   │       ├── ObjectId: *string
+│   │   │   │   │   │       └── TenantId: *string
+│   │   │   │   │   ├── SetupScripts: 
+│   │   │   │   │   │   └── Scripts: 
+│   │   │   │   │   │       ├── CreationScript: 
+│   │   │   │   │   │       │   ├── ScriptArguments: *string
+│   │   │   │   │   │       │   ├── ScriptData: *string
+│   │   │   │   │   │       │   ├── ScriptSource: *string
+│   │   │   │   │   │       │   └── Timeout: *string
+│   │   │   │   │   │       └── StartupScript: 
+│   │   │   │   │   │           ├── ScriptArguments: *string
+│   │   │   │   │   │           ├── ScriptData: *string
+│   │   │   │   │   │           ├── ScriptSource: *string
+│   │   │   │   │   │           └── Timeout: *string
+│   │   │   │   │   ├── SshSettings: 
+│   │   │   │   │   │   ├── AdminPublicKey: *string
+│   │   │   │   │   │   └── SshPublicAccess: enum
+│   │   │   │   │   │       ├── "Disabled"
+│   │   │   │   │   │       └── "Enabled"
+│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   │   └── VmSize: *string
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── DataFactory: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "DataFactory"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── DataLakeAnalytics: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "DataLakeAnalytics"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   └── DataLakeStoreAccountName: *string
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── Databricks: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "Databricks"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   │   └── WorkspaceUrl: *string
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── HDInsight: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "HDInsight"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── Address: *string
+│   │   │   │   │   ├── AdministratorAccount: 
+│   │   │   │   │   │   ├── Password: *genruntime.SecretReference
+│   │   │   │   │   │   ├── PrivateKeyData: *string
+│   │   │   │   │   │   ├── PublicKeyData: *string
+│   │   │   │   │   │   └── Username: *string
+│   │   │   │   │   └── SshPort: *int
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   ├── SynapseSpark: 
+│   │   │   │   ├── ComputeLocation: *string
+│   │   │   │   ├── ComputeType: enum
+│   │   │   │   │   └── "SynapseSpark"
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── DisableLocalAuth: *bool
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── AutoPauseProperties: 
+│   │   │   │   │   │   ├── DelayInMinutes: *int
+│   │   │   │   │   │   └── Enabled: *bool
+│   │   │   │   │   ├── AutoScaleProperties: 
+│   │   │   │   │   │   ├── Enabled: *bool
+│   │   │   │   │   │   ├── MaxNodeCount: *int
+│   │   │   │   │   │   └── MinNodeCount: *int
+│   │   │   │   │   ├── NodeCount: *int
+│   │   │   │   │   ├── NodeSize: *string
+│   │   │   │   │   ├── NodeSizeFamily: *string
+│   │   │   │   │   ├── PoolName: *string
+│   │   │   │   │   ├── ResourceGroup: *string
+│   │   │   │   │   ├── SparkVersion: *string
+│   │   │   │   │   ├── SubscriptionId: *string
+│   │   │   │   │   └── WorkspaceName: *string
+│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   └── VirtualMachine: 
+│   │   │       ├── ComputeLocation: *string
+│   │   │       ├── ComputeType: enum
+│   │   │       │   └── "VirtualMachine"
+│   │   │       ├── Description: *string
+│   │   │       ├── DisableLocalAuth: *bool
+│   │   │       ├── Properties: 
+│   │   │       │   ├── Address: *string
+│   │   │       │   ├── AdministratorAccount: 
+│   │   │       │   │   ├── Password: *genruntime.SecretReference
+│   │   │       │   │   ├── PrivateKeyData: *string
+│   │   │       │   │   ├── PublicKeyData: *string
+│   │   │       │   │   └── Username: *string
+│   │   │       │   ├── IsNotebookInstanceCompute: *bool
+│   │   │       │   ├── SshPort: *int
+│   │   │       │   └── VirtualMachineSize: *string
+│   │   │       └── ResourceReference: *genruntime.ResourceReference
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── Tier: *string
+│   │   ├── SystemData: 
+│   │   │   ├── CreatedAt: Validated[*string]
+│   │   │   ├── CreatedBy: *string
+│   │   │   ├── CreatedByType: enum
+│   │   │   │   ├── "Application"
+│   │   │   │   ├── "Key"
+│   │   │   │   ├── "ManagedIdentity"
+│   │   │   │   └── "User"
+│   │   │   ├── LastModifiedAt: Validated[*string]
+│   │   │   ├── LastModifiedBy: *string
+│   │   │   └── LastModifiedByType: enum
+│   │   │       ├── "Application"
+│   │   │       ├── "Key"
+│   │   │       ├── "ManagedIdentity"
+│   │   │       └── "User"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned,UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── TenantId: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Properties: 
+│       │   ├── ComputeLocation: *string
+│       │   ├── ComputeType: enum
+│       │   │   ├── "AKS"
+│       │   │   ├── "AmlCompute"
+│       │   │   ├── "ComputeInstance"
+│       │   │   ├── "DataFactory"
+│       │   │   ├── "DataLakeAnalytics"
+│       │   │   ├── "Databricks"
+│       │   │   ├── "HDInsight"
+│       │   │   ├── "Kubernetes"
+│       │   │   ├── "SynapseSpark"
+│       │   │   └── "VirtualMachine"
+│       │   ├── CreatedOn: *string
+│       │   ├── Description: *string
+│       │   ├── DisableLocalAuth: *bool
+│       │   ├── IsAttachedCompute: *bool
+│       │   ├── ModifiedOn: *string
+│       │   ├── ProvisioningErrors: 
+│       │   │   └── Error: 
+│       │   │       ├── AdditionalInfo: 
+│       │   │       │   ├── Info: Map[string]v1.JSON
+│       │   │       │   └── Type: *string
+│       │   │       ├── Code: *string
+│       │   │       ├── Details: 
+│       │   │       │   ├── AdditionalInfo: 
+│       │   │       │   │   ├── Info: Map[string]v1.JSON
+│       │   │       │   │   └── Type: *string
+│       │   │       │   ├── Code: *string
+│       │   │       │   ├── Message: *string
+│       │   │       │   └── Target: *string
+│       │   │       ├── Message: *string
+│       │   │       └── Target: *string
+│       │   ├── ProvisioningState: enum
+│       │   │   ├── "Canceled"
+│       │   │   ├── "Creating"
+│       │   │   ├── "Deleting"
+│       │   │   ├── "Failed"
+│       │   │   ├── "Succeeded"
+│       │   │   ├── "Unknown"
+│       │   │   └── "Updating"
+│       │   └── ResourceId: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   └── Tier: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── WorkspacesConnection: Resource
+│   ├── Spec: 
+│   │   ├── AuthType: *string
+│   │   ├── AzureName: string
+│   │   ├── Category: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Tags: Map[string]string
+│   │   ├── Target: *string
+│   │   ├── Value: *string
+│   │   └── ValueFormat: enum
+│   │       └── "JSON"
+│   └── Status: 
+│       ├── AuthType: *string
+│       ├── Category: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Target: *string
+│       ├── Type: *string
+│       ├── Value: *string
+│       └── ValueFormat: enum
+│           └── "JSON"
+├── Workspaces_Compute_Spec_ARM: 
+│   ├── Identity: 
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── AKS: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "AKS"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── AgentCount: *int
+│   │   │   │   ├── AgentVmSize: *string
+│   │   │   │   ├── AksNetworkingConfiguration: 
+│   │   │   │   │   ├── DnsServiceIP: *string
+│   │   │   │   │   ├── DockerBridgeCidr: *string
+│   │   │   │   │   ├── ServiceCidr: *string
+│   │   │   │   │   └── SubnetId: *string
+│   │   │   │   ├── ClusterFqdn: *string
+│   │   │   │   ├── ClusterPurpose: enum
+│   │   │   │   │   ├── "DenseProd"
+│   │   │   │   │   ├── "DevTest"
+│   │   │   │   │   └── "FastProd"
+│   │   │   │   ├── LoadBalancerSubnet: *string
+│   │   │   │   ├── LoadBalancerType: enum
+│   │   │   │   │   ├── "InternalLoadBalancer"
+│   │   │   │   │   └── "PublicIp"
+│   │   │   │   └── SslConfiguration: 
+│   │   │   │       ├── Cert: *string
+│   │   │   │       ├── Cname: *string
+│   │   │   │       ├── Key: *string
+│   │   │   │       ├── LeafDomainLabel: *string
+│   │   │   │       ├── OverwriteExistingDomain: *bool
+│   │   │   │       └── Status: enum
+│   │   │   │           ├── "Auto"
+│   │   │   │           ├── "Disabled"
+│   │   │   │           └── "Enabled"
+│   │   │   └── ResourceId: *string
+│   │   ├── AmlCompute: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "AmlCompute"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── EnableNodePublicIp: *bool
+│   │   │   │   ├── IsolatedNetwork: *bool
+│   │   │   │   ├── OsType: enum
+│   │   │   │   │   ├── "Linux"
+│   │   │   │   │   └── "Windows"
+│   │   │   │   ├── RemoteLoginPortPublicAccess: enum
+│   │   │   │   │   ├── "Disabled"
+│   │   │   │   │   ├── "Enabled"
+│   │   │   │   │   └── "NotSpecified"
+│   │   │   │   ├── ScaleSettings: 
+│   │   │   │   │   ├── MaxNodeCount: *int
+│   │   │   │   │   ├── MinNodeCount: *int
+│   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: *string
+│   │   │   │   ├── Subnet: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── UserAccountCredentials: 
+│   │   │   │   │   ├── AdminUserName: *string
+│   │   │   │   │   ├── AdminUserPassword: *string
+│   │   │   │   │   └── AdminUserSshPublicKey: *string
+│   │   │   │   ├── VirtualMachineImage: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── VmPriority: enum
+│   │   │   │   │   ├── "Dedicated"
+│   │   │   │   │   └── "LowPriority"
+│   │   │   │   └── VmSize: *string
+│   │   │   └── ResourceId: *string
+│   │   ├── ComputeInstance: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "ComputeInstance"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── ApplicationSharingPolicy: enum
+│   │   │   │   │   ├── "Personal"
+│   │   │   │   │   └── "Shared"
+│   │   │   │   ├── ComputeInstanceAuthorizationType: enum
+│   │   │   │   │   └── "personal"
+│   │   │   │   ├── PersonalComputeInstanceSettings: 
+│   │   │   │   │   └── AssignedUser: 
+│   │   │   │   │       ├── ObjectId: *string
+│   │   │   │   │       └── TenantId: *string
+│   │   │   │   ├── SetupScripts: 
+│   │   │   │   │   └── Scripts: 
+│   │   │   │   │       ├── CreationScript: 
+│   │   │   │   │       │   ├── ScriptArguments: *string
+│   │   │   │   │       │   ├── ScriptData: *string
+│   │   │   │   │       │   ├── ScriptSource: *string
+│   │   │   │   │       │   └── Timeout: *string
+│   │   │   │   │       └── StartupScript: 
+│   │   │   │   │           ├── ScriptArguments: *string
+│   │   │   │   │           ├── ScriptData: *string
+│   │   │   │   │           ├── ScriptSource: *string
+│   │   │   │   │           └── Timeout: *string
+│   │   │   │   ├── SshSettings: 
+│   │   │   │   │   ├── AdminPublicKey: *string
+│   │   │   │   │   └── SshPublicAccess: enum
+│   │   │   │   │       ├── "Disabled"
+│   │   │   │   │       └── "Enabled"
+│   │   │   │   ├── Subnet: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   └── VmSize: *string
+│   │   │   └── ResourceId: *string
+│   │   ├── DataFactory: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "DataFactory"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   └── ResourceId: *string
+│   │   ├── DataLakeAnalytics: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "DataLakeAnalytics"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   └── DataLakeStoreAccountName: *string
+│   │   │   └── ResourceId: *string
+│   │   ├── Databricks: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "Databricks"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   └── WorkspaceUrl: *string
+│   │   │   └── ResourceId: *string
+│   │   ├── HDInsight: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "HDInsight"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── Address: *string
+│   │   │   │   ├── AdministratorAccount: 
+│   │   │   │   │   ├── Password: *string
+│   │   │   │   │   ├── PrivateKeyData: *string
+│   │   │   │   │   ├── PublicKeyData: *string
+│   │   │   │   │   └── Username: *string
+│   │   │   │   └── SshPort: *int
+│   │   │   └── ResourceId: *string
+│   │   ├── SynapseSpark: 
+│   │   │   ├── ComputeLocation: *string
+│   │   │   ├── ComputeType: enum
+│   │   │   │   └── "SynapseSpark"
+│   │   │   ├── Description: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── Properties: 
+│   │   │   │   ├── AutoPauseProperties: 
+│   │   │   │   │   ├── DelayInMinutes: *int
+│   │   │   │   │   └── Enabled: *bool
+│   │   │   │   ├── AutoScaleProperties: 
+│   │   │   │   │   ├── Enabled: *bool
+│   │   │   │   │   ├── MaxNodeCount: *int
+│   │   │   │   │   └── MinNodeCount: *int
+│   │   │   │   ├── NodeCount: *int
+│   │   │   │   ├── NodeSize: *string
+│   │   │   │   ├── NodeSizeFamily: *string
+│   │   │   │   ├── PoolName: *string
+│   │   │   │   ├── ResourceGroup: *string
+│   │   │   │   ├── SparkVersion: *string
+│   │   │   │   ├── SubscriptionId: *string
+│   │   │   │   └── WorkspaceName: *string
+│   │   │   └── ResourceId: *string
+│   │   └── VirtualMachine: 
+│   │       ├── ComputeLocation: *string
+│   │       ├── ComputeType: enum
+│   │       │   └── "VirtualMachine"
+│   │       ├── Description: *string
+│   │       ├── DisableLocalAuth: *bool
+│   │       ├── Properties: 
+│   │       │   ├── Address: *string
+│   │       │   ├── AdministratorAccount: 
+│   │       │   │   ├── Password: *string
+│   │       │   │   ├── PrivateKeyData: *string
+│   │       │   │   ├── PublicKeyData: *string
+│   │       │   │   └── Username: *string
+│   │       │   ├── IsNotebookInstanceCompute: *bool
+│   │       │   ├── SshPort: *int
+│   │       │   └── VirtualMachineSize: *string
+│   │       └── ResourceId: *string
+│   ├── Sku: 
+│   │   ├── Name: *string
+│   │   └── Tier: *string
+│   ├── SystemData: 
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: enum
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: enum
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Tags: Map[string]string
+└── Workspaces_Connection_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── AuthType: *string
+    │   ├── Category: *string
+    │   ├── Target: *string
+    │   ├── Value: *string
+    │   └── ValueFormat: enum
+    │       └── "JSON"
+    └── Tags: Map[string]string

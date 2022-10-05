@@ -1,0 +1,188 @@
+github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage
+├── APIVersion: enum
+│   └── "2021-06-01"
+├── FlexibleServer: Resource
+│   ├── Spec: 
+│   │   ├── AdministratorLogin: *string
+│   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
+│   │   ├── AvailabilityZone: *string
+│   │   ├── AzureName: string
+│   │   ├── Backup: 
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   ├── GeoRedundantBackup: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── CreateMode: *string
+│   │   ├── HighAvailability: 
+│   │   │   ├── Mode: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── StandbyAvailabilityZone: *string
+│   │   ├── Location: *string
+│   │   ├── MaintenanceWindow: 
+│   │   │   ├── CustomWindow: *string
+│   │   │   ├── DayOfWeek: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── StartHour: *int
+│   │   │   └── StartMinute: *int
+│   │   ├── Network: 
+│   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
+│   │   │   ├── PrivateDnsZoneArmResourceReference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
+│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PointInTimeUTC: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── SourceServerResourceReference: *genruntime.ResourceReference
+│   │   ├── Storage: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── StorageSizeGB: *int
+│   │   ├── Tags: Map[string]string
+│   │   └── Version: *string
+│   └── Status: 
+│       ├── AdministratorLogin: *string
+│       ├── AvailabilityZone: *string
+│       ├── Backup: 
+│       │   ├── BackupRetentionDays: *int
+│       │   ├── EarliestRestoreDate: *string
+│       │   ├── GeoRedundantBackup: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreateMode: *string
+│       ├── FullyQualifiedDomainName: *string
+│       ├── HighAvailability: 
+│       │   ├── Mode: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── StandbyAvailabilityZone: *string
+│       │   └── State: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MaintenanceWindow: 
+│       │   ├── CustomWindow: *string
+│       │   ├── DayOfWeek: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── StartHour: *int
+│       │   └── StartMinute: *int
+│       ├── MinorVersion: *string
+│       ├── Name: *string
+│       ├── Network: 
+│       │   ├── DelegatedSubnetResourceId: *string
+│       │   ├── PrivateDnsZoneArmResourceId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── PublicNetworkAccess: *string
+│       ├── PointInTimeUTC: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── SourceServerResourceId: *string
+│       ├── State: *string
+│       ├── Storage: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── StorageSizeGB: *int
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Version: *string
+├── FlexibleServersConfiguration: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Source: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── Value: *string
+│   └── Status: 
+│       ├── AllowedValues: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DataType: *string
+│       ├── DefaultValue: *string
+│       ├── Description: *string
+│       ├── DocumentationLink: *string
+│       ├── Id: *string
+│       ├── IsConfigPendingRestart: *bool
+│       ├── IsDynamicConfig: *bool
+│       ├── IsReadOnly: *bool
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Source: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       ├── Unit: *string
+│       └── Value: *string
+├── FlexibleServersDatabase: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Charset: *string
+│   │   ├── Collation: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Charset: *string
+│       ├── Collation: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+└── FlexibleServersFirewallRule: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── EndIpAddress: *string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── StartIpAddress: *string
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── EndIpAddress: *string
+        ├── Id: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── StartIpAddress: *string
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        └── Type: *string

@@ -24,10 +24,10 @@ import (
 //
 type PropertyConfiguration struct {
 	name                             string
-	nameInNextVersion                configurableString // Name this property has in the next version
-	armReference                     configurableBool   // Specify whether this property is an ARM reference
-	isSecret                         configurableBool   // Specify whether this property is a secret
-	isResourceLifecycleOwnedByParent configurableBool
+	nameInNextVersion                configurable[string] // Name this property has in the next version
+	armReference                     configurable[bool]   // Specify whether this property is an ARM reference
+	isSecret                         configurable[bool]   // Specify whether this property is a secret
+	isResourceLifecycleOwnedByParent configurable[bool]
 }
 
 const (

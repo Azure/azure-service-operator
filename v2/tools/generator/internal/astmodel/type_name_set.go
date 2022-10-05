@@ -78,6 +78,15 @@ func (ts TypeNameSet) Single() TypeName {
 	panic(fmt.Sprintf("Single() cannot be called with %d types in the set", len(ts)))
 }
 
+func (ts TypeNameSet) Copy() TypeNameSet {
+	result := make(TypeNameSet, len(ts))
+	for k := range ts {
+		result.Add(k)
+	}
+
+	return result
+}
+
 // SetUnion returns a new set with all of the names in s1 or s2.
 func SetUnion(s1, s2 TypeNameSet) TypeNameSet {
 	result := NewTypeNameSet()

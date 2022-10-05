@@ -28,11 +28,11 @@ import (
 type TypeConfiguration struct {
 	name                  string
 	properties            map[string]*PropertyConfiguration
-	nameInNextVersion     configurableString
-	export                configurableBool
-	exportAs              configurableString
-	azureGeneratedSecrets configurableStringSlice
-	supportedFrom         configurableString
+	nameInNextVersion     configurable[string]
+	export                configurable[bool]
+	exportAs              configurable[string]
+	azureGeneratedSecrets configurable[[]string]
+	supportedFrom         configurable[string]
 	advisor               *TypoAdvisor
 }
 

@@ -1,0 +1,115 @@
+github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001
+├── APIVersion: enum
+│   └── "2021-10-01"
+├── Alias: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   └── Properties: 
+│   │       ├── AdditionalProperties: 
+│   │       │   ├── ManagementGroupId: *string
+│   │       │   ├── SubscriptionOwnerId: *string
+│   │       │   ├── SubscriptionTenantId: *string
+│   │       │   └── Tags: Map[string]string
+│   │       ├── BillingScope: *string
+│   │       ├── DisplayName: *string
+│   │       ├── ResellerId: *string
+│   │       ├── SubscriptionId: *string
+│   │       └── Workload: enum
+│   │           ├── "DevTest"
+│   │           └── "Production"
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Properties: 
+│       │   ├── AcceptOwnershipState: enum
+│       │   │   ├── "Completed"
+│       │   │   ├── "Expired"
+│       │   │   └── "Pending"
+│       │   ├── AcceptOwnershipUrl: *string
+│       │   ├── BillingScope: *string
+│       │   ├── CreatedTime: *string
+│       │   ├── DisplayName: *string
+│       │   ├── ManagementGroupId: *string
+│       │   ├── ProvisioningState: enum
+│       │   │   ├── "Accepted"
+│       │   │   ├── "Failed"
+│       │   │   └── "Succeeded"
+│       │   ├── ResellerId: *string
+│       │   ├── SubscriptionId: *string
+│       │   ├── SubscriptionOwnerId: *string
+│       │   ├── Tags: Map[string]string
+│       │   └── Workload: enum
+│       │       ├── "DevTest"
+│       │       └── "Production"
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: enum
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: enum
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       └── Type: *string
+├── Alias_Spec_ARM: 
+│   ├── Name: string
+│   └── Properties: 
+│       ├── AdditionalProperties: 
+│       │   ├── ManagementGroupId: *string
+│       │   ├── SubscriptionOwnerId: *string
+│       │   ├── SubscriptionTenantId: *string
+│       │   └── Tags: Map[string]string
+│       ├── BillingScope: *string
+│       ├── DisplayName: *string
+│       ├── ResellerId: *string
+│       ├── SubscriptionId: *string
+│       └── Workload: enum
+│           ├── "DevTest"
+│           └── "Production"
+└── SubscriptionAliasResponse_STATUS_ARM: 
+    ├── Id: *string
+    ├── Name: *string
+    ├── Properties: 
+    │   ├── AcceptOwnershipState: enum
+    │   │   ├── "Completed"
+    │   │   ├── "Expired"
+    │   │   └── "Pending"
+    │   ├── AcceptOwnershipUrl: *string
+    │   ├── BillingScope: *string
+    │   ├── CreatedTime: *string
+    │   ├── DisplayName: *string
+    │   ├── ManagementGroupId: *string
+    │   ├── ProvisioningState: enum
+    │   │   ├── "Accepted"
+    │   │   ├── "Failed"
+    │   │   └── "Succeeded"
+    │   ├── ResellerId: *string
+    │   ├── SubscriptionId: *string
+    │   ├── SubscriptionOwnerId: *string
+    │   ├── Tags: Map[string]string
+    │   └── Workload: enum
+    │       ├── "DevTest"
+    │       └── "Production"
+    ├── SystemData: 
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: enum
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: enum
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string

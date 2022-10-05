@@ -361,7 +361,7 @@ func Test_ResolveReference_FindsReference(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{Group: resolver.ResourceGroupGroup, Kind: resolver.ResourceGroupKind, Name: resourceGroupName}
-	resolved, err := test.resolver.ResolveReference(ctx, ref.ToNamespacedRef(testNamespace))
+	resolved, err := test.resolver.ResolveReference(ctx, ref.AsNamespacedRef(testNamespace))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(resolved).To(BeAssignableToTypeOf(&resources.ResourceGroup{}))
 	resolvedRg := resolved.(*resources.ResourceGroup)
@@ -378,7 +378,7 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{ARMID: "abcd"}
-	_, err = test.resolver.ResolveReference(ctx, ref.ToNamespacedRef(""))
+	_, err = test.resolver.ResolveReference(ctx, ref.AsNamespacedRef(""))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err).To(MatchError("reference abcd is not pointing to a Kubernetes resource"))
 }
@@ -401,7 +401,7 @@ func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testin
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.ResourceReference{Group: resolver.ResourceGroupGroup, Kind: resolver.ResourceGroupKind, Name: resourceGroupName}
-	id, err := test.resolver.ResolveReferenceToARMID(ctx, ref.ToNamespacedRef(testNamespace))
+	id, err := test.resolver.ResolveReferenceToARMID(ctx, ref.AsNamespacedRef(testNamespace))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }
@@ -416,7 +416,7 @@ func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
 
 	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
 	ref := genruntime.ResourceReference{ARMID: armID}
-	id, err := test.resolver.ResolveReferenceToARMID(ctx, ref.ToNamespacedRef(""))
+	id, err := test.resolver.ResolveReferenceToARMID(ctx, ref.AsNamespacedRef(""))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }
@@ -458,7 +458,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
-	namespacedRef := ref.ToNamespacedRef(testNamespace)
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
 
 	resolvedSecrets, err := test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).ToNot(HaveOccurred())
@@ -479,11 +479,75 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 	secretName := "testsecret"
 	secretKey := "mysecretkey"
 	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
-	namespacedRef := ref.ToNamespacedRef(testNamespace)
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
 
 	_, err = test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.SecretNotFound{}))
+}
+
+func Test_ResolveConfigMaps_ReturnsExpectedValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceGroupName := "myrg"
+	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
+
+	resourceGroup := createResourceGroup(resourceGroupName)
+	genruntime.SetResourceID(resourceGroup, armID)
+
+	err = test.client.Create(ctx, resourceGroup)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	configMapName := "testconfig"
+	key := "mykey"
+	value := "myvalue"
+	// Create a configmap
+	configMap := &v1.ConfigMap{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      configMapName,
+			Namespace: testNamespace,
+		},
+		// Needed to avoid nil map error
+		Data: map[string]string{
+			key: value,
+		},
+	}
+
+	err = test.client.Create(ctx, configMap)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	ref := genruntime.ConfigMapReference{Name: configMapName, Key: key}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	resolvedConfigMaps, err := test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actualConfigMap, err := resolvedConfigMaps.Lookup(ref)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(actualConfigMap).To(Equal(value))
+}
+
+func Test_ResolveConfigMaps_ReturnsReferenceNotFound(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	configMapName := "testconfigmap"
+	configMapKey := "mykey"
+	ref := genruntime.ConfigMapReference{Name: configMapName, Key: configMapKey}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	_, err = test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.ConfigMapNotFound{}))
 }
 
 func createTestScheme() *runtime.Scheme {
