@@ -74,8 +74,8 @@ func secretsToWrite(obj *mariadb.Server) ([]*v1.Secret, error) {
 		return nil, errors.Errorf("unexpected nil OperatorSpec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.FullyQualifiedDomainName, to.String(obj.Status.FullyQualifiedDomainName))
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.String(obj.Status.FullyQualifiedDomainName))
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }

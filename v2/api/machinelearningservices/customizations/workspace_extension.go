@@ -107,24 +107,24 @@ func secretsToWrite(obj *storage.Workspace, keysResp armmachinelearning.ListWork
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
+	collector := secrets.NewCollector(obj.Namespace)
 
 	creds, crUsername := getContainerRegCreds(keysResp)
 
-	collector.AddSecretValue(operatorSpecSecrets.ContainerRegistryPassword, creds["password"])
-	collector.AddSecretValue(operatorSpecSecrets.ContainerRegistryPassword2, creds["password2"])
-	collector.AddSecretValue(operatorSpecSecrets.ContainerRegistryUserName, crUsername)
-	collector.AddSecretValue(operatorSpecSecrets.UserStorageKey, to.String(keysResp.UserStorageKey))
-	collector.AddSecretValue(operatorSpecSecrets.AppInsightsInstrumentationKey, to.String(keysResp.AppInsightsInstrumentationKey))
+	collector.AddValue(operatorSpecSecrets.ContainerRegistryPassword, creds["password"])
+	collector.AddValue(operatorSpecSecrets.ContainerRegistryPassword2, creds["password2"])
+	collector.AddValue(operatorSpecSecrets.ContainerRegistryUserName, crUsername)
+	collector.AddValue(operatorSpecSecrets.UserStorageKey, to.String(keysResp.UserStorageKey))
+	collector.AddValue(operatorSpecSecrets.AppInsightsInstrumentationKey, to.String(keysResp.AppInsightsInstrumentationKey))
 
 	if keysResp.NotebookAccessKeys != nil {
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.PrimaryAccessKey))
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.SecondaryAccessKey))
+		collector.AddValue(operatorSpecSecrets.PrimaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.PrimaryAccessKey))
+		collector.AddValue(operatorSpecSecrets.SecondaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.SecondaryAccessKey))
 	}
 	if keysResp.ContainerRegistryCredentials != nil {
 	}
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }
 
 func getContainerRegCreds(keysResp armmachinelearning.ListWorkspaceKeysResult) (map[string]string, string) {
