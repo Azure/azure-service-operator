@@ -130,34 +130,34 @@ func secretsToWrite(obj *storage.ConfigurationStore, keys map[string]armappconfi
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
+	collector := secrets.NewCollector(obj.Namespace)
 	primary, ok := keys["Primary"]
 	if ok {
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryConnectionString, *primary.ConnectionString)
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryKeyID, *primary.ID)
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryKey, *primary.Value)
+		collector.AddValue(operatorSpecSecrets.PrimaryConnectionString, *primary.ConnectionString)
+		collector.AddValue(operatorSpecSecrets.PrimaryKeyID, *primary.ID)
+		collector.AddValue(operatorSpecSecrets.PrimaryKey, *primary.Value)
 	}
 
 	primaryReadOnly, ok := keys["Primary Read Only"]
 	if ok {
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyConnectionString, *primaryReadOnly.ConnectionString)
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKeyID, *primaryReadOnly.ID)
-		collector.AddSecretValue(operatorSpecSecrets.PrimaryReadOnlyKey, *primaryReadOnly.Value)
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyConnectionString, *primaryReadOnly.ConnectionString)
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyKeyID, *primaryReadOnly.ID)
+		collector.AddValue(operatorSpecSecrets.PrimaryReadOnlyKey, *primaryReadOnly.Value)
 	}
 
 	secondary, ok := keys["Secondary"]
 	if ok {
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryConnectionString, *secondary.ConnectionString)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryKeyID, *secondary.ID)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryKey, *secondary.Value)
+		collector.AddValue(operatorSpecSecrets.SecondaryConnectionString, *secondary.ConnectionString)
+		collector.AddValue(operatorSpecSecrets.SecondaryKeyID, *secondary.ID)
+		collector.AddValue(operatorSpecSecrets.SecondaryKey, *secondary.Value)
 	}
 
 	secondaryReadOnly, ok := keys["Secondary Read Only"]
 	if ok {
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *secondaryReadOnly.ConnectionString)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *secondaryReadOnly.ID)
-		collector.AddSecretValue(operatorSpecSecrets.SecondaryReadOnlyKey, *secondaryReadOnly.Value)
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyConnectionString, *secondaryReadOnly.ConnectionString)
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyKeyID, *secondaryReadOnly.ID)
+		collector.AddValue(operatorSpecSecrets.SecondaryReadOnlyKey, *secondaryReadOnly.Value)
 	}
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }

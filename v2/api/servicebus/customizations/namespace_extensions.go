@@ -79,8 +79,8 @@ func secretsToWrite(obj *servicebus.Namespace) ([]*v1.Secret, error) {
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.Endpoint, to.String(obj.Status.ServiceBusEndpoint))
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.Endpoint, to.String(obj.Status.ServiceBusEndpoint))
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }
