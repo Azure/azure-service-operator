@@ -184,6 +184,9 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 			continue
 		}
 
+		// Here if we set the owner's name for resources. We only set the owner name if,
+		// Owner.Kind is ResourceGroup(As we have random rg names) or if we're using random names for resources.
+		// Otherwise, we let it be the same as on samples.
 		var ownersName string
 		if sample.Owner().Kind == resolver.ResourceGroupKind {
 			ownersName = t.rgName
@@ -192,13 +195,14 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 			if !ok {
 				return fmt.Errorf("owner: %s, does not exist for resource '%s'", sample.Owner().Kind, gk)
 			}
+
 			ownersName = owner.GetName()
 		}
 
 		if ownersName != "" {
 			var err error
 			sample = setOwnersName(sample, ownersName)
-			sample, err = t.findAndSetARMIDReferences(sample)
+			sample, err = t.updateARMReferencesForTest(sample)
 			if err != nil {
 				return err
 			}
@@ -236,42 +240,45 @@ func IsSampleExcluded(path string, exclusions []string) bool {
 	return false
 }
 
-func (t *SamplesTester) findAndSetARMIDReferences(obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
-	resourceRefType := reflect.TypeOf(genruntime.ResourceReference{})
+// updateARMReferencesForTest uses ReflectVisitor to visit through the ARMMetaObject to find and update ARMReferences
+func (t *SamplesTester) updateARMReferencesForTest(obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
 	visitor := reflecthelpers.NewReflectVisitor()
-	visitor.VisitStruct = func(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx interface{}) error {
-
-		if it.Type() == resourceRefType {
-			if it.CanInterface() {
-				reference := it.Interface().(genruntime.ResourceReference)
-				if reference.ARMID != "" {
-					armIDField := it.FieldByName("ARMID")
-					if !armIDField.CanSet() {
-						return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
-					}
-
-					//Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
-					subMatcher := regexp.MustCompile("\\/([0]+-?)+\\/")
-					armIDString := armIDField.String()
-					armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
-					armIDString = subMatcher.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
-
-					armIDField.SetString(armIDString)
-				}
-			} else {
-				// This should be impossible given how the visitor works
-				return errors.New("genruntime.ResourceReference field was unexpectedly nil")
-			}
-			return nil
-		}
-
-		return reflecthelpers.IdentityVisitStruct(this, it, ctx)
-	}
+	visitor.VisitStruct = t.setARMReference
 
 	err := visitor.Visit(obj, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "scanning for references of type %s", resourceRefType.String())
+		return nil, errors.Wrapf(err, "scanning for references of type %s", reflect.TypeOf(genruntime.ResourceReference{}))
 	}
 
 	return obj, nil
+}
+
+// setARMReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
+func (t *SamplesTester) setARMReference(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx interface{}) error {
+
+	if it.Type() != reflect.TypeOf(genruntime.ResourceReference{}) {
+		return reflecthelpers.IdentityVisitStruct(this, it, ctx)
+	}
+
+	if it.CanInterface() {
+		reference := it.Interface().(genruntime.ResourceReference)
+		if reference.ARMID != "" {
+			armIDField := it.FieldByName("ARMID")
+			if !armIDField.CanSet() {
+				return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+			}
+
+			// Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
+			subMatcher := regexp.MustCompile("\\/([0]+-?)+\\/")
+			armIDString := armIDField.String()
+			armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
+			armIDString = subMatcher.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+
+			armIDField.SetString(armIDString)
+		}
+	} else {
+		// This should be impossible given how the visitor works
+		panic(fmt.Sprintf("genruntime.ResourceReference field was unexpectedly nil"))
+	}
+	return nil
 }

@@ -79,7 +79,15 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	rg := tc.NewTestResourceGroup()
 	useRandomName := !testcommon.IsFolderExcluded(groupVersionPath, randomNameExclusions)
-	samples, err := testcommon.NewSamplesTester(tc.NoSpaceNamer, tc.GetScheme(), groupVersionPath, tc.Namespace, useRandomName, rg.Name, tc.AzureSubscription).LoadSamples()
+	samples, err := testcommon.NewSamplesTester(
+		tc.NoSpaceNamer,
+		tc.GetScheme(),
+		groupVersionPath,
+		tc.Namespace,
+		useRandomName,
+		rg.Name,
+		tc.AzureSubscription).
+		LoadSamples()
 
 	tc.Expect(err).To(BeNil())
 	tc.Expect(samples).ToNot(BeNil())
