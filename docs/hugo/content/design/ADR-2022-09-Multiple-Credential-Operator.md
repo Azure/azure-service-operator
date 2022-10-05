@@ -69,7 +69,7 @@ annotations:
 
 Here, we would use a fixed pattern for namespaces secrets + annotations for per-resource-group and per-resource secrets. Operator would look up for the annotation(`serviceoperator.azure.com/credential-from`) on resource created, if annotation found, then use credentials from secret in annotation. If not, then look for the namespaced secret and use the namespaced credential.If none provided, operator shall continue with the global credential.
 
-NOTE: If namespaced secret is used, operator would inject `serviceoperator.azure.com/credential-from` annotation with the secret name value. This would be useful for the operator on each reconcile to know which secret should be used for auth and help users to figure out which credential is used for a resource.
+**NOTE:** Annotations should be watched for changes by the operator and trigger reconcile.
 
 **Fixed namespaced secret name pattern:**
 
@@ -84,7 +84,7 @@ NOTE: If namespaced secret is used, operator would inject `serviceoperator.azure
 2. Users get the flexibility of overriding the credential they want to use as per resource and as per resource group
 
 **Cons:**
-1. Could be complicated/confusing for users to understand the usage and credentials being used. This can be mitigated to an extent by having `serviceoperator.azure.com/credential-from` annoation on each resource using credential other than global.  
+1. Could be complicated/confusing for users to understand the usage and credentials being used. This can be mitigated to an extent by having `serviceoperator.azure.com/credential-from` annotation on each resource using credential other than global.  
 
 ### Option 4: Fixed secret name for namespace + configuration using global secret
 
@@ -101,7 +101,30 @@ Then only these loaded secrets would be used further for per-resource and per-re
 
 ## Decision
 
-TBD
+After the analysis of the above options, we've decided to go forward with Option 3(Fixed secret name for namespace + configuration using annotations). Which would be a flexible option for the users to add and move existing resources to use different credentials. 
+
+As part of this, we decided to publish `Last Credential Used` events for each resource on reconcile. Which would be helpful for the users to know which credential was last used to reconcile a resource.
+
+## Example Secret 
+
+```yaml
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: aso-credential 
+     namespace: any-namespace
+   stringData:
+     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+     AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+     AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+```
+
+## Steps to support workload identity
+1. ASO must be installed with workload identity. This is because we need access to the Service Account Token, which will only be injected and used if they configure that for the global credential.
+2. Users create a UserManagedIdentity which they want to use as the identity in a particular namespace. They assign permissions to this identity. This can be done either using ASO itself, or
+3. Users register a FederatedIdentityCredential for that ManagedIdentity. The FederatedIdentityCredential must be registered for the ASO system service account `("subject": "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default")`. Note that the users don't need access to our namespace to do this, that subject is basically just a magic string they need to use.
+4. User would then create the namespace-scoped aso-credential Secret, containing the clientId of the User Managed Identity. ASO will read and use that clientId when authenticating with Azure.
 
 ## Handling for the failure cases and logging
 
@@ -114,12 +137,10 @@ TBD
 ## Milestones
 
 1. Namespaced secrets: TBD
-2. per-ResourceGroup secrets: TBD
-3. per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.
-
-## Open questions
-1. Spell out what fields are in aso-credential. clientid/subscriptionid/tenantId/etc?
-2. How are we going to make this work for Managed Identity?
+2. Per-ResourceGroup secrets: TBD
+4. Support for workload identity: TBD
+3. Caching secrets: TBD
+5. Per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.
 
 ## Consequences
 
