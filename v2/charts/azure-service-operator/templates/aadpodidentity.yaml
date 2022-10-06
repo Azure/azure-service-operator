@@ -1,0 +1,20 @@
+{{if .Values.aadPodIdentity.enable}}
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: aso-identity
+  namespace: {{.Release.Namespace}}
+spec:
+  type: 0
+  resourceID: {{ .Values.aadPodIdentity.azureManagedIdentityResourceId }}
+  clientID: {{ .Values.aadPodIdentity.azureManagedIdentityClientId }}
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: aso-identity-binding
+  namespace: {{.Release.Namespace}}
+spec:
+  azureIdentity: aso-identity
+  selector: aso-manager-binding
+{{ end }}
