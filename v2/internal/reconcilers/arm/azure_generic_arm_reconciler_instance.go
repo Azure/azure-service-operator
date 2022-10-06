@@ -199,8 +199,8 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	deleter := extensions.CreateDeleter(r.Extension, deleteResource, r.Log)
-	result, err := deleter(ctx, r.ResourceResolver, r.ARMClient, r.Obj)
+	deleter := extensions.CreateDeleter(r.Extension, deleteResource)
+	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMClient, r.Obj)
 	return result, err
 }
 
@@ -596,6 +596,7 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 // have its behavior modified by resources implementing the genruntime.Deleter extension
 func deleteResource(
 	ctx context.Context,
+	log logr.Logger,
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
@@ -603,6 +604,7 @@ func deleteResource(
 	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(obj)
 	if resourceID == "" {
+		log.V(Status).Info("Not issuing delete as resource had no ResourceID annotation")
 		return ctrl.Result{}, nil
 	}
 
@@ -612,6 +614,7 @@ func deleteResource(
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
+			log.V(Status).Info("Not issuing delete as resource in hierarchy was not found", "err", typedErr.Error())
 			return ctrl.Result{}, nil
 		}
 		return ctrl.Result{}, err
@@ -622,8 +625,9 @@ func deleteResource(
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
+	log.V(Info).Info("Successfully issued DELETE to Azure")
 
-	// If we are done here it means the delete succeeded immediately. It can't have failed because if it did
+	// If we are done here it means delete succeeded immediately. It can't have failed because if it did
 	// we would have taken the err path above.
 	if pollerResp.Poller.Done() {
 		return ctrl.Result{}, nil
