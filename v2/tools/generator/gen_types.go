@@ -82,11 +82,20 @@ type stackTracer interface {
 // down the chain that has one. We can't just use errors.Cause(err)
 // here because the innermost error may not have been created by
 // pkg/errors (gasp).
-func findDeepestTrace(err error) errors.StackTrace {
-	var tracer stackTracer
-	if errors.As(err, &tracer) {
-		return tracer.StackTrace()
+func findDeepestTrace(err error) (errors.StackTrace, bool) {
+	nested := errors.Unwrap(err)
+	if nested != nil {
+		if tr, ok := findDeepestTrace(nested); ok {
+			// We've found the deepest trace, ,return it
+			return tr, true
+		}
 	}
 
-	return nil
+	// No stack trace found (yet), see if we have it at this level
+	if tracer, ok := err.(stackTracer); ok {
+		return tracer.StackTrace(), true
+	}
+
+	// No stack found at this, or any deeper, level
+	return nil, false
 }
