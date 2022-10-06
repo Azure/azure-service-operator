@@ -18,9 +18,9 @@ import (
 )
 
 // This is needed when we are processing a Resource that happens to be nested inside
-// other types and we are going to extract the type of the Resource to merge it
+// other types, and we are going to extract the type of the Resource to merge it
 // with other types (e.g. when processing oneOf/allOf). In these cases we need to
-// know if we are in a spec or status context so we can pick out the correct "side"
+// know if we are in a spec or status context, so we can pick out the correct "side"
 // of the resource.
 type resourceFieldSelector string
 
@@ -610,7 +610,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return nil, err
 	}
 
-	return astmodel.BuildOneOfType(newTypes...), nil
+	return astmodel.BuildOneOfType(leftOneOf.Name(), newTypes...), nil
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {

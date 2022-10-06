@@ -377,7 +377,7 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{})
 		return it, nil // short-circuit
 	}
 
-	return BuildOneOfType(newTypes...), nil
+	return BuildOneOfType(it.name, newTypes...), nil
 }
 
 func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error) {

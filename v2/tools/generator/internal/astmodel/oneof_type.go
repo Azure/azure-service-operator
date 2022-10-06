@@ -15,38 +15,81 @@ import (
 )
 
 // OneOfType represents something that can be any one of a number of selected types
-// We have three forms:
-// Completed - one that has been fully constructed and is ready to use
-// Base - defines the base type and has a list of valid discriminator values
-// Option - defines one of the potential types and has a discriminator value and a name to identify the relevant Base
-
+// Early in processing, instances represent
+//  o  A base object (with discriminator property) that has a number of subtypes defined elsewhere
+//  o  A subtype (with discriminator value) that references a base object
+//  o  A complete object with subtypes nested within
+//
+// These three cases are unified into complete objects, and later converted into object definitions.
+//
 type OneOfType struct {
-	kind                  OneOfKind           // What kind of OneOf do we have?
-	name                  string              // Name of the OneOf
-	discriminatorProperty *PropertyDefinition // Defines the discriminator
-	types                 TypeSet             // Set of all possible types
-	discriminatorValue    string              // Value used to identify this option
-	baseName              string              // Name of the expected base type
+	name                  string  // Name of the OneOf
+	types                 TypeSet // Set of all possible types
+	discriminatorProperty string  // Identifies the discriminatorProperty property
+	discriminatorValue    string  // Discriminator value used to identify this subtype
 }
 
 var _ Type = &OneOfType{}
 
-// BuildOneOfType is a smart constructor for a OneOfType,
-// maintaining the invariants. If only one unique type
-// is passed, the result will be that type, not a OneOf.
-func BuildOneOfType(types ...Type) Type {
-	uniqueTypes := flattenTypesForOneOf(types)
-	if t, ok := uniqueTypes.Only(); ok {
-		return t
-	}
-
+// NewOneOfType creates a new instance of a OneOfType
+func NewOneOfType(name string, types ...Type) *OneOfType {
 	return &OneOfType{
-		types: uniqueTypes,
+		name:  name,
+		types: flattenTypesForOneOf(types),
 	}
 }
 
-// Types returns what types the OneOf can be.
-// Exposed as ReadonlyTypeSet so caller can't break invariants.
+// BuildOneOfType is a smart constructor for a OneOfType,
+// maintaining the invariants. If only one unique type
+// is passed, the result will be that type, not a OneOf.
+func BuildOneOfType(name string, types ...Type) Type {
+	result := NewOneOfType(name, types...)
+	if result.types.Len() == 1 {
+		t, _ := result.types.Only()
+		return t
+	}
+
+	return result
+}
+
+// Name returns the internal (swagger) name of the OneOf
+func (oneOf *OneOfType) Name() string {
+	return oneOf.name
+}
+
+// DiscriminatorProperty returns the name of the discriminatorProperty property (if any)
+func (oneOf *OneOfType) DiscriminatorProperty() string {
+	return oneOf.discriminatorProperty
+}
+
+// WithDiscriminatorProperty returns a new OneOf object with the specified discriminatorProperty property
+func (oneOf *OneOfType) WithDiscriminatorProperty(discriminator string) *OneOfType {
+	if oneOf.discriminatorProperty == discriminator {
+		return oneOf
+	}
+
+	result := oneOf.copy()
+	result.discriminatorProperty = discriminator
+	return result
+}
+
+// DiscriminatorValue returns the discriminator value used to identify this subtype
+func (oneOf *OneOfType) DiscriminatorValue() string {
+	return oneOf.discriminatorValue
+}
+
+func (oneOf *OneOfType) WithDiscriminatorValue(value string) *OneOfType {
+	if oneOf.discriminatorValue == value {
+		return oneOf
+	}
+
+	result := oneOf.copy()
+	result.discriminatorValue = value
+	return result
+}
+
+// Types returns what subtypes the OneOf may be.
+// Exposed as ReadonlyTypeSet so caller cannot break invariants.
 func (oneOf *OneOfType) Types() ReadonlyTypeSet {
 	return oneOf.types
 }
@@ -65,24 +108,24 @@ var oneOfPanicMsg = "OneOfType should have been replaced by generation time by '
 
 // AsType always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (oneOf *OneOfType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(oneOfPanicMsg))
 }
 
 // AsDeclarations always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
+func (oneOf *OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
 	panic(errors.New(oneOfPanicMsg))
 }
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf OneOfType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
+func (oneOf *OneOfType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(oneOfPanicMsg))
 }
 
 // RequiredPackageReferences returns the union of the required imports of all the oneOf types
-func (oneOf OneOfType) RequiredPackageReferences() *PackageReferenceSet {
+func (oneOf *OneOfType) RequiredPackageReferences() *PackageReferenceSet {
 	panic(errors.New(oneOfPanicMsg))
 }
 
@@ -115,9 +158,9 @@ func (oneOf *OneOfType) String() string {
 	return fmt.Sprintf("(oneOf: %s)", strings.Join(subStrings, ", "))
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current type to the passed builder.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if oneOf == nil {
 		builder.WriteString("<nilOneOf>")
@@ -125,6 +168,25 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentP
 	}
 
 	builder.WriteString("OneOf[")
+
+	if oneOf.name != "" {
+		builder.WriteString(oneOf.name)
+		builder.WriteRune(';')
+	}
+
+	if oneOf.discriminatorProperty != "" {
+		builder.WriteString("d:")
+		builder.WriteString(oneOf.discriminatorProperty)
+		builder.WriteRune(';')
+	}
+
+	if oneOf.discriminatorValue != "" {
+		builder.WriteString("v:")
+		builder.WriteString(oneOf.discriminatorValue)
+		builder.WriteRune(';')
+	}
+
+	builder.WriteString("types:")
 	oneOf.types.ForEach(func(t Type, ix int) {
 		if ix > 0 {
 			builder.WriteString("|")
@@ -146,4 +208,10 @@ func AsOneOfType(t Type) (*OneOfType, bool) {
 	}
 
 	return nil, false
+}
+
+func (oneOf *OneOfType) copy() *OneOfType {
+	result := *oneOf
+	result.types = oneOf.types // No need to copy, it's readonly
+	return &result
 }
