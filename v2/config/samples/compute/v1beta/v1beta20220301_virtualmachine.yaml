@@ -6,18 +6,18 @@ metadata:
 spec:
   hardwareProfile:
     vmSize: Standard_A1_v2
-  location: westus2
+  location: westus3
   networkProfile:
     networkInterfaces:
     - reference:
         group: network.azure.com
         kind: NetworkInterface
-        name: aso-sample-nic
+        name: samplenic1
   osProfile:
     adminPassword:
       key: password
       name: aso-sample-vmsecret
-    adminUsername: bloom
+    adminUsername: adminUser
     computerName: poppy
   owner:
     name: aso-sample-rg

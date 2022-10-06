@@ -1,17 +1,27 @@
 apiVersion: network.azure.com/v1beta20201101
 kind: NetworkInterface
 metadata:
-  name: samplenic
+  name: workspacescomputenic
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   owner:
     name: aso-sample-rg
+  networkSecurityGroup:
+    reference:
+      group: network.azure.com
+      kind: NetworkSecurityGroup
+      name: workspacescomputensg
   ipConfigurations:
     - name: ipconfig1
       privateIPAllocationMethod: Dynamic
+      publicIPAddress:
+        reference:
+          group: network.azure.com
+          kind: PublicIPAddress
+          name: workspacescomputepublicip
       subnet:
         reference:
           group: network.azure.com
           kind: VirtualNetworksSubnet
-          name: samplesubnet
+          name: workspacescomputesubnet
