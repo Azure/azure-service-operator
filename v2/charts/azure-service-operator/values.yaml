@@ -14,12 +14,10 @@ azureClientID: ""
 azureClientSecret: ""
 
 # [Deprecated] Managed Identity (aad-pod-identity) Authentication
-# azureManagedIdentityId is the client ID (00000000-0000-0000-0000-00000000000) of the Azure Managed Identity used to authenticate with Azure if using aad-pod-identity(deprecated) authorization.
 # azureManagedIdentityResourceId is the resource ID (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName})
 # of the Azure Managed Identity used to authenticate with Azure if using aad-pod-identity authorization.
 aadPodIdentity:
   enable: false
-  azureManagedIdentityClientId: ""
   azureManagedIdentityResourceId: ""
 
 # azureSyncPeriod is the frequency at which resources are re-reconciled with Azure
