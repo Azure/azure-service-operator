@@ -77,6 +77,36 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
+	err := extractor.ExtractResourceTypes(ctx, scanner, result)
+	if err != nil {
+		return SwaggerTypes{}, errors.Wrap(err, "error extracting resource types")
+	}
+
+	err = extractor.ExtractOneOfTypes(ctx, scanner, result)
+	if err != nil {
+		return SwaggerTypes{}, errors.Wrap(err, "error extracting one-of option types")
+	}
+
+	for _, def := range scanner.Definitions() {
+
+		// Add additional type definitions required by the resources
+		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
+			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
+				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff:\n%s",
+					def.Name(),
+					existingDef.Type(),
+					def.Type(),
+					astmodel.DiffTypes(existingDef.Type(), def.Type()))
+			}
+		} else {
+			result.OtherDefinitions.Add(def)
+		}
+	}
+
+	return result, nil
+}
+
+func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context, scanner *SchemaScanner, result SwaggerTypes) error {
 	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
 		// a resource must have both PUT and GET
 		if op.Put == nil || op.Get == nil {
@@ -112,10 +142,10 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 				resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 				if err != nil {
 					if errors.Is(err, context.Canceled) {
-						return SwaggerTypes{}, err
+						return err
 					}
 
-					return SwaggerTypes{}, errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+					return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
 				}
 			}
 
@@ -132,17 +162,17 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 				resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
 				if err != nil {
 					if errors.Is(err, context.Canceled) {
-						return SwaggerTypes{}, err
+						return err
 					}
 
-					return SwaggerTypes{}, errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+					return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
 				}
 			}
 
 			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
 				// TODO: check status types as well
 				if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
-					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
+					return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
 						resourceName,
 						astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 				}
@@ -163,22 +193,48 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 		}
 	}
 
-	for _, def := range scanner.Definitions() {
-		// now add in the additional type definitions required by the resources
-		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
-			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
-				return SwaggerTypes{}, errors.Errorf("type already defined differently: %s\nwas %s is %s\ndiff: %s",
-					def.Name(),
-					existingDef.Type(),
-					def.Type(),
-					astmodel.DiffTypes(existingDef.Type(), def.Type()))
-			}
-		} else {
-			result.OtherDefinitions.Add(def)
+	return nil
+}
+
+// ExtractOneOfTypes ensures we haven't missed any of the required OneOf type definitions.
+// The depth-first search of the Swagger spec done by ExtractResourcetypes() won't have found any "loose" one of options
+// so we need this extra step.
+
+func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
+	ctx context.Context,
+	scanner *SchemaScanner,
+	result SwaggerTypes,
+) error {
+	var errs []error
+	for name, def := range extractor.swagger.Definitions {
+		// Looking for definitions that either
+		//  o  specify discriminator property
+		//  o  contains a 'x-ms-discriminator-value' extension value
+		if _, found := def.Extensions.GetString("x-ms-discriminator-value"); !found && def.Discriminator == "" && !found {
+			continue
 		}
+
+		// Create a wrapper type for this definition
+		schema := MakeOpenAPISchema(
+			name,
+			def,
+			extractor.swaggerPath,
+			extractor.outputPackage,
+			extractor.idFactory,
+			extractor.cache)
+
+		// Run a handler to generate our type
+		t, err := scanner.RunHandlerForSchema(ctx, schema)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "unable to produce type for definition %s", name))
+			continue
+		}
+
+		typeName := astmodel.MakeTypeName(extractor.outputPackage, name)
+		result.OtherDefinitions[typeName] = astmodel.MakeTypeDefinition(typeName, t)
 	}
 
-	return result, nil
+	return nil
 }
 
 // Look at the responses of the PUT to determine if this represents an ARM resource,
@@ -339,7 +395,7 @@ func isMarkedAsARMResource(schema Schema) bool {
 
 	var recurse func(schema Schema) bool
 	recurse = func(schema Schema) bool {
-		if schema.extensions("x-ms-azure-resource") == true {
+		if schema.extensionAsBool("x-ms-azure-resource") {
 			return true
 		}
 
