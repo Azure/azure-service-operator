@@ -297,13 +297,18 @@ func (schema *OpenAPISchema) enumValues() []string {
 	return enumValuesToLiterals(schema.inner.Enum)
 }
 
-func (schema *OpenAPISchema) extensions(key string) interface{} {
-	exts := schema.inner.Extensions
-	if exts == nil {
-		return nil
-	}
+func (schema *OpenAPISchema) extensionAsString(key string) (string, bool) {
+	return schema.inner.Extensions.GetString(key)
+}
 
-	return exts[key]
+func (schema *OpenAPISchema) extensionAsBool(key string) bool {
+	value, ok := schema.inner.Extensions.GetBool(key)
+	return ok && value
+}
+
+func (schema *OpenAPISchema) hasExtension(key string) bool {
+	_, found := schema.inner.Extensions[strings.ToLower(key)]
+	return found
 }
 
 func (schema *OpenAPISchema) isRef() bool {

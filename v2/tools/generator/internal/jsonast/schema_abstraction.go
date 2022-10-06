@@ -27,7 +27,9 @@ type Schema interface {
 	description() *string
 
 	// for extensions like x-ms-...
-	extensions(key string) interface{}
+	extensionAsString(key string) (string, bool)
+	extensionAsBool(key string) bool
+	hasExtension(key string) bool
 
 	hasType(schemaType SchemaType) bool
 

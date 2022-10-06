@@ -66,8 +66,16 @@ func (schema GoJSONSchema) title() *string {
 	return schema.inner.Title
 }
 
-func (schema GoJSONSchema) extensions(key string) interface{} {
-	return nil
+func (schema GoJSONSchema) extensionAsString(_ string) (string, bool) {
+	return "", false
+}
+
+func (schema GoJSONSchema) extensionAsBool(_ string) bool {
+	return false
+}
+
+func (schema GoJSONSchema) hasExtension(_ string) bool {
+	return false
 }
 
 func (schema GoJSONSchema) hasType(schemaType SchemaType) bool {
