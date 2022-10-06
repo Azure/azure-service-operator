@@ -8,6 +8,8 @@ package main
 import (
 	"context"
 	"io/ioutil"
+	"strings"
+	"unicode"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -38,10 +40,8 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			}
 
 			if debugMode != nil && *debugMode != "" {
-				// Create a temporary folder for the debug output
-				// and set the output path to that.
 				var tmpDir string
-				tmpDir, err = ioutil.TempDir("", "aso-gen-debug-")
+				tmpDir, err = ioutil.TempDir("", createDebugPrefix(*debugMode))
 				if err != nil {
 					klog.Errorf("Error creating temporary directory: %s\n", err)
 					return err
@@ -98,4 +98,19 @@ func findDeepestTrace(err error) (errors.StackTrace, bool) {
 
 	// No stack found at this, or any deeper, level
 	return nil, false
+}
+
+func createDebugPrefix(debugMode string) string {
+	var builder strings.Builder
+	builder.WriteString("aso-gen-debug-")
+
+	for _, r := range debugMode {
+		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+			builder.WriteRune(unicode.ToLower(r))
+		}
+	}
+
+	builder.WriteRune('-')
+
+	return builder.String()
 }
