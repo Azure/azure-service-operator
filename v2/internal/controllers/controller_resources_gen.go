@@ -441,6 +441,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(servicebus_v20210101ps.NamespacesTopic),
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscription),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule),
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20211001s.SignalR),
 	})
 	result = append(result, &registration.StorageType{
@@ -808,12 +814,16 @@ func getKnownTypes() []client.Object {
 		result,
 		new(servicebus_v20210101p.Namespace),
 		new(servicebus_v20210101p.NamespacesQueue),
-		new(servicebus_v20210101p.NamespacesTopic))
+		new(servicebus_v20210101p.NamespacesTopic),
+		new(servicebus_v20210101p.NamespacesTopicsSubscription),
+		new(servicebus_v20210101p.NamespacesTopicsSubscriptionsRule))
 	result = append(
 		result,
 		new(servicebus_v20210101ps.Namespace),
 		new(servicebus_v20210101ps.NamespacesQueue),
-		new(servicebus_v20210101ps.NamespacesTopic))
+		new(servicebus_v20210101ps.NamespacesTopic),
+		new(servicebus_v20210101ps.NamespacesTopicsSubscription),
+		new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule))
 	result = append(result, new(signalrservice_alpha20211001.SignalR))
 	result = append(result, new(signalrservice_alpha20211001s.SignalR))
 	result = append(result, new(signalrservice_v20211001.SignalR))
@@ -1048,6 +1058,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
+	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
+	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
 	result = append(result, &storage_customizations.StorageAccountExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServiceExtension{})

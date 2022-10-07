@@ -114,9 +114,9 @@ func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, use
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.AdminCredentials, adminCreds)
-	collector.AddSecretValue(operatorSpecSecrets.UserCredentials, userCreds)
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.AdminCredentials, adminCreds)
+	collector.AddValue(operatorSpecSecrets.UserCredentials, userCreds)
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }

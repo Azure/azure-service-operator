@@ -112,12 +112,12 @@ func secretsToWrite(obj *documentdb.DatabaseAccount, accessKeys armcosmos.Databa
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryMasterKey, to.String(accessKeys.PrimaryMasterKey))
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryMasterKey, to.String(accessKeys.SecondaryMasterKey))
-	collector.AddSecretValue(operatorSpecSecrets.PrimaryReadonlyMasterKey, to.String(accessKeys.PrimaryReadonlyMasterKey))
-	collector.AddSecretValue(operatorSpecSecrets.SecondaryReadonlyMasterKey, to.String(accessKeys.SecondaryReadonlyMasterKey))
-	collector.AddSecretValue(operatorSpecSecrets.DocumentEndpoint, to.String(obj.Status.DocumentEndpoint))
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.PrimaryMasterKey, to.String(accessKeys.PrimaryMasterKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryMasterKey, to.String(accessKeys.SecondaryMasterKey))
+	collector.AddValue(operatorSpecSecrets.PrimaryReadonlyMasterKey, to.String(accessKeys.PrimaryReadonlyMasterKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryReadonlyMasterKey, to.String(accessKeys.SecondaryReadonlyMasterKey))
+	collector.AddValue(operatorSpecSecrets.DocumentEndpoint, to.String(obj.Status.DocumentEndpoint))
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }

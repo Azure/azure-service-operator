@@ -1,11 +1,11 @@
 apiVersion: compute.azure.com/v1beta20210701
 kind: Image
 metadata:
-  name: aso-sample-image
+  name: aso-sample-image-20210701
   namespace: default
 spec:
-  hyperVGeneration: "V2"
-  location: westcentralus
+  hyperVGeneration: V2
+  location: westus2
   owner:
     name: aso-sample-rg
   storageProfile:
@@ -14,5 +14,5 @@ spec:
       osType: Linux
       osState: Generalized
       snapshot:
-        Reference:
-          armID: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Compute/snapshots/aso-sample-snapshot
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Compute/snapshots/aso-sample-snapshot

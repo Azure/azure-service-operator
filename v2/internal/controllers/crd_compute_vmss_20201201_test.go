@@ -199,7 +199,7 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	// Move to a different reason where we have quota
+	// Move to a different region where we have quota
 	tc.AzureRegion = to.StringPtr("westeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()

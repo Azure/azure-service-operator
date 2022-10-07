@@ -4,7 +4,7 @@ metadata:
   name: sampleworkspacescompute
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   owner:
     name: sampleworkspaces
   sku:
@@ -12,13 +12,13 @@ spec:
     tier: Basic
   properties:
     virtualMachine:
-      computeLocation: westcentralus
+      computeLocation: westus3
       computeType: VirtualMachine
       disableLocalAuth: true
       resourceReference:
         group: compute.azure.com
         kind: VirtualMachine
-        name: samplevm
+        name: workspacescomputevm
       properties:
         sshPort: 22
         administratorAccount:

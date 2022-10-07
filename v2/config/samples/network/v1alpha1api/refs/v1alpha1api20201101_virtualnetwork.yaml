@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1alpha1api20201101
+kind: VirtualNetwork
+metadata:
+  name: samplevnet2
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  addressSpace:
+    addressPrefixes:
+      - 172.16.0.0/16

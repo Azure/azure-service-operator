@@ -4,13 +4,13 @@ metadata:
   name: samplevmss
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   owner:
     name: aso-sample-rg
   sku:
     name: standard_d1_v2
     capacity: 1
-  platformFaultDomainCount: 3
+  platformFaultDomainCount: 2
   singlePlacementGroup: false
   upgradePolicy:
     mode: Automatic
@@ -19,17 +19,14 @@ spec:
       imageReference:
         publisher: Canonical
         offer: UbuntuServer
-        sku: 18.04-lts
+        sku: 22.04-lts
         version: latest
     osProfile:
       computerNamePrefix: computer
       adminUsername: adminUser
-      linuxConfiguration:
-        disablePasswordAuthentication: true
-        ssh:
-          publicKeys:
-            - keyData: ssh-rsa AAAAB  # Specify your SSH public key here
-              path: /home/adminUser/.ssh/authorized_keys
+      adminPassword:
+        key: password
+        name: sample-vmss-secret
     networkProfile:
       networkInterfaceConfigurations:
         - name: samplenicconfig
@@ -40,7 +37,7 @@ spec:
                 reference:
                   group: network.azure.com
                   kind: VirtualNetworksSubnet
-                  name: samplesubnet
+                  name: samplesubnetvmss
               loadBalancerInboundNatPools:
                 - reference:
-                    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancer/inboundNatPools/samplenatpool
+                    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss

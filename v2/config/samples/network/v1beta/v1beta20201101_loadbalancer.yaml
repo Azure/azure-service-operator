@@ -15,7 +15,7 @@ spec:
         reference:
           group: network.azure.com
           kind: PublicIPAddress
-          name: samplepublicipaddress
+          name: samplepublicip
   inboundNatPools:
     - name: samplenatpool
       frontendIPConfiguration:

@@ -19,7 +19,7 @@ spec:
         reference:
           group: network.azure.com
           kind: PublicIPAddress
-          name: samplepublicip
+          name: gatewaypublicip
       subnet:
         reference:
           group: network.azure.com

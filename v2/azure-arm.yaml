@@ -461,7 +461,11 @@ typeTransformers:
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
-
+  - group: servicebus
+    name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
   - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
     property: ProvisioningState
@@ -1311,6 +1315,12 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.0.0-beta.3
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.0.0-beta.3
   signalrservice:
     2021-10-01:
       SignalR:

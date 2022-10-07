@@ -1,29 +1,29 @@
 apiVersion: compute.azure.com/v1beta20201201
 kind: VirtualMachine
 metadata:
-  name: samplevm
+  name: workspacescomputevm
   namespace: default
 spec:
-  location: westcentralus
-  owner:
-    name: aso-sample-rg
   hardwareProfile:
-    vmSize: "Standard_A1_v2"
-  storageProfile:
-    imageReference:
-      publisher: Canonical
-      offer: UbuntuServer
-      sku: 18.04-lts
-      version: latest
-  osProfile:
-    computerNamePrefix: computer
-    adminUsername: adminUser
-    adminPassword: # This is the name/key of a Kubernetes secret in the same namespace
-      name: vm-admin-pw
-      key: password
+    vmSize: Standard_A1_v2
+  location: westus3
   networkProfile:
     networkInterfaces:
       - reference:
           group: network.azure.com
           kind: NetworkInterface
-          name: samplenic
+          name: workspacescomputenic
+  osProfile:
+    adminPassword:
+      key: password
+      name: vm-admin-pw
+    adminUsername: adminUser
+    computerName: poppy
+  owner:
+    name: aso-sample-rg
+  storageProfile:
+    imageReference:
+      offer: UbuntuServer
+      publisher: Canonical
+      sku: 22.04-LTS
+      version: latest
