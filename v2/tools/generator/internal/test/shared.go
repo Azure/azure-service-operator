@@ -38,6 +38,9 @@ var (
 	StatusProperty = astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType).
 			WithDescription("Current status")
 
+	OptionalStringProperty = astmodel.NewPropertyDefinition("OptionalString", "optionalString", astmodel.NewOptionalType(astmodel.StringType)).
+				WithDescription("An optional string")
+
 	PropertyBagProperty = astmodel.NewPropertyDefinition("PropertyBag", "$propertyBag", astmodel.PropertyBagType).
 				WithDescription("Stash for extra properties")
 

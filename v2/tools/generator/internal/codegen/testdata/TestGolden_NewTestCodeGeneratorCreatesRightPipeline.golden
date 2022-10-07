@@ -32,6 +32,7 @@ flattenProperties                                    Apply flattening to propert
 stripUnused                                          Strip unused types for test
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
+addKubernetesExporter                     azure      Adds the KubernetesExporter interface to resources that need it
 applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types

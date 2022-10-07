@@ -12,8 +12,8 @@ const (
 	ReasonWaitingForOwner   = "WaitingForOwner"
 
 	// Post-ARM PUT reasons
-	ReasonAzureResourceNotFound = "AzureResourceNotFound"
-	ReasonSecretWriteFailure    = "FailedWritingSecret"
+	ReasonAzureResourceNotFound               = "AzureResourceNotFound"
+	ReasonAdditionalKubernetesObjWriteFailure = "FailedWritingAdditionalKubernetesObjects"
 
 	// Other reasons
 	ReasonReconciling                     = "Reconciling"
