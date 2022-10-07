@@ -19,7 +19,7 @@ spec:
       imageReference:
         publisher: Canonical
         offer: UbuntuServer
-        sku: 18.04-lts
+        sku: 22.04-lts
         version: latest
     osProfile:
       computerNamePrefix: computer

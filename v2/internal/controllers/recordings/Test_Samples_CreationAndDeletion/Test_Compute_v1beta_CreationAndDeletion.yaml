@@ -2507,7 +2507,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"location":"westus3","name":"samplevmss","properties":{"platformFaultDomainCount":2,"singlePlacementGroup":false,"upgradePolicy":{"mode":"Automatic"},"virtualMachineProfile":{"networkProfile":{"networkInterfaceConfigurations":[{"name":"samplenicconfig","properties":{"ipConfigurations":[{"name":"sampleipconfiguration","properties":{"loadBalancerInboundNatPools":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss"}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss/subnets/samplesubnetvmss"}}}],"primary":true}}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerNamePrefix":"computer"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-lts","version":"latest"}}}},"sku":{"capacity":1,"name":"standard_d1_v2"}}'
+    body: '{"location":"westus3","name":"samplevmss","properties":{"platformFaultDomainCount":2,"singlePlacementGroup":false,"upgradePolicy":{"mode":"Automatic"},"virtualMachineProfile":{"networkProfile":{"networkInterfaceConfigurations":[{"name":"samplenicconfig","properties":{"ipConfigurations":[{"name":"sampleipconfiguration","properties":{"loadBalancerInboundNatPools":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss"}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss/subnets/samplesubnetvmss"}}}],"primary":true}}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerNamePrefix":"computer"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"22.04-lts","version":"latest"}}}},"sku":{"capacity":1,"name":"standard_d1_v2"}}'
     form: {}
     headers:
       Accept:
@@ -2537,7 +2537,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"samplenicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"sampleipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss/subnets/samplesubnetvmss\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss\"}]}}]}}]}\r\n
       \   },\r\n    \"provisioningState\": \"Creating\",\r\n    \"overprovision\":
       true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\": false,\r\n    \"uniqueId\":
@@ -2616,7 +2616,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"location":"westus3","name":"samplevm","properties":{"hardwareProfile":{"vmSize":"Standard_A1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/networkInterfaces/samplenic"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westus3","name":"samplevm","properties":{"hardwareProfile":{"vmSize":"Standard_A1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/networkInterfaces/samplenic"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"22.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -2636,8 +2636,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"4f2034ef-b3a8-4487-856d-8241080810b7\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\"\r\n        },\r\n        \"diskSizeGB\":
@@ -2679,7 +2679,7 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"location":"westus3","name":"aso-sample-vm","properties":{"hardwareProfile":{"vmSize":"Standard_A1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/networkInterfaces/samplenic1"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-LTS","version":"latest"}}}}'
+    body: '{"location":"westus3","name":"aso-sample-vm","properties":{"hardwareProfile":{"vmSize":"Standard_A1_v2"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/networkInterfaces/samplenic1"}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerName":"poppy"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"22.04-LTS","version":"latest"}}}}'
     form: {}
     headers:
       Accept:
@@ -2699,8 +2699,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"3d8453d4-285a-406c-b709-fc1a011d7ede\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\"\r\n        },\r\n        \"deleteOption\":
@@ -2746,7 +2746,7 @@ interactions:
     duration: ""
 - request:
     body: '{"location":"westus3","name":"samplevmss1","properties":{"platformFaultDomainCount":2,"singlePlacementGroup":false,"upgradePolicy":{"mode":"Automatic"},"virtualMachineProfile":{"extensionProfile":{"extensions":[{"name":"mycustomextension","properties":{"publisher":"Microsoft.Azure.Extensions","settings":{"commandToExecute":"/bin/bash
-      -c \"echo hello\""},"type":"CustomScript","typeHandlerVersion":"2.0"}}]},"networkProfile":{"networkInterfaceConfigurations":[{"name":"mynicconfig","properties":{"ipConfigurations":[{"name":"myipconfiguration","properties":{"loadBalancerInboundNatPools":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1"}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss1/subnets/samplesubnetvmss1"}}}],"primary":true}}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerNamePrefix":"computer"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"18.04-lts","version":"latest"}}}},"sku":{"capacity":1,"name":"STANDARD_D1_v2"}}'
+      -c \"echo hello\""},"type":"CustomScript","typeHandlerVersion":"2.0"}}]},"networkProfile":{"networkInterfaceConfigurations":[{"name":"mynicconfig","properties":{"ipConfigurations":[{"name":"myipconfiguration","properties":{"loadBalancerInboundNatPools":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1"}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss1/subnets/samplesubnetvmss1"}}}],"primary":true}}]},"osProfile":{"adminPassword":"{PASSWORD}","adminUsername":"adminUser","computerNamePrefix":"computer"},"storageProfile":{"imageReference":{"offer":"UbuntuServer","publisher":"Canonical","sku":"22.04-lts","version":"latest"}}}},"sku":{"capacity":1,"name":"STANDARD_D1_v2"}}'
     form: {}
     headers:
       Accept:
@@ -2777,7 +2777,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss1/subnets/samplesubnetvmss1\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
       \           \"name\": \"mycustomextension\",\r\n            \"properties\":
@@ -3707,8 +3707,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"4f2034ef-b3a8-4487-856d-8241080810b7\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
       \"samplevm_OsDisk_1_74ec20496b5f43a095d67f814483ea2d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
@@ -3761,8 +3761,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"3d8453d4-285a-406c-b709-fc1a011d7ede\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
       \"aso-sample-vm_OsDisk_1_993146c0e1e445589582065dc4ec9870\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
@@ -3820,8 +3820,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"4f2034ef-b3a8-4487-856d-8241080810b7\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
       \"samplevm_OsDisk_1_74ec20496b5f43a095d67f814483ea2d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
@@ -3876,8 +3876,8 @@ interactions:
       \"true\"\r\n  },\r\n  \"properties\": {\r\n    \"vmId\": \"3d8453d4-285a-406c-b709-fc1a011d7ede\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_A1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
-      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202209210\"\r\n
+      \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"22.04-LTS\",\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"22.04.202209210\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
       \"aso-sample-vm_OsDisk_1_993146c0e1e445589582065dc4ec9870\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
@@ -4013,7 +4013,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"samplenicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"sampleipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss/subnets/samplesubnetvmss\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss\"}]}}]}}]}\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"overprovision\":
       true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\": false,\r\n    \"uniqueId\":
@@ -4068,7 +4068,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss1/subnets/samplesubnetvmss1\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
       \           \"name\": \"mycustomextension\",\r\n            \"properties\":
@@ -4130,7 +4130,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"samplenicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"sampleipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss/subnets/samplesubnetvmss\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss/inboundNatPools/samplenatpoolvmss\"}]}}]}}]}\r\n
       \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"overprovision\":
       true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\": false,\r\n    \"uniqueId\":
@@ -4187,7 +4187,7 @@ interactions:
       {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
+      \         \"sku\": \"22.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/virtualNetworks/samplevnetvmss1/subnets/samplesubnetvmss1\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
       \           \"name\": \"mycustomextension\",\r\n            \"properties\":
