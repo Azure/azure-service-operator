@@ -66,6 +66,11 @@ func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 	return nil
 }
 
+// SetARMReference sets the ARM reference property
+func (pc *PropertyConfiguration) SetARMReference(value bool) {
+	pc.armReference.write(value)
+}
+
 // IsSecret looks up a property to determine if it's a secret
 func (pc *PropertyConfiguration) IsSecret() (bool, error) {
 	isSecret, ok := pc.isSecret.read()

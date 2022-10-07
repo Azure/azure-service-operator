@@ -6,6 +6,8 @@
 package test
 
 import (
+	"fmt"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -21,6 +23,32 @@ func CreateResource(
 	for _, fn := range functions {
 		resourceType = resourceType.WithFunction(fn)
 	}
+
+	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+}
+
+func CreateARMResource(
+	pkg astmodel.PackageReference,
+	name string,
+	spec astmodel.TypeDefinition,
+	status astmodel.TypeDefinition,
+	apiVersion astmodel.TypeDefinition,
+	functions ...astmodel.Function) astmodel.TypeDefinition {
+
+	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
+	for _, fn := range functions {
+		resourceType = resourceType.WithFunction(fn)
+	}
+
+	enumType, ok := apiVersion.Type().(*astmodel.EnumType)
+	if !ok {
+		panic(fmt.Sprintf("expected apiVersion to be EnumType but was %T", apiVersion.Type()))
+	}
+	if len(enumType.Options()) == 0 {
+		panic("expected apiVersion enum to have at least 1 option")
+	}
+	apiVersionValue := enumType.Options()[0]
+	resourceType = resourceType.WithAPIVersion(apiVersion.Name(), apiVersionValue)
 
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
 }
