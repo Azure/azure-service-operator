@@ -8,6 +8,7 @@ package reflecthelpers
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -61,6 +62,54 @@ func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, 
 	return result, nil
 }
 
+// FindPropertiesWithTag finds all the properties with the given tag on the specified object and
+// returns a map of the property name to the property value
+func FindPropertiesWithTag(obj interface{}, tag string) (map[string][]interface{}, error) {
+	result := make(map[string][]interface{})
+
+	visitor := NewReflectVisitor()
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+		// This was adapted from IdentityVisitStruct
+		for i := 0; i < it.NumField(); i++ {
+			fieldVal := it.Field(i)
+			if !fieldVal.CanInterface() {
+				// Bypass unexported fields
+				continue
+			}
+
+			structField := it.Type().Field(i)
+			path := ctx.(string)
+			if path == "" {
+				path = structField.Name
+			} else {
+				path += "." + structField.Name
+			}
+			_, ok := structField.Tag.Lookup(tag)
+			field := it.Field(i)
+			if ok && field.CanInterface() {
+				if len(result[path]) == 0 {
+					result[path] = []interface{}{}
+				}
+				result[path] = append(result[path], field.Interface())
+			}
+
+			err := this.visit(field, path)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	err := visitor.Visit(obj, "")
+	if err != nil {
+		return nil, errors.Wrapf(err, "scanning for references to tag %s", tag)
+	}
+
+	return result, nil
+}
+
 // FindResourceReferences finds all the genruntime.ResourceReference's on the provided object
 func FindResourceReferences(obj interface{}) (set.Set[genruntime.ResourceReference], error) {
 	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ResourceReference{}))
@@ -101,6 +150,66 @@ func FindConfigMapReferences(obj interface{}) (set.Set[genruntime.ConfigMapRefer
 	result := set.Make[genruntime.ConfigMapReference]()
 	for k := range untypedResult {
 		result.Add(k.(genruntime.ConfigMapReference))
+	}
+
+	return result, nil
+}
+
+// FindOptionalConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
+func FindOptionalConfigMapReferences(obj interface{}) ([]*genruntime.OptionalConfigMapReferencePair, error) {
+	untypedResult, err := FindPropertiesWithTag(obj, "optionalConfigMapPair") // TODO: This is astmodel.OptionalConfigMapPairTag
+	if err != nil {
+		return nil, err
+	}
+
+	collector := make(map[string][]*genruntime.OptionalConfigMapReferencePair)
+	suffix := "ConfigRef" // TODO This is astmodel.OptionalConfigMapReferenceSuffix
+
+	// This could probably be more efficient, but this avoids code duplication, and we're not dealing
+	// with huge collections here.
+	for key, values := range untypedResult {
+		if strings.HasSuffix(key, suffix) {
+			continue
+		}
+
+		collector[key] = make([]*genruntime.OptionalConfigMapReferencePair, 0, len(values))
+		for _, val := range values {
+			typedValue, ok := val.(*string)
+			if !ok {
+				return nil, errors.Errorf("value of property %s was not a *string like expected", key)
+			}
+			collector[key] = append(collector[key], &genruntime.OptionalConfigMapReferencePair{
+				Name:  key,
+				Value: typedValue,
+			})
+		}
+	}
+
+	for key, values := range untypedResult {
+		if !strings.HasSuffix(key, suffix) {
+			continue
+		}
+		idx := strings.TrimSuffix(key, suffix)
+		if len(values) != len(collector[idx]) {
+			return nil, errors.Errorf("number of Ref's didn't match number of Values for %s", idx)
+		}
+
+		for i, val := range values {
+			typedValue, ok := val.(*genruntime.ConfigMapReference)
+			if !ok {
+				return nil, errors.Errorf("value of property %s was not a genruntime.ConfigMapReference like expected", key)
+			}
+			collector[idx][i].RefName = key
+			collector[idx][i].Ref = typedValue
+		}
+	}
+
+	// Translate our collector into a simple list
+	var result []*genruntime.OptionalConfigMapReferencePair
+	for _, values := range collector {
+		for _, val := range values {
+			result = append(result, val)
+		}
 	}
 
 	return result, nil
