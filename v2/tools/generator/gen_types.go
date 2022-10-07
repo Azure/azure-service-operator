@@ -92,6 +92,7 @@ func findDeepestTrace(err error) (errors.StackTrace, bool) {
 	}
 
 	// No stack trace found (yet), see if we have it at this level
+	//nolint:errorlint // We're walking wrapped errors ourselves
 	if tracer, ok := err.(stackTracer); ok {
 		return tracer.StackTrace(), true
 	}
