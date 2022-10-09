@@ -175,6 +175,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// To be added when needed
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
