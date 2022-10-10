@@ -5,6 +5,12 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api201811
     ├── Spec: 
     │   ├── AzureName: string
     │   ├── Location: *string
+    │   ├── OperatorSpec: 
+    │   │   ├── ConfigMaps: 
+    │   │   │   ├── ClientId: *genruntime.ConfigMapDestination
+    │   │   │   ├── PrincipalId: *genruntime.ConfigMapDestination
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

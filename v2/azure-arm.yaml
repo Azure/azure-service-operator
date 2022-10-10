@@ -1156,6 +1156,11 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      Identity_STATUS:
+        ClientId:
+          $exportAsConfigMapPropertyName: ClientId
+        PrincipalId:
+          $exportAsConfigMapPropertyName: PrincipalId
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:
