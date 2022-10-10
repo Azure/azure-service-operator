@@ -20,6 +20,10 @@ var (
 
 	// Reusable Properties - any package version
 
+	// Properties to simplate an actual ARM resource
+	NameProperty = astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType).
+			WithDescription("The name of the resource")
+
 	FullNameProperty = astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
 				WithDescription("As would be used to address mail")
 
@@ -37,6 +41,9 @@ var (
 
 	StatusProperty = astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType).
 			WithDescription("Current status")
+
+	OptionalStringProperty = astmodel.NewPropertyDefinition("OptionalString", "optionalString", astmodel.NewOptionalType(astmodel.StringType)).
+				WithDescription("An optional string")
 
 	PropertyBagProperty = astmodel.NewPropertyDefinition("PropertyBag", "$propertyBag", astmodel.PropertyBagType).
 				WithDescription("Stash for extra properties")
@@ -68,6 +75,11 @@ var (
 	// Reference Package Batch 2021 - beta
 	BatchPkgBeta2021  = MakeLocalPackageReference(BatchGroup, "v1beta20210101")
 	BatchPkgBeta2021s = astmodel.MakeStoragePackageReference(BatchPkg2021)
+
+	// Objects in Pkg2020
+	Pkg2020APIVersion = astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(Pkg2020, "APIVersion"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.EnumValue{Identifier: "v2020", Value: "v2020"}))
 
 	// Objects in Pkg2021
 

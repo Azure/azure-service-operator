@@ -251,7 +251,7 @@ func (workspace *Workspace) validateSecretDestinations() error {
 	if workspace.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		workspace.Spec.OperatorSpec.Secrets.AppInsightsInstrumentationKey,
 		workspace.Spec.OperatorSpec.Secrets.ContainerRegistryPassword,
 		workspace.Spec.OperatorSpec.Secrets.ContainerRegistryPassword2,
@@ -260,7 +260,7 @@ func (workspace *Workspace) validateSecretDestinations() error {
 		workspace.Spec.OperatorSpec.Secrets.SecondaryNotebookAccessKey,
 		workspace.Spec.OperatorSpec.Secrets.UserStorageKey,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

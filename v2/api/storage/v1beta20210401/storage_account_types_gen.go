@@ -250,7 +250,7 @@ func (account *StorageAccount) validateSecretDestinations() error {
 	if account.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		account.Spec.OperatorSpec.Secrets.BlobEndpoint,
 		account.Spec.OperatorSpec.Secrets.DfsEndpoint,
 		account.Spec.OperatorSpec.Secrets.FileEndpoint,
@@ -260,7 +260,7 @@ func (account *StorageAccount) validateSecretDestinations() error {
 		account.Spec.OperatorSpec.Secrets.TableEndpoint,
 		account.Spec.OperatorSpec.Secrets.WebEndpoint,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

@@ -251,10 +251,10 @@ func (server *FlexibleServer) validateSecretDestinations() error {
 	if server.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
