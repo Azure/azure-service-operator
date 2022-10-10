@@ -264,14 +264,14 @@ func (account *DatabaseAccount) validateSecretDestinations() error {
 	if account.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		account.Spec.OperatorSpec.Secrets.DocumentEndpoint,
 		account.Spec.OperatorSpec.Secrets.PrimaryMasterKey,
 		account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
 		account.Spec.OperatorSpec.Secrets.SecondaryMasterKey,
 		account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

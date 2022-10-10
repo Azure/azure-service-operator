@@ -74,7 +74,7 @@ func getValidations(
 		},
 	}
 
-	secrets, err := getResourceSecretsType(defs, resource)
+	secrets, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecSecretsProperty)
 	if err != nil {
 		return nil, err
 	}
@@ -86,6 +86,19 @@ func getValidations(
 		validations[functions.ValidationKindUpdate] = append(
 			validations[functions.ValidationKindUpdate],
 			NewValidateSecretDestinationsFunction(resource, idFactory))
+	}
+
+	configMaps, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecConfigMapsProperty)
+	if err != nil {
+		return nil, err
+	}
+	if configMaps != nil {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			NewValidateConfigMapDestinationsFunction(resource, idFactory))
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			NewValidateConfigMapDestinationsFunction(resource, idFactory))
 	}
 
 	return validations, nil
@@ -119,36 +132,85 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 				Type: dst.NewIdent("error"),
 			},
 		},
-		Body: validateSecretDestinationsBody(codeGenerationContext, k.Resource(), receiverIdent),
+		Body: validateOperatorSpecSliceBody(
+			codeGenerationContext,
+			k.Resource(),
+			receiverIdent,
+			astmodel.OperatorSpecSecretsProperty,
+			astmodel.NewOptionalType(astmodel.SecretDestinationType),
+			"ValidateSecretDestinations"),
 	}
 
 	fn.AddComments("validates there are no colliding genruntime.SecretDestination's")
 	return fn.DefineFunc()
 }
 
-// validateSecretDestinationsBody helps generate the body of the validateResourceReferences function:
-// func (account *DatabaseAccount) validateSecretDestinations() error {
+func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *functions.ResourceFunction {
+	return functions.NewResourceFunction(
+		"validateConfigMapDestinations",
+		resource,
+		idFactory,
+		validateConfigMapDestinations,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+}
+
+func validateConfigMapDestinations(k *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := receiver.AsType(codeGenerationContext)
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType: &dst.StarExpr{
+			X: receiverType,
+		},
+		Returns: []*dst.Field{
+			{
+				Type: dst.NewIdent("error"),
+			},
+		},
+		Body: validateOperatorSpecSliceBody(
+			codeGenerationContext,
+			k.Resource(),
+			receiverIdent,
+			astmodel.OperatorSpecConfigMapsProperty,
+			astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
+			"ValidateConfigMapDestinations"),
+	}
+
+	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations's")
+	return fn.DefineFunc()
+}
+
+// validateOperatorSpecSliceBody helps generate the body of the validateResourceReferences function:
+// func (account *DatabaseAccount) validateConfigMapDestinations() error {
 //     if <receiver>.Spec.OperatorSpec == nil {
 //         return nil
 //     }
-//     if <receiver>.Spec.OperatorSpec.Secrets == nil {
+//     if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
 //         return nil
 //     }
-//     secrets := []*genruntime.SecretDestination{
-//         account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
-//         account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
+//     toValidate := []*<validateType>{
+//         account.Spec.OperatorSpec.ConfigMaps.ClientId,
+//         account.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 //         ...
 //     }
-//     return genruntime.ValidateSecretDestinations(secrets)
+//     return genruntime.<validateFunctionName>(toValidate)
 // }
-func validateSecretDestinationsBody(codeGenerationContext *astmodel.CodeGenerationContext, resource *astmodel.ResourceType, receiverIdent string) []dst.Stmt {
+func validateOperatorSpecSliceBody(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	resource *astmodel.ResourceType,
+	receiverIdent string,
+	operatorSpecProperty string,
+	validateType astmodel.Type,
+	validateFunctionName string,
+) []dst.Stmt {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-	resourceSecrets, err := getResourceSecretsType(codeGenerationContext, resource)
+	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, operatorSpecProperty)
 	if err != nil {
 		panic(err)
 	}
-
 	var body []dst.Stmt
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
@@ -158,40 +220,40 @@ func validateSecretDestinationsBody(codeGenerationContext *astmodel.CodeGenerati
 	operatorSpecSelector := astbuilder.Selector(specSelector, astmodel.OperatorSpecProperty)
 	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil()))
 
-	// if <receiver>.Spec.OperatorSpec.Secrets == nil {
+	// if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
 	//     return nil
 	// }
-	secretsSelector := astbuilder.Selector(operatorSpecSelector, astmodel.OperatorSpecSecretsProperty)
-	body = append(body, astbuilder.ReturnIfNil(secretsSelector, astbuilder.Nil()))
+	specPropertySelector := astbuilder.Selector(operatorSpecSelector, operatorSpecProperty)
+	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil()))
 
-	// secrets := []*genruntime.SecretDestination{
+	// secrets := []<validateType>{
 	//     account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
 	//     account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	//     ...
 	// }
 	sliceBuilder := astbuilder.NewSliceLiteralBuilder(
-		astmodel.NewOptionalType(astmodel.SecretDestinationType).AsType(codeGenerationContext),
+		validateType.AsType(codeGenerationContext),
 		true)
-	for _, prop := range resourceSecrets.Properties().AsSlice() {
-		propSelector := astbuilder.Selector(secretsSelector, prop.PropertyName().String())
+	for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
+		propSelector := astbuilder.Selector(specPropertySelector, prop.PropertyName().String())
 		sliceBuilder.AddElement(propSelector)
 	}
-	secretsVar := "secrets"
-	body = append(body, astbuilder.ShortDeclaration(secretsVar, sliceBuilder.Build()))
+	toValidateVar := "toValidate"
+	body = append(body, astbuilder.ShortDeclaration(toValidateVar, sliceBuilder.Build()))
 
-	// return genruntime.ValidateSecretDestinations(secrets)
+	// return genruntime.<validateFunctionName>(secrets)
 	body = append(
 		body,
 		astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
 				genRuntime,
-				"ValidateSecretDestinations",
-				dst.NewIdent(secretsVar))))
+				validateFunctionName,
+				dst.NewIdent(toValidateVar))))
 
 	return body
 }
 
-func getResourceSecretsType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType) (*astmodel.ObjectType, error) {
+func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType) (*astmodel.ObjectType, error) {
 	spec, err := astmodel.ResolveResourceSpecDefinition(defs, resource)
 	if err != nil {
 		return nil, err
@@ -227,7 +289,20 @@ func getResourceSecretsType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 			operatorSpecDef.Type())
 	}
 
-	secretsProp, ok := operatorSpecType.Property(astmodel.OperatorSpecSecretsProperty)
+	return operatorSpecType, nil
+}
+
+func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType, name string) (*astmodel.ObjectType, error) {
+	operatorSpecType, err := getOperatorSpecType(defs, resource)
+	if err != nil {
+		return nil, err
+	}
+	if operatorSpecType == nil {
+		// Not found, just return
+		return nil, nil
+	}
+
+	secretsProp, ok := operatorSpecType.Property(astmodel.PropertyName(name))
 	if !ok {
 		// No secrets property
 		return nil, nil
@@ -237,7 +312,7 @@ func getResourceSecretsType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
-			astmodel.OperatorSpecSecretsProperty,
+			name,
 			secretsProp.PropertyType())
 	}
 	secretsDef, err := defs.GetDefinition(secretsTypeName)

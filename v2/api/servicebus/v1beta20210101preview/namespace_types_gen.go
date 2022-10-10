@@ -250,10 +250,10 @@ func (namespace *Namespace) validateSecretDestinations() error {
 	if namespace.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		namespace.Spec.OperatorSpec.Secrets.Endpoint,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
