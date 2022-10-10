@@ -109,9 +109,11 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 func logAndExtractStack(str string, err error) error {
 	klog.Errorf("%s:\n%s\n", str, err)
-	stackTrace := findDeepestTrace(err)
-	if stackTrace != nil {
-		klog.V(4).Infof("%s", stackTrace)
+	if tr, ok := findDeepestTrace(err); ok {
+		for _, fr := range tr {
+			klog.Errorf("%n (%s:%d)", fr, fr, fr)
+		}
 	}
+
 	return err
 }

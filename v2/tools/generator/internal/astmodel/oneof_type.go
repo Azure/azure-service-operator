@@ -26,7 +26,7 @@ type OneOfType struct {
 
 var _ Type = &OneOfType{}
 
-// BuildOneOfType is a smart constructor for a  OneOfType,
+// BuildOneOfType is a smart constructor for a OneOfType,
 // maintaining the invariants. If only one unique type
 // is passed, the result will be that type, not a OneOf.
 func BuildOneOfType(types ...Type) Type {
