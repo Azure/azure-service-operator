@@ -24,7 +24,7 @@ We'll be using a pattern to determine which of the above secrets we use for oper
 ## Options
 
 In all the proposed solutions: 
-1. Operator would cache(in-memory) the credentials to be used for resources when we reconcile and a mechanism to identify the credentials used for a resource. 
+1. Operator would cache (in-memory) the credentials to be used for resources when we reconcile and a mechanism to identify the credentials used for a resource. 
 2. Operator would add `serviceoperator.azure.com/subscription: <SUBSCRIPTION_ID>` annotation on each resource, which would be checked with the current credentials on each reconcile. This would prevent users from updating a credential and causing their resource to be created in another subscription without deleting it from the first subscription.
 
 ### Option 1: Fixed secret names
