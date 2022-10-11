@@ -7,10 +7,13 @@ package genericarmclient_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
@@ -19,6 +22,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -37,7 +41,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	resourceGroup := testContext.NewTestResourceGroup()
 	resolved := genruntime.ConvertToARMResolvedDetails{
 		Name:               resourceGroup.Name,
-		ResolvedReferences: genruntime.MakeResolvedReferences(nil),
+		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
 	}
 	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -89,7 +93,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 
 	resolved := genruntime.ConvertToARMResolvedDetails{
 		Name:               rgName,
-		ResolvedReferences: genruntime.MakeResolvedReferences(nil),
+		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
 	}
 	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -112,4 +116,89 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	g.Expect(httpErr.RawResponse.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(httpErr.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(cloudError.Code()).To(Equal("LocationNotAvailableForResourceGroup"))
+}
+
+var rpNotRegisteredError = `
+{
+  "error": {
+    "code": "MissingSubscriptionRegistration",
+    "message": "The subscription is not registered to use namespace 'Microsoft.Fake'. See https://aka.ms/rps-not-found for how to register subscriptions.",
+    "details": [
+      {
+        "code": "MissingSubscriptionRegistration",
+        "target": "Microsoft.Fake",
+        "message": "The subscription is not registered to use namespace 'Microsoft.Fake'. See https://aka.ms/rps-not-found for how to register subscriptions."
+      }
+    ]
+  }
+}`
+
+var rpRegistrationStateRegistering = `
+{
+  "id": "/subscriptions/12345/providers/Microsoft.Fake",
+  "namespace": "Microsoft.Fake",
+  "registrationPolicy": "RegistrationRequired",
+  "registrationState": "Pending"
+}`
+
+func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			if r.URL.Path == "/subscriptions/12345/resourceGroups/myrg/providers/Microsoft.Fake/fakeResource/fake" {
+				w.WriteHeader(http.StatusConflict)
+				g.Expect(w.Write([]byte(rpNotRegisteredError))).ToNot(BeZero())
+				return
+			}
+		}
+
+		if r.Method == http.MethodPost {
+			if r.URL.Path == "/subscriptions/12345/providers/Microsoft.Fake/register" {
+				w.WriteHeader(http.StatusOK)
+				g.Expect(w.Write([]byte(rpRegistrationStateRegistering))).ToNot(BeZero())
+				return
+			}
+		}
+
+		if r.Method == http.MethodGet {
+			w.WriteHeader(http.StatusOK)
+			g.Expect(w.Write([]byte(rpRegistrationStateRegistering))).ToNot(BeZero())
+			return
+		}
+
+		g.Fail(fmt.Sprintf("unknown request attempted. Method: %s, URL: %s", r.Method, r.URL))
+	}))
+	defer server.Close()
+
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: server.URL,
+				Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
+			},
+		},
+	}
+	subscriptionId := "12345"
+
+	metrics := asometrics.NewARMClientMetrics()
+	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, subscriptionId, metrics)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")
+	apiVersion := "2019-01-01"
+	resource := &resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "name",
+		},
+		Spec: resources.ResourceGroupSpec{
+			Location: to.StringPtr("westus"),
+		},
+	}
+
+	_, err = client.BeginCreateOrUpdateByID(ctx, resourceURI, apiVersion, resource)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(Equal("registering Resource Provider Microsoft.Fake with subscription. Try again later"))
 }

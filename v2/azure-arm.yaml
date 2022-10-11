@@ -51,89 +51,118 @@ typeFilters:
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
+
   - action: include
     group: servicebus
     version: v*20210101preview
     because: We want to export this particular preview version
+
   - action: include
     group: keyvault
     version: v*20210401preview
     because: We want to support keyvault which is only available in preview version
+
   - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
+
   - action: include
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
+
   - action: include
     group: managedidentity
     version: v*20220131preview
     because: We want to export this particular preview version
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
+
   - action: prune
     group: compute
     name: VirtualMachineScaleSets_Extensions_ChildResource;VirtualMachines_Extensions_ChildResource
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
+
+  - action: prune
+    group: solutions
+    because: There seems to be some issue with embedded JSON objects, specifically "CreateUiDefinition"
+
   - action: prune
     group: aadiam
     version: v*20170401
     because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
-  - action: prune
-    group: web
-    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+
   - action: include
     group: network
     version: v*2018*
     name: private*
+
   - action: prune
     group: network
     version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
     because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: compute
     version: 'v*beta201*'
     because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
+
   - action: prune
     group: timeseriesinsights
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: databoxedge
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: datashare
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: apimanagement
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: automation
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: machinelearningservices
     name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
+  - action: prune
+    group: hdinsight
+    name: Clusters;Clusters_Extensions
+    because: Uses one-of in a way we don't support
+    
   - action: prune
     group: resources
     name: Tags
     because: This type is defined recursively.
+
   - action: prune
     group: management
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
+
   - action: include
     group: compute.extensions
     name: GenericExtension
     because: This is the one kind of extension we want to allow
+
   - action: prune
     group: compute.extensions
     because: All other extensions should be removed
@@ -311,7 +340,7 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhub_Spec_Properties
+  - name: Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
     remove: true
@@ -337,7 +366,7 @@ typeTransformers:
 
   # Deal with properties that should have been marked readOnly but weren't
   - group: servicebus
-    name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    name: Namespace_Properties_Spec  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
     remove: true
     because: This property should have been marked readonly but wasn't.
@@ -348,6 +377,11 @@ typeTransformers:
     because: This property should have been marked readonly but wasn't.
   - group: servicebus
     name: SBTopicProperties  # This type is subsequently flattened into NamespacesTopics_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - group: servicebus
+    name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
@@ -714,15 +748,9 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
-      AutoStorageBaseProperties:
-        StorageAccountId:
-          $armReference: true
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      KeyVaultReference:
-        Id:
-          $armReference: true
   cache:
     2020-12-01:
       Redis:
@@ -743,9 +771,6 @@ objectModelConfiguration:
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
-      RedisLinkedServerCreateProperties:
-        LinkedRedisCacheId:
-          $armReference: true
       Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
@@ -817,13 +842,13 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
@@ -833,7 +858,7 @@ objectModelConfiguration:
         # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
         Id:
           $armReference: true
-      VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
         Id:
           $armReference: true
       ManagedDiskParameters:
@@ -880,19 +905,19 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
         Id:
           $armReference: false
-      VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces:
+      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
         Id:
           $armReference: true
   containerinstance:
@@ -900,7 +925,7 @@ objectModelConfiguration:
       ContainerGroup:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      LogAnalytics:
+      ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec:
         WorkspaceResourceId:
           $armReference: true
       ContainerGroupSubnetId:
@@ -916,9 +941,6 @@ objectModelConfiguration:
           $armReference: false
   containerservice:
     2021-05-01:
-      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
-        ResourceId: # TODO: Is this right?
-          $armReference: true
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -926,33 +948,16 @@ objectModelConfiguration:
           - AdminCredentials
           - UserCredentials
       ManagedClusterAgentPoolProfile:
-        VnetSubnetID:
-          $armReference: true
-        PodSubnetID:
-          $armReference: true
-        NodePublicIPPrefixID:
-          $armReference: true
+        ProximityPlacementGroupID:
+          $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
-        NodePublicIPPrefixID:
-          $armReference: true
-        PodSubnetID:
-          $armReference: true
-        VnetSubnetID:
-          $armReference: true
-      ManagedClusterProperties:
-        DiskEncryptionSetID:
-          $armReference: true
+        ProximityPlacementGroupID:
+          $armReference: false # TODO[breaking]: Delete this and let the ARM value win
       PrivateLinkResource:
         Id:
-          $armReference: true
-      ResourceReference:
-        Id:
-          $armReference: true
-      UserAssignedIdentity:
-        ResourceId:
           $armReference: true
   dbformariadb:
     2018-06-01:
@@ -993,11 +998,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        PrivateDnsZoneResourceId:
-          $armReference: true
-        DelegatedSubnetResourceId:
-          $armReference: true
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -1014,14 +1014,6 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-      Network:
-        PrivateDnsZoneArmResourceId:
-          $armReference: true
-        DelegatedSubnetResourceId:
-          $armReference: true
-      ServerProperties:
-        SourceServerResourceId:
-          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
@@ -1035,7 +1027,7 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
-          $armReference: false  # TODO: Breaking: Change this to true
+          $armReference: false  # TODO[breaking]: Change this to true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
@@ -1093,9 +1085,6 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
-      VirtualNetworkRule:
-        Id:
-          $armReference: true
   eventgrid:
     2020-06-01:
       Domain:
@@ -1110,27 +1099,6 @@ objectModelConfiguration:
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-      AzureFunctionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      EventHubEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      HybridConnectionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusTopicEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageBlobDeadLetterDestinationProperties:
-        ResourceId:
-          $armReference: true
   eventhub:
     2021-11-01:
       DestinationProperties:
@@ -1151,7 +1119,7 @@ objectModelConfiguration:
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-      Namespace_Spec_Properties:
+      Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
       PrivateEndpoint:
@@ -1188,6 +1156,11 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      Identity_STATUS:
+        ClientId:
+          $exportAsConfigMapPropertyName: ClientId
+        PrincipalId:
+          $exportAsConfigMapPropertyName: PrincipalId
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:
@@ -1207,7 +1180,7 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      Workspace_Spec_Properties:
+      Workspace_Properties_Spec:
         ApplicationInsights:
           $armReference: true
         PrimaryUserAssignedIdentity:
@@ -1295,7 +1268,7 @@ objectModelConfiguration:
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTable_Spec_Properties:
+      RouteTable_Properties_Spec:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
@@ -1310,7 +1283,7 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetwork_Spec_Properties:
+      VirtualNetwork_Properties_Spec:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
@@ -1323,7 +1296,7 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateway_Spec_Properties:
+      VirtualNetworkGateway_Properties_Spec:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:
@@ -1350,6 +1323,12 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.0.0-beta.3
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.0.0-beta.3
   signalrservice:
     2021-10-01:
       SignalR:
@@ -1398,3 +1377,33 @@ objectModelConfiguration:
       Alias:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+  web:
+    2022-03-01:
+      ApiManagementConfig:
+        Id:
+          $armReference: true
+      CloningInfo:
+        TrafficManagerProfileId:
+          $armReference: true
+        SourceWebAppId:
+          $armReference: true
+      HostingEnvironmentProfile:
+        Id:
+          $armReference: true
+      IpSecurityRestriction:
+        VnetSubnetResourceId:
+          $armReference: true
+      KubeEnvironmentProfile:
+        Id:
+          $armReference: true
+      ServerFarm:
+        $exportAs: ServerFarm
+        $supportedFrom: v2.0.0-beta.3
+      Site:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+      Site_Properties_Spec:
+        ServerFarmId:
+          $armReference: true
+        VirtualNetworkSubnetId:
+          $armReference: true

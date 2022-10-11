@@ -5,7 +5,7 @@ package v1beta20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Workspaces_Connection_SpecARM struct {
+type Workspaces_Connection_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,31 +13,31 @@ type Workspaces_Connection_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Workspace Connection specific properties.
-	Properties *WorkspaceConnectionPropsARM `json:"properties,omitempty"`
+	Properties *WorkspaceConnectionProps_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Workspaces_Connection_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Workspaces_Connection_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
-func (connection Workspaces_Connection_SpecARM) GetAPIVersion() string {
+func (connection Workspaces_Connection_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (connection *Workspaces_Connection_SpecARM) GetName() string {
+func (connection *Workspaces_Connection_Spec_ARM) GetName() string {
 	return connection.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/connections"
-func (connection *Workspaces_Connection_SpecARM) GetType() string {
+func (connection *Workspaces_Connection_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/connections"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/WorkspaceConnectionProps
-type WorkspaceConnectionPropsARM struct {
+type WorkspaceConnectionProps_ARM struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
 

@@ -48,6 +48,9 @@ func (locals *KnownLocalsSet) CreateLocal(nameHint string, suffixes ...string) s
 		suffixes = []string{""}
 	}
 
+	// Remove underscores from nameHint - we get them from type names, but don't want them in locals
+	nameHint = strings.ReplaceAll(nameHint, "_", "")
+
 	// Try to use the suffixes as supplied if we can
 	for _, s := range suffixes {
 		if strings.HasSuffix(strings.ToLower(nameHint), strings.ToLower(s)) {

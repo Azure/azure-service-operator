@@ -1,0 +1,143 @@
+github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
+├── APIVersion: enum
+│   └── "2020-12-01"
+├── Redis: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── EnableNonSslPort: *bool
+│   │   ├── Location: *string
+│   │   ├── MinimumTlsVersion: *string
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── HostName: *genruntime.SecretDestination
+│   │   │       ├── Port: *genruntime.SecretDestination
+│   │   │       ├── PrimaryKey: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── SSLPort: *genruntime.SecretDestination
+│   │   │       └── SecondaryKey: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── RedisConfiguration: Map[string]string
+│   │   ├── RedisVersion: *string
+│   │   ├── ReplicasPerMaster: *int
+│   │   ├── ReplicasPerPrimary: *int
+│   │   ├── ShardCount: *int
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Family: *string
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── StaticIP: *string
+│   │   ├── SubnetReference: *genruntime.ResourceReference
+│   │   ├── Tags: Map[string]string
+│   │   ├── TenantSettings: Map[string]string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── EnableNonSslPort: *bool
+│       ├── HostName: *string
+│       ├── Id: *string
+│       ├── Instances: 
+│       │   ├── IsMaster: *bool
+│       │   ├── IsPrimary: *bool
+│       │   ├── NonSslPort: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ShardId: *int
+│       │   ├── SslPort: *int
+│       │   └── Zone: *string
+│       ├── LinkedServers: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── MinimumTlsVersion: *string
+│       ├── Name: *string
+│       ├── Port: *int
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── RedisConfiguration: Map[string]string
+│       ├── RedisVersion: *string
+│       ├── ReplicasPerMaster: *int
+│       ├── ReplicasPerPrimary: *int
+│       ├── ShardCount: *int
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Family: *string
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SslPort: *int
+│       ├── StaticIP: *string
+│       ├── SubnetId: *string
+│       ├── Tags: Map[string]string
+│       ├── TenantSettings: Map[string]string
+│       ├── Type: *string
+│       └── Zones: Array[string]
+├── RedisFirewallRule: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── EndIP: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── StartIP: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── EndIP: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── StartIP: *string
+│       └── Type: *string
+├── RedisLinkedServer: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── LinkedRedisCacheLocation: *string
+│   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ServerRole: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Id: *string
+│       ├── LinkedRedisCacheId: *string
+│       ├── LinkedRedisCacheLocation: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ServerRole: *string
+│       └── Type: *string
+└── RedisPatchSchedule: Resource
+    ├── Spec: 
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ScheduleEntries: 
+    │   │   ├── DayOfWeek: *string
+    │   │   ├── MaintenanceWindow: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── StartHourUtc: *int
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── Id: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ScheduleEntries: 
+        │   ├── DayOfWeek: *string
+        │   ├── MaintenanceWindow: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── StartHourUtc: *int
+        └── Type: *string

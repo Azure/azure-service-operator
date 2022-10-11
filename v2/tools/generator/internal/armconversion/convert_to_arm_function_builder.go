@@ -375,7 +375,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 
 // convertReferenceProperty handles conversion of reference properties.
 // This function generates code that looks like this:
-//	<namehint>ARMID, err := resolved.ResolvedReferences.ARMIDOrErr(<source>)
+//	<namehint>ARMID, err := resolved.ResolvedReferences.Lookup(<source>)
 //	if err != nil {
 //		return nil, err
 //	}
@@ -398,7 +398,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 		token.DEFINE,
 		astbuilder.CallExpr(
 			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedReferences"),
-			"ARMIDOrErr",
+			"Lookup",
 			params.Source))
 
 	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), dst.NewIdent("err"))
@@ -410,7 +410,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 
 // convertSecretProperty handles conversion of secret properties.
 // This function generates code that looks like this:
-//	<namehint>Secret, err := resolved.ResolvedSecrets.LookupSecret(<source>)
+//	<namehint>Secret, err := resolved.ResolvedSecrets.Lookup(<source>)
 //	if err != nil {
 //		return nil, errors.Wrap(err, "looking up secret for <source>")
 //	}
@@ -434,7 +434,7 @@ func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.Conversion
 		token.DEFINE,
 		astbuilder.CallExpr(
 			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedSecrets"),
-			"LookupSecret",
+			"Lookup",
 			params.Source))
 
 	wrappedError := astbuilder.WrapError(
@@ -472,7 +472,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 	}
 
 	var results []dst.Stmt
-	propertyLocalVarName := params.Locals.CreateLocal(params.NameHint, astmodel.ArmSuffix)
+	propertyLocalVarName := params.Locals.CreateLocal(params.NameHint, astmodel.ARMSuffix)
 
 	// Call ToARM on the property
 	results = append(results, callToARMFunction(params.GetSource(), dst.NewIdent(propertyLocalVarName), builder.methodName)...)

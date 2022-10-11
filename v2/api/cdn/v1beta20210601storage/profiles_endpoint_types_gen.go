@@ -133,9 +133,9 @@ type ProfilesEndpointList struct {
 type Endpoint_STATUS struct {
 	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
 	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
-	CustomDomains                    []CustomDomain_STATUS_SubResourceEmbedded                   `json:"customDomains,omitempty"`
+	CustomDomains                    []DeepCreatedCustomDomain_STATUS                            `json:"customDomains,omitempty"`
 	DefaultOriginGroup               *ResourceReference_STATUS                                   `json:"defaultOriginGroup,omitempty"`
-	DeliveryPolicy                   *EndpointProperties_STATUS_DeliveryPolicy                   `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy                   *EndpointProperties_DeliveryPolicy_STATUS                   `json:"deliveryPolicy,omitempty"`
 	GeoFilters                       []GeoFilter_STATUS                                          `json:"geoFilters,omitempty"`
 	HostName                         *string                                                     `json:"hostName,omitempty"`
 	Id                               *string                                                     `json:"id,omitempty"`
@@ -158,7 +158,7 @@ type Endpoint_STATUS struct {
 	Tags                             map[string]string                                           `json:"tags,omitempty"`
 	Type                             *string                                                     `json:"type,omitempty"`
 	UrlSigningKeys                   []UrlSigningKey_STATUS                                      `json:"urlSigningKeys,omitempty"`
-	WebApplicationFirewallPolicyLink *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
@@ -195,11 +195,11 @@ type Profiles_Endpoint_Spec struct {
 	IsHttpsAllowed         *bool                                             `json:"isHttpsAllowed,omitempty"`
 	Location               *string                                           `json:"location,omitempty"`
 	OptimizationType       *string                                           `json:"optimizationType,omitempty"`
-	OriginGroups           []Profiles_Endpoint_Spec_Properties_OriginGroups  `json:"originGroups,omitempty"`
+	OriginGroups           []Profiles_Endpoint_Properties_OriginGroups_Spec  `json:"originGroups,omitempty"`
 	OriginHostHeader       *string                                           `json:"originHostHeader,omitempty"`
 	OriginPath             *string                                           `json:"originPath,omitempty"`
 	OriginalVersion        string                                            `json:"originalVersion,omitempty"`
-	Origins                []Profiles_Endpoint_Spec_Properties_Origins       `json:"origins,omitempty"`
+	Origins                []Profiles_Endpoint_Properties_Origins_Spec       `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -234,11 +234,12 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1beta20210601.CustomDomain_STATUS_SubResourceEmbedded
-type CustomDomain_STATUS_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
+// Storage version of v1beta20210601.DeepCreatedCustomDomain_STATUS
+type DeepCreatedCustomDomain_STATUS struct {
+	HostName       *string                `json:"hostName,omitempty"`
+	Name           *string                `json:"name,omitempty"`
+	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ValidationData *string                `json:"validationData,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
@@ -269,15 +270,15 @@ type DeepCreatedOriginGroup_STATUS struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-// Storage version of v1beta20210601.EndpointProperties_STATUS_DeliveryPolicy
-type EndpointProperties_STATUS_DeliveryPolicy struct {
+// Storage version of v1beta20210601.EndpointProperties_DeliveryPolicy_STATUS
+type EndpointProperties_DeliveryPolicy_STATUS struct {
 	Description *string                `json:"description,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []DeliveryRule_STATUS  `json:"rules,omitempty"`
 }
 
-// Storage version of v1beta20210601.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
-type EndpointProperties_STATUS_WebApplicationFirewallPolicyLink struct {
+// Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -316,8 +317,8 @@ type GeoFilter_STATUS struct {
 	RelativePath *string                `json:"relativePath,omitempty"`
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoint_Spec_Properties_OriginGroups
-type Profiles_Endpoint_Spec_Properties_OriginGroups struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Properties_OriginGroups_Spec
+type Profiles_Endpoint_Properties_OriginGroups_Spec struct {
 	HealthProbeSettings                                   *HealthProbeParameters                       `json:"healthProbeSettings,omitempty"`
 	Name                                                  *string                                      `json:"name,omitempty"`
 	Origins                                               []ResourceReference                          `json:"origins,omitempty"`
@@ -326,8 +327,8 @@ type Profiles_Endpoint_Spec_Properties_OriginGroups struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                         `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoint_Spec_Properties_Origins
-type Profiles_Endpoint_Spec_Properties_Origins struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Properties_Origins_Spec
+type Profiles_Endpoint_Properties_Origins_Spec struct {
 	Enabled                    *bool   `json:"enabled,omitempty"`
 	HostName                   *string `json:"hostName,omitempty"`
 	HttpPort                   *int    `json:"httpPort,omitempty"`

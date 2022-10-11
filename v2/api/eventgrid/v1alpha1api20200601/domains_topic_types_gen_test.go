@@ -380,12 +380,12 @@ func AddIndependentPropertyGeneratorsForDomainTopic_STATUS(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicProperties_STATUS_ProvisioningState_Canceled,
-		DomainTopicProperties_STATUS_ProvisioningState_Creating,
-		DomainTopicProperties_STATUS_ProvisioningState_Deleting,
-		DomainTopicProperties_STATUS_ProvisioningState_Failed,
-		DomainTopicProperties_STATUS_ProvisioningState_Succeeded,
-		DomainTopicProperties_STATUS_ProvisioningState_Updating))
+		DomainTopicProperties_ProvisioningState_STATUS_Canceled,
+		DomainTopicProperties_ProvisioningState_STATUS_Creating,
+		DomainTopicProperties_ProvisioningState_STATUS_Deleting,
+		DomainTopicProperties_ProvisioningState_STATUS_Failed,
+		DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
+		DomainTopicProperties_ProvisioningState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

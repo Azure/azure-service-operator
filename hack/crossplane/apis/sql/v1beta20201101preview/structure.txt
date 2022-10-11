@@ -1,0 +1,269 @@
+github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101preview
+├── APIVersion: enum
+│   └── "2020-11-01-preview"
+├── Server: Resource
+│   ├── Spec: 
+│   │   └── ForProvider: 
+│   │       ├── AdministratorLogin: *string
+│   │       ├── AdministratorLoginPassword: *string
+│   │       ├── Administrators: 
+│   │       │   ├── AdministratorType: enum
+│   │       │   │   └── "ActiveDirectory"
+│   │       │   ├── AzureADOnlyAuthentication: *bool
+│   │       │   ├── Login: *string
+│   │       │   ├── PrincipalType: enum
+│   │       │   │   ├── "Application"
+│   │       │   │   ├── "Group"
+│   │       │   │   └── "User"
+│   │       │   ├── Sid: Validated[*string]
+│   │       │   └── TenantId: Validated[*string]
+│   │       ├── Identity: 
+│   │       │   └── Type: enum
+│   │       │       ├── "None"
+│   │       │       ├── "SystemAssigned"
+│   │       │       ├── "SystemAssigned,UserAssigned"
+│   │       │       └── "UserAssigned"
+│   │       ├── KeyId: *string
+│   │       ├── Location: *string
+│   │       ├── MinimalTlsVersion: *string
+│   │       ├── Name: string
+│   │       ├── PrimaryUserAssignedIdentityId: *string
+│   │       ├── PublicNetworkAccess: enum
+│   │       │   ├── "Disabled"
+│   │       │   └── "Enabled"
+│   │       ├── ResourceGroupName: string
+│   │       ├── ResourceGroupNameRef: *v1alpha1.Reference
+│   │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+│   │       ├── Tags: Map[string]string
+│   │       └── Version: *string
+│   └── Status: 
+│       └── AtProvider: 
+│           ├── AdministratorLogin: *string
+│           ├── AdministratorLoginPassword: *string
+│           ├── Administrators: 
+│           │   ├── AdministratorType: enum
+│           │   │   └── "ActiveDirectory"
+│           │   ├── AzureADOnlyAuthentication: *bool
+│           │   ├── Login: *string
+│           │   ├── PrincipalType: enum
+│           │   │   ├── "Application"
+│           │   │   ├── "Group"
+│           │   │   └── "User"
+│           │   ├── Sid: *string
+│           │   └── TenantId: *string
+│           ├── FullyQualifiedDomainName: *string
+│           ├── Id: *string
+│           ├── Identity: 
+│           │   ├── PrincipalId: *string
+│           │   ├── TenantId: *string
+│           │   ├── Type: enum
+│           │   │   ├── "None"
+│           │   │   ├── "SystemAssigned"
+│           │   │   ├── "SystemAssigned,UserAssigned"
+│           │   │   └── "UserAssigned"
+│           │   └── UserAssignedIdentities: 
+│           │       ├── ClientId: *string
+│           │       └── PrincipalId: *string
+│           ├── KeyId: *string
+│           ├── Kind: *string
+│           ├── Location: *string
+│           ├── MinimalTlsVersion: *string
+│           ├── Name: *string
+│           ├── PrimaryUserAssignedIdentityId: *string
+│           ├── PrivateEndpointConnections: 
+│           │   ├── Id: *string
+│           │   └── Properties: 
+│           │       ├── PrivateEndpoint: 
+│           │       │   └── Id: *string
+│           │       ├── PrivateLinkServiceConnectionState: 
+│           │       │   ├── ActionsRequired: enum
+│           │       │   │   └── "None"
+│           │       │   ├── Description: *string
+│           │       │   └── Status: enum
+│           │       │       ├── "Approved"
+│           │       │       ├── "Disconnected"
+│           │       │       ├── "Pending"
+│           │       │       └── "Rejected"
+│           │       └── ProvisioningState: enum
+│           │           ├── "Approving"
+│           │           ├── "Dropping"
+│           │           ├── "Failed"
+│           │           ├── "Ready"
+│           │           └── "Rejecting"
+│           ├── PublicNetworkAccess: enum
+│           │   ├── "Disabled"
+│           │   └── "Enabled"
+│           ├── State: *string
+│           ├── Tags: Map[string]string
+│           ├── Type: *string
+│           ├── Version: *string
+│           └── WorkspaceFeature: enum
+│               ├── "Connected"
+│               └── "Disconnected"
+└── Servers_Database: Resource
+    ├── Spec: 
+    │   └── ForProvider: 
+    │       ├── AutoPauseDelay: *int
+    │       ├── CatalogCollation: enum
+    │       │   ├── "DATABASE_DEFAULT"
+    │       │   └── "SQL_Latin1_General_CP1_CI_AS"
+    │       ├── Collation: *string
+    │       ├── CreateMode: enum
+    │       │   ├── "Copy"
+    │       │   ├── "Default"
+    │       │   ├── "OnlineSecondary"
+    │       │   ├── "PointInTimeRestore"
+    │       │   ├── "Recovery"
+    │       │   ├── "Restore"
+    │       │   ├── "RestoreExternalBackup"
+    │       │   ├── "RestoreExternalBackupSecondary"
+    │       │   ├── "RestoreLongTermRetentionBackup"
+    │       │   └── "Secondary"
+    │       ├── ElasticPoolId: *string
+    │       ├── HighAvailabilityReplicaCount: *int
+    │       ├── LicenseType: enum
+    │       │   ├── "BasePrice"
+    │       │   └── "LicenseIncluded"
+    │       ├── Location: *string
+    │       ├── LongTermRetentionBackupResourceId: *string
+    │       ├── MaintenanceConfigurationId: *string
+    │       ├── MaxSizeBytes: *int
+    │       ├── MinCapacity: *float64
+    │       ├── Name: string
+    │       ├── ReadScale: enum
+    │       │   ├── "Disabled"
+    │       │   └── "Enabled"
+    │       ├── RecoverableDatabaseId: *string
+    │       ├── RecoveryServicesRecoveryPointId: *string
+    │       ├── RequestedBackupStorageRedundancy: enum
+    │       │   ├── "Geo"
+    │       │   ├── "Local"
+    │       │   └── "Zone"
+    │       ├── ResourceGroupName: string
+    │       ├── ResourceGroupNameRef: *v1alpha1.Reference
+    │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+    │       ├── RestorableDroppedDatabaseId: *string
+    │       ├── RestorePointInTime: Validated[*string]
+    │       ├── SampleName: enum
+    │       │   ├── "AdventureWorksLT"
+    │       │   ├── "WideWorldImportersFull"
+    │       │   └── "WideWorldImportersStd"
+    │       ├── SecondaryType: enum
+    │       │   ├── "Geo"
+    │       │   └── "Named"
+    │       ├── ServerName: string
+    │       ├── ServerNameRef: *v1alpha1.Reference
+    │       ├── ServerNameSelector: *v1alpha1.Selector
+    │       ├── Sku: 
+    │       │   ├── Capacity: *int
+    │       │   ├── Family: *string
+    │       │   ├── Name: *string
+    │       │   ├── Size: *string
+    │       │   └── Tier: *string
+    │       ├── SourceDatabaseDeletionDate: Validated[*string]
+    │       ├── SourceDatabaseId: *string
+    │       ├── Tags: Map[string]string
+    │       └── ZoneRedundant: *bool
+    └── Status: 
+        └── AtProvider: 
+            ├── AutoPauseDelay: *int
+            ├── CatalogCollation: enum
+            │   ├── "DATABASE_DEFAULT"
+            │   └── "SQL_Latin1_General_CP1_CI_AS"
+            ├── Collation: *string
+            ├── CreateMode: enum
+            │   ├── "Copy"
+            │   ├── "Default"
+            │   ├── "OnlineSecondary"
+            │   ├── "PointInTimeRestore"
+            │   ├── "Recovery"
+            │   ├── "Restore"
+            │   ├── "RestoreExternalBackup"
+            │   ├── "RestoreExternalBackupSecondary"
+            │   ├── "RestoreLongTermRetentionBackup"
+            │   └── "Secondary"
+            ├── CreationDate: *string
+            ├── CurrentBackupStorageRedundancy: enum
+            │   ├── "Geo"
+            │   ├── "Local"
+            │   └── "Zone"
+            ├── CurrentServiceObjectiveName: *string
+            ├── CurrentSku: 
+            │   ├── Capacity: *int
+            │   ├── Family: *string
+            │   ├── Name: *string
+            │   ├── Size: *string
+            │   └── Tier: *string
+            ├── DatabaseId: *string
+            ├── DefaultSecondaryLocation: *string
+            ├── EarliestRestoreDate: *string
+            ├── ElasticPoolId: *string
+            ├── FailoverGroupId: *string
+            ├── HighAvailabilityReplicaCount: *int
+            ├── Id: *string
+            ├── Kind: *string
+            ├── LicenseType: enum
+            │   ├── "BasePrice"
+            │   └── "LicenseIncluded"
+            ├── Location: *string
+            ├── LongTermRetentionBackupResourceId: *string
+            ├── MaintenanceConfigurationId: *string
+            ├── ManagedBy: *string
+            ├── MaxLogSizeBytes: *int
+            ├── MaxSizeBytes: *int
+            ├── MinCapacity: *float64
+            ├── Name: *string
+            ├── PausedDate: *string
+            ├── ReadScale: enum
+            │   ├── "Disabled"
+            │   └── "Enabled"
+            ├── RecoverableDatabaseId: *string
+            ├── RecoveryServicesRecoveryPointId: *string
+            ├── RequestedBackupStorageRedundancy: enum
+            │   ├── "Geo"
+            │   ├── "Local"
+            │   └── "Zone"
+            ├── RequestedServiceObjectiveName: *string
+            ├── RestorableDroppedDatabaseId: *string
+            ├── RestorePointInTime: *string
+            ├── ResumedDate: *string
+            ├── SampleName: enum
+            │   ├── "AdventureWorksLT"
+            │   ├── "WideWorldImportersFull"
+            │   └── "WideWorldImportersStd"
+            ├── SecondaryType: enum
+            │   ├── "Geo"
+            │   └── "Named"
+            ├── Sku: 
+            │   ├── Capacity: *int
+            │   ├── Family: *string
+            │   ├── Name: *string
+            │   ├── Size: *string
+            │   └── Tier: *string
+            ├── SourceDatabaseDeletionDate: *string
+            ├── SourceDatabaseId: *string
+            ├── Status: enum
+            │   ├── "AutoClosed"
+            │   ├── "Copying"
+            │   ├── "Creating"
+            │   ├── "Disabled"
+            │   ├── "EmergencyMode"
+            │   ├── "Inaccessible"
+            │   ├── "Offline"
+            │   ├── "OfflineChangingDwPerformanceTiers"
+            │   ├── "OfflineSecondary"
+            │   ├── "Online"
+            │   ├── "OnlineChangingDwPerformanceTiers"
+            │   ├── "Paused"
+            │   ├── "Pausing"
+            │   ├── "Recovering"
+            │   ├── "RecoveryPending"
+            │   ├── "Restoring"
+            │   ├── "Resuming"
+            │   ├── "Scaling"
+            │   ├── "Shutdown"
+            │   ├── "Standby"
+            │   └── "Suspect"
+            ├── Tags: Map[string]string
+            ├── Type: *string
+            └── ZoneRedundant: *bool

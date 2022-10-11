@@ -72,8 +72,8 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 
 	// We expect the ready condition to include details of the error
 	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
-	tc.Expect(acct.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
-	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
+	tc.Expect(acct.Status.Conditions[0].Reason).To(Equal("FailedWritingAdditionalKubernetesObjects"))
+	tc.Expect(acct.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite Secret.*which is not owned by"))
 
 	// Delete the resource, it should be able to proceed and delete the underlying Azure resource
 	tc.DeleteResourceAndWait(acct)
@@ -104,8 +104,8 @@ func Test_TwoObjectsWriteSameSecret_WarningConditionIsSetOnSecond(t *testing.T) 
 	// We expect the ready condition to include details of the error
 	// Note that the error is fatal as the customer must take some action in order to resolve the problem.
 	tc.Expect(acct2.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
-	tc.Expect(acct2.Status.Conditions[0].Reason).To(Equal("FailedWritingSecret"))
-	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite secret.*which is not owned by"))
+	tc.Expect(acct2.Status.Conditions[0].Reason).To(Equal("FailedWritingAdditionalKubernetesObjects"))
+	tc.Expect(acct2.Status.Conditions[0].Message).To(MatchRegexp("cannot overwrite Secret.*which is not owned by"))
 }
 
 func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *testing.T) {
@@ -129,7 +129,7 @@ func Test_SameObjectHasTwoSecretsWritingToSameDestination_RejectedByWebhook(t *t
 
 func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, secretName string, secretKey string) *storage.StorageAccount {
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
 	sku := storage.Sku_Name_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),

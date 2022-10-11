@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type Route_STATUSARM struct {
+type Route_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -14,13 +14,13 @@ type Route_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the route.
-	Properties *RoutePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *RoutePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type RoutePropertiesFormat_STATUSARM struct {
+type RoutePropertiesFormat_STATUS_ARM struct {
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 

@@ -186,7 +186,7 @@ type VirtualNetworks_Subnet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                                               `json:"azureName,omitempty"`
-	Delegations          []VirtualNetworks_Subnet_Spec_Properties_Delegations `json:"delegations,omitempty"`
+	Delegations          []VirtualNetworks_Subnet_Properties_Delegations_Spec `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
 	NatGateway           *SubResource                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
@@ -338,8 +338,8 @@ type ServiceEndpointPropertiesFormat_STATUS struct {
 	Service           *string                `json:"service,omitempty"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworks_Subnet_Spec_Properties_Delegations
-type VirtualNetworks_Subnet_Spec_Properties_Delegations struct {
+// Storage version of v1beta20201101.VirtualNetworks_Subnet_Properties_Delegations_Spec
+type VirtualNetworks_Subnet_Properties_Delegations_Spec struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServiceName *string                `json:"serviceName,omitempty"`

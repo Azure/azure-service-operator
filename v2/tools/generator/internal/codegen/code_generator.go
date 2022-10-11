@@ -109,7 +109,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.NameTypesForCRD(idFactory),
 
 		// Apply property type rewrites from the config file
-		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
+		// Must come after NameTypesForCRD ('nameTypes') and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration),
 
@@ -175,6 +175,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// To be added when needed
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
@@ -221,6 +222,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportResourceVersions(configuration),
+		pipeline.ReportResourceStructure(configuration),
 	}
 }
 
@@ -231,8 +233,8 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	if generator.debugReporter != nil {
 		// Generate a diagram containing our stages
 		outputFolder := generator.debugReporter.outputFolder
-		diagram := newDebugDiagram(outputFolder)
-		err := diagram.writeDiagram(generator.pipeline)
+		diagram := pipeline.NewPipelineDiagram(outputFolder)
+		err := diagram.WriteDiagram(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
 		}

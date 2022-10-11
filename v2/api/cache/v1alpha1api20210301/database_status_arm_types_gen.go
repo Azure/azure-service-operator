@@ -4,86 +4,86 @@
 package v1alpha1api20210301
 
 // Deprecated version of Database_STATUS. Use v1beta20210301.Database_STATUS instead
-type Database_STATUSARM struct {
-	Id         *string                       `json:"id,omitempty"`
-	Name       *string                       `json:"name,omitempty"`
-	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                       `json:"type,omitempty"`
+type Database_STATUS_ARM struct {
+	Id         *string                        `json:"id,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *DatabaseProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                        `json:"type,omitempty"`
 }
 
 // Deprecated version of DatabaseProperties_STATUS. Use v1beta20210301.DatabaseProperties_STATUS instead
-type DatabaseProperties_STATUSARM struct {
-	ClientProtocol    *DatabaseProperties_STATUS_ClientProtocol   `json:"clientProtocol,omitempty"`
-	ClusteringPolicy  *DatabaseProperties_STATUS_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy    *DatabaseProperties_STATUS_EvictionPolicy   `json:"evictionPolicy,omitempty"`
-	Modules           []Module_STATUSARM                          `json:"modules,omitempty"`
-	Persistence       *Persistence_STATUSARM                      `json:"persistence,omitempty"`
+type DatabaseProperties_STATUS_ARM struct {
+	ClientProtocol    *DatabaseProperties_ClientProtocol_STATUS   `json:"clientProtocol,omitempty"`
+	ClusteringPolicy  *DatabaseProperties_ClusteringPolicy_STATUS `json:"clusteringPolicy,omitempty"`
+	EvictionPolicy    *DatabaseProperties_EvictionPolicy_STATUS   `json:"evictionPolicy,omitempty"`
+	Modules           []Module_STATUS_ARM                         `json:"modules,omitempty"`
+	Persistence       *Persistence_STATUS_ARM                     `json:"persistence,omitempty"`
 	Port              *int                                        `json:"port,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS                   `json:"provisioningState,omitempty"`
 	ResourceState     *ResourceState_STATUS                       `json:"resourceState,omitempty"`
 }
 
-// Deprecated version of DatabaseProperties_STATUS_ClientProtocol. Use
-// v1beta20210301.DatabaseProperties_STATUS_ClientProtocol instead
-type DatabaseProperties_STATUS_ClientProtocol string
+// Deprecated version of DatabaseProperties_ClientProtocol_STATUS. Use
+// v1beta20210301.DatabaseProperties_ClientProtocol_STATUS instead
+type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
-	DatabaseProperties_STATUS_ClientProtocol_Encrypted = DatabaseProperties_STATUS_ClientProtocol("Encrypted")
-	DatabaseProperties_STATUS_ClientProtocol_Plaintext = DatabaseProperties_STATUS_ClientProtocol("Plaintext")
+	DatabaseProperties_ClientProtocol_STATUS_Encrypted = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
+	DatabaseProperties_ClientProtocol_STATUS_Plaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
 
-// Deprecated version of DatabaseProperties_STATUS_ClusteringPolicy. Use
-// v1beta20210301.DatabaseProperties_STATUS_ClusteringPolicy instead
-type DatabaseProperties_STATUS_ClusteringPolicy string
+// Deprecated version of DatabaseProperties_ClusteringPolicy_STATUS. Use
+// v1beta20210301.DatabaseProperties_ClusteringPolicy_STATUS instead
+type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
-	DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_STATUS_ClusteringPolicy("EnterpriseCluster")
-	DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster        = DatabaseProperties_STATUS_ClusteringPolicy("OSSCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
 
-// Deprecated version of DatabaseProperties_STATUS_EvictionPolicy. Use
-// v1beta20210301.DatabaseProperties_STATUS_EvictionPolicy instead
-type DatabaseProperties_STATUS_EvictionPolicy string
+// Deprecated version of DatabaseProperties_EvictionPolicy_STATUS. Use
+// v1beta20210301.DatabaseProperties_EvictionPolicy_STATUS instead
+type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLFU")
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLRU")
-	DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom  = DatabaseProperties_STATUS_EvictionPolicy("AllKeysRandom")
-	DatabaseProperties_STATUS_EvictionPolicy_NoEviction     = DatabaseProperties_STATUS_EvictionPolicy("NoEviction")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLFU")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLRU")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom = DatabaseProperties_STATUS_EvictionPolicy("VolatileRandom")
-	DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL    = DatabaseProperties_STATUS_EvictionPolicy("VolatileTTL")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_NoEviction     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
 // Deprecated version of Module_STATUS. Use v1beta20210301.Module_STATUS instead
-type Module_STATUSARM struct {
+type Module_STATUS_ARM struct {
 	Args    *string `json:"args,omitempty"`
 	Name    *string `json:"name,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
 // Deprecated version of Persistence_STATUS. Use v1beta20210301.Persistence_STATUS instead
-type Persistence_STATUSARM struct {
+type Persistence_STATUS_ARM struct {
 	AofEnabled   *bool                            `json:"aofEnabled,omitempty"`
-	AofFrequency *Persistence_STATUS_AofFrequency `json:"aofFrequency,omitempty"`
+	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
 	RdbEnabled   *bool                            `json:"rdbEnabled,omitempty"`
-	RdbFrequency *Persistence_STATUS_RdbFrequency `json:"rdbFrequency,omitempty"`
+	RdbFrequency *Persistence_RdbFrequency_STATUS `json:"rdbFrequency,omitempty"`
 }
 
-// Deprecated version of Persistence_STATUS_AofFrequency. Use v1beta20210301.Persistence_STATUS_AofFrequency instead
-type Persistence_STATUS_AofFrequency string
+// Deprecated version of Persistence_AofFrequency_STATUS. Use v1beta20210301.Persistence_AofFrequency_STATUS instead
+type Persistence_AofFrequency_STATUS string
 
 const (
-	Persistence_STATUS_AofFrequency_1S     = Persistence_STATUS_AofFrequency("1s")
-	Persistence_STATUS_AofFrequency_Always = Persistence_STATUS_AofFrequency("always")
+	Persistence_AofFrequency_STATUS_1S     = Persistence_AofFrequency_STATUS("1s")
+	Persistence_AofFrequency_STATUS_Always = Persistence_AofFrequency_STATUS("always")
 )
 
-// Deprecated version of Persistence_STATUS_RdbFrequency. Use v1beta20210301.Persistence_STATUS_RdbFrequency instead
-type Persistence_STATUS_RdbFrequency string
+// Deprecated version of Persistence_RdbFrequency_STATUS. Use v1beta20210301.Persistence_RdbFrequency_STATUS instead
+type Persistence_RdbFrequency_STATUS string
 
 const (
-	Persistence_STATUS_RdbFrequency_12H = Persistence_STATUS_RdbFrequency("12h")
-	Persistence_STATUS_RdbFrequency_1H  = Persistence_STATUS_RdbFrequency("1h")
-	Persistence_STATUS_RdbFrequency_6H  = Persistence_STATUS_RdbFrequency("6h")
+	Persistence_RdbFrequency_STATUS_12H = Persistence_RdbFrequency_STATUS("12h")
+	Persistence_RdbFrequency_STATUS_1H  = Persistence_RdbFrequency_STATUS("1h")
+	Persistence_RdbFrequency_STATUS_6H  = Persistence_RdbFrequency_STATUS("6h")
 )

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_SqlRoleAssignmentGetResults_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlRoleAssignmentGetResults_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlRoleAssignmentGetResults_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUSARM, SqlRoleAssignmentGetResults_STATUSARMGenerator()))
+		"Round trip of SqlRoleAssignmentGetResults_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS_ARM, SqlRoleAssignmentGetResults_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUSARM runs a test to see if a specific instance of SqlRoleAssignmentGetResults_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUSARM(subject SqlRoleAssignmentGetResults_STATUSARM) string {
+// RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS_ARM runs a test to see if a specific instance of SqlRoleAssignmentGetResults_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS_ARM(subject SqlRoleAssignmentGetResults_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUSARM(subject Sq
 	}
 
 	// Deserialize back into memory
-	var actual SqlRoleAssignmentGetResults_STATUSARM
+	var actual SqlRoleAssignmentGetResults_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,58 +56,58 @@ func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUSARM(subject Sq
 	return ""
 }
 
-// Generator of SqlRoleAssignmentGetResults_STATUSARM instances for property testing - lazily instantiated by
-// SqlRoleAssignmentGetResults_STATUSARMGenerator()
-var sqlRoleAssignmentGetResults_STATUSARMGenerator gopter.Gen
+// Generator of SqlRoleAssignmentGetResults_STATUS_ARM instances for property testing - lazily instantiated by
+// SqlRoleAssignmentGetResults_STATUS_ARMGenerator()
+var sqlRoleAssignmentGetResults_STATUS_ARMGenerator gopter.Gen
 
-// SqlRoleAssignmentGetResults_STATUSARMGenerator returns a generator of SqlRoleAssignmentGetResults_STATUSARM instances for property testing.
-// We first initialize sqlRoleAssignmentGetResults_STATUSARMGenerator with a simplified generator based on the
+// SqlRoleAssignmentGetResults_STATUS_ARMGenerator returns a generator of SqlRoleAssignmentGetResults_STATUS_ARM instances for property testing.
+// We first initialize sqlRoleAssignmentGetResults_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlRoleAssignmentGetResults_STATUSARMGenerator() gopter.Gen {
-	if sqlRoleAssignmentGetResults_STATUSARMGenerator != nil {
-		return sqlRoleAssignmentGetResults_STATUSARMGenerator
+func SqlRoleAssignmentGetResults_STATUS_ARMGenerator() gopter.Gen {
+	if sqlRoleAssignmentGetResults_STATUS_ARMGenerator != nil {
+		return sqlRoleAssignmentGetResults_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM(generators)
-	sqlRoleAssignmentGetResults_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentGetResults_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM(generators)
+	sqlRoleAssignmentGetResults_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentGetResults_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM(generators)
-	sqlRoleAssignmentGetResults_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentGetResults_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM(generators)
+	sqlRoleAssignmentGetResults_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentGetResults_STATUS_ARM{}), generators)
 
-	return sqlRoleAssignmentGetResults_STATUSARMGenerator
+	return sqlRoleAssignmentGetResults_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SqlRoleAssignmentResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SqlRoleAssignmentResource_STATUS_ARMGenerator())
 }
 
-func Test_SqlRoleAssignmentResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlRoleAssignmentResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlRoleAssignmentResource_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentResource_STATUSARM, SqlRoleAssignmentResource_STATUSARMGenerator()))
+		"Round trip of SqlRoleAssignmentResource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentResource_STATUS_ARM, SqlRoleAssignmentResource_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlRoleAssignmentResource_STATUSARM runs a test to see if a specific instance of SqlRoleAssignmentResource_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlRoleAssignmentResource_STATUSARM(subject SqlRoleAssignmentResource_STATUSARM) string {
+// RunJSONSerializationTestForSqlRoleAssignmentResource_STATUS_ARM runs a test to see if a specific instance of SqlRoleAssignmentResource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlRoleAssignmentResource_STATUS_ARM(subject SqlRoleAssignmentResource_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForSqlRoleAssignmentResource_STATUSARM(subject SqlR
 	}
 
 	// Deserialize back into memory
-	var actual SqlRoleAssignmentResource_STATUSARM
+	var actual SqlRoleAssignmentResource_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,25 +133,25 @@ func RunJSONSerializationTestForSqlRoleAssignmentResource_STATUSARM(subject SqlR
 	return ""
 }
 
-// Generator of SqlRoleAssignmentResource_STATUSARM instances for property testing - lazily instantiated by
-// SqlRoleAssignmentResource_STATUSARMGenerator()
-var sqlRoleAssignmentResource_STATUSARMGenerator gopter.Gen
+// Generator of SqlRoleAssignmentResource_STATUS_ARM instances for property testing - lazily instantiated by
+// SqlRoleAssignmentResource_STATUS_ARMGenerator()
+var sqlRoleAssignmentResource_STATUS_ARMGenerator gopter.Gen
 
-// SqlRoleAssignmentResource_STATUSARMGenerator returns a generator of SqlRoleAssignmentResource_STATUSARM instances for property testing.
-func SqlRoleAssignmentResource_STATUSARMGenerator() gopter.Gen {
-	if sqlRoleAssignmentResource_STATUSARMGenerator != nil {
-		return sqlRoleAssignmentResource_STATUSARMGenerator
+// SqlRoleAssignmentResource_STATUS_ARMGenerator returns a generator of SqlRoleAssignmentResource_STATUS_ARM instances for property testing.
+func SqlRoleAssignmentResource_STATUS_ARMGenerator() gopter.Gen {
+	if sqlRoleAssignmentResource_STATUS_ARMGenerator != nil {
+		return sqlRoleAssignmentResource_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUSARM(generators)
-	sqlRoleAssignmentResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentResource_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUS_ARM(generators)
+	sqlRoleAssignmentResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentResource_STATUS_ARM{}), generators)
 
-	return sqlRoleAssignmentResource_STATUSARMGenerator
+	return sqlRoleAssignmentResource_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())

@@ -44,11 +44,11 @@ func IsPrimitiveKind(k reflect.Kind) bool {
 
 // ReflectVisitor allows traversing an arbitrary object graph.
 type ReflectVisitor struct {
-	VisitPrimitive func(this *ReflectVisitor, it interface{}, ctx interface{}) error
-	VisitStruct    func(this *ReflectVisitor, it interface{}, ctx interface{}) error
-	VisitPtr       func(this *ReflectVisitor, it interface{}, ctx interface{}) error
-	VisitSlice     func(this *ReflectVisitor, it interface{}, ctx interface{}) error
-	VisitMap       func(this *ReflectVisitor, it interface{}, ctx interface{}) error
+	VisitPrimitive func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error
+	VisitStruct    func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error
+	VisitPtr       func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error
+	VisitSlice     func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error
+	VisitMap       func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error
 }
 
 // NewReflectVisitor creates an identity ReflectVisitor.
@@ -68,15 +68,17 @@ func (r *ReflectVisitor) Visit(val interface{}, ctx interface{}) error {
 		return nil
 	}
 
-	t := reflect.TypeOf(val)
-
 	// This can happen because an interface holding nil is not itself nil
 	v := reflect.ValueOf(val)
-	if v.IsZero() {
+	return r.visit(v, ctx)
+}
+
+func (r *ReflectVisitor) visit(val reflect.Value, ctx interface{}) error {
+	if val.IsZero() {
 		return nil
 	}
 
-	kind := t.Kind()
+	kind := val.Type().Kind()
 	if IsPrimitiveKind(kind) {
 		return r.VisitPrimitive(r, val, ctx)
 	}
@@ -96,29 +98,27 @@ func (r *ReflectVisitor) Visit(val interface{}, ctx interface{}) error {
 }
 
 // IdentityVisitPrimitive is the identity visit function for primitive types.
-func IdentityVisitPrimitive(this *ReflectVisitor, it interface{}, ctx interface{}) error {
+func IdentityVisitPrimitive(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
 	return nil
 }
 
 // IdentityVisitPtr is the identity visit function for pointer types. It dereferences the pointer and visits the type
 // pointed to.
-func IdentityVisitPtr(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-	val := reflect.ValueOf(it)
-	elem := val.Elem()
+func IdentityVisitPtr(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	elem := it.Elem()
 
 	if elem.IsZero() {
 		return nil
 	}
 
-	return this.Visit(elem.Interface(), ctx)
+	return this.visit(elem, ctx)
 }
 
 // IdentityVisitSlice is the identity visit function for slices. It visits each element of the slice.
-func IdentityVisitSlice(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-	val := reflect.ValueOf(it)
+func IdentityVisitSlice(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
 
-	for i := 0; i < val.Len(); i++ {
-		err := this.Visit(val.Index(i).Interface(), ctx)
+	for i := 0; i < it.Len(); i++ {
+		err := this.visit(it.Index(i), ctx)
 		if err != nil {
 			return err
 		}
@@ -128,17 +128,16 @@ func IdentityVisitSlice(this *ReflectVisitor, it interface{}, ctx interface{}) e
 }
 
 // IdentityVisitMap is the identity visit function for maps. It visits each key and value in the map.
-func IdentityVisitMap(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-	val := reflect.ValueOf(it)
+func IdentityVisitMap(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
 
-	for _, key := range val.MapKeys() {
+	for _, key := range it.MapKeys() {
 
-		err := this.Visit(key.Interface(), ctx)
+		err := this.visit(key, ctx)
 		if err != nil {
 			return err
 		}
 
-		err = this.Visit(val.MapIndex(key).Interface(), ctx)
+		err = this.visit(it.MapIndex(key), ctx)
 		if err != nil {
 			return err
 		}
@@ -148,17 +147,15 @@ func IdentityVisitMap(this *ReflectVisitor, it interface{}, ctx interface{}) err
 }
 
 // IdentityVisitStruct is the identity visit function for structs. It visits each exported field of the struct.
-func IdentityVisitStruct(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-	val := reflect.ValueOf(it)
-
-	for i := 0; i < val.NumField(); i++ {
-		fieldVal := val.Field(i)
+func IdentityVisitStruct(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	for i := 0; i < it.NumField(); i++ {
+		fieldVal := it.Field(i)
 		if !fieldVal.CanInterface() {
 			// Bypass unexported fields
 			continue
 		}
 
-		err := this.Visit(val.Field(i).Interface(), ctx)
+		err := this.visit(it.Field(i), ctx)
 		if err != nil {
 			return err
 		}

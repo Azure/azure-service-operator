@@ -8,12 +8,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type DatabaseAccount_SpecARM struct {
+type DatabaseAccount_Spec_ARM struct {
 	// Identity: Identity for the resource.
-	Identity *ManagedServiceIdentityARM `json:"identity,omitempty"`
+	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccount_Spec_Kind `json:"kind,omitempty"`
+	Kind *DatabaseAccount_Kind_Spec `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -22,7 +22,7 @@ type DatabaseAccount_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB database accounts.
-	Properties *DatabaseAccountCreateUpdatePropertiesARM `json:"properties,omitempty"`
+	Properties *DatabaseAccountCreateUpdateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -32,52 +32,52 @@ type DatabaseAccount_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccount_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccount_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (account DatabaseAccount_SpecARM) GetAPIVersion() string {
+func (account DatabaseAccount_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (account *DatabaseAccount_SpecARM) GetName() string {
+func (account *DatabaseAccount_Spec_ARM) GetName() string {
 	return account.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
-func (account *DatabaseAccount_SpecARM) GetType() string {
+func (account *DatabaseAccount_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccount_Spec_Kind string
+type DatabaseAccount_Kind_Spec string
 
 const (
-	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
-	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
-	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
+	DatabaseAccount_Kind_Spec_GlobalDocumentDB = DatabaseAccount_Kind_Spec("GlobalDocumentDB")
+	DatabaseAccount_Kind_Spec_MongoDB          = DatabaseAccount_Kind_Spec("MongoDB")
+	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/DatabaseAccountCreateUpdateProperties
-type DatabaseAccountCreateUpdatePropertiesARM struct {
+type DatabaseAccountCreateUpdateProperties_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
-	AnalyticalStorageConfiguration *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                  *ApiPropertiesARM                  `json:"apiProperties,omitempty"`
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_ARM `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                  *ApiProperties_ARM                  `json:"apiProperties,omitempty"`
 
 	// BackupPolicy: The object representing the policy for taking backups on an account.
-	BackupPolicy *BackupPolicyARM `json:"backupPolicy,omitempty"`
+	BackupPolicy *BackupPolicy_ARM `json:"backupPolicy,omitempty"`
 
 	// Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []CapabilityARM `json:"capabilities,omitempty"`
+	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
 	ConnectorOffer *DatabaseAccountCreateUpdateProperties_ConnectorOffer `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
-	ConsistencyPolicy *ConsistencyPolicyARM `json:"consistencyPolicy,omitempty"`
+	ConsistencyPolicy *ConsistencyPolicy_ARM `json:"consistencyPolicy,omitempty"`
 
 	// Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicyARM `json:"cors,omitempty"`
+	Cors []CorsPolicy_ARM `json:"cors,omitempty"`
 
 	// DatabaseAccountOfferType: The offer type for the database
 	DatabaseAccountOfferType *DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
@@ -108,7 +108,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
 
 	// IpRules: Array of IpAddressOrRange objects.
-	IpRules []IpAddressOrRangeARM `json:"ipRules,omitempty"`
+	IpRules []IpAddressOrRange_ARM `json:"ipRules,omitempty"`
 
 	// IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.
 	IsVirtualNetworkFilterEnabled *bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -117,7 +117,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
 
 	// Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
-	Locations []LocationARM `json:"locations,omitempty"`
+	Locations []Location_ARM `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
 	NetworkAclBypass *DatabaseAccountCreateUpdateProperties_NetworkAclBypass `json:"networkAclBypass,omitempty"`
@@ -129,38 +129,38 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	PublicNetworkAccess *DatabaseAccountCreateUpdateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
-	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentityARM struct {
+type ManagedServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
-type AnalyticalStorageConfigurationARM struct {
+type AnalyticalStorageConfiguration_ARM struct {
 	SchemaType *AnalyticalStorageConfiguration_SchemaType `json:"schemaType,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties
-type ApiPropertiesARM struct {
+type ApiProperties_ARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiProperties_ServerVersion `json:"serverVersion,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
-type BackupPolicyARM struct {
+type BackupPolicy_ARM struct {
 	// Continuous: Mutually exclusive with all other properties
-	Continuous *ContinuousModeBackupPolicyARM `json:"continuousModeBackupPolicy,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuousModeBackupPolicy,omitempty"`
 
 	// Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicyARM `json:"periodicModeBackupPolicy,omitempty"`
+	Periodic *PeriodicModeBackupPolicy_ARM `json:"periodicModeBackupPolicy,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicyARM represents a discriminated union (JSON OneOf)
-func (policy BackupPolicyARM) MarshalJSON() ([]byte, error) {
+// MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_ARM represents a discriminated union (JSON OneOf)
+func (policy BackupPolicy_ARM) MarshalJSON() ([]byte, error) {
 	if policy.Continuous != nil {
 		return json.Marshal(policy.Continuous)
 	}
@@ -170,8 +170,8 @@ func (policy BackupPolicyARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the BackupPolicyARM
-func (policy *BackupPolicyARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the BackupPolicy_ARM
+func (policy *BackupPolicy_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -179,11 +179,11 @@ func (policy *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["type"]
 	if discriminator == "Continuous" {
-		policy.Continuous = &ContinuousModeBackupPolicyARM{}
+		policy.Continuous = &ContinuousModeBackupPolicy_ARM{}
 		return json.Unmarshal(data, policy.Continuous)
 	}
 	if discriminator == "Periodic" {
-		policy.Periodic = &PeriodicModeBackupPolicyARM{}
+		policy.Periodic = &PeriodicModeBackupPolicy_ARM{}
 		return json.Unmarshal(data, policy.Periodic)
 	}
 
@@ -192,14 +192,14 @@ func (policy *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
-type CapabilityARM struct {
+type Capability_ARM struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
-type ConsistencyPolicyARM struct {
+type ConsistencyPolicy_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 
@@ -215,7 +215,7 @@ type ConsistencyPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy
-type CorsPolicyARM struct {
+type CorsPolicy_ARM struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
 
@@ -234,7 +234,7 @@ type CorsPolicyARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange
-type IpAddressOrRangeARM struct {
+type IpAddressOrRange_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
 	// 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
@@ -243,7 +243,7 @@ type IpAddressOrRangeARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location
-type LocationARM struct {
+type Location_ARM struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
 	// regions in which the database account exists.
@@ -267,7 +267,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
-type VirtualNetworkRuleARM struct {
+type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.
@@ -275,19 +275,19 @@ type VirtualNetworkRuleARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
-type ContinuousModeBackupPolicyARM struct {
+type ContinuousModeBackupPolicy_ARM struct {
 	Type ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
-type PeriodicModeBackupPolicyARM struct {
+type PeriodicModeBackupPolicy_ARM struct {
 	// PeriodicModeProperties: Configuration values for periodic mode backup
-	PeriodicModeProperties *PeriodicModePropertiesARM    `json:"periodicModeProperties,omitempty"`
+	PeriodicModeProperties *PeriodicModeProperties_ARM   `json:"periodicModeProperties,omitempty"`
 	Type                   PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
-type PeriodicModePropertiesARM struct {
+type PeriodicModeProperties_ARM struct {
 	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
 

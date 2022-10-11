@@ -6,62 +6,62 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_BlobService_Spec. Use v1beta20210401.StorageAccounts_BlobService_Spec instead
-type StorageAccounts_BlobService_SpecARM struct {
-	Location   *string                             `json:"location,omitempty"`
-	Name       string                              `json:"name,omitempty"`
-	Properties *BlobServicePropertiesPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                   `json:"tags,omitempty"`
+type StorageAccounts_BlobService_Spec_ARM struct {
+	Location   *string                              `json:"location,omitempty"`
+	Name       string                               `json:"name,omitempty"`
+	Properties *BlobServicePropertiesProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (service StorageAccounts_BlobService_SpecARM) GetAPIVersion() string {
+func (service StorageAccounts_BlobService_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (service *StorageAccounts_BlobService_SpecARM) GetName() string {
+func (service *StorageAccounts_BlobService_Spec_ARM) GetName() string {
 	return service.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
-func (service *StorageAccounts_BlobService_SpecARM) GetType() string {
+func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
 // Deprecated version of BlobServicePropertiesProperties. Use v1beta20210401.BlobServicePropertiesProperties instead
-type BlobServicePropertiesPropertiesARM struct {
-	AutomaticSnapshotPolicyEnabled *bool                            `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeedARM                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicyARM        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRulesARM                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                          `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicyARM        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                            `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicyARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	RestorePolicy                  *RestorePolicyPropertiesARM      `json:"restorePolicy,omitempty"`
+type BlobServicePropertiesProperties_ARM struct {
+	AutomaticSnapshotPolicyEnabled *bool                             `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed_ARM                   `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules_ARM                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                           `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_ARM        `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                             `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	RestorePolicy                  *RestorePolicyProperties_ARM      `json:"restorePolicy,omitempty"`
 }
 
 // Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
-type ChangeFeedARM struct {
+type ChangeFeed_ARM struct {
 	Enabled         *bool `json:"enabled,omitempty"`
 	RetentionInDays *int  `json:"retentionInDays,omitempty"`
 }
 
 // Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
-type CorsRulesARM struct {
-	CorsRules []CorsRuleARM `json:"corsRules,omitempty"`
+type CorsRules_ARM struct {
+	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
 }
 
 // Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
-type DeleteRetentionPolicyARM struct {
+type DeleteRetentionPolicy_ARM struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
-type LastAccessTimeTrackingPolicyARM struct {
+type LastAccessTimeTrackingPolicy_ARM struct {
 	BlobType                  []string                           `json:"blobType,omitempty"`
 	Enable                    *bool                              `json:"enable,omitempty"`
 	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
@@ -69,13 +69,13 @@ type LastAccessTimeTrackingPolicyARM struct {
 }
 
 // Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
-type RestorePolicyPropertiesARM struct {
+type RestorePolicyProperties_ARM struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
-type CorsRuleARM struct {
+type CorsRule_ARM struct {
 	AllowedHeaders  []string                  `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
 	AllowedOrigins  []string                  `json:"allowedOrigins,omitempty"`

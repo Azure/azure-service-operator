@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type RouteTable_STATUSARM struct {
+type RouteTable_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -17,7 +17,7 @@ type RouteTable_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the route table.
-	Properties *RouteTablePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *RouteTablePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,7 +26,7 @@ type RouteTable_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type RouteTablePropertiesFormat_STATUSARM struct {
+type RouteTablePropertiesFormat_STATUS_ARM struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 

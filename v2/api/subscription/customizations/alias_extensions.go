@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -20,7 +21,14 @@ import (
 
 var _ extensions.Deleter = &AliasExtension{}
 
-func (extension *AliasExtension) Delete(ctx context.Context, resolver *resolver.Resolver, armClient *genericarmclient.GenericClient, obj genruntime.ARMMetaObject, next extensions.DeleteFunc) (ctrl.Result, error) {
+func (extension *AliasExtension) Delete(
+	ctx context.Context,
+	log logr.Logger,
+	resolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	obj genruntime.ARMMetaObject,
+	next extensions.DeleteFunc) (ctrl.Result, error) {
+
 	// First cancel the subscription, then delete the alias
 	typedObj, ok := obj.(*storage.Alias)
 	if !ok {
@@ -35,7 +43,7 @@ func (extension *AliasExtension) Delete(ctx context.Context, resolver *resolver.
 	subscriptionID, ok := getSubscriptionID(typedObj)
 	if !ok {
 		// SubscriptionID isn't populated, allow deletion to proceed
-		return next(ctx, resolver, armClient, obj)
+		return next(ctx, log, resolver, armClient, obj)
 	}
 
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
@@ -53,7 +61,7 @@ func (extension *AliasExtension) Delete(ctx context.Context, resolver *resolver.
 		return ctrl.Result{}, errors.Wrapf(err, "failed to cancel subscription %q", subscriptionID)
 	}
 
-	return next(ctx, resolver, armClient, obj)
+	return next(ctx, log, resolver, armClient, obj)
 }
 
 var _ extensions.SuccessfulCreationHandler = &AliasExtension{}

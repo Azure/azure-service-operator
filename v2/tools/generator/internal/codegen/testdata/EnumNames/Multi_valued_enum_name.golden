@@ -89,7 +89,7 @@ func (resource *AResource) defaultImpl() { resource.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &AResource{}
 
-// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name)
+// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Name_Spec)
 func (resource *AResource) AzureName() string {
 	return string(resource.Spec.AzureName)
 }
@@ -270,24 +270,24 @@ type AResourceList struct {
 	Items           []AResource `json:"items"`
 }
 
-type AResource_SpecARM struct {
+type AResource_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &AResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &AResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (resource AResource_SpecARM) GetAPIVersion() string {
+func (resource AResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *AResource_SpecARM) GetName() string {
+func (resource *AResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
-func (resource *AResource_SpecARM) GetType() string {
+func (resource *AResource_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/AResource"
 }
 
@@ -299,7 +299,7 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type AResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName AResource_Spec_Name `json:"azureName,omitempty"`
+	AzureName AResource_Name_Spec `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -315,7 +315,7 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if resource == nil {
 		return nil, nil
 	}
-	result := &AResource_SpecARM{}
+	result := &AResource_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -324,14 +324,14 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *AResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AResource_SpecARM{}
+	return &AResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AResource_SpecARM)
+	typedInput, ok := armInput.(AResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -400,7 +400,7 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
 
 	// AzureName
-	azureName := AResource_Spec_Name(source.AzureName)
+	azureName := AResource_Name_Spec(source.AzureName)
 	resource.AzureName = azureName
 
 	// Owner
@@ -421,7 +421,7 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	azureName := AResource_Spec_Name(resource.AzureName)
+	azureName := AResource_Name_Spec(resource.AzureName)
 	destination.AzureName = azureName
 
 	// OriginalVersion
@@ -451,18 +451,18 @@ func (resource *AResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name value
+// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Name_Spec value
 func (resource *AResource_Spec) SetAzureName(azureName string) {
-	resource.AzureName = AResource_Spec_Name(azureName)
+	resource.AzureName = AResource_Name_Spec(azureName)
 }
 
 // +kubebuilder:validation:Enum={"one","three","two"}
-type AResource_Spec_Name string
+type AResource_Name_Spec string
 
 const (
-	AResource_Spec_Name_One   = AResource_Spec_Name("one")
-	AResource_Spec_Name_Three = AResource_Spec_Name("three")
-	AResource_Spec_Name_Two   = AResource_Spec_Name("two")
+	AResource_Name_Spec_One   = AResource_Name_Spec("one")
+	AResource_Name_Spec_Three = AResource_Name_Spec("three")
+	AResource_Name_Spec_Two   = AResource_Name_Spec("two")
 )
 
 func init() {

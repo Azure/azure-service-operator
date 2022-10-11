@@ -138,7 +138,7 @@ type NetworkInterface_Spec struct {
 	EnableAcceleratedNetworking *bool                                               `json:"enableAcceleratedNetworking,omitempty"`
 	EnableIPForwarding          *bool                                               `json:"enableIPForwarding,omitempty"`
 	ExtendedLocation            *ExtendedLocation                                   `json:"extendedLocation,omitempty"`
-	IpConfigurations            []NetworkInterface_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
+	IpConfigurations            []NetworkInterface_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
 	Location                    *string                                             `json:"location,omitempty"`
 	NetworkSecurityGroup        *SubResource                                        `json:"networkSecurityGroup,omitempty"`
 	OriginalVersion             string                                              `json:"originalVersion,omitempty"`
@@ -222,8 +222,8 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	return destination.ConvertStatusFrom(embedded)
 }
 
-// Storage version of v1beta20201101.NetworkInterface_Spec_Properties_IpConfigurations
-type NetworkInterface_Spec_Properties_IpConfigurations struct {
+// Storage version of v1beta20201101.NetworkInterface_Properties_IpConfigurations_Spec
+type NetworkInterface_Properties_IpConfigurations_Spec struct {
 	ApplicationGatewayBackendAddressPools []SubResource          `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource          `json:"applicationSecurityGroups,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource          `json:"loadBalancerBackendAddressPools,omitempty"`

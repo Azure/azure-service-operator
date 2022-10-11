@@ -137,6 +137,9 @@ import (
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
+	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
+	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -225,14 +228,26 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.containers.environmentVariables.secureValue",
+				Func: indexContainerinstanceContainerGroupContainersSecureValue,
+			},
+			{
+				Key:  ".spec.initContainers.environmentVariables.secureValue",
+				Func: indexContainerinstanceContainerGroupInitContainersSecureValue,
+			},
+			{
 				Key:  ".spec.imageRegistryCredentials.password",
 				Func: indexContainerinstanceContainerGroupPassword,
+			},
+			{
+				Key:  ".spec.diagnostics.logAnalytics.workspaceKey",
+				Func: indexContainerinstanceContainerGroupWorkspaceKey,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.containers.environmentVariables.secureValue", ".spec.diagnostics.logAnalytics.workspaceKey", ".spec.imageRegistryCredentials.password", ".spec.initContainers.environmentVariables.secureValue"}, &containerinstance_v20211001s.ContainerGroupList{}),
 			},
 		},
 	})
@@ -474,6 +489,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(servicebus_v20210101ps.NamespacesTopic),
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscription),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule),
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20211001s.SignalR),
 	})
 	result = append(result, &registration.StorageType{
@@ -496,6 +517,24 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(subscription_v20211001s.Alias),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(web_v20220301s.ServerFarm),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(web_v20220301s.Site),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.siteConfig.azureStorageAccounts.accessKey",
+				Func: indexWebSiteAccessKey,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.siteConfig.azureStorageAccounts.accessKey"}, &web_v20220301s.SiteList{}),
+			},
+		},
 	})
 	return result
 }
@@ -833,12 +872,16 @@ func getKnownTypes() []client.Object {
 		result,
 		new(servicebus_v20210101p.Namespace),
 		new(servicebus_v20210101p.NamespacesQueue),
-		new(servicebus_v20210101p.NamespacesTopic))
+		new(servicebus_v20210101p.NamespacesTopic),
+		new(servicebus_v20210101p.NamespacesTopicsSubscription),
+		new(servicebus_v20210101p.NamespacesTopicsSubscriptionsRule))
 	result = append(
 		result,
 		new(servicebus_v20210101ps.Namespace),
 		new(servicebus_v20210101ps.NamespacesQueue),
-		new(servicebus_v20210101ps.NamespacesTopic))
+		new(servicebus_v20210101ps.NamespacesTopic),
+		new(servicebus_v20210101ps.NamespacesTopicsSubscription),
+		new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule))
 	result = append(result, new(signalrservice_alpha20211001.SignalR))
 	result = append(result, new(signalrservice_alpha20211001s.SignalR))
 	result = append(result, new(signalrservice_v20211001.SignalR))
@@ -877,6 +920,8 @@ func getKnownTypes() []client.Object {
 		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
+	result = append(result, new(web_v20220301.ServerFarm), new(web_v20220301.Site))
+	result = append(result, new(web_v20220301s.ServerFarm), new(web_v20220301s.Site))
 	return result
 }
 
@@ -992,6 +1037,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
+	_ = web_v20220301.AddToScheme(scheme)
+	_ = web_v20220301s.AddToScheme(scheme)
 	return scheme
 }
 
@@ -1074,6 +1121,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
+	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
+	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
 	result = append(result, &storage_customizations.StorageAccountExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServiceExtension{})
@@ -1082,6 +1131,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
+	result = append(result, &web_customizations.ServerFarmExtension{})
+	result = append(result, &web_customizations.SiteExtension{})
 	return result
 }
 
@@ -1118,6 +1169,42 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
 }
 
+// indexContainerinstanceContainerGroupContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.containers.environmentVariables.secureValue
+func indexContainerinstanceContainerGroupContainersSecureValue(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, containerItem := range obj.Spec.Containers {
+		for _, environmentVariableItem := range containerItem.EnvironmentVariables {
+			if environmentVariableItem.SecureValue == nil {
+				continue
+			}
+			result = append(result, environmentVariableItem.SecureValue.Name)
+		}
+	}
+	return result
+}
+
+// indexContainerinstanceContainerGroupInitContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.initContainers.environmentVariables.secureValue
+func indexContainerinstanceContainerGroupInitContainersSecureValue(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, initContainerItem := range obj.Spec.InitContainers {
+		for _, environmentVariableItem := range initContainerItem.EnvironmentVariables {
+			if environmentVariableItem.SecureValue == nil {
+				continue
+			}
+			result = append(result, environmentVariableItem.SecureValue.Name)
+		}
+	}
+	return result
+}
+
 // indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
 func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
@@ -1132,6 +1219,24 @@ func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string
 		result = append(result, imageRegistryCredentialItem.Password.Name)
 	}
 	return result
+}
+
+// indexContainerinstanceContainerGroupWorkspaceKey an index function for containerinstance_v20211001s.ContainerGroup .spec.diagnostics.logAnalytics.workspaceKey
+func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Diagnostics == nil {
+		return nil
+	}
+	if obj.Spec.Diagnostics.LogAnalytics == nil {
+		return nil
+	}
+	if obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey == nil {
+		return nil
+	}
+	return []string{obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Name}
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
@@ -1270,4 +1375,23 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return []string{obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Name}
+}
+
+// indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
+func indexWebSiteAccessKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*web_v20220301s.Site)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SiteConfig == nil {
+		return nil
+	}
+	for _, value := range obj.Spec.SiteConfig.AzureStorageAccounts {
+		if value.AccessKey == nil {
+			continue
+		}
+		result = append(result, value.AccessKey.Name)
+	}
+	return result
 }

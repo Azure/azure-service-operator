@@ -396,7 +396,7 @@ type SqlUserDefinedFunctionGetResults_STATUS struct {
 	Location    *string                                              `json:"location,omitempty"`
 	Name        *string                                              `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlUserDefinedFunctionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                    `json:"tags,omitempty"`
 	Type        *string                                              `json:"type,omitempty"`
 }
@@ -470,10 +470,10 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_From_Sq
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -516,10 +516,10 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlU
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -543,9 +543,9 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlU
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource
-// Deprecated version of SqlUserDefinedFunctionGetProperties_STATUS_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource instead
-type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Resource_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS instead
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -554,8 +554,8 @@ type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
-// AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource populates our SqlUserDefinedFunctionGetProperties_STATUS_Resource from the provided source SqlUserDefinedFunctionGetProperties_STATUS_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignProperties_From_SqlUserDefinedFunctionGetProperties_STATUS_Resource(source *v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates our SqlUserDefinedFunctionGetProperties_Resource_STATUS from the provided source SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -590,8 +590,8 @@ func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignPrope
 	return nil
 }
 
-// AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource populates the provided destination SqlUserDefinedFunctionGetProperties_STATUS_Resource from our SqlUserDefinedFunctionGetProperties_STATUS_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_STATUS_Resource) AssignProperties_To_SqlUserDefinedFunctionGetProperties_STATUS_Resource(destination *v20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates the provided destination SqlUserDefinedFunctionGetProperties_Resource_STATUS from our SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(destination *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

@@ -5,7 +5,7 @@ package v1beta20180501preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Webtest_SpecARM struct {
+type Webtest_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,33 +13,33 @@ type Webtest_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Metadata describing a web test for an Azure resource.
-	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
+	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
+var _ genruntime.ARMResourceSpec = &Webtest_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
-func (webtest Webtest_SpecARM) GetAPIVersion() string {
+func (webtest Webtest_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (webtest *Webtest_SpecARM) GetName() string {
+func (webtest *Webtest_Spec_ARM) GetName() string {
 	return webtest.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
-func (webtest *Webtest_SpecARM) GetType() string {
+func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestProperties
-type WebTestPropertiesARM struct {
+type WebTestProperties_ARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestPropertiesConfigurationARM `json:"Configuration,omitempty"`
+	Configuration *WebTestPropertiesConfiguration_ARM `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -55,13 +55,13 @@ type WebTestPropertiesARM struct {
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
-	Locations []WebTestGeolocationARM `json:"Locations,omitempty"`
+	Locations []WebTestGeolocation_ARM `json:"Locations,omitempty"`
 
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestPropertiesRequestARM `json:"Request,omitempty"`
+	Request *WebTestPropertiesRequest_ARM `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -73,28 +73,28 @@ type WebTestPropertiesARM struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestPropertiesValidationRulesARM `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestPropertiesValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
-type WebTestGeolocationARM struct {
+type WebTestGeolocation_ARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
-type WebTestPropertiesConfigurationARM struct {
+type WebTestPropertiesConfiguration_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
-type WebTestPropertiesRequestARM struct {
+type WebTestPropertiesRequest_ARM struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
 	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderFieldARM `json:"Headers,omitempty"`
+	Headers []HeaderField_ARM `json:"Headers,omitempty"`
 
 	// HttpVerb: Http verb to use for this web test.
 	HttpVerb *string `json:"HttpVerb,omitempty"`
@@ -110,9 +110,9 @@ type WebTestPropertiesRequestARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
-type WebTestPropertiesValidationRulesARM struct {
+type WebTestPropertiesValidationRules_ARM struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestPropertiesValidationRulesContentValidationARM `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestPropertiesValidationRulesContentValidation_ARM `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -129,7 +129,7 @@ type WebTestPropertiesValidationRulesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
-type HeaderFieldARM struct {
+type HeaderField_ARM struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
 
@@ -138,7 +138,7 @@ type HeaderFieldARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
-type WebTestPropertiesValidationRulesContentValidationARM struct {
+type WebTestPropertiesValidationRulesContentValidation_ARM struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

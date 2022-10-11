@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type AuthorizationRule_STATUSARM struct {
+type AuthorizationRule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,21 +15,21 @@ type AuthorizationRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
-	Properties *AuthorizationRule_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *AuthorizationRule_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
-type AuthorizationRule_STATUS_PropertiesARM struct {
+type AuthorizationRule_Properties_STATUS_ARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []AuthorizationRule_STATUS_Properties_Rights `json:"rights,omitempty"`
+	Rights []AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -37,7 +37,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -46,31 +46,31 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type AuthorizationRule_STATUS_Properties_Rights string
+type AuthorizationRule_Properties_Rights_STATUS string
 
 const (
-	AuthorizationRule_STATUS_Properties_Rights_Listen = AuthorizationRule_STATUS_Properties_Rights("Listen")
-	AuthorizationRule_STATUS_Properties_Rights_Manage = AuthorizationRule_STATUS_Properties_Rights("Manage")
-	AuthorizationRule_STATUS_Properties_Rights_Send   = AuthorizationRule_STATUS_Properties_Rights("Send")
+	AuthorizationRule_Properties_Rights_STATUS_Listen = AuthorizationRule_Properties_Rights_STATUS("Listen")
+	AuthorizationRule_Properties_Rights_STATUS_Manage = AuthorizationRule_Properties_Rights_STATUS("Manage")
+	AuthorizationRule_Properties_Rights_STATUS_Send   = AuthorizationRule_Properties_Rights_STATUS("Send")
 )
 
-type SystemData_STATUS_CreatedByType string
+type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
-type SystemData_STATUS_LastModifiedByType string
+type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )

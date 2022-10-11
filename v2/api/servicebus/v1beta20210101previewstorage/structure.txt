@@ -1,0 +1,337 @@
+github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage
+├── APIVersion: enum
+│   └── "2021-01-01-preview"
+├── Namespace: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: *string
+│   │   │   ├── KeyVaultProperties: 
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   ├── KeyVersion: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── Location: *string
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── Endpoint: *genruntime.SecretDestination
+│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── ZoneRedundant: *bool
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedAt: *string
+│       ├── Encryption: 
+│       │   ├── KeySource: *string
+│       │   ├── KeyVaultProperties: 
+│       │   │   ├── Identity: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── UserAssignedIdentity: *string
+│       │   │   ├── KeyName: *string
+│       │   │   ├── KeyVaultUri: *string
+│       │   │   ├── KeyVersion: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RequireInfrastructureEncryption: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── MetricId: *string
+│       ├── Name: *string
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SystemData: 
+│       │       ├── CreatedAt: *string
+│       │       ├── CreatedBy: *string
+│       │       ├── CreatedByType: *string
+│       │       ├── LastModifiedAt: *string
+│       │       ├── LastModifiedBy: *string
+│       │       ├── LastModifiedByType: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ServiceBusEndpoint: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── UpdatedAt: *string
+│       └── ZoneRedundant: *bool
+├── NamespacesQueue: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── Location: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── RequiresSession: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── Id: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       ├── MaxSizeInMegabytes: *int
+│       ├── MessageCount: *int
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RequiresDuplicateDetection: *bool
+│       ├── RequiresSession: *bool
+│       ├── SizeInBytes: *int
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesTopic: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── Location: *string
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── SupportOrdering: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── Id: *string
+│       ├── MaxSizeInMegabytes: *int
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RequiresDuplicateDetection: *bool
+│       ├── SizeInBytes: *int
+│       ├── Status: *string
+│       ├── SubscriptionCount: *int
+│       ├── SupportOrdering: *bool
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+├── NamespacesTopicsSubscription: Resource
+│   ├── Spec: 
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│   │   ├── DeadLetteringOnMessageExpiration: *bool
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── ForwardDeadLetteredMessagesTo: *string
+│   │   ├── ForwardTo: *string
+│   │   ├── Location: *string
+│   │   ├── LockDuration: *string
+│   │   ├── MaxDeliveryCount: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RequiresSession: *bool
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccessedAt: *string
+│       ├── AutoDeleteOnIdle: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CountDetails: 
+│       │   ├── ActiveMessageCount: *int
+│       │   ├── DeadLetterMessageCount: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ScheduledMessageCount: *int
+│       │   ├── TransferDeadLetterMessageCount: *int
+│       │   └── TransferMessageCount: *int
+│       ├── CreatedAt: *string
+│       ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── Id: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       ├── MessageCount: *int
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RequiresSession: *bool
+│       ├── Status: *string
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── UpdatedAt: *string
+└── NamespacesTopicsSubscriptionsRule: Resource
+    ├── Spec: 
+    │   ├── Action: 
+    │   │   ├── CompatibilityLevel: *int
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── RequiresPreprocessing: *bool
+    │   │   └── SqlExpression: *string
+    │   ├── AzureName: Validated[string]
+    │   ├── CorrelationFilter: 
+    │   │   ├── ContentType: *string
+    │   │   ├── CorrelationId: *string
+    │   │   ├── Label: *string
+    │   │   ├── MessageId: *string
+    │   │   ├── Properties: Map[string]string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ReplyTo: *string
+    │   │   ├── ReplyToSessionId: *string
+    │   │   ├── RequiresPreprocessing: *bool
+    │   │   ├── SessionId: *string
+    │   │   └── To: *string
+    │   ├── FilterType: *string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── SqlFilter: 
+    │   │   ├── CompatibilityLevel: *int
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── RequiresPreprocessing: *bool
+    │   │   └── SqlExpression: *string
+    │   └── Tags: Map[string]string
+    └── Status: 
+        ├── Action: 
+        │   ├── CompatibilityLevel: *int
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── RequiresPreprocessing: *bool
+        │   └── SqlExpression: *string
+        ├── Conditions: Array[conditions.Condition]
+        ├── CorrelationFilter: 
+        │   ├── ContentType: *string
+        │   ├── CorrelationId: *string
+        │   ├── Label: *string
+        │   ├── MessageId: *string
+        │   ├── Properties: Map[string]string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ReplyTo: *string
+        │   ├── ReplyToSessionId: *string
+        │   ├── RequiresPreprocessing: *bool
+        │   ├── SessionId: *string
+        │   └── To: *string
+        ├── FilterType: *string
+        ├── Id: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── SqlFilter: 
+        │   ├── CompatibilityLevel: *int
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── RequiresPreprocessing: *bool
+        │   └── SqlExpression: *string
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        └── Type: *string

@@ -1,0 +1,694 @@
+github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage
+├── APIVersion: enum
+│   └── "2021-05-01"
+├── ManagedCluster: Resource
+│   ├── Spec: 
+│   │   ├── AadProfile: 
+│   │   │   ├── AdminGroupObjectIDs: Array[string]
+│   │   │   ├── ClientAppID: *string
+│   │   │   ├── EnableAzureRBAC: *bool
+│   │   │   ├── Managed: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ServerAppID: *string
+│   │   │   ├── ServerAppSecret: *string
+│   │   │   └── TenantID: *string
+│   │   ├── AddonProfiles: 
+│   │   │   ├── Config: Map[string]string
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AgentPoolProfiles: 
+│   │   │   ├── AvailabilityZones: Array[string]
+│   │   │   ├── Count: *int
+│   │   │   ├── EnableAutoScaling: *bool
+│   │   │   ├── EnableEncryptionAtHost: *bool
+│   │   │   ├── EnableFIPS: *bool
+│   │   │   ├── EnableNodePublicIP: *bool
+│   │   │   ├── EnableUltraSSD: *bool
+│   │   │   ├── GpuInstanceProfile: *string
+│   │   │   ├── KubeletConfig: 
+│   │   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   │   ├── CpuCfsQuota: *bool
+│   │   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   │   ├── CpuManagerPolicy: *string
+│   │   │   │   ├── FailSwapOn: *bool
+│   │   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   │   ├── PodMaxPids: *int
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── TopologyManagerPolicy: *string
+│   │   │   ├── KubeletDiskType: *string
+│   │   │   ├── LinuxOSConfig: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── SwapFileSizeMB: *int
+│   │   │   │   ├── Sysctls: 
+│   │   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   │   ├── FsFileMax: *int
+│   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   │   └── TransparentHugePageEnabled: *string
+│   │   │   ├── MaxCount: *int
+│   │   │   ├── MaxPods: *int
+│   │   │   ├── MinCount: *int
+│   │   │   ├── Mode: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── NodeLabels: Map[string]string
+│   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
+│   │   │   ├── NodeTaints: Array[string]
+│   │   │   ├── OrchestratorVersion: *string
+│   │   │   ├── OsDiskSizeGB: *int
+│   │   │   ├── OsDiskType: *string
+│   │   │   ├── OsSKU: *string
+│   │   │   ├── OsType: *string
+│   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ProximityPlacementGroupID: *string
+│   │   │   ├── ScaleSetEvictionPolicy: *string
+│   │   │   ├── ScaleSetPriority: *string
+│   │   │   ├── SpotMaxPrice: *float64
+│   │   │   ├── Tags: Map[string]string
+│   │   │   ├── Type: *string
+│   │   │   ├── UpgradeSettings: 
+│   │   │   │   ├── MaxSurge: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── VmSize: *string
+│   │   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
+│   │   ├── ApiServerAccessProfile: 
+│   │   │   ├── AuthorizedIPRanges: Array[string]
+│   │   │   ├── EnablePrivateCluster: *bool
+│   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
+│   │   │   ├── PrivateDNSZone: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AutoScalerProfile: 
+│   │   │   ├── BalanceSimilarNodeGroups: *string
+│   │   │   ├── Expander: *string
+│   │   │   ├── MaxEmptyBulkDelete: *string
+│   │   │   ├── MaxGracefulTerminationSec: *string
+│   │   │   ├── MaxNodeProvisionTime: *string
+│   │   │   ├── MaxTotalUnreadyPercentage: *string
+│   │   │   ├── NewPodScaleUpDelay: *string
+│   │   │   ├── OkTotalUnreadyCount: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ScaleDownDelayAfterAdd: *string
+│   │   │   ├── ScaleDownDelayAfterDelete: *string
+│   │   │   ├── ScaleDownDelayAfterFailure: *string
+│   │   │   ├── ScaleDownUnneededTime: *string
+│   │   │   ├── ScaleDownUnreadyTime: *string
+│   │   │   ├── ScaleDownUtilizationThreshold: *string
+│   │   │   ├── ScanInterval: *string
+│   │   │   ├── SkipNodesWithLocalStorage: *string
+│   │   │   └── SkipNodesWithSystemPods: *string
+│   │   ├── AutoUpgradeProfile: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UpgradeChannel: *string
+│   │   ├── AzureName: Validated[string]
+│   │   ├── DisableLocalAccounts: *bool
+│   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
+│   │   ├── DnsPrefix: *string
+│   │   ├── EnablePodSecurityPolicy: *bool
+│   │   ├── EnableRBAC: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── FqdnSubdomain: *string
+│   │   ├── HttpProxyConfig: 
+│   │   │   ├── HttpProxy: *string
+│   │   │   ├── HttpsProxy: *string
+│   │   │   ├── NoProxy: Array[string]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── TrustedCa: *string
+│   │   ├── Identity: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── IdentityProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   ├── KubernetesVersion: *string
+│   │   ├── LinuxProfile: 
+│   │   │   ├── AdminUsername: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Ssh: 
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── PublicKeys: 
+│   │   │           ├── KeyData: *string
+│   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Location: *string
+│   │   ├── NetworkProfile: 
+│   │   │   ├── DnsServiceIP: *string
+│   │   │   ├── DockerBridgeCidr: *string
+│   │   │   ├── LoadBalancerProfile: 
+│   │   │   │   ├── AllocatedOutboundPorts: *int
+│   │   │   │   ├── EffectiveOutboundIPs: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   │   ├── ManagedOutboundIPs: 
+│   │   │   │   │   ├── Count: *int
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── OutboundIPPrefixes: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── PublicIPPrefixes: 
+│   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── OutboundIPs: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── PublicIPs: 
+│   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── LoadBalancerSku: *string
+│   │   │   ├── NetworkMode: *string
+│   │   │   ├── NetworkPlugin: *string
+│   │   │   ├── NetworkPolicy: *string
+│   │   │   ├── OutboundType: *string
+│   │   │   ├── PodCidr: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ServiceCidr: *string
+│   │   ├── NodeResourceGroup: *string
+│   │   ├── OperatorSpec: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: 
+│   │   │       ├── AdminCredentials: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── UserCredentials: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PodIdentityProfile: 
+│   │   │   ├── AllowNetworkPluginKubenet: *bool
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── UserAssignedIdentities: 
+│   │   │   │   ├── BindingSelector: *string
+│   │   │   │   ├── Identity: 
+│   │   │   │   │   ├── ClientId: *string
+│   │   │   │   │   ├── ObjectId: *string
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Namespace: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UserAssignedIdentityExceptions: 
+│   │   │       ├── Name: *string
+│   │   │       ├── Namespace: *string
+│   │   │       ├── PodLabels: Map[string]string
+│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PrivateLinkResources: 
+│   │   │   ├── GroupId: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   ├── RequiredMembers: Array[string]
+│   │   │   └── Type: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ServicePrincipalProfile: 
+│   │   │   ├── ClientId: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secret: *string
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── WindowsProfile: 
+│   │       ├── AdminPassword: *string
+│   │       ├── AdminUsername: *string
+│   │       ├── EnableCSIProxy: *bool
+│   │       ├── LicenseType: *string
+│   │       └── PropertyBag: genruntime.PropertyBag
+│   └── Status: 
+│       ├── AadProfile: 
+│       │   ├── AdminGroupObjectIDs: Array[string]
+│       │   ├── ClientAppID: *string
+│       │   ├── EnableAzureRBAC: *bool
+│       │   ├── Managed: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ServerAppID: *string
+│       │   ├── ServerAppSecret: *string
+│       │   └── TenantID: *string
+│       ├── AddonProfiles: *v1.JSON
+│       ├── AgentPoolProfiles: 
+│       │   ├── AvailabilityZones: Array[string]
+│       │   ├── Count: *int
+│       │   ├── EnableAutoScaling: *bool
+│       │   ├── EnableEncryptionAtHost: *bool
+│       │   ├── EnableFIPS: *bool
+│       │   ├── EnableNodePublicIP: *bool
+│       │   ├── EnableUltraSSD: *bool
+│       │   ├── GpuInstanceProfile: *string
+│       │   ├── KubeletConfig: 
+│       │   │   ├── AllowedUnsafeSysctls: Array[string]
+│       │   │   ├── ContainerLogMaxFiles: *int
+│       │   │   ├── ContainerLogMaxSizeMB: *int
+│       │   │   ├── CpuCfsQuota: *bool
+│       │   │   ├── CpuCfsQuotaPeriod: *string
+│       │   │   ├── CpuManagerPolicy: *string
+│       │   │   ├── FailSwapOn: *bool
+│       │   │   ├── ImageGcHighThreshold: *int
+│       │   │   ├── ImageGcLowThreshold: *int
+│       │   │   ├── PodMaxPids: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TopologyManagerPolicy: *string
+│       │   ├── KubeletDiskType: *string
+│       │   ├── LinuxOSConfig: 
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SwapFileSizeMB: *int
+│       │   │   ├── Sysctls: 
+│       │   │   │   ├── FsAioMaxNr: *int
+│       │   │   │   ├── FsFileMax: *int
+│       │   │   │   ├── FsInotifyMaxUserWatches: *int
+│       │   │   │   ├── FsNrOpen: *int
+│       │   │   │   ├── KernelThreadsMax: *int
+│       │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│       │   │   │   ├── NetCoreOptmemMax: *int
+│       │   │   │   ├── NetCoreRmemDefault: *int
+│       │   │   │   ├── NetCoreRmemMax: *int
+│       │   │   │   ├── NetCoreSomaxconn: *int
+│       │   │   │   ├── NetCoreWmemDefault: *int
+│       │   │   │   ├── NetCoreWmemMax: *int
+│       │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│       │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│       │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│       │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│       │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│       │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│       │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│       │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│       │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│       │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│       │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── VmMaxMapCount: *int
+│       │   │   │   ├── VmSwappiness: *int
+│       │   │   │   └── VmVfsCachePressure: *int
+│       │   │   ├── TransparentHugePageDefrag: *string
+│       │   │   └── TransparentHugePageEnabled: *string
+│       │   ├── MaxCount: *int
+│       │   ├── MaxPods: *int
+│       │   ├── MinCount: *int
+│       │   ├── Mode: *string
+│       │   ├── Name: *string
+│       │   ├── NodeImageVersion: *string
+│       │   ├── NodeLabels: Map[string]string
+│       │   ├── NodePublicIPPrefixID: *string
+│       │   ├── NodeTaints: Array[string]
+│       │   ├── OrchestratorVersion: *string
+│       │   ├── OsDiskSizeGB: *int
+│       │   ├── OsDiskType: *string
+│       │   ├── OsSKU: *string
+│       │   ├── OsType: *string
+│       │   ├── PodSubnetID: *string
+│       │   ├── PowerState: 
+│       │   │   ├── Code: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── ProximityPlacementGroupID: *string
+│       │   ├── ScaleSetEvictionPolicy: *string
+│       │   ├── ScaleSetPriority: *string
+│       │   ├── SpotMaxPrice: *float64
+│       │   ├── Tags: Map[string]string
+│       │   ├── Type: *string
+│       │   ├── UpgradeSettings: 
+│       │   │   ├── MaxSurge: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── VmSize: *string
+│       │   └── VnetSubnetID: *string
+│       ├── ApiServerAccessProfile: 
+│       │   ├── AuthorizedIPRanges: Array[string]
+│       │   ├── EnablePrivateCluster: *bool
+│       │   ├── EnablePrivateClusterPublicFQDN: *bool
+│       │   ├── PrivateDNSZone: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── AutoScalerProfile: 
+│       │   ├── BalanceSimilarNodeGroups: *string
+│       │   ├── Expander: *string
+│       │   ├── MaxEmptyBulkDelete: *string
+│       │   ├── MaxGracefulTerminationSec: *string
+│       │   ├── MaxNodeProvisionTime: *string
+│       │   ├── MaxTotalUnreadyPercentage: *string
+│       │   ├── NewPodScaleUpDelay: *string
+│       │   ├── OkTotalUnreadyCount: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ScaleDownDelayAfterAdd: *string
+│       │   ├── ScaleDownDelayAfterDelete: *string
+│       │   ├── ScaleDownDelayAfterFailure: *string
+│       │   ├── ScaleDownUnneededTime: *string
+│       │   ├── ScaleDownUnreadyTime: *string
+│       │   ├── ScaleDownUtilizationThreshold: *string
+│       │   ├── ScanInterval: *string
+│       │   ├── SkipNodesWithLocalStorage: *string
+│       │   └── SkipNodesWithSystemPods: *string
+│       ├── AutoUpgradeProfile: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── UpgradeChannel: *string
+│       ├── AzurePortalFQDN: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DisableLocalAccounts: *bool
+│       ├── DiskEncryptionSetID: *string
+│       ├── DnsPrefix: *string
+│       ├── EnablePodSecurityPolicy: *bool
+│       ├── EnableRBAC: *bool
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Fqdn: *string
+│       ├── FqdnSubdomain: *string
+│       ├── HttpProxyConfig: 
+│       │   ├── HttpProxy: *string
+│       │   ├── HttpsProxy: *string
+│       │   ├── NoProxy: Array[string]
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── TrustedCa: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── IdentityProfile: *v1.JSON
+│       ├── KubernetesVersion: *string
+│       ├── LinuxProfile: 
+│       │   ├── AdminUsername: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Ssh: 
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── PublicKeys: 
+│       │           ├── KeyData: *string
+│       │           └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── MaxAgentPools: *int
+│       ├── Name: *string
+│       ├── NetworkProfile: 
+│       │   ├── DnsServiceIP: *string
+│       │   ├── DockerBridgeCidr: *string
+│       │   ├── LoadBalancerProfile: 
+│       │   │   ├── AllocatedOutboundPorts: *int
+│       │   │   ├── EffectiveOutboundIPs: 
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── IdleTimeoutInMinutes: *int
+│       │   │   ├── ManagedOutboundIPs: 
+│       │   │   │   ├── Count: *int
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── OutboundIPPrefixes: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── PublicIPPrefixes: 
+│       │   │   │       ├── Id: *string
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── OutboundIPs: 
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── PublicIPs: 
+│       │   │   │       ├── Id: *string
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LoadBalancerSku: *string
+│       │   ├── NetworkMode: *string
+│       │   ├── NetworkPlugin: *string
+│       │   ├── NetworkPolicy: *string
+│       │   ├── OutboundType: *string
+│       │   ├── PodCidr: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ServiceCidr: *string
+│       ├── NodeResourceGroup: *string
+│       ├── PodIdentityProfile: 
+│       │   ├── AllowNetworkPluginKubenet: *bool
+│       │   ├── Enabled: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── UserAssignedIdentities: 
+│       │   │   ├── BindingSelector: *string
+│       │   │   ├── Identity: 
+│       │   │   │   ├── ClientId: *string
+│       │   │   │   ├── ObjectId: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ResourceId: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── Namespace: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ProvisioningInfo: 
+│       │   │   │   ├── Error: 
+│       │   │   │   │   ├── Error: 
+│       │   │   │   │   │   ├── Code: *string
+│       │   │   │   │   │   ├── Details: 
+│       │   │   │   │   │   │   ├── Code: *string
+│       │   │   │   │   │   │   ├── Message: *string
+│       │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   │   │   └── Target: *string
+│       │   │   │   │   │   ├── Message: *string
+│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   │   │   └── Target: *string
+│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   └── ProvisioningState: *string
+│       │   └── UserAssignedIdentityExceptions: 
+│       │       ├── Name: *string
+│       │       ├── Namespace: *string
+│       │       ├── PodLabels: Map[string]string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── PowerState: 
+│       │   ├── Code: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateFQDN: *string
+│       ├── PrivateLinkResources: 
+│       │   ├── GroupId: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateLinkServiceID: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequiredMembers: Array[string]
+│       │   └── Type: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ServicePrincipalProfile: 
+│       │   ├── ClientId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Secret: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── WindowsProfile: 
+│           ├── AdminPassword: *string
+│           ├── AdminUsername: *string
+│           ├── EnableCSIProxy: *bool
+│           ├── LicenseType: *string
+│           └── PropertyBag: genruntime.PropertyBag
+└── ManagedClustersAgentPool: Resource
+    ├── Spec: 
+    │   ├── AvailabilityZones: Array[string]
+    │   ├── AzureName: string
+    │   ├── Count: *int
+    │   ├── EnableAutoScaling: *bool
+    │   ├── EnableEncryptionAtHost: *bool
+    │   ├── EnableFIPS: *bool
+    │   ├── EnableNodePublicIP: *bool
+    │   ├── EnableUltraSSD: *bool
+    │   ├── GpuInstanceProfile: *string
+    │   ├── KubeletConfig: 
+    │   │   ├── AllowedUnsafeSysctls: Array[string]
+    │   │   ├── ContainerLogMaxFiles: *int
+    │   │   ├── ContainerLogMaxSizeMB: *int
+    │   │   ├── CpuCfsQuota: *bool
+    │   │   ├── CpuCfsQuotaPeriod: *string
+    │   │   ├── CpuManagerPolicy: *string
+    │   │   ├── FailSwapOn: *bool
+    │   │   ├── ImageGcHighThreshold: *int
+    │   │   ├── ImageGcLowThreshold: *int
+    │   │   ├── PodMaxPids: *int
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── TopologyManagerPolicy: *string
+    │   ├── KubeletDiskType: *string
+    │   ├── LinuxOSConfig: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── SwapFileSizeMB: *int
+    │   │   ├── Sysctls: 
+    │   │   │   ├── FsAioMaxNr: *int
+    │   │   │   ├── FsFileMax: *int
+    │   │   │   ├── FsInotifyMaxUserWatches: *int
+    │   │   │   ├── FsNrOpen: *int
+    │   │   │   ├── KernelThreadsMax: *int
+    │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+    │   │   │   ├── NetCoreOptmemMax: *int
+    │   │   │   ├── NetCoreRmemDefault: *int
+    │   │   │   ├── NetCoreRmemMax: *int
+    │   │   │   ├── NetCoreSomaxconn: *int
+    │   │   │   ├── NetCoreWmemDefault: *int
+    │   │   │   ├── NetCoreWmemMax: *int
+    │   │   │   ├── NetIpv4IpLocalPortRange: *string
+    │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+    │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+    │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+    │   │   │   ├── NetIpv4TcpFinTimeout: *int
+    │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+    │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+    │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+    │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+    │   │   │   ├── NetIpv4TcpTwReuse: *bool
+    │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+    │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+    │   │   │   ├── NetNetfilterNfConntrackMax: *int
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── VmMaxMapCount: *int
+    │   │   │   ├── VmSwappiness: *int
+    │   │   │   └── VmVfsCachePressure: *int
+    │   │   ├── TransparentHugePageDefrag: *string
+    │   │   └── TransparentHugePageEnabled: *string
+    │   ├── Location: *string
+    │   ├── MaxCount: *int
+    │   ├── MaxPods: *int
+    │   ├── MinCount: *int
+    │   ├── Mode: *string
+    │   ├── NodeLabels: Map[string]string
+    │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
+    │   ├── NodeTaints: Array[string]
+    │   ├── OrchestratorVersion: *string
+    │   ├── OriginalVersion: string
+    │   ├── OsDiskSizeGB: *int
+    │   ├── OsDiskType: *string
+    │   ├── OsSKU: *string
+    │   ├── OsType: *string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PodSubnetIDReference: *genruntime.ResourceReference
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProximityPlacementGroupID: *string
+    │   ├── ScaleSetEvictionPolicy: *string
+    │   ├── ScaleSetPriority: *string
+    │   ├── SpotMaxPrice: *float64
+    │   ├── Tags: Map[string]string
+    │   ├── Type: *string
+    │   ├── UpgradeSettings: 
+    │   │   ├── MaxSurge: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── VmSize: *string
+    │   └── VnetSubnetIDReference: *genruntime.ResourceReference
+    └── Status: 
+        ├── AvailabilityZones: Array[string]
+        ├── Conditions: Array[conditions.Condition]
+        ├── Count: *int
+        ├── EnableAutoScaling: *bool
+        ├── EnableEncryptionAtHost: *bool
+        ├── EnableFIPS: *bool
+        ├── EnableNodePublicIP: *bool
+        ├── EnableUltraSSD: *bool
+        ├── GpuInstanceProfile: *string
+        ├── Id: *string
+        ├── KubeletConfig: 
+        │   ├── AllowedUnsafeSysctls: Array[string]
+        │   ├── ContainerLogMaxFiles: *int
+        │   ├── ContainerLogMaxSizeMB: *int
+        │   ├── CpuCfsQuota: *bool
+        │   ├── CpuCfsQuotaPeriod: *string
+        │   ├── CpuManagerPolicy: *string
+        │   ├── FailSwapOn: *bool
+        │   ├── ImageGcHighThreshold: *int
+        │   ├── ImageGcLowThreshold: *int
+        │   ├── PodMaxPids: *int
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── TopologyManagerPolicy: *string
+        ├── KubeletDiskType: *string
+        ├── LinuxOSConfig: 
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── SwapFileSizeMB: *int
+        │   ├── Sysctls: 
+        │   │   ├── FsAioMaxNr: *int
+        │   │   ├── FsFileMax: *int
+        │   │   ├── FsInotifyMaxUserWatches: *int
+        │   │   ├── FsNrOpen: *int
+        │   │   ├── KernelThreadsMax: *int
+        │   │   ├── NetCoreNetdevMaxBacklog: *int
+        │   │   ├── NetCoreOptmemMax: *int
+        │   │   ├── NetCoreRmemDefault: *int
+        │   │   ├── NetCoreRmemMax: *int
+        │   │   ├── NetCoreSomaxconn: *int
+        │   │   ├── NetCoreWmemDefault: *int
+        │   │   ├── NetCoreWmemMax: *int
+        │   │   ├── NetIpv4IpLocalPortRange: *string
+        │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+        │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+        │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+        │   │   ├── NetIpv4TcpFinTimeout: *int
+        │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+        │   │   ├── NetIpv4TcpKeepaliveTime: *int
+        │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+        │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+        │   │   ├── NetIpv4TcpTwReuse: *bool
+        │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+        │   │   ├── NetNetfilterNfConntrackBuckets: *int
+        │   │   ├── NetNetfilterNfConntrackMax: *int
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── VmMaxMapCount: *int
+        │   │   ├── VmSwappiness: *int
+        │   │   └── VmVfsCachePressure: *int
+        │   ├── TransparentHugePageDefrag: *string
+        │   └── TransparentHugePageEnabled: *string
+        ├── MaxCount: *int
+        ├── MaxPods: *int
+        ├── MinCount: *int
+        ├── Mode: *string
+        ├── Name: *string
+        ├── NodeImageVersion: *string
+        ├── NodeLabels: Map[string]string
+        ├── NodePublicIPPrefixID: *string
+        ├── NodeTaints: Array[string]
+        ├── OrchestratorVersion: *string
+        ├── OsDiskSizeGB: *int
+        ├── OsDiskType: *string
+        ├── OsSKU: *string
+        ├── OsType: *string
+        ├── PodSubnetID: *string
+        ├── PowerState: 
+        │   ├── Code: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── PropertiesType: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── ProximityPlacementGroupID: *string
+        ├── ScaleSetEvictionPolicy: *string
+        ├── ScaleSetPriority: *string
+        ├── SpotMaxPrice: *float64
+        ├── Tags: Map[string]string
+        ├── Type: *string
+        ├── UpgradeSettings: 
+        │   ├── MaxSurge: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── VmSize: *string
+        └── VnetSubnetID: *string

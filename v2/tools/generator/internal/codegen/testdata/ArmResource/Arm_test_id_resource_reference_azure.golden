@@ -270,25 +270,25 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-type FakeResource_SpecARM struct {
-	Name       string                     `json:"name,omitempty"`
-	Properties *FakeResourcePropertiesARM `json:"properties,omitempty"`
+type FakeResource_Spec_ARM struct {
+	Name       string                      `json:"name,omitempty"`
+	Properties *FakeResourceProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
+var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (resource FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (resource *FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource *FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -317,18 +317,18 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_SpecARM{}
+	result := &FakeResource_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if resource.Properties != nil {
-		propertiesARM, err := (*resource.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*resource.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*FakeResourcePropertiesARM)
+		properties := *properties_ARM.(*FakeResourceProperties_ARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -336,14 +336,14 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResource_SpecARM{}
+	return &FakeResource_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_SpecARM)
+	typedInput, ok := armInput.(FakeResource_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -500,7 +500,7 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
-type FakeResourcePropertiesARM struct {
+type FakeResourceProperties_ARM struct {
 	Id       *string           `json:"id,omitempty"`
 	NsgIds   []string          `json:"nsgIds,omitempty"`
 	NsgMap   map[string]string `json:"nsgMap,omitempty"`
@@ -533,11 +533,11 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &FakeResourcePropertiesARM{}
+	result := &FakeResourceProperties_ARM{}
 
 	// Set property ‘Id’:
 	if properties.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -547,7 +547,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘NsgIds’:
 	for _, item := range properties.NsgReferences {
-		itemARMID, err := resolved.ResolvedReferences.ARMIDOrErr(item)
+		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
 		if err != nil {
 			return nil, err
 		}
@@ -558,7 +558,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	if properties.NsgMapReferences != nil {
 		result.NsgMap = make(map[string]string, len(properties.NsgMapReferences))
 		for key, value := range properties.NsgMapReferences {
-			valueARMID, err := resolved.ResolvedReferences.ARMIDOrErr(value)
+			valueARMID, err := resolved.ResolvedReferences.Lookup(value)
 			if err != nil {
 				return nil, err
 			}
@@ -568,7 +568,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘SubnetId’:
 	if properties.SubnetReference != nil {
-		subnetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.SubnetReference)
+		subnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.SubnetReference)
 		if err != nil {
 			return nil, err
 		}
@@ -580,14 +580,14 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FakeResourceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FakeResourcePropertiesARM{}
+	return &FakeResourceProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FakeResourceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(FakeResourcePropertiesARM)
+	_, ok := armInput.(FakeResourceProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourceProperties_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘NsgMapReferences’

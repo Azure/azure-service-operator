@@ -252,7 +252,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Spec(gens map[str
 
 // AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworks_Subnet_Spec(gens map[string]gopter.Gen) {
-	gens["Delegations"] = gen.SliceOf(VirtualNetworks_Subnet_Spec_Properties_DelegationsGenerator())
+	gens["Delegations"] = gen.SliceOf(VirtualNetworks_Subnet_Properties_Delegations_SpecGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 	gens["NatGateway"] = gen.PtrOf(SubResourceGenerator())
 	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
@@ -1071,20 +1071,20 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_STATUS(g
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualNetworks_Subnet_Spec_Properties_Delegations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworks_Subnet_Properties_Delegations_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworks_Subnet_Spec_Properties_Delegations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Subnet_Spec_Properties_Delegations, VirtualNetworks_Subnet_Spec_Properties_DelegationsGenerator()))
+		"Round trip of VirtualNetworks_Subnet_Properties_Delegations_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Subnet_Properties_Delegations_Spec, VirtualNetworks_Subnet_Properties_Delegations_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworks_Subnet_Spec_Properties_Delegations runs a test to see if a specific instance of VirtualNetworks_Subnet_Spec_Properties_Delegations round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworks_Subnet_Spec_Properties_Delegations(subject VirtualNetworks_Subnet_Spec_Properties_Delegations) string {
+// RunJSONSerializationTestForVirtualNetworks_Subnet_Properties_Delegations_Spec runs a test to see if a specific instance of VirtualNetworks_Subnet_Properties_Delegations_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworks_Subnet_Properties_Delegations_Spec(subject VirtualNetworks_Subnet_Properties_Delegations_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1092,7 +1092,7 @@ func RunJSONSerializationTestForVirtualNetworks_Subnet_Spec_Properties_Delegatio
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworks_Subnet_Spec_Properties_Delegations
+	var actual VirtualNetworks_Subnet_Properties_Delegations_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1110,25 +1110,25 @@ func RunJSONSerializationTestForVirtualNetworks_Subnet_Spec_Properties_Delegatio
 	return ""
 }
 
-// Generator of VirtualNetworks_Subnet_Spec_Properties_Delegations instances for property testing - lazily instantiated
-// by VirtualNetworks_Subnet_Spec_Properties_DelegationsGenerator()
-var virtualNetworks_Subnet_Spec_Properties_DelegationsGenerator gopter.Gen
+// Generator of VirtualNetworks_Subnet_Properties_Delegations_Spec instances for property testing - lazily instantiated
+// by VirtualNetworks_Subnet_Properties_Delegations_SpecGenerator()
+var virtualNetworks_Subnet_Properties_Delegations_SpecGenerator gopter.Gen
 
-// VirtualNetworks_Subnet_Spec_Properties_DelegationsGenerator returns a generator of VirtualNetworks_Subnet_Spec_Properties_Delegations instances for property testing.
-func VirtualNetworks_Subnet_Spec_Properties_DelegationsGenerator() gopter.Gen {
-	if virtualNetworks_Subnet_Spec_Properties_DelegationsGenerator != nil {
-		return virtualNetworks_Subnet_Spec_Properties_DelegationsGenerator
+// VirtualNetworks_Subnet_Properties_Delegations_SpecGenerator returns a generator of VirtualNetworks_Subnet_Properties_Delegations_Spec instances for property testing.
+func VirtualNetworks_Subnet_Properties_Delegations_SpecGenerator() gopter.Gen {
+	if virtualNetworks_Subnet_Properties_Delegations_SpecGenerator != nil {
+		return virtualNetworks_Subnet_Properties_Delegations_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Spec_Properties_Delegations(generators)
-	virtualNetworks_Subnet_Spec_Properties_DelegationsGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_Spec_Properties_Delegations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Properties_Delegations_Spec(generators)
+	virtualNetworks_Subnet_Properties_Delegations_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Subnet_Properties_Delegations_Spec{}), generators)
 
-	return virtualNetworks_Subnet_Spec_Properties_DelegationsGenerator
+	return virtualNetworks_Subnet_Properties_Delegations_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Spec_Properties_Delegations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Spec_Properties_Delegations(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Properties_Delegations_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworks_Subnet_Properties_Delegations_Spec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 }

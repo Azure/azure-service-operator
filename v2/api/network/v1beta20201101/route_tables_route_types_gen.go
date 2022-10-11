@@ -404,14 +404,14 @@ var _ genruntime.FromARMConverter = &Route_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Route_STATUSARM{}
+	return &Route_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Route_STATUSARM)
+	typedInput, ok := armInput.(Route_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefix’:
@@ -636,7 +636,7 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if route == nil {
 		return nil, nil
 	}
-	result := &RouteTables_Route_SpecARM{}
+	result := &RouteTables_Route_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -646,7 +646,7 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		route.HasBgpOverride != nil ||
 		route.NextHopIpAddress != nil ||
 		route.NextHopType != nil {
-		result.Properties = &RoutePropertiesFormatARM{}
+		result.Properties = &RoutePropertiesFormat_ARM{}
 	}
 	if route.AddressPrefix != nil {
 		addressPrefix := *route.AddressPrefix
@@ -669,14 +669,14 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *RouteTables_Route_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTables_Route_SpecARM{}
+	return &RouteTables_Route_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTables_Route_SpecARM)
+	typedInput, ok := armInput.(RouteTables_Route_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefix’:

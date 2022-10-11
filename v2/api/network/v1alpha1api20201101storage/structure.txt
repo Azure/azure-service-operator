@@ -1,0 +1,1031 @@
+github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage
+├── APIVersion: enum
+│   └── "2020-11-01"
+├── LoadBalancer: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── BackendAddressPools: 
+│   │   │   ├── LoadBalancerBackendAddresses: 
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   ├── LoadBalancerFrontendIPConfiguration: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Subnet: 
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   │   └── VirtualNetwork: 
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Location: *string
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── FrontendIPConfigurations: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAddressVersion: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublicIPAddress: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PublicIPPrefix: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Subnet: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── Zones: Array[string]
+│   │   ├── InboundNatPools: 
+│   │   │   ├── BackendPort: *int
+│   │   │   ├── EnableFloatingIP: *bool
+│   │   │   ├── EnableTcpReset: *bool
+│   │   │   ├── FrontendIPConfiguration: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPortRangeEnd: *int
+│   │   │   ├── FrontendPortRangeStart: *int
+│   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Protocol: *string
+│   │   ├── LoadBalancingRules: 
+│   │   │   ├── BackendAddressPool: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── BackendPort: *int
+│   │   │   ├── DisableOutboundSnat: *bool
+│   │   │   ├── EnableFloatingIP: *bool
+│   │   │   ├── EnableTcpReset: *bool
+│   │   │   ├── FrontendIPConfiguration: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPort: *int
+│   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   ├── LoadDistribution: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── Probe: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Protocol: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── OutboundRules: 
+│   │   │   ├── AllocatedOutboundPorts: *int
+│   │   │   ├── BackendAddressPool: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── EnableTcpReset: *bool
+│   │   │   ├── FrontendIPConfigurations: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Protocol: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Probes: 
+│   │   │   ├── IntervalInSeconds: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── NumberOfProbes: *int
+│   │   │   ├── Port: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   └── RequestPath: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── BackendAddressPools: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Etag: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── FrontendIPConfigurations: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── InboundNatPools: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── InboundNatRules: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LoadBalancingRules: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Name: *string
+│       │   ├── OutboundRules: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAddressVersion: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── PublicIPAddress: 
+│       │   │   ├── ExtendedLocation: 
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Type: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Sku: 
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Tier: *string
+│       │   │   └── Zones: Array[string]
+│       │   ├── PublicIPPrefix: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Subnet: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Type: *string
+│       │   └── Zones: Array[string]
+│       ├── Id: *string
+│       ├── InboundNatPools: 
+│       │   ├── BackendPort: *int
+│       │   ├── EnableFloatingIP: *bool
+│       │   ├── EnableTcpReset: *bool
+│       │   ├── Etag: *string
+│       │   ├── FrontendIPConfiguration: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── FrontendPortRangeEnd: *int
+│       │   ├── FrontendPortRangeStart: *int
+│       │   ├── Id: *string
+│       │   ├── IdleTimeoutInMinutes: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── InboundNatRules: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── LoadBalancingRules: 
+│       │   ├── BackendAddressPool: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── BackendPort: *int
+│       │   ├── DisableOutboundSnat: *bool
+│       │   ├── EnableFloatingIP: *bool
+│       │   ├── EnableTcpReset: *bool
+│       │   ├── Etag: *string
+│       │   ├── FrontendIPConfiguration: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── FrontendPort: *int
+│       │   ├── Id: *string
+│       │   ├── IdleTimeoutInMinutes: *int
+│       │   ├── LoadDistribution: *string
+│       │   ├── Name: *string
+│       │   ├── Probe: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OutboundRules: 
+│       │   ├── AllocatedOutboundPorts: *int
+│       │   ├── BackendAddressPool: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── EnableTcpReset: *bool
+│       │   ├── Etag: *string
+│       │   ├── FrontendIPConfigurations: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Id: *string
+│       │   ├── IdleTimeoutInMinutes: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── Probes: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── IntervalInSeconds: *int
+│       │   ├── LoadBalancingRules: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Name: *string
+│       │   ├── NumberOfProbes: *int
+│       │   ├── Port: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   ├── RequestPath: *string
+│       │   └── Type: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── NetworkInterface: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── DnsSettings: 
+│   │   │   ├── DnsServers: Array[string]
+│   │   │   ├── InternalDnsNameLabel: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── EnableAcceleratedNetworking: *bool
+│   │   ├── EnableIPForwarding: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IpConfigurations: 
+│   │   │   ├── ApplicationGatewayBackendAddressPools: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ApplicationSecurityGroups: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LoadBalancerBackendAddressPools: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LoadBalancerInboundNatRules: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   ├── Primary: *bool
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAddressVersion: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublicIPAddress: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Subnet: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── VirtualNetworkTaps: 
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── NetworkSecurityGroup: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DnsSettings: 
+│       │   ├── AppliedDnsServers: Array[string]
+│       │   ├── DnsServers: Array[string]
+│       │   ├── InternalDnsNameLabel: *string
+│       │   ├── InternalDomainNameSuffix: *string
+│       │   ├── InternalFqdn: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── DscpConfiguration: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── EnableAcceleratedNetworking: *bool
+│       ├── EnableIPForwarding: *bool
+│       ├── Etag: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── HostedWorkloads: Array[string]
+│       ├── Id: *string
+│       ├── IpConfigurations: 
+│       │   ├── ApplicationGatewayBackendAddressPools: 
+│       │   │   ├── BackendAddresses: 
+│       │   │   │   ├── Fqdn: *string
+│       │   │   │   ├── IpAddress: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Etag: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ProvisioningState: *string
+│       │   │   └── Type: *string
+│       │   ├── ApplicationSecurityGroups: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── LoadBalancerBackendAddressPools: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LoadBalancerInboundNatRules: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Name: *string
+│       │   ├── Primary: *bool
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAddressVersion: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PrivateLinkConnectionProperties: 
+│       │   │   ├── Fqdns: Array[string]
+│       │   │   ├── GroupId: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── RequiredMemberName: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── PublicIPAddress: 
+│       │   │   ├── ExtendedLocation: 
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Type: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Sku: 
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Tier: *string
+│       │   │   └── Zones: Array[string]
+│       │   ├── Subnet: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Type: *string
+│       │   └── VirtualNetworkTaps: 
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── MacAddress: *string
+│       ├── MigrationPhase: *string
+│       ├── Name: *string
+│       ├── NetworkSecurityGroup: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── NicType: *string
+│       ├── Primary: *bool
+│       ├── PrivateEndpoint: 
+│       │   ├── ExtendedLocation: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateLinkService: 
+│       │   ├── ExtendedLocation: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── Tags: Map[string]string
+│       ├── TapConfigurations: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── VirtualMachine: 
+│           ├── Id: *string
+│           └── PropertyBag: genruntime.PropertyBag
+├── NetworkSecurityGroup: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DefaultSecurityRules: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Etag: *string
+│       ├── FlowLogs: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── NetworkInterfaces: 
+│       │   ├── ExtendedLocation: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── SecurityRules: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Subnets: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── NetworkSecurityGroupsSecurityRule: Resource
+│   ├── Spec: 
+│   │   ├── Access: *string
+│   │   ├── AzureName: string
+│   │   ├── Description: *string
+│   │   ├── DestinationAddressPrefix: *string
+│   │   ├── DestinationAddressPrefixes: Array[string]
+│   │   ├── DestinationApplicationSecurityGroups: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── DestinationPortRange: *string
+│   │   ├── DestinationPortRanges: Array[string]
+│   │   ├── Direction: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Priority: *int
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Protocol: *string
+│   │   ├── SourceAddressPrefix: *string
+│   │   ├── SourceAddressPrefixes: Array[string]
+│   │   ├── SourceApplicationSecurityGroups: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── SourcePortRange: *string
+│   │   ├── SourcePortRanges: Array[string]
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Access: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Description: *string
+│       ├── DestinationAddressPrefix: *string
+│       ├── DestinationAddressPrefixes: Array[string]
+│       ├── DestinationApplicationSecurityGroups: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── DestinationPortRange: *string
+│       ├── DestinationPortRanges: Array[string]
+│       ├── Direction: *string
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Priority: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Protocol: *string
+│       ├── ProvisioningState: *string
+│       ├── SourceAddressPrefix: *string
+│       ├── SourceAddressPrefixes: Array[string]
+│       ├── SourceApplicationSecurityGroups: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SourcePortRange: *string
+│       ├── SourcePortRanges: Array[string]
+│       └── Type: *string
+├── PublicIPAddress: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── DdosSettings: 
+│   │   │   ├── DdosCustomPolicy: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ProtectedIP: *bool
+│   │   │   └── ProtectionCoverage: *string
+│   │   ├── DnsSettings: 
+│   │   │   ├── DomainNameLabel: *string
+│   │   │   ├── Fqdn: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ReverseFqdn: *string
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IdleTimeoutInMinutes: *int
+│   │   ├── IpAddress: *string
+│   │   ├── IpTags: 
+│   │   │   ├── IpTagType: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tag: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicIPAddressVersion: *string
+│   │   ├── PublicIPAllocationMethod: *string
+│   │   ├── PublicIPPrefix: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   └── Zones: Array[string]
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DdosSettings: 
+│       │   ├── DdosCustomPolicy: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProtectedIP: *bool
+│       │   └── ProtectionCoverage: *string
+│       ├── DnsSettings: 
+│       │   ├── DomainNameLabel: *string
+│       │   ├── Fqdn: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ReverseFqdn: *string
+│       ├── Etag: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Id: *string
+│       ├── IdleTimeoutInMinutes: *int
+│       ├── IpAddress: *string
+│       ├── IpConfiguration: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Subnet: 
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── IpTags: 
+│       │   ├── IpTagType: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tag: *string
+│       ├── Location: *string
+│       ├── MigrationPhase: *string
+│       ├── Name: *string
+│       ├── NatGateway: 
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Sku: 
+│       │   │   ├── Name: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── Zones: Array[string]
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicIPAddressVersion: *string
+│       ├── PublicIPAllocationMethod: *string
+│       ├── PublicIPPrefix: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ResourceGuid: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── Zones: Array[string]
+├── VirtualNetwork: Resource
+│   ├── Spec: 
+│   │   ├── AddressSpace: 
+│   │   │   ├── AddressPrefixes: Array[string]
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AzureName: string
+│   │   ├── BgpCommunities: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── VirtualNetworkCommunity: *string
+│   │   ├── DdosProtectionPlan: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── DhcpOptions: 
+│   │   │   ├── DnsServers: Array[string]
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── EnableDdosProtection: *bool
+│   │   ├── EnableVmProtection: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── IpAllocations: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AddressSpace: 
+│       │   ├── AddressPrefixes: Array[string]
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BgpCommunities: 
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RegionalCommunity: *string
+│       │   └── VirtualNetworkCommunity: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DdosProtectionPlan: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── DhcpOptions: 
+│       │   ├── DnsServers: Array[string]
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── EnableDdosProtection: *bool
+│       ├── EnableVmProtection: *bool
+│       ├── Etag: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Id: *string
+│       ├── IpAllocations: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── VirtualNetworkGateway: Resource
+│   ├── Spec: 
+│   │   ├── ActiveActive: *bool
+│   │   ├── AzureName: string
+│   │   ├── BgpSettings: 
+│   │   │   ├── Asn: *uint32
+│   │   │   ├── BgpPeeringAddress: *string
+│   │   │   ├── BgpPeeringAddresses: 
+│   │   │   │   ├── CustomBgpIpAddresses: Array[string]
+│   │   │   │   ├── IpconfigurationId: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PeerWeight: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── CustomRoutes: 
+│   │   │   ├── AddressPrefixes: Array[string]
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── EnableBgp: *bool
+│   │   ├── EnableDnsForwarding: *bool
+│   │   ├── EnablePrivateIpAddress: *bool
+│   │   ├── GatewayDefaultSite: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── GatewayType: *string
+│   │   ├── IpConfigurations: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublicIPAddress: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── Subnet: 
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── Tags: Map[string]string
+│   │   ├── VNetExtendedLocationResourceReference: *genruntime.ResourceReference
+│   │   ├── VirtualNetworkExtendedLocation: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── VpnClientConfiguration: 
+│   │   │   ├── AadAudience: *string
+│   │   │   ├── AadIssuer: *string
+│   │   │   ├── AadTenant: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RadiusServerAddress: *string
+│   │   │   ├── RadiusServerSecret: *string
+│   │   │   ├── RadiusServers: 
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── RadiusServerAddress: *string
+│   │   │   │   ├── RadiusServerScore: *int
+│   │   │   │   └── RadiusServerSecret: *string
+│   │   │   ├── VpnAuthenticationTypes: Array[string]
+│   │   │   ├── VpnClientAddressPool: 
+│   │   │   │   ├── AddressPrefixes: Array[string]
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── VpnClientIpsecPolicies: 
+│   │   │   │   ├── DhGroup: *string
+│   │   │   │   ├── IkeEncryption: *string
+│   │   │   │   ├── IkeIntegrity: *string
+│   │   │   │   ├── IpsecEncryption: *string
+│   │   │   │   ├── IpsecIntegrity: *string
+│   │   │   │   ├── PfsGroup: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── SaDataSizeKilobytes: *int
+│   │   │   │   └── SaLifeTimeSeconds: *int
+│   │   │   ├── VpnClientProtocols: Array[string]
+│   │   │   ├── VpnClientRevokedCertificates: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Thumbprint: *string
+│   │   │   └── VpnClientRootCertificates: 
+│   │   │       ├── Name: *string
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── PublicCertData: *string
+│   │   ├── VpnGatewayGeneration: *string
+│   │   └── VpnType: *string
+│   └── Status: 
+│       ├── ActiveActive: *bool
+│       ├── BgpSettings: 
+│       │   ├── Asn: *uint32
+│       │   ├── BgpPeeringAddress: *string
+│       │   ├── BgpPeeringAddresses: 
+│       │   │   ├── CustomBgpIpAddresses: Array[string]
+│       │   │   ├── DefaultBgpIpAddresses: Array[string]
+│       │   │   ├── IpconfigurationId: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TunnelIpAddresses: Array[string]
+│       │   ├── PeerWeight: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CustomRoutes: 
+│       │   ├── AddressPrefixes: Array[string]
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── EnableBgp: *bool
+│       ├── EnableDnsForwarding: *bool
+│       ├── EnablePrivateIpAddress: *bool
+│       ├── Etag: *string
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── GatewayDefaultSite: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── GatewayType: *string
+│       ├── Id: *string
+│       ├── InboundDnsForwardingEndpoint: *string
+│       ├── IpConfigurations: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── PublicIPAddress: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── Subnet: 
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── Sku: 
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       ├── VNetExtendedLocationResourceId: *string
+│       ├── VpnClientConfiguration: 
+│       │   ├── AadAudience: *string
+│       │   ├── AadIssuer: *string
+│       │   ├── AadTenant: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RadiusServerAddress: *string
+│       │   ├── RadiusServerSecret: *string
+│       │   ├── RadiusServers: 
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RadiusServerAddress: *string
+│       │   │   ├── RadiusServerScore: *int
+│       │   │   └── RadiusServerSecret: *string
+│       │   ├── VpnAuthenticationTypes: Array[string]
+│       │   ├── VpnClientAddressPool: 
+│       │   │   ├── AddressPrefixes: Array[string]
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── VpnClientIpsecPolicies: 
+│       │   │   ├── DhGroup: *string
+│       │   │   ├── IkeEncryption: *string
+│       │   │   ├── IkeIntegrity: *string
+│       │   │   ├── IpsecEncryption: *string
+│       │   │   ├── IpsecIntegrity: *string
+│       │   │   ├── PfsGroup: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SaDataSizeKilobytes: *int
+│       │   │   └── SaLifeTimeSeconds: *int
+│       │   ├── VpnClientProtocols: Array[string]
+│       │   ├── VpnClientRevokedCertificates: 
+│       │   │   ├── Etag: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ProvisioningState: *string
+│       │   │   └── Thumbprint: *string
+│       │   └── VpnClientRootCertificates: 
+│       │       ├── Etag: *string
+│       │       ├── Id: *string
+│       │       ├── Name: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── ProvisioningState: *string
+│       │       └── PublicCertData: *string
+│       ├── VpnGatewayGeneration: *string
+│       └── VpnType: *string
+├── VirtualNetworksSubnet: Resource
+│   ├── Spec: 
+│   │   ├── AddressPrefix: *string
+│   │   ├── AddressPrefixes: Array[string]
+│   │   ├── AzureName: string
+│   │   ├── Delegations: 
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ServiceName: *string
+│   │   ├── IpAllocations: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── NatGateway: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── NetworkSecurityGroup: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateEndpointNetworkPolicies: *string
+│   │   ├── PrivateLinkServiceNetworkPolicies: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RouteTable: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── ServiceEndpointPolicies: 
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── ServiceEndpoints: 
+│   │       ├── Locations: Array[string]
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Service: *string
+│   └── Status: 
+│       ├── AddressPrefix: *string
+│       ├── AddressPrefixes: Array[string]
+│       ├── ApplicationGatewayIpConfigurations: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── Subnet: 
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── Delegations: 
+│       │   ├── Actions: Array[string]
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── ServiceName: *string
+│       │   └── Type: *string
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IpAllocations: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── IpConfigurationProfiles: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── IpConfigurations: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── PublicIPAddress: 
+│       │       ├── ExtendedLocation: 
+│       │       │   ├── Name: *string
+│       │       │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   └── Type: *string
+│       │       ├── Id: *string
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── Sku: 
+│       │       │   ├── Name: *string
+│       │       │   ├── PropertyBag: genruntime.PropertyBag
+│       │       │   └── Tier: *string
+│       │       └── Zones: Array[string]
+│       ├── Name: *string
+│       ├── NatGateway: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── NetworkSecurityGroup: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateEndpointNetworkPolicies: *string
+│       ├── PrivateEndpoints: 
+│       │   ├── ExtendedLocation: 
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateLinkServiceNetworkPolicies: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Purpose: *string
+│       ├── ResourceNavigationLinks: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Link: *string
+│       │   ├── LinkedResourceType: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── RouteTable: 
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ServiceAssociationLinks: 
+│       │   ├── AllowDelete: *bool
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Link: *string
+│       │   ├── LinkedResourceType: *string
+│       │   ├── Locations: Array[string]
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── ServiceEndpointPolicies: 
+│       │   ├── Id: *string
+│       │   ├── Kind: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ServiceEndpoints: 
+│       │   ├── Locations: Array[string]
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Service: *string
+│       └── Type: *string
+└── VirtualNetworksVirtualNetworkPeering: Resource
+    ├── Spec: 
+    │   ├── AllowForwardedTraffic: *bool
+    │   ├── AllowGatewayTransit: *bool
+    │   ├── AllowVirtualNetworkAccess: *bool
+    │   ├── AzureName: string
+    │   ├── Location: *string
+    │   ├── OriginalVersion: string
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PeeringState: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── RemoteAddressSpace: 
+    │   │   ├── AddressPrefixes: Array[string]
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── RemoteBgpCommunities: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── VirtualNetworkCommunity: *string
+    │   ├── RemoteVirtualNetwork: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── Tags: Map[string]string
+    │   └── UseRemoteGateways: *bool
+    └── Status: 
+        ├── AllowForwardedTraffic: *bool
+        ├── AllowGatewayTransit: *bool
+        ├── AllowVirtualNetworkAccess: *bool
+        ├── Conditions: Array[conditions.Condition]
+        ├── DoNotVerifyRemoteGateways: *bool
+        ├── Etag: *string
+        ├── Id: *string
+        ├── Name: *string
+        ├── PeeringState: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── RemoteAddressSpace: 
+        │   ├── AddressPrefixes: Array[string]
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── RemoteBgpCommunities: 
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── RegionalCommunity: *string
+        │   └── VirtualNetworkCommunity: *string
+        ├── RemoteVirtualNetwork: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── ResourceGuid: *string
+        ├── Type: *string
+        └── UseRemoteGateways: *bool

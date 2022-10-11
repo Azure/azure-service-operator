@@ -1547,7 +1547,7 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_PrivateEndpointConnection_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1849,20 +1849,20 @@ func DatabaseAccountOperatorSecretsGenerator() gopter.Gen {
 	return databaseAccountOperatorSecretsGenerator
 }
 
-func Test_ManagedServiceIdentity_STATUS_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedServiceIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedServiceIdentity_STATUS_UserAssignedIdentities via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_STATUS_UserAssignedIdentities, ManagedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator()))
+		"Round trip of ManagedServiceIdentity_UserAssignedIdentities_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_STATUS, ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedServiceIdentity_STATUS_UserAssignedIdentities runs a test to see if a specific instance of ManagedServiceIdentity_STATUS_UserAssignedIdentities round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity_STATUS_UserAssignedIdentities(subject ManagedServiceIdentity_STATUS_UserAssignedIdentities) string {
+// RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of ManagedServiceIdentity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedServiceIdentity_UserAssignedIdentities_STATUS(subject ManagedServiceIdentity_UserAssignedIdentities_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1870,7 +1870,7 @@ func RunJSONSerializationTestForManagedServiceIdentity_STATUS_UserAssignedIdenti
 	}
 
 	// Deserialize back into memory
-	var actual ManagedServiceIdentity_STATUS_UserAssignedIdentities
+	var actual ManagedServiceIdentity_UserAssignedIdentities_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1888,25 +1888,25 @@ func RunJSONSerializationTestForManagedServiceIdentity_STATUS_UserAssignedIdenti
 	return ""
 }
 
-// Generator of ManagedServiceIdentity_STATUS_UserAssignedIdentities instances for property testing - lazily
-// instantiated by ManagedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator()
-var managedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator gopter.Gen
+// Generator of ManagedServiceIdentity_UserAssignedIdentities_STATUS instances for property testing - lazily
+// instantiated by ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator()
+var managedServiceIdentity_UserAssignedIdentities_STATUSGenerator gopter.Gen
 
-// ManagedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator returns a generator of ManagedServiceIdentity_STATUS_UserAssignedIdentities instances for property testing.
-func ManagedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator() gopter.Gen {
-	if managedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator != nil {
-		return managedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator
+// ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator returns a generator of ManagedServiceIdentity_UserAssignedIdentities_STATUS instances for property testing.
+func ManagedServiceIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
+	if managedServiceIdentity_UserAssignedIdentities_STATUSGenerator != nil {
+		return managedServiceIdentity_UserAssignedIdentities_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_UserAssignedIdentities(generators)
-	managedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS_UserAssignedIdentities{}), generators)
+	AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_STATUS(generators)
+	managedServiceIdentity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_UserAssignedIdentities_STATUS{}), generators)
 
-	return managedServiceIdentity_STATUS_UserAssignedIdentitiesGenerator
+	return managedServiceIdentity_UserAssignedIdentities_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_UserAssignedIdentities is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_UserAssignedIdentities(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }

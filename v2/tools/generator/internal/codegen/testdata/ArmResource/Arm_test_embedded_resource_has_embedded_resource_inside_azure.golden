@@ -268,25 +268,25 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-type A_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *APropertiesARM `json:"properties,omitempty"`
+type A_Spec_ARM struct {
+	Name       string           `json:"name,omitempty"`
+	Properties *AProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &A_SpecARM{}
+var _ genruntime.ARMResourceSpec = &A_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (a A_SpecARM) GetAPIVersion() string {
+func (a A_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (a *A_SpecARM) GetName() string {
+func (a *A_Spec_ARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
-func (a *A_SpecARM) GetType() string {
+func (a *A_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
@@ -540,25 +540,25 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-type B_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *BPropertiesARM `json:"properties,omitempty"`
+type B_Spec_ARM struct {
+	Name       string           `json:"name,omitempty"`
+	Properties *BProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &B_SpecARM{}
+var _ genruntime.ARMResourceSpec = &B_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (b B_SpecARM) GetAPIVersion() string {
+func (b B_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (b *B_SpecARM) GetName() string {
+func (b *B_Spec_ARM) GetName() string {
 	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
-func (b *B_SpecARM) GetType() string {
+func (b *B_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/B"
 }
 
@@ -812,25 +812,25 @@ type CList struct {
 	Items           []C `json:"items"`
 }
 
-type C_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *CPropertiesARM `json:"properties,omitempty"`
+type C_Spec_ARM struct {
+	Name       string           `json:"name,omitempty"`
+	Properties *CProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &C_SpecARM{}
+var _ genruntime.ARMResourceSpec = &C_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (c C_SpecARM) GetAPIVersion() string {
+func (c C_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (c *C_SpecARM) GetName() string {
+func (c *C_Spec_ARM) GetName() string {
 	return c.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
-func (c *C_SpecARM) GetType() string {
+func (c *C_Spec_ARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
 
@@ -854,18 +854,18 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	result := &A_SpecARM{}
+	result := &A_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if a.Properties != nil {
-		propertiesARM, err := (*a.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*a.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*APropertiesARM)
+		properties := *properties_ARM.(*AProperties_ARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -873,14 +873,14 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (a *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &A_SpecARM{}
+	return &A_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(A_SpecARM)
+	typedInput, ok := armInput.(A_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1042,10 +1042,10 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2020-06-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
-type APropertiesARM struct {
-	IntField    *int          `json:"intField,omitempty"`
-	RefField    *BResourceARM `json:"refField,omitempty"`
-	StringField *string       `json:"stringField,omitempty"`
+type AProperties_ARM struct {
+	IntField    *int           `json:"intField,omitempty"`
+	RefField    *BResource_ARM `json:"refField,omitempty"`
+	StringField *string        `json:"stringField,omitempty"`
 }
 
 type B_Spec struct {
@@ -1068,18 +1068,18 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	result := &B_SpecARM{}
+	result := &B_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if b.Properties != nil {
-		propertiesARM, err := (*b.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*b.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*BPropertiesARM)
+		properties := *properties_ARM.(*BProperties_ARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1087,14 +1087,14 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (b *B_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &B_SpecARM{}
+	return &B_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(B_SpecARM)
+	typedInput, ok := armInput.(B_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1251,9 +1251,9 @@ func (b *B_Spec) OriginalVersion() string {
 func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
-type BPropertiesARM struct {
+type BProperties_ARM struct {
 	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
-	RefField  *CResourceARM          `json:"refField,omitempty"`
+	RefField  *CResource_ARM         `json:"refField,omitempty"`
 }
 
 type C_Spec struct {
@@ -1276,18 +1276,18 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	result := &C_SpecARM{}
+	result := &C_Spec_ARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
 	if c.Properties != nil {
-		propertiesARM, err := (*c.Properties).ConvertToARM(resolved)
+		properties_ARM, err := (*c.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		properties := *propertiesARM.(*CPropertiesARM)
+		properties := *properties_ARM.(*CProperties_ARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1295,14 +1295,14 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (c *C_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &C_SpecARM{}
+	return &C_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(C_SpecARM)
+	typedInput, ok := armInput.(C_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1459,7 +1459,7 @@ func (c *C_Spec) OriginalVersion() string {
 func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
-type CPropertiesARM struct {
+type CProperties_ARM struct {
 	IntField    *int    `json:"intField,omitempty"`
 	StringField *string `json:"stringField,omitempty"`
 }
@@ -1478,7 +1478,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	result := &APropertiesARM{}
+	result := &AProperties_ARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1488,11 +1488,11 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘RefField’:
 	if properties.RefField != nil {
-		refFieldARM, err := (*properties.RefField).ConvertToARM(resolved)
+		refField_ARM, err := (*properties.RefField).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		refField := *refFieldARM.(*BResourceARM)
+		refField := *refField_ARM.(*BResource_ARM)
 		result.RefField = &refField
 	}
 
@@ -1506,14 +1506,14 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *AProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &APropertiesARM{}
+	return &AProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *AProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(APropertiesARM)
+	typedInput, ok := armInput.(AProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected APropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AProperties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IntField’:
@@ -1615,7 +1615,7 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BPropertiesARM{}
+	result := &BProperties_ARM{}
 
 	// Set property ‘EnumField’:
 	if properties.EnumField != nil {
@@ -1625,11 +1625,11 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘RefField’:
 	if properties.RefField != nil {
-		refFieldARM, err := (*properties.RefField).ConvertToARM(resolved)
+		refField_ARM, err := (*properties.RefField).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		refField := *refFieldARM.(*CResourceARM)
+		refField := *refField_ARM.(*CResource_ARM)
 		result.RefField = &refField
 	}
 	return result, nil
@@ -1637,14 +1637,14 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BPropertiesARM{}
+	return &BProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BPropertiesARM)
+	typedInput, ok := armInput.(BProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BProperties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘EnumField’:
@@ -1737,7 +1737,7 @@ type BProperties_EnumField string
 const BProperties_EnumField_Qux = BProperties_EnumField("Qux")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
-type BResourceARM struct {
+type BResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1754,7 +1754,7 @@ func (properties *CProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	result := &CPropertiesARM{}
+	result := &CProperties_ARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1772,14 +1772,14 @@ func (properties *CProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CPropertiesARM{}
+	return &CProperties_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CPropertiesARM)
+	typedInput, ok := armInput.(CProperties_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CProperties_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IntField’:
@@ -1834,7 +1834,7 @@ func (properties *CProperties) AssignProperties_To_CProperties(destination *v202
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
-type CResourceARM struct {
+type CResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1850,11 +1850,11 @@ func (resource *BResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	result := &BResourceARM{}
+	result := &BResource_ARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1866,14 +1866,14 @@ func (resource *BResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *BResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BResourceARM{}
+	return &BResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *BResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(BResourceARM)
+	_, ok := armInput.(BResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BResource_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Reference’
@@ -1933,11 +1933,11 @@ func (resource *CResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	result := &CResourceARM{}
+	result := &CResource_ARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resource.Reference)
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
 			return nil, err
 		}
@@ -1949,14 +1949,14 @@ func (resource *CResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *CResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CResourceARM{}
+	return &CResource_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *CResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(CResourceARM)
+	_, ok := armInput.(CResource_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CResource_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Reference’

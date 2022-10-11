@@ -298,8 +298,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachine_Spec(gens map[string]gopter.G
 	gens["Host"] = gen.PtrOf(SubResourceGenerator())
 	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineIdentityGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(VirtualMachine_Spec_Properties_NetworkProfileGenerator())
-	gens["OsProfile"] = gen.PtrOf(VirtualMachine_Spec_Properties_OsProfileGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachine_Properties_NetworkProfile_SpecGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachine_Properties_OsProfile_SpecGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileGenerator())
@@ -2558,32 +2558,32 @@ func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachine_Spec_Properties_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachine_Properties_NetworkProfile_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachine_Spec_Properties_NetworkProfile to VirtualMachine_Spec_Properties_NetworkProfile via AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile & AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile, VirtualMachine_Spec_Properties_NetworkProfileGenerator()))
+		"Round trip from VirtualMachine_Properties_NetworkProfile_Spec to VirtualMachine_Properties_NetworkProfile_Spec via AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec & AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_Spec, VirtualMachine_Properties_NetworkProfile_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile tests if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile can be assigned to v1beta20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile(subject VirtualMachine_Spec_Properties_NetworkProfile) string {
+// RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_Spec tests if a specific instance of VirtualMachine_Properties_NetworkProfile_Spec can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_Spec(subject VirtualMachine_Properties_NetworkProfile_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201201s.VirtualMachine_Spec_Properties_NetworkProfile
-	err := copied.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile(&other)
+	var other v20201201s.VirtualMachine_Properties_NetworkProfile_Spec
+	err := copied.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachine_Spec_Properties_NetworkProfile
-	err = actual.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile(&other)
+	var actual VirtualMachine_Properties_NetworkProfile_Spec
+	err = actual.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2600,20 +2600,20 @@ func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile(s
 	return ""
 }
 
-func Test_VirtualMachine_Spec_Properties_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachine_Properties_NetworkProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile, VirtualMachine_Spec_Properties_NetworkProfileGenerator()))
+		"Round trip of VirtualMachine_Properties_NetworkProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_Spec, VirtualMachine_Properties_NetworkProfile_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile(subject VirtualMachine_Spec_Properties_NetworkProfile) string {
+// RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_Spec runs a test to see if a specific instance of VirtualMachine_Properties_NetworkProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_Spec(subject VirtualMachine_Properties_NetworkProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2621,7 +2621,7 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile(su
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachine_Spec_Properties_NetworkProfile
+	var actual VirtualMachine_Properties_NetworkProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2639,54 +2639,54 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile(su
 	return ""
 }
 
-// Generator of VirtualMachine_Spec_Properties_NetworkProfile instances for property testing - lazily instantiated by
-// VirtualMachine_Spec_Properties_NetworkProfileGenerator()
-var virtualMachine_Spec_Properties_NetworkProfileGenerator gopter.Gen
+// Generator of VirtualMachine_Properties_NetworkProfile_Spec instances for property testing - lazily instantiated by
+// VirtualMachine_Properties_NetworkProfile_SpecGenerator()
+var virtualMachine_Properties_NetworkProfile_SpecGenerator gopter.Gen
 
-// VirtualMachine_Spec_Properties_NetworkProfileGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile instances for property testing.
-func VirtualMachine_Spec_Properties_NetworkProfileGenerator() gopter.Gen {
-	if virtualMachine_Spec_Properties_NetworkProfileGenerator != nil {
-		return virtualMachine_Spec_Properties_NetworkProfileGenerator
+// VirtualMachine_Properties_NetworkProfile_SpecGenerator returns a generator of VirtualMachine_Properties_NetworkProfile_Spec instances for property testing.
+func VirtualMachine_Properties_NetworkProfile_SpecGenerator() gopter.Gen {
+	if virtualMachine_Properties_NetworkProfile_SpecGenerator != nil {
+		return virtualMachine_Properties_NetworkProfile_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(generators)
-	virtualMachine_Spec_Properties_NetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile{}), generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_Spec(generators)
+	virtualMachine_Properties_NetworkProfile_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_NetworkProfile_Spec{}), generators)
 
-	return virtualMachine_Spec_Properties_NetworkProfileGenerator
+	return virtualMachine_Properties_NetworkProfile_SpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile(gens map[string]gopter.Gen) {
-	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_Spec(gens map[string]gopter.Gen) {
+	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator())
 }
 
-func Test_VirtualMachine_Spec_Properties_OsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachine_Properties_OsProfile_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachine_Spec_Properties_OsProfile to VirtualMachine_Spec_Properties_OsProfile via AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile & AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_OsProfile, VirtualMachine_Spec_Properties_OsProfileGenerator()))
+		"Round trip from VirtualMachine_Properties_OsProfile_Spec to VirtualMachine_Properties_OsProfile_Spec via AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec & AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Properties_OsProfile_Spec, VirtualMachine_Properties_OsProfile_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_OsProfile tests if a specific instance of VirtualMachine_Spec_Properties_OsProfile can be assigned to v1beta20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_OsProfile(subject VirtualMachine_Spec_Properties_OsProfile) string {
+// RunPropertyAssignmentTestForVirtualMachine_Properties_OsProfile_Spec tests if a specific instance of VirtualMachine_Properties_OsProfile_Spec can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachine_Properties_OsProfile_Spec(subject VirtualMachine_Properties_OsProfile_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201201s.VirtualMachine_Spec_Properties_OsProfile
-	err := copied.AssignProperties_To_VirtualMachine_Spec_Properties_OsProfile(&other)
+	var other v20201201s.VirtualMachine_Properties_OsProfile_Spec
+	err := copied.AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachine_Spec_Properties_OsProfile
-	err = actual.AssignProperties_From_VirtualMachine_Spec_Properties_OsProfile(&other)
+	var actual VirtualMachine_Properties_OsProfile_Spec
+	err = actual.AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2703,20 +2703,20 @@ func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_OsProfile(subjec
 	return ""
 }
 
-func Test_VirtualMachine_Spec_Properties_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachine_Properties_OsProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachine_Spec_Properties_OsProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile, VirtualMachine_Spec_Properties_OsProfileGenerator()))
+		"Round trip of VirtualMachine_Properties_OsProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Properties_OsProfile_Spec, VirtualMachine_Properties_OsProfile_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile runs a test to see if a specific instance of VirtualMachine_Spec_Properties_OsProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile(subject VirtualMachine_Spec_Properties_OsProfile) string {
+// RunJSONSerializationTestForVirtualMachine_Properties_OsProfile_Spec runs a test to see if a specific instance of VirtualMachine_Properties_OsProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Properties_OsProfile_Spec(subject VirtualMachine_Properties_OsProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2724,7 +2724,7 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile(subject
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachine_Spec_Properties_OsProfile
+	var actual VirtualMachine_Properties_OsProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2742,34 +2742,34 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_OsProfile(subject
 	return ""
 }
 
-// Generator of VirtualMachine_Spec_Properties_OsProfile instances for property testing - lazily instantiated by
-// VirtualMachine_Spec_Properties_OsProfileGenerator()
-var virtualMachine_Spec_Properties_OsProfileGenerator gopter.Gen
+// Generator of VirtualMachine_Properties_OsProfile_Spec instances for property testing - lazily instantiated by
+// VirtualMachine_Properties_OsProfile_SpecGenerator()
+var virtualMachine_Properties_OsProfile_SpecGenerator gopter.Gen
 
-// VirtualMachine_Spec_Properties_OsProfileGenerator returns a generator of VirtualMachine_Spec_Properties_OsProfile instances for property testing.
-// We first initialize virtualMachine_Spec_Properties_OsProfileGenerator with a simplified generator based on the
+// VirtualMachine_Properties_OsProfile_SpecGenerator returns a generator of VirtualMachine_Properties_OsProfile_Spec instances for property testing.
+// We first initialize virtualMachine_Properties_OsProfile_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachine_Spec_Properties_OsProfileGenerator() gopter.Gen {
-	if virtualMachine_Spec_Properties_OsProfileGenerator != nil {
-		return virtualMachine_Spec_Properties_OsProfileGenerator
+func VirtualMachine_Properties_OsProfile_SpecGenerator() gopter.Gen {
+	if virtualMachine_Properties_OsProfile_SpecGenerator != nil {
+		return virtualMachine_Properties_OsProfile_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
-	virtualMachine_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_OsProfile{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec(generators)
+	virtualMachine_Properties_OsProfile_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_OsProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(generators)
-	virtualMachine_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_OsProfile{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec(generators)
+	virtualMachine_Properties_OsProfile_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_OsProfile_Spec{}), generators)
 
-	return virtualMachine_Spec_Properties_OsProfileGenerator
+	return virtualMachine_Properties_OsProfile_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec(gens map[string]gopter.Gen) {
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
 	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
@@ -2777,8 +2777,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile
 	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachine_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Properties_OsProfile_Spec(gens map[string]gopter.Gen) {
 	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
 	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
 	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
@@ -5380,32 +5380,32 @@ func AddRelatedPropertyGeneratorsForVaultSecretGroup_STATUS(gens map[string]gopt
 	gens["VaultCertificates"] = gen.SliceOf(VaultCertificate_STATUSGenerator())
 }
 
-func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces to VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces via AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces & AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()))
+		"Round trip from VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec to VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec via AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec & AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces tests if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces can be assigned to v1beta20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) string {
+// RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec tests if a specific instance of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(subject VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201201s.VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-	err := copied.AssignProperties_To_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&other)
+	var other v20201201s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+	err := copied.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
-	err = actual.AssignProperties_From_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(&other)
+	var actual VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
+	err = actual.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5422,20 +5422,20 @@ func RunPropertyAssignmentTestForVirtualMachine_Spec_Properties_NetworkProfile_N
 	return ""
 }
 
-func Test_VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces, VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()))
+		"Round trip of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces runs a test to see if a specific instance of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(subject VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces) string {
+// RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec runs a test to see if a specific instance of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(subject VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -5443,7 +5443,7 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_Ne
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces
+	var actual VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -5461,25 +5461,25 @@ func RunJSONSerializationTestForVirtualMachine_Spec_Properties_NetworkProfile_Ne
 	return ""
 }
 
-// Generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing - lazily
-// instantiated by VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()
-var virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator gopter.Gen
+// Generator of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec instances for property testing - lazily
+// instantiated by VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator()
+var virtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator gopter.Gen
 
-// VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator returns a generator of VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing.
-func VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator() gopter.Gen {
-	if virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator != nil {
-		return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+// VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator returns a generator of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec instances for property testing.
+func VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator() gopter.Gen {
+	if virtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator != nil {
+		return virtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(generators)
-	virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(generators)
+	virtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{}), generators)
 
-	return virtualMachine_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+	return virtualMachine_Properties_NetworkProfile_NetworkInterfaces_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachine_Spec_Properties_NetworkProfile_NetworkInterfaces(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 

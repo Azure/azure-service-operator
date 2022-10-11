@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
-type WorkspaceConnection_STATUSARM struct {
+type WorkspaceConnection_STATUS_ARM struct {
 	// Id: ResourceId of the workspace connection.
 	Id *string `json:"id,omitempty"`
 
@@ -11,13 +11,13 @@ type WorkspaceConnection_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of workspace connection.
-	Properties *WorkspaceConnectionProps_STATUSARM `json:"properties,omitempty"`
+	Properties *WorkspaceConnectionProps_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type of workspace connection.
 	Type *string `json:"type,omitempty"`
 }
 
-type WorkspaceConnectionProps_STATUSARM struct {
+type WorkspaceConnectionProps_STATUS_ARM struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
 
@@ -31,9 +31,9 @@ type WorkspaceConnectionProps_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
-	ValueFormat *WorkspaceConnectionProps_STATUS_ValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_ValueFormat_STATUS `json:"valueFormat,omitempty"`
 }
 
-type WorkspaceConnectionProps_STATUS_ValueFormat string
+type WorkspaceConnectionProps_ValueFormat_STATUS string
 
-const WorkspaceConnectionProps_STATUS_ValueFormat_JSON = WorkspaceConnectionProps_STATUS_ValueFormat("JSON")
+const WorkspaceConnectionProps_ValueFormat_STATUS_JSON = WorkspaceConnectionProps_ValueFormat_STATUS("JSON")

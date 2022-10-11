@@ -96,7 +96,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccount_Spec_Kind_BlobStorage
+	kind := storage.StorageAccount_Kind_Spec_BlobStorage
 	sku := storage.Sku_Name_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),

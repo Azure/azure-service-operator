@@ -643,7 +643,7 @@ func Encryption_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryption_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption_STATUS(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(Encryption_STATUS_KeySource_MicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(Encryption_KeySource_STATUS_MicrosoftKeyVault))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 
@@ -869,10 +869,10 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_STATUS_Type_None,
-		Identity_STATUS_Type_SystemAssigned,
-		Identity_STATUS_Type_SystemAssignedUserAssigned,
-		Identity_STATUS_Type_UserAssigned))
+		Identity_Type_STATUS_None,
+		Identity_Type_STATUS_SystemAssigned,
+		Identity_Type_STATUS_SystemAssignedUserAssigned,
+		Identity_Type_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
@@ -1304,8 +1304,8 @@ func SBSku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSku_STATUS_Name_Basic, SBSku_STATUS_Name_Premium, SBSku_STATUS_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSku_STATUS_Tier_Basic, SBSku_STATUS_Tier_Premium, SBSku_STATUS_Tier_Standard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSku_Name_STATUS_Basic, SBSku_Name_STATUS_Premium, SBSku_Name_STATUS_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSku_Tier_STATUS_Basic, SBSku_Tier_STATUS_Premium, SBSku_Tier_STATUS_Standard))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1410,17 +1410,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_DictionaryValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

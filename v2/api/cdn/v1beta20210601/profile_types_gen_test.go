@@ -398,16 +398,16 @@ func AddIndependentPropertyGeneratorsForProfile_STATUS(gens map[string]gopter.Ge
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_STATUS_ProvisioningState_Creating,
-		ProfileProperties_STATUS_ProvisioningState_Deleting,
-		ProfileProperties_STATUS_ProvisioningState_Failed,
-		ProfileProperties_STATUS_ProvisioningState_Succeeded,
-		ProfileProperties_STATUS_ProvisioningState_Updating))
+		ProfileProperties_ProvisioningState_STATUS_Creating,
+		ProfileProperties_ProvisioningState_STATUS_Deleting,
+		ProfileProperties_ProvisioningState_STATUS_Failed,
+		ProfileProperties_ProvisioningState_STATUS_Succeeded,
+		ProfileProperties_ProvisioningState_STATUS_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_STATUS_ResourceState_Active,
-		ProfileProperties_STATUS_ResourceState_Creating,
-		ProfileProperties_STATUS_ResourceState_Deleting,
-		ProfileProperties_STATUS_ResourceState_Disabled))
+		ProfileProperties_ResourceState_STATUS_Active,
+		ProfileProperties_ResourceState_STATUS_Creating,
+		ProfileProperties_ResourceState_STATUS_Deleting,
+		ProfileProperties_ResourceState_STATUS_Disabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -633,19 +633,19 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Name_Custom_Verizon,
-		Sku_STATUS_Name_Premium_AzureFrontDoor,
-		Sku_STATUS_Name_Premium_Verizon,
-		Sku_STATUS_Name_StandardPlus_955BandWidth_ChinaCdn,
-		Sku_STATUS_Name_StandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_STATUS_Name_StandardPlus_ChinaCdn,
-		Sku_STATUS_Name_Standard_955BandWidth_ChinaCdn,
-		Sku_STATUS_Name_Standard_Akamai,
-		Sku_STATUS_Name_Standard_AvgBandWidth_ChinaCdn,
-		Sku_STATUS_Name_Standard_AzureFrontDoor,
-		Sku_STATUS_Name_Standard_ChinaCdn,
-		Sku_STATUS_Name_Standard_Microsoft,
-		Sku_STATUS_Name_Standard_Verizon))
+		Sku_Name_STATUS_Custom_Verizon,
+		Sku_Name_STATUS_Premium_AzureFrontDoor,
+		Sku_Name_STATUS_Premium_Verizon,
+		Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn,
+		Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn,
+		Sku_Name_STATUS_StandardPlus_ChinaCdn,
+		Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn,
+		Sku_Name_STATUS_Standard_Akamai,
+		Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn,
+		Sku_Name_STATUS_Standard_AzureFrontDoor,
+		Sku_Name_STATUS_Standard_ChinaCdn,
+		Sku_Name_STATUS_Standard_Microsoft,
+		Sku_Name_STATUS_Standard_Verizon))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

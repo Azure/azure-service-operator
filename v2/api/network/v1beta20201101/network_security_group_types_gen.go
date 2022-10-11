@@ -342,7 +342,7 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	if group == nil {
 		return nil, nil
 	}
-	result := &NetworkSecurityGroup_SpecARM{}
+	result := &NetworkSecurityGroup_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if group.Location != nil {
@@ -365,14 +365,14 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *NetworkSecurityGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroup_SpecARM{}
+	return &NetworkSecurityGroup_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroup_SpecARM)
+	typedInput, ok := armInput.(NetworkSecurityGroup_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -617,14 +617,14 @@ var _ genruntime.FromARMConverter = &NetworkSecurityGroup_STATUS_NetworkSecurity
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1030,14 +1030,14 @@ var _ genruntime.FromARMConverter = &FlowLog_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *FlowLog_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlowLog_STATUS_SubResourceEmbeddedARM{}
+	return &FlowLog_STATUS_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *FlowLog_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlowLog_STATUS_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(FlowLog_STATUS_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlowLog_STATUS_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlowLog_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1091,14 +1091,14 @@ var _ genruntime.FromARMConverter = &NetworkInterface_STATUS_NetworkSecurityGrou
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+	return &NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ExtendedLocation’:
@@ -1184,14 +1184,14 @@ var _ genruntime.FromARMConverter = &SecurityRule_STATUS_NetworkSecurityGroup_Su
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+	return &SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1242,14 +1242,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS_NetworkSecurityGroup_SubResou
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+	return &Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:

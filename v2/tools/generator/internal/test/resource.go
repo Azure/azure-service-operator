@@ -6,6 +6,8 @@
 package test
 
 import (
+	"fmt"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -25,6 +27,32 @@ func CreateResource(
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
 }
 
+func CreateARMResource(
+	pkg astmodel.PackageReference,
+	name string,
+	spec astmodel.TypeDefinition,
+	status astmodel.TypeDefinition,
+	apiVersion astmodel.TypeDefinition,
+	functions ...astmodel.Function) astmodel.TypeDefinition {
+
+	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
+	for _, fn := range functions {
+		resourceType = resourceType.WithFunction(fn)
+	}
+
+	enumType, ok := apiVersion.Type().(*astmodel.EnumType)
+	if !ok {
+		panic(fmt.Sprintf("expected apiVersion to be EnumType but was %T", apiVersion.Type()))
+	}
+	if len(enumType.Options()) == 0 {
+		panic("expected apiVersion enum to have at least 1 option")
+	}
+	apiVersionValue := enumType.Options()[0]
+	resourceType = resourceType.WithAPIVersion(apiVersion.Name(), apiVersionValue)
+
+	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+}
+
 // CreateSpec makes a spec for testing
 func CreateSpec(
 	pkg astmodel.PackageReference,
@@ -37,12 +65,14 @@ func CreateSpec(
 }
 
 // CreateStatus makes a status for testing
-func CreateStatus(pkg astmodel.PackageReference, name string) astmodel.TypeDefinition {
-	statusProperty := astmodel.NewPropertyDefinition("Status", "status", astmodel.StringType)
+func CreateStatus(
+	pkg astmodel.PackageReference,
+	name string,
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	statusName := astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
 	return astmodel.MakeTypeDefinition(
 		statusName,
-		astmodel.NewObjectType().WithProperties(statusProperty))
+		astmodel.NewObjectType().WithProperties(StatusProperty).WithProperties(properties...))
 }
 
 // CreateObjectDefinition makes an object for testing

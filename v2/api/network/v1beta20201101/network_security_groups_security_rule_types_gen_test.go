@@ -425,12 +425,12 @@ func AddIndependentPropertyGeneratorsForSecurityRule_STATUS_NetworkSecurityGroup
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormat_STATUS_Protocol_Ah,
-		SecurityRulePropertiesFormat_STATUS_Protocol_Esp,
-		SecurityRulePropertiesFormat_STATUS_Protocol_Icmp,
-		SecurityRulePropertiesFormat_STATUS_Protocol_Star,
-		SecurityRulePropertiesFormat_STATUS_Protocol_Tcp,
-		SecurityRulePropertiesFormat_STATUS_Protocol_Udp))
+		SecurityRulePropertiesFormat_Protocol_STATUS_Ah,
+		SecurityRulePropertiesFormat_Protocol_STATUS_Esp,
+		SecurityRulePropertiesFormat_Protocol_STATUS_Icmp,
+		SecurityRulePropertiesFormat_Protocol_STATUS_Star,
+		SecurityRulePropertiesFormat_Protocol_STATUS_Tcp,
+		SecurityRulePropertiesFormat_Protocol_STATUS_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,
 		ProvisioningState_STATUS_Failed,

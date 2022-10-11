@@ -1,0 +1,199 @@
+github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
+├── APIVersion: enum
+│   └── "2021-01-01"
+├── BatchAccount: Resource
+│   ├── Spec: 
+│   │   ├── AutoStorage: 
+│   │   │   └── StorageAccountReference: *genruntime.ResourceReference
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   ├── "Microsoft.Batch"
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   └── KeyVaultProperties: 
+│   │   │       └── KeyIdentifier: *string
+│   │   ├── Identity: 
+│   │   │   └── Type: enum
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       └── "UserAssigned"
+│   │   ├── KeyVaultReference: 
+│   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   └── Url: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PoolAllocationMode: enum
+│   │   │   ├── "BatchService"
+│   │   │   └── "UserSubscription"
+│   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── AccountEndpoint: *string
+│       ├── ActiveJobAndJobScheduleQuota: *int
+│       ├── AutoStorage: 
+│       │   ├── LastKeySync: *string
+│       │   └── StorageAccountId: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── DedicatedCoreQuota: *int
+│       ├── DedicatedCoreQuotaPerVMFamily: 
+│       │   ├── CoreQuota: *int
+│       │   └── Name: *string
+│       ├── DedicatedCoreQuotaPerVMFamilyEnforced: *bool
+│       ├── Encryption: 
+│       │   ├── KeySource: enum
+│       │   │   ├── "Microsoft.Batch"
+│       │   │   └── "Microsoft.KeyVault"
+│       │   └── KeyVaultProperties: 
+│       │       └── KeyIdentifier: *string
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── KeyVaultReference: 
+│       │   ├── Id: *string
+│       │   └── Url: *string
+│       ├── Location: *string
+│       ├── LowPriorityCoreQuota: *int
+│       ├── Name: *string
+│       ├── PoolAllocationMode: enum
+│       │   ├── "BatchService"
+│       │   └── "UserSubscription"
+│       ├── PoolQuota: *int
+│       ├── PrivateEndpointConnections: 
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateEndpoint: 
+│       │   │   └── Id: *string
+│       │   ├── PrivateLinkServiceConnectionState: 
+│       │   │   ├── ActionRequired: *string
+│       │   │   ├── Description: *string
+│       │   │   └── Status: enum
+│       │   │       ├── "Approved"
+│       │   │       ├── "Disconnected"
+│       │   │       ├── "Pending"
+│       │   │       └── "Rejected"
+│       │   ├── ProvisioningState: enum
+│       │   │   ├── "Failed"
+│       │   │   ├── "Succeeded"
+│       │   │   └── "Updating"
+│       │   └── Type: *string
+│       ├── ProvisioningState: enum
+│       │   ├── "Cancelled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Invalid"
+│       │   └── "Succeeded"
+│       ├── PublicNetworkAccess: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+├── BatchAccount_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AccountEndpoint: *string
+│   │   ├── ActiveJobAndJobScheduleQuota: *int
+│   │   ├── AutoStorage: 
+│   │   │   ├── LastKeySync: *string
+│   │   │   └── StorageAccountId: *string
+│   │   ├── DedicatedCoreQuota: *int
+│   │   ├── DedicatedCoreQuotaPerVMFamily: 
+│   │   │   ├── CoreQuota: *int
+│   │   │   └── Name: *string
+│   │   ├── DedicatedCoreQuotaPerVMFamilyEnforced: *bool
+│   │   ├── Encryption: 
+│   │   │   ├── KeySource: enum
+│   │   │   │   ├── "Microsoft.Batch"
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   └── KeyVaultProperties: 
+│   │   │       └── KeyIdentifier: *string
+│   │   ├── KeyVaultReference: 
+│   │   │   ├── Id: *string
+│   │   │   └── Url: *string
+│   │   ├── LowPriorityCoreQuota: *int
+│   │   ├── PoolAllocationMode: enum
+│   │   │   ├── "BatchService"
+│   │   │   └── "UserSubscription"
+│   │   ├── PoolQuota: *int
+│   │   ├── PrivateEndpointConnections: 
+│   │   │   ├── Etag: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── Properties: 
+│   │   │   │   ├── PrivateEndpoint: 
+│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── PrivateLinkServiceConnectionState: 
+│   │   │   │   │   ├── ActionRequired: *string
+│   │   │   │   │   ├── Description: *string
+│   │   │   │   │   └── Status: enum
+│   │   │   │   │       ├── "Approved"
+│   │   │   │   │       ├── "Disconnected"
+│   │   │   │   │       ├── "Pending"
+│   │   │   │   │       └── "Rejected"
+│   │   │   │   └── ProvisioningState: enum
+│   │   │   │       ├── "Failed"
+│   │   │   │       ├── "Succeeded"
+│   │   │   │       └── "Updating"
+│   │   │   └── Type: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Cancelled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Invalid"
+│   │   │   └── "Succeeded"
+│   │   └── PublicNetworkAccess: enum
+│   │       ├── "Disabled"
+│   │       └── "Enabled"
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── BatchAccount_Spec_ARM: 
+    ├── Identity: 
+    │   └── Type: enum
+    │       ├── "None"
+    │       ├── "SystemAssigned"
+    │       └── "UserAssigned"
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── AutoStorage: 
+    │   │   └── StorageAccountId: *string
+    │   ├── Encryption: 
+    │   │   ├── KeySource: enum
+    │   │   │   ├── "Microsoft.Batch"
+    │   │   │   └── "Microsoft.KeyVault"
+    │   │   └── KeyVaultProperties: 
+    │   │       └── KeyIdentifier: *string
+    │   ├── KeyVaultReference: 
+    │   │   ├── Id: *string
+    │   │   └── Url: *string
+    │   ├── PoolAllocationMode: enum
+    │   │   ├── "BatchService"
+    │   │   └── "UserSubscription"
+    │   └── PublicNetworkAccess: enum
+    │       ├── "Disabled"
+    │       └── "Enabled"
+    └── Tags: Map[string]string

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type ConsumerGroup_STATUSARM struct {
+type ConsumerGroup_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,16 +15,16 @@ type ConsumerGroup_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Single item in List or Get Consumer group operation
-	Properties *ConsumerGroup_STATUS_PropertiesARM `json:"properties,omitempty"`
+	Properties *ConsumerGroup_Properties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
-type ConsumerGroup_STATUS_PropertiesARM struct {
+type ConsumerGroup_Properties_STATUS_ARM struct {
 	// CreatedAt: Exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 

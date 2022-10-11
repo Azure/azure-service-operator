@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210101preview
 
-type SBQueue_STATUSARM struct {
+type SBQueue_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
@@ -11,16 +11,16 @@ type SBQueue_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Queue Properties
-	Properties *SBQueueProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *SBQueueProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 }
 
-type SBQueueProperties_STATUSARM struct {
+type SBQueueProperties_STATUS_ARM struct {
 	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
@@ -29,7 +29,7 @@ type SBQueueProperties_STATUSARM struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// CountDetails: Message Count Details.
-	CountDetails *MessageCountDetails_STATUSARM `json:"countDetails,omitempty"`
+	CountDetails *MessageCountDetails_STATUS_ARM `json:"countDetails,omitempty"`
 
 	// CreatedAt: The exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -94,7 +94,7 @@ type SBQueueProperties_STATUSARM struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-type MessageCountDetails_STATUSARM struct {
+type MessageCountDetails_STATUS_ARM struct {
 	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
 	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`
 

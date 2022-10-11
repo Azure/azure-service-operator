@@ -5,7 +5,7 @@ package v1beta20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ManagedClusters_AgentPool_SpecARM struct {
+type ManagedClusters_AgentPool_Spec_ARM struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -13,28 +13,28 @@ type ManagedClusters_AgentPool_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties for the container service agent pool profile.
-	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
+	Properties *ManagedClusterAgentPoolProfileProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (pool ManagedClusters_AgentPool_SpecARM) GetAPIVersion() string {
+func (pool ManagedClusters_AgentPool_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (pool *ManagedClusters_AgentPool_SpecARM) GetName() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetName() string {
 	return pool.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (pool *ManagedClusters_AgentPool_SpecARM) GetType() string {
+func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfileProperties
-type ManagedClusterAgentPoolProfilePropertiesARM struct {
+type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -70,12 +70,12 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 
 	// KubeletConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
 	// more details.
-	KubeletConfig   *KubeletConfigARM                                         `json:"kubeletConfig,omitempty"`
+	KubeletConfig   *KubeletConfig_ARM                                        `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *ManagedClusterAgentPoolProfileProperties_KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
 	// more details.
-	LinuxOSConfig *LinuxOSConfigARM `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
@@ -129,7 +129,7 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	Type *ManagedClusterAgentPoolProfileProperties_Type `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading an agentpool
-	UpgradeSettings *AgentPoolUpgradeSettingsARM `json:"upgradeSettings,omitempty"`
+	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
@@ -139,7 +139,7 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
-type AgentPoolUpgradeSettingsARM struct {
+type AgentPoolUpgradeSettings_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
 	// up. If not specified, the default is 1. For more information, including best practices, see:
@@ -148,7 +148,7 @@ type AgentPoolUpgradeSettingsARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig
-type KubeletConfigARM struct {
+type KubeletConfig_ARM struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
@@ -190,12 +190,12 @@ type KubeletConfigARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/LinuxOSConfig
-type LinuxOSConfigARM struct {
+type LinuxOSConfig_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
 	// Sysctls: Sysctl settings for Linux agent nodes.
-	Sysctls *SysctlConfigARM `json:"sysctls,omitempty"`
+	Sysctls *SysctlConfig_ARM `json:"sysctls,omitempty"`
 
 	// TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is
 	// 'madvise'. For more information see [Transparent
@@ -209,7 +209,7 @@ type LinuxOSConfigARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig
-type SysctlConfigARM struct {
+type SysctlConfig_ARM struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
 

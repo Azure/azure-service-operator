@@ -88,7 +88,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancer_Spec_Properties_FrontendIPConfigurations{
+			FrontendIPConfigurations: []network.LoadBalancer_Properties_FrontendIPConfigurations_Spec{
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
@@ -96,7 +96,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 					},
 				},
 			},
-			InboundNatPools: []network.LoadBalancer_Spec_Properties_InboundNatPools{
+			InboundNatPools: []network.LoadBalancer_Properties_InboundNatPools_Spec{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
@@ -145,7 +145,7 @@ func newVMSS20201201(
 			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
 				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2020.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -154,7 +154,7 @@ func newVMSS20201201(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2020.LinuxConfiguration{
@@ -169,12 +169,12 @@ func newVMSS20201201(
 						},
 					},
 				},
-				NetworkProfile: &compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
+					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute2020.VirtualMachineScaleSet_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2020.ApiEntityReference{
@@ -199,7 +199,7 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	// Move to a different reason where we have quota
+	// Move to a different region where we have quota
 	tc.AzureRegion = to.StringPtr("westeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()

@@ -394,6 +394,15 @@ func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
+// CreateResourceAndWaitWithoutCleanup creates the resource in K8s, waits for it to
+// change into the Provisioned state and does not register cleanup for the resource.
+func (tc *KubePerTestContext) CreateResourceAndWaitWithoutCleanup(obj client.Object) {
+	tc.T.Helper()
+	gen := obj.GetGeneration()
+	tc.CreateResourceUntracked(obj)
+	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
+}
+
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
@@ -468,6 +477,12 @@ func (tc *KubePerTestContext) UpdateResource(obj client.Object) {
 
 func (tc *KubePerTestContext) Patch(old client.Object, new client.Object) {
 	tc.Expect(tc.kubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
+}
+
+// PatchStatus should be used sparingly but can be helpful to make a change to Status so that we can detect subsequent
+// reconciles even if there was no change to generation or resourceVersion
+func (tc *KubePerTestContext) PatchStatus(old client.Object, new client.Object) {
+	tc.Expect(tc.kubeClient.Status().Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
 }
 
 func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.Object) error {
@@ -567,6 +582,51 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	}
 }
 
+// ExpectConfigMapHasKeys checks if the config map with the given name has the expected keys.
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeys(name string, expectedKeys ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	// We could make the below a gomega matcher, but it doesn't seem that worth it because
+	// a lot of the boilerplate code is actually getting the configMap
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for _, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+	}
+}
+
+// ExpectConfigMapHasKeysAndValues checks if the config map with the given name has the expected keys with the expected
+// values. The keys and values should be alternating
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeysAndValues(name string, expectedKeysAndValues ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	tc.Expect(len(expectedKeysAndValues)%2).To(gomega.Equal(0), "keys and values collection must have an even number of elements")
+
+	expectedKeys := make([]string, 0, len(expectedKeysAndValues)/2)
+	expectedValues := make([]string, 0, len(expectedKeysAndValues)/2)
+
+	for i, val := range expectedKeysAndValues {
+		if i%2 == 0 {
+			expectedKeys = append(expectedKeys, val)
+		} else {
+			expectedValues = append(expectedValues, val)
+		}
+	}
+
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for i, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+		tc.Expect(configMap.Data[k]).To(gomega.Equal(expectedValues[i]))
+	}
+}
+
 func (tc *KubePerTestContext) CreateTestNamespaces(names ...string) error {
 	var errs []error
 	for _, name := range names {
@@ -637,6 +697,12 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 		Group: gvk.Group,
 		Kind:  gvk.Kind,
 	}
+}
+
+// KubeClient returns the KubeClient for the test context. The existing TestContext helpers (tc.Resource(), etc) should
+// be used unless you need a raw KubeClient.
+func (tc *KubePerTestContext) KubeClient() client.Client {
+	return tc.kubeClient
 }
 
 func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {

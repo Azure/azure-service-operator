@@ -510,9 +510,9 @@ func DataEncryption_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataEncryption_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataEncryption_STATUS(gens map[string]gopter.Gen) {
-	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["GeoBackupKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyURI"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

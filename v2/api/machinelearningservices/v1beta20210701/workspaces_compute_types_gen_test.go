@@ -672,13 +672,13 @@ func AddIndependentPropertyGeneratorsForCompute_STATUS(gens map[string]gopter.Ge
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Compute_STATUS_ProvisioningState_Canceled,
-		Compute_STATUS_ProvisioningState_Creating,
-		Compute_STATUS_ProvisioningState_Deleting,
-		Compute_STATUS_ProvisioningState_Failed,
-		Compute_STATUS_ProvisioningState_Succeeded,
-		Compute_STATUS_ProvisioningState_Unknown,
-		Compute_STATUS_ProvisioningState_Updating))
+		Compute_ProvisioningState_STATUS_Canceled,
+		Compute_ProvisioningState_STATUS_Creating,
+		Compute_ProvisioningState_STATUS_Deleting,
+		Compute_ProvisioningState_STATUS_Failed,
+		Compute_ProvisioningState_STATUS_Succeeded,
+		Compute_ProvisioningState_STATUS_Unknown,
+		Compute_ProvisioningState_STATUS_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 

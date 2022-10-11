@@ -392,14 +392,14 @@ var _ genruntime.FromARMConverter = &Database_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *Database_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Database_STATUSARM{}
+	return &Database_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *Database_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Database_STATUSARM)
+	typedInput, ok := armInput.(Database_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Charset’:
@@ -534,7 +534,7 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if database == nil {
 		return nil, nil
 	}
-	result := &Servers_Database_SpecARM{}
+	result := &Servers_Database_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if database.Location != nil {
@@ -547,7 +547,7 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘Properties’:
 	if database.Charset != nil || database.Collation != nil {
-		result.Properties = &DatabasePropertiesARM{}
+		result.Properties = &DatabaseProperties_ARM{}
 	}
 	if database.Charset != nil {
 		charset := *database.Charset
@@ -570,14 +570,14 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *Servers_Database_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Database_SpecARM{}
+	return &Servers_Database_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Database_SpecARM)
+	typedInput, ok := armInput.(Servers_Database_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-type Endpoint_STATUSARM struct {
+type Endpoint_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
@@ -11,9 +11,9 @@ type Endpoint_STATUSARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name.
-	Name       *string                       `json:"name,omitempty"`
-	Properties *EndpointProperties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM         `json:"systemData,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Properties *EndpointProperties_STATUS_ARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUS_ARM         `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -22,22 +22,22 @@ type Endpoint_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type EndpointProperties_STATUSARM struct {
+type EndpointProperties_STATUS_ARM struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
 	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []CustomDomain_STATUS_SubResourceEmbeddedARM `json:"customDomains,omitempty"`
+	CustomDomains []DeepCreatedCustomDomain_STATUS_ARM `json:"customDomains,omitempty"`
 
 	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference_STATUSARM `json:"defaultOriginGroup,omitempty"`
+	DefaultOriginGroup *ResourceReference_STATUS_ARM `json:"defaultOriginGroup,omitempty"`
 
 	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_STATUS_DeliveryPolicyARM `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy *EndpointProperties_DeliveryPolicy_STATUS_ARM `json:"deliveryPolicy,omitempty"`
 
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter_STATUSARM `json:"geoFilters,omitempty"`
+	GeoFilters []GeoFilter_STATUS_ARM `json:"geoFilters,omitempty"`
 
 	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
 	HostName *string `json:"hostName,omitempty"`
@@ -60,7 +60,7 @@ type EndpointProperties_STATUSARM struct {
 	OptimizationType *OptimizationType_STATUS `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup_STATUSARM `json:"originGroups,omitempty"`
+	OriginGroups []DeepCreatedOriginGroup_STATUS_ARM `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -73,7 +73,7 @@ type EndpointProperties_STATUSARM struct {
 	OriginPath *string `json:"originPath,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN.
-	Origins []DeepCreatedOrigin_STATUSARM `json:"origins,omitempty"`
+	Origins []DeepCreatedOrigin_STATUS_ARM `json:"origins,omitempty"`
 
 	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
 	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
@@ -81,7 +81,7 @@ type EndpointProperties_STATUSARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EndpointProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
@@ -89,16 +89,16 @@ type EndpointProperties_STATUSARM struct {
 	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
+	ResourceState *EndpointProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey_STATUSARM `json:"urlSigningKeys,omitempty"`
+	UrlSigningKeys []UrlSigningKey_STATUS_ARM `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
-	WebApplicationFirewallPolicyLink *EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-type SystemData_STATUSARM struct {
+type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC)
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -118,61 +118,61 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type CustomDomain_STATUS_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
-	Id         *string               `json:"id,omitempty"`
-	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+type DeepCreatedCustomDomain_STATUS_ARM struct {
+	// Name: Custom domain name.
+	Name       *string                                       `json:"name,omitempty"`
+	Properties *DeepCreatedCustomDomainProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type DeepCreatedOrigin_STATUSARM struct {
+type DeepCreatedOrigin_STATUS_ARM struct {
 	// Name: Origin name which must be unique within the endpoint.
-	Name       *string                                `json:"name,omitempty"`
-	Properties *DeepCreatedOriginProperties_STATUSARM `json:"properties,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *DeepCreatedOriginProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type DeepCreatedOriginGroup_STATUSARM struct {
+type DeepCreatedOriginGroup_STATUS_ARM struct {
 	// Name: Origin group name which must be unique within the endpoint.
-	Name       *string                                     `json:"name,omitempty"`
-	Properties *DeepCreatedOriginGroupProperties_STATUSARM `json:"properties,omitempty"`
+	Name       *string                                      `json:"name,omitempty"`
+	Properties *DeepCreatedOriginGroupProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type EndpointProperties_STATUS_DeliveryPolicyARM struct {
+type EndpointProperties_DeliveryPolicy_STATUS_ARM struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
 
 	// Rules: A list of the delivery rules.
-	Rules []DeliveryRule_STATUSARM `json:"rules,omitempty"`
+	Rules []DeliveryRule_STATUS_ARM `json:"rules,omitempty"`
 }
 
-type EndpointProperties_STATUS_ProvisioningState string
+type EndpointProperties_ProvisioningState_STATUS string
 
 const (
-	EndpointProperties_STATUS_ProvisioningState_Creating  = EndpointProperties_STATUS_ProvisioningState("Creating")
-	EndpointProperties_STATUS_ProvisioningState_Deleting  = EndpointProperties_STATUS_ProvisioningState("Deleting")
-	EndpointProperties_STATUS_ProvisioningState_Failed    = EndpointProperties_STATUS_ProvisioningState("Failed")
-	EndpointProperties_STATUS_ProvisioningState_Succeeded = EndpointProperties_STATUS_ProvisioningState("Succeeded")
-	EndpointProperties_STATUS_ProvisioningState_Updating  = EndpointProperties_STATUS_ProvisioningState("Updating")
+	EndpointProperties_ProvisioningState_STATUS_Creating  = EndpointProperties_ProvisioningState_STATUS("Creating")
+	EndpointProperties_ProvisioningState_STATUS_Deleting  = EndpointProperties_ProvisioningState_STATUS("Deleting")
+	EndpointProperties_ProvisioningState_STATUS_Failed    = EndpointProperties_ProvisioningState_STATUS("Failed")
+	EndpointProperties_ProvisioningState_STATUS_Succeeded = EndpointProperties_ProvisioningState_STATUS("Succeeded")
+	EndpointProperties_ProvisioningState_STATUS_Updating  = EndpointProperties_ProvisioningState_STATUS("Updating")
 )
 
-type EndpointProperties_STATUS_ResourceState string
+type EndpointProperties_ResourceState_STATUS string
 
 const (
-	EndpointProperties_STATUS_ResourceState_Creating = EndpointProperties_STATUS_ResourceState("Creating")
-	EndpointProperties_STATUS_ResourceState_Deleting = EndpointProperties_STATUS_ResourceState("Deleting")
-	EndpointProperties_STATUS_ResourceState_Running  = EndpointProperties_STATUS_ResourceState("Running")
-	EndpointProperties_STATUS_ResourceState_Starting = EndpointProperties_STATUS_ResourceState("Starting")
-	EndpointProperties_STATUS_ResourceState_Stopped  = EndpointProperties_STATUS_ResourceState("Stopped")
-	EndpointProperties_STATUS_ResourceState_Stopping = EndpointProperties_STATUS_ResourceState("Stopping")
+	EndpointProperties_ResourceState_STATUS_Creating = EndpointProperties_ResourceState_STATUS("Creating")
+	EndpointProperties_ResourceState_STATUS_Deleting = EndpointProperties_ResourceState_STATUS("Deleting")
+	EndpointProperties_ResourceState_STATUS_Running  = EndpointProperties_ResourceState_STATUS("Running")
+	EndpointProperties_ResourceState_STATUS_Starting = EndpointProperties_ResourceState_STATUS("Starting")
+	EndpointProperties_ResourceState_STATUS_Stopped  = EndpointProperties_ResourceState_STATUS("Stopped")
+	EndpointProperties_ResourceState_STATUS_Stopping = EndpointProperties_ResourceState_STATUS("Stopping")
 )
 
-type EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM struct {
+type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type GeoFilter_STATUSARM struct {
+type GeoFilter_STATUS_ARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilter_STATUS_Action `json:"action,omitempty"`
+	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -209,30 +209,39 @@ const (
 	QueryStringCachingBehavior_STATUS_UseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
-type ResourceReference_STATUSARM struct {
+type ResourceReference_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type UrlSigningKey_STATUSARM struct {
+type UrlSigningKey_STATUS_ARM struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
 	KeyId *string `json:"keyId,omitempty"`
 
 	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
-	KeySourceParameters *KeyVaultSigningKeyParameters_STATUSARM `json:"keySourceParameters,omitempty"`
+	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS_ARM `json:"keySourceParameters,omitempty"`
 }
 
-type DeepCreatedOriginGroupProperties_STATUSARM struct {
+type DeepCreatedCustomDomainProperties_STATUS_ARM struct {
+	// HostName: The host name of the custom domain. Must be a domain name.
+	HostName *string `json:"hostName,omitempty"`
+
+	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
+	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+	ValidationData *string `json:"validationData,omitempty"`
+}
+
+type DeepCreatedOriginGroupProperties_STATUS_ARM struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
-	HealthProbeSettings *HealthProbeParameters_STATUSARM `json:"healthProbeSettings,omitempty"`
+	HealthProbeSettings *HealthProbeParameters_STATUS_ARM `json:"healthProbeSettings,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference_STATUSARM `json:"origins,omitempty"`
+	Origins []ResourceReference_STATUS_ARM `json:"origins,omitempty"`
 
 	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
 	// real requests/responses.This property is currently not supported.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUSARM `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUS_ARM `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
 	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
@@ -240,7 +249,7 @@ type DeepCreatedOriginGroupProperties_STATUSARM struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-type DeepCreatedOriginProperties_STATUSARM struct {
+type DeepCreatedOriginProperties_STATUS_ARM struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -284,12 +293,12 @@ type DeepCreatedOriginProperties_STATUSARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-type DeliveryRule_STATUSARM struct {
+type DeliveryRule_STATUS_ARM struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction_STATUSARM `json:"actions,omitempty"`
+	Actions []DeliveryRuleAction_STATUS_ARM `json:"actions,omitempty"`
 
 	// Conditions: A list of conditions that must be matched for the actions to be executed
-	Conditions []DeliveryRuleCondition_STATUSARM `json:"conditions,omitempty"`
+	Conditions []DeliveryRuleCondition_STATUS_ARM `json:"conditions,omitempty"`
 
 	// Name: Name of the rule
 	Name *string `json:"name,omitempty"`
@@ -300,14 +309,14 @@ type DeliveryRule_STATUSARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
-type GeoFilter_STATUS_Action string
+type GeoFilter_Action_STATUS string
 
 const (
-	GeoFilter_STATUS_Action_Allow = GeoFilter_STATUS_Action("Allow")
-	GeoFilter_STATUS_Action_Block = GeoFilter_STATUS_Action("Block")
+	GeoFilter_Action_STATUS_Allow = GeoFilter_Action_STATUS("Allow")
+	GeoFilter_Action_STATUS_Block = GeoFilter_Action_STATUS("Block")
 )
 
-type KeyVaultSigningKeyParameters_STATUSARM struct {
+type KeyVaultSigningKeyParameters_STATUS_ARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
 
@@ -319,23 +328,23 @@ type KeyVaultSigningKeyParameters_STATUSARM struct {
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
 	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParameters_STATUS_TypeName `json:"typeName,omitempty"`
+	TypeName       *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
-type DeliveryRuleAction_STATUSARM struct {
+type DeliveryRuleAction_STATUS_ARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleAction_STATUS_Name `json:"name,omitempty"`
+	Name *DeliveryRuleAction_Name_STATUS `json:"name,omitempty"`
 }
 
-type DeliveryRuleCondition_STATUSARM struct {
+type DeliveryRuleCondition_STATUS_ARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleCondition_STATUS_Name `json:"name,omitempty"`
+	Name *DeliveryRuleCondition_Name_STATUS `json:"name,omitempty"`
 }
 
-type HealthProbeParameters_STATUSARM struct {
+type HealthProbeParameters_STATUS_ARM struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
 
@@ -343,67 +352,67 @@ type HealthProbeParameters_STATUSARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_STATUS_ProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol_STATUS `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_STATUS_ProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
 }
 
-type KeyVaultSigningKeyParameters_STATUS_TypeName string
+type KeyVaultSigningKeyParameters_TypeName_STATUS string
 
-const KeyVaultSigningKeyParameters_STATUS_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_STATUS_TypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_TypeName_STATUS_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
 
-type ResponseBasedOriginErrorDetectionParameters_STATUSARM struct {
+type ResponseBasedOriginErrorDetectionParameters_STATUS_ARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters_STATUSARM `json:"httpErrorRanges,omitempty"`
+	HttpErrorRanges []HttpErrorRangeParameters_STATUS_ARM `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-type DeliveryRuleAction_STATUS_Name string
+type DeliveryRuleAction_Name_STATUS string
 
 const (
-	DeliveryRuleAction_STATUS_Name_CacheExpiration            = DeliveryRuleAction_STATUS_Name("CacheExpiration")
-	DeliveryRuleAction_STATUS_Name_CacheKeyQueryString        = DeliveryRuleAction_STATUS_Name("CacheKeyQueryString")
-	DeliveryRuleAction_STATUS_Name_ModifyRequestHeader        = DeliveryRuleAction_STATUS_Name("ModifyRequestHeader")
-	DeliveryRuleAction_STATUS_Name_ModifyResponseHeader       = DeliveryRuleAction_STATUS_Name("ModifyResponseHeader")
-	DeliveryRuleAction_STATUS_Name_OriginGroupOverride        = DeliveryRuleAction_STATUS_Name("OriginGroupOverride")
-	DeliveryRuleAction_STATUS_Name_RouteConfigurationOverride = DeliveryRuleAction_STATUS_Name("RouteConfigurationOverride")
-	DeliveryRuleAction_STATUS_Name_UrlRedirect                = DeliveryRuleAction_STATUS_Name("UrlRedirect")
-	DeliveryRuleAction_STATUS_Name_UrlRewrite                 = DeliveryRuleAction_STATUS_Name("UrlRewrite")
-	DeliveryRuleAction_STATUS_Name_UrlSigning                 = DeliveryRuleAction_STATUS_Name("UrlSigning")
+	DeliveryRuleAction_Name_STATUS_CacheExpiration            = DeliveryRuleAction_Name_STATUS("CacheExpiration")
+	DeliveryRuleAction_Name_STATUS_CacheKeyQueryString        = DeliveryRuleAction_Name_STATUS("CacheKeyQueryString")
+	DeliveryRuleAction_Name_STATUS_ModifyRequestHeader        = DeliveryRuleAction_Name_STATUS("ModifyRequestHeader")
+	DeliveryRuleAction_Name_STATUS_ModifyResponseHeader       = DeliveryRuleAction_Name_STATUS("ModifyResponseHeader")
+	DeliveryRuleAction_Name_STATUS_OriginGroupOverride        = DeliveryRuleAction_Name_STATUS("OriginGroupOverride")
+	DeliveryRuleAction_Name_STATUS_RouteConfigurationOverride = DeliveryRuleAction_Name_STATUS("RouteConfigurationOverride")
+	DeliveryRuleAction_Name_STATUS_UrlRedirect                = DeliveryRuleAction_Name_STATUS("UrlRedirect")
+	DeliveryRuleAction_Name_STATUS_UrlRewrite                 = DeliveryRuleAction_Name_STATUS("UrlRewrite")
+	DeliveryRuleAction_Name_STATUS_UrlSigning                 = DeliveryRuleAction_Name_STATUS("UrlSigning")
 )
 
-type DeliveryRuleCondition_STATUS_Name string
+type DeliveryRuleCondition_Name_STATUS string
 
 const (
-	DeliveryRuleCondition_STATUS_Name_ClientPort       = DeliveryRuleCondition_STATUS_Name("ClientPort")
-	DeliveryRuleCondition_STATUS_Name_Cookies          = DeliveryRuleCondition_STATUS_Name("Cookies")
-	DeliveryRuleCondition_STATUS_Name_HostName         = DeliveryRuleCondition_STATUS_Name("HostName")
-	DeliveryRuleCondition_STATUS_Name_HttpVersion      = DeliveryRuleCondition_STATUS_Name("HttpVersion")
-	DeliveryRuleCondition_STATUS_Name_IsDevice         = DeliveryRuleCondition_STATUS_Name("IsDevice")
-	DeliveryRuleCondition_STATUS_Name_PostArgs         = DeliveryRuleCondition_STATUS_Name("PostArgs")
-	DeliveryRuleCondition_STATUS_Name_QueryString      = DeliveryRuleCondition_STATUS_Name("QueryString")
-	DeliveryRuleCondition_STATUS_Name_RemoteAddress    = DeliveryRuleCondition_STATUS_Name("RemoteAddress")
-	DeliveryRuleCondition_STATUS_Name_RequestBody      = DeliveryRuleCondition_STATUS_Name("RequestBody")
-	DeliveryRuleCondition_STATUS_Name_RequestHeader    = DeliveryRuleCondition_STATUS_Name("RequestHeader")
-	DeliveryRuleCondition_STATUS_Name_RequestMethod    = DeliveryRuleCondition_STATUS_Name("RequestMethod")
-	DeliveryRuleCondition_STATUS_Name_RequestScheme    = DeliveryRuleCondition_STATUS_Name("RequestScheme")
-	DeliveryRuleCondition_STATUS_Name_RequestUri       = DeliveryRuleCondition_STATUS_Name("RequestUri")
-	DeliveryRuleCondition_STATUS_Name_ServerPort       = DeliveryRuleCondition_STATUS_Name("ServerPort")
-	DeliveryRuleCondition_STATUS_Name_SocketAddr       = DeliveryRuleCondition_STATUS_Name("SocketAddr")
-	DeliveryRuleCondition_STATUS_Name_SslProtocol      = DeliveryRuleCondition_STATUS_Name("SslProtocol")
-	DeliveryRuleCondition_STATUS_Name_UrlFileExtension = DeliveryRuleCondition_STATUS_Name("UrlFileExtension")
-	DeliveryRuleCondition_STATUS_Name_UrlFileName      = DeliveryRuleCondition_STATUS_Name("UrlFileName")
-	DeliveryRuleCondition_STATUS_Name_UrlPath          = DeliveryRuleCondition_STATUS_Name("UrlPath")
+	DeliveryRuleCondition_Name_STATUS_ClientPort       = DeliveryRuleCondition_Name_STATUS("ClientPort")
+	DeliveryRuleCondition_Name_STATUS_Cookies          = DeliveryRuleCondition_Name_STATUS("Cookies")
+	DeliveryRuleCondition_Name_STATUS_HostName         = DeliveryRuleCondition_Name_STATUS("HostName")
+	DeliveryRuleCondition_Name_STATUS_HttpVersion      = DeliveryRuleCondition_Name_STATUS("HttpVersion")
+	DeliveryRuleCondition_Name_STATUS_IsDevice         = DeliveryRuleCondition_Name_STATUS("IsDevice")
+	DeliveryRuleCondition_Name_STATUS_PostArgs         = DeliveryRuleCondition_Name_STATUS("PostArgs")
+	DeliveryRuleCondition_Name_STATUS_QueryString      = DeliveryRuleCondition_Name_STATUS("QueryString")
+	DeliveryRuleCondition_Name_STATUS_RemoteAddress    = DeliveryRuleCondition_Name_STATUS("RemoteAddress")
+	DeliveryRuleCondition_Name_STATUS_RequestBody      = DeliveryRuleCondition_Name_STATUS("RequestBody")
+	DeliveryRuleCondition_Name_STATUS_RequestHeader    = DeliveryRuleCondition_Name_STATUS("RequestHeader")
+	DeliveryRuleCondition_Name_STATUS_RequestMethod    = DeliveryRuleCondition_Name_STATUS("RequestMethod")
+	DeliveryRuleCondition_Name_STATUS_RequestScheme    = DeliveryRuleCondition_Name_STATUS("RequestScheme")
+	DeliveryRuleCondition_Name_STATUS_RequestUri       = DeliveryRuleCondition_Name_STATUS("RequestUri")
+	DeliveryRuleCondition_Name_STATUS_ServerPort       = DeliveryRuleCondition_Name_STATUS("ServerPort")
+	DeliveryRuleCondition_Name_STATUS_SocketAddr       = DeliveryRuleCondition_Name_STATUS("SocketAddr")
+	DeliveryRuleCondition_Name_STATUS_SslProtocol      = DeliveryRuleCondition_Name_STATUS("SslProtocol")
+	DeliveryRuleCondition_Name_STATUS_UrlFileExtension = DeliveryRuleCondition_Name_STATUS("UrlFileExtension")
+	DeliveryRuleCondition_Name_STATUS_UrlFileName      = DeliveryRuleCondition_Name_STATUS("UrlFileName")
+	DeliveryRuleCondition_Name_STATUS_UrlPath          = DeliveryRuleCondition_Name_STATUS("UrlPath")
 )
 
-type HttpErrorRangeParameters_STATUSARM struct {
+type HttpErrorRangeParameters_STATUS_ARM struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
 

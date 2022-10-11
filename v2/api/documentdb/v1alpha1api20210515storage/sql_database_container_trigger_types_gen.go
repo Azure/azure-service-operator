@@ -396,7 +396,7 @@ type SqlTriggerGetResults_STATUS struct {
 	Location    *string                                  `json:"location,omitempty"`
 	Name        *string                                  `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	Resource    *SqlTriggerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlTriggerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                        `json:"tags,omitempty"`
 	Type        *string                                  `json:"type,omitempty"`
 }
@@ -470,10 +470,10 @@ func (results *SqlTriggerGetResults_STATUS) AssignProperties_From_SqlTriggerGetR
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlTriggerGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_SqlTriggerGetProperties_STATUS_Resource(source.Resource)
+		var resource SqlTriggerGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SqlTriggerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -516,10 +516,10 @@ func (results *SqlTriggerGetResults_STATUS) AssignProperties_To_SqlTriggerGetRes
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlTriggerGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_SqlTriggerGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.SqlTriggerGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SqlTriggerGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -543,9 +543,9 @@ func (results *SqlTriggerGetResults_STATUS) AssignProperties_To_SqlTriggerGetRes
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlTriggerGetProperties_STATUS_Resource
-// Deprecated version of SqlTriggerGetProperties_STATUS_Resource. Use v1beta20210515.SqlTriggerGetProperties_STATUS_Resource instead
-type SqlTriggerGetProperties_STATUS_Resource struct {
+// Storage version of v1alpha1api20210515.SqlTriggerGetProperties_Resource_STATUS
+// Deprecated version of SqlTriggerGetProperties_Resource_STATUS. Use v1beta20210515.SqlTriggerGetProperties_Resource_STATUS instead
+type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                `json:"body,omitempty"`
 	Etag             *string                `json:"_etag,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -556,8 +556,8 @@ type SqlTriggerGetProperties_STATUS_Resource struct {
 	Ts               *float64               `json:"_ts,omitempty"`
 }
 
-// AssignProperties_From_SqlTriggerGetProperties_STATUS_Resource populates our SqlTriggerGetProperties_STATUS_Resource from the provided source SqlTriggerGetProperties_STATUS_Resource
-func (resource *SqlTriggerGetProperties_STATUS_Resource) AssignProperties_From_SqlTriggerGetProperties_STATUS_Resource(source *v20210515s.SqlTriggerGetProperties_STATUS_Resource) error {
+// AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS populates our SqlTriggerGetProperties_Resource_STATUS from the provided source SqlTriggerGetProperties_Resource_STATUS
+func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_From_SqlTriggerGetProperties_Resource_STATUS(source *v20210515s.SqlTriggerGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -598,8 +598,8 @@ func (resource *SqlTriggerGetProperties_STATUS_Resource) AssignProperties_From_S
 	return nil
 }
 
-// AssignProperties_To_SqlTriggerGetProperties_STATUS_Resource populates the provided destination SqlTriggerGetProperties_STATUS_Resource from our SqlTriggerGetProperties_STATUS_Resource
-func (resource *SqlTriggerGetProperties_STATUS_Resource) AssignProperties_To_SqlTriggerGetProperties_STATUS_Resource(destination *v20210515s.SqlTriggerGetProperties_STATUS_Resource) error {
+// AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS populates the provided destination SqlTriggerGetProperties_Resource_STATUS from our SqlTriggerGetProperties_Resource_STATUS
+func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_To_SqlTriggerGetProperties_Resource_STATUS(destination *v20210515s.SqlTriggerGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

@@ -306,13 +306,13 @@ func (cluster *Cluster_STATUS) AssignProperties_From_Cluster_STATUS(source *v202
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection_STATUS_SubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection_STATUS_SubResourceEmbeddedStash.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnectionSTATUSSubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionSTATUSSubResourceEmbeddedStash.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection_STATUS_SubResourceEmbeddedStash)
+			err = privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionSTATUSSubResourceEmbeddedStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash")
 			}
@@ -334,13 +334,13 @@ func (cluster *Cluster_STATUS) AssignProperties_From_Cluster_STATUS(source *v202
 
 	// Sku
 	if source.Sku != nil {
-		var sku_STATUSStash v20201201s.Sku_STATUS
-		err := sku_STATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := skuSTATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku Sku_STATUS
-		err = sku.AssignProperties_From_Sku_STATUS(&sku_STATUSStash)
+		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}
@@ -398,13 +398,13 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *v
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range cluster.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection_STATUS_SubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection_STATUS_SubResourceEmbeddedStash)
+			var privateEndpointConnectionSTATUSSubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionSTATUSSubResourceEmbeddedStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash from PrivateEndpointConnections")
 			}
 			var privateEndpointConnection v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err = privateEndpointConnection_STATUS_SubResourceEmbeddedStash.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
+			err = privateEndpointConnectionSTATUSSubResourceEmbeddedStash.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash")
 			}
@@ -426,13 +426,13 @@ func (cluster *Cluster_STATUS) AssignProperties_To_Cluster_STATUS(destination *v
 
 	// Sku
 	if cluster.Sku != nil {
-		var sku_STATUSStash v20201201s.Sku_STATUS
-		err := cluster.Sku.AssignProperties_To_Sku_STATUS(&sku_STATUSStash)
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := cluster.Sku.AssignProperties_To_Sku_STATUS(&skuSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
 		}
 		var sku v20210301s.Sku_STATUS
-		err = sku_STATUSStash.AssignProperties_To_Sku_STATUS(&sku)
+		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
 		}

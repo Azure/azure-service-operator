@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20220131preview
 
-type FederatedIdentityCredential_STATUSARM struct {
+type FederatedIdentityCredential_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -12,13 +12,13 @@ type FederatedIdentityCredential_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the federated identity credential.
-	Properties *FederatedIdentityCredentialProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *FederatedIdentityCredentialProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type FederatedIdentityCredentialProperties_STATUSARM struct {
+type FederatedIdentityCredentialProperties_STATUS_ARM struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
 

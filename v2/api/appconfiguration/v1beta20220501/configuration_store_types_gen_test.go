@@ -401,7 +401,7 @@ func ConfigurationStore_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationStore_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationStore_STATUS(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_STATUS_CreateMode_Default, ConfigurationStoreProperties_STATUS_CreateMode_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_STATUS_Default, ConfigurationStoreProperties_CreateMode_STATUS_Recover))
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
@@ -410,13 +410,13 @@ func AddIndependentPropertyGeneratorsForConfigurationStore_STATUS(gens map[strin
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Canceled,
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Creating,
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Deleting,
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Failed,
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Succeeded,
-		ConfigurationStoreProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_STATUS_PublicNetworkAccess_Disabled, ConfigurationStoreProperties_STATUS_PublicNetworkAccess_Enabled))
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Canceled,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Creating,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Deleting,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Failed,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Succeeded,
+		ConfigurationStoreProperties_ProvisioningState_STATUS_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -1061,10 +1061,10 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ResourceIdentity_STATUS_Type_None,
-		ResourceIdentity_STATUS_Type_SystemAssigned,
-		ResourceIdentity_STATUS_Type_SystemAssignedUserAssigned,
-		ResourceIdentity_STATUS_Type_UserAssigned))
+		ResourceIdentity_Type_STATUS_None,
+		ResourceIdentity_Type_STATUS_SystemAssigned,
+		ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+		ResourceIdentity_Type_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS is a factory method for creating gopter generators
@@ -1493,17 +1493,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_ConfigurationStoreOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

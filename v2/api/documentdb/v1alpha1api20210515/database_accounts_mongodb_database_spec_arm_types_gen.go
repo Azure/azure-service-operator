@@ -6,48 +6,48 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_MongodbDatabase_Spec. Use v1beta20210515.DatabaseAccounts_MongodbDatabase_Spec instead
-type DatabaseAccounts_MongodbDatabase_SpecARM struct {
-	Location   *string                                   `json:"location,omitempty"`
-	Name       string                                    `json:"name,omitempty"`
-	Properties *MongoDBDatabaseCreateUpdatePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                         `json:"tags,omitempty"`
+type DatabaseAccounts_MongodbDatabase_Spec_ARM struct {
+	Location   *string                                    `json:"location,omitempty"`
+	Name       string                                     `json:"name,omitempty"`
+	Properties *MongoDBDatabaseCreateUpdateProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (database DatabaseAccounts_MongodbDatabase_SpecARM) GetAPIVersion() string {
+func (database DatabaseAccounts_MongodbDatabase_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetName() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetName() string {
 	return database.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (database *DatabaseAccounts_MongodbDatabase_SpecARM) GetType() string {
+func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // Deprecated version of MongoDBDatabaseCreateUpdateProperties. Use v1beta20210515.MongoDBDatabaseCreateUpdateProperties instead
-type MongoDBDatabaseCreateUpdatePropertiesARM struct {
-	Options  *CreateUpdateOptionsARM     `json:"options,omitempty"`
-	Resource *MongoDBDatabaseResourceARM `json:"resource,omitempty"`
+type MongoDBDatabaseCreateUpdateProperties_ARM struct {
+	Options  *CreateUpdateOptions_ARM     `json:"options,omitempty"`
+	Resource *MongoDBDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
 // Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
-type CreateUpdateOptionsARM struct {
-	AutoscaleSettings *AutoscaleSettingsARM `json:"autoscaleSettings,omitempty"`
-	Throughput        *int                  `json:"throughput,omitempty"`
+type CreateUpdateOptions_ARM struct {
+	AutoscaleSettings *AutoscaleSettings_ARM `json:"autoscaleSettings,omitempty"`
+	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
 // Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
-type MongoDBDatabaseResourceARM struct {
+type MongoDBDatabaseResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
-type AutoscaleSettingsARM struct {
+type AutoscaleSettings_ARM struct {
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

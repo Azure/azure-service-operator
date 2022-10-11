@@ -377,10 +377,10 @@ func AddIndependentPropertyGeneratorsForPrivateZone_STATUS(gens map[string]gopte
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZoneProperties_STATUS_ProvisioningState_Canceled,
-		PrivateZoneProperties_STATUS_ProvisioningState_Creating,
-		PrivateZoneProperties_STATUS_ProvisioningState_Deleting,
-		PrivateZoneProperties_STATUS_ProvisioningState_Failed,
-		PrivateZoneProperties_STATUS_ProvisioningState_Succeeded,
-		PrivateZoneProperties_STATUS_ProvisioningState_Updating))
+		PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
+		PrivateZoneProperties_ProvisioningState_STATUS_Creating,
+		PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
+		PrivateZoneProperties_ProvisioningState_STATUS_Failed,
+		PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
+		PrivateZoneProperties_ProvisioningState_STATUS_Updating))
 }

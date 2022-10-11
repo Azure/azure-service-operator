@@ -175,7 +175,7 @@ type SqlTriggerGetResults_STATUS struct {
 	Location    *string                                  `json:"location,omitempty"`
 	Name        *string                                  `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	Resource    *SqlTriggerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlTriggerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                        `json:"tags,omitempty"`
 	Type        *string                                  `json:"type,omitempty"`
 }
@@ -200,8 +200,8 @@ func (results *SqlTriggerGetResults_STATUS) ConvertStatusTo(destination genrunti
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlTriggerGetProperties_STATUS_Resource
-type SqlTriggerGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.SqlTriggerGetProperties_Resource_STATUS
+type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                `json:"body,omitempty"`
 	Etag             *string                `json:"_etag,omitempty"`
 	Id               *string                `json:"id,omitempty"`

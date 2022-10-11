@@ -1,0 +1,78 @@
+github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview
+├── APIVersion: enum
+│   └── "2020-08-01-preview"
+├── RoleAssignment: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Condition: *string
+│   │   ├── ConditionVersion: *string
+│   │   ├── DelegatedManagedIdentityResourceId: *string
+│   │   ├── Description: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.ArbitraryOwnerReference
+│   │   ├── PrincipalId: *string
+│   │   ├── PrincipalType: enum
+│   │   │   ├── "ForeignGroup"
+│   │   │   ├── "Group"
+│   │   │   ├── "ServicePrincipal"
+│   │   │   └── "User"
+│   │   ├── RoleDefinitionReference: *genruntime.ResourceReference
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Condition: *string
+│       ├── ConditionVersion: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedBy: *string
+│       ├── CreatedOn: *string
+│       ├── DelegatedManagedIdentityResourceId: *string
+│       ├── Description: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PrincipalId: *string
+│       ├── PrincipalType: enum
+│       │   ├── "ForeignGroup"
+│       │   ├── "Group"
+│       │   ├── "ServicePrincipal"
+│       │   └── "User"
+│       ├── RoleDefinitionId: *string
+│       ├── Scope: *string
+│       ├── Type: *string
+│       ├── UpdatedBy: *string
+│       └── UpdatedOn: *string
+├── RoleAssignment_STATUS_ARM: 
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── Condition: *string
+│   │   ├── ConditionVersion: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedOn: *string
+│   │   ├── DelegatedManagedIdentityResourceId: *string
+│   │   ├── Description: *string
+│   │   ├── PrincipalId: *string
+│   │   ├── PrincipalType: enum
+│   │   │   ├── "ForeignGroup"
+│   │   │   ├── "Group"
+│   │   │   ├── "ServicePrincipal"
+│   │   │   └── "User"
+│   │   ├── RoleDefinitionId: *string
+│   │   ├── Scope: *string
+│   │   ├── UpdatedBy: *string
+│   │   └── UpdatedOn: *string
+│   └── Type: *string
+└── RoleAssignment_Spec_ARM: 
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── Condition: *string
+    │   ├── ConditionVersion: *string
+    │   ├── DelegatedManagedIdentityResourceId: *string
+    │   ├── Description: *string
+    │   ├── PrincipalId: *string
+    │   ├── PrincipalType: enum
+    │   │   ├── "ForeignGroup"
+    │   │   ├── "Group"
+    │   │   ├── "ServicePrincipal"
+    │   │   └── "User"
+    │   └── RoleDefinitionId: *string
+    └── Tags: Map[string]string

@@ -12,23 +12,23 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ extensions.SecretsRetriever = &ManagedClusterExtension{}
+var _ genruntime.KubernetesExporter = &ManagedClusterExtension{}
 
-func (ext *ManagedClusterExtension) RetrieveSecrets(
+func (ext *ManagedClusterExtension) ExportKubernetesResources(
 	ctx context.Context,
-	obj genruntime.ARMMetaObject,
+	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]*v1.Secret, error) {
+	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -47,7 +47,7 @@ func (ext *ManagedClusterExtension) RetrieveSecrets(
 		return nil, nil
 	}
 
-	id, err := genruntime.GetAndParseResourceID(obj)
+	id, err := genruntime.GetAndParseResourceID(typedObj)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (ext *ManagedClusterExtension) RetrieveSecrets(
 	var adminCredentials string
 	if hasAdminCreds {
 		var resp armcontainerservice.ManagedClustersClientListClusterAdminCredentialsResponse
-		resp, err = mcClient.ListClusterAdminCredentials(ctx, id.ResourceGroupName, obj.AzureName(), nil)
+		resp, err = mcClient.ListClusterAdminCredentials(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed listing admin credentials")
 		}
@@ -80,7 +80,7 @@ func (ext *ManagedClusterExtension) RetrieveSecrets(
 	var userCredentials string
 	if hasUserCreds {
 		var resp armcontainerservice.ManagedClustersClientListClusterUserCredentialsResponse
-		resp, err = mcClient.ListClusterUserCredentials(ctx, id.ResourceGroupName, obj.AzureName(), nil)
+		resp, err = mcClient.ListClusterUserCredentials(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed listing admin credentials")
 		}
@@ -96,7 +96,7 @@ func (ext *ManagedClusterExtension) RetrieveSecrets(
 		return nil, err
 	}
 
-	return secretSlice, nil
+	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
 func secretsSpecified(obj *containerservice.ManagedCluster) (bool, bool) {
@@ -114,9 +114,9 @@ func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, use
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
-	collector := secrets.NewSecretCollector(obj.Namespace)
-	collector.AddSecretValue(operatorSpecSecrets.AdminCredentials, adminCreds)
-	collector.AddSecretValue(operatorSpecSecrets.UserCredentials, userCreds)
+	collector := secrets.NewCollector(obj.Namespace)
+	collector.AddValue(operatorSpecSecrets.AdminCredentials, adminCreds)
+	collector.AddValue(operatorSpecSecrets.UserCredentials, userCreds)
 
-	return collector.Secrets(), nil
+	return collector.Values()
 }

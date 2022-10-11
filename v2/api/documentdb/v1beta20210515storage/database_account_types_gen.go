@@ -416,7 +416,7 @@ type ManagedServiceIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210515.PrivateEndpointConnection_STATUS_SubResourceEmbedded
@@ -460,8 +460,8 @@ type DatabaseAccountOperatorSecrets struct {
 	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
-// Storage version of v1beta20210515.ManagedServiceIdentity_STATUS_UserAssignedIdentities
-type ManagedServiceIdentity_STATUS_UserAssignedIdentities struct {
+// Storage version of v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

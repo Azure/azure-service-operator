@@ -1,0 +1,220 @@
+github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601
+├── APIVersion: enum
+│   └── "2021-06-01"
+├── Workspace: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: Validated[string]
+│   │   ├── Etag: *string
+│   │   ├── Features: 
+│   │   │   ├── AdditionalProperties: Map[string]v1.JSON
+│   │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── EnableDataExport: *bool
+│   │   │   ├── EnableLogAccessUsingOnlyResourcePermissions: *bool
+│   │   │   └── ImmediatePurgeDataOn30Days: *bool
+│   │   ├── ForceCmkForQuery: *bool
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "ProvisioningAccount"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── RetentionInDays: *int
+│   │   ├── Sku: 
+│   │   │   ├── CapacityReservationLevel: *int
+│   │   │   └── Name: enum
+│   │   │       ├── "CapacityReservation"
+│   │   │       ├── "Free"
+│   │   │       ├── "LACluster"
+│   │   │       ├── "PerGB2018"
+│   │   │       ├── "PerNode"
+│   │   │       ├── "Premium"
+│   │   │       ├── "Standalone"
+│   │   │       └── "Standard"
+│   │   ├── Tags: Map[string]string
+│   │   └── WorkspaceCapping: 
+│   │       └── DailyQuotaGb: *float64
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── CreatedDate: *string
+│       ├── CustomerId: *string
+│       ├── Etag: *string
+│       ├── Features: 
+│       │   ├── ClusterResourceId: *string
+│       │   ├── DisableLocalAuth: *bool
+│       │   ├── EnableDataExport: *bool
+│       │   ├── EnableLogAccessUsingOnlyResourcePermissions: *bool
+│       │   └── ImmediatePurgeDataOn30Days: *bool
+│       ├── ForceCmkForQuery: *bool
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── ModifiedDate: *string
+│       ├── Name: *string
+│       ├── PrivateLinkScopedResources: 
+│       │   ├── ResourceId: *string
+│       │   └── ScopeId: *string
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "ProvisioningAccount"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── PublicNetworkAccessForIngestion: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── PublicNetworkAccessForQuery: enum
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── RetentionInDays: *int
+│       ├── Sku: 
+│       │   ├── CapacityReservationLevel: enum
+│       │   │   ├── 100
+│       │   │   ├── 1000
+│       │   │   ├── 200
+│       │   │   ├── 2000
+│       │   │   ├── 300
+│       │   │   ├── 400
+│       │   │   ├── 500
+│       │   │   └── 5000
+│       │   ├── LastSkuUpdate: *string
+│       │   └── Name: enum
+│       │       ├── "CapacityReservation"
+│       │       ├── "Free"
+│       │       ├── "LACluster"
+│       │       ├── "PerGB2018"
+│       │       ├── "PerNode"
+│       │       ├── "Premium"
+│       │       ├── "Standalone"
+│       │       └── "Standard"
+│       ├── Tags: Map[string]string
+│       ├── Type: *string
+│       └── WorkspaceCapping: 
+│           ├── DailyQuotaGb: *float64
+│           ├── DataIngestionStatus: enum
+│           │   ├── "ApproachingQuota"
+│           │   ├── "ForceOff"
+│           │   ├── "ForceOn"
+│           │   ├── "OverQuota"
+│           │   ├── "RespectQuota"
+│           │   └── "SubscriptionSuspended"
+│           └── QuotaNextResetTime: *string
+├── Workspace_STATUS_ARM: 
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── CreatedDate: *string
+│   │   ├── CustomerId: *string
+│   │   ├── Features: 
+│   │   │   ├── ClusterResourceId: *string
+│   │   │   ├── DisableLocalAuth: *bool
+│   │   │   ├── EnableDataExport: *bool
+│   │   │   ├── EnableLogAccessUsingOnlyResourcePermissions: *bool
+│   │   │   └── ImmediatePurgeDataOn30Days: *bool
+│   │   ├── ForceCmkForQuery: *bool
+│   │   ├── ModifiedDate: *string
+│   │   ├── PrivateLinkScopedResources: 
+│   │   │   ├── ResourceId: *string
+│   │   │   └── ScopeId: *string
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "ProvisioningAccount"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── RetentionInDays: *int
+│   │   ├── Sku: 
+│   │   │   ├── CapacityReservationLevel: enum
+│   │   │   │   ├── 100
+│   │   │   │   ├── 1000
+│   │   │   │   ├── 200
+│   │   │   │   ├── 2000
+│   │   │   │   ├── 300
+│   │   │   │   ├── 400
+│   │   │   │   ├── 500
+│   │   │   │   └── 5000
+│   │   │   ├── LastSkuUpdate: *string
+│   │   │   └── Name: enum
+│   │   │       ├── "CapacityReservation"
+│   │   │       ├── "Free"
+│   │   │       ├── "LACluster"
+│   │   │       ├── "PerGB2018"
+│   │   │       ├── "PerNode"
+│   │   │       ├── "Premium"
+│   │   │       ├── "Standalone"
+│   │   │       └── "Standard"
+│   │   └── WorkspaceCapping: 
+│   │       ├── DailyQuotaGb: *float64
+│   │       ├── DataIngestionStatus: enum
+│   │       │   ├── "ApproachingQuota"
+│   │       │   ├── "ForceOff"
+│   │       │   ├── "ForceOn"
+│   │       │   ├── "OverQuota"
+│   │       │   ├── "RespectQuota"
+│   │       │   └── "SubscriptionSuspended"
+│   │       └── QuotaNextResetTime: *string
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── Workspace_Spec_ARM: 
+    ├── Etag: *string
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── Features: 
+    │   │   ├── AdditionalProperties: Map[string]v1.JSON
+    │   │   ├── ClusterResourceId: *string
+    │   │   ├── DisableLocalAuth: *bool
+    │   │   ├── EnableDataExport: *bool
+    │   │   ├── EnableLogAccessUsingOnlyResourcePermissions: *bool
+    │   │   └── ImmediatePurgeDataOn30Days: *bool
+    │   ├── ForceCmkForQuery: *bool
+    │   ├── ProvisioningState: enum
+    │   │   ├── "Canceled"
+    │   │   ├── "Creating"
+    │   │   ├── "Deleting"
+    │   │   ├── "Failed"
+    │   │   ├── "ProvisioningAccount"
+    │   │   ├── "Succeeded"
+    │   │   └── "Updating"
+    │   ├── PublicNetworkAccessForIngestion: enum
+    │   │   ├── "Disabled"
+    │   │   └── "Enabled"
+    │   ├── PublicNetworkAccessForQuery: enum
+    │   │   ├── "Disabled"
+    │   │   └── "Enabled"
+    │   ├── RetentionInDays: *int
+    │   ├── Sku: 
+    │   │   ├── CapacityReservationLevel: *int
+    │   │   └── Name: enum
+    │   │       ├── "CapacityReservation"
+    │   │       ├── "Free"
+    │   │       ├── "LACluster"
+    │   │       ├── "PerGB2018"
+    │   │       ├── "PerNode"
+    │   │       ├── "Premium"
+    │   │       ├── "Standalone"
+    │   │       └── "Standard"
+    │   └── WorkspaceCapping: 
+    │       └── DailyQuotaGb: *float64
+    └── Tags: Map[string]string

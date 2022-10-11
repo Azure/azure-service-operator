@@ -4,7 +4,7 @@ metadata:
   name: sampleworkspaces
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   owner:
     name: aso-sample-rg
   sku:
@@ -20,7 +20,7 @@ spec:
   keyVaultReference:
     group: "keyvault.azure.com"
     kind:  "Vault"
-    name:  "mlworkspace-vault"
+    name:  "mlworkspaces-vault"
   # Optional: Save the keys for the storage account into a Kubernetes secret
   operatorSpec:
     secrets:

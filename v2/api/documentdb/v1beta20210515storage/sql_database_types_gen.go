@@ -176,7 +176,7 @@ type SqlDatabaseGetResults_STATUS struct {
 	Name        *string                                   `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                   `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	Resource    *SqlDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                         `json:"tags,omitempty"`
 	Type        *string                                   `json:"type,omitempty"`
 }
@@ -201,8 +201,8 @@ func (results *SqlDatabaseGetResults_STATUS) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlDatabaseGetProperties_STATUS_Resource
-type SqlDatabaseGetProperties_STATUS_Resource struct {
+// Storage version of v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS
+type SqlDatabaseGetProperties_Resource_STATUS struct {
 	Colls       *string                `json:"_colls,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`

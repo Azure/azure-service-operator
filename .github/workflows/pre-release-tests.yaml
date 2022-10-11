@@ -1,0 +1,46 @@
+name: Pre Release tests
+on:
+  workflow_dispatch:
+  # no content, allows manual triggering
+
+  schedule:
+    # 5:30 pm every Sunday (UTC)
+    - cron: '30 17 * * 0'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: 'true'
+
+      - name: Build & run devcontainer image
+        # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
+        # so that we pick up the latest versions of everything
+        # NB: if you update this also update create-release.yml
+        id: devcontainer
+        run: |
+          docker build --tag devcontainer:latest .devcontainer
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
+      - name: Run Pre Release Tests
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task controller:test-upgrade
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Cleanup test resources
+        if: always()
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task cleanup-azure-resources
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

@@ -65,7 +65,7 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 
 	// Update the subnet
 	old := subnet.DeepCopy()
-	subnet.Spec.Delegations = []network.VirtualNetworks_Subnet_Spec_Properties_Delegations{
+	subnet.Spec.Delegations = []network.VirtualNetworks_Subnet_Properties_Delegations_Spec{
 		{
 			Name:        to.StringPtr("mydelegation"),
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),

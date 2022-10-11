@@ -5,7 +5,7 @@ package v1beta20180501preview
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type WebTest_STATUSARM struct {
+type WebTest_STATUS_ARM struct {
 	// Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
 
@@ -16,7 +16,7 @@ type WebTest_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Metadata describing a web test for an Azure resource.
-	Properties *WebTestProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *WebTestProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
@@ -25,9 +25,9 @@ type WebTest_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type WebTestProperties_STATUSARM struct {
+type WebTestProperties_STATUS_ARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_STATUS_ConfigurationARM `json:"Configuration,omitempty"`
+	Configuration *WebTestProperties_Configuration_STATUS_ARM `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -39,11 +39,11 @@ type WebTestProperties_STATUSARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestProperties_STATUS_Kind `json:"Kind,omitempty"`
+	Kind *WebTestProperties_Kind_STATUS `json:"Kind,omitempty"`
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
-	Locations []WebTestGeolocation_STATUSARM `json:"Locations,omitempty"`
+	Locations []WebTestGeolocation_STATUS_ARM `json:"Locations,omitempty"`
 
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
@@ -54,7 +54,7 @@ type WebTestProperties_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestProperties_STATUS_RequestARM `json:"Request,omitempty"`
+	Request *WebTestProperties_Request_STATUS_ARM `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -66,34 +66,34 @@ type WebTestProperties_STATUSARM struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_STATUS_ValidationRulesARM `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestProperties_ValidationRules_STATUS_ARM `json:"ValidationRules,omitempty"`
 }
 
-type WebTestGeolocation_STATUSARM struct {
+type WebTestGeolocation_STATUS_ARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
-type WebTestProperties_STATUS_ConfigurationARM struct {
+type WebTestProperties_Configuration_STATUS_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-type WebTestProperties_STATUS_Kind string
+type WebTestProperties_Kind_STATUS string
 
 const (
-	WebTestProperties_STATUS_Kind_Basic     = WebTestProperties_STATUS_Kind("basic")
-	WebTestProperties_STATUS_Kind_Multistep = WebTestProperties_STATUS_Kind("multistep")
-	WebTestProperties_STATUS_Kind_Ping      = WebTestProperties_STATUS_Kind("ping")
-	WebTestProperties_STATUS_Kind_Standard  = WebTestProperties_STATUS_Kind("standard")
+	WebTestProperties_Kind_STATUS_Basic     = WebTestProperties_Kind_STATUS("basic")
+	WebTestProperties_Kind_STATUS_Multistep = WebTestProperties_Kind_STATUS("multistep")
+	WebTestProperties_Kind_STATUS_Ping      = WebTestProperties_Kind_STATUS("ping")
+	WebTestProperties_Kind_STATUS_Standard  = WebTestProperties_Kind_STATUS("standard")
 )
 
-type WebTestProperties_STATUS_RequestARM struct {
+type WebTestProperties_Request_STATUS_ARM struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
 	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField_STATUSARM `json:"Headers,omitempty"`
+	Headers []HeaderField_STATUS_ARM `json:"Headers,omitempty"`
 
 	// HttpVerb: Http verb to use for this web test.
 	HttpVerb *string `json:"HttpVerb,omitempty"`
@@ -108,9 +108,9 @@ type WebTestProperties_STATUS_RequestARM struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-type WebTestProperties_STATUS_ValidationRulesARM struct {
+type WebTestProperties_ValidationRules_STATUS_ARM struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_STATUS_ValidationRules_ContentValidationARM `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -126,7 +126,7 @@ type WebTestProperties_STATUS_ValidationRulesARM struct {
 	SSLCheck *bool `json:"SSLCheck,omitempty"`
 }
 
-type HeaderField_STATUSARM struct {
+type HeaderField_STATUS_ARM struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
 
@@ -134,7 +134,7 @@ type HeaderField_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type WebTestProperties_STATUS_ValidationRules_ContentValidationARM struct {
+type WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

@@ -397,7 +397,7 @@ type MongoDBDatabaseGetResults_STATUS struct {
 	Name        *string                                       `json:"name,omitempty"`
 	Options     *OptionsResource_STATUS                       `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *MongoDBDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                             `json:"tags,omitempty"`
 	Type        *string                                       `json:"type,omitempty"`
 }
@@ -483,10 +483,10 @@ func (results *MongoDBDatabaseGetResults_STATUS) AssignProperties_From_MongoDBDa
 
 	// Resource
 	if source.Resource != nil {
-		var resource MongoDBDatabaseGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource(source.Resource)
+		var resource MongoDBDatabaseGetProperties_Resource_STATUS
+		err := resource.AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -541,10 +541,10 @@ func (results *MongoDBDatabaseGetResults_STATUS) AssignProperties_To_MongoDBData
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.MongoDBDatabaseGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource(&resource)
+		var resource v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
+		err := results.Resource.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -638,9 +638,9 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.MongoDBDatabaseGetProperties_STATUS_Resource
-// Deprecated version of MongoDBDatabaseGetProperties_STATUS_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_STATUS_Resource instead
-type MongoDBDatabaseGetProperties_STATUS_Resource struct {
+// Storage version of v1alpha1api20210515.MongoDBDatabaseGetProperties_Resource_STATUS
+// Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
+type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -648,8 +648,8 @@ type MongoDBDatabaseGetProperties_STATUS_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
-// AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource populates our MongoDBDatabaseGetProperties_STATUS_Resource from the provided source MongoDBDatabaseGetProperties_STATUS_Resource
-func (resource *MongoDBDatabaseGetProperties_STATUS_Resource) AssignProperties_From_MongoDBDatabaseGetProperties_STATUS_Resource(source *v20210515s.MongoDBDatabaseGetProperties_STATUS_Resource) error {
+// AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseGetProperties_Resource_STATUS from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(source *v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -681,8 +681,8 @@ func (resource *MongoDBDatabaseGetProperties_STATUS_Resource) AssignProperties_F
 	return nil
 }
 
-// AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource populates the provided destination MongoDBDatabaseGetProperties_STATUS_Resource from our MongoDBDatabaseGetProperties_STATUS_Resource
-func (resource *MongoDBDatabaseGetProperties_STATUS_Resource) AssignProperties_To_MongoDBDatabaseGetProperties_STATUS_Resource(destination *v20210515s.MongoDBDatabaseGetProperties_STATUS_Resource) error {
+// AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS populates the provided destination MongoDBDatabaseGetProperties_Resource_STATUS from our MongoDBDatabaseGetProperties_Resource_STATUS
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(destination *v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

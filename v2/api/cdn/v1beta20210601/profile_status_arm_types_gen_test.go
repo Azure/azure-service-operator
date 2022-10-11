@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Profile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Profile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profile_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfile_STATUSARM, Profile_STATUSARMGenerator()))
+		"Round trip of Profile_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfile_STATUS_ARM, Profile_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfile_STATUSARM runs a test to see if a specific instance of Profile_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfile_STATUSARM(subject Profile_STATUSARM) string {
+// RunJSONSerializationTestForProfile_STATUS_ARM runs a test to see if a specific instance of Profile_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfile_STATUS_ARM(subject Profile_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForProfile_STATUSARM(subject Profile_STATUSARM) str
 	}
 
 	// Deserialize back into memory
-	var actual Profile_STATUSARM
+	var actual Profile_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,33 +56,33 @@ func RunJSONSerializationTestForProfile_STATUSARM(subject Profile_STATUSARM) str
 	return ""
 }
 
-// Generator of Profile_STATUSARM instances for property testing - lazily instantiated by Profile_STATUSARMGenerator()
-var profile_STATUSARMGenerator gopter.Gen
+// Generator of Profile_STATUS_ARM instances for property testing - lazily instantiated by Profile_STATUS_ARMGenerator()
+var profile_STATUS_ARMGenerator gopter.Gen
 
-// Profile_STATUSARMGenerator returns a generator of Profile_STATUSARM instances for property testing.
-// We first initialize profile_STATUSARMGenerator with a simplified generator based on the
+// Profile_STATUS_ARMGenerator returns a generator of Profile_STATUS_ARM instances for property testing.
+// We first initialize profile_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profile_STATUSARMGenerator() gopter.Gen {
-	if profile_STATUSARMGenerator != nil {
-		return profile_STATUSARMGenerator
+func Profile_STATUS_ARMGenerator() gopter.Gen {
+	if profile_STATUS_ARMGenerator != nil {
+		return profile_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfile_STATUSARM(generators)
-	profile_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Profile_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfile_STATUS_ARM(generators)
+	profile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profile_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfile_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForProfile_STATUSARM(generators)
-	profile_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Profile_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfile_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfile_STATUS_ARM(generators)
+	profile_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profile_STATUS_ARM{}), generators)
 
-	return profile_STATUSARMGenerator
+	return profile_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfile_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfile_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -91,27 +91,27 @@ func AddIndependentPropertyGeneratorsForProfile_STATUSARM(gens map[string]gopter
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProfile_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfile_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ProfileProperties_STATUSARMGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForProfile_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfile_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ProfileProperties_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
-func Test_ProfileProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ProfileProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfileProperties_STATUSARM, ProfileProperties_STATUSARMGenerator()))
+		"Round trip of ProfileProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfileProperties_STATUS_ARM, ProfileProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfileProperties_STATUSARM runs a test to see if a specific instance of ProfileProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfileProperties_STATUSARM(subject ProfileProperties_STATUSARM) string {
+// RunJSONSerializationTestForProfileProperties_STATUS_ARM runs a test to see if a specific instance of ProfileProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfileProperties_STATUS_ARM(subject ProfileProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -119,7 +119,7 @@ func RunJSONSerializationTestForProfileProperties_STATUSARM(subject ProfilePrope
 	}
 
 	// Deserialize back into memory
-	var actual ProfileProperties_STATUSARM
+	var actual ProfileProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -137,54 +137,54 @@ func RunJSONSerializationTestForProfileProperties_STATUSARM(subject ProfilePrope
 	return ""
 }
 
-// Generator of ProfileProperties_STATUSARM instances for property testing - lazily instantiated by
-// ProfileProperties_STATUSARMGenerator()
-var profileProperties_STATUSARMGenerator gopter.Gen
+// Generator of ProfileProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// ProfileProperties_STATUS_ARMGenerator()
+var profileProperties_STATUS_ARMGenerator gopter.Gen
 
-// ProfileProperties_STATUSARMGenerator returns a generator of ProfileProperties_STATUSARM instances for property testing.
-func ProfileProperties_STATUSARMGenerator() gopter.Gen {
-	if profileProperties_STATUSARMGenerator != nil {
-		return profileProperties_STATUSARMGenerator
+// ProfileProperties_STATUS_ARMGenerator returns a generator of ProfileProperties_STATUS_ARM instances for property testing.
+func ProfileProperties_STATUS_ARMGenerator() gopter.Gen {
+	if profileProperties_STATUS_ARMGenerator != nil {
+		return profileProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties_STATUSARM(generators)
-	profileProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(generators)
+	profileProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ProfileProperties_STATUS_ARM{}), generators)
 
-	return profileProperties_STATUSARMGenerator
+	return profileProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfileProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfileProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_STATUS_ProvisioningState_Creating,
-		ProfileProperties_STATUS_ProvisioningState_Deleting,
-		ProfileProperties_STATUS_ProvisioningState_Failed,
-		ProfileProperties_STATUS_ProvisioningState_Succeeded,
-		ProfileProperties_STATUS_ProvisioningState_Updating))
+		ProfileProperties_ProvisioningState_STATUS_Creating,
+		ProfileProperties_ProvisioningState_STATUS_Deleting,
+		ProfileProperties_ProvisioningState_STATUS_Failed,
+		ProfileProperties_ProvisioningState_STATUS_Succeeded,
+		ProfileProperties_ProvisioningState_STATUS_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_STATUS_ResourceState_Active,
-		ProfileProperties_STATUS_ResourceState_Creating,
-		ProfileProperties_STATUS_ResourceState_Deleting,
-		ProfileProperties_STATUS_ResourceState_Disabled))
+		ProfileProperties_ResourceState_STATUS_Active,
+		ProfileProperties_ResourceState_STATUS_Creating,
+		ProfileProperties_ResourceState_STATUS_Deleting,
+		ProfileProperties_ResourceState_STATUS_Disabled))
 }
 
-func Test_Sku_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Sku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Sku_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku_STATUSARM, Sku_STATUSARMGenerator()))
+		"Round trip of Sku_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_STATUS_ARM, Sku_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSku_STATUSARM runs a test to see if a specific instance of Sku_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku_STATUSARM(subject Sku_STATUSARM) string {
+// RunJSONSerializationTestForSku_STATUS_ARM runs a test to see if a specific instance of Sku_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_STATUS_ARM(subject Sku_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -192,7 +192,7 @@ func RunJSONSerializationTestForSku_STATUSARM(subject Sku_STATUSARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual Sku_STATUSARM
+	var actual Sku_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -210,36 +210,36 @@ func RunJSONSerializationTestForSku_STATUSARM(subject Sku_STATUSARM) string {
 	return ""
 }
 
-// Generator of Sku_STATUSARM instances for property testing - lazily instantiated by Sku_STATUSARMGenerator()
-var sku_STATUSARMGenerator gopter.Gen
+// Generator of Sku_STATUS_ARM instances for property testing - lazily instantiated by Sku_STATUS_ARMGenerator()
+var sku_STATUS_ARMGenerator gopter.Gen
 
-// Sku_STATUSARMGenerator returns a generator of Sku_STATUSARM instances for property testing.
-func Sku_STATUSARMGenerator() gopter.Gen {
-	if sku_STATUSARMGenerator != nil {
-		return sku_STATUSARMGenerator
+// Sku_STATUS_ARMGenerator returns a generator of Sku_STATUS_ARM instances for property testing.
+func Sku_STATUS_ARMGenerator() gopter.Gen {
+	if sku_STATUS_ARMGenerator != nil {
+		return sku_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku_STATUSARM(generators)
-	sku_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Sku_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSku_STATUS_ARM(generators)
+	sku_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS_ARM{}), generators)
 
-	return sku_STATUSARMGenerator
+	return sku_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Name_Custom_Verizon,
-		Sku_STATUS_Name_Premium_AzureFrontDoor,
-		Sku_STATUS_Name_Premium_Verizon,
-		Sku_STATUS_Name_StandardPlus_955BandWidth_ChinaCdn,
-		Sku_STATUS_Name_StandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_STATUS_Name_StandardPlus_ChinaCdn,
-		Sku_STATUS_Name_Standard_955BandWidth_ChinaCdn,
-		Sku_STATUS_Name_Standard_Akamai,
-		Sku_STATUS_Name_Standard_AvgBandWidth_ChinaCdn,
-		Sku_STATUS_Name_Standard_AzureFrontDoor,
-		Sku_STATUS_Name_Standard_ChinaCdn,
-		Sku_STATUS_Name_Standard_Microsoft,
-		Sku_STATUS_Name_Standard_Verizon))
+		Sku_Name_STATUS_Custom_Verizon,
+		Sku_Name_STATUS_Premium_AzureFrontDoor,
+		Sku_Name_STATUS_Premium_Verizon,
+		Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn,
+		Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn,
+		Sku_Name_STATUS_StandardPlus_ChinaCdn,
+		Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn,
+		Sku_Name_STATUS_Standard_Akamai,
+		Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn,
+		Sku_Name_STATUS_Standard_AzureFrontDoor,
+		Sku_Name_STATUS_Standard_ChinaCdn,
+		Sku_Name_STATUS_Standard_Microsoft,
+		Sku_Name_STATUS_Standard_Verizon))
 }

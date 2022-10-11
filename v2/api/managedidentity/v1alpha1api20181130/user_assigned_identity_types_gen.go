@@ -4,16 +4,21 @@
 package v1alpha1api20181130
 
 import (
+	"context"
 	"fmt"
 	alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -102,6 +107,28 @@ func (identity *UserAssignedIdentity) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
 func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
+
+var _ genruntime.KubernetesExporter = &UserAssignedIdentity{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (identity *UserAssignedIdentity) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(identity.Namespace)
+	if identity.Spec.OperatorSpec != nil && identity.Spec.OperatorSpec.ConfigMaps != nil {
+		if identity.Status.ClientId != nil {
+			collector.AddValue(identity.Spec.OperatorSpec.ConfigMaps.ClientId, *identity.Status.ClientId)
+		}
+	}
+	if identity.Spec.OperatorSpec != nil && identity.Spec.OperatorSpec.ConfigMaps != nil {
+		if identity.Status.PrincipalId != nil {
+			collector.AddValue(identity.Spec.OperatorSpec.ConfigMaps.PrincipalId, *identity.Status.PrincipalId)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
+}
 
 var _ genruntime.KubernetesResource = &UserAssignedIdentity{}
 
@@ -226,7 +253,7 @@ func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (identity *UserAssignedIdentity) createValidations() []func() error {
-	return []func() error{identity.validateResourceReferences}
+	return []func() error{identity.validateResourceReferences, identity.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -240,7 +267,26 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return identity.validateResourceReferences()
 		},
-		identity.validateWriteOnceProperties}
+		identity.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return identity.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (identity *UserAssignedIdentity) validateConfigMapDestinations() error {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if identity.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		identity.Spec.OperatorSpec.ConfigMaps.ClientId,
+		identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -406,14 +452,14 @@ var _ genruntime.FromARMConverter = &Identity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *Identity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Identity_STATUSARM{}
+	return &Identity_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Identity_STATUSARM)
+	typedInput, ok := armInput.(Identity_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘ClientId’:
@@ -564,6 +610,10 @@ type UserAssignedIdentity_Spec struct {
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *UserAssignedIdentityOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -579,7 +629,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 	if identity == nil {
 		return nil, nil
 	}
-	result := &UserAssignedIdentity_SpecARM{}
+	result := &UserAssignedIdentity_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if identity.Location != nil {
@@ -602,14 +652,14 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *UserAssignedIdentity_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_SpecARM{}
+	return &UserAssignedIdentity_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_SpecARM)
+	typedInput, ok := armInput.(UserAssignedIdentity_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -620,6 +670,8 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 		location := *typedInput.Location
 		identity.Location = &location
 	}
+
+	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
 	identity.Owner = &genruntime.KnownResourceReference{
@@ -697,6 +749,18 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 	// Location
 	identity.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec UserAssignedIdentityOperatorSpec
+		err := operatorSpec.AssignProperties_From_UserAssignedIdentityOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+		}
+		identity.OperatorSpec = &operatorSpec
+	} else {
+		identity.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -722,6 +786,18 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(identity.Location)
+
+	// OperatorSpec
+	if identity.OperatorSpec != nil {
+		var operatorSpec alpha20181130s.UserAssignedIdentityOperatorSpec
+		err := identity.OperatorSpec.AssignProperties_To_UserAssignedIdentityOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = identity.OriginalVersion()
@@ -756,6 +832,122 @@ func (identity *UserAssignedIdentity_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (identity *UserAssignedIdentity_Spec) SetAzureName(azureName string) {
 	identity.AzureName = azureName
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type UserAssignedIdentityOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *alpha20181130s.UserAssignedIdentityOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap UserAssignedIdentityOperatorConfigMaps
+		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityOperatorSpec populates the provided destination UserAssignedIdentityOperatorSpec from our UserAssignedIdentityOperatorSpec
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssignedIdentityOperatorSpec(destination *alpha20181130s.UserAssignedIdentityOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap alpha20181130s.UserAssignedIdentityOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UserAssignedIdentityOperatorConfigMaps struct {
+	// ClientId: indicates where the ClientId config map should be placed. If omitted, no config map will be created.
+	ClientId *genruntime.ConfigMapDestination `json:"clientId,omitempty"`
+
+	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
+	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityOperatorConfigMaps populates our UserAssignedIdentityOperatorConfigMaps from the provided source UserAssignedIdentityOperatorConfigMaps
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source *alpha20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+
+	// ClientId
+	if source.ClientId != nil {
+		clientId := source.ClientId.Copy()
+		maps.ClientId = &clientId
+	} else {
+		maps.ClientId = nil
+	}
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		maps.PrincipalId = &principalId
+	} else {
+		maps.PrincipalId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityOperatorConfigMaps populates the provided destination UserAssignedIdentityOperatorConfigMaps from our UserAssignedIdentityOperatorConfigMaps
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(destination *alpha20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	if maps.ClientId != nil {
+		clientId := maps.ClientId.Copy()
+		destination.ClientId = &clientId
+	} else {
+		destination.ClientId = nil
+	}
+
+	// PrincipalId
+	if maps.PrincipalId != nil {
+		principalId := maps.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

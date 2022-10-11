@@ -6,31 +6,31 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_QueueServices_Queue_Spec. Use v1beta20210401.StorageAccounts_QueueServices_Queue_Spec instead
-type StorageAccounts_QueueServices_Queue_SpecARM struct {
-	Location   *string             `json:"location,omitempty"`
-	Name       string              `json:"name,omitempty"`
-	Properties *QueuePropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string   `json:"tags,omitempty"`
+type StorageAccounts_QueueServices_Queue_Spec_ARM struct {
+	Location   *string              `json:"location,omitempty"`
+	Name       string               `json:"name,omitempty"`
+	Properties *QueueProperties_ARM `json:"properties,omitempty"`
+	Tags       map[string]string    `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueServices_Queue_SpecARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueServices_Queue_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (queue StorageAccounts_QueueServices_Queue_SpecARM) GetAPIVersion() string {
+func (queue StorageAccounts_QueueServices_Queue_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (queue *StorageAccounts_QueueServices_Queue_SpecARM) GetName() string {
+func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetName() string {
 	return queue.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices/queues"
-func (queue *StorageAccounts_QueueServices_Queue_SpecARM) GetType() string {
+func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices/queues"
 }
 
 // Deprecated version of QueueProperties. Use v1beta20210401.QueueProperties instead
-type QueuePropertiesARM struct {
+type QueueProperties_ARM struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 }

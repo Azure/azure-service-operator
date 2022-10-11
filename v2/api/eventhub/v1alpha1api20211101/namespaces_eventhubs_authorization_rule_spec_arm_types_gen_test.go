@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Namespaces_Eventhubs_AuthorizationRule_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhubs_AuthorizationRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Eventhubs_AuthorizationRule_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_SpecARM, Namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator()))
+		"Round trip of Namespaces_Eventhubs_AuthorizationRule_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM, Namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_SpecARM runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRule_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_SpecARM(subject Namespaces_Eventhubs_AuthorizationRule_SpecARM) string {
+// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(subject Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_SpecARM(s
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Eventhubs_AuthorizationRule_SpecARM
+	var actual Namespaces_Eventhubs_AuthorizationRule_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,40 @@ func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_SpecARM(s
 	return ""
 }
 
-// Generator of Namespaces_Eventhubs_AuthorizationRule_SpecARM instances for property testing - lazily instantiated by
-// Namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator()
-var namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator gopter.Gen
+// Generator of Namespaces_Eventhubs_AuthorizationRule_Spec_ARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator()
+var namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator gopter.Gen
 
-// Namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRule_SpecARM instances for property testing.
-// We first initialize namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator with a simplified generator based on the
+// Namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRule_Spec_ARM instances for property testing.
+// We first initialize namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator() gopter.Gen {
-	if namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator != nil {
-		return namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator
+func Namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator() gopter.Gen {
+	if namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator != nil {
+		return namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM(generators)
-	namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(generators)
+	namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM(generators)
-	namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(generators)
+	namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_Spec_ARM{}), generators)
 
-	return namespaces_Eventhubs_AuthorizationRule_SpecARMGenerator
+	return namespaces_Eventhubs_AuthorizationRule_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_SpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AuthorizationRulePropertiesARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Spec_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AuthorizationRuleProperties_ARMGenerator())
 }

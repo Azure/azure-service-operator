@@ -56,7 +56,7 @@ If ASO was already configured to generate resources from this group (or version)
 
 ## Run the code generator
 
-Follow the steps in the [contributing guide](../_index.md) to set up your development environment.
+Follow the steps in the [contributing guide](_index.md) to set up your development environment.
 Once you have a working development environment, run the `task` command to run the code generator.
 
 ## Fix any errors raised by the code generator

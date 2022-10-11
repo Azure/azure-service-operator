@@ -375,7 +375,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NetworkSecurityGroups_SecurityRule_SpecARM{}
+	result := &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
 
 	// Set property ‘Location’:
 	if rule.Location != nil {
@@ -402,7 +402,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		rule.SourceApplicationSecurityGroups != nil ||
 		rule.SourcePortRange != nil ||
 		rule.SourcePortRanges != nil {
-		result.Properties = &SecurityRulePropertiesFormatARM{}
+		result.Properties = &SecurityRulePropertiesFormat_ARM{}
 	}
 	if rule.Access != nil {
 		access := *rule.Access
@@ -420,11 +420,11 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties.DestinationAddressPrefixes = append(result.Properties.DestinationAddressPrefixes, item)
 	}
 	for _, item := range rule.DestinationApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *itemARM.(*SubResourceARM))
+		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *item_ARM.(*SubResource_ARM))
 	}
 	if rule.DestinationPortRange != nil {
 		destinationPortRange := *rule.DestinationPortRange
@@ -453,11 +453,11 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		result.Properties.SourceAddressPrefixes = append(result.Properties.SourceAddressPrefixes, item)
 	}
 	for _, item := range rule.SourceApplicationSecurityGroups {
-		itemARM, err := item.ConvertToARM(resolved)
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *itemARM.(*SubResourceARM))
+		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *item_ARM.(*SubResource_ARM))
 	}
 	if rule.SourcePortRange != nil {
 		sourcePortRange := *rule.SourcePortRange
@@ -479,14 +479,14 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkSecurityGroups_SecurityRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroups_SecurityRule_SpecARM{}
+	return &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroups_SecurityRule_SpecARM)
+	typedInput, ok := armInput.(NetworkSecurityGroups_SecurityRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Access’:
@@ -971,7 +971,7 @@ type SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded 
 	Id                                   *string                                                                                  `json:"id,omitempty"`
 	Name                                 *string                                                                                  `json:"name,omitempty"`
 	Priority                             *int                                                                                     `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormat_STATUS_Protocol                                            `json:"protocol,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormat_Protocol_STATUS                                            `json:"protocol,omitempty"`
 	ProvisioningState                    *ProvisioningState_STATUS                                                                `json:"provisioningState,omitempty"`
 	SourceAddressPrefix                  *string                                                                                  `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                                                                 `json:"sourceAddressPrefixes,omitempty"`
@@ -1035,14 +1035,14 @@ var _ genruntime.FromARMConverter = &SecurityRule_STATUS_NetworkSecurityGroups_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM{}
+	return &SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Access’:
@@ -1292,7 +1292,7 @@ func (embedded *SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResour
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := SecurityRulePropertiesFormat_STATUS_Protocol(*source.Protocol)
+		protocol := SecurityRulePropertiesFormat_Protocol_STATUS(*source.Protocol)
 		embedded.Protocol = &protocol
 	} else {
 		embedded.Protocol = nil
@@ -1481,14 +1481,14 @@ var _ genruntime.FromARMConverter = &ApplicationSecurityGroup_STATUS_NetworkSecu
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM{}
+	return &ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM)
+	typedInput, ok := armInput.(ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1579,17 +1579,17 @@ const (
 	SecurityRulePropertiesFormat_Protocol_Udp  = SecurityRulePropertiesFormat_Protocol("Udp")
 )
 
-// Deprecated version of SecurityRulePropertiesFormat_STATUS_Protocol. Use
-// v1beta20201101.SecurityRulePropertiesFormat_STATUS_Protocol instead
-type SecurityRulePropertiesFormat_STATUS_Protocol string
+// Deprecated version of SecurityRulePropertiesFormat_Protocol_STATUS. Use
+// v1beta20201101.SecurityRulePropertiesFormat_Protocol_STATUS instead
+type SecurityRulePropertiesFormat_Protocol_STATUS string
 
 const (
-	SecurityRulePropertiesFormat_STATUS_Protocol_Ah   = SecurityRulePropertiesFormat_STATUS_Protocol("Ah")
-	SecurityRulePropertiesFormat_STATUS_Protocol_Esp  = SecurityRulePropertiesFormat_STATUS_Protocol("Esp")
-	SecurityRulePropertiesFormat_STATUS_Protocol_Icmp = SecurityRulePropertiesFormat_STATUS_Protocol("Icmp")
-	SecurityRulePropertiesFormat_STATUS_Protocol_Star = SecurityRulePropertiesFormat_STATUS_Protocol("*")
-	SecurityRulePropertiesFormat_STATUS_Protocol_Tcp  = SecurityRulePropertiesFormat_STATUS_Protocol("Tcp")
-	SecurityRulePropertiesFormat_STATUS_Protocol_Udp  = SecurityRulePropertiesFormat_STATUS_Protocol("Udp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Ah   = SecurityRulePropertiesFormat_Protocol_STATUS("Ah")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Esp  = SecurityRulePropertiesFormat_Protocol_STATUS("Esp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Icmp = SecurityRulePropertiesFormat_Protocol_STATUS("Icmp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Star = SecurityRulePropertiesFormat_Protocol_STATUS("*")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Tcp  = SecurityRulePropertiesFormat_Protocol_STATUS("Tcp")
+	SecurityRulePropertiesFormat_Protocol_STATUS_Udp  = SecurityRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
 func init() {

@@ -1,0 +1,516 @@
+github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
+├── APIVersion: enum
+│   └── "2021-06-01"
+├── Profile: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginResponseTimeoutSeconds: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sku: 
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: Map[string]string
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── FrontDoorId: *string
+│       ├── Id: *string
+│       ├── Kind: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OriginResponseTimeoutSeconds: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceState: *string
+│       ├── Sku: 
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SystemData: 
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: Map[string]string
+│       └── Type: *string
+└── ProfilesEndpoint: Resource
+    ├── Spec: 
+    │   ├── AzureName: string
+    │   ├── ContentTypesToCompress: Array[string]
+    │   ├── DefaultOriginGroup: 
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── DeliveryPolicy: 
+    │   │   ├── Description: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Rules: 
+    │   │       ├── Actions: 
+    │   │       │   ├── DeliveryRuleCacheExpiration: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── CacheBehavior: *string
+    │   │       │   │   │   ├── CacheDuration: *string
+    │   │       │   │   │   ├── CacheType: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleCacheKeyQueryString: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── QueryParameters: *string
+    │   │       │   │   │   ├── QueryStringBehavior: *string
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestHeader: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── HeaderAction: *string
+    │   │       │   │   │   ├── HeaderName: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── TypeName: *string
+    │   │       │   │   │   └── Value: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleResponseHeader: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── HeaderAction: *string
+    │   │       │   │   │   ├── HeaderName: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── TypeName: *string
+    │   │       │   │   │   └── Value: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── CacheConfiguration: 
+    │   │       │   │   │   │   ├── CacheBehavior: *string
+    │   │       │   │   │   │   ├── CacheDuration: *string
+    │   │       │   │   │   │   ├── IsCompressionEnabled: *string
+    │   │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   │   ├── QueryParameters: *string
+    │   │       │   │   │   │   └── QueryStringCachingBehavior: *string
+    │   │       │   │   │   ├── OriginGroupOverride: 
+    │   │       │   │   │   │   ├── ForwardingProtocol: *string
+    │   │       │   │   │   │   ├── OriginGroup: 
+    │   │       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── OriginGroupOverride: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── OriginGroup: 
+    │   │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── UrlRedirect: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── CustomFragment: *string
+    │   │       │   │   │   ├── CustomHostname: *string
+    │   │       │   │   │   ├── CustomPath: *string
+    │   │       │   │   │   ├── CustomQueryString: *string
+    │   │       │   │   │   ├── DestinationProtocol: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── RedirectType: *string
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── UrlRewrite: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── Destination: *string
+    │   │       │   │   │   ├── PreserveUnmatchedPath: *bool
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── SourcePattern: *string
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   └── UrlSigning: 
+    │   │       │       ├── Name: *string
+    │   │       │       ├── Parameters: 
+    │   │       │       │   ├── Algorithm: *string
+    │   │       │       │   ├── ParameterNameOverride: 
+    │   │       │       │   │   ├── ParamIndicator: *string
+    │   │       │       │   │   ├── ParamName: *string
+    │   │       │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │       │   └── TypeName: *string
+    │   │       │       └── PropertyBag: genruntime.PropertyBag
+    │   │       ├── Conditions: 
+    │   │       │   ├── DeliveryRuleClientPort: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleCookies: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Selector: *string
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleHostName: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleHttpVersion: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleIsDevice: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRulePostArgs: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Selector: *string
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleQueryString: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRemoteAddress: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestBody: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestHeader: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Selector: *string
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestMethod: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestScheme: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleRequestUri: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleServerPort: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleSocketAddr: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleSslProtocol: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleUrlFileExtension: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleUrlFileName: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── DeliveryRuleUrlPath: 
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: 
+    │   │       │   │   │   ├── MatchValues: Array[string]
+    │   │       │   │   │   ├── NegateCondition: *bool
+    │   │       │   │   │   ├── Operator: *string
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   ├── Transforms: Array[string]
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   └── PropertyBag: genruntime.PropertyBag
+    │   │       ├── Name: *string
+    │   │       ├── Order: *int
+    │   │       └── PropertyBag: genruntime.PropertyBag
+    │   ├── GeoFilters: 
+    │   │   ├── Action: *string
+    │   │   ├── CountryCodes: Array[string]
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── RelativePath: *string
+    │   ├── IsCompressionEnabled: *bool
+    │   ├── IsHttpAllowed: *bool
+    │   ├── IsHttpsAllowed: *bool
+    │   ├── Location: *string
+    │   ├── OptimizationType: *string
+    │   ├── OriginGroups: 
+    │   │   ├── HealthProbeSettings: 
+    │   │   │   ├── ProbeIntervalInSeconds: *int
+    │   │   │   ├── ProbePath: *string
+    │   │   │   ├── ProbeProtocol: *string
+    │   │   │   ├── ProbeRequestType: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Name: *string
+    │   │   ├── Origins: 
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ResponseBasedOriginErrorDetectionSettings: 
+    │   │   │   ├── HttpErrorRanges: 
+    │   │   │   │   ├── Begin: *int
+    │   │   │   │   ├── End: *int
+    │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── ResponseBasedDetectedErrorTypes: *string
+    │   │   │   └── ResponseBasedFailoverThresholdPercentage: *int
+    │   │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
+    │   ├── OriginHostHeader: *string
+    │   ├── OriginPath: *string
+    │   ├── OriginalVersion: string
+    │   ├── Origins: 
+    │   │   ├── Enabled: *bool
+    │   │   ├── HostName: *string
+    │   │   ├── HttpPort: *int
+    │   │   ├── HttpsPort: *int
+    │   │   ├── Name: *string
+    │   │   ├── OriginHostHeader: *string
+    │   │   ├── Priority: *int
+    │   │   ├── PrivateLinkAlias: *string
+    │   │   ├── PrivateLinkApprovalMessage: *string
+    │   │   ├── PrivateLinkLocationReference: *genruntime.ResourceReference
+    │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Weight: *int
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── ProbePath: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── QueryStringCachingBehavior: *string
+    │   ├── Tags: Map[string]string
+    │   ├── UrlSigningKeys: 
+    │   │   ├── KeyId: *string
+    │   │   ├── KeySourceParameters: 
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── ResourceGroupName: *string
+    │   │   │   ├── SecretName: *string
+    │   │   │   ├── SecretVersion: *string
+    │   │   │   ├── SubscriptionId: *string
+    │   │   │   ├── TypeName: *string
+    │   │   │   └── VaultName: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── WebApplicationFirewallPolicyLink: 
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       └── Reference: *genruntime.ResourceReference
+    └── Status: 
+        ├── Conditions: Array[conditions.Condition]
+        ├── ContentTypesToCompress: Array[string]
+        ├── CustomDomains: 
+        │   ├── HostName: *string
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── ValidationData: *string
+        ├── DefaultOriginGroup: 
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── DeliveryPolicy: 
+        │   ├── Description: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Rules: 
+        │       ├── Actions: 
+        │       │   ├── Name: *string
+        │       │   └── PropertyBag: genruntime.PropertyBag
+        │       ├── Conditions: 
+        │       │   ├── Name: *string
+        │       │   └── PropertyBag: genruntime.PropertyBag
+        │       ├── Name: *string
+        │       ├── Order: *int
+        │       └── PropertyBag: genruntime.PropertyBag
+        ├── GeoFilters: 
+        │   ├── Action: *string
+        │   ├── CountryCodes: Array[string]
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── RelativePath: *string
+        ├── HostName: *string
+        ├── Id: *string
+        ├── IsCompressionEnabled: *bool
+        ├── IsHttpAllowed: *bool
+        ├── IsHttpsAllowed: *bool
+        ├── Location: *string
+        ├── Name: *string
+        ├── OptimizationType: *string
+        ├── OriginGroups: 
+        │   ├── HealthProbeSettings: 
+        │   │   ├── ProbeIntervalInSeconds: *int
+        │   │   ├── ProbePath: *string
+        │   │   ├── ProbeProtocol: *string
+        │   │   ├── ProbeRequestType: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── Name: *string
+        │   ├── Origins: 
+        │   │   ├── Id: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ResponseBasedOriginErrorDetectionSettings: 
+        │   │   ├── HttpErrorRanges: 
+        │   │   │   ├── Begin: *int
+        │   │   │   ├── End: *int
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── ResponseBasedDetectedErrorTypes: *string
+        │   │   └── ResponseBasedFailoverThresholdPercentage: *int
+        │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
+        ├── OriginHostHeader: *string
+        ├── OriginPath: *string
+        ├── Origins: 
+        │   ├── Enabled: *bool
+        │   ├── HostName: *string
+        │   ├── HttpPort: *int
+        │   ├── HttpsPort: *int
+        │   ├── Name: *string
+        │   ├── OriginHostHeader: *string
+        │   ├── Priority: *int
+        │   ├── PrivateEndpointStatus: *string
+        │   ├── PrivateLinkAlias: *string
+        │   ├── PrivateLinkApprovalMessage: *string
+        │   ├── PrivateLinkLocation: *string
+        │   ├── PrivateLinkResourceId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Weight: *int
+        ├── ProbePath: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── QueryStringCachingBehavior: *string
+        ├── ResourceState: *string
+        ├── SystemData: 
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: Map[string]string
+        ├── Type: *string
+        ├── UrlSigningKeys: 
+        │   ├── KeyId: *string
+        │   ├── KeySourceParameters: 
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   ├── ResourceGroupName: *string
+        │   │   ├── SecretName: *string
+        │   │   ├── SecretVersion: *string
+        │   │   ├── SubscriptionId: *string
+        │   │   ├── TypeName: *string
+        │   │   └── VaultName: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        └── WebApplicationFirewallPolicyLink: 
+            ├── Id: *string
+            └── PropertyBag: genruntime.PropertyBag

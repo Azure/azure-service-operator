@@ -9,7 +9,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os/exec"
+	"path/filepath"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 
@@ -37,22 +40,40 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
+func getRoot() (string, error) {
+	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
+	out, err := cmd.Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get root directory")
+	}
+
+	return strings.TrimSpace(string(out)), nil
+}
+
 func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
 	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
 	scheme := controllers.CreateScheme()
 
+	root, err := getRoot()
+	if err != nil {
+		return nil, err
+	}
+
+	crdPath := filepath.Join(root, "v2/config/crd/out")
+	webhookPath := filepath.Join(root, "v2/config/webhook")
+
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
-			"../../config/crd/out",
+			crdPath,
 		},
 		CRDInstallOptions: envtest.CRDInstallOptions{
 			Scheme: scheme,
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
 			Paths: []string{
-				"../../config/webhook",
+				webhookPath,
 			},
 		},
 		Scheme: scheme,

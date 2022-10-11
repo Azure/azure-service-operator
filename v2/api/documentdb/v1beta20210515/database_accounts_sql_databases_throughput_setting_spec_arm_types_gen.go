@@ -5,7 +5,7 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM struct {
+type DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -13,7 +13,7 @@ type DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
+	Properties *ThroughputSettingsUpdateProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
 	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -23,19 +23,19 @@ type DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM{}
+var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (setting DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM) GetAPIVersion() string {
+func (setting DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM) GetName() string {
+func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM) GetName() string {
 	return setting.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
-func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecARM) GetType() string {
+func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
 }

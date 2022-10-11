@@ -64,9 +64,20 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 			Retry: policy.RetryOptions{
 				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
-			PerCallPolicies: []policy.Policy{NewUserAgentPolicy(userAgent)},
+			PerCallPolicies: []policy.Policy{
+				NewUserAgentPolicy(userAgent),
+			},
 		},
+		// Disabled here because we don't want the default configuration, it polls for 5+ minutes which is
+		// far too long to block an operator.
 		DisableRPRegistration: true,
+	}
+
+	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
+		creds,
+		&opts.ClientOptions)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create rp registration policy")
 	}
 
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
@@ -75,6 +86,8 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 	if httpClient != nil {
 		opts.Transport = httpClient
 	}
+
+	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
 
 	pipeline, err := armruntime.NewPipeline("generic", version.BuildVersion, creds, runtime.PipelineOptions{}, opts)
 	if err != nil {

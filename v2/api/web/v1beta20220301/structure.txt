@@ -1,0 +1,1463 @@
+github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
+├── APIVersion: enum
+│   └── "2022-03-01"
+├── AppServicePlan_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: *string
+│   ├── Id: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── ElasticScaleEnabled: *bool
+│   │   ├── FreeOfferExpirationTime: *string
+│   │   ├── GeoRegion: *string
+│   │   ├── HostingEnvironmentProfile: 
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Type: *string
+│   │   ├── HyperV: *bool
+│   │   ├── IsSpot: *bool
+│   │   ├── IsXenon: *bool
+│   │   ├── KubeEnvironmentProfile: 
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Type: *string
+│   │   ├── MaximumElasticWorkerCount: *int
+│   │   ├── MaximumNumberOfWorkers: *int
+│   │   ├── NumberOfSites: *int
+│   │   ├── NumberOfWorkers: *int
+│   │   ├── PerSiteScaling: *bool
+│   │   ├── ProvisioningState: enum
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "InProgress"
+│   │   │   └── "Succeeded"
+│   │   ├── Reserved: *bool
+│   │   ├── ResourceGroup: *string
+│   │   ├── SpotExpirationTime: *string
+│   │   ├── Status: enum
+│   │   │   ├── "Creating"
+│   │   │   ├── "Pending"
+│   │   │   └── "Ready"
+│   │   ├── Subscription: *string
+│   │   ├── TargetWorkerCount: *int
+│   │   ├── TargetWorkerSizeId: *int
+│   │   ├── WorkerTierName: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capabilities: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Reason: *string
+│   │   │   └── Value: *string
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Locations: Array[string]
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   ├── SkuCapacity: 
+│   │   │   ├── Default: *int
+│   │   │   ├── ElasticMaximum: *int
+│   │   │   ├── Maximum: *int
+│   │   │   ├── Minimum: *int
+│   │   │   └── ScaleType: *string
+│   │   └── Tier: *string
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+├── ServerFarm: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── ElasticScaleEnabled: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   └── Name: *string
+│   │   ├── FreeOfferExpirationTime: Validated[*string]
+│   │   ├── HostingEnvironmentProfile: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── HyperV: *bool
+│   │   ├── IsSpot: *bool
+│   │   ├── IsXenon: *bool
+│   │   ├── Kind: *string
+│   │   ├── KubeEnvironmentProfile: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── MaximumElasticWorkerCount: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PerSiteScaling: *bool
+│   │   ├── Reserved: *bool
+│   │   ├── Sku: 
+│   │   │   ├── Capabilities: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Reason: *string
+│   │   │   │   └── Value: *string
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Family: *string
+│   │   │   ├── Locations: Array[string]
+│   │   │   ├── Name: *string
+│   │   │   ├── Size: *string
+│   │   │   ├── SkuCapacity: 
+│   │   │   │   ├── Default: *int
+│   │   │   │   ├── ElasticMaximum: *int
+│   │   │   │   ├── Maximum: *int
+│   │   │   │   ├── Minimum: *int
+│   │   │   │   └── ScaleType: *string
+│   │   │   └── Tier: *string
+│   │   ├── SpotExpirationTime: Validated[*string]
+│   │   ├── Tags: Map[string]string
+│   │   ├── TargetWorkerCount: *int
+│   │   ├── TargetWorkerSizeId: *int
+│   │   ├── WorkerTierName: *string
+│   │   └── ZoneRedundant: *bool
+│   └── Status: 
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ElasticScaleEnabled: *bool
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: *string
+│       ├── FreeOfferExpirationTime: *string
+│       ├── GeoRegion: *string
+│       ├── HostingEnvironmentProfile: 
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   └── Type: *string
+│       ├── HyperV: *bool
+│       ├── Id: *string
+│       ├── IsSpot: *bool
+│       ├── IsXenon: *bool
+│       ├── Kind: *string
+│       ├── KubeEnvironmentProfile: 
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   └── Type: *string
+│       ├── Location: *string
+│       ├── MaximumElasticWorkerCount: *int
+│       ├── MaximumNumberOfWorkers: *int
+│       ├── Name: *string
+│       ├── NumberOfSites: *int
+│       ├── NumberOfWorkers: *int
+│       ├── PerSiteScaling: *bool
+│       ├── ProvisioningState: enum
+│       │   ├── "Canceled"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "InProgress"
+│       │   └── "Succeeded"
+│       ├── Reserved: *bool
+│       ├── ResourceGroup: *string
+│       ├── Sku: 
+│       │   ├── Capabilities: 
+│       │   │   ├── Name: *string
+│       │   │   ├── Reason: *string
+│       │   │   └── Value: *string
+│       │   ├── Capacity: *int
+│       │   ├── Family: *string
+│       │   ├── Locations: Array[string]
+│       │   ├── Name: *string
+│       │   ├── Size: *string
+│       │   ├── SkuCapacity: 
+│       │   │   ├── Default: *int
+│       │   │   ├── ElasticMaximum: *int
+│       │   │   ├── Maximum: *int
+│       │   │   ├── Minimum: *int
+│       │   │   └── ScaleType: *string
+│       │   └── Tier: *string
+│       ├── SpotExpirationTime: *string
+│       ├── Status: enum
+│       │   ├── "Creating"
+│       │   ├── "Pending"
+│       │   └── "Ready"
+│       ├── Subscription: *string
+│       ├── Tags: Map[string]string
+│       ├── TargetWorkerCount: *int
+│       ├── TargetWorkerSizeId: *int
+│       ├── Type: *string
+│       ├── WorkerTierName: *string
+│       └── ZoneRedundant: *bool
+├── Serverfarm_Spec_ARM: 
+│   ├── ExtendedLocation: 
+│   │   └── Name: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: 
+│   │   ├── ElasticScaleEnabled: *bool
+│   │   ├── FreeOfferExpirationTime: *string
+│   │   ├── HostingEnvironmentProfile: 
+│   │   │   └── Id: *string
+│   │   ├── HyperV: *bool
+│   │   ├── IsSpot: *bool
+│   │   ├── IsXenon: *bool
+│   │   ├── KubeEnvironmentProfile: 
+│   │   │   └── Id: *string
+│   │   ├── MaximumElasticWorkerCount: *int
+│   │   ├── PerSiteScaling: *bool
+│   │   ├── Reserved: *bool
+│   │   ├── SpotExpirationTime: *string
+│   │   ├── TargetWorkerCount: *int
+│   │   ├── TargetWorkerSizeId: *int
+│   │   ├── WorkerTierName: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: 
+│   │   ├── Capabilities: 
+│   │   │   ├── Name: *string
+│   │   │   ├── Reason: *string
+│   │   │   └── Value: *string
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Locations: Array[string]
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   ├── SkuCapacity: 
+│   │   │   ├── Default: *int
+│   │   │   ├── ElasticMaximum: *int
+│   │   │   ├── Maximum: *int
+│   │   │   ├── Minimum: *int
+│   │   │   └── ScaleType: *string
+│   │   └── Tier: *string
+│   └── Tags: Map[string]string
+├── Site: Resource
+│   ├── Spec: 
+│   │   ├── AzureName: string
+│   │   ├── ClientAffinityEnabled: *bool
+│   │   ├── ClientCertEnabled: *bool
+│   │   ├── ClientCertExclusionPaths: *string
+│   │   ├── ClientCertMode: enum
+│   │   │   ├── "Optional"
+│   │   │   ├── "OptionalInteractiveUser"
+│   │   │   └── "Required"
+│   │   ├── CloningInfo: 
+│   │   │   ├── AppSettingsOverrides: Map[string]string
+│   │   │   ├── CloneCustomHostNames: *bool
+│   │   │   ├── CloneSourceControl: *bool
+│   │   │   ├── ConfigureLoadBalancing: *bool
+│   │   │   ├── CorrelationId: Validated[*string]
+│   │   │   ├── HostingEnvironment: *string
+│   │   │   ├── Overwrite: *bool
+│   │   │   ├── SourceWebAppLocation: *string
+│   │   │   ├── SourceWebAppReference: *genruntime.ResourceReference
+│   │   │   ├── TrafficManagerProfileName: *string
+│   │   │   └── TrafficManagerProfileReference: *genruntime.ResourceReference
+│   │   ├── ContainerSize: *int
+│   │   ├── CustomDomainVerificationId: *string
+│   │   ├── DailyMemoryTimeQuota: *int
+│   │   ├── Enabled: *bool
+│   │   ├── ExtendedLocation: 
+│   │   │   └── Name: *string
+│   │   ├── HostNameSslStates: 
+│   │   │   ├── HostType: enum
+│   │   │   │   ├── "Repository"
+│   │   │   │   └── "Standard"
+│   │   │   ├── Name: *string
+│   │   │   ├── SslState: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   ├── "IpBasedEnabled"
+│   │   │   │   └── "SniEnabled"
+│   │   │   ├── Thumbprint: *string
+│   │   │   ├── ToUpdate: *bool
+│   │   │   └── VirtualIP: *string
+│   │   ├── HostNamesDisabled: *bool
+│   │   ├── HostingEnvironmentProfile: 
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── HttpsOnly: *bool
+│   │   ├── HyperV: *bool
+│   │   ├── Identity: 
+│   │   │   ├── Type: enum
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   ├── IsXenon: *bool
+│   │   ├── KeyVaultReferenceIdentity: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── RedundancyMode: enum
+│   │   │   ├── "ActiveActive"
+│   │   │   ├── "Failover"
+│   │   │   ├── "GeoRedundant"
+│   │   │   ├── "Manual"
+│   │   │   └── "None"
+│   │   ├── Reserved: *bool
+│   │   ├── ScmSiteAlsoStopped: *bool
+│   │   ├── ServerFarmReference: *genruntime.ResourceReference
+│   │   ├── SiteConfig: 
+│   │   │   ├── AcrUseManagedIdentityCreds: *bool
+│   │   │   ├── AcrUserManagedIdentityID: *string
+│   │   │   ├── AlwaysOn: *bool
+│   │   │   ├── ApiDefinition: 
+│   │   │   │   └── Url: *string
+│   │   │   ├── ApiManagementConfig: 
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── AppCommandLine: *string
+│   │   │   ├── AppSettings: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Value: *string
+│   │   │   ├── AutoHealEnabled: *bool
+│   │   │   ├── AutoHealRules: 
+│   │   │   │   ├── Actions: 
+│   │   │   │   │   ├── ActionType: enum
+│   │   │   │   │   │   ├── "CustomAction"
+│   │   │   │   │   │   ├── "LogEvent"
+│   │   │   │   │   │   └── "Recycle"
+│   │   │   │   │   ├── CustomAction: 
+│   │   │   │   │   │   ├── Exe: *string
+│   │   │   │   │   │   └── Parameters: *string
+│   │   │   │   │   └── MinProcessExecutionTime: *string
+│   │   │   │   └── Triggers: 
+│   │   │   │       ├── PrivateBytesInKB: *int
+│   │   │   │       ├── Requests: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   └── TimeInterval: *string
+│   │   │   │       ├── SlowRequests: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── TimeTaken: *string
+│   │   │   │       ├── SlowRequestsWithPath: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── TimeTaken: *string
+│   │   │   │       ├── StatusCodes: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── Status: *int
+│   │   │   │       │   ├── SubStatus: *int
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── Win32Status: *int
+│   │   │   │       └── StatusCodesRange: 
+│   │   │   │           ├── Count: *int
+│   │   │   │           ├── Path: *string
+│   │   │   │           ├── StatusCodes: *string
+│   │   │   │           └── TimeInterval: *string
+│   │   │   ├── AutoSwapSlotName: *string
+│   │   │   ├── AzureStorageAccounts: 
+│   │   │   │   ├── AccessKey: *genruntime.SecretReference
+│   │   │   │   ├── AccountName: *string
+│   │   │   │   ├── MountPath: *string
+│   │   │   │   ├── ShareName: *string
+│   │   │   │   └── Type: enum
+│   │   │   │       ├── "AzureBlob"
+│   │   │   │       └── "AzureFiles"
+│   │   │   ├── ConnectionStrings: 
+│   │   │   │   ├── ConnectionString: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Type: enum
+│   │   │   │       ├── "ApiHub"
+│   │   │   │       ├── "Custom"
+│   │   │   │       ├── "DocDb"
+│   │   │   │       ├── "EventHub"
+│   │   │   │       ├── "MySql"
+│   │   │   │       ├── "NotificationHub"
+│   │   │   │       ├── "PostgreSQL"
+│   │   │   │       ├── "RedisCache"
+│   │   │   │       ├── "SQLAzure"
+│   │   │   │       ├── "SQLServer"
+│   │   │   │       └── "ServiceBus"
+│   │   │   ├── Cors: 
+│   │   │   │   ├── AllowedOrigins: Array[string]
+│   │   │   │   └── SupportCredentials: *bool
+│   │   │   ├── DefaultDocuments: Array[string]
+│   │   │   ├── DetailedErrorLoggingEnabled: *bool
+│   │   │   ├── DocumentRoot: *string
+│   │   │   ├── Experiments: 
+│   │   │   │   └── RampUpRules: 
+│   │   │   │       ├── ActionHostName: *string
+│   │   │   │       ├── ChangeDecisionCallbackUrl: *string
+│   │   │   │       ├── ChangeIntervalInMinutes: *int
+│   │   │   │       ├── ChangeStep: *float64
+│   │   │   │       ├── MaxReroutePercentage: *float64
+│   │   │   │       ├── MinReroutePercentage: *float64
+│   │   │   │       ├── Name: *string
+│   │   │   │       └── ReroutePercentage: *float64
+│   │   │   ├── FtpsState: enum
+│   │   │   │   ├── "AllAllowed"
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "FtpsOnly"
+│   │   │   ├── FunctionAppScaleLimit: Validated[*int]
+│   │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
+│   │   │   ├── HandlerMappings: 
+│   │   │   │   ├── Arguments: *string
+│   │   │   │   ├── Extension: *string
+│   │   │   │   └── ScriptProcessor: *string
+│   │   │   ├── HealthCheckPath: *string
+│   │   │   ├── Http20Enabled: *bool
+│   │   │   ├── HttpLoggingEnabled: *bool
+│   │   │   ├── IpSecurityRestrictions: 
+│   │   │   │   ├── Action: *string
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── Headers: Map[string]Array[string]
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Priority: *int
+│   │   │   │   ├── SubnetMask: *string
+│   │   │   │   ├── SubnetTrafficTag: *int
+│   │   │   │   ├── Tag: enum
+│   │   │   │   │   ├── "Default"
+│   │   │   │   │   ├── "ServiceTag"
+│   │   │   │   │   └── "XffProxy"
+│   │   │   │   ├── VnetSubnetResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── VnetTrafficTag: *int
+│   │   │   ├── JavaContainer: *string
+│   │   │   ├── JavaContainerVersion: *string
+│   │   │   ├── JavaVersion: *string
+│   │   │   ├── KeyVaultReferenceIdentity: *string
+│   │   │   ├── Limits: 
+│   │   │   │   ├── MaxDiskSizeInMb: *int
+│   │   │   │   ├── MaxMemoryInMb: *int
+│   │   │   │   └── MaxPercentageCpu: *float64
+│   │   │   ├── LinuxFxVersion: *string
+│   │   │   ├── LoadBalancing: enum
+│   │   │   │   ├── "LeastRequests"
+│   │   │   │   ├── "LeastResponseTime"
+│   │   │   │   ├── "PerSiteRoundRobin"
+│   │   │   │   ├── "RequestHash"
+│   │   │   │   ├── "WeightedRoundRobin"
+│   │   │   │   └── "WeightedTotalTraffic"
+│   │   │   ├── LocalMySqlEnabled: *bool
+│   │   │   ├── LogsDirectorySizeLimit: *int
+│   │   │   ├── ManagedPipelineMode: enum
+│   │   │   │   ├── "Classic"
+│   │   │   │   └── "Integrated"
+│   │   │   ├── ManagedServiceIdentityId: *int
+│   │   │   ├── MinTlsVersion: enum
+│   │   │   │   ├── "1.0"
+│   │   │   │   ├── "1.1"
+│   │   │   │   └── "1.2"
+│   │   │   ├── MinimumElasticInstanceCount: Validated[*int]
+│   │   │   ├── NetFrameworkVersion: *string
+│   │   │   ├── NodeVersion: *string
+│   │   │   ├── NumberOfWorkers: *int
+│   │   │   ├── PhpVersion: *string
+│   │   │   ├── PowerShellVersion: *string
+│   │   │   ├── PreWarmedInstanceCount: Validated[*int]
+│   │   │   ├── PublicNetworkAccess: *string
+│   │   │   ├── PublishingUsername: *string
+│   │   │   ├── Push: 
+│   │   │   │   ├── DynamicTagsJson: *string
+│   │   │   │   ├── IsPushEnabled: *bool
+│   │   │   │   ├── Kind: *string
+│   │   │   │   ├── TagWhitelistJson: *string
+│   │   │   │   └── TagsRequiringAuth: *string
+│   │   │   ├── PythonVersion: *string
+│   │   │   ├── RemoteDebuggingEnabled: *bool
+│   │   │   ├── RemoteDebuggingVersion: *string
+│   │   │   ├── RequestTracingEnabled: *bool
+│   │   │   ├── RequestTracingExpirationTime: Validated[*string]
+│   │   │   ├── ScmIpSecurityRestrictions: 
+│   │   │   │   ├── Action: *string
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── Headers: Map[string]Array[string]
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Priority: *int
+│   │   │   │   ├── SubnetMask: *string
+│   │   │   │   ├── SubnetTrafficTag: *int
+│   │   │   │   ├── Tag: enum
+│   │   │   │   │   ├── "Default"
+│   │   │   │   │   ├── "ServiceTag"
+│   │   │   │   │   └── "XffProxy"
+│   │   │   │   ├── VnetSubnetResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── VnetTrafficTag: *int
+│   │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
+│   │   │   ├── ScmMinTlsVersion: enum
+│   │   │   │   ├── "1.0"
+│   │   │   │   ├── "1.1"
+│   │   │   │   └── "1.2"
+│   │   │   ├── ScmType: enum
+│   │   │   │   ├── "BitbucketGit"
+│   │   │   │   ├── "BitbucketHg"
+│   │   │   │   ├── "CodePlexGit"
+│   │   │   │   ├── "CodePlexHg"
+│   │   │   │   ├── "Dropbox"
+│   │   │   │   ├── "ExternalGit"
+│   │   │   │   ├── "ExternalHg"
+│   │   │   │   ├── "GitHub"
+│   │   │   │   ├── "LocalGit"
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "OneDrive"
+│   │   │   │   ├── "Tfs"
+│   │   │   │   ├── "VSO"
+│   │   │   │   └── "VSTSRM"
+│   │   │   ├── TracingOptions: *string
+│   │   │   ├── Use32BitWorkerProcess: *bool
+│   │   │   ├── VirtualApplications: 
+│   │   │   │   ├── PhysicalPath: *string
+│   │   │   │   ├── PreloadEnabled: *bool
+│   │   │   │   ├── VirtualDirectories: 
+│   │   │   │   │   ├── PhysicalPath: *string
+│   │   │   │   │   └── VirtualPath: *string
+│   │   │   │   └── VirtualPath: *string
+│   │   │   ├── VnetName: *string
+│   │   │   ├── VnetPrivatePortsCount: *int
+│   │   │   ├── VnetRouteAllEnabled: *bool
+│   │   │   ├── WebSocketsEnabled: *bool
+│   │   │   ├── WebsiteTimeZone: *string
+│   │   │   ├── WindowsFxVersion: *string
+│   │   │   └── XManagedServiceIdentityId: *int
+│   │   ├── StorageAccountRequired: *bool
+│   │   ├── Tags: Map[string]string
+│   │   ├── VirtualNetworkSubnetReference: *genruntime.ResourceReference
+│   │   ├── VnetContentShareEnabled: *bool
+│   │   ├── VnetImagePullEnabled: *bool
+│   │   └── VnetRouteAllEnabled: *bool
+│   └── Status: 
+│       ├── AvailabilityState: enum
+│       │   ├── "DisasterRecoveryMode"
+│       │   ├── "Limited"
+│       │   └── "Normal"
+│       ├── ClientAffinityEnabled: *bool
+│       ├── ClientCertEnabled: *bool
+│       ├── ClientCertExclusionPaths: *string
+│       ├── ClientCertMode: enum
+│       │   ├── "Optional"
+│       │   ├── "OptionalInteractiveUser"
+│       │   └── "Required"
+│       ├── CloningInfo: 
+│       │   ├── AppSettingsOverrides: Map[string]string
+│       │   ├── CloneCustomHostNames: *bool
+│       │   ├── CloneSourceControl: *bool
+│       │   ├── ConfigureLoadBalancing: *bool
+│       │   ├── CorrelationId: *string
+│       │   ├── HostingEnvironment: *string
+│       │   ├── Overwrite: *bool
+│       │   ├── SourceWebAppId: *string
+│       │   ├── SourceWebAppLocation: *string
+│       │   ├── TrafficManagerProfileId: *string
+│       │   └── TrafficManagerProfileName: *string
+│       ├── Conditions: Array[conditions.Condition]
+│       ├── ContainerSize: *int
+│       ├── CustomDomainVerificationId: *string
+│       ├── DailyMemoryTimeQuota: *int
+│       ├── DefaultHostName: *string
+│       ├── Enabled: *bool
+│       ├── EnabledHostNames: Array[string]
+│       ├── ExtendedLocation: 
+│       │   ├── Name: *string
+│       │   └── Type: *string
+│       ├── HostNameSslStates: 
+│       │   ├── HostType: enum
+│       │   │   ├── "Repository"
+│       │   │   └── "Standard"
+│       │   ├── Name: *string
+│       │   ├── SslState: enum
+│       │   │   ├── "Disabled"
+│       │   │   ├── "IpBasedEnabled"
+│       │   │   └── "SniEnabled"
+│       │   ├── Thumbprint: *string
+│       │   ├── ToUpdate: *bool
+│       │   └── VirtualIP: *string
+│       ├── HostNames: Array[string]
+│       ├── HostNamesDisabled: *bool
+│       ├── HostingEnvironmentProfile: 
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   └── Type: *string
+│       ├── HttpsOnly: *bool
+│       ├── HyperV: *bool
+│       ├── Id: *string
+│       ├── Identity: 
+│       │   ├── PrincipalId: *string
+│       │   ├── TenantId: *string
+│       │   ├── Type: enum
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: 
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
+│       ├── InProgressOperationId: *string
+│       ├── IsDefaultContainer: *bool
+│       ├── IsXenon: *bool
+│       ├── KeyVaultReferenceIdentity: *string
+│       ├── Kind: *string
+│       ├── LastModifiedTimeUtc: *string
+│       ├── Location: *string
+│       ├── MaxNumberOfWorkers: *int
+│       ├── Name: *string
+│       ├── OutboundIpAddresses: *string
+│       ├── PossibleOutboundIpAddresses: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── RedundancyMode: enum
+│       │   ├── "ActiveActive"
+│       │   ├── "Failover"
+│       │   ├── "GeoRedundant"
+│       │   ├── "Manual"
+│       │   └── "None"
+│       ├── RepositorySiteName: *string
+│       ├── Reserved: *bool
+│       ├── ResourceGroup: *string
+│       ├── ScmSiteAlsoStopped: *bool
+│       ├── ServerFarmId: *string
+│       ├── SiteConfig: 
+│       │   ├── AcrUseManagedIdentityCreds: *bool
+│       │   ├── AcrUserManagedIdentityID: *string
+│       │   ├── AlwaysOn: *bool
+│       │   ├── ApiDefinition: 
+│       │   │   └── Url: *string
+│       │   ├── ApiManagementConfig: 
+│       │   │   └── Id: *string
+│       │   ├── AppCommandLine: *string
+│       │   ├── AppSettings: 
+│       │   │   ├── Name: *string
+│       │   │   └── Value: *string
+│       │   ├── AutoHealEnabled: *bool
+│       │   ├── AutoHealRules: 
+│       │   │   ├── Actions: 
+│       │   │   │   ├── ActionType: enum
+│       │   │   │   │   ├── "CustomAction"
+│       │   │   │   │   ├── "LogEvent"
+│       │   │   │   │   └── "Recycle"
+│       │   │   │   ├── CustomAction: 
+│       │   │   │   │   ├── Exe: *string
+│       │   │   │   │   └── Parameters: *string
+│       │   │   │   └── MinProcessExecutionTime: *string
+│       │   │   └── Triggers: 
+│       │   │       ├── PrivateBytesInKB: *int
+│       │   │       ├── Requests: 
+│       │   │       │   ├── Count: *int
+│       │   │       │   └── TimeInterval: *string
+│       │   │       ├── SlowRequests: 
+│       │   │       │   ├── Count: *int
+│       │   │       │   ├── Path: *string
+│       │   │       │   ├── TimeInterval: *string
+│       │   │       │   └── TimeTaken: *string
+│       │   │       ├── SlowRequestsWithPath: 
+│       │   │       │   ├── Count: *int
+│       │   │       │   ├── Path: *string
+│       │   │       │   ├── TimeInterval: *string
+│       │   │       │   └── TimeTaken: *string
+│       │   │       ├── StatusCodes: 
+│       │   │       │   ├── Count: *int
+│       │   │       │   ├── Path: *string
+│       │   │       │   ├── Status: *int
+│       │   │       │   ├── SubStatus: *int
+│       │   │       │   ├── TimeInterval: *string
+│       │   │       │   └── Win32Status: *int
+│       │   │       └── StatusCodesRange: 
+│       │   │           ├── Count: *int
+│       │   │           ├── Path: *string
+│       │   │           ├── StatusCodes: *string
+│       │   │           └── TimeInterval: *string
+│       │   ├── AutoSwapSlotName: *string
+│       │   ├── AzureStorageAccounts: 
+│       │   │   ├── AccountName: *string
+│       │   │   ├── MountPath: *string
+│       │   │   ├── ShareName: *string
+│       │   │   ├── State: enum
+│       │   │   │   ├── "InvalidCredentials"
+│       │   │   │   ├── "InvalidShare"
+│       │   │   │   ├── "NotValidated"
+│       │   │   │   └── "Ok"
+│       │   │   └── Type: enum
+│       │   │       ├── "AzureBlob"
+│       │   │       └── "AzureFiles"
+│       │   ├── ConnectionStrings: 
+│       │   │   ├── ConnectionString: *string
+│       │   │   ├── Name: *string
+│       │   │   └── Type: enum
+│       │   │       ├── "ApiHub"
+│       │   │       ├── "Custom"
+│       │   │       ├── "DocDb"
+│       │   │       ├── "EventHub"
+│       │   │       ├── "MySql"
+│       │   │       ├── "NotificationHub"
+│       │   │       ├── "PostgreSQL"
+│       │   │       ├── "RedisCache"
+│       │   │       ├── "SQLAzure"
+│       │   │       ├── "SQLServer"
+│       │   │       └── "ServiceBus"
+│       │   ├── Cors: 
+│       │   │   ├── AllowedOrigins: Array[string]
+│       │   │   └── SupportCredentials: *bool
+│       │   ├── DefaultDocuments: Array[string]
+│       │   ├── DetailedErrorLoggingEnabled: *bool
+│       │   ├── DocumentRoot: *string
+│       │   ├── Experiments: 
+│       │   │   └── RampUpRules: 
+│       │   │       ├── ActionHostName: *string
+│       │   │       ├── ChangeDecisionCallbackUrl: *string
+│       │   │       ├── ChangeIntervalInMinutes: *int
+│       │   │       ├── ChangeStep: *float64
+│       │   │       ├── MaxReroutePercentage: *float64
+│       │   │       ├── MinReroutePercentage: *float64
+│       │   │       ├── Name: *string
+│       │   │       └── ReroutePercentage: *float64
+│       │   ├── FtpsState: enum
+│       │   │   ├── "AllAllowed"
+│       │   │   ├── "Disabled"
+│       │   │   └── "FtpsOnly"
+│       │   ├── FunctionAppScaleLimit: *int
+│       │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
+│       │   ├── HandlerMappings: 
+│       │   │   ├── Arguments: *string
+│       │   │   ├── Extension: *string
+│       │   │   └── ScriptProcessor: *string
+│       │   ├── HealthCheckPath: *string
+│       │   ├── Http20Enabled: *bool
+│       │   ├── HttpLoggingEnabled: *bool
+│       │   ├── IpSecurityRestrictions: 
+│       │   │   ├── Action: *string
+│       │   │   ├── Description: *string
+│       │   │   ├── Headers: Map[string]Array[string]
+│       │   │   ├── IpAddress: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── Priority: *int
+│       │   │   ├── SubnetMask: *string
+│       │   │   ├── SubnetTrafficTag: *int
+│       │   │   ├── Tag: enum
+│       │   │   │   ├── "Default"
+│       │   │   │   ├── "ServiceTag"
+│       │   │   │   └── "XffProxy"
+│       │   │   ├── VnetSubnetResourceId: *string
+│       │   │   └── VnetTrafficTag: *int
+│       │   ├── JavaContainer: *string
+│       │   ├── JavaContainerVersion: *string
+│       │   ├── JavaVersion: *string
+│       │   ├── KeyVaultReferenceIdentity: *string
+│       │   ├── Limits: 
+│       │   │   ├── MaxDiskSizeInMb: *int
+│       │   │   ├── MaxMemoryInMb: *int
+│       │   │   └── MaxPercentageCpu: *float64
+│       │   ├── LinuxFxVersion: *string
+│       │   ├── LoadBalancing: enum
+│       │   │   ├── "LeastRequests"
+│       │   │   ├── "LeastResponseTime"
+│       │   │   ├── "PerSiteRoundRobin"
+│       │   │   ├── "RequestHash"
+│       │   │   ├── "WeightedRoundRobin"
+│       │   │   └── "WeightedTotalTraffic"
+│       │   ├── LocalMySqlEnabled: *bool
+│       │   ├── LogsDirectorySizeLimit: *int
+│       │   ├── MachineKey: 
+│       │   │   ├── Decryption: *string
+│       │   │   ├── DecryptionKey: *string
+│       │   │   ├── Validation: *string
+│       │   │   └── ValidationKey: *string
+│       │   ├── ManagedPipelineMode: enum
+│       │   │   ├── "Classic"
+│       │   │   └── "Integrated"
+│       │   ├── ManagedServiceIdentityId: *int
+│       │   ├── MinTlsVersion: enum
+│       │   │   ├── "1.0"
+│       │   │   ├── "1.1"
+│       │   │   └── "1.2"
+│       │   ├── MinimumElasticInstanceCount: *int
+│       │   ├── NetFrameworkVersion: *string
+│       │   ├── NodeVersion: *string
+│       │   ├── NumberOfWorkers: *int
+│       │   ├── PhpVersion: *string
+│       │   ├── PowerShellVersion: *string
+│       │   ├── PreWarmedInstanceCount: *int
+│       │   ├── PublicNetworkAccess: *string
+│       │   ├── PublishingUsername: *string
+│       │   ├── Push: 
+│       │   │   ├── DynamicTagsJson: *string
+│       │   │   ├── Id: *string
+│       │   │   ├── IsPushEnabled: *bool
+│       │   │   ├── Kind: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── TagWhitelistJson: *string
+│       │   │   ├── TagsRequiringAuth: *string
+│       │   │   └── Type: *string
+│       │   ├── PythonVersion: *string
+│       │   ├── RemoteDebuggingEnabled: *bool
+│       │   ├── RemoteDebuggingVersion: *string
+│       │   ├── RequestTracingEnabled: *bool
+│       │   ├── RequestTracingExpirationTime: *string
+│       │   ├── ScmIpSecurityRestrictions: 
+│       │   │   ├── Action: *string
+│       │   │   ├── Description: *string
+│       │   │   ├── Headers: Map[string]Array[string]
+│       │   │   ├── IpAddress: *string
+│       │   │   ├── Name: *string
+│       │   │   ├── Priority: *int
+│       │   │   ├── SubnetMask: *string
+│       │   │   ├── SubnetTrafficTag: *int
+│       │   │   ├── Tag: enum
+│       │   │   │   ├── "Default"
+│       │   │   │   ├── "ServiceTag"
+│       │   │   │   └── "XffProxy"
+│       │   │   ├── VnetSubnetResourceId: *string
+│       │   │   └── VnetTrafficTag: *int
+│       │   ├── ScmIpSecurityRestrictionsUseMain: *bool
+│       │   ├── ScmMinTlsVersion: enum
+│       │   │   ├── "1.0"
+│       │   │   ├── "1.1"
+│       │   │   └── "1.2"
+│       │   ├── ScmType: enum
+│       │   │   ├── "BitbucketGit"
+│       │   │   ├── "BitbucketHg"
+│       │   │   ├── "CodePlexGit"
+│       │   │   ├── "CodePlexHg"
+│       │   │   ├── "Dropbox"
+│       │   │   ├── "ExternalGit"
+│       │   │   ├── "ExternalHg"
+│       │   │   ├── "GitHub"
+│       │   │   ├── "LocalGit"
+│       │   │   ├── "None"
+│       │   │   ├── "OneDrive"
+│       │   │   ├── "Tfs"
+│       │   │   ├── "VSO"
+│       │   │   └── "VSTSRM"
+│       │   ├── TracingOptions: *string
+│       │   ├── Use32BitWorkerProcess: *bool
+│       │   ├── VirtualApplications: 
+│       │   │   ├── PhysicalPath: *string
+│       │   │   ├── PreloadEnabled: *bool
+│       │   │   ├── VirtualDirectories: 
+│       │   │   │   ├── PhysicalPath: *string
+│       │   │   │   └── VirtualPath: *string
+│       │   │   └── VirtualPath: *string
+│       │   ├── VnetName: *string
+│       │   ├── VnetPrivatePortsCount: *int
+│       │   ├── VnetRouteAllEnabled: *bool
+│       │   ├── WebSocketsEnabled: *bool
+│       │   ├── WebsiteTimeZone: *string
+│       │   ├── WindowsFxVersion: *string
+│       │   └── XManagedServiceIdentityId: *int
+│       ├── SlotSwapStatus: 
+│       │   ├── DestinationSlotName: *string
+│       │   ├── SourceSlotName: *string
+│       │   └── TimestampUtc: *string
+│       ├── State: *string
+│       ├── StorageAccountRequired: *bool
+│       ├── SuspendedTill: *string
+│       ├── Tags: Map[string]string
+│       ├── TargetSwapSlot: *string
+│       ├── TrafficManagerHostNames: Array[string]
+│       ├── Type: *string
+│       ├── UsageState: enum
+│       │   ├── "Exceeded"
+│       │   └── "Normal"
+│       ├── VirtualNetworkSubnetId: *string
+│       ├── VnetContentShareEnabled: *bool
+│       ├── VnetImagePullEnabled: *bool
+│       └── VnetRouteAllEnabled: *bool
+├── Site_STATUS_ARM: 
+│   ├── ExtendedLocation: 
+│   │   ├── Name: *string
+│   │   └── Type: *string
+│   ├── Id: *string
+│   ├── Identity: 
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: enum
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: 
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: 
+│   │   ├── AvailabilityState: enum
+│   │   │   ├── "DisasterRecoveryMode"
+│   │   │   ├── "Limited"
+│   │   │   └── "Normal"
+│   │   ├── ClientAffinityEnabled: *bool
+│   │   ├── ClientCertEnabled: *bool
+│   │   ├── ClientCertExclusionPaths: *string
+│   │   ├── ClientCertMode: enum
+│   │   │   ├── "Optional"
+│   │   │   ├── "OptionalInteractiveUser"
+│   │   │   └── "Required"
+│   │   ├── CloningInfo: 
+│   │   │   ├── AppSettingsOverrides: Map[string]string
+│   │   │   ├── CloneCustomHostNames: *bool
+│   │   │   ├── CloneSourceControl: *bool
+│   │   │   ├── ConfigureLoadBalancing: *bool
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── HostingEnvironment: *string
+│   │   │   ├── Overwrite: *bool
+│   │   │   ├── SourceWebAppId: *string
+│   │   │   ├── SourceWebAppLocation: *string
+│   │   │   ├── TrafficManagerProfileId: *string
+│   │   │   └── TrafficManagerProfileName: *string
+│   │   ├── ContainerSize: *int
+│   │   ├── CustomDomainVerificationId: *string
+│   │   ├── DailyMemoryTimeQuota: *int
+│   │   ├── DefaultHostName: *string
+│   │   ├── Enabled: *bool
+│   │   ├── EnabledHostNames: Array[string]
+│   │   ├── HostNameSslStates: 
+│   │   │   ├── HostType: enum
+│   │   │   │   ├── "Repository"
+│   │   │   │   └── "Standard"
+│   │   │   ├── Name: *string
+│   │   │   ├── SslState: enum
+│   │   │   │   ├── "Disabled"
+│   │   │   │   ├── "IpBasedEnabled"
+│   │   │   │   └── "SniEnabled"
+│   │   │   ├── Thumbprint: *string
+│   │   │   ├── ToUpdate: *bool
+│   │   │   └── VirtualIP: *string
+│   │   ├── HostNames: Array[string]
+│   │   ├── HostNamesDisabled: *bool
+│   │   ├── HostingEnvironmentProfile: 
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Type: *string
+│   │   ├── HttpsOnly: *bool
+│   │   ├── HyperV: *bool
+│   │   ├── InProgressOperationId: *string
+│   │   ├── IsDefaultContainer: *bool
+│   │   ├── IsXenon: *bool
+│   │   ├── KeyVaultReferenceIdentity: *string
+│   │   ├── LastModifiedTimeUtc: *string
+│   │   ├── MaxNumberOfWorkers: *int
+│   │   ├── OutboundIpAddresses: *string
+│   │   ├── PossibleOutboundIpAddresses: *string
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── RedundancyMode: enum
+│   │   │   ├── "ActiveActive"
+│   │   │   ├── "Failover"
+│   │   │   ├── "GeoRedundant"
+│   │   │   ├── "Manual"
+│   │   │   └── "None"
+│   │   ├── RepositorySiteName: *string
+│   │   ├── Reserved: *bool
+│   │   ├── ResourceGroup: *string
+│   │   ├── ScmSiteAlsoStopped: *bool
+│   │   ├── ServerFarmId: *string
+│   │   ├── SiteConfig: 
+│   │   │   ├── AcrUseManagedIdentityCreds: *bool
+│   │   │   ├── AcrUserManagedIdentityID: *string
+│   │   │   ├── AlwaysOn: *bool
+│   │   │   ├── ApiDefinition: 
+│   │   │   │   └── Url: *string
+│   │   │   ├── ApiManagementConfig: 
+│   │   │   │   └── Id: *string
+│   │   │   ├── AppCommandLine: *string
+│   │   │   ├── AppSettings: 
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Value: *string
+│   │   │   ├── AutoHealEnabled: *bool
+│   │   │   ├── AutoHealRules: 
+│   │   │   │   ├── Actions: 
+│   │   │   │   │   ├── ActionType: enum
+│   │   │   │   │   │   ├── "CustomAction"
+│   │   │   │   │   │   ├── "LogEvent"
+│   │   │   │   │   │   └── "Recycle"
+│   │   │   │   │   ├── CustomAction: 
+│   │   │   │   │   │   ├── Exe: *string
+│   │   │   │   │   │   └── Parameters: *string
+│   │   │   │   │   └── MinProcessExecutionTime: *string
+│   │   │   │   └── Triggers: 
+│   │   │   │       ├── PrivateBytesInKB: *int
+│   │   │   │       ├── Requests: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   └── TimeInterval: *string
+│   │   │   │       ├── SlowRequests: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── TimeTaken: *string
+│   │   │   │       ├── SlowRequestsWithPath: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── TimeTaken: *string
+│   │   │   │       ├── StatusCodes: 
+│   │   │   │       │   ├── Count: *int
+│   │   │   │       │   ├── Path: *string
+│   │   │   │       │   ├── Status: *int
+│   │   │   │       │   ├── SubStatus: *int
+│   │   │   │       │   ├── TimeInterval: *string
+│   │   │   │       │   └── Win32Status: *int
+│   │   │   │       └── StatusCodesRange: 
+│   │   │   │           ├── Count: *int
+│   │   │   │           ├── Path: *string
+│   │   │   │           ├── StatusCodes: *string
+│   │   │   │           └── TimeInterval: *string
+│   │   │   ├── AutoSwapSlotName: *string
+│   │   │   ├── AzureStorageAccounts: 
+│   │   │   │   ├── AccountName: *string
+│   │   │   │   ├── MountPath: *string
+│   │   │   │   ├── ShareName: *string
+│   │   │   │   ├── State: enum
+│   │   │   │   │   ├── "InvalidCredentials"
+│   │   │   │   │   ├── "InvalidShare"
+│   │   │   │   │   ├── "NotValidated"
+│   │   │   │   │   └── "Ok"
+│   │   │   │   └── Type: enum
+│   │   │   │       ├── "AzureBlob"
+│   │   │   │       └── "AzureFiles"
+│   │   │   ├── ConnectionStrings: 
+│   │   │   │   ├── ConnectionString: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Type: enum
+│   │   │   │       ├── "ApiHub"
+│   │   │   │       ├── "Custom"
+│   │   │   │       ├── "DocDb"
+│   │   │   │       ├── "EventHub"
+│   │   │   │       ├── "MySql"
+│   │   │   │       ├── "NotificationHub"
+│   │   │   │       ├── "PostgreSQL"
+│   │   │   │       ├── "RedisCache"
+│   │   │   │       ├── "SQLAzure"
+│   │   │   │       ├── "SQLServer"
+│   │   │   │       └── "ServiceBus"
+│   │   │   ├── Cors: 
+│   │   │   │   ├── AllowedOrigins: Array[string]
+│   │   │   │   └── SupportCredentials: *bool
+│   │   │   ├── DefaultDocuments: Array[string]
+│   │   │   ├── DetailedErrorLoggingEnabled: *bool
+│   │   │   ├── DocumentRoot: *string
+│   │   │   ├── Experiments: 
+│   │   │   │   └── RampUpRules: 
+│   │   │   │       ├── ActionHostName: *string
+│   │   │   │       ├── ChangeDecisionCallbackUrl: *string
+│   │   │   │       ├── ChangeIntervalInMinutes: *int
+│   │   │   │       ├── ChangeStep: *float64
+│   │   │   │       ├── MaxReroutePercentage: *float64
+│   │   │   │       ├── MinReroutePercentage: *float64
+│   │   │   │       ├── Name: *string
+│   │   │   │       └── ReroutePercentage: *float64
+│   │   │   ├── FtpsState: enum
+│   │   │   │   ├── "AllAllowed"
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "FtpsOnly"
+│   │   │   ├── FunctionAppScaleLimit: *int
+│   │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
+│   │   │   ├── HandlerMappings: 
+│   │   │   │   ├── Arguments: *string
+│   │   │   │   ├── Extension: *string
+│   │   │   │   └── ScriptProcessor: *string
+│   │   │   ├── HealthCheckPath: *string
+│   │   │   ├── Http20Enabled: *bool
+│   │   │   ├── HttpLoggingEnabled: *bool
+│   │   │   ├── IpSecurityRestrictions: 
+│   │   │   │   ├── Action: *string
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── Headers: Map[string]Array[string]
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Priority: *int
+│   │   │   │   ├── SubnetMask: *string
+│   │   │   │   ├── SubnetTrafficTag: *int
+│   │   │   │   ├── Tag: enum
+│   │   │   │   │   ├── "Default"
+│   │   │   │   │   ├── "ServiceTag"
+│   │   │   │   │   └── "XffProxy"
+│   │   │   │   ├── VnetSubnetResourceId: *string
+│   │   │   │   └── VnetTrafficTag: *int
+│   │   │   ├── JavaContainer: *string
+│   │   │   ├── JavaContainerVersion: *string
+│   │   │   ├── JavaVersion: *string
+│   │   │   ├── KeyVaultReferenceIdentity: *string
+│   │   │   ├── Limits: 
+│   │   │   │   ├── MaxDiskSizeInMb: *int
+│   │   │   │   ├── MaxMemoryInMb: *int
+│   │   │   │   └── MaxPercentageCpu: *float64
+│   │   │   ├── LinuxFxVersion: *string
+│   │   │   ├── LoadBalancing: enum
+│   │   │   │   ├── "LeastRequests"
+│   │   │   │   ├── "LeastResponseTime"
+│   │   │   │   ├── "PerSiteRoundRobin"
+│   │   │   │   ├── "RequestHash"
+│   │   │   │   ├── "WeightedRoundRobin"
+│   │   │   │   └── "WeightedTotalTraffic"
+│   │   │   ├── LocalMySqlEnabled: *bool
+│   │   │   ├── LogsDirectorySizeLimit: *int
+│   │   │   ├── MachineKey: 
+│   │   │   │   ├── Decryption: *string
+│   │   │   │   ├── DecryptionKey: *string
+│   │   │   │   ├── Validation: *string
+│   │   │   │   └── ValidationKey: *string
+│   │   │   ├── ManagedPipelineMode: enum
+│   │   │   │   ├── "Classic"
+│   │   │   │   └── "Integrated"
+│   │   │   ├── ManagedServiceIdentityId: *int
+│   │   │   ├── MinTlsVersion: enum
+│   │   │   │   ├── "1.0"
+│   │   │   │   ├── "1.1"
+│   │   │   │   └── "1.2"
+│   │   │   ├── MinimumElasticInstanceCount: *int
+│   │   │   ├── NetFrameworkVersion: *string
+│   │   │   ├── NodeVersion: *string
+│   │   │   ├── NumberOfWorkers: *int
+│   │   │   ├── PhpVersion: *string
+│   │   │   ├── PowerShellVersion: *string
+│   │   │   ├── PreWarmedInstanceCount: *int
+│   │   │   ├── PublicNetworkAccess: *string
+│   │   │   ├── PublishingUsername: *string
+│   │   │   ├── Push: 
+│   │   │   │   ├── Id: *string
+│   │   │   │   ├── Kind: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Properties: 
+│   │   │   │   │   ├── DynamicTagsJson: *string
+│   │   │   │   │   ├── IsPushEnabled: *bool
+│   │   │   │   │   ├── TagWhitelistJson: *string
+│   │   │   │   │   └── TagsRequiringAuth: *string
+│   │   │   │   └── Type: *string
+│   │   │   ├── PythonVersion: *string
+│   │   │   ├── RemoteDebuggingEnabled: *bool
+│   │   │   ├── RemoteDebuggingVersion: *string
+│   │   │   ├── RequestTracingEnabled: *bool
+│   │   │   ├── RequestTracingExpirationTime: *string
+│   │   │   ├── ScmIpSecurityRestrictions: 
+│   │   │   │   ├── Action: *string
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── Headers: Map[string]Array[string]
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Priority: *int
+│   │   │   │   ├── SubnetMask: *string
+│   │   │   │   ├── SubnetTrafficTag: *int
+│   │   │   │   ├── Tag: enum
+│   │   │   │   │   ├── "Default"
+│   │   │   │   │   ├── "ServiceTag"
+│   │   │   │   │   └── "XffProxy"
+│   │   │   │   ├── VnetSubnetResourceId: *string
+│   │   │   │   └── VnetTrafficTag: *int
+│   │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
+│   │   │   ├── ScmMinTlsVersion: enum
+│   │   │   │   ├── "1.0"
+│   │   │   │   ├── "1.1"
+│   │   │   │   └── "1.2"
+│   │   │   ├── ScmType: enum
+│   │   │   │   ├── "BitbucketGit"
+│   │   │   │   ├── "BitbucketHg"
+│   │   │   │   ├── "CodePlexGit"
+│   │   │   │   ├── "CodePlexHg"
+│   │   │   │   ├── "Dropbox"
+│   │   │   │   ├── "ExternalGit"
+│   │   │   │   ├── "ExternalHg"
+│   │   │   │   ├── "GitHub"
+│   │   │   │   ├── "LocalGit"
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "OneDrive"
+│   │   │   │   ├── "Tfs"
+│   │   │   │   ├── "VSO"
+│   │   │   │   └── "VSTSRM"
+│   │   │   ├── TracingOptions: *string
+│   │   │   ├── Use32BitWorkerProcess: *bool
+│   │   │   ├── VirtualApplications: 
+│   │   │   │   ├── PhysicalPath: *string
+│   │   │   │   ├── PreloadEnabled: *bool
+│   │   │   │   ├── VirtualDirectories: 
+│   │   │   │   │   ├── PhysicalPath: *string
+│   │   │   │   │   └── VirtualPath: *string
+│   │   │   │   └── VirtualPath: *string
+│   │   │   ├── VnetName: *string
+│   │   │   ├── VnetPrivatePortsCount: *int
+│   │   │   ├── VnetRouteAllEnabled: *bool
+│   │   │   ├── WebSocketsEnabled: *bool
+│   │   │   ├── WebsiteTimeZone: *string
+│   │   │   ├── WindowsFxVersion: *string
+│   │   │   └── XManagedServiceIdentityId: *int
+│   │   ├── SlotSwapStatus: 
+│   │   │   ├── DestinationSlotName: *string
+│   │   │   ├── SourceSlotName: *string
+│   │   │   └── TimestampUtc: *string
+│   │   ├── State: *string
+│   │   ├── StorageAccountRequired: *bool
+│   │   ├── SuspendedTill: *string
+│   │   ├── TargetSwapSlot: *string
+│   │   ├── TrafficManagerHostNames: Array[string]
+│   │   ├── UsageState: enum
+│   │   │   ├── "Exceeded"
+│   │   │   └── "Normal"
+│   │   ├── VirtualNetworkSubnetId: *string
+│   │   ├── VnetContentShareEnabled: *bool
+│   │   ├── VnetImagePullEnabled: *bool
+│   │   └── VnetRouteAllEnabled: *bool
+│   ├── Tags: Map[string]string
+│   └── Type: *string
+└── Site_Spec_ARM: 
+    ├── ExtendedLocation: 
+    │   └── Name: *string
+    ├── Identity: 
+    │   ├── Type: enum
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned, UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: Map[string]v1.JSON
+    ├── Kind: *string
+    ├── Location: *string
+    ├── Name: string
+    ├── Properties: 
+    │   ├── ClientAffinityEnabled: *bool
+    │   ├── ClientCertEnabled: *bool
+    │   ├── ClientCertExclusionPaths: *string
+    │   ├── ClientCertMode: enum
+    │   │   ├── "Optional"
+    │   │   ├── "OptionalInteractiveUser"
+    │   │   └── "Required"
+    │   ├── CloningInfo: 
+    │   │   ├── AppSettingsOverrides: Map[string]string
+    │   │   ├── CloneCustomHostNames: *bool
+    │   │   ├── CloneSourceControl: *bool
+    │   │   ├── ConfigureLoadBalancing: *bool
+    │   │   ├── CorrelationId: *string
+    │   │   ├── HostingEnvironment: *string
+    │   │   ├── Overwrite: *bool
+    │   │   ├── SourceWebAppId: *string
+    │   │   ├── SourceWebAppLocation: *string
+    │   │   ├── TrafficManagerProfileId: *string
+    │   │   └── TrafficManagerProfileName: *string
+    │   ├── ContainerSize: *int
+    │   ├── CustomDomainVerificationId: *string
+    │   ├── DailyMemoryTimeQuota: *int
+    │   ├── Enabled: *bool
+    │   ├── HostNameSslStates: 
+    │   │   ├── HostType: enum
+    │   │   │   ├── "Repository"
+    │   │   │   └── "Standard"
+    │   │   ├── Name: *string
+    │   │   ├── SslState: enum
+    │   │   │   ├── "Disabled"
+    │   │   │   ├── "IpBasedEnabled"
+    │   │   │   └── "SniEnabled"
+    │   │   ├── Thumbprint: *string
+    │   │   ├── ToUpdate: *bool
+    │   │   └── VirtualIP: *string
+    │   ├── HostNamesDisabled: *bool
+    │   ├── HostingEnvironmentProfile: 
+    │   │   └── Id: *string
+    │   ├── HttpsOnly: *bool
+    │   ├── HyperV: *bool
+    │   ├── IsXenon: *bool
+    │   ├── KeyVaultReferenceIdentity: *string
+    │   ├── PublicNetworkAccess: *string
+    │   ├── RedundancyMode: enum
+    │   │   ├── "ActiveActive"
+    │   │   ├── "Failover"
+    │   │   ├── "GeoRedundant"
+    │   │   ├── "Manual"
+    │   │   └── "None"
+    │   ├── Reserved: *bool
+    │   ├── ScmSiteAlsoStopped: *bool
+    │   ├── ServerFarmId: *string
+    │   ├── SiteConfig: 
+    │   │   ├── AcrUseManagedIdentityCreds: *bool
+    │   │   ├── AcrUserManagedIdentityID: *string
+    │   │   ├── AlwaysOn: *bool
+    │   │   ├── ApiDefinition: 
+    │   │   │   └── Url: *string
+    │   │   ├── ApiManagementConfig: 
+    │   │   │   └── Id: *string
+    │   │   ├── AppCommandLine: *string
+    │   │   ├── AppSettings: 
+    │   │   │   ├── Name: *string
+    │   │   │   └── Value: *string
+    │   │   ├── AutoHealEnabled: *bool
+    │   │   ├── AutoHealRules: 
+    │   │   │   ├── Actions: 
+    │   │   │   │   ├── ActionType: enum
+    │   │   │   │   │   ├── "CustomAction"
+    │   │   │   │   │   ├── "LogEvent"
+    │   │   │   │   │   └── "Recycle"
+    │   │   │   │   ├── CustomAction: 
+    │   │   │   │   │   ├── Exe: *string
+    │   │   │   │   │   └── Parameters: *string
+    │   │   │   │   └── MinProcessExecutionTime: *string
+    │   │   │   └── Triggers: 
+    │   │   │       ├── PrivateBytesInKB: *int
+    │   │   │       ├── Requests: 
+    │   │   │       │   ├── Count: *int
+    │   │   │       │   └── TimeInterval: *string
+    │   │   │       ├── SlowRequests: 
+    │   │   │       │   ├── Count: *int
+    │   │   │       │   ├── Path: *string
+    │   │   │       │   ├── TimeInterval: *string
+    │   │   │       │   └── TimeTaken: *string
+    │   │   │       ├── SlowRequestsWithPath: 
+    │   │   │       │   ├── Count: *int
+    │   │   │       │   ├── Path: *string
+    │   │   │       │   ├── TimeInterval: *string
+    │   │   │       │   └── TimeTaken: *string
+    │   │   │       ├── StatusCodes: 
+    │   │   │       │   ├── Count: *int
+    │   │   │       │   ├── Path: *string
+    │   │   │       │   ├── Status: *int
+    │   │   │       │   ├── SubStatus: *int
+    │   │   │       │   ├── TimeInterval: *string
+    │   │   │       │   └── Win32Status: *int
+    │   │   │       └── StatusCodesRange: 
+    │   │   │           ├── Count: *int
+    │   │   │           ├── Path: *string
+    │   │   │           ├── StatusCodes: *string
+    │   │   │           └── TimeInterval: *string
+    │   │   ├── AutoSwapSlotName: *string
+    │   │   ├── AzureStorageAccounts: 
+    │   │   │   ├── AccessKey: *string
+    │   │   │   ├── AccountName: *string
+    │   │   │   ├── MountPath: *string
+    │   │   │   ├── ShareName: *string
+    │   │   │   └── Type: enum
+    │   │   │       ├── "AzureBlob"
+    │   │   │       └── "AzureFiles"
+    │   │   ├── ConnectionStrings: 
+    │   │   │   ├── ConnectionString: *string
+    │   │   │   ├── Name: *string
+    │   │   │   └── Type: enum
+    │   │   │       ├── "ApiHub"
+    │   │   │       ├── "Custom"
+    │   │   │       ├── "DocDb"
+    │   │   │       ├── "EventHub"
+    │   │   │       ├── "MySql"
+    │   │   │       ├── "NotificationHub"
+    │   │   │       ├── "PostgreSQL"
+    │   │   │       ├── "RedisCache"
+    │   │   │       ├── "SQLAzure"
+    │   │   │       ├── "SQLServer"
+    │   │   │       └── "ServiceBus"
+    │   │   ├── Cors: 
+    │   │   │   ├── AllowedOrigins: Array[string]
+    │   │   │   └── SupportCredentials: *bool
+    │   │   ├── DefaultDocuments: Array[string]
+    │   │   ├── DetailedErrorLoggingEnabled: *bool
+    │   │   ├── DocumentRoot: *string
+    │   │   ├── Experiments: 
+    │   │   │   └── RampUpRules: 
+    │   │   │       ├── ActionHostName: *string
+    │   │   │       ├── ChangeDecisionCallbackUrl: *string
+    │   │   │       ├── ChangeIntervalInMinutes: *int
+    │   │   │       ├── ChangeStep: *float64
+    │   │   │       ├── MaxReroutePercentage: *float64
+    │   │   │       ├── MinReroutePercentage: *float64
+    │   │   │       ├── Name: *string
+    │   │   │       └── ReroutePercentage: *float64
+    │   │   ├── FtpsState: enum
+    │   │   │   ├── "AllAllowed"
+    │   │   │   ├── "Disabled"
+    │   │   │   └── "FtpsOnly"
+    │   │   ├── FunctionAppScaleLimit: *int
+    │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
+    │   │   ├── HandlerMappings: 
+    │   │   │   ├── Arguments: *string
+    │   │   │   ├── Extension: *string
+    │   │   │   └── ScriptProcessor: *string
+    │   │   ├── HealthCheckPath: *string
+    │   │   ├── Http20Enabled: *bool
+    │   │   ├── HttpLoggingEnabled: *bool
+    │   │   ├── IpSecurityRestrictions: 
+    │   │   │   ├── Action: *string
+    │   │   │   ├── Description: *string
+    │   │   │   ├── Headers: Map[string]Array[string]
+    │   │   │   ├── IpAddress: *string
+    │   │   │   ├── Name: *string
+    │   │   │   ├── Priority: *int
+    │   │   │   ├── SubnetMask: *string
+    │   │   │   ├── SubnetTrafficTag: *int
+    │   │   │   ├── Tag: enum
+    │   │   │   │   ├── "Default"
+    │   │   │   │   ├── "ServiceTag"
+    │   │   │   │   └── "XffProxy"
+    │   │   │   ├── VnetSubnetResourceId: *string
+    │   │   │   └── VnetTrafficTag: *int
+    │   │   ├── JavaContainer: *string
+    │   │   ├── JavaContainerVersion: *string
+    │   │   ├── JavaVersion: *string
+    │   │   ├── KeyVaultReferenceIdentity: *string
+    │   │   ├── Limits: 
+    │   │   │   ├── MaxDiskSizeInMb: *int
+    │   │   │   ├── MaxMemoryInMb: *int
+    │   │   │   └── MaxPercentageCpu: *float64
+    │   │   ├── LinuxFxVersion: *string
+    │   │   ├── LoadBalancing: enum
+    │   │   │   ├── "LeastRequests"
+    │   │   │   ├── "LeastResponseTime"
+    │   │   │   ├── "PerSiteRoundRobin"
+    │   │   │   ├── "RequestHash"
+    │   │   │   ├── "WeightedRoundRobin"
+    │   │   │   └── "WeightedTotalTraffic"
+    │   │   ├── LocalMySqlEnabled: *bool
+    │   │   ├── LogsDirectorySizeLimit: *int
+    │   │   ├── ManagedPipelineMode: enum
+    │   │   │   ├── "Classic"
+    │   │   │   └── "Integrated"
+    │   │   ├── ManagedServiceIdentityId: *int
+    │   │   ├── MinTlsVersion: enum
+    │   │   │   ├── "1.0"
+    │   │   │   ├── "1.1"
+    │   │   │   └── "1.2"
+    │   │   ├── MinimumElasticInstanceCount: *int
+    │   │   ├── NetFrameworkVersion: *string
+    │   │   ├── NodeVersion: *string
+    │   │   ├── NumberOfWorkers: *int
+    │   │   ├── PhpVersion: *string
+    │   │   ├── PowerShellVersion: *string
+    │   │   ├── PreWarmedInstanceCount: *int
+    │   │   ├── PublicNetworkAccess: *string
+    │   │   ├── PublishingUsername: *string
+    │   │   ├── Push: 
+    │   │   │   ├── Kind: *string
+    │   │   │   └── Properties: 
+    │   │   │       ├── DynamicTagsJson: *string
+    │   │   │       ├── IsPushEnabled: *bool
+    │   │   │       ├── TagWhitelistJson: *string
+    │   │   │       └── TagsRequiringAuth: *string
+    │   │   ├── PythonVersion: *string
+    │   │   ├── RemoteDebuggingEnabled: *bool
+    │   │   ├── RemoteDebuggingVersion: *string
+    │   │   ├── RequestTracingEnabled: *bool
+    │   │   ├── RequestTracingExpirationTime: *string
+    │   │   ├── ScmIpSecurityRestrictions: 
+    │   │   │   ├── Action: *string
+    │   │   │   ├── Description: *string
+    │   │   │   ├── Headers: Map[string]Array[string]
+    │   │   │   ├── IpAddress: *string
+    │   │   │   ├── Name: *string
+    │   │   │   ├── Priority: *int
+    │   │   │   ├── SubnetMask: *string
+    │   │   │   ├── SubnetTrafficTag: *int
+    │   │   │   ├── Tag: enum
+    │   │   │   │   ├── "Default"
+    │   │   │   │   ├── "ServiceTag"
+    │   │   │   │   └── "XffProxy"
+    │   │   │   ├── VnetSubnetResourceId: *string
+    │   │   │   └── VnetTrafficTag: *int
+    │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
+    │   │   ├── ScmMinTlsVersion: enum
+    │   │   │   ├── "1.0"
+    │   │   │   ├── "1.1"
+    │   │   │   └── "1.2"
+    │   │   ├── ScmType: enum
+    │   │   │   ├── "BitbucketGit"
+    │   │   │   ├── "BitbucketHg"
+    │   │   │   ├── "CodePlexGit"
+    │   │   │   ├── "CodePlexHg"
+    │   │   │   ├── "Dropbox"
+    │   │   │   ├── "ExternalGit"
+    │   │   │   ├── "ExternalHg"
+    │   │   │   ├── "GitHub"
+    │   │   │   ├── "LocalGit"
+    │   │   │   ├── "None"
+    │   │   │   ├── "OneDrive"
+    │   │   │   ├── "Tfs"
+    │   │   │   ├── "VSO"
+    │   │   │   └── "VSTSRM"
+    │   │   ├── TracingOptions: *string
+    │   │   ├── Use32BitWorkerProcess: *bool
+    │   │   ├── VirtualApplications: 
+    │   │   │   ├── PhysicalPath: *string
+    │   │   │   ├── PreloadEnabled: *bool
+    │   │   │   ├── VirtualDirectories: 
+    │   │   │   │   ├── PhysicalPath: *string
+    │   │   │   │   └── VirtualPath: *string
+    │   │   │   └── VirtualPath: *string
+    │   │   ├── VnetName: *string
+    │   │   ├── VnetPrivatePortsCount: *int
+    │   │   ├── VnetRouteAllEnabled: *bool
+    │   │   ├── WebSocketsEnabled: *bool
+    │   │   ├── WebsiteTimeZone: *string
+    │   │   ├── WindowsFxVersion: *string
+    │   │   └── XManagedServiceIdentityId: *int
+    │   ├── StorageAccountRequired: *bool
+    │   ├── VirtualNetworkSubnetId: *string
+    │   ├── VnetContentShareEnabled: *bool
+    │   ├── VnetImagePullEnabled: *bool
+    │   └── VnetRouteAllEnabled: *bool
+    └── Tags: Map[string]string

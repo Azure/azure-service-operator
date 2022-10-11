@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DomainTopic_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DomainTopic_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DomainTopic_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainTopic_STATUSARM, DomainTopic_STATUSARMGenerator()))
+		"Round trip of DomainTopic_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainTopic_STATUS_ARM, DomainTopic_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDomainTopic_STATUSARM runs a test to see if a specific instance of DomainTopic_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainTopic_STATUSARM(subject DomainTopic_STATUSARM) string {
+// RunJSONSerializationTestForDomainTopic_STATUS_ARM runs a test to see if a specific instance of DomainTopic_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainTopic_STATUS_ARM(subject DomainTopic_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDomainTopic_STATUSARM(subject DomainTopic_STATUS
 	}
 
 	// Deserialize back into memory
-	var actual DomainTopic_STATUSARM
+	var actual DomainTopic_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,59 +56,59 @@ func RunJSONSerializationTestForDomainTopic_STATUSARM(subject DomainTopic_STATUS
 	return ""
 }
 
-// Generator of DomainTopic_STATUSARM instances for property testing - lazily instantiated by
-// DomainTopic_STATUSARMGenerator()
-var domainTopic_STATUSARMGenerator gopter.Gen
+// Generator of DomainTopic_STATUS_ARM instances for property testing - lazily instantiated by
+// DomainTopic_STATUS_ARMGenerator()
+var domainTopic_STATUS_ARMGenerator gopter.Gen
 
-// DomainTopic_STATUSARMGenerator returns a generator of DomainTopic_STATUSARM instances for property testing.
-// We first initialize domainTopic_STATUSARMGenerator with a simplified generator based on the
+// DomainTopic_STATUS_ARMGenerator returns a generator of DomainTopic_STATUS_ARM instances for property testing.
+// We first initialize domainTopic_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DomainTopic_STATUSARMGenerator() gopter.Gen {
-	if domainTopic_STATUSARMGenerator != nil {
-		return domainTopic_STATUSARMGenerator
+func DomainTopic_STATUS_ARMGenerator() gopter.Gen {
+	if domainTopic_STATUS_ARMGenerator != nil {
+		return domainTopic_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainTopic_STATUSARM(generators)
-	domainTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDomainTopic_STATUS_ARM(generators)
+	domainTopic_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainTopic_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDomainTopic_STATUSARM(generators)
-	domainTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDomainTopic_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForDomainTopic_STATUS_ARM(generators)
+	domainTopic_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUS_ARM{}), generators)
 
-	return domainTopic_STATUSARMGenerator
+	return domainTopic_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDomainTopic_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomainTopic_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDomainTopic_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomainTopic_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDomainTopic_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomainTopic_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DomainTopicProperties_STATUSARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForDomainTopic_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDomainTopic_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DomainTopicProperties_STATUS_ARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
-func Test_DomainTopicProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DomainTopicProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DomainTopicProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainTopicProperties_STATUSARM, DomainTopicProperties_STATUSARMGenerator()))
+		"Round trip of DomainTopicProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM, DomainTopicProperties_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDomainTopicProperties_STATUSARM runs a test to see if a specific instance of DomainTopicProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainTopicProperties_STATUSARM(subject DomainTopicProperties_STATUSARM) string {
+// RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM runs a test to see if a specific instance of DomainTopicProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainTopicProperties_STATUS_ARM(subject DomainTopicProperties_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +116,7 @@ func RunJSONSerializationTestForDomainTopicProperties_STATUSARM(subject DomainTo
 	}
 
 	// Deserialize back into memory
-	var actual DomainTopicProperties_STATUSARM
+	var actual DomainTopicProperties_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,48 +134,48 @@ func RunJSONSerializationTestForDomainTopicProperties_STATUSARM(subject DomainTo
 	return ""
 }
 
-// Generator of DomainTopicProperties_STATUSARM instances for property testing - lazily instantiated by
-// DomainTopicProperties_STATUSARMGenerator()
-var domainTopicProperties_STATUSARMGenerator gopter.Gen
+// Generator of DomainTopicProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// DomainTopicProperties_STATUS_ARMGenerator()
+var domainTopicProperties_STATUS_ARMGenerator gopter.Gen
 
-// DomainTopicProperties_STATUSARMGenerator returns a generator of DomainTopicProperties_STATUSARM instances for property testing.
-func DomainTopicProperties_STATUSARMGenerator() gopter.Gen {
-	if domainTopicProperties_STATUSARMGenerator != nil {
-		return domainTopicProperties_STATUSARMGenerator
+// DomainTopicProperties_STATUS_ARMGenerator returns a generator of DomainTopicProperties_STATUS_ARM instances for property testing.
+func DomainTopicProperties_STATUS_ARMGenerator() gopter.Gen {
+	if domainTopicProperties_STATUS_ARMGenerator != nil {
+		return domainTopicProperties_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUSARM(generators)
-	domainTopicProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DomainTopicProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(generators)
+	domainTopicProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DomainTopicProperties_STATUS_ARM{}), generators)
 
-	return domainTopicProperties_STATUSARMGenerator
+	return domainTopicProperties_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicProperties_STATUS_ProvisioningState_Canceled,
-		DomainTopicProperties_STATUS_ProvisioningState_Creating,
-		DomainTopicProperties_STATUS_ProvisioningState_Deleting,
-		DomainTopicProperties_STATUS_ProvisioningState_Failed,
-		DomainTopicProperties_STATUS_ProvisioningState_Succeeded,
-		DomainTopicProperties_STATUS_ProvisioningState_Updating))
+		DomainTopicProperties_ProvisioningState_STATUS_Canceled,
+		DomainTopicProperties_ProvisioningState_STATUS_Creating,
+		DomainTopicProperties_ProvisioningState_STATUS_Deleting,
+		DomainTopicProperties_ProvisioningState_STATUS_Failed,
+		DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
+		DomainTopicProperties_ProvisioningState_STATUS_Updating))
 }
 
-func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SystemData_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUSARM, SystemData_STATUSARMGenerator()))
+		"Round trip of SystemData_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS_ARM, SystemData_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSystemData_STATUSARM runs a test to see if a specific instance of SystemData_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUSARM(subject SystemData_STATUSARM) string {
+// RunJSONSerializationTestForSystemData_STATUS_ARM runs a test to see if a specific instance of SystemData_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS_ARM(subject SystemData_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -183,7 +183,7 @@ func RunJSONSerializationTestForSystemData_STATUSARM(subject SystemData_STATUSAR
 	}
 
 	// Deserialize back into memory
-	var actual SystemData_STATUSARM
+	var actual SystemData_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -201,37 +201,37 @@ func RunJSONSerializationTestForSystemData_STATUSARM(subject SystemData_STATUSAR
 	return ""
 }
 
-// Generator of SystemData_STATUSARM instances for property testing - lazily instantiated by
-// SystemData_STATUSARMGenerator()
-var systemData_STATUSARMGenerator gopter.Gen
+// Generator of SystemData_STATUS_ARM instances for property testing - lazily instantiated by
+// SystemData_STATUS_ARMGenerator()
+var systemData_STATUS_ARMGenerator gopter.Gen
 
-// SystemData_STATUSARMGenerator returns a generator of SystemData_STATUSARM instances for property testing.
-func SystemData_STATUSARMGenerator() gopter.Gen {
-	if systemData_STATUSARMGenerator != nil {
-		return systemData_STATUSARMGenerator
+// SystemData_STATUS_ARMGenerator returns a generator of SystemData_STATUS_ARM instances for property testing.
+func SystemData_STATUS_ARMGenerator() gopter.Gen {
+	if systemData_STATUS_ARMGenerator != nil {
+		return systemData_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUSARM(generators)
-	systemData_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(generators)
+	systemData_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS_ARM{}), generators)
 
-	return systemData_STATUSARMGenerator
+	return systemData_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemData_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }

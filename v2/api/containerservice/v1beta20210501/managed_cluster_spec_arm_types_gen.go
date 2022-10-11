@@ -8,12 +8,12 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type ManagedCluster_SpecARM struct {
+type ManagedCluster_Spec_ARM struct {
 	// ExtendedLocation: The complex type of the extended location.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Identity: Identity for the managed cluster.
-	Identity *ManagedClusterIdentityARM `json:"identity,omitempty"`
+	Identity *ManagedClusterIdentity_ARM `json:"identity,omitempty"`
 
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -22,34 +22,34 @@ type ManagedCluster_SpecARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the managed cluster.
-	Properties *ManagedClusterPropertiesARM `json:"properties,omitempty"`
+	Properties *ManagedClusterProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The SKU of a Managed Cluster.
-	Sku *ManagedClusterSKUARM `json:"sku,omitempty"`
+	Sku *ManagedClusterSKU_ARM `json:"sku,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedCluster_SpecARM{}
+var _ genruntime.ARMResourceSpec = &ManagedCluster_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (cluster ManagedCluster_SpecARM) GetAPIVersion() string {
+func (cluster ManagedCluster_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
-func (cluster *ManagedCluster_SpecARM) GetName() string {
+func (cluster *ManagedCluster_Spec_ARM) GetName() string {
 	return cluster.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
-func (cluster *ManagedCluster_SpecARM) GetType() string {
+func (cluster *ManagedCluster_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
-type ExtendedLocationARM struct {
+type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
@@ -58,7 +58,7 @@ type ExtendedLocationARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterIdentity
-type ManagedClusterIdentityARM struct {
+type ManagedClusterIdentity_ARM struct {
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
@@ -69,24 +69,24 @@ type ManagedClusterIdentityARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterProperties
-type ManagedClusterPropertiesARM struct {
+type ManagedClusterProperties_ARM struct {
 	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
-	AadProfile *ManagedClusterAADProfileARM `json:"aadProfile,omitempty"`
+	AadProfile *ManagedClusterAADProfile_ARM `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles map[string]ManagedClusterAddonProfileARM `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile_ARM `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
-	AgentPoolProfiles []ManagedClusterAgentPoolProfileARM `json:"agentPoolProfiles,omitempty"`
+	AgentPoolProfiles []ManagedClusterAgentPoolProfile_ARM `json:"agentPoolProfiles,omitempty"`
 
 	// ApiServerAccessProfile: Access profile for managed cluster API server.
-	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfileARM `json:"apiServerAccessProfile,omitempty"`
+	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_ARM `json:"apiServerAccessProfile,omitempty"`
 
 	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
-	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfileARM `json:"autoScalerProfile,omitempty"`
+	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile_ARM `json:"autoScalerProfile,omitempty"`
 
 	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
-	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfileARM `json:"autoUpgradeProfile,omitempty"`
+	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile_ARM `json:"autoUpgradeProfile,omitempty"`
 
 	// DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
 	// used on Managed Clusters that are AAD enabled. For more details see [disable local
@@ -108,10 +108,10 @@ type ManagedClusterPropertiesARM struct {
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
 	// HttpProxyConfig: Cluster HTTP proxy configuration.
-	HttpProxyConfig *ManagedClusterHTTPProxyConfigARM `json:"httpProxyConfig,omitempty"`
+	HttpProxyConfig *ManagedClusterHTTPProxyConfig_ARM `json:"httpProxyConfig,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile map[string]Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -120,31 +120,31 @@ type ManagedClusterPropertiesARM struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	// LinuxProfile: Profile for Linux VMs in the container service cluster.
-	LinuxProfile *ContainerServiceLinuxProfileARM `json:"linuxProfile,omitempty"`
+	LinuxProfile *ContainerServiceLinuxProfile_ARM `json:"linuxProfile,omitempty"`
 
 	// NetworkProfile: Profile of network configuration.
-	NetworkProfile *ContainerServiceNetworkProfileARM `json:"networkProfile,omitempty"`
+	NetworkProfile *ContainerServiceNetworkProfile_ARM `json:"networkProfile,omitempty"`
 
 	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
 	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
 	// details on pod identity integration.
-	PodIdentityProfile *ManagedClusterPodIdentityProfileARM `json:"podIdentityProfile,omitempty"`
+	PodIdentityProfile *ManagedClusterPodIdentityProfile_ARM `json:"podIdentityProfile,omitempty"`
 
 	// PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResourceARM `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources []PrivateLinkResource_ARM `json:"privateLinkResources,omitempty"`
 
 	// ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
 	// APIs.
-	ServicePrincipalProfile *ManagedClusterServicePrincipalProfileARM `json:"servicePrincipalProfile,omitempty"`
+	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_ARM `json:"servicePrincipalProfile,omitempty"`
 
 	// WindowsProfile: Profile for Windows VMs in the managed cluster.
-	WindowsProfile *ManagedClusterWindowsProfileARM `json:"windowsProfile,omitempty"`
+	WindowsProfile *ManagedClusterWindowsProfile_ARM `json:"windowsProfile,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterSKU
-type ManagedClusterSKUARM struct {
+type ManagedClusterSKU_ARM struct {
 	// Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKU_Name `json:"name,omitempty"`
 
@@ -154,7 +154,7 @@ type ManagedClusterSKUARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-type Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM struct {
+type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM struct {
 	// ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -164,16 +164,16 @@ type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadd
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
-type ContainerServiceLinuxProfileARM struct {
+type ContainerServiceLinuxProfile_ARM struct {
 	// AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	// Ssh: SSH configuration for Linux-based VMs running on Azure.
-	Ssh *ContainerServiceSshConfigurationARM `json:"ssh,omitempty"`
+	Ssh *ContainerServiceSshConfiguration_ARM `json:"ssh,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
-type ContainerServiceNetworkProfileARM struct {
+type ContainerServiceNetworkProfile_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
@@ -183,7 +183,7 @@ type ContainerServiceNetworkProfileARM struct {
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
 	// LoadBalancerProfile: Profile of the managed cluster load balancer.
-	LoadBalancerProfile *ManagedClusterLoadBalancerProfileARM `json:"loadBalancerProfile,omitempty"`
+	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_ARM `json:"loadBalancerProfile,omitempty"`
 
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
@@ -217,7 +217,7 @@ type ExtendedLocation_Type string
 const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
-type ManagedClusterAADProfileARM struct {
+type ManagedClusterAADProfile_ARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 
@@ -242,7 +242,7 @@ type ManagedClusterAADProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
-type ManagedClusterAddonProfileARM struct {
+type ManagedClusterAddonProfile_ARM struct {
 	// Config: Key-value pairs for configuring an add-on.
 	Config map[string]string `json:"config,omitempty"`
 
@@ -251,7 +251,7 @@ type ManagedClusterAddonProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
-type ManagedClusterAgentPoolProfileARM struct {
+type ManagedClusterAgentPoolProfile_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -287,12 +287,12 @@ type ManagedClusterAgentPoolProfileARM struct {
 
 	// KubeletConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
 	// more details.
-	KubeletConfig   *KubeletConfigARM                               `json:"kubeletConfig,omitempty"`
+	KubeletConfig   *KubeletConfig_ARM                              `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *ManagedClusterAgentPoolProfile_KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
 	// more details.
-	LinuxOSConfig *LinuxOSConfigARM `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
@@ -349,7 +349,7 @@ type ManagedClusterAgentPoolProfileARM struct {
 	Type *ManagedClusterAgentPoolProfile_Type `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading an agentpool
-	UpgradeSettings *AgentPoolUpgradeSettingsARM `json:"upgradeSettings,omitempty"`
+	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
 	// might fail to run correctly. For more details on restricted VM sizes, see:
@@ -359,7 +359,7 @@ type ManagedClusterAgentPoolProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
-type ManagedClusterAPIServerAccessProfileARM struct {
+type ManagedClusterAPIServerAccessProfile_ARM struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
 	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
 	// server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
@@ -379,14 +379,14 @@ type ManagedClusterAPIServerAccessProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
-type ManagedClusterAutoUpgradeProfileARM struct {
+type ManagedClusterAutoUpgradeProfile_ARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterHTTPProxyConfig
-type ManagedClusterHTTPProxyConfigARM struct {
+type ManagedClusterHTTPProxyConfig_ARM struct {
 	// HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
 
@@ -410,7 +410,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
-type ManagedClusterPodIdentityProfileARM struct {
+type ManagedClusterPodIdentityProfile_ARM struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
 	// Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod
 	// Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities)
@@ -421,14 +421,14 @@ type ManagedClusterPodIdentityProfileARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// UserAssignedIdentities: The pod identities to use in the cluster.
-	UserAssignedIdentities []ManagedClusterPodIdentityARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities []ManagedClusterPodIdentity_ARM `json:"userAssignedIdentities,omitempty"`
 
 	// UserAssignedIdentityExceptions: The pod identity exceptions to allow.
-	UserAssignedIdentityExceptions []ManagedClusterPodIdentityExceptionARM `json:"userAssignedIdentityExceptions,omitempty"`
+	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_ARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPropertiesAutoScalerProfile
-type ManagedClusterPropertiesAutoScalerProfileARM struct {
+type ManagedClusterPropertiesAutoScalerProfile_ARM struct {
 	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
 
@@ -492,7 +492,7 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
-type ManagedClusterServicePrincipalProfileARM struct {
+type ManagedClusterServicePrincipalProfile_ARM struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -514,7 +514,7 @@ const (
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
-type ManagedClusterWindowsProfileARM struct {
+type ManagedClusterWindowsProfile_ARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length: 8 characters
 	// Max-length: 123 characters
@@ -546,7 +546,7 @@ type ManagedClusterWindowsProfileARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/PrivateLinkResource
-type PrivateLinkResourceARM struct {
+type PrivateLinkResource_ARM struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
 	Id      *string `json:"id,omitempty"`
@@ -562,41 +562,41 @@ type PrivateLinkResourceARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
-type ContainerServiceSshConfigurationARM struct {
+type ContainerServiceSshConfiguration_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKeyARM `json:"publicKeys,omitempty"`
+	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
-type ManagedClusterLoadBalancerProfileARM struct {
+type ManagedClusterLoadBalancerProfile_ARM struct {
 	// AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
 	// (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.
-	EffectiveOutboundIPs []ResourceReferenceARM `json:"effectiveOutboundIPs,omitempty"`
+	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs,omitempty"`
 
 	// IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
 	// (inclusive). The default value is 30 minutes.
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
-	ManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPsARM `json:"managedOutboundIPs,omitempty"`
+	ManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM `json:"managedOutboundIPs,omitempty"`
 
 	// OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.
-	OutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM `json:"outboundIPPrefixes,omitempty"`
 
 	// OutboundIPs: Desired outbound IP resources for the cluster load balancer.
-	OutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPsARM `json:"outboundIPs,omitempty"`
+	OutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs_ARM `json:"outboundIPs,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentity
-type ManagedClusterPodIdentityARM struct {
+type ManagedClusterPodIdentity_ARM struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	// Identity: Details about a user assigned identity.
-	Identity *UserAssignedIdentityARM `json:"identity,omitempty"`
+	Identity *UserAssignedIdentity_ARM `json:"identity,omitempty"`
 
 	// Name: The name of the pod identity.
 	Name *string `json:"name,omitempty"`
@@ -606,7 +606,7 @@ type ManagedClusterPodIdentityARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
-type ManagedClusterPodIdentityExceptionARM struct {
+type ManagedClusterPodIdentityException_ARM struct {
 	// Name: The name of the pod identity exception.
 	Name *string `json:"name,omitempty"`
 
@@ -618,38 +618,38 @@ type ManagedClusterPodIdentityExceptionARM struct {
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
-type ContainerServiceSshPublicKeyARM struct {
+type ContainerServiceSshPublicKey_ARM struct {
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	// without headers.
 	KeyData *string `json:"keyData,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
-type ManagedClusterLoadBalancerProfileManagedOutboundIPsARM struct {
+type ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM struct {
 	// Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
 	// in the range of 1 to 100 (inclusive). The default value is 1.
 	Count *int `json:"count,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-type ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM struct {
+type ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM struct {
 	// PublicIPPrefixes: A list of public IP prefix resources.
-	PublicIPPrefixes []ResourceReferenceARM `json:"publicIPPrefixes,omitempty"`
+	PublicIPPrefixes []ResourceReference_ARM `json:"publicIPPrefixes,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPs
-type ManagedClusterLoadBalancerProfileOutboundIPsARM struct {
+type ManagedClusterLoadBalancerProfileOutboundIPs_ARM struct {
 	// PublicIPs: A list of public IP resources.
-	PublicIPs []ResourceReferenceARM `json:"publicIPs,omitempty"`
+	PublicIPs []ResourceReference_ARM `json:"publicIPs,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ResourceReference
-type ResourceReferenceARM struct {
+type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/UserAssignedIdentity
-type UserAssignedIdentityARM struct {
+type UserAssignedIdentity_ARM struct {
 	// ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 

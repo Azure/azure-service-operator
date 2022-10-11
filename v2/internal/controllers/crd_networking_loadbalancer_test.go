@@ -76,7 +76,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancer_Spec_Properties_FrontendIPConfigurations{
+			FrontendIPConfigurations: []network.LoadBalancer_Properties_FrontendIPConfigurations_Spec{
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
@@ -85,7 +85,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 				},
 			},
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
-			InboundNatPools: []network.LoadBalancer_Spec_Properties_InboundNatPools{
+			InboundNatPools: []network.LoadBalancer_Properties_InboundNatPools_Spec{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{

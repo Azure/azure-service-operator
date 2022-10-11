@@ -4,113 +4,113 @@
 package v1alpha1api20210401
 
 // Deprecated version of BlobContainer_STATUS. Use v1beta20210401.BlobContainer_STATUS instead
-type BlobContainer_STATUSARM struct {
-	Etag       *string                        `json:"etag,omitempty"`
-	Id         *string                        `json:"id,omitempty"`
-	Name       *string                        `json:"name,omitempty"`
-	Properties *ContainerProperties_STATUSARM `json:"properties,omitempty"`
-	Type       *string                        `json:"type,omitempty"`
+type BlobContainer_STATUS_ARM struct {
+	Etag       *string                         `json:"etag,omitempty"`
+	Id         *string                         `json:"id,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	Properties *ContainerProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                         `json:"type,omitempty"`
 }
 
 // Deprecated version of ContainerProperties_STATUS. Use v1beta20210401.ContainerProperties_STATUS instead
-type ContainerProperties_STATUSARM struct {
-	DefaultEncryptionScope         *string                                   `json:"defaultEncryptionScope,omitempty"`
-	Deleted                        *bool                                     `json:"deleted,omitempty"`
-	DeletedTime                    *string                                   `json:"deletedTime,omitempty"`
-	DenyEncryptionScopeOverride    *bool                                     `json:"denyEncryptionScopeOverride,omitempty"`
-	HasImmutabilityPolicy          *bool                                     `json:"hasImmutabilityPolicy,omitempty"`
-	HasLegalHold                   *bool                                     `json:"hasLegalHold,omitempty"`
-	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUSARM   `json:"immutabilityPolicy,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUSARM `json:"immutableStorageWithVersioning,omitempty"`
-	LastModifiedTime               *string                                   `json:"lastModifiedTime,omitempty"`
-	LeaseDuration                  *ContainerProperties_STATUS_LeaseDuration `json:"leaseDuration,omitempty"`
-	LeaseState                     *ContainerProperties_STATUS_LeaseState    `json:"leaseState,omitempty"`
-	LeaseStatus                    *ContainerProperties_STATUS_LeaseStatus   `json:"leaseStatus,omitempty"`
-	LegalHold                      *LegalHoldProperties_STATUSARM            `json:"legalHold,omitempty"`
-	Metadata                       map[string]string                         `json:"metadata,omitempty"`
-	PublicAccess                   *ContainerProperties_STATUS_PublicAccess  `json:"publicAccess,omitempty"`
-	RemainingRetentionDays         *int                                      `json:"remainingRetentionDays,omitempty"`
-	Version                        *string                                   `json:"version,omitempty"`
+type ContainerProperties_STATUS_ARM struct {
+	DefaultEncryptionScope         *string                                    `json:"defaultEncryptionScope,omitempty"`
+	Deleted                        *bool                                      `json:"deleted,omitempty"`
+	DeletedTime                    *string                                    `json:"deletedTime,omitempty"`
+	DenyEncryptionScopeOverride    *bool                                      `json:"denyEncryptionScopeOverride,omitempty"`
+	HasImmutabilityPolicy          *bool                                      `json:"hasImmutabilityPolicy,omitempty"`
+	HasLegalHold                   *bool                                      `json:"hasLegalHold,omitempty"`
+	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUS_ARM   `json:"immutabilityPolicy,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS_ARM `json:"immutableStorageWithVersioning,omitempty"`
+	LastModifiedTime               *string                                    `json:"lastModifiedTime,omitempty"`
+	LeaseDuration                  *ContainerProperties_LeaseDuration_STATUS  `json:"leaseDuration,omitempty"`
+	LeaseState                     *ContainerProperties_LeaseState_STATUS     `json:"leaseState,omitempty"`
+	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS    `json:"leaseStatus,omitempty"`
+	LegalHold                      *LegalHoldProperties_STATUS_ARM            `json:"legalHold,omitempty"`
+	Metadata                       map[string]string                          `json:"metadata,omitempty"`
+	PublicAccess                   *ContainerProperties_PublicAccess_STATUS   `json:"publicAccess,omitempty"`
+	RemainingRetentionDays         *int                                       `json:"remainingRetentionDays,omitempty"`
+	Version                        *string                                    `json:"version,omitempty"`
 }
 
-// Deprecated version of ContainerProperties_STATUS_LeaseDuration. Use
-// v1beta20210401.ContainerProperties_STATUS_LeaseDuration instead
-type ContainerProperties_STATUS_LeaseDuration string
+// Deprecated version of ContainerProperties_LeaseDuration_STATUS. Use
+// v1beta20210401.ContainerProperties_LeaseDuration_STATUS instead
+type ContainerProperties_LeaseDuration_STATUS string
 
 const (
-	ContainerProperties_STATUS_LeaseDuration_Fixed    = ContainerProperties_STATUS_LeaseDuration("Fixed")
-	ContainerProperties_STATUS_LeaseDuration_Infinite = ContainerProperties_STATUS_LeaseDuration("Infinite")
+	ContainerProperties_LeaseDuration_STATUS_Fixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
+	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
 )
 
-// Deprecated version of ContainerProperties_STATUS_LeaseState. Use v1beta20210401.ContainerProperties_STATUS_LeaseState
+// Deprecated version of ContainerProperties_LeaseState_STATUS. Use v1beta20210401.ContainerProperties_LeaseState_STATUS
 // instead
-type ContainerProperties_STATUS_LeaseState string
+type ContainerProperties_LeaseState_STATUS string
 
 const (
-	ContainerProperties_STATUS_LeaseState_Available = ContainerProperties_STATUS_LeaseState("Available")
-	ContainerProperties_STATUS_LeaseState_Breaking  = ContainerProperties_STATUS_LeaseState("Breaking")
-	ContainerProperties_STATUS_LeaseState_Broken    = ContainerProperties_STATUS_LeaseState("Broken")
-	ContainerProperties_STATUS_LeaseState_Expired   = ContainerProperties_STATUS_LeaseState("Expired")
-	ContainerProperties_STATUS_LeaseState_Leased    = ContainerProperties_STATUS_LeaseState("Leased")
+	ContainerProperties_LeaseState_STATUS_Available = ContainerProperties_LeaseState_STATUS("Available")
+	ContainerProperties_LeaseState_STATUS_Breaking  = ContainerProperties_LeaseState_STATUS("Breaking")
+	ContainerProperties_LeaseState_STATUS_Broken    = ContainerProperties_LeaseState_STATUS("Broken")
+	ContainerProperties_LeaseState_STATUS_Expired   = ContainerProperties_LeaseState_STATUS("Expired")
+	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
 )
 
-// Deprecated version of ContainerProperties_STATUS_LeaseStatus. Use v1beta20210401.ContainerProperties_STATUS_LeaseStatus
+// Deprecated version of ContainerProperties_LeaseStatus_STATUS. Use v1beta20210401.ContainerProperties_LeaseStatus_STATUS
 // instead
-type ContainerProperties_STATUS_LeaseStatus string
+type ContainerProperties_LeaseStatus_STATUS string
 
 const (
-	ContainerProperties_STATUS_LeaseStatus_Locked   = ContainerProperties_STATUS_LeaseStatus("Locked")
-	ContainerProperties_STATUS_LeaseStatus_Unlocked = ContainerProperties_STATUS_LeaseStatus("Unlocked")
+	ContainerProperties_LeaseStatus_STATUS_Locked   = ContainerProperties_LeaseStatus_STATUS("Locked")
+	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
 
-// Deprecated version of ContainerProperties_STATUS_PublicAccess. Use
-// v1beta20210401.ContainerProperties_STATUS_PublicAccess instead
-type ContainerProperties_STATUS_PublicAccess string
+// Deprecated version of ContainerProperties_PublicAccess_STATUS. Use
+// v1beta20210401.ContainerProperties_PublicAccess_STATUS instead
+type ContainerProperties_PublicAccess_STATUS string
 
 const (
-	ContainerProperties_STATUS_PublicAccess_Blob      = ContainerProperties_STATUS_PublicAccess("Blob")
-	ContainerProperties_STATUS_PublicAccess_Container = ContainerProperties_STATUS_PublicAccess("Container")
-	ContainerProperties_STATUS_PublicAccess_None      = ContainerProperties_STATUS_PublicAccess("None")
+	ContainerProperties_PublicAccess_STATUS_Blob      = ContainerProperties_PublicAccess_STATUS("Blob")
+	ContainerProperties_PublicAccess_STATUS_Container = ContainerProperties_PublicAccess_STATUS("Container")
+	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
 // Deprecated version of ImmutabilityPolicyProperties_STATUS. Use v1beta20210401.ImmutabilityPolicyProperties_STATUS instead
-type ImmutabilityPolicyProperties_STATUSARM struct {
-	Etag          *string                               `json:"etag,omitempty"`
-	Properties    *ImmutabilityPolicyProperty_STATUSARM `json:"properties,omitempty"`
-	UpdateHistory []UpdateHistoryProperty_STATUSARM     `json:"updateHistory,omitempty"`
+type ImmutabilityPolicyProperties_STATUS_ARM struct {
+	Etag          *string                                `json:"etag,omitempty"`
+	Properties    *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties,omitempty"`
+	UpdateHistory []UpdateHistoryProperty_STATUS_ARM     `json:"updateHistory,omitempty"`
 }
 
 // Deprecated version of ImmutableStorageWithVersioning_STATUS. Use v1beta20210401.ImmutableStorageWithVersioning_STATUS instead
-type ImmutableStorageWithVersioning_STATUSARM struct {
+type ImmutableStorageWithVersioning_STATUS_ARM struct {
 	Enabled        *bool                                                 `json:"enabled,omitempty"`
-	MigrationState *ImmutableStorageWithVersioning_STATUS_MigrationState `json:"migrationState,omitempty"`
+	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
 	TimeStamp      *string                                               `json:"timeStamp,omitempty"`
 }
 
 // Deprecated version of LegalHoldProperties_STATUS. Use v1beta20210401.LegalHoldProperties_STATUS instead
-type LegalHoldProperties_STATUSARM struct {
-	HasLegalHold *bool                   `json:"hasLegalHold,omitempty"`
-	Tags         []TagProperty_STATUSARM `json:"tags,omitempty"`
+type LegalHoldProperties_STATUS_ARM struct {
+	HasLegalHold *bool                    `json:"hasLegalHold,omitempty"`
+	Tags         []TagProperty_STATUS_ARM `json:"tags,omitempty"`
 }
 
 // Deprecated version of ImmutabilityPolicyProperty_STATUS. Use v1beta20210401.ImmutabilityPolicyProperty_STATUS instead
-type ImmutabilityPolicyProperty_STATUSARM struct {
+type ImmutabilityPolicyProperty_STATUS_ARM struct {
 	AllowProtectedAppendWrites            *bool                                    `json:"allowProtectedAppendWrites,omitempty"`
 	ImmutabilityPeriodSinceCreationInDays *int                                     `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-	State                                 *ImmutabilityPolicyProperty_STATUS_State `json:"state,omitempty"`
+	State                                 *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
 }
 
-// Deprecated version of ImmutableStorageWithVersioning_STATUS_MigrationState. Use
-// v1beta20210401.ImmutableStorageWithVersioning_STATUS_MigrationState instead
-type ImmutableStorageWithVersioning_STATUS_MigrationState string
+// Deprecated version of ImmutableStorageWithVersioning_MigrationState_STATUS. Use
+// v1beta20210401.ImmutableStorageWithVersioning_MigrationState_STATUS instead
+type ImmutableStorageWithVersioning_MigrationState_STATUS string
 
 const (
-	ImmutableStorageWithVersioning_STATUS_MigrationState_Completed  = ImmutableStorageWithVersioning_STATUS_MigrationState("Completed")
-	ImmutableStorageWithVersioning_STATUS_MigrationState_InProgress = ImmutableStorageWithVersioning_STATUS_MigrationState("InProgress")
+	ImmutableStorageWithVersioning_MigrationState_STATUS_Completed  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
+	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
 
 // Deprecated version of TagProperty_STATUS. Use v1beta20210401.TagProperty_STATUS instead
-type TagProperty_STATUSARM struct {
+type TagProperty_STATUS_ARM struct {
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 	Tag              *string `json:"tag,omitempty"`
 	TenantId         *string `json:"tenantId,omitempty"`
@@ -119,20 +119,20 @@ type TagProperty_STATUSARM struct {
 }
 
 // Deprecated version of UpdateHistoryProperty_STATUS. Use v1beta20210401.UpdateHistoryProperty_STATUS instead
-type UpdateHistoryProperty_STATUSARM struct {
+type UpdateHistoryProperty_STATUS_ARM struct {
 	ImmutabilityPeriodSinceCreationInDays *int                                 `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                              `json:"objectIdentifier,omitempty"`
 	TenantId                              *string                              `json:"tenantId,omitempty"`
 	Timestamp                             *string                              `json:"timestamp,omitempty"`
-	Update                                *UpdateHistoryProperty_STATUS_Update `json:"update,omitempty"`
+	Update                                *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
 	Upn                                   *string                              `json:"upn,omitempty"`
 }
 
-// Deprecated version of UpdateHistoryProperty_STATUS_Update. Use v1beta20210401.UpdateHistoryProperty_STATUS_Update instead
-type UpdateHistoryProperty_STATUS_Update string
+// Deprecated version of UpdateHistoryProperty_Update_STATUS. Use v1beta20210401.UpdateHistoryProperty_Update_STATUS instead
+type UpdateHistoryProperty_Update_STATUS string
 
 const (
-	UpdateHistoryProperty_STATUS_Update_Extend = UpdateHistoryProperty_STATUS_Update("extend")
-	UpdateHistoryProperty_STATUS_Update_Lock   = UpdateHistoryProperty_STATUS_Update("lock")
-	UpdateHistoryProperty_STATUS_Update_Put    = UpdateHistoryProperty_STATUS_Update("put")
+	UpdateHistoryProperty_Update_STATUS_Extend = UpdateHistoryProperty_Update_STATUS("extend")
+	UpdateHistoryProperty_Update_STATUS_Lock   = UpdateHistoryProperty_Update_STATUS("lock")
+	UpdateHistoryProperty_Update_STATUS_Put    = UpdateHistoryProperty_Update_STATUS("put")
 )
