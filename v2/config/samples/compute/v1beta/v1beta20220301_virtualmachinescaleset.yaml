@@ -1,13 +1,13 @@
 apiVersion: compute.azure.com/v1beta20220301
 kind: VirtualMachineScaleSet
 metadata:
-  name: samplevmss
+  name: samplevmss1
   namespace: default
 spec:
-  location: westeurope
+  location: westus3
   owner:
     name: aso-sample-rg
-  platformFaultDomainCount: 3
+  platformFaultDomainCount: 2
   singlePlacementGroup: false
   sku:
     capacity: 1
@@ -28,28 +28,24 @@ spec:
       - ipConfigurations:
         - loadBalancerInboundNatPools:
           - reference:
-              armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/inboundNatPools/MyFancyNatPool
+              armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancervmss1/inboundNatPools/samplenatpoolvmss1
           name: myipconfiguration
           subnet:
             reference:
               group: network.azure.com
               kind: VirtualNetworksSubnet
-              name: aso-sample-subnet
+              name: samplesubnetvmss1
         name: mynicconfig
         primary: true
     osProfile:
-      adminUsername: adminUser
       computerNamePrefix: computer
-      linuxConfiguration:
-        disablePasswordAuthentication: true
-        ssh:
-          publicKeys:
-          - keyData: |
-              ssh-rsa AAAAB # Specify your SSH public key here 
-            path: /home/adminUser/.ssh/authorized_keys
+      adminUsername: adminUser
+      adminPassword:
+        key: password
+        name: sample-vmss-secret
     storageProfile:
       imageReference:
         offer: UbuntuServer
         publisher: Canonical
-        sku: 18.04-lts
+        sku: 22.04-lts
         version: latest

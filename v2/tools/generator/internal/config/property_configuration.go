@@ -28,12 +28,14 @@ type PropertyConfiguration struct {
 	armReference                     configurable[bool]   // Specify whether this property is an ARM reference
 	isSecret                         configurable[bool]   // Specify whether this property is a secret
 	isResourceLifecycleOwnedByParent configurable[bool]
+	exportAsConfigMapPropertyName    configurable[string] // The name of the exportAsConfigMap property.
 }
 
 const (
 	armReferenceTag                     = "$armReference"                     // Bool specifying whether a property is an ARM reference
 	isSecretTag                         = "$isSecret"                         // Bool specifying whether a property contains a secret
 	isResourceLifecycleOwnedByParentTag = "$isResourceLifecycleOwnedByParent" // Bool specifying whether a property represents a subresource whose lifecycle is owned by the parent resource
+	exportAsConfigMapPropertyNameTag    = "$exportAsConfigMapPropertyName"    // String specifying the name of the property set to export this property as a config map.
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -62,6 +64,11 @@ func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 	}
 
 	return nil
+}
+
+// SetARMReference sets the ARM reference property
+func (pc *PropertyConfiguration) SetARMReference(value bool) {
+	pc.armReference.write(value)
 }
 
 // IsSecret looks up a property to determine if it's a secret
@@ -132,6 +139,34 @@ func (pc *PropertyConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed(
 	return nil
 }
 
+// ExportAsConfigMapPropertyName looks up a property to determine if it should support being exported to a configMap
+func (pc *PropertyConfiguration) ExportAsConfigMapPropertyName() (string, error) {
+	val, ok := pc.exportAsConfigMapPropertyName.read()
+	if !ok {
+		msg := fmt.Sprintf(exportAsConfigMapPropertyNameTag+" not specified for property %s", pc.name)
+		return "", NewNotConfiguredError(msg)
+	}
+
+	return val, nil
+}
+
+// VerifyExportAsConfigMapPropertyNameConsumed returns an error if the config has the exportAsConfigMapPropertyName flag set and
+// it was not consumed
+func (pc *PropertyConfiguration) VerifyExportAsConfigMapPropertyNameConsumed() error {
+	if pc.exportAsConfigMapPropertyName.isUnconsumed() {
+		v, _ := pc.exportAsConfigMapPropertyName.read()
+		return errors.Errorf("property %s: "+exportAsConfigMapPropertyNameTag+": %s not consumed", pc.name, v)
+	}
+
+	return nil
+}
+
+// SetExportAsConfigMapPropertyName sets the configmap property name of this property
+func (pc *PropertyConfiguration) SetExportAsConfigMapPropertyName(name string) *PropertyConfiguration {
+	pc.exportAsConfigMapPropertyName.write(name)
+	return pc
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
@@ -186,6 +221,18 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			pc.armReference.write(isARMRef)
+			continue
+		}
+
+		// $exportAsConfigMapPropertyName: <string>
+		if strings.EqualFold(lastId, exportAsConfigMapPropertyNameTag) && c.Kind == yaml.ScalarNode {
+			var exportAsConfigMapPropertyName string
+			err := c.Decode(&exportAsConfigMapPropertyName)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", exportAsConfigMapPropertyNameTag)
+			}
+
+			pc.SetExportAsConfigMapPropertyName(exportAsConfigMapPropertyName)
 			continue
 		}
 

@@ -264,14 +264,14 @@ func (redis *Redis) validateSecretDestinations() error {
 	if redis.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		redis.Spec.OperatorSpec.Secrets.HostName,
 		redis.Spec.OperatorSpec.Secrets.Port,
 		redis.Spec.OperatorSpec.Secrets.PrimaryKey,
 		redis.Spec.OperatorSpec.Secrets.SSLPort,
 		redis.Spec.OperatorSpec.Secrets.SecondaryKey,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

@@ -4,7 +4,7 @@ metadata:
   name: asomlworkspacestorage
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   kind: BlobStorage
   sku:
     name: Standard_LRS

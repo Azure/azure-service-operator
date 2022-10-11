@@ -11,11 +11,13 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
 	managedidentity2022 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
@@ -110,4 +112,78 @@ func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *m
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func Test_ManagedIdentity_UserAssignedIdentity_ExportConfigMap(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	mi := &managedidentity2018.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity2018.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	// There should be no config maps at this point
+	list := &v1.ConfigMapList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(HaveLen(0))
+
+	// Run sub-tests
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "ConfigMapValuesWrittenToSameConfigMap",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				UserManagedIdentity_ConfigValuesWrittenToSameConfigMap(tc, mi)
+			},
+		},
+		testcommon.Subtest{
+			Name: "ConfigMapValuesWrittenToDifferentConfigMaps",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				UserManagedIdentity_ConfigValuesWrittenToDifferentConfigMap(tc, mi)
+			},
+		},
+	)
+
+	tc.DeleteResourceAndWait(mi)
+}
+
+func UserManagedIdentity_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, identity *managedidentity2018.UserAssignedIdentity) {
+	old := identity.DeepCopy()
+	identityConfigMap := "identity"
+	identity.Spec.OperatorSpec = &managedidentity2018.UserAssignedIdentityOperatorSpec{
+		ConfigMaps: &managedidentity2018.UserAssignedIdentityOperatorConfigMaps{
+			PrincipalId: &genruntime.ConfigMapDestination{Name: identityConfigMap, Key: "principalId"},
+			ClientId:    &genruntime.ConfigMapDestination{Name: identityConfigMap, Key: "clientId"},
+		},
+	}
+	tc.PatchResourceAndWait(old, identity)
+
+	tc.ExpectConfigMapHasKeysAndValues(
+		identityConfigMap,
+		"principalId", *identity.Status.PrincipalId,
+		"clientId", *identity.Status.ClientId)
+}
+
+func UserManagedIdentity_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, identity *managedidentity2018.UserAssignedIdentity) {
+	old := identity.DeepCopy()
+	identityConfigMap1 := "identity1"
+	identityConfigMap2 := "identity2"
+	identity.Spec.OperatorSpec = &managedidentity2018.UserAssignedIdentityOperatorSpec{
+		ConfigMaps: &managedidentity2018.UserAssignedIdentityOperatorConfigMaps{
+			PrincipalId: &genruntime.ConfigMapDestination{Name: identityConfigMap1, Key: "principalId"},
+			ClientId:    &genruntime.ConfigMapDestination{Name: identityConfigMap2, Key: "clientId"},
+		},
+	}
+	tc.PatchResourceAndWait(old, identity)
+
+	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap1, "principalId", *identity.Status.PrincipalId)
+	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap2, "clientId", *identity.Status.ClientId)
 }

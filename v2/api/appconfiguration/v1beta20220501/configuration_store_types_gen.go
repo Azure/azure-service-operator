@@ -250,7 +250,7 @@ func (store *ConfigurationStore) validateSecretDestinations() error {
 	if store.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		store.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
 		store.Spec.OperatorSpec.Secrets.PrimaryKey,
 		store.Spec.OperatorSpec.Secrets.PrimaryKeyID,
@@ -264,7 +264,7 @@ func (store *ConfigurationStore) validateSecretDestinations() error {
 		store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKey,
 		store.Spec.OperatorSpec.Secrets.SecondaryReadOnlyKeyID,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties

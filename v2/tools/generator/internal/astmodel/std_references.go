@@ -6,7 +6,8 @@
 package astmodel
 
 const (
-	reflectHelpersPath = "github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	reflectHelpersPath   = "github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	genericARMClientPath = "github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 var (
@@ -17,12 +18,15 @@ var (
 	OSReference      = MakeExternalPackageReference("os")
 	ReflectReference = MakeExternalPackageReference("reflect")
 	TestingReference = MakeExternalPackageReference("testing")
+	ContextReference = MakeExternalPackageReference("context")
 
 	// References to our Libraries
 	GenRuntimeReference             = MakeExternalPackageReference(genRuntimePathPrefix)
 	GenRuntimeConditionsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
 	GenRuntimeRegistrationReference = MakeExternalPackageReference(genRuntimePathPrefix + "/registration")
 	ReflectHelpersReference         = MakeExternalPackageReference(reflectHelpersPath)
+	GenRuntimeConfigMapsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/configmaps")
+	GenericARMClientReference       = MakeExternalPackageReference(genericARMClientPath)
 
 	// References to other libraries
 	APIExtensionsReference       = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
@@ -32,6 +36,7 @@ var (
 	APIMachinerySchemaReference  = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime/schema")
 	MetaV1Reference              = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
 	CoreV1Reference              = MakeExternalPackageReference("k8s.io/api/core/v1")
+	LogrReference                = MakeExternalPackageReference("github.com/go-logr/logr")
 
 	ClientGoSchemeReference     = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission  = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
@@ -56,6 +61,7 @@ var (
 
 	// Type names - GenRuntime
 	KubernetesResourceType           = MakeTypeName(GenRuntimeReference, "KubernetesResource")
+	KubernetesExporterType           = MakeTypeName(GenRuntimeReference, "KubernetesExporter")
 	TenantResourceType               = MakeTypeName(GenRuntimeReference, "TenantResource")
 	ConvertibleSpecInterfaceType     = MakeTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType   = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
@@ -76,6 +82,10 @@ var (
 	OptionalConfigMapReferenceType   = MakeTypeName(GenRuntimeReference, "OptionalConfigMapReferenceType")
 	GenRuntimeDefaulterInterfaceName = MakeTypeName(GenRuntimeReference, "Defaulter")
 	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
+	GenRuntimeMetaObjectType         = MakeTypeName(GenRuntimeReference, "MetaObject")
+
+	// Type names - Generic ARM client
+	GenericClientType = MakeTypeName(GenericARMClientReference, "GenericClient")
 
 	// Type names - Registration
 	StorageTypeRegistrationType = MakeTypeName(GenRuntimeRegistrationReference, "StorageType")
@@ -102,4 +112,10 @@ var (
 
 	// Type names - Core types
 	SecretType = MakeTypeName(CoreV1Reference, "Secret")
+
+	// Type names - stdlib types
+	ContextType = MakeTypeName(ContextReference, "Context")
+
+	// Type names - Logr types
+	LogrType = MakeTypeName(LogrReference, "Logger")
 )

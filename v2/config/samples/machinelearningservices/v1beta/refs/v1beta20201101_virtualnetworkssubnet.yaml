@@ -1,10 +1,10 @@
 apiVersion: network.azure.com/v1beta20201101
 kind: VirtualNetworksSubnet
 metadata:
-  name: samplesubnet
+  name: workspacescomputesubnet
   namespace: default
 spec:
-  location: westcentralus
+  location: westus3
   owner:
-    name: samplevnet
+    name: workspacescomputevnet
   addressPrefix: 10.0.0.0/24
