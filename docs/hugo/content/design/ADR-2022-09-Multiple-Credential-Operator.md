@@ -97,7 +97,7 @@ Then only these loaded secrets would be used further for per-resource and per-re
 
 **Cons:**
 1. Could be complicated/confusing for users to understand the usage and credentials being used
-2. Not very flexible, as pod will have to startup again if a new secret needs to be loaded and not anyone can add secrets rather than the admin
+2. Not very flexible, as pod will have to startup again if a new secret needs to be loaded and only administrators can add secrets 
 
 ## Decision
 
