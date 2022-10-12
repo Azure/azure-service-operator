@@ -491,9 +491,7 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	namespace.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	namespace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {

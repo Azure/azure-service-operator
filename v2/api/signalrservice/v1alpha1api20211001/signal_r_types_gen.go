@@ -588,9 +588,7 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘Owner’:
-	signalR.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	signalR.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

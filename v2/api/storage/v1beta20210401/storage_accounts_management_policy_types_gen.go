@@ -584,9 +584,7 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Owner’:
-	policy.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Policy’:
 	// copying flattened property:

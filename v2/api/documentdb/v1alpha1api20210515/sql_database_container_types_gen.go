@@ -434,9 +434,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) PopulateFromARM(o
 	}
 
 	// Set property ‘Owner’:
-	container.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	container.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

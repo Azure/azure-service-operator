@@ -696,9 +696,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Owner’:
-	disk.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	disk.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PurchasePlan’:
 	// copying flattened property:

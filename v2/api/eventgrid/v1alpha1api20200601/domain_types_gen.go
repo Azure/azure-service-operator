@@ -472,9 +472,7 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘Owner’:
-	domain.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	domain.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

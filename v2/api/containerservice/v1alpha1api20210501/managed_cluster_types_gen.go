@@ -892,9 +892,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	cluster.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	cluster.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PodIdentityProfile’:
 	// copying flattened property:

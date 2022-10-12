@@ -406,9 +406,7 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property ‘Owner’:
-	table.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

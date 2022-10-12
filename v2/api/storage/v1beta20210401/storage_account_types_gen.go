@@ -814,9 +814,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	account.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RoutingPreference’:
 	// copying flattened property:

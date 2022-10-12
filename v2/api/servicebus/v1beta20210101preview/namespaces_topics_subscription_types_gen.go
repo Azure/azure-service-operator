@@ -575,9 +575,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Owner’:
-	subscription.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	subscription.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RequiresSession’:
 	// copying flattened property:

@@ -405,9 +405,7 @@ func (vault *Vault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘Owner’:
-	vault.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	vault.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {

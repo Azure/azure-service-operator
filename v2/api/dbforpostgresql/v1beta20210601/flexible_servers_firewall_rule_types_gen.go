@@ -641,9 +641,7 @@ func (rule *FlexibleServers_FirewallRule_Spec) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘StartIpAddress’:
 	// copying flattened property:

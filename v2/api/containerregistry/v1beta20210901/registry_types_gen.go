@@ -564,9 +564,7 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘Owner’:
-	registry.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	registry.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Policies’:
 	// copying flattened property:

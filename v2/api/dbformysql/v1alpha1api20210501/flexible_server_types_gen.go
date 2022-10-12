@@ -675,9 +675,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	server.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘ReplicationRole’:
 	// copying flattened property:

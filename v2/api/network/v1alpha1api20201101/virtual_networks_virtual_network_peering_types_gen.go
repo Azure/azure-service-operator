@@ -962,9 +962,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 	}
 
 	// Set property ‘Owner’:
-	peering.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	peering.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PeeringState’:
 	// copying flattened property:

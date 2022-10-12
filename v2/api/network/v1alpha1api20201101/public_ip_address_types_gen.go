@@ -1228,9 +1228,7 @@ func (addresses *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Owner’:
-	addresses.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	addresses.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicIPAddressVersion’:
 	// copying flattened property:

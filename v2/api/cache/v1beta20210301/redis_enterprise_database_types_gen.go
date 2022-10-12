@@ -887,9 +887,7 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Owner’:
-	database.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Persistence’:
 	// copying flattened property:
