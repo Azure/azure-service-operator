@@ -345,6 +345,35 @@ func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// ImportConfigMapMode looks up a property to determine its ImportConfigMapMode.
+// Returns the ImportConfigMapMode, or a NotConfiguredError if not configured.
+func (omc *ObjectModelConfiguration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
+	var result ImportConfigMapMode
+	visitor := newSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			mode, err := configuration.ImportConfigMapMode()
+			result = mode
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// VerifyImportConfigMapModeConsumed returns an error if any ImportConfigMapMode configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyImportConfigMapModeConsumed() error {
+	visitor := newEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyImportConfigMapModeConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // addGroup includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {

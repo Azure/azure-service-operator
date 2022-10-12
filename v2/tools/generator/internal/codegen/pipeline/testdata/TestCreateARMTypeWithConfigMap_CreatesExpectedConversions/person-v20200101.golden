@@ -6,6 +6,7 @@ package v20200101
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -61,16 +62,8 @@ const APIVersion_v2020 = APIVersion(v2020)
 type Person_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// FamilyNameReference: Shared name of the family
-	FamilyNameReference *genruntime.ResourceReference `armReference:"FamilyName" json:"familyNameReference,omitempty"`
-
-	// FullName: As would be used to address mail
-	FullName *string `json:"fullName,omitempty"`
-
-	// KnownAs: How the person is generally known
-	KnownAs *string `json:"knownAs,omitempty"`
+	AzureName  string            `json:"azureName,omitempty"`
+	Properties *PersonProperties `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Person_Spec{}
@@ -86,24 +79,13 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if person.FamilyNameReference != nil ||
-		person.FullName != nil ||
-		person.KnownAs != nil {
-		result.Properties = &PersonProperties_ARM{}
-	}
-	if person.FamilyNameReference != nil {
-		familyNameARMID, err := resolved.ResolvedReferences.Lookup(*person.FamilyNameReference)
+	if person.Properties != nil {
+		properties_ARM, err := (*person.Properties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		familyName := familyNameARMID
-		result.Properties.FamilyName = &familyName
-	}
-	if person.FullName != nil {
-		result.Properties.FullName = *person.FullName
-	}
-	if person.KnownAs != nil {
-		result.Properties.KnownAs = *person.KnownAs
+		properties := *properties_ARM.(*PersonProperties_ARM)
+		result.Properties = &properties
 	}
 	return result, nil
 }
@@ -123,18 +105,15 @@ func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// Set property ‘AzureName’:
 	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘FamilyNameReference’
-
-	// Set property ‘FullName’:
-	// copying flattened property:
+	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		person.FullName = &typedInput.Properties.FullName
-	}
-
-	// Set property ‘KnownAs’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		person.KnownAs = &typedInput.Properties.KnownAs
+		var properties1 PersonProperties
+		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
+		if err != nil {
+			return err
+		}
+		properties := properties1
+		person.Properties = &properties
 	}
 
 	// No error
@@ -168,13 +147,92 @@ func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 type PersonProperties_ARM struct {
-	FamilyName *string `json:"familyName,omitempty"`
+	// FamilyName: Shared name of the family
+	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
 	FullName string `json:"fullName,omitempty"`
 
 	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
+}
+
+type PersonProperties struct {
+	// FamilyName: Shared name of the family
+	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
+
+	// FamilyNameConfigRef: Shared name of the family
+	FamilyNameConfigRef *genruntime.ConfigMapReference `json:"familyNameConfigRef,omitempty" optionalConfigMapPair:"FamilyName"`
+
+	// FullName: As would be used to address mail
+	FullName genruntime.ConfigMapReference `json:"fullName,omitempty"`
+
+	// KnownAs: How the person is generally known
+	KnownAs string `json:"knownAs,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PersonProperties{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if properties == nil {
+		return nil, nil
+	}
+	result := &PersonProperties_ARM{}
+
+	// Set property ‘FamilyName’:
+	if properties.FamilyName != nil {
+		familyName := *properties.FamilyName
+		result.FamilyName = &familyName
+	}
+	if properties.FamilyNameConfigRef != nil {
+		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.FamilyNameConfigRef)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
+		}
+		familyName := familyNameValue
+		result.FamilyName = &familyName
+	}
+
+	// Set property ‘FullName’:
+	fullNameValue, err := resolved.ResolvedConfigMaps.Lookup(properties.FullName)
+	if err != nil {
+		return nil, errors.Wrap(err, "looking up configmap for property FullName")
+	}
+	result.FullName = fullNameValue
+
+	// Set property ‘KnownAs’:
+	result.KnownAs = properties.KnownAs
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *PersonProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PersonProperties_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PersonProperties_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersonProperties_ARM, got %T", armInput)
+	}
+
+	// Set property ‘FamilyName’:
+	if typedInput.FamilyName != nil {
+		familyName := *typedInput.FamilyName
+		properties.FamilyName = &familyName
+	}
+
+	// no assignment for property ‘FamilyNameConfigRef’
+
+	// no assignment for property ‘FullName’
+
+	// Set property ‘KnownAs’:
+	properties.KnownAs = typedInput.KnownAs
+
+	// No error
+	return nil
 }
 
 func init() {
