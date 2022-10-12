@@ -245,5 +245,5 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
      --set aadPodIdentity.enable=true \
      --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
-     --set aadPodIdentity.azureManagedIdentityClientId=${IDENTITY_CLIENT_ID}
+     --set azureClientID=${IDENTITY_CLIENT_ID}
 ```
