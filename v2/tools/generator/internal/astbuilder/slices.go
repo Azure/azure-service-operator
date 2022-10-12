@@ -51,6 +51,18 @@ func AppendItemsToSlice(lhs dst.Expr, rhs ...dst.Expr) dst.Stmt {
 		CallFunc("append", args...))
 }
 
+// AppendSliceToSlice returns a statement to append a slice to another slice
+//
+// <lhs> = append(<lhs>, <rhs>...)
+//
+func AppendSliceToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+	f := CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr))
+	f.Ellipsis = true
+	return SimpleAssignment(
+		dst.Clone(lhs).(dst.Expr),
+		f)
+}
+
 // IterateOverSlice creates a statement to iterate over the content of a list using the specified
 // identifier for each element in the list
 //

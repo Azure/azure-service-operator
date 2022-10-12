@@ -523,9 +523,7 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Owner’:
-	networkInterface.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	networkInterface.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

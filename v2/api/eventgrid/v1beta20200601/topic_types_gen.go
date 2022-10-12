@@ -385,9 +385,7 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘Owner’:
-	topic.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

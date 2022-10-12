@@ -295,9 +295,7 @@ func ComputeGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(Compute{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
+		gens = append(gens, gen.Struct(reflect.TypeOf(Compute{}), map[string]gopter.Gen{propName: propGen}))
 	}
 	computeGenerator = gen.OneGenOf(gens...)
 

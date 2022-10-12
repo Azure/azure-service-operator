@@ -667,9 +667,7 @@ func (configuration *Servers_Configuration_Spec) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Owner’:
-	configuration.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	configuration.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Source’:
 	// copying flattened property:

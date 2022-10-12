@@ -397,9 +397,7 @@ func (schedule *Redis_PatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘Owner’:
-	schedule.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	schedule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘ScheduleEntries’:
 	// copying flattened property:

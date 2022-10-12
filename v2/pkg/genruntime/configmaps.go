@@ -27,6 +27,12 @@ type ConfigMapReference struct {
 	Key string `json:"key"`
 }
 
+var _ Indexer = ConfigMapReference{}
+
+func (c ConfigMapReference) Index() []string {
+	return []string{c.Name}
+}
+
 // Copy makes an independent copy of the ConfigMapReference
 func (c ConfigMapReference) Copy() ConfigMapReference {
 	return c

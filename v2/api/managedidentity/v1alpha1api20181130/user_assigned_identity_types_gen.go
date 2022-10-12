@@ -674,9 +674,7 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	identity.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	identity.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

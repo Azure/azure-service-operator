@@ -545,9 +545,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	redis.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	redis.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

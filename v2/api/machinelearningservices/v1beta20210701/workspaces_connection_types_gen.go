@@ -696,9 +696,7 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘Owner’:
-	connection.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	connection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

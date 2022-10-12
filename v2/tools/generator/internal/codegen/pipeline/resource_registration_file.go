@@ -24,6 +24,7 @@ type ResourceRegistrationFile struct {
 	resourceExtensions      []astmodel.TypeName
 	indexFunctions          map[astmodel.TypeName][]*functions.IndexRegistrationFunction
 	secretPropertyKeys      map[astmodel.TypeName][]string
+	configMapPropertyKeys   map[astmodel.TypeName][]string
 }
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
@@ -35,6 +36,7 @@ func NewResourceRegistrationFile(
 	storageVersionResources []astmodel.TypeName,
 	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
 	secretPropertyKeys map[astmodel.TypeName][]string,
+	configMapPropertyKeys map[astmodel.TypeName][]string,
 	resourceExtensions []astmodel.TypeName,
 ) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
@@ -42,6 +44,7 @@ func NewResourceRegistrationFile(
 		storageVersionResources: storageVersionResources,
 		indexFunctions:          indexFunctions,
 		secretPropertyKeys:      secretPropertyKeys,
+		configMapPropertyKeys:   configMapPropertyKeys,
 		resourceExtensions:      resourceExtensions,
 	}
 }
@@ -303,45 +306,9 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		//			MakeEventHandler: <func>,
 		//		}
 		//	}
-		if secretKeys, ok := r.secretPropertyKeys[typeName]; ok {
-			newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
-			sort.Strings(secretKeys)
-
-			// Not using astbuilder here because we want this to go onto a single line
-			source := &dst.CompositeLit{
-				Type: astmodel.ControllerRuntimeSourceKindType.AsType(codeGenerationContext),
-				Elts: []dst.Expr{
-					&dst.KeyValueExpr{
-						Key: dst.NewIdent("Type"),
-						Value: astbuilder.AddrOf(
-							&dst.CompositeLit{
-								Type: astmodel.SecretType.AsType(codeGenerationContext),
-							}),
-					},
-				},
-			}
-			newWatchBuilder.AddField("Src", astbuilder.AddrOf(source))
-
-			// This is so messy and could be done much cleaner with select, if there was one
-			var secretKeyParams []dst.Expr
-			for _, secretKey := range secretKeys {
-				secretKeyParams = append(secretKeyParams, astbuilder.StringLiteral(secretKey))
-			}
-
-			// This is a bit hacky
-			listTypeName := typeName.WithName(typeName.Name() + "List").AsType(codeGenerationContext)
-
-			eventHandler := astbuilder.CallFunc(
-				"watchSecretsFactory",
-				astbuilder.SliceLiteral(dst.NewIdent("string"), secretKeyParams...),
-				astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
-			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
-
-			if len(secretKeys) > 0 {
-				sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
-				sliceBuilder.AddElement(newWatchBuilder.Build())
-				newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
-			}
+		watches := r.makeWatchesExpr(typeName, codeGenerationContext)
+		if watches != nil {
+			newStorageTypeBuilder.AddField("Watches", watches)
 		}
 
 		appendStmt := astbuilder.AppendItemToSlice(
@@ -502,4 +469,82 @@ func (r *ResourceRegistrationFile) getImportedPackages() map[astmodel.PackageRef
 	}
 
 	return result
+}
+
+func (r *ResourceRegistrationFile) makeWatchesExpr(typeName astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) dst.Expr {
+	secretWatchesExpr := r.makeSimpleWatchesExpr(
+		typeName,
+		astmodel.SecretType,
+		"watchSecretsFactory",
+		r.secretPropertyKeys,
+		codeGenerationContext)
+	configMapWatchesExpr := r.makeSimpleWatchesExpr(
+		typeName,
+		astmodel.ConfigMapType,
+		"watchConfigMapsFactory",
+		r.configMapPropertyKeys,
+		codeGenerationContext)
+
+	if secretWatchesExpr == nil && configMapWatchesExpr == nil {
+		return nil
+	}
+
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
+	if secretWatchesExpr != nil {
+		sliceBuilder.AddElement(secretWatchesExpr)
+	}
+	if configMapWatchesExpr != nil {
+		sliceBuilder.AddElement(configMapWatchesExpr)
+	}
+	return sliceBuilder.Build()
+}
+
+// makeSimpleWatchesExpr generates code for a Watches expression:
+//	{
+//		Src:              &source.Kind{Type: &<fieldType>{}},
+//		MakeEventHandler: <watchHelperFuncName>([]string{<typeNameKeys[typeName]>}, &<typeName>{}),
+//	}
+func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
+	typeName astmodel.TypeName,
+	fieldType astmodel.TypeName,
+	watchHelperFuncName string,
+	typeNameKeys map[astmodel.TypeName][]string,
+	codeGenerationContext *astmodel.CodeGenerationContext) dst.Expr {
+	keys, ok := typeNameKeys[typeName]
+	if !ok {
+		return nil
+	}
+
+	if len(keys) == 0 {
+		return nil
+	}
+
+	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
+	sort.Strings(keys)
+
+	builder := astbuilder.NewCompositeLiteralBuilder(
+		astmodel.ControllerRuntimeSourceKindType.AsType(codeGenerationContext)).WithoutNewLines()
+	builder.AddField(
+		"Type",
+		astbuilder.AddrOf(
+			&dst.CompositeLit{
+				Type: fieldType.AsType(codeGenerationContext),
+			}))
+	source := builder.Build()
+	newWatchBuilder.AddField("Src", astbuilder.AddrOf(source))
+
+	keyParams := make([]dst.Expr, 0, len(keys))
+	for _, key := range keys {
+		keyParams = append(keyParams, astbuilder.StringLiteral(key))
+	}
+
+	listTypeName := typeName.WithName(typeName.Name() + "List").AsType(codeGenerationContext)
+
+	eventHandler := astbuilder.CallFunc(
+		watchHelperFuncName,
+		astbuilder.SliceLiteral(dst.NewIdent("string"), keyParams...),
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
+	newWatchBuilder.AddField("MakeEventHandler", eventHandler)
+
+	return newWatchBuilder.Build()
 }

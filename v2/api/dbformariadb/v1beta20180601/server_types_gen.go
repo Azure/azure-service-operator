@@ -436,9 +436,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	server.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {

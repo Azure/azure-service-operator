@@ -1060,9 +1060,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 	}
 
 	// Set property ‘Owner’:
-	container.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	container.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicAccess’:
 	// copying flattened property:

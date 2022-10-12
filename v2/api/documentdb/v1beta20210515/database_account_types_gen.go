@@ -910,9 +910,7 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	account.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

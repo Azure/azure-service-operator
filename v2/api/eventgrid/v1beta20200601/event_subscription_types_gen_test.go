@@ -624,9 +624,7 @@ func EventSubscriptionDestinationGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
+		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination{}), map[string]gopter.Gen{propName: propGen}))
 	}
 	eventSubscriptionDestinationGenerator = gen.OneGenOf(gens...)
 
@@ -1427,9 +1425,7 @@ func AdvancedFilterGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
+		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter{}), map[string]gopter.Gen{propName: propGen}))
 	}
 	advancedFilterGenerator = gen.OneGenOf(gens...)
 

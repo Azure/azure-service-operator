@@ -518,9 +518,7 @@ func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘Owner’:
-	topic.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:
