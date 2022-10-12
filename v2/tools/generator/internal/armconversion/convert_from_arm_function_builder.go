@@ -70,6 +70,7 @@ func newConvertFromARMFunctionBuilder(
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.secretPropertyHandler,
+		result.configMapPropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -205,6 +206,23 @@ func (builder *convertFromARMBuilder) secretPropertyHandler(
 	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType))
 
 	if !isSecretReference && !isOptionalSecretReference {
+		return nil, false
+	}
+
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
+	// TODO: need to revisit this and actually assign something
+	return nil, true
+}
+
+func (builder *convertFromARMBuilder) configMapPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType,
+) ([]dst.Stmt, bool) {
+	isConfigMapReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.ConfigMapReferenceType)
+	isConfigMapReferencePtr := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType))
+
+	if !isConfigMapReference && !isConfigMapReferencePtr {
 		return nil, false
 	}
 

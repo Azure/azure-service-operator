@@ -82,7 +82,6 @@ func init() {
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretDestinationType, "Copy", returnsValue),
 		copyKnownType(astmodel.ConfigMapReferenceType, "Copy", returnsValue),
-		copyKnownType(astmodel.OptionalConfigMapReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ConfigMapDestinationType, "Copy", returnsValue),
 		copyKnownType(astmodel.ArbitraryOwnerReference, "Copy", returnsValue),
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),

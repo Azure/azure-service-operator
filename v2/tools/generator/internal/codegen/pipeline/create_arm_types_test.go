@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -48,17 +47,15 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
 	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
 
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	ctx := context.TODO()
-	state, err := createARMTypes.Run(ctx, state)
-	g.Expect(err).ToNot(HaveOccurred())
-	state, err = applyARMConversionInterface.Run(ctx, state)
-	g.Expect(err).ToNot(HaveOccurred())
-	state, err = flatten.Run(ctx, state)
-	g.Expect(err).ToNot(HaveOccurred())
-	state, err = simplify.Run(ctx, state)
+	state, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		createARMTypes,
+		applyARMConversionInterface,
+		flatten,
+		simplify,
+		strip)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -105,19 +102,146 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
 	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
 
-	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
-	ctx := context.TODO()
-	state, err := crossResourceRefs.Run(ctx, state)
+	state, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		crossResourceRefs,
+		createARMTypes,
+		applyARMConversionInterface,
+		flatten,
+		simplify,
+		strip)
 	g.Expect(err).ToNot(HaveOccurred())
-	state, err = createARMTypes.Run(ctx, state)
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Define a test resource
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"PersonProperties",
+		test.FullNameProperty,
+		test.FamilyNameProperty,
+		test.KnownAsProperty)
+	specPropertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		specProperties.Name()).SetFlatten(true).MakeTypeOptional()
+	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
+	status := test.CreateStatus(test.Pkg2020, "Person")
+	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.FullNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeRequired)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.FamilyNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				return nil
+			})).
+		To(Succeed())
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	addConfigMaps := AddConfigMaps(configuration)
+	createARMTypes := CreateARMTypes(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	flatten := FlattenProperties()
+	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
+
+	state, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		addConfigMaps,
+		createARMTypes,
+		applyARMConversionInterface,
+		flatten,
+		simplify,
+		strip)
 	g.Expect(err).ToNot(HaveOccurred())
-	state, err = applyARMConversionInterface.Run(ctx, state)
-	g.Expect(err).ToNot(HaveOccurred())
-	state, err = flatten.Run(ctx, state)
-	g.Expect(err).ToNot(HaveOccurred())
-	state, err = simplify.Run(ctx, state)
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Define a test resource
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"PersonProperties",
+		test.FullNameProperty,
+		test.FamilyNameProperty,
+		test.KnownAsProperty)
+	specPropertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		specProperties.Name()).MakeTypeOptional()
+	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
+	status := test.CreateStatus(test.Pkg2020, "Person")
+	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.FullNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeRequired)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.FamilyNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				return nil
+			})).
+		To(Succeed())
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	addConfigMaps := AddConfigMaps(configuration)
+	createARMTypes := CreateARMTypes(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
+
+	state, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		addConfigMaps,
+		createARMTypes,
+		applyARMConversionInterface,
+		simplify,
+		strip)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())

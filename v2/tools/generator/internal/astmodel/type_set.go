@@ -15,6 +15,7 @@ type ReadonlyTypeSet interface {
 	Contains(Type, EqualityOverrides) bool
 	ForEach(func(t Type, ix int))
 	ForEachError(func(t Type, ix int) error) error
+	Len() int
 }
 
 var _ ReadonlyTypeSet = TypeSet{}

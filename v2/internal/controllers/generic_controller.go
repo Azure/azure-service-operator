@@ -108,7 +108,7 @@ func RegisterAll(
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
-			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
+			options.LogConstructor(nil).V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
 			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
@@ -142,7 +142,7 @@ func register(
 	}
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
-		result := options.Log
+		result := options.LogConstructor(nil)
 		if options.LoggerFactory != nil {
 			if factoryResult := options.LoggerFactory(mo); factoryResult != (logr.Logger{}) && factoryResult != logr.Discard() {
 				result = factoryResult
@@ -153,7 +153,7 @@ func register(
 	}
 	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	options.Log.V(Status).Info("Registering", "GVK", gvk)
+	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
 		Reconciler:         info.Reconciler,
@@ -172,7 +172,7 @@ func register(
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(info.Name)))
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.LogConstructor(nil).WithName(info.Name)))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
@@ -181,7 +181,7 @@ func register(
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Src, watch.MakeEventHandler(kubeClient, options.Log.WithName(info.Name)))
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)

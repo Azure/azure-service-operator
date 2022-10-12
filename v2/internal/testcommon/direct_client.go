@@ -33,12 +33,12 @@ func NewTestClient(config *rest.Config, options client.Options) (client.Client, 
 	}, nil
 }
 
-func (d *directClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object) error {
+func (d *directClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) error {
 	gvk, err := apiutil.GVKForObject(obj, d.inner.Scheme())
 	if err != nil {
 		return err
 	}
-	err = d.inner.Get(ctx, key, obj)
+	err = d.inner.Get(ctx, key, obj, opts...)
 	if err != nil {
 		return err
 	}

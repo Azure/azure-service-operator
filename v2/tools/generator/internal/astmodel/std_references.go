@@ -79,7 +79,6 @@ var (
 	SecretDestinationType            = MakeTypeName(GenRuntimeReference, "SecretDestination")
 	ConfigMapDestinationType         = MakeTypeName(GenRuntimeReference, "ConfigMapDestination")
 	ConfigMapReferenceType           = MakeTypeName(GenRuntimeReference, "ConfigMapReference")
-	OptionalConfigMapReferenceType   = MakeTypeName(GenRuntimeReference, "OptionalConfigMapReferenceType")
 	GenRuntimeDefaulterInterfaceName = MakeTypeName(GenRuntimeReference, "Defaulter")
 	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
 	GenRuntimeMetaObjectType         = MakeTypeName(GenRuntimeReference, "MetaObject")
