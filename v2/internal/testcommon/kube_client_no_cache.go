@@ -34,8 +34,8 @@ func NewClient(client client.Client, indexer *Indexer) client.Client {
 	}
 }
 
-func (c *noCacheClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object) error {
-	return c.client.Get(ctx, key, obj)
+func (c *noCacheClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) error {
+	return c.client.Get(ctx, key, obj, opts...)
 }
 
 func (c *noCacheClient) List(ctx context.Context, list client.ObjectList, opts ...client.ListOption) error {
