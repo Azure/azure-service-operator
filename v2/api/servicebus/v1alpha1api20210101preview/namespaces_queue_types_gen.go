@@ -593,9 +593,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘Owner’:
-	queue.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RequiresDuplicateDetection’:
 	// copying flattened property:

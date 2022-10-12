@@ -431,9 +431,7 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Owner’:
-	server.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘ServerRole’:
 	// copying flattened property:

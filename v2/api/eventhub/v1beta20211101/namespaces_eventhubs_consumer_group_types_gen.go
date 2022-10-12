@@ -660,9 +660,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) PopulateFromARM(ow
 	}
 
 	// Set property ‘Owner’:
-	consumergroup.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	consumergroup.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

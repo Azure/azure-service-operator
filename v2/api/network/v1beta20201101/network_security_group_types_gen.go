@@ -385,9 +385,7 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Owner’:
-	group.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

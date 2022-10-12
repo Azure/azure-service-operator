@@ -48,6 +48,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 						if err != nil {
 							return nil, errors.Wrapf(err, "failed to catalog %s secret property chains", def.Name())
 						}
+
 						configMapChains, err := catalogConfigMapPropertyChains(def, definitions)
 						if err != nil {
 							return nil, errors.Wrapf(err, "failed to catalog %s configmap property chains", def.Name())

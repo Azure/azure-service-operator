@@ -398,9 +398,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) PopulateFro
 	}
 
 	// Set property ‘Owner’:
-	setting.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

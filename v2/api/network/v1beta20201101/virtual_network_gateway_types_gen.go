@@ -645,9 +645,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Owner’:
-	gateway.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Sku’:
 	// copying flattened property:

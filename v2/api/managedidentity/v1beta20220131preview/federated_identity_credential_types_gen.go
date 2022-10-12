@@ -614,9 +614,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 	}
 
 	// Set property ‘Owner’:
-	credential.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	credential.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Subject’:
 	// copying flattened property:

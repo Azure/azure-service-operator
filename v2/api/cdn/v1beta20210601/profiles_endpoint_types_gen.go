@@ -1583,9 +1583,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Owner’:
-	endpoint.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘ProbePath’:
 	// copying flattened property:

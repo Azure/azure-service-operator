@@ -1144,9 +1144,7 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	a.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	a.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil
@@ -1305,9 +1303,7 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	b.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	b.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil
@@ -1461,9 +1457,7 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	c.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	c.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil
@@ -1617,9 +1611,7 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	d.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	d.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil

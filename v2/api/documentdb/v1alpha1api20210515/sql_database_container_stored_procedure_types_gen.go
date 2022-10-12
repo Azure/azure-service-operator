@@ -434,9 +434,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	}
 
 	// Set property ‘Owner’:
-	procedure.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	procedure.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

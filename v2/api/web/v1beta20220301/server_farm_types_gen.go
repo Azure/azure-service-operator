@@ -1480,9 +1480,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Owner’:
-	serverfarm.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	serverfarm.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PerSiteScaling’:
 	// copying flattened property:

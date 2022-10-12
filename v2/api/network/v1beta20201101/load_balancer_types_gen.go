@@ -566,9 +566,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Owner’:
-	balancer.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	balancer.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Probes’:
 	// copying flattened property:

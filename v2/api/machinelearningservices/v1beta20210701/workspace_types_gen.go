@@ -700,9 +700,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	workspace.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// no assignment for property ‘PrimaryUserAssignedIdentityReference’
 

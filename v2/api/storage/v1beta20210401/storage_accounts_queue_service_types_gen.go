@@ -594,9 +594,7 @@ func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Owner’:
-	service.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

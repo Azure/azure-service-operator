@@ -578,9 +578,7 @@ func (store *ConfigurationStore_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	store.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	store.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

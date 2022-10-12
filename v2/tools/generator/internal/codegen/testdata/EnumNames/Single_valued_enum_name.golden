@@ -324,9 +324,7 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘Owner’:
-	resource.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil
