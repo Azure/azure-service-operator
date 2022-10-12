@@ -28,14 +28,23 @@ type PropertyConfiguration struct {
 	armReference                     configurable[bool]   // Specify whether this property is an ARM reference
 	isSecret                         configurable[bool]   // Specify whether this property is a secret
 	isResourceLifecycleOwnedByParent configurable[bool]
-	exportAsConfigMapPropertyName    configurable[string] // The name of the exportAsConfigMap property.
+	exportAsConfigMapPropertyName    configurable[string]              // The name of the exportAsConfigMap property.
+	importConfigMapMode              configurable[ImportConfigMapMode] // The config map mode
 }
+
+type ImportConfigMapMode string
+
+const (
+	ImportConfigMapModeOptional = "optional"
+	ImportConfigMapModeRequired = "required"
+)
 
 const (
 	armReferenceTag                     = "$armReference"                     // Bool specifying whether a property is an ARM reference
 	isSecretTag                         = "$isSecret"                         // Bool specifying whether a property contains a secret
 	isResourceLifecycleOwnedByParentTag = "$isResourceLifecycleOwnedByParent" // Bool specifying whether a property represents a subresource whose lifecycle is owned by the parent resource
 	exportAsConfigMapPropertyNameTag    = "$exportAsConfigMapPropertyName"    // String specifying the name of the property set to export this property as a config map.
+	importConfigMapModeTag              = "$importConfigMapMode"              // string specifying the importConfigMapMode mode
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -167,6 +176,33 @@ func (pc *PropertyConfiguration) SetExportAsConfigMapPropertyName(name string) *
 	return pc
 }
 
+// SetImportConfigMapMode sets the import configMap mode
+func (pc *PropertyConfiguration) SetImportConfigMapMode(mode ImportConfigMapMode) *PropertyConfiguration {
+	pc.importConfigMapMode.write(mode)
+	return pc
+}
+
+// ImportConfigMapMode looks up a property to determine its ImportConfigMapMode
+func (pc *PropertyConfiguration) ImportConfigMapMode() (ImportConfigMapMode, error) {
+	mode, ok := pc.importConfigMapMode.read()
+	if !ok {
+		msg := fmt.Sprintf(importConfigMapModeTag+" not specified for property %s", pc.name)
+		return mode, NewNotConfiguredError(msg)
+	}
+
+	return mode, nil
+}
+
+// VerifyImportConfigMapModeConsumed returns an error if our configuration had the importConfigMapMode set and was not consumed.
+func (pc *PropertyConfiguration) VerifyImportConfigMapModeConsumed() error {
+	if pc.importConfigMapMode.isUnconsumed() {
+		v, _ := pc.importConfigMapMode.read()
+		return errors.Errorf("property %s: "+importConfigMapModeTag+": %s not consumed", pc.name, v)
+	}
+
+	return nil
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
 func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
@@ -233,6 +269,19 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			pc.SetExportAsConfigMapPropertyName(exportAsConfigMapPropertyName)
+			continue
+		}
+
+		// $importConfigMapMode: <string>
+		if strings.EqualFold(lastId, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
+			switch c.Value {
+			case ImportConfigMapModeOptional:
+				pc.importConfigMapMode.write(ImportConfigMapModeOptional)
+			case ImportConfigMapModeRequired:
+				pc.importConfigMapMode.write(ImportConfigMapModeRequired)
+			default:
+				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
+			}
 			continue
 		}
 
