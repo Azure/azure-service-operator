@@ -39,19 +39,6 @@ func NewOneOfType(name string, types ...Type) *OneOfType {
 	}
 }
 
-// BuildOneOfType is a smart constructor for a OneOfType,
-// maintaining the invariants. If only one unique type
-// is passed, the result will be that type, not a OneOf.
-func BuildOneOfType(name string, types ...Type) Type {
-	result := NewOneOfType(name, types...)
-	if result.types.Len() == 1 {
-		t, _ := result.types.Only()
-		return t
-	}
-
-	return result
-}
-
 // Name returns the internal (swagger) name of the OneOf
 func (oneOf *OneOfType) Name() string {
 	return oneOf.name
@@ -89,7 +76,7 @@ func (oneOf *OneOfType) WithDiscriminatorValue(value string) *OneOfType {
 }
 
 // WithType returns a new OneOf with the specified type added
-func (oneOf *OneOfType) WithType(t Type) *OneOfType {
+func (oneOf *OneOfType) WithAdditionalType(t Type) *OneOfType {
 	if oneOf.types.Contains(t, EqualityOverrides{}) {
 		return oneOf
 	}
@@ -109,6 +96,13 @@ func (oneOf *OneOfType) WithoutType(t Type) *OneOfType {
 	result := oneOf.copy()
 	result.types = result.types.Copy()
 	result.types.Remove(t)
+	return result
+}
+
+// WithTypes returns a new OneOf with only the specified types
+func (oneOf *OneOfType) WithTypes(types []Type) *OneOfType {
+	result := oneOf.copy()
+	result.types = flattenTypesForOneOf(types)
 	return result
 }
 

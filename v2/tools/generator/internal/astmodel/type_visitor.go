@@ -359,7 +359,7 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 }
 
 func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error) {
-	var newTypes []Type
+	newTypes := make([]Type, 0, it.Types().Len())
 	err := it.Types().ForEachError(func(oneOf Type, _ int) error {
 		newType, err := this.Visit(oneOf, ctx)
 		if err != nil {
@@ -369,6 +369,7 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{})
 		newTypes = append(newTypes, newType)
 		return nil
 	})
+
 	if err != nil {
 		return nil, err
 	}
@@ -377,7 +378,7 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{})
 		return it, nil // short-circuit
 	}
 
-	return BuildOneOfType(it.name, newTypes...), nil
+	return it.WithTypes(newTypes), nil
 }
 
 func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error) {

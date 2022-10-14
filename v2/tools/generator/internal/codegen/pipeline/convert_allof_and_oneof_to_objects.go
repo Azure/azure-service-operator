@@ -610,7 +610,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return nil, err
 	}
 
-	return astmodel.BuildOneOfType(leftOneOf.Name(), newTypes...), nil
+	return leftOneOf.WithTypes(newTypes), nil
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {

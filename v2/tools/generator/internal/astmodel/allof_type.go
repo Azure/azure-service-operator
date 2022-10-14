@@ -74,7 +74,7 @@ func BuildAllOfType(types ...Type) Type {
 			ts = append(ts, BuildAllOfType(append(notOneOfs, t)...))
 		})
 
-		return BuildOneOfType(onlyOneOf.name, ts...)
+		return onlyOneOf.WithTypes(ts)
 	} else if len(oneOfs) > 1 {
 		// emit a warning if this ever comes up
 		// (it doesn't at the moment)

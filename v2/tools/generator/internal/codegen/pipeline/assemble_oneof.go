@@ -71,14 +71,14 @@ func (o *oneOfAssembler) assembleOneOfs() astmodel.TypeDefinitionSet {
 // restructureRoot embeds names of the leaves into the root and updates our underlying TypeDefinitionSet.
 func (o *oneOfAssembler) restructureRoot(rootName astmodel.TypeName, leaves []astmodel.TypeName) error {
 
-	root, ok := o.lookupOneOf(rootName)
-	if !ok {
-		return errors.Errorf("root type name %s didn't map to a known OneOf", rootName)
+	root, err := o.lookupOneOf(rootName)
+	if err != nil {
+		return errors.Wrapf(err, "root type name %s didn't map to a known OneOf", rootName)
 	}
 
 	// Add all the leaves into the base type so that it knows about them
 	for _, leaf := range leaves {
-		root = root.WithType(leaf)
+		root = root.WithAdditionalType(leaf)
 	}
 
 	// Replace the old root with the new one
@@ -92,9 +92,9 @@ func (o *oneOfAssembler) restructureRoot(rootName astmodel.TypeName, leaves []as
 // Plus, failing to remove it results in a circular reference.
 func (o *oneOfAssembler) restructureLeaves(root astmodel.TypeName, leaves []astmodel.TypeName) error {
 	for _, leafName := range leaves {
-		leaf, ok := o.lookupOneOf(leafName)
-		if !ok {
-			return errors.Errorf("leaf type name %s didn't map to a known OneOf", leafName)
+		leaf, err := o.lookupOneOf(leafName)
+		if err != nil {
+			return errors.Wrapf(err, "leaf type name %s didn't map to a known OneOf", leafName)
 		}
 
 		leaf = leaf.WithoutType(root)
@@ -153,7 +153,7 @@ func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
 
 // lookupOneOf returns a OneOf type with the given name, if it exists
 // We look first in the updatedDefs (as we may have already modified the type), then in the original defs
-func (o *oneOfAssembler) lookupOneOf(name astmodel.TypeName) (*astmodel.OneOfType, bool) {
+func (o *oneOfAssembler) lookupOneOf(name astmodel.TypeName) (*astmodel.OneOfType, error) {
 	def, ok := o.updatedDefs[name]
 	if !ok {
 		// try looking in the original defs instead
@@ -162,20 +162,28 @@ func (o *oneOfAssembler) lookupOneOf(name astmodel.TypeName) (*astmodel.OneOfTyp
 
 	if !ok {
 		// Still not found
-		return nil, false
+		return nil, errors.Errorf("didn't find type %s", name)
 	}
 
 	if tn, ok := astmodel.AsTypeName(def.Type()); ok {
-		return o.lookupOneOf(tn)
+		one, err := o.lookupOneOf(tn)
+		if err != nil {
+			return nil, errors.Wrapf(err, "looking up alias for %s", name)
+		}
+
+		return one, nil
 	}
 
 	oneOf, ok := astmodel.AsOneOfType(def.Type())
 	if !ok {
 		// Not a OneOf
-		return nil, false
+		return nil, errors.Errorf(
+			"type %s is not a OneOf, but actually a %s",
+			name,
+			astmodel.DebugDescription(def.Type()))
 	}
 
-	return oneOf, true
+	return oneOf, nil
 }
 
 func (o *oneOfAssembler) saveOneOf(name astmodel.TypeName, oneOf *astmodel.OneOfType) {
