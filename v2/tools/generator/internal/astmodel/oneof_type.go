@@ -215,3 +215,17 @@ func (oneOf *OneOfType) copy() *OneOfType {
 	result.types = oneOf.types // No need to copy, it's readonly
 	return &result
 }
+
+// AsOneOfType unwraps any wrappers around the provided type and returns either the underlying OneOfType and true,
+// or nil and false.
+func AsOneOfType(t Type) (*OneOfType, bool) {
+	if oneOf, ok := t.(*OneOfType); ok {
+		return oneOf, true
+	}
+
+	if wrapper, ok := t.(MetaType); ok {
+		return AsOneOfType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}
