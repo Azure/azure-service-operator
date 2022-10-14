@@ -8,6 +8,7 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"math"
 	"math/big"
 	"net/url"
@@ -112,6 +113,38 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 	}
 
 	return scanner.RunHandler(ctx, schemaType, schema)
+}
+
+// RunHandlersForSchemas inspects each passed schema and runs the appropriate handler
+func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas []Schema) ([]astmodel.Type, error) {
+	var results []astmodel.Type
+	var errs []error
+	for _, schema := range schemas {
+		t, err := scanner.RunHandlerForSchema(ctx, schema)
+		if err != nil {
+			var unknownSchema *UnknownSchemaError
+			if errors.As(err, &unknownSchema) {
+				if unknownSchema.Schema.description() != nil {
+					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
+					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
+					continue
+				}
+			}
+
+			errs = append(errs, errors.Wrapf(err, "unable to handle schema %s", schema.Id()))
+		}
+
+		if t != nil {
+			results = append(results, t)
+		}
+	}
+
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
 }
 
 // GenerateDefinitionsFromDeploymentTemplate takes in the resources section of the Azure deployment template schema and returns golang AST Packages
