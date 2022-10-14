@@ -23,6 +23,8 @@ var _ ReadonlyTypeSet = TypeSet{}
 // MakeTypeSet makes a new TypeSet containing the given types
 func MakeTypeSet(types ...Type) TypeSet {
 	var result TypeSet
+	result.types = make([]Type, 0, len(types))
+
 	for _, t := range types {
 		result.Add(t)
 	}
