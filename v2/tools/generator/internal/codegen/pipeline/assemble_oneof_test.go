@@ -27,8 +27,7 @@ func Test_OneOfAssembler_AssembleOneOfs_ReturnsExpectedResult(t *testing.T) {
 	defs.AddAll(greek, alpha, beta, gamma, delta)
 
 	assembler := newOneOfAssembler(defs)
-	result, err := assembler.assembleOneOfs()
-	g.Expect(err).ToNot(HaveOccurred())
+	result := assembler.assembleOneOfs()
 
 	g.Expect(result).To(HaveLen(5))
 

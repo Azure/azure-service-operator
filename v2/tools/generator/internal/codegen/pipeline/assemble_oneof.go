@@ -128,21 +128,25 @@ func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
 	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
 		tn, ok := astmodel.AsTypeName(t)
 		if !ok {
-			// Skip unless it's a typename
+			// Not a typename, can't point to a root
 			return
 		}
 
 		root, ok := o.defs[tn]
 		if !ok {
-			// Not a known type, no point in even trying
+			// Not a known type, doesn't point to a root
 			return
 		}
 
-		if rootOneOf, ok := astmodel.AsOneOfType(root.Type()); ok {
-			if rootOneOf.DiscriminatorProperty() == "" {
-				// Not a root oneOf, don't index
-				return
-			}
+		rootOneOf, ok := astmodel.AsOneOfType(root.Type())
+		if !ok {
+			// TypeName doesn't identify a oneOf, cannot be the root
+			return
+		}
+
+		if rootOneOf.DiscriminatorValue() == "" {
+			// Not a root oneOf, don't index it
+			return
 		}
 
 		// Capturing names requires an extra indirection, but ensures we don't end up with multiple (different!) copies
