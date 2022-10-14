@@ -387,6 +387,14 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	currentPackage astmodel.PackageReference,
 	types astmodel.TypeNameSet,
 ) {
+	if oneOf.DiscriminatorProperty() != "" {
+		rpt.Addf("discriminator: %s", oneOf.DiscriminatorProperty())
+	}
+
+	if oneOf.DiscriminatorValue() != "" {
+		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
+	}
+
 	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
 		tcr.writeType(sub, t, currentPackage, types)
