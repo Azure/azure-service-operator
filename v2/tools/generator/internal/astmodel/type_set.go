@@ -64,6 +64,19 @@ func (ts *TypeSet) Add(t Type) bool {
 	return true
 }
 
+// Remove removes the type from the set if it exists,
+// and returns whether it was removed or not
+func (ts *TypeSet) Remove(t Type) bool {
+	for i, other := range ts.types {
+		if t.Equals(other, EqualityOverrides{}) {
+			ts.types = append(ts.types[:i], ts.types[i+1:]...)
+			return true
+		}
+	}
+
+	return false
+}
+
 // Contains checks if the set already contains the type
 func (ts TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
 	// this is slow, but what can you do?
@@ -110,4 +123,8 @@ func (ts TypeSet) Only() (Type, bool) {
 	}
 
 	return ts.types[0], true
+}
+
+func (ts TypeSet) Copy() TypeSet {
+	return MakeTypeSet(ts.types...)
 }
