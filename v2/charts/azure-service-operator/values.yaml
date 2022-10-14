@@ -13,6 +13,13 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
+# [Deprecated] Managed Identity (aad-pod-identity) Authentication
+# azureManagedIdentityResourceId is the resource ID (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName})
+# of the Azure Managed Identity used to authenticate with Azure if using aad-pod-identity authorization.
+aadPodIdentity:
+  enable: false
+  azureManagedIdentityResourceId: ""
+
 # azureSyncPeriod is the frequency at which resources are re-reconciled with Azure
 # when there have been no triggering changes in the Kubernetes resources. This sync
 # exists to detect and correct changes that happened in Azure that Kubernetes is not
