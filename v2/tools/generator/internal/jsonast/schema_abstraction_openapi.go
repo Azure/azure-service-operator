@@ -109,6 +109,7 @@ func (schema *OpenAPISchema) hasOneOf() bool {
 	return len(schema.inner.OneOf) > 0
 }
 
+// oneOf returns any directly embedded definitions held within this definition
 func (schema *OpenAPISchema) oneOf() []Schema {
 	return schema.transformOpenAPISlice(schema.inner.OneOf)
 }
@@ -380,6 +381,7 @@ func (schema *OpenAPISchema) refSchema() Schema {
 
 	// if the pkg comes back nil, that means we should keep using the current package
 	// this happens for some ‘common’ types defined in files that don’t have groups or versions
+	//!! TODO Maybe we need to detect these (like the 'v1' and such) and make them a special case too
 
 	outputPackage := schema.outputPackage
 	if packageAndSwagger.Package != nil {

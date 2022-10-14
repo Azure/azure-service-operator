@@ -322,7 +322,7 @@ func defaultTypeHandlers() map[SchemaType]TypeHandler {
 	}
 }
 
-func stringHandler(_ context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.StringType
 
 	maxLength := schema.maxLength()
@@ -379,7 +379,7 @@ func formatToPattern(format string) *regexp.Regexp {
 	}
 }
 
-func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func numberHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.FloatType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -422,7 +422,7 @@ var (
 	maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
 )
 
-func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func intHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.IntType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -462,7 +462,7 @@ func getNumberValidations(schema Schema) *astmodel.NumberValidations {
 	return nil
 }
 
-func boolHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func boolHandler(_ context.Context, _ *SchemaScanner, _ Schema) (astmodel.Type, error) {
 	return astmodel.BoolType, nil
 }
 

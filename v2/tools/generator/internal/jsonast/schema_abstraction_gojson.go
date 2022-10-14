@@ -110,6 +110,7 @@ func (schema GoJSONSchema) discriminator() string {
 	return "" // not supported, GoJSONSchema going away soon
 }
 
+// oneOf returns any directly embedded definitions held within this definition
 func (schema GoJSONSchema) oneOf() []Schema {
 	return schema.transformGoJSONSlice(schema.inner.OneOf)
 }
