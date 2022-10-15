@@ -134,3 +134,25 @@ func LookupOptionalConfigMapReferenceValue(resolved Resolved[ConfigMapReference]
 		return resolved.LookupFromPtr(ref)
 	}
 }
+
+// OptionalConfigMapReferencePair represents an optional configmap pair. Each pair has two optional fields, a
+// string and a ConfigMapReference.
+// This type is used purely for validation. The actual user supplied types are inline on the objects themselves as
+// two properties: Foo and FooConfigRef
+type OptionalConfigMapReferencePair struct {
+	Value   *string
+	Ref     *ConfigMapReference
+	Name    string
+	RefName string
+}
+
+// ValidateOptionalConfigMapReferences checks that only one of Foo and FooConfigRef are set
+func ValidateOptionalConfigMapReferences(pairs []*OptionalConfigMapReferencePair) error {
+	for _, pair := range pairs {
+		if pair.Value != nil && pair.Ref != nil {
+			return errors.Errorf("cannot specify both %s and %s", pair.Name, pair.RefName)
+		}
+	}
+
+	return nil
+}

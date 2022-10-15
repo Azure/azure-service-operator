@@ -101,6 +101,19 @@ func getValidations(
 			NewValidateConfigMapDestinationsFunction(resource, idFactory))
 	}
 
+	hasConfigMapReferencePairs, err := hasOptionalConfigMapReferencePairs(resourceDef, defs)
+	if err != nil {
+		return nil, err
+	}
+	if hasConfigMapReferencePairs {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			functions.NewValidateOptionalConfigMapReferenceFunction(resource, idFactory))
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			functions.NewValidateOptionalConfigMapReferenceFunction(resource, idFactory))
+	}
+
 	return validations, nil
 }
 
@@ -325,4 +338,26 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 	}
 
 	return secretsType, nil
+}
+
+// hasOptionalConfigMapReferencePairs returns true if the type has optional genruntime.ConfigMapReference pairs
+func hasOptionalConfigMapReferencePairs(resourceDef astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (bool, error) {
+	result := false
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
+			if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
+				result = true
+			}
+
+			return ctx, nil
+		}),
+	}.Build()
+
+	walker := astmodel.NewTypeWalker(defs, visitor)
+	_, err := walker.Walk(resourceDef)
+	if err != nil {
+		return false, err
+	}
+
+	return result, nil
 }
