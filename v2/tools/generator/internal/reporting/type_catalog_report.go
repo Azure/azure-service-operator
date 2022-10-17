@@ -146,6 +146,11 @@ func (tcr *TypeCatalogReport) writeType(
 	// Generate a subreport for each kind of type
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
+<<<<<<< HEAD
+=======
+	case astmodel.TypeName:
+		tcr.writeTypeName(rpt, t, currentPackage, parentTypes)
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 	case *astmodel.ObjectType:
 		tcr.writeObjectType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ResourceType:
@@ -156,6 +161,7 @@ func (tcr *TypeCatalogReport) writeType(
 		tcr.writeType(rpt, t.Element(), currentPackage, parentTypes)
 	case *astmodel.OneOfType:
 		tcr.writeOneOfType(rpt, t, currentPackage, parentTypes)
+<<<<<<< HEAD
 	case *astmodel.AllOfType:
 		tcr.writeAllOfType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ErroredType:
@@ -166,6 +172,12 @@ func (tcr *TypeCatalogReport) writeType(
 		tcr.writeType(rpt, t.Unwrap(), currentPackage, parentTypes)
 	default:
 		// We don't need to write anything for simple types
+=======
+	case *astmodel.ErroredType:
+		tcr.writeErroredType(rpt, t, currentPackage, parentTypes)
+	case astmodel.MetaType:
+		tcr.writeType(rpt, t.Unwrap(), currentPackage, parentTypes)
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 	}
 }
 
@@ -240,15 +252,44 @@ func (tcr *TypeCatalogReport) writeProperty(
 		prop.PropertyName(),
 		tcr.asShortNameForType(prop.PropertyType(), currentPackage))
 
+<<<<<<< HEAD
 	tcr.writeType(sub, prop.PropertyType(), currentPackage, parentTypes)
 }
 
+=======
+	tcr.writeComplexType(sub, prop.PropertyType(), currentPackage, parentTypes)
+}
+
+func (tcr *TypeCatalogReport) writeComplexType(
+	rpt *StructureReport,
+	propertyType astmodel.Type,
+	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet) {
+
+	// If we have a complex type, we may need to write it out in detail
+	switch t := propertyType.(type) {
+	case *astmodel.ObjectType,
+		*astmodel.ResourceType,
+		*astmodel.EnumType,
+		*astmodel.OneOfType,
+		*astmodel.AllOfType:
+		tcr.writeType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.OptionalType:
+		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
+	}
+}
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
 	currentPackage astmodel.PackageReference,
+<<<<<<< HEAD
 	types astmodel.TypeNameSet,
 ) {
+=======
+	types astmodel.TypeNameSet) {
+
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 	for _, err := range et.Errors() {
 		rpt.Addf("Error: %s", err)
 	}
@@ -258,6 +299,7 @@ func (tcr *TypeCatalogReport) writeErroredType(
 	}
 
 	tcr.writeType(rpt, et.InnerType(), currentPackage, types)
+<<<<<<< HEAD
 }
 
 func (tcr *TypeCatalogReport) writeValidatedType(
@@ -270,6 +312,8 @@ func (tcr *TypeCatalogReport) writeValidatedType(
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
 		rpt.Addf("Rule %d: %s", index, rule)
 	}
+=======
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 }
 
 // asDefinitionToInline returns the definition to inline, if any.
@@ -325,6 +369,7 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 	case *astmodel.ResourceType:
 		return "Resource"
 	case *astmodel.EnumType:
+<<<<<<< HEAD
 		return fmt.Sprintf(
 			"Enum (%s)",
 			tcr.formatCount(len(t.Options()), "value", "values"))
@@ -350,6 +395,18 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 	default:
 		return astmodel.DebugDescription(t, currentPackage)
 	}
+=======
+		return "Enum"
+	case *astmodel.OneOfType:
+		return "OneOf"
+	case *astmodel.AllOfType:
+		return "AllOf"
+	case astmodel.MetaType:
+		return tcr.asShortNameForType(t.Unwrap(), currentPackage)
+	}
+
+	return astmodel.DebugDescription(t, currentPackage)
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 }
 
 func (tcr *TypeCatalogReport) writeFunction(
@@ -376,11 +433,14 @@ func (tcr *TypeCatalogReport) writeEnumType(
 	}
 }
 
+<<<<<<< HEAD
 // writeOneOfType writes a oneof to the report.
 // rpt is the report to write to.
 // oneOf is the oneof to write.
 // currentPackage is the package that the oneof is defined in (used to simplify type descriptions).
 // parentTypes is the set of types that are currently being written (used to detect cycles).
+=======
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
 	oneOf *astmodel.OneOfType,
@@ -396,7 +456,23 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	}
 
 	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
+<<<<<<< HEAD
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
+=======
+		sub := rpt.Addf("option %d: %s", index, astmodel.DebugDescription(t, currentPackage))
+		tcr.writeComplexType(sub, t, currentPackage, types)
+	})
+}
+
+func (tcr *TypeCatalogReport) writeAllOfType(
+	rpt *StructureReport,
+	allOf *astmodel.AllOfType,
+	currentPackage astmodel.PackageReference,
+	types astmodel.TypeNameSet,
+) {
+	allOf.Types().ForEach(func(t astmodel.Type, index int) {
+		sub := rpt.Addf("option %d: %s", index, astmodel.DebugDescription(t, currentPackage))
+>>>>>>> 3e5cc247e (Improve Type Catalog report)
 		tcr.writeType(sub, t, currentPackage, types)
 	})
 }
