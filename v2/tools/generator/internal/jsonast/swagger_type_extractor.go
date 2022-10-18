@@ -230,7 +230,18 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 			continue
 		}
 
+		if t == nil {
+			// No type created
+			continue
+		}
+
 		typeName := astmodel.MakeTypeName(extractor.outputPackage, name)
+
+		if action, _ := scanner.configuration.ShouldPrune(typeName); action == config.Prune {
+			// Pruned type
+			continue
+		}
+
 		result.OtherDefinitions[typeName] = astmodel.MakeTypeDefinition(typeName, t)
 	}
 
