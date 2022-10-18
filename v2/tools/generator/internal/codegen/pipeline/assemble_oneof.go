@@ -138,14 +138,10 @@ func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
 			return
 		}
 
-		rootOneOf, ok := astmodel.AsOneOfType(root.Type())
-		if !ok {
-			// TypeName doesn't identify a oneOf, cannot be the root
-			return
-		}
-
-		if rootOneOf.DiscriminatorValue() == "" {
-			// Not a root oneOf, don't index it
+		// Our parent must be a OneOf, but might not tbe the root (sometimes there are hierarchies of OneOfs)
+		// See for example machinelearningservices
+		if _, ok := astmodel.AsOneOfType(root.Type()); !ok {
+			// TypeName doesn't identify a oneOf, cannot be the parent
 			return
 		}
 
