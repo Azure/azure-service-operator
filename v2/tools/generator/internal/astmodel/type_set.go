@@ -128,3 +128,13 @@ func (ts TypeSet) Only() (Type, bool) {
 func (ts TypeSet) Copy() TypeSet {
 	return MakeTypeSet(ts.types...)
 }
+
+// AsSlice returns the content of this set as a slice
+func (ts TypeSet) AsSlice() []Type {
+	result := make([]Type, 0, len(ts.types))
+	for _, t := range ts.types {
+		result = append(result, t)
+	}
+
+	return result
+}

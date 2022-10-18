@@ -595,36 +595,31 @@ func (s synthesizer) handleAllOfType(leftAllOf *astmodel.AllOfType, right astmod
 
 // if combining a type with a oneOf that contains that type, the result is that type
 func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.Type) (astmodel.Type, error) {
-	// if there is an equal case, use that:
-	{
-		var result astmodel.Type
-		leftOneOf.Types().ForEach(func(lType astmodel.Type, _ int) {
-			if astmodel.TypeEquals(lType, right) {
-				result = lType
-			}
-		})
-
-		if result != nil {
-			return result, nil
-		}
+	// if there is an equal case, use that
+	if leftOneOf.Types().Contains(right, astmodel.EqualityOverrides{}) {
+		return right, nil
 	}
 
 	// otherwise intersect with each type:
-	var newTypes []astmodel.Type
+	newTypes := astmodel.MakeTypeSet()
 	err := leftOneOf.Types().ForEachError(func(lType astmodel.Type, _ int) error {
 		newType, err := s.intersectTypes(lType, right)
 		if err != nil {
 			return err
 		}
 
-		newTypes = append(newTypes, newType)
+		newTypes.Add(newType)
 		return nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "unable to intersect oneOf with %s", astmodel.DebugDescription(right))
 	}
 
-	return leftOneOf.WithTypes(newTypes), nil
+	if only, ok := newTypes.Only(); ok {
+		return only, nil
+	}
+
+	return leftOneOf.WithTypes(newTypes.AsSlice()), nil
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
