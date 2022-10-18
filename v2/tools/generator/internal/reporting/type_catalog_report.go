@@ -145,8 +145,6 @@ func (tcr *TypeCatalogReport) writeType(
 	// Generate a subreport for each kind of type
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
-	case astmodel.TypeName:
-		tcr.writeTypeName(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ObjectType:
 		tcr.writeObjectType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ResourceType:
@@ -157,18 +155,12 @@ func (tcr *TypeCatalogReport) writeType(
 		tcr.writeType(rpt, t.Element(), currentPackage, parentTypes)
 	case *astmodel.OneOfType:
 		tcr.writeOneOfType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.AllOfType:
+		tcr.writeAllOfType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ErroredType:
 		tcr.writeErroredType(rpt, t, currentPackage, parentTypes)
 	case astmodel.MetaType:
 		tcr.writeType(rpt, t.Unwrap(), currentPackage, parentTypes)
-	}
-
-	if one, ok := astmodel.AsOneOfType(t); ok {
-		tcr.writeOneOf(rpt, one, currentPackage, parentTypes)
-	}
-
-	if all, ok := astmodel.AsAllOfType(t); ok {
-		tcr.writeAllOf(rpt, all, currentPackage, parentTypes)
 	}
 }
 
@@ -334,11 +326,21 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 	case *astmodel.ResourceType:
 		return "Resource"
 	case *astmodel.EnumType:
-		return "Enum"
+		return fmt.Sprintf(
+			"Enum (%s)",
+			tcr.asCount(len(t.Options()), "value", "values"))
+	case *astmodel.ObjectType:
+		return fmt.Sprintf(
+			"Object (%s)",
+			tcr.asCount(t.Properties().Len(), "property", "properties"))
 	case *astmodel.OneOfType:
-		return "OneOf"
+		return fmt.Sprintf(
+			"OneOf (%s)",
+			tcr.asCount(t.Types().Len(), "choice", "choices"))
 	case *astmodel.AllOfType:
-		return "AllOf"
+		return fmt.Sprintf(
+			"AllOf (%s)",
+			tcr.asCount(t.Types().Len(), "choice", "choices"))
 	case astmodel.MetaType:
 		return tcr.asShortNameForType(t.Unwrap(), currentPackage)
 	}
@@ -377,24 +379,21 @@ func (tcr *TypeCatalogReport) writeEnumType(
 // parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
-	oneOfType *astmodel.OneOfType,
+	oneOf *astmodel.OneOfType,
 	currentPackage astmodel.PackageReference,
 	types astmodel.TypeNameSet,
 ) {
-	if oneOf.DiscriminatorProperty() != "" {
-		rpt.Addf("discriminator: %s", oneOf.DiscriminatorProperty())
-	}
-
-	if oneOf.DiscriminatorValue() != "" {
-		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
-	}
-
 	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
-		sub := rpt.Addf("option %d: %s", index, astmodel.DebugDescription(t, currentPackage))
+		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
 		tcr.writeComplexType(sub, t, currentPackage, types)
 	})
 }
 
+// writeAllOfType writes an allof to the report.
+// rpt is the report to write to.
+// allOfType is the allof to write.
+// currentPackage is the package that the allof is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) writeAllOfType(
 	rpt *StructureReport,
 	allOf *astmodel.AllOfType,
@@ -402,25 +401,8 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 	types astmodel.TypeNameSet,
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {
-		sub := rpt.Addf("option %d: %s", index, astmodel.DebugDescription(t, currentPackage))
-		tcr.writeType(sub, t, currentPackage, types)
-	})
-}
-
-// writeAllOf writes an allof to the report.
-// rpt is the report to write to.
-// allOfType is the allof to write.
-// currentPackage is the package that the allof is defined in (used to simplify type descriptions).
-// parentTypes is the set of types that are currently being written (used to detect cycles).
-func (tcr *TypeCatalogReport) writeAllOf(
-	rpt *StructureReport,
-	allOfType *astmodel.AllOfType,
-	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet,
-) {
-	allOfType.Types().ForEach(func(t astmodel.Type, _ int) {
-		sub := rpt.Addf("%s", astmodel.DebugDescription(t, currentPackage))
-		tcr.writeType(sub, t, currentPackage, types)
+		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
+		tcr.writeComplexType(sub, t, currentPackage, types)
 	})
 }
 
@@ -449,4 +431,12 @@ func (tcr *TypeCatalogReport) inPackage(
 	}
 
 	return result
+}
+
+func (tcr *TypeCatalogReport) asCount(value int, singular string, plural string) string {
+	if value == 1 {
+		return fmt.Sprintf("%d %s", value, singular)
+	}
+
+	return fmt.Sprintf("%d %s", value, plural)
 }
