@@ -21,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-const samplesPath = "../../config/samples"
+const samplesPath = "../../samples"
 
 // skipTests slice contains the groups to skip from being tested.
 var skipTests = []string{
