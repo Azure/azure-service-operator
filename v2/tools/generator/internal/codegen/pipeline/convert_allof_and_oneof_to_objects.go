@@ -56,6 +56,20 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 			}
 
 			builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
+
+				// If the OneOf contains only one object type, we can just use that
+				if it.Types().Len() == 1 {
+					var only astmodel.Type
+					it.Types().ForEach(func(t astmodel.Type, _ int) {
+						only = t
+					})
+
+					if obj, ok := astmodel.AsObjectType(only); ok {
+						return obj, nil
+					}
+				}
+
+				// Otherwise synthesize
 				synth := synthesizer{
 					specOrStatus: ctx.(resourceFieldSelector),
 					defs:         defs,
