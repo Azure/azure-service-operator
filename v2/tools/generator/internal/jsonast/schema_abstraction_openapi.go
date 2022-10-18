@@ -7,10 +7,12 @@ package jsonast
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
@@ -50,6 +52,12 @@ func MakeOpenAPISchema(
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
 	result := *schema
 	result.inner = newSchema
+	return &result
+}
+
+func (schema *OpenAPISchema) withName(name string) *OpenAPISchema {
+	result := *schema
+	result.name = name
 	return &result
 }
 
@@ -155,7 +163,7 @@ func (schema *OpenAPISchema) requiredProperties() []string {
 func (schema *OpenAPISchema) properties() map[string]Schema {
 	result := make(map[string]Schema, len(schema.inner.Properties))
 	for propName, propSchema := range schema.inner.Properties {
-		result[propName] = schema.withNewSchema(propSchema)
+		result[propName] = schema.withName(schema.name + "." + propName).withNewSchema(propSchema)
 	}
 
 	return result

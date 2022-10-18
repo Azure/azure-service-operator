@@ -523,7 +523,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 		return properties[0].PropertyType(), nil
 	}
 
-	isResource := schema.extensions("x-ms-azure-resource") == true
+	isResource := schema.extensionAsBool("x-ms-azure-resource")
 
 	// If we're a resource, our 'Id' property needs to have a special type
 	if isResource {
@@ -609,10 +609,11 @@ func getProperties(
 		}
 
 		// add flattening
-		property = property.SetFlatten(propSchema.extensions("x-ms-client-flatten") == true)
+		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten") == true)
 
 		// add secret flag
-		hasSecretExtension := propSchema.extensions("x-ms-secret") == true
+		hasSecretExtension := propSchema.extensionAsBool("x-ms-secret")
+
 		hasFormatPassword := propSchema.format() == "password"
 		if hasSecretExtension || hasFormatPassword {
 			property = property.WithIsSecret(true)
@@ -782,26 +783,9 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "allOfHandler")
 	defer span.End()
 
-	var types []astmodel.Type
-	for _, all := range schema.allOf() {
-
-		d, err := scanner.RunHandlerForSchema(ctx, all)
-		if err != nil {
-			var unknownSchema *UnknownSchemaError
-			if errors.As(err, &unknownSchema) {
-				if unknownSchema.Schema.description() != nil {
-					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
-					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
-					continue
-				}
-			}
-
-			return nil, err
-		}
-
-		if d != nil {
-			types = append(types, d)
-		}
+	types, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
+	if err != nil {
+		return nil, err
 	}
 
 	// if the node that contains the allOf defines other properties, create an object type with them inside to merge
@@ -821,72 +805,46 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	if oneOf := schema.oneOf(); len(oneOf) > 0 {
-		// The various OneOf options are embedded in the schema, so we can directly generate our desired type
-		return generateOneOfUnionType(ctx, schema, oneOf, scanner)
+	// Handle any nested OneOf options
+	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
 	}
 
-	discriminator := createDiscriminatorProperty(schema)
-
-	// We've found a base OneOf that will have options defined elsewhere
-	klog.V(0).Infof("Found OneOf Base %s with discriminator %s", schema.Id(), discriminator.PropertyName())
-	return astmodel.NewBaseOneOfType(schema.Id(), discriminator), nil
-}
-
-func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
-	// make sure we visit everything before bailing out,
-	// to get all types generated even if we can't use them
-	var types []astmodel.Type
-	for _, one := range subschemas {
-		result, err := scanner.RunHandlerForSchema(ctx, one)
-		if err != nil {
-			return nil, err
-		}
-
-		if result != nil {
-			types = append(types, result)
-		}
+	// Also need to pick up any nested AllOf options (we'll only ever have one or the other)
+	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
 	}
 
-	discriminatorProperty := createDiscriminatorProperty(schema)
+	// If we have both, we need to merge them
+	if len(allOfTypes) > 0 {
+		types = append(types, allOfTypes...)
+	}
 
-	var result astmodel.Type = astmodel.NewCompleteOneOfType(schema.Id(), discriminatorProperty, types...)
-
-	// if the node that contains the oneOf(/anyOf) defines other properties, create an object type with them inside to merge
+	// If there are any properties, we need to create an object type to wrap them
 	if len(schema.properties()) > 0 {
 		objectType, err := scanner.RunHandler(ctx, Object, schema)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
 		}
 
-		result = astmodel.BuildAllOfType(objectType, result)
+		types = append(types, objectType)
+	}
+
+	result := astmodel.NewOneOfType(schema.Id(), types...)
+
+	// Capture the discriminator property name, if we have one
+	if schema.discriminator() != "" {
+		result = result.WithDiscriminatorProperty(schema.discriminator())
+	}
+
+	// Capture the discriminator value, if we have one
+	if discriminatorValue, ok := schema.extensionAsString("x-ms-discriminator-value"); ok {
+		result = result.WithDiscriminatorValue(discriminatorValue)
 	}
 
 	return result, nil
-}
-
-func createDiscriminatorProperty(schema Schema) *astmodel.PropertyDefinition {
-	discriminator := schema.discriminator()
-
-	// If no discriminator, we can't create a property definition
-	if discriminator == "" {
-		return nil
-	}
-
-	// Collect the enum values into an enum type
-	var values []astmodel.EnumValue
-	for v := range schema.discriminatorValues() {
-		values = append(values, astmodel.MakeEnumValue(v, v))
-	}
-
-	enumType := astmodel.NewEnumType(astmodel.StringType, values...)
-
-	// Build the property definition
-	result := astmodel.NewPropertyDefinition(
-		astmodel.PropertyName(discriminator),
-		discriminator,
-		enumType)
-	return result
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -955,7 +913,8 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 	switch {
 	case len(schema.enumValues()) > 0: // this should come before the primitive checks below
 		return Enum, nil
-	case schema.hasOneOf() || schema.discriminator() != "":
+	// Handle the three cases of oneOf: complete/root/leaf
+	case schema.hasOneOf() || schema.discriminator() != "" || schema.hasExtension("x-ms-discriminator-value"):
 		return OneOf, nil
 	case schema.hasAllOf():
 		return AllOf, nil
