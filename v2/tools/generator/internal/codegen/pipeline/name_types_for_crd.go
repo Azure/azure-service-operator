@@ -198,13 +198,13 @@ type nameHint struct {
 	suffix   string
 }
 
-func newNameHint(name astmodel.TypeName) nameHint {
+var suffixesToFloat = []string{
+	astmodel.SpecSuffix,
+	astmodel.StatusSuffix,
+	astmodel.ARMSuffix,
+}
 
-	suffixesToFloat := []string{
-		astmodel.SpecSuffix,
-		astmodel.StatusSuffix,
-		astmodel.ARMSuffix,
-	}
+func newNameHint(name astmodel.TypeName) nameHint {
 
 	baseName := name.Name()
 	var suffixes []string
