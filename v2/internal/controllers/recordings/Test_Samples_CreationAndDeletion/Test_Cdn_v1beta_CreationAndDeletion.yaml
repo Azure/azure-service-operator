@@ -83,7 +83,7 @@ interactions:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/profiles/asotestojccxz","type":"Microsoft.Cdn/profiles","name":"asotestojccxz","location":"Global","kind":"cdn","tags":{},"sku":{"name":"Standard_Microsoft"},"properties":{"resourceState":"Creating","provisioningState":"Creating"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/6f51fc72-e2ac-4846-9ebc-0c4920eedb37?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/7a5cbb3c-bbe1-41ea-afc4-2aee8b823d0f?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -113,7 +113,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/6f51fc72-e2ac-4846-9ebc-0c4920eedb37?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/7a5cbb3c-bbe1-41ea-afc4-2aee8b823d0f?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress","error":{"code":"None","message":null}}'
@@ -143,7 +143,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/6f51fc72-e2ac-4846-9ebc-0c4920eedb37?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/7a5cbb3c-bbe1-41ea-afc4-2aee8b823d0f?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded","error":{"code":"None","message":null}}'
@@ -251,7 +251,7 @@ interactions:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/profiles/asotestojccxz/endpoints/asotestypmeko","type":"Microsoft.Cdn/profiles/endpoints","name":"asotestypmeko","location":"Global","tags":{},"properties":{"hostName":"asotestypmeko.azureedge.net","originHostHeader":null,"originPath":null,"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"queryStringCachingBehavior":"IgnoreQueryString","optimizationType":null,"probePath":null,"origins":[{"name":"source","properties":{"hostName":"example.com","httpPort":null,"httpsPort":null,"originHostHeader":null,"priority":1,"weight":1000,"enabled":true,"privateLinkAlias":null,"privateLinkResourceId":null,"privateLinkLocation":null,"privateEndpointStatus":null,"privateLinkApprovalMessage":null}}],"originGroups":[],"defaultOriginGroup":null,"customDomains":[],"geoFilters":[],"deliveryPolicy":null,"urlSigningKeys":null,"webApplicationFirewallPolicyLink":null,"resourceState":"Creating","provisioningState":"Creating"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/4c4fcfa7-d587-4ccf-b745-daaa6275f530?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/7c2ab0ef-f71d-44c5-b4e3-81721beff561?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -281,7 +281,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/4c4fcfa7-d587-4ccf-b745-daaa6275f530?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/operationresults/7c2ab0ef-f71d-44c5-b4e3-81721beff561?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded","error":{"code":"None","message":null}}'
@@ -758,4 +758,70 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/profiles/asotestojccxz?api-version=2021-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-bhffyh''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bhffyh/providers/Microsoft.Cdn/profiles/asotestojccxz/endpoints/asotestypmeko?api-version=2021-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-bhffyh''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

@@ -87,7 +87,7 @@ interactions:
       \ }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/843e940f-a347-490e-b9bc-734740ca5032?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/041cb4d9-1179-48a4-b598-9183afea02c2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -97,7 +97,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/843e940f-a347-490e-b9bc-734740ca5032?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/041cb4d9-1179-48a4-b598-9183afea02c2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Retry-After:
@@ -112,7 +112,7 @@ interactions:
       X-Ms-Ratelimit-Remaining-Resource:
       - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;999,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 202 Accepted
     code: 202
     duration: ""
@@ -122,11 +122,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/843e940f-a347-490e-b9bc-734740ca5032?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/041cb4d9-1179-48a4-b598-9183afea02c2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-08-12T22:01:51.9876613+00:00\",\r\n  \"endTime\":
-      \"2022-08-12T22:01:52.1907768+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+    body: "{\r\n  \"startTime\": \"2022-10-13T22:24:33.9437481+00:00\",\r\n  \"endTime\":
+      \"2022-10-13T22:24:34.2406176+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
       {\r\n    \"output\": {\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\r\n
       \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westus2\",\r\n
@@ -135,10 +135,10 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 32,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 34359738368,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}\r\n  },\r\n
-      \ \"name\": \"843e940f-a347-490e-b9bc-734740ca5032\"\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}\r\n  },\r\n
+      \ \"name\": \"041cb4d9-1179-48a4-b598-9183afea02c2\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -160,7 +160,7 @@ interactions:
       X-Ms-Ratelimit-Remaining-Resource:
       - Microsoft.Compute/GetOperation3Min;49999,Microsoft.Compute/GetOperation30Min;399999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -180,9 +180,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 32,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 34359738368,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -202,9 +202,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14998,Microsoft.Compute/LowCostGet30Min;119995
+      - Microsoft.Compute/LowCostGet3Min;14999,Microsoft.Compute/LowCostGet30Min;119999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -226,9 +226,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 32,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 34359738368,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -248,9 +248,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14997,Microsoft.Compute/LowCostGet30Min;119994
+      - Microsoft.Compute/LowCostGet3Min;14998,Microsoft.Compute/LowCostGet30Min;119998
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -277,7 +277,7 @@ interactions:
       \   \"colocationConstraints\": {},\r\n    \"faultDomain\": 0\r\n  }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1b0ad8d7-68d6-434c-9595-fe1729c34ba2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/41c00141-da8d-499f-9ed1-d8893b7092df?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -287,7 +287,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1b0ad8d7-68d6-434c-9595-fe1729c34ba2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/41c00141-da8d-499f-9ed1-d8893b7092df?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Retry-After:
@@ -302,7 +302,7 @@ interactions:
       X-Ms-Ratelimit-Remaining-Resource:
       - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;998,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7998
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 202 Accepted
     code: 202
     duration: ""
@@ -312,11 +312,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1b0ad8d7-68d6-434c-9595-fe1729c34ba2?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/41c00141-da8d-499f-9ed1-d8893b7092df?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-08-12T22:02:01.5971389+00:00\",\r\n  \"endTime\":
-      \"2022-08-12T22:02:01.7845764+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+    body: "{\r\n  \"startTime\": \"2022-10-13T22:24:43.2563044+00:00\",\r\n  \"endTime\":
+      \"2022-10-13T22:24:43.4594484+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
       {\r\n    \"output\": {\r\n  \"name\": \"asotest-snapshot-xsdrzf\",\r\n  \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-owoazy/providers/Microsoft.Compute/snapshots/asotest-snapshot-xsdrzf\",\r\n
       \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westus2\",\r\n
@@ -325,10 +325,10 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}\r\n  },\r\n
-      \ \"name\": \"1b0ad8d7-68d6-434c-9595-fe1729c34ba2\"\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}\r\n  },\r\n
+      \ \"name\": \"41c00141-da8d-499f-9ed1-d8893b7092df\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -350,7 +350,7 @@ interactions:
       X-Ms-Ratelimit-Remaining-Resource:
       - Microsoft.Compute/GetOperation3Min;49997,Microsoft.Compute/GetOperation30Min;399997
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -370,9 +370,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -392,9 +392,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14994,Microsoft.Compute/LowCostGet30Min;119991
+      - Microsoft.Compute/LowCostGet3Min;14995,Microsoft.Compute/LowCostGet30Min;119995
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -416,9 +416,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
       \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
       false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-08-12T22:01:51.9876613+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \"2022-10-13T22:24:33.9437481+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
       \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
-      \   \"uniqueId\": \"e7340bb0-52da-4aa5-9c01-f1013a45d24b\"\r\n  }\r\n}"
+      \   \"uniqueId\": \"f0186828-7827-438b-bf51-2110302c7c0f\"\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -438,9 +438,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14993,Microsoft.Compute/LowCostGet30Min;119990
+      - Microsoft.Compute/LowCostGet3Min;14993,Microsoft.Compute/LowCostGet30Min;119993
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -458,7 +458,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/b0d5c55d-93e8-4370-b670-203eeb6fdda6?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1e2c525e-7775-4ed9-b022-bc22eede4e71?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -466,7 +466,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/b0d5c55d-93e8-4370-b670-203eeb6fdda6?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1e2c525e-7775-4ed9-b022-bc22eede4e71?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Server:
@@ -479,7 +479,7 @@ interactions:
       X-Ms-Ratelimit-Remaining-Resource:
       - Microsoft.Compute/DeleteDisks3Min;2999,Microsoft.Compute/DeleteDisks30Min;23999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 202 Accepted
     code: 202
     duration: ""
@@ -489,12 +489,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/b0d5c55d-93e8-4370-b670-203eeb6fdda6?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1e2c525e-7775-4ed9-b022-bc22eede4e71?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-08-12T22:02:11.6752434+00:00\",\r\n  \"endTime\":
-      \"2022-08-12T22:02:11.8783939+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"b0d5c55d-93e8-4370-b670-203eeb6fdda6\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-10-13T22:24:53.2876436+00:00\",\r\n  \"endTime\":
+      \"2022-10-13T22:24:53.4751216+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"1e2c525e-7775-4ed9-b022-bc22eede4e71\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -514,9 +514,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;49995,Microsoft.Compute/GetOperation30Min;399995
+      - Microsoft.Compute/GetOperation3Min;49992,Microsoft.Compute/GetOperation30Min;399992
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 200 OK
     code: 200
     duration: ""
@@ -552,9 +552,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14991,Microsoft.Compute/LowCostGet30Min;119988
+      - Microsoft.Compute/LowCostGet3Min;14986,Microsoft.Compute/LowCostGet30Min;119986
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132735703663543869
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_133007827317352178
     status: 404 Not Found
     code: 404
     duration: ""
@@ -596,6 +596,126 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPV09BWlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:

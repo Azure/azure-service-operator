@@ -597,7 +597,7 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 func deleteResource(
 	ctx context.Context,
 	log logr.Logger,
-	resourceResolver *resolver.Resolver,
+	_ *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
 
@@ -608,21 +608,20 @@ func deleteResource(
 		return ctrl.Result{}, nil
 	}
 
-	// Check that this objects owner still exists
-	// This is an optimization to avoid excess requests to Azure.
-	_, err := resourceResolver.ResolveResourceHierarchy(ctx, obj)
-	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			log.V(Status).Info("Not issuing delete as resource in hierarchy was not found", "err", typedErr.Error())
-			return ctrl.Result{}, nil
-		}
-		return ctrl.Result{}, err
-	}
+	// Optimizations or complications of this delete path should be undertaken with care.
+	// Be especially cautious of relying on the controller-runtime SharedInformer cache
+	// as a source of truth about if this resource or its parents have already been deleted, as
+	// the SharedInformer cache is not read-through and will return NotFound if it just hasn't been
+	// populated yet.
+	// Generally speaking the safest thing we can do is just issue the DELETE to Azure.
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
 	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, obj.GetAPIVersion())
 	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			log.V(Info).Info("Successfully issued DELETE to Azure - resource was already gone")
+			return ctrl.Result{}, nil
+		}
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
 	log.V(Info).Info("Successfully issued DELETE to Azure")

@@ -20,6 +20,8 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -28,12 +30,10 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -81,15 +81,15 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-nsg-hjxtex\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex\",\r\n
-      \ \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"5626cf04-4996-4409-8acd-5c37f56053fc\",\r\n    \"securityRules\": [],\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
+      \"5043f0fa-6a99-437c-b0f9-bc04a3df1545\",\r\n    \"securityRules\": [],\r\n
       \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
       \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
       \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
@@ -99,9 +99,9 @@ interactions:
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
       \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
       \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
@@ -110,9 +110,9 @@ interactions:
       \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
       \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
       \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
@@ -121,9 +121,9 @@ interactions:
       [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
       []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
       \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
       \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
@@ -132,9 +132,9 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
       \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
       \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
@@ -143,9 +143,9 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"7a926577-2d58-4f27-bceb-7d956ba52f9c\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
       \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
       \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
@@ -157,7 +157,40 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e9107492-3bc5-423b-a3f3-5f5e9b2348c8?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/580f7f72-cf7d-424e-aaf7-5d52febbe699?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "6632"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/580f7f72-cf7d-424e-aaf7-5d52febbe699?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
       Cache-Control:
       - no-cache
       Content-Type:
@@ -182,21 +215,19 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-nsg-hjxtex\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex\",\r\n
-      \ \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"5626cf04-4996-4409-8acd-5c37f56053fc\",\r\n    \"securityRules\": [],\r\n
+      \"5043f0fa-6a99-437c-b0f9-bc04a3df1545\",\r\n    \"securityRules\": [],\r\n
       \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
@@ -208,7 +239,7 @@ interactions:
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
@@ -219,7 +250,7 @@ interactions:
       \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -230,7 +261,7 @@ interactions:
       [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
       []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
@@ -241,7 +272,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
@@ -252,7 +283,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"d2f524ab-1c20-4b36-849d-045b8c6548a5\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -268,7 +299,114 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"d2f524ab-1c20-4b36-849d-045b8c6548a5"
+      - W/"4e1acbcc-7dd2-4bec-8984-2f41602d23e2"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-nsg-hjxtex\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex\",\r\n
+      \ \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"5043f0fa-6a99-437c-b0f9-bc04a3df1545\",\r\n    \"securityRules\": [],\r\n
+      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetInBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
+      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
+      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
+      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
+      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllInBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowInternetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
+      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllOutBound\",\r\n
+      \       \"etag\": \"W/\\\"4e1acbcc-7dd2-4bec-8984-2f41602d23e2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"4e1acbcc-7dd2-4bec-8984-2f41602d23e2"
       Expires:
       - "-1"
       Pragma:
@@ -301,13 +439,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-nsg-hjxtex\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex\",\r\n
-      \ \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
       \ \"tags\": {\r\n    \"foo\": \"bar\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"resourceGuid\": \"5626cf04-4996-4409-8acd-5c37f56053fc\",\r\n
+      \"Succeeded\",\r\n    \"resourceGuid\": \"5043f0fa-6a99-437c-b0f9-bc04a3df1545\",\r\n
       \   \"securityRules\": [],\r\n    \"defaultSecurityRules\": [\r\n      {\r\n
       \       \"name\": \"AllowVnetInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
@@ -319,7 +457,7 @@ interactions:
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
@@ -330,7 +468,7 @@ interactions:
       \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -341,7 +479,7 @@ interactions:
       [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
       []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
@@ -352,7 +490,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
@@ -363,7 +501,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -377,7 +515,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/dd0536dc-a057-4986-a92d-6436c5f880c6?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77984c93-56a8-4b5a-a072-05cce402ead2?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -405,18 +543,18 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-nsg-hjxtex\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex\",\r\n
-      \ \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westus2\",\r\n
       \ \"tags\": {\r\n    \"foo\": \"bar\"\r\n  },\r\n  \"properties\": {\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"resourceGuid\": \"5626cf04-4996-4409-8acd-5c37f56053fc\",\r\n
+      \"Succeeded\",\r\n    \"resourceGuid\": \"5043f0fa-6a99-437c-b0f9-bc04a3df1545\",\r\n
       \   \"securityRules\": [],\r\n    \"defaultSecurityRules\": [\r\n      {\r\n
       \       \"name\": \"AllowVnetInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
@@ -428,7 +566,7 @@ interactions:
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
@@ -439,7 +577,7 @@ interactions:
       \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -450,7 +588,7 @@ interactions:
       [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
       []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
@@ -461,7 +599,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
@@ -472,7 +610,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"c53cc02f-639e-4111-8890-419232f0a470\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"72dbc214-6c34-4093-9a06-c2a6eca419f5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
       \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -488,7 +626,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"c53cc02f-639e-4111-8890-419232f0a470"
+      - W/"72dbc214-6c34-4093-9a06-c2a6eca419f5"
       Expires:
       - "-1"
       Pragma:
@@ -520,17 +658,24 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"error\": {\r\n    \"code\": \"RetryableError\",\r\n    \"message\":
-      \"A retryable error occurred.\",\r\n    \"details\": [\r\n      {\r\n        \"code\":
-      \"RetryableErrorDueToAnotherOperation\",\r\n        \"message\": \"Operation
-      PutSecurityRuleOperation (e40a31b1-8d39-4adb-ae89-65b2406f6a1c) is updating
-      resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex.
-      The call can be retried in 14 seconds.\"\r\n      }\r\n    ]\r\n  }\r\n}"
+    body: "{\r\n  \"name\": \"asotest-rule2-bnaavb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb\",\r\n
+      \ \"etag\": \"W/\\\"595fa7b0-1fbe-4e30-8f6b-7ebccfc8a022\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"protocol\": \"Tcp\",\r\n
+      \   \"destinationPortRange\": \"*\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n
+      \   \"destinationAddressPrefix\": \"*\",\r\n    \"access\": \"Deny\",\r\n    \"priority\":
+      124,\r\n    \"direction\": \"Inbound\",\r\n    \"sourcePortRanges\": [\r\n      \"23-45\",\r\n
+      \     \"5000-5100\"\r\n    ],\r\n    \"destinationPortRanges\": [],\r\n    \"sourceAddressPrefixes\":
+      [],\r\n    \"destinationAddressPrefixes\": []\r\n  }\r\n}"
     headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b71c4f43-1039-4cd6-ab95-164618c52818?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "511"
+      - "806"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -538,7 +683,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "14"
+      - "10"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
@@ -546,8 +691,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 429 Too Many Requests
-    code: 429
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: '{"name":"asotest-rule1-ulwxxe","properties":{"access":"Allow","description":"The
@@ -566,7 +711,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"59e9af1c-2fad-49df-b981-2fd01606dcc1\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"b8ef6e8d-320b-4f51-be2e-537cc2baf354\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"description\": \"The
       first rule of networking is don't talk about networking\",\r\n    \"protocol\":
@@ -577,8 +722,10 @@ interactions:
       [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
       []\r\n  }\r\n}"
     headers:
+      Azure-Asyncnotification:
+      - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e40a31b1-8d39-4adb-ae89-65b2406f6a1c?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/69661458-761c-4cf3-840d-351c4db11345?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -607,7 +754,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e40a31b1-8d39-4adb-ae89-65b2406f6a1c?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b71c4f43-1039-4cd6-ab95-164618c52818?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -638,144 +785,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"650f33e2-8f3e-4026-b9ab-f77208150390\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
-      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
-      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
-      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
-      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
-      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
-      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
-      []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"650f33e2-8f3e-4026-b9ab-f77208150390"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-rule2-bnaavb","properties":{"access":"Deny","destinationAddressPrefix":"*","destinationPortRange":"*","direction":"Inbound","priority":124,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRanges":["23-45","5000-5100"]}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "241"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb?api-version=2020-11-01
-    method: PUT
-  response:
-    body: "{\r\n  \"name\": \"asotest-rule2-bnaavb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb\",\r\n
-      \ \"etag\": \"W/\\\"89c597ea-db78-45f1-a37d-78ba2f8d2ea3\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"protocol\": \"Tcp\",\r\n
-      \   \"destinationPortRange\": \"*\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n
-      \   \"destinationAddressPrefix\": \"*\",\r\n    \"access\": \"Deny\",\r\n    \"priority\":
-      124,\r\n    \"direction\": \"Inbound\",\r\n    \"sourcePortRanges\": [\r\n      \"23-45\",\r\n
-      \     \"5000-5100\"\r\n    ],\r\n    \"destinationPortRanges\": [],\r\n    \"sourceAddressPrefixes\":
-      [],\r\n    \"destinationAddressPrefixes\": []\r\n  }\r\n}"
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/1b4ff58f-d4fc-4e6e-9c43-c9ff812df09f?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "806"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
-      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
-      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
-      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
-      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
-      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
-      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
-      []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/1b4ff58f-d4fc-4e6e-9c43-c9ff812df09f?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/69661458-761c-4cf3-840d-351c4db11345?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -810,7 +820,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule2-bnaavb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb\",\r\n
-      \ \"etag\": \"W/\\\"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"586b061c-1f05-4265-adf1-36224066a567\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"protocol\": \"Tcp\",\r\n
       \   \"destinationPortRange\": \"*\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n
@@ -824,7 +834,50 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be"
+      - W/"586b061c-1f05-4265-adf1-36224066a567"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
+      \ \"etag\": \"W/\\\"586b061c-1f05-4265-adf1-36224066a567\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
+      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"586b061c-1f05-4265-adf1-36224066a567"
       Expires:
       - "-1"
       Pragma:
@@ -853,7 +906,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule2-bnaavb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb\",\r\n
-      \ \"etag\": \"W/\\\"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"586b061c-1f05-4265-adf1-36224066a567\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"protocol\": \"Tcp\",\r\n
       \   \"destinationPortRange\": \"*\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n
@@ -867,7 +920,52 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"b7f39df8-dfa4-4941-a4d5-afb2fcf2f1be"
+      - W/"586b061c-1f05-4265-adf1-36224066a567"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
+      \ \"etag\": \"W/\\\"586b061c-1f05-4265-adf1-36224066a567\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
+      first rule of networking is don't talk about networking\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"586b061c-1f05-4265-adf1-36224066a567"
       Expires:
       - "-1"
       Pragma:
@@ -901,7 +999,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"6c0020d2-4305-441e-a0c4-68a906884b40\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"d3063d34-060d-4ddb-8532-84f45e514216\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"description\": \"The
       first rule of networking is don't talk about networking\",\r\n    \"protocol\":
@@ -912,8 +1010,10 @@ interactions:
       [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
       []\r\n  }\r\n}"
     headers:
+      Azure-Asyncnotification:
+      - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/39ee2907-866b-492b-87c4-488291c077b2?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ea093707-2acd-4549-8d32-a4ab039230cf?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -942,7 +1042,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/39ee2907-866b-492b-87c4-488291c077b2?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ea093707-2acd-4549-8d32-a4ab039230cf?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -977,7 +1077,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"0d646f1c-8ebd-4bee-97e4-564b05b59e1d\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5c657ecd-8482-4436-af3e-56ce870746c4\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
       first rule of networking is don't talk about networking\",\r\n    \"protocol\":
@@ -993,7 +1093,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0d646f1c-8ebd-4bee-97e4-564b05b59e1d"
+      - W/"5c657ecd-8482-4436-af3e-56ce870746c4"
       Expires:
       - "-1"
       Pragma:
@@ -1022,7 +1122,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule1-ulwxxe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe\",\r\n
-      \ \"etag\": \"W/\\\"0d646f1c-8ebd-4bee-97e4-564b05b59e1d\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5c657ecd-8482-4436-af3e-56ce870746c4\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"The
       first rule of networking is don't talk about networking\",\r\n    \"protocol\":
@@ -1038,7 +1138,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0d646f1c-8ebd-4bee-97e4-564b05b59e1d"
+      - W/"5c657ecd-8482-4436-af3e-56ce870746c4"
       Expires:
       - "-1"
       Pragma:
@@ -1071,7 +1171,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/6f2037af-2ce8-4002-8e47-4105cf4cb33a?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b7602292-9dd6-44f3-8bec-fe80eeea362d?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1079,7 +1179,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/6f2037af-2ce8-4002-8e47-4105cf4cb33a?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/b7602292-9dd6-44f3-8bec-fe80eeea362d?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1100,7 +1200,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/6f2037af-2ce8-4002-8e47-4105cf4cb33a?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b7602292-9dd6-44f3-8bec-fe80eeea362d?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -1132,7 +1232,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
+      - "3"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex?api-version=2020-11-01
     method: GET
   response:
@@ -1216,4 +1316,72 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule1-ulwxxe?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex''
+      under resource group ''asotest-rg-ytfqcd'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "247"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytfqcd/providers/Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex/securityRules/asotest-rule2-bnaavb?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/networkSecurityGroups/asotest-nsg-hjxtex''
+      under resource group ''asotest-rg-ytfqcd'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "247"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
