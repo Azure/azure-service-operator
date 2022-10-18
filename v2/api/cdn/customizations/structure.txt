@@ -1,3 +1,3 @@
 github.com/Azure/azure-service-operator/v2/api/cdn/customizations
-├── ProfileExtension: 
-└── ProfilesEndpointExtension: 
+├── ProfileExtension: Object (0 properties)
+└── ProfilesEndpointExtension: Object (0 properties)

@@ -1,19 +1,19 @@
 github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-07-01"
 ├── Workspace: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (25 properties)
 │   │   ├── AllowPublicAccessWhenBehindVnet: *bool
 │   │   ├── ApplicationInsightsReference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
 │   │   ├── ContainerRegistryReference: *genruntime.ResourceReference
 │   │   ├── Description: *string
 │   │   ├── DiscoveryUrl: *string
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (4 properties)
+│   │   │   ├── Identity: Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeyVaultProperties: 
+│   │   │   ├── KeyVaultProperties: Object (4 properties)
 │   │   │   │   ├── IdentityClientId: *string
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   ├── KeyVaultArmId: *string
@@ -22,16 +22,16 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   └── Status: *string
 │   │   ├── FriendlyName: *string
 │   │   ├── HbiWorkspace: *bool
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: 
+│   │   ├── OperatorSpec: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: 
+│   │   │   └── Secrets: Object (8 properties)
 │   │   │       ├── AppInsightsInstrumentationKey: *genruntime.SecretDestination
 │   │   │       ├── ContainerRegistryPassword: *genruntime.SecretDestination
 │   │   │       ├── ContainerRegistryPassword2: *genruntime.SecretDestination
@@ -45,24 +45,24 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PublicNetworkAccess: *string
-│   │   ├── ServiceManagedResourcesSettings: 
-│   │   │   ├── CosmosDb: 
+│   │   ├── ServiceManagedResourcesSettings: Object (2 properties)
+│   │   │   ├── CosmosDb: Object (2 properties)
 │   │   │   │   ├── CollectionsThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── SharedPrivateLinkResources: 
+│   │   ├── SharedPrivateLinkResources: Object (6 properties)
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── RequestMessage: *string
 │   │   │   └── Status: *string
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
 │   │   ├── StorageAccountReference: *genruntime.ResourceReference
-│   │   ├── SystemData: 
+│   │   ├── SystemData: Object (7 properties)
 │   │   │   ├── CreatedAt: *string
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: *string
@@ -70,19 +70,19 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   ├── LastModifiedByType: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (34 properties)
 │       ├── AllowPublicAccessWhenBehindVnet: *bool
 │       ├── ApplicationInsights: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── ContainerRegistry: *string
 │       ├── Description: *string
 │       ├── DiscoveryUrl: *string
-│       ├── Encryption: 
-│       │   ├── Identity: 
+│       ├── Encryption: Object (4 properties)
+│       │   ├── Identity: Object (2 properties)
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── UserAssignedIdentity: *string
-│       │   ├── KeyVaultProperties: 
+│       │   ├── KeyVaultProperties: Object (4 properties)
 │       │   │   ├── IdentityClientId: *string
 │       │   │   ├── KeyIdentifier: *string
 │       │   │   ├── KeyVaultArmId: *string
@@ -92,12 +92,12 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── FriendlyName: *string
 │       ├── HbiWorkspace: *bool
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (4 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
@@ -107,33 +107,33 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── Location: *string
 │       ├── MlFlowTrackingUri: *string
 │       ├── Name: *string
-│       ├── NotebookInfo: 
+│       ├── NotebookInfo: Object (4 properties)
 │       │   ├── Fqdn: *string
-│       │   ├── NotebookPreparationError: 
+│       │   ├── NotebookPreparationError: Object (3 properties)
 │       │   │   ├── ErrorMessage: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── StatusCode: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── ResourceId: *string
 │       ├── PrimaryUserAssignedIdentity: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (5 properties)
 │       │   ├── Id: *string
-│       │   ├── Identity: 
+│       │   ├── Identity: Object (5 properties)
 │       │   │   ├── PrincipalId: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── TenantId: *string
 │       │   │   ├── Type: *string
-│       │   │   └── UserAssignedIdentities: 
+│       │   │   └── UserAssignedIdentities: Object (4 properties)
 │       │   │       ├── ClientId: *string
 │       │   │       ├── PrincipalId: *string
 │       │   │       ├── PropertyBag: genruntime.PropertyBag
 │       │   │       └── TenantId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── Sku: 
+│       │   ├── Sku: Object (3 properties)
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── Tier: *string
-│       │   └── SystemData: 
+│       │   └── SystemData: Object (7 properties)
 │       │       ├── CreatedAt: *string
 │       │       ├── CreatedBy: *string
 │       │       ├── CreatedByType: *string
@@ -145,26 +145,26 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── ServiceManagedResourcesSettings: 
-│       │   ├── CosmosDb: 
+│       ├── ServiceManagedResourcesSettings: Object (2 properties)
+│       │   ├── CosmosDb: Object (2 properties)
 │       │   │   ├── CollectionsThroughput: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── ServiceProvisionedResourceGroup: *string
-│       ├── SharedPrivateLinkResources: 
+│       ├── SharedPrivateLinkResources: Object (6 properties)
 │       │   ├── GroupId: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateLinkResourceId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── RequestMessage: *string
 │       │   └── Status: *string
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       ├── StorageAccount: *string
 │       ├── StorageHnsEnabled: *bool
-│       ├── SystemData: 
+│       ├── SystemData: Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -172,30 +172,30 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── LastModifiedBy: *string
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── TenantId: *string
 │       ├── Type: *string
 │       └── WorkspaceId: *string
 ├── WorkspacesCompute: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: 
-│   │   │   ├── AKS: 
+│   │   ├── Properties: Object (10 properties)
+│   │   │   ├── AKS: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (9 properties)
 │   │   │   │   │   ├── AgentCount: *int
 │   │   │   │   │   ├── AgentVmSize: *string
-│   │   │   │   │   ├── AksNetworkingConfiguration: 
+│   │   │   │   │   ├── AksNetworkingConfiguration: Object (5 properties)
 │   │   │   │   │   │   ├── DnsServiceIP: *string
 │   │   │   │   │   │   ├── DockerBridgeCidr: *string
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -206,7 +206,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │   ├── LoadBalancerSubnet: *string
 │   │   │   │   │   ├── LoadBalancerType: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SslConfiguration: 
+│   │   │   │   │   └── SslConfiguration: Object (7 properties)
 │   │   │   │   │       ├── Cert: *string
 │   │   │   │   │       ├── Cname: *string
 │   │   │   │   │       ├── Key: *string
@@ -216,114 +216,114 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │       └── Status: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── AmlCompute: 
+│   │   │   ├── AmlCompute: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (11 properties)
 │   │   │   │   │   ├── EnableNodePublicIp: *bool
 │   │   │   │   │   ├── IsolatedNetwork: *bool
 │   │   │   │   │   ├── OsType: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   ├── RemoteLoginPortPublicAccess: *string
-│   │   │   │   │   ├── ScaleSettings: 
+│   │   │   │   │   ├── ScaleSettings: Object (4 properties)
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   ├── MinNodeCount: *int
 │   │   │   │   │   │   ├── NodeIdleTimeBeforeScaleDown: *string
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   ├── Subnet: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   ├── UserAccountCredentials: 
+│   │   │   │   │   ├── UserAccountCredentials: Object (4 properties)
 │   │   │   │   │   │   ├── AdminUserName: *string
 │   │   │   │   │   │   ├── AdminUserPassword: *genruntime.SecretReference
 │   │   │   │   │   │   ├── AdminUserSshPublicKey: *genruntime.SecretReference
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── VirtualMachineImage: 
+│   │   │   │   │   ├── VirtualMachineImage: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── VmPriority: *string
 │   │   │   │   │   └── VmSize: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── ComputeInstance: 
+│   │   │   ├── ComputeInstance: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (8 properties)
 │   │   │   │   │   ├── ApplicationSharingPolicy: *string
 │   │   │   │   │   ├── ComputeInstanceAuthorizationType: *string
-│   │   │   │   │   ├── PersonalComputeInstanceSettings: 
-│   │   │   │   │   │   ├── AssignedUser: 
+│   │   │   │   │   ├── PersonalComputeInstanceSettings: Object (2 properties)
+│   │   │   │   │   │   ├── AssignedUser: Object (3 properties)
 │   │   │   │   │   │   │   ├── ObjectId: *string
 │   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   │   └── TenantId: *string
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── SetupScripts: 
+│   │   │   │   │   ├── SetupScripts: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── Scripts: 
-│   │   │   │   │   │       ├── CreationScript: 
+│   │   │   │   │   │   └── Scripts: Object (3 properties)
+│   │   │   │   │   │       ├── CreationScript: Object (5 properties)
 │   │   │   │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │       │   ├── ScriptArguments: *string
 │   │   │   │   │   │       │   ├── ScriptData: *string
 │   │   │   │   │   │       │   ├── ScriptSource: *string
 │   │   │   │   │   │       │   └── Timeout: *string
 │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │       └── StartupScript: 
+│   │   │   │   │   │       └── StartupScript: Object (5 properties)
 │   │   │   │   │   │           ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │           ├── ScriptArguments: *string
 │   │   │   │   │   │           ├── ScriptData: *string
 │   │   │   │   │   │           ├── ScriptSource: *string
 │   │   │   │   │   │           └── Timeout: *string
-│   │   │   │   │   ├── SshSettings: 
+│   │   │   │   │   ├── SshSettings: Object (3 properties)
 │   │   │   │   │   │   ├── AdminPublicKey: *string
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── SshPublicAccess: *string
-│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   ├── Subnet: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   └── VmSize: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataFactory: 
+│   │   │   ├── DataFactory: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataLakeAnalytics: 
+│   │   │   ├── DataLakeAnalytics: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (2 properties)
 │   │   │   │   │   ├── DataLakeStoreAccountName: *string
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── Databricks: 
+│   │   │   ├── Databricks: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (3 properties)
 │   │   │   │   │   ├── DatabricksAccessToken: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── HDInsight: 
+│   │   │   ├── HDInsight: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (4 properties)
 │   │   │   │   │   ├── Address: *string
-│   │   │   │   │   ├── AdministratorAccount: 
+│   │   │   │   │   ├── AdministratorAccount: Object (5 properties)
 │   │   │   │   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   │   │   │   ├── PrivateKeyData: *string
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -334,17 +334,17 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── SynapseSpark: 
+│   │   │   ├── SynapseSpark: Object (7 properties)
 │   │   │   │   ├── ComputeLocation: *string
 │   │   │   │   ├── ComputeType: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
-│   │   │   │   │   ├── AutoPauseProperties: 
+│   │   │   │   ├── Properties: Object (11 properties)
+│   │   │   │   │   ├── AutoPauseProperties: Object (3 properties)
 │   │   │   │   │   │   ├── DelayInMinutes: *int
 │   │   │   │   │   │   ├── Enabled: *bool
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── AutoScaleProperties: 
+│   │   │   │   │   ├── AutoScaleProperties: Object (4 properties)
 │   │   │   │   │   │   ├── Enabled: *bool
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   ├── MinNodeCount: *int
@@ -360,14 +360,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │   └── WorkspaceName: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── VirtualMachine: 
+│   │   │   └── VirtualMachine: Object (7 properties)
 │   │   │       ├── ComputeLocation: *string
 │   │   │       ├── ComputeType: *string
 │   │   │       ├── Description: *string
 │   │   │       ├── DisableLocalAuth: *bool
-│   │   │       ├── Properties: 
+│   │   │       ├── Properties: Object (6 properties)
 │   │   │       │   ├── Address: *string
-│   │   │       │   ├── AdministratorAccount: 
+│   │   │       │   ├── AdministratorAccount: Object (5 properties)
 │   │   │       │   │   ├── Password: *genruntime.SecretReference
 │   │   │       │   │   ├── PrivateKeyData: *string
 │   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -380,11 +380,11 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
-│   │   ├── SystemData: 
+│   │   ├── SystemData: Object (7 properties)
 │   │   │   ├── CreatedAt: *string
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: *string
@@ -392,23 +392,23 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   ├── LastModifiedByType: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (11 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (4 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
 │       │       └── TenantId: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Properties: 
+│       ├── Properties: Object (11 properties)
 │       │   ├── ComputeLocation: *string
 │       │   ├── ComputeType: *string
 │       │   ├── CreatedOn: *string
@@ -417,16 +417,16 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── IsAttachedCompute: *bool
 │       │   ├── ModifiedOn: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningErrors: 
-│       │   │   ├── Error: 
-│       │   │   │   ├── AdditionalInfo: 
-│       │   │   │   │   ├── Info: Map[string]v1.JSON
+│       │   ├── ProvisioningErrors: Object (2 properties)
+│       │   │   ├── Error: Object (6 properties)
+│       │   │   │   ├── AdditionalInfo: Object (3 properties)
+│       │   │   │   │   ├── Info: map[string]v1.JSON
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   └── Type: *string
 │       │   │   │   ├── Code: *string
-│       │   │   │   ├── Details: 
-│       │   │   │   │   ├── AdditionalInfo: 
-│       │   │   │   │   │   ├── Info: Map[string]v1.JSON
+│       │   │   │   ├── Details: Object (5 properties)
+│       │   │   │   │   ├── AdditionalInfo: Object (3 properties)
+│       │   │   │   │   │   ├── Info: map[string]v1.JSON
 │       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   │   └── Type: *string
 │       │   │   │   │   ├── Code: *string
@@ -440,11 +440,11 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── ProvisioningState: *string
 │       │   └── ResourceId: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
-│       ├── SystemData: 
+│       ├── SystemData: Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -452,10 +452,10 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── LastModifiedBy: *string
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 └── WorkspacesConnection: Resource
-    ├── Spec: 
+    ├── Spec: Object (11 properties)
     │   ├── AuthType: *string
     │   ├── AzureName: string
     │   ├── Category: *string
@@ -463,14 +463,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Tags: Map[string]string
+    │   ├── Tags: map[string]string
     │   ├── Target: *string
     │   ├── Value: *string
     │   └── ValueFormat: *string
-    └── Status: 
+    └── Status: Object (10 properties)
         ├── AuthType: *string
         ├── Category: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── Id: *string
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag

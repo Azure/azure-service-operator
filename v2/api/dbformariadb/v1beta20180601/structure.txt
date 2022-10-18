@@ -1,17 +1,17 @@
 github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-06-01"
 ├── Configuration: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Source: *string
-│   │   ├── Tags: Map[string]string
+│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
-│   └── Status: 
+│   └── Status: Object (10 properties)
 │       ├── AllowedValues: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── DataType: *string
 │       ├── DefaultValue: *string
 │       ├── Description: *string
@@ -20,10 +20,10 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │       ├── Source: *string
 │       ├── Type: *string
 │       └── Value: *string
-├── Configuration_STATUS_ARM: 
+├── Configuration_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (6 properties)
 │   │   ├── AllowedValues: *string
 │   │   ├── DataType: *string
 │   │   ├── DefaultValue: *string
@@ -32,429 +32,429 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   └── Value: *string
 │   └── Type: *string
 ├── Database: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Name: *string
 │       └── Type: *string
-├── Database_STATUS_ARM: 
+├── Database_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (2 properties)
 │   │   ├── Charset: *string
 │   │   └── Collation: *string
 │   └── Type: *string
 ├── Server: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: 
-│   │   │   └── Secrets: 
+│   │   ├── OperatorSpec: Object (1 property)
+│   │   │   └── Secrets: Object (1 property)
 │   │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: 
-│   │   │   ├── ServerPropertiesForDefaultCreate: 
+│   │   ├── Properties: Object (4 properties)
+│   │   │   ├── ServerPropertiesForDefaultCreate: Object (8 properties)
 │   │   │   │   ├── AdministratorLogin: *string
 │   │   │   │   ├── AdministratorLoginPassword: genruntime.SecretReference
-│   │   │   │   ├── CreateMode: enum
+│   │   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   │   └── "Default"
-│   │   │   │   ├── MinimalTlsVersion: enum
+│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
 │   │   │   │   │   ├── "TLS1_1"
 │   │   │   │   │   ├── "TLS1_2"
 │   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: enum
+│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── SslEnforcement: enum
+│   │   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: 
+│   │   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
 │   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: enum
+│   │   │   │   └── Version: Enum (2 values)
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
-│   │   │   ├── ServerPropertiesForGeoRestore: 
-│   │   │   │   ├── CreateMode: enum
+│   │   │   ├── ServerPropertiesForGeoRestore: Object (7 properties)
+│   │   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   │   └── "GeoRestore"
-│   │   │   │   ├── MinimalTlsVersion: enum
+│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
 │   │   │   │   │   ├── "TLS1_1"
 │   │   │   │   │   ├── "TLS1_2"
 │   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: enum
+│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
 │   │   │   │   ├── SourceServerId: *string
-│   │   │   │   ├── SslEnforcement: enum
+│   │   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: 
+│   │   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
 │   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: enum
+│   │   │   │   └── Version: Enum (2 values)
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
-│   │   │   ├── ServerPropertiesForReplica: 
-│   │   │   │   ├── CreateMode: enum
+│   │   │   ├── ServerPropertiesForReplica: Object (7 properties)
+│   │   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   │   └── "Replica"
-│   │   │   │   ├── MinimalTlsVersion: enum
+│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
 │   │   │   │   │   ├── "TLS1_1"
 │   │   │   │   │   ├── "TLS1_2"
 │   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: enum
+│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
 │   │   │   │   ├── SourceServerId: *string
-│   │   │   │   ├── SslEnforcement: enum
+│   │   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: 
+│   │   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   └── "Enabled"
 │   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: enum
+│   │   │   │   └── Version: Enum (2 values)
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
-│   │   │   └── ServerPropertiesForRestore: 
-│   │   │       ├── CreateMode: enum
+│   │   │   └── ServerPropertiesForRestore: Object (8 properties)
+│   │   │       ├── CreateMode: Enum (1 value)
 │   │   │       │   └── "PointInTimeRestore"
-│   │   │       ├── MinimalTlsVersion: enum
+│   │   │       ├── MinimalTlsVersion: Enum (4 values)
 │   │   │       │   ├── "TLS1_0"
 │   │   │       │   ├── "TLS1_1"
 │   │   │       │   ├── "TLS1_2"
 │   │   │       │   └── "TLSEnforcementDisabled"
-│   │   │       ├── PublicNetworkAccess: enum
+│   │   │       ├── PublicNetworkAccess: Enum (2 values)
 │   │   │       │   ├── "Disabled"
 │   │   │       │   └── "Enabled"
-│   │   │       ├── RestorePointInTime: Validated[*string]
+│   │   │       ├── RestorePointInTime: *string
 │   │   │       ├── SourceServerId: *string
-│   │   │       ├── SslEnforcement: enum
+│   │   │       ├── SslEnforcement: Enum (2 values)
 │   │   │       │   ├── "Disabled"
 │   │   │       │   └── "Enabled"
-│   │   │       ├── StorageProfile: 
+│   │   │       ├── StorageProfile: Object (4 properties)
 │   │   │       │   ├── BackupRetentionDays: *int
-│   │   │       │   ├── GeoRedundantBackup: enum
+│   │   │       │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │       │   │   ├── "Disabled"
 │   │   │       │   │   └── "Enabled"
-│   │   │       │   ├── StorageAutogrow: enum
+│   │   │       │   ├── StorageAutogrow: Enum (2 values)
 │   │   │       │   │   ├── "Disabled"
 │   │   │       │   │   └── "Enabled"
 │   │   │       │   └── StorageMB: *int
-│   │   │       └── Version: enum
+│   │   │       └── Version: Enum (2 values)
 │   │   │           ├── "10.2"
 │   │   │           └── "10.3"
-│   │   ├── Sku: 
-│   │   │   ├── Capacity: Validated[*int]
+│   │   ├── Sku: Object (5 properties)
+│   │   │   ├── Capacity: *int
 │   │   │   ├── Family: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── Size: *string
-│   │   │   └── Tier: enum
+│   │   │   └── Tier: Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "GeneralPurpose"
 │   │   │       └── "MemoryOptimized"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (20 properties)
 │       ├── AdministratorLogin: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── EarliestRestoreDate: *string
 │       ├── FullyQualifiedDomainName: *string
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── MasterServerId: *string
-│       ├── MinimalTlsVersion: enum
+│       ├── MinimalTlsVersion: Enum (4 values)
 │       │   ├── "TLS1_0"
 │       │   ├── "TLS1_1"
 │       │   ├── "TLS1_2"
 │       │   └── "TLSEnforcementDisabled"
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (2 properties)
 │       │   ├── Id: *string
-│       │   └── Properties: 
-│       │       ├── PrivateEndpoint: 
+│       │   └── Properties: Object (3 properties)
+│       │       ├── PrivateEndpoint: Object (1 property)
 │       │       │   └── Id: *string
-│       │       ├── PrivateLinkServiceConnectionState: 
-│       │       │   ├── ActionsRequired: enum
+│       │       ├── PrivateLinkServiceConnectionState: Object (3 properties)
+│       │       │   ├── ActionsRequired: Enum (1 value)
 │       │       │   │   └── "None"
 │       │       │   ├── Description: *string
-│       │       │   └── Status: enum
+│       │       │   └── Status: Enum (4 values)
 │       │       │       ├── "Approved"
 │       │       │       ├── "Disconnected"
 │       │       │       ├── "Pending"
 │       │       │       └── "Rejected"
-│       │       └── ProvisioningState: enum
+│       │       └── ProvisioningState: Enum (5 values)
 │       │           ├── "Approving"
 │       │           ├── "Dropping"
 │       │           ├── "Failed"
 │       │           ├── "Ready"
 │       │           └── "Rejecting"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
 │       ├── ReplicaCapacity: *int
 │       ├── ReplicationRole: *string
-│       ├── Sku: 
+│       ├── Sku: Object (5 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Family: *string
 │       │   ├── Name: *string
 │       │   ├── Size: *string
-│       │   └── Tier: enum
+│       │   └── Tier: Enum (3 values)
 │       │       ├── "Basic"
 │       │       ├── "GeneralPurpose"
 │       │       └── "MemoryOptimized"
-│       ├── SslEnforcement: enum
+│       ├── SslEnforcement: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── StorageProfile: 
+│       ├── StorageProfile: Object (4 properties)
 │       │   ├── BackupRetentionDays: *int
-│       │   ├── GeoRedundantBackup: enum
+│       │   ├── GeoRedundantBackup: Enum (2 values)
 │       │   │   ├── "Disabled"
 │       │   │   └── "Enabled"
-│       │   ├── StorageAutogrow: enum
+│       │   ├── StorageAutogrow: Enum (2 values)
 │       │   │   ├── "Disabled"
 │       │   │   └── "Enabled"
 │       │   └── StorageMB: *int
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── UserVisibleState: enum
+│       ├── UserVisibleState: Enum (3 values)
 │       │   ├── "Disabled"
 │       │   ├── "Dropping"
 │       │   └── "Ready"
-│       └── Version: enum
+│       └── Version: Enum (2 values)
 │           ├── "10.2"
 │           └── "10.3"
-├── Server_STATUS_ARM: 
+├── Server_STATUS_ARM: Object (7 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (13 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── EarliestRestoreDate: *string
 │   │   ├── FullyQualifiedDomainName: *string
 │   │   ├── MasterServerId: *string
-│   │   ├── MinimalTlsVersion: enum
+│   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   ├── "TLS1_0"
 │   │   │   ├── "TLS1_1"
 │   │   │   ├── "TLS1_2"
 │   │   │   └── "TLSEnforcementDisabled"
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (2 properties)
 │   │   │   ├── Id: *string
-│   │   │   └── Properties: 
-│   │   │       ├── PrivateEndpoint: 
+│   │   │   └── Properties: Object (3 properties)
+│   │   │       ├── PrivateEndpoint: Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       ├── PrivateLinkServiceConnectionState: 
-│   │   │       │   ├── ActionsRequired: enum
+│   │   │       ├── PrivateLinkServiceConnectionState: Object (3 properties)
+│   │   │       │   ├── ActionsRequired: Enum (1 value)
 │   │   │       │   │   └── "None"
 │   │   │       │   ├── Description: *string
-│   │   │       │   └── Status: enum
+│   │   │       │   └── Status: Enum (4 values)
 │   │   │       │       ├── "Approved"
 │   │   │       │       ├── "Disconnected"
 │   │   │       │       ├── "Pending"
 │   │   │       │       └── "Rejected"
-│   │   │       └── ProvisioningState: enum
+│   │   │       └── ProvisioningState: Enum (5 values)
 │   │   │           ├── "Approving"
 │   │   │           ├── "Dropping"
 │   │   │           ├── "Failed"
 │   │   │           ├── "Ready"
 │   │   │           └── "Rejecting"
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── ReplicaCapacity: *int
 │   │   ├── ReplicationRole: *string
-│   │   ├── SslEnforcement: enum
+│   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── StorageProfile: 
+│   │   ├── StorageProfile: Object (4 properties)
 │   │   │   ├── BackupRetentionDays: *int
-│   │   │   ├── GeoRedundantBackup: enum
+│   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── StorageAutogrow: enum
+│   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
 │   │   │   └── StorageMB: *int
-│   │   ├── UserVisibleState: enum
+│   │   ├── UserVisibleState: Enum (3 values)
 │   │   │   ├── "Disabled"
 │   │   │   ├── "Dropping"
 │   │   │   └── "Ready"
-│   │   └── Version: enum
+│   │   └── Version: Enum (2 values)
 │   │       ├── "10.2"
 │   │       └── "10.3"
-│   ├── Sku: 
+│   ├── Sku: Object (5 properties)
 │   │   ├── Capacity: *int
 │   │   ├── Family: *string
 │   │   ├── Name: *string
 │   │   ├── Size: *string
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (3 values)
 │   │       ├── "Basic"
 │   │       ├── "GeneralPurpose"
 │   │       └── "MemoryOptimized"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── Server_Spec_ARM: 
+├── Server_Spec_ARM: Object (5 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── ServerPropertiesForDefaultCreate: 
+│   ├── Properties: Object (4 properties)
+│   │   ├── ServerPropertiesForDefaultCreate: Object (8 properties)
 │   │   │   ├── AdministratorLogin: *string
 │   │   │   ├── AdministratorLoginPassword: string
-│   │   │   ├── CreateMode: enum
+│   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   └── "Default"
-│   │   │   ├── MinimalTlsVersion: enum
+│   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   ├── "TLS1_0"
 │   │   │   │   ├── "TLS1_1"
 │   │   │   │   ├── "TLS1_2"
 │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── SslEnforcement: enum
+│   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: 
+│   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
 │   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: enum
+│   │   │   └── Version: Enum (2 values)
 │   │   │       ├── "10.2"
 │   │   │       └── "10.3"
-│   │   ├── ServerPropertiesForGeoRestore: 
-│   │   │   ├── CreateMode: enum
+│   │   ├── ServerPropertiesForGeoRestore: Object (7 properties)
+│   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   └── "GeoRestore"
-│   │   │   ├── MinimalTlsVersion: enum
+│   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   ├── "TLS1_0"
 │   │   │   │   ├── "TLS1_1"
 │   │   │   │   ├── "TLS1_2"
 │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
 │   │   │   ├── SourceServerId: *string
-│   │   │   ├── SslEnforcement: enum
+│   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: 
+│   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
 │   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: enum
+│   │   │   └── Version: Enum (2 values)
 │   │   │       ├── "10.2"
 │   │   │       └── "10.3"
-│   │   ├── ServerPropertiesForReplica: 
-│   │   │   ├── CreateMode: enum
+│   │   ├── ServerPropertiesForReplica: Object (7 properties)
+│   │   │   ├── CreateMode: Enum (1 value)
 │   │   │   │   └── "Replica"
-│   │   │   ├── MinimalTlsVersion: enum
+│   │   │   ├── MinimalTlsVersion: Enum (4 values)
 │   │   │   │   ├── "TLS1_0"
 │   │   │   │   ├── "TLS1_1"
 │   │   │   │   ├── "TLS1_2"
 │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: enum
+│   │   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
 │   │   │   ├── SourceServerId: *string
-│   │   │   ├── SslEnforcement: enum
+│   │   │   ├── SslEnforcement: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: 
+│   │   │   ├── StorageProfile: Object (4 properties)
 │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: enum
+│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: enum
+│   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
 │   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: enum
+│   │   │   └── Version: Enum (2 values)
 │   │   │       ├── "10.2"
 │   │   │       └── "10.3"
-│   │   └── ServerPropertiesForRestore: 
-│   │       ├── CreateMode: enum
+│   │   └── ServerPropertiesForRestore: Object (8 properties)
+│   │       ├── CreateMode: Enum (1 value)
 │   │       │   └── "PointInTimeRestore"
-│   │       ├── MinimalTlsVersion: enum
+│   │       ├── MinimalTlsVersion: Enum (4 values)
 │   │       │   ├── "TLS1_0"
 │   │       │   ├── "TLS1_1"
 │   │       │   ├── "TLS1_2"
 │   │       │   └── "TLSEnforcementDisabled"
-│   │       ├── PublicNetworkAccess: enum
+│   │       ├── PublicNetworkAccess: Enum (2 values)
 │   │       │   ├── "Disabled"
 │   │       │   └── "Enabled"
 │   │       ├── RestorePointInTime: *string
 │   │       ├── SourceServerId: *string
-│   │       ├── SslEnforcement: enum
+│   │       ├── SslEnforcement: Enum (2 values)
 │   │       │   ├── "Disabled"
 │   │       │   └── "Enabled"
-│   │       ├── StorageProfile: 
+│   │       ├── StorageProfile: Object (4 properties)
 │   │       │   ├── BackupRetentionDays: *int
-│   │       │   ├── GeoRedundantBackup: enum
+│   │       │   ├── GeoRedundantBackup: Enum (2 values)
 │   │       │   │   ├── "Disabled"
 │   │       │   │   └── "Enabled"
-│   │       │   ├── StorageAutogrow: enum
+│   │       │   ├── StorageAutogrow: Enum (2 values)
 │   │       │   │   ├── "Disabled"
 │   │       │   │   └── "Enabled"
 │   │       │   └── StorageMB: *int
-│   │       └── Version: enum
+│   │       └── Version: Enum (2 values)
 │   │           ├── "10.2"
 │   │           └── "10.3"
-│   ├── Sku: 
+│   ├── Sku: Object (5 properties)
 │   │   ├── Capacity: *int
 │   │   ├── Family: *string
 │   │   ├── Name: *string
 │   │   ├── Size: *string
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (3 values)
 │   │       ├── "Basic"
 │   │       ├── "GeneralPurpose"
 │   │       └── "MemoryOptimized"
-│   └── Tags: Map[string]string
-├── Servers_Configuration_Spec_ARM: 
+│   └── Tags: map[string]string
+├── Servers_Configuration_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (2 properties)
 │   │   ├── Source: *string
 │   │   └── Value: *string
-│   └── Tags: Map[string]string
-└── Servers_Database_Spec_ARM: 
+│   └── Tags: map[string]string
+└── Servers_Database_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
+    ├── Properties: Object (2 properties)
     │   ├── Charset: *string
     │   └── Collation: *string
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

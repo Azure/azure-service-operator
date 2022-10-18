@@ -1,18 +1,18 @@
 github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131previewstorage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2022-01-31-preview"
 └── FederatedIdentityCredential: Resource
-    ├── Spec: 
-    │   ├── Audiences: Array[string]
+    ├── Spec: Object (7 properties)
+    │   ├── Audiences: string[]
     │   ├── AzureName: string
     │   ├── Issuer: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Subject: *string
-    └── Status: 
-        ├── Audiences: Array[string]
-        ├── Conditions: Array[conditions.Condition]
+    └── Status: Object (8 properties)
+        ├── Audiences: string[]
+        ├── Conditions: conditions.Condition[]
         ├── Id: *string
         ├── Issuer: *string
         ├── Name: *string

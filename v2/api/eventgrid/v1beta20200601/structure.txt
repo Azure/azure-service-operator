@@ -1,372 +1,372 @@
 github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-06-01"
 ├── Domain: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
-│   │   ├── InboundIpRules: 
-│   │   │   ├── Action: enum
+│   │   ├── InboundIpRules: Object (2 properties)
+│   │   │   ├── Action: Enum (1 value)
 │   │   │   │   └── "Allow"
 │   │   │   └── IpMask: *string
-│   │   ├── InputSchema: enum
+│   │   ├── InputSchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── InputSchemaMapping: 
-│   │   │   ├── InputSchemaMappingType: enum
+│   │   ├── InputSchemaMapping: Object (2 properties)
+│   │   │   ├── InputSchemaMappingType: Enum (1 value)
 │   │   │   │   └── "Json"
-│   │   │   └── Properties: 
-│   │   │       ├── DataVersion: 
+│   │   │   └── Properties: Object (6 properties)
+│   │   │       ├── DataVersion: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── EventTime: 
+│   │   │       ├── EventTime: Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── EventType: 
+│   │   │       ├── EventType: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── Id: 
+│   │   │       ├── Id: Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── Subject: 
+│   │   │       ├── Subject: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       └── Topic: 
+│   │   │       └── Topic: Object (1 property)
 │   │   │           └── SourceField: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (15 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Endpoint: *string
 │       ├── Id: *string
-│       ├── InboundIpRules: 
-│       │   ├── Action: enum
+│       ├── InboundIpRules: Object (2 properties)
+│       │   ├── Action: Enum (1 value)
 │       │   │   └── "Allow"
 │       │   └── IpMask: *string
-│       ├── InputSchema: enum
+│       ├── InputSchema: Enum (3 values)
 │       │   ├── "CloudEventSchemaV1_0"
 │       │   ├── "CustomEventSchema"
 │       │   └── "EventGridSchema"
-│       ├── InputSchemaMapping: 
-│       │   └── InputSchemaMappingType: enum
+│       ├── InputSchemaMapping: Object (1 property)
+│       │   └── InputSchemaMappingType: Enum (1 value)
 │       │       └── "Json"
 │       ├── Location: *string
 │       ├── MetricResourceId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (1 property)
 │       │   └── Id: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (6 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── DomainTopic_STATUS_ARM: 
+├── DomainTopic_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── ProvisioningState: enum
+│   ├── Properties: Object (1 property)
+│   │   └── ProvisioningState: Enum (6 values)
 │   │       ├── "Canceled"
 │   │       ├── "Creating"
 │   │       ├── "Deleting"
 │   │       ├── "Failed"
 │   │       ├── "Succeeded"
 │   │       └── "Updating"
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── Domain_STATUS_ARM: 
+├── Domain_STATUS_ARM: Object (7 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (8 properties)
 │   │   ├── Endpoint: *string
-│   │   ├── InboundIpRules: 
-│   │   │   ├── Action: enum
+│   │   ├── InboundIpRules: Object (2 properties)
+│   │   │   ├── Action: Enum (1 value)
 │   │   │   │   └── "Allow"
 │   │   │   └── IpMask: *string
-│   │   ├── InputSchema: enum
+│   │   ├── InputSchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── InputSchemaMapping: 
-│   │   │   └── InputSchemaMappingType: enum
+│   │   ├── InputSchemaMapping: Object (1 property)
+│   │   │   └── InputSchemaMappingType: Enum (1 value)
 │   │   │       └── "Json"
 │   │   ├── MetricResourceId: *string
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (6 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   └── PublicNetworkAccess: enum
+│   │   └── PublicNetworkAccess: Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── Domain_Spec_ARM: 
+├── Domain_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── InboundIpRules: 
-│   │   │   ├── Action: enum
+│   ├── Properties: Object (4 properties)
+│   │   ├── InboundIpRules: Object (2 properties)
+│   │   │   ├── Action: Enum (1 value)
 │   │   │   │   └── "Allow"
 │   │   │   └── IpMask: *string
-│   │   ├── InputSchema: enum
+│   │   ├── InputSchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── InputSchemaMapping: 
-│   │   │   ├── InputSchemaMappingType: enum
+│   │   ├── InputSchemaMapping: Object (2 properties)
+│   │   │   ├── InputSchemaMappingType: Enum (1 value)
 │   │   │   │   └── "Json"
-│   │   │   └── Properties: 
-│   │   │       ├── DataVersion: 
+│   │   │   └── Properties: Object (6 properties)
+│   │   │       ├── DataVersion: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── EventTime: 
+│   │   │       ├── EventTime: Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── EventType: 
+│   │   │       ├── EventType: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── Id: 
+│   │   │       ├── Id: Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── Subject: 
+│   │   │       ├── Subject: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
-│   │   │       └── Topic: 
+│   │   │       └── Topic: Object (1 property)
 │   │   │           └── SourceField: *string
-│   │   └── PublicNetworkAccess: enum
+│   │   └── PublicNetworkAccess: Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
-│   └── Tags: Map[string]string
+│   └── Tags: map[string]string
 ├── DomainsTopic: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Name: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (6 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
 │       └── Type: *string
-├── Domains_Topic_Spec_ARM: 
+├── Domains_Topic_Spec_ARM: Object (3 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   └── Tags: Map[string]string
+│   └── Tags: map[string]string
 ├── EventSubscription: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
-│   │   ├── DeadLetterDestination: 
-│   │   │   ├── EndpointType: enum
+│   │   ├── DeadLetterDestination: Object (2 properties)
+│   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   └── "StorageBlob"
-│   │   │   └── Properties: 
+│   │   │   └── Properties: Object (2 properties)
 │   │   │       ├── BlobContainerName: *string
 │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── Destination: 
-│   │   │   ├── AzureFunction: 
-│   │   │   │   ├── EndpointType: enum
+│   │   ├── Destination: Object (7 properties)
+│   │   │   ├── AzureFunction: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "AzureFunction"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (3 properties)
 │   │   │   │       ├── MaxEventsPerBatch: *int
 │   │   │   │       ├── PreferredBatchSizeInKilobytes: *int
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── EventHub: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── EventHub: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "EventHub"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── HybridConnection: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── HybridConnection: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "HybridConnection"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── ServiceBusQueue: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── ServiceBusQueue: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "ServiceBusQueue"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── ServiceBusTopic: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── ServiceBusTopic: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "ServiceBusTopic"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── StorageQueue: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── StorageQueue: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "StorageQueue"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (2 properties)
 │   │   │   │       ├── QueueName: *string
 │   │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── WebHook: 
-│   │   │       ├── EndpointType: enum
+│   │   │   └── WebHook: Object (2 properties)
+│   │   │       ├── EndpointType: Enum (1 value)
 │   │   │       │   └── "WebHook"
-│   │   │       └── Properties: 
+│   │   │       └── Properties: Object (5 properties)
 │   │   │           ├── AzureActiveDirectoryApplicationIdOrUri: *string
 │   │   │           ├── AzureActiveDirectoryTenantId: *string
 │   │   │           ├── EndpointUrl: *string
 │   │   │           ├── MaxEventsPerBatch: *int
 │   │   │           └── PreferredBatchSizeInKilobytes: *int
-│   │   ├── EventDeliverySchema: enum
+│   │   ├── EventDeliverySchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomInputSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── ExpirationTimeUtc: Validated[*string]
-│   │   ├── Filter: 
-│   │   │   ├── AdvancedFilters: 
-│   │   │   │   ├── BoolEquals: 
+│   │   ├── ExpirationTimeUtc: *string
+│   │   ├── Filter: Object (5 properties)
+│   │   │   ├── AdvancedFilters: Object (12 properties)
+│   │   │   │   ├── BoolEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "BoolEquals"
 │   │   │   │   │   └── Value: *bool
-│   │   │   │   ├── NumberGreaterThan: 
+│   │   │   │   ├── NumberGreaterThan: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThan"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberGreaterThanOrEquals: 
+│   │   │   │   ├── NumberGreaterThanOrEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThanOrEquals"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberIn: 
+│   │   │   │   ├── NumberIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberIn"
-│   │   │   │   │   └── Values: Array[float64]
-│   │   │   │   ├── NumberLessThan: 
+│   │   │   │   │   └── Values: float64[]
+│   │   │   │   ├── NumberLessThan: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThan"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberLessThanOrEquals: 
+│   │   │   │   ├── NumberLessThanOrEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThanOrEquals"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberNotIn: 
+│   │   │   │   ├── NumberNotIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberNotIn"
-│   │   │   │   │   └── Values: Array[float64]
-│   │   │   │   ├── StringBeginsWith: 
+│   │   │   │   │   └── Values: float64[]
+│   │   │   │   ├── StringBeginsWith: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringBeginsWith"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringContains: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringContains: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringContains"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringEndsWith: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringEndsWith: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringEndsWith"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringIn: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringIn"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   └── StringNotIn: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   └── StringNotIn: Object (3 properties)
 │   │   │   │       ├── Key: *string
-│   │   │   │       ├── OperatorType: enum
+│   │   │   │       ├── OperatorType: Enum (1 value)
 │   │   │   │       │   └── "StringNotIn"
-│   │   │   │       └── Values: Array[string]
-│   │   │   ├── IncludedEventTypes: Array[string]
+│   │   │   │       └── Values: string[]
+│   │   │   ├── IncludedEventTypes: string[]
 │   │   │   ├── IsSubjectCaseSensitive: *bool
 │   │   │   ├── SubjectBeginsWith: *string
 │   │   │   └── SubjectEndsWith: *string
-│   │   ├── Labels: Array[string]
+│   │   ├── Labels: string[]
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
-│   │   ├── RetryPolicy: 
+│   │   ├── RetryPolicy: Object (2 properties)
 │   │   │   ├── EventTimeToLiveInMinutes: *int
 │   │   │   └── MaxDeliveryAttempts: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── DeadLetterDestination: 
-│       │   └── EndpointType: enum
+│   │   └── Tags: map[string]string
+│   └── Status: Object (14 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DeadLetterDestination: Object (1 property)
+│       │   └── EndpointType: Enum (1 value)
 │       │       └── "StorageBlob"
-│       ├── Destination: 
-│       │   └── EndpointType: enum
+│       ├── Destination: Object (1 property)
+│       │   └── EndpointType: Enum (7 values)
 │       │       ├── "AzureFunction"
 │       │       ├── "EventHub"
 │       │       ├── "HybridConnection"
@@ -374,15 +374,15 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │       ├── "ServiceBusTopic"
 │       │       ├── "StorageQueue"
 │       │       └── "WebHook"
-│       ├── EventDeliverySchema: enum
+│       ├── EventDeliverySchema: Enum (3 values)
 │       │   ├── "CloudEventSchemaV1_0"
 │       │   ├── "CustomInputSchema"
 │       │   └── "EventGridSchema"
 │       ├── ExpirationTimeUtc: *string
-│       ├── Filter: 
-│       │   ├── AdvancedFilters: 
+│       ├── Filter: Object (5 properties)
+│       │   ├── AdvancedFilters: Object (2 properties)
 │       │   │   ├── Key: *string
-│       │   │   └── OperatorType: enum
+│       │   │   └── OperatorType: Enum (12 values)
 │       │   │       ├── "BoolEquals"
 │       │   │       ├── "NumberGreaterThan"
 │       │   │       ├── "NumberGreaterThanOrEquals"
@@ -395,14 +395,14 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │   │       ├── "StringEndsWith"
 │       │   │       ├── "StringIn"
 │       │   │       └── "StringNotIn"
-│       │   ├── IncludedEventTypes: Array[string]
+│       │   ├── IncludedEventTypes: string[]
 │       │   ├── IsSubjectCaseSensitive: *bool
 │       │   ├── SubjectBeginsWith: *string
 │       │   └── SubjectEndsWith: *string
 │       ├── Id: *string
-│       ├── Labels: Array[string]
+│       ├── Labels: string[]
 │       ├── Name: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (7 values)
 │       │   ├── "AwaitingManualAction"
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
@@ -410,35 +410,35 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── RetryPolicy: 
+│       ├── RetryPolicy: Object (2 properties)
 │       │   ├── EventTimeToLiveInMinutes: *int
 │       │   └── MaxDeliveryAttempts: *int
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
 │       ├── Topic: *string
 │       └── Type: *string
-├── EventSubscription_STATUS_ARM: 
+├── EventSubscription_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── DeadLetterDestination: 
-│   │   │   └── EndpointType: enum
+│   ├── Properties: Object (9 properties)
+│   │   ├── DeadLetterDestination: Object (1 property)
+│   │   │   └── EndpointType: Enum (1 value)
 │   │   │       └── "StorageBlob"
-│   │   ├── Destination: 
-│   │   │   └── EndpointType: enum
+│   │   ├── Destination: Object (1 property)
+│   │   │   └── EndpointType: Enum (7 values)
 │   │   │       ├── "AzureFunction"
 │   │   │       ├── "EventHub"
 │   │   │       ├── "HybridConnection"
@@ -446,15 +446,15 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │       ├── "ServiceBusTopic"
 │   │   │       ├── "StorageQueue"
 │   │   │       └── "WebHook"
-│   │   ├── EventDeliverySchema: enum
+│   │   ├── EventDeliverySchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomInputSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── ExpirationTimeUtc: *string
-│   │   ├── Filter: 
-│   │   │   ├── AdvancedFilters: 
+│   │   ├── Filter: Object (5 properties)
+│   │   │   ├── AdvancedFilters: Object (2 properties)
 │   │   │   │   ├── Key: *string
-│   │   │   │   └── OperatorType: enum
+│   │   │   │   └── OperatorType: Enum (12 values)
 │   │   │   │       ├── "BoolEquals"
 │   │   │   │       ├── "NumberGreaterThan"
 │   │   │   │       ├── "NumberGreaterThanOrEquals"
@@ -467,12 +467,12 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   │       ├── "StringEndsWith"
 │   │   │   │       ├── "StringIn"
 │   │   │   │       └── "StringNotIn"
-│   │   │   ├── IncludedEventTypes: Array[string]
+│   │   │   ├── IncludedEventTypes: string[]
 │   │   │   ├── IsSubjectCaseSensitive: *bool
 │   │   │   ├── SubjectBeginsWith: *string
 │   │   │   └── SubjectEndsWith: *string
-│   │   ├── Labels: Array[string]
-│   │   ├── ProvisioningState: enum
+│   │   ├── Labels: string[]
+│   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "AwaitingManualAction"
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
@@ -480,256 +480,256 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── RetryPolicy: 
+│   │   ├── RetryPolicy: Object (2 properties)
 │   │   │   ├── EventTimeToLiveInMinutes: *int
 │   │   │   └── MaxDeliveryAttempts: *int
 │   │   └── Topic: *string
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── EventSubscription_Spec_ARM: 
+├── EventSubscription_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── DeadLetterDestination: 
-│   │   │   ├── EndpointType: enum
+│   ├── Properties: Object (7 properties)
+│   │   ├── DeadLetterDestination: Object (2 properties)
+│   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   └── "StorageBlob"
-│   │   │   └── Properties: 
+│   │   │   └── Properties: Object (2 properties)
 │   │   │       ├── BlobContainerName: *string
 │   │   │       └── ResourceId: *string
-│   │   ├── Destination: 
-│   │   │   ├── AzureFunction: 
-│   │   │   │   ├── EndpointType: enum
+│   │   ├── Destination: Object (7 properties)
+│   │   │   ├── AzureFunction: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "AzureFunction"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (3 properties)
 │   │   │   │       ├── MaxEventsPerBatch: *int
 │   │   │   │       ├── PreferredBatchSizeInKilobytes: *int
 │   │   │   │       └── ResourceId: *string
-│   │   │   ├── EventHub: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── EventHub: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "EventHub"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceId: *string
-│   │   │   ├── HybridConnection: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── HybridConnection: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "HybridConnection"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceId: *string
-│   │   │   ├── ServiceBusQueue: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── ServiceBusQueue: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "ServiceBusQueue"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceId: *string
-│   │   │   ├── ServiceBusTopic: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── ServiceBusTopic: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "ServiceBusTopic"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (1 property)
 │   │   │   │       └── ResourceId: *string
-│   │   │   ├── StorageQueue: 
-│   │   │   │   ├── EndpointType: enum
+│   │   │   ├── StorageQueue: Object (2 properties)
+│   │   │   │   ├── EndpointType: Enum (1 value)
 │   │   │   │   │   └── "StorageQueue"
-│   │   │   │   └── Properties: 
+│   │   │   │   └── Properties: Object (2 properties)
 │   │   │   │       ├── QueueName: *string
 │   │   │   │       └── ResourceId: *string
-│   │   │   └── WebHook: 
-│   │   │       ├── EndpointType: enum
+│   │   │   └── WebHook: Object (2 properties)
+│   │   │       ├── EndpointType: Enum (1 value)
 │   │   │       │   └── "WebHook"
-│   │   │       └── Properties: 
+│   │   │       └── Properties: Object (5 properties)
 │   │   │           ├── AzureActiveDirectoryApplicationIdOrUri: *string
 │   │   │           ├── AzureActiveDirectoryTenantId: *string
 │   │   │           ├── EndpointUrl: *string
 │   │   │           ├── MaxEventsPerBatch: *int
 │   │   │           └── PreferredBatchSizeInKilobytes: *int
-│   │   ├── EventDeliverySchema: enum
+│   │   ├── EventDeliverySchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomInputSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── ExpirationTimeUtc: *string
-│   │   ├── Filter: 
-│   │   │   ├── AdvancedFilters: 
-│   │   │   │   ├── BoolEquals: 
+│   │   ├── Filter: Object (5 properties)
+│   │   │   ├── AdvancedFilters: Object (12 properties)
+│   │   │   │   ├── BoolEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "BoolEquals"
 │   │   │   │   │   └── Value: *bool
-│   │   │   │   ├── NumberGreaterThan: 
+│   │   │   │   ├── NumberGreaterThan: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThan"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberGreaterThanOrEquals: 
+│   │   │   │   ├── NumberGreaterThanOrEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThanOrEquals"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberIn: 
+│   │   │   │   ├── NumberIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberIn"
-│   │   │   │   │   └── Values: Array[float64]
-│   │   │   │   ├── NumberLessThan: 
+│   │   │   │   │   └── Values: float64[]
+│   │   │   │   ├── NumberLessThan: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThan"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberLessThanOrEquals: 
+│   │   │   │   ├── NumberLessThanOrEquals: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThanOrEquals"
 │   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberNotIn: 
+│   │   │   │   ├── NumberNotIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "NumberNotIn"
-│   │   │   │   │   └── Values: Array[float64]
-│   │   │   │   ├── StringBeginsWith: 
+│   │   │   │   │   └── Values: float64[]
+│   │   │   │   ├── StringBeginsWith: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringBeginsWith"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringContains: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringContains: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringContains"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringEndsWith: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringEndsWith: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringEndsWith"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   ├── StringIn: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   ├── StringIn: Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: enum
+│   │   │   │   │   ├── OperatorType: Enum (1 value)
 │   │   │   │   │   │   └── "StringIn"
-│   │   │   │   │   └── Values: Array[string]
-│   │   │   │   └── StringNotIn: 
+│   │   │   │   │   └── Values: string[]
+│   │   │   │   └── StringNotIn: Object (3 properties)
 │   │   │   │       ├── Key: *string
-│   │   │   │       ├── OperatorType: enum
+│   │   │   │       ├── OperatorType: Enum (1 value)
 │   │   │   │       │   └── "StringNotIn"
-│   │   │   │       └── Values: Array[string]
-│   │   │   ├── IncludedEventTypes: Array[string]
+│   │   │   │       └── Values: string[]
+│   │   │   ├── IncludedEventTypes: string[]
 │   │   │   ├── IsSubjectCaseSensitive: *bool
 │   │   │   ├── SubjectBeginsWith: *string
 │   │   │   └── SubjectEndsWith: *string
-│   │   ├── Labels: Array[string]
-│   │   └── RetryPolicy: 
+│   │   ├── Labels: string[]
+│   │   └── RetryPolicy: Object (2 properties)
 │   │       ├── EventTimeToLiveInMinutes: *int
 │   │       └── MaxDeliveryAttempts: *int
-│   └── Tags: Map[string]string
+│   └── Tags: map[string]string
 ├── Topic: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (15 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Endpoint: *string
 │       ├── Id: *string
-│       ├── InboundIpRules: 
-│       │   ├── Action: enum
+│       ├── InboundIpRules: Object (2 properties)
+│       │   ├── Action: Enum (1 value)
 │       │   │   └── "Allow"
 │       │   └── IpMask: *string
-│       ├── InputSchema: enum
+│       ├── InputSchema: Enum (3 values)
 │       │   ├── "CloudEventSchemaV1_0"
 │       │   ├── "CustomEventSchema"
 │       │   └── "EventGridSchema"
-│       ├── InputSchemaMapping: 
-│       │   └── InputSchemaMappingType: enum
+│       ├── InputSchemaMapping: Object (1 property)
+│       │   └── InputSchemaMappingType: Enum (1 value)
 │       │       └── "Json"
 │       ├── Location: *string
 │       ├── MetricResourceId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (1 property)
 │       │   └── Id: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (6 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── Topic_STATUS_ARM: 
+├── Topic_STATUS_ARM: Object (7 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (8 properties)
 │   │   ├── Endpoint: *string
-│   │   ├── InboundIpRules: 
-│   │   │   ├── Action: enum
+│   │   ├── InboundIpRules: Object (2 properties)
+│   │   │   ├── Action: Enum (1 value)
 │   │   │   │   └── "Allow"
 │   │   │   └── IpMask: *string
-│   │   ├── InputSchema: enum
+│   │   ├── InputSchema: Enum (3 values)
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── InputSchemaMapping: 
-│   │   │   └── InputSchemaMappingType: enum
+│   │   ├── InputSchemaMapping: Object (1 property)
+│   │   │   └── InputSchemaMappingType: Enum (1 value)
 │   │   │       └── "Json"
 │   │   ├── MetricResourceId: *string
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (6 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   └── PublicNetworkAccess: enum
+│   │   └── PublicNetworkAccess: Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-└── Topic_Spec_ARM: 
+└── Topic_Spec_ARM: Object (3 properties)
     ├── Location: *string
     ├── Name: string
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

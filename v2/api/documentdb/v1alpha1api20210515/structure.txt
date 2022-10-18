@@ -1,48 +1,48 @@
 github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-05-15"
 ├── DatabaseAccount: Resource
-│   ├── Spec: 
-│   │   ├── AnalyticalStorageConfiguration: 
-│   │   │   └── SchemaType: enum
+│   ├── Spec: Object (30 properties)
+│   │   ├── AnalyticalStorageConfiguration: Object (1 property)
+│   │   │   └── SchemaType: Enum (2 values)
 │   │   │       ├── "FullFidelity"
 │   │   │       └── "WellDefined"
-│   │   ├── ApiProperties: 
-│   │   │   └── ServerVersion: enum
+│   │   ├── ApiProperties: Object (1 property)
+│   │   │   └── ServerVersion: Enum (3 values)
 │   │   │       ├── "3.2"
 │   │   │       ├── "3.6"
 │   │   │       └── "4.0"
-│   │   ├── AzureName: Validated[string]
-│   │   ├── BackupPolicy: 
-│   │   │   ├── Continuous: 
-│   │   │   │   └── Type: enum
+│   │   ├── AzureName: string
+│   │   ├── BackupPolicy: Object (2 properties)
+│   │   │   ├── Continuous: Object (1 property)
+│   │   │   │   └── Type: Enum (1 value)
 │   │   │   │       └── "Continuous"
-│   │   │   └── Periodic: 
-│   │   │       ├── PeriodicModeProperties: 
-│   │   │       │   ├── BackupIntervalInMinutes: Validated[*int]
-│   │   │       │   └── BackupRetentionIntervalInHours: Validated[*int]
-│   │   │       └── Type: enum
+│   │   │   └── Periodic: Object (2 properties)
+│   │   │       ├── PeriodicModeProperties: Object (2 properties)
+│   │   │       │   ├── BackupIntervalInMinutes: *int
+│   │   │       │   └── BackupRetentionIntervalInHours: *int
+│   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Periodic"
-│   │   ├── Capabilities: 
+│   │   ├── Capabilities: Object (1 property)
 │   │   │   └── Name: *string
-│   │   ├── ConnectorOffer: enum
+│   │   ├── ConnectorOffer: Enum (1 value)
 │   │   │   └── "Small"
-│   │   ├── ConsistencyPolicy: 
-│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   ├── ConsistencyPolicy: Object (3 properties)
+│   │   │   ├── DefaultConsistencyLevel: Enum (5 values)
 │   │   │   │   ├── "BoundedStaleness"
 │   │   │   │   ├── "ConsistentPrefix"
 │   │   │   │   ├── "Eventual"
 │   │   │   │   ├── "Session"
 │   │   │   │   └── "Strong"
-│   │   │   ├── MaxIntervalInSeconds: Validated[*int]
-│   │   │   └── MaxStalenessPrefix: Validated[*int]
-│   │   ├── Cors: 
+│   │   │   ├── MaxIntervalInSeconds: *int
+│   │   │   └── MaxStalenessPrefix: *int
+│   │   ├── Cors: Object (5 properties)
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
 │   │   │   ├── ExposedHeaders: *string
-│   │   │   └── MaxAgeInSeconds: Validated[*int]
-│   │   ├── DatabaseAccountOfferType: enum
+│   │   │   └── MaxAgeInSeconds: *int
+│   │   ├── DatabaseAccountOfferType: Enum (1 value)
 │   │   │   └── "Standard"
 │   │   ├── DefaultIdentity: *string
 │   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
@@ -51,65 +51,65 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   ├── EnableCassandraConnector: *bool
 │   │   ├── EnableFreeTier: *bool
 │   │   ├── EnableMultipleWriteLocations: *bool
-│   │   ├── Identity: 
-│   │   │   └── Type: enum
+│   │   ├── Identity: Object (1 property)
+│   │   │   └── Type: Enum (4 values)
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       ├── "SystemAssigned,UserAssigned"
 │   │   │       └── "UserAssigned"
-│   │   ├── IpRules: 
+│   │   ├── IpRules: Object (1 property)
 │   │   │   └── IpAddressOrRange: *string
 │   │   ├── IsVirtualNetworkFilterEnabled: *bool
 │   │   ├── KeyVaultKeyUri: *string
-│   │   ├── Kind: enum
+│   │   ├── Kind: Enum (3 values)
 │   │   │   ├── "GlobalDocumentDB"
 │   │   │   ├── "MongoDB"
 │   │   │   └── "Parse"
 │   │   ├── Location: *string
-│   │   ├── Locations: 
-│   │   │   ├── FailoverPriority: Validated[*int]
+│   │   ├── Locations: Object (3 properties)
+│   │   │   ├── FailoverPriority: *int
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   └── LocationName: *string
-│   │   ├── NetworkAclBypass: enum
+│   │   ├── NetworkAclBypass: Enum (2 values)
 │   │   │   ├── "AzureServices"
 │   │   │   └── "None"
-│   │   ├── NetworkAclBypassResourceIds: Array[string]
-│   │   ├── OperatorSpec: 
-│   │   │   └── Secrets: 
+│   │   ├── NetworkAclBypassResourceIds: string[]
+│   │   ├── OperatorSpec: Object (1 property)
+│   │   │   └── Secrets: Object (5 properties)
 │   │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
 │   │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
 │   │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
 │   │   │       ├── SecondaryMasterKey: *genruntime.SecretDestination
 │   │   │       └── SecondaryReadonlyMasterKey: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── Tags: Map[string]string
-│   │   └── VirtualNetworkRules: 
+│   │   ├── Tags: map[string]string
+│   │   └── VirtualNetworkRules: Object (2 properties)
 │   │       ├── IgnoreMissingVNetServiceEndpoint: *bool
 │   │       └── Reference: *genruntime.ResourceReference
-│   └── Status: 
-│       ├── AnalyticalStorageConfiguration: 
-│       │   └── SchemaType: enum
+│   └── Status: Object (37 properties)
+│       ├── AnalyticalStorageConfiguration: Object (1 property)
+│       │   └── SchemaType: Enum (2 values)
 │       │       ├── "FullFidelity"
 │       │       └── "WellDefined"
-│       ├── ApiProperties: 
-│       │   └── ServerVersion: enum
+│       ├── ApiProperties: Object (1 property)
+│       │   └── ServerVersion: Enum (3 values)
 │       │       ├── "3.2"
 │       │       ├── "3.6"
 │       │       └── "4.0"
-│       ├── BackupPolicy: 
-│       │   └── Type: enum
+│       ├── BackupPolicy: Object (1 property)
+│       │   └── Type: Enum (2 values)
 │       │       ├── "Continuous"
 │       │       └── "Periodic"
-│       ├── Capabilities: 
+│       ├── Capabilities: Object (1 property)
 │       │   └── Name: *string
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── ConnectorOffer: enum
+│       ├── Conditions: conditions.Condition[]
+│       ├── ConnectorOffer: Enum (1 value)
 │       │   └── "Small"
-│       ├── ConsistencyPolicy: 
-│       │   ├── DefaultConsistencyLevel: enum
+│       ├── ConsistencyPolicy: Object (3 properties)
+│       │   ├── DefaultConsistencyLevel: Enum (5 values)
 │       │   │   ├── "BoundedStaleness"
 │       │   │   ├── "ConsistentPrefix"
 │       │   │   ├── "Eventual"
@@ -117,13 +117,13 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   │   └── "Strong"
 │       │   ├── MaxIntervalInSeconds: *int
 │       │   └── MaxStalenessPrefix: *int
-│       ├── Cors: 
+│       ├── Cors: Object (5 properties)
 │       │   ├── AllowedHeaders: *string
 │       │   ├── AllowedMethods: *string
 │       │   ├── AllowedOrigins: *string
 │       │   ├── ExposedHeaders: *string
 │       │   └── MaxAgeInSeconds: *int
-│       ├── DatabaseAccountOfferType: enum
+│       ├── DatabaseAccountOfferType: Enum (1 value)
 │       │   └── "Standard"
 │       ├── DefaultIdentity: *string
 │       ├── DisableKeyBasedMetadataWriteAccess: *bool
@@ -133,32 +133,32 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       ├── EnableCassandraConnector: *bool
 │       ├── EnableFreeTier: *bool
 │       ├── EnableMultipleWriteLocations: *bool
-│       ├── FailoverPolicies: 
+│       ├── FailoverPolicies: Object (3 properties)
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
 │       │   └── LocationName: *string
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: enum
+│       │   ├── Type: Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned,UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
-│       ├── IpRules: 
+│       ├── IpRules: Object (1 property)
 │       │   └── IpAddressOrRange: *string
 │       ├── IsVirtualNetworkFilterEnabled: *bool
 │       ├── KeyVaultKeyUri: *string
-│       ├── Kind: enum
+│       ├── Kind: Enum (3 values)
 │       │   ├── "GlobalDocumentDB"
 │       │   ├── "MongoDB"
 │       │   └── "Parse"
 │       ├── Location: *string
-│       ├── Locations: 
+│       ├── Locations: Object (6 properties)
 │       │   ├── DocumentEndpoint: *string
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
@@ -166,74 +166,74 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   ├── LocationName: *string
 │       │   └── ProvisioningState: *string
 │       ├── Name: *string
-│       ├── NetworkAclBypass: enum
+│       ├── NetworkAclBypass: Enum (2 values)
 │       │   ├── "AzureServices"
 │       │   └── "None"
-│       ├── NetworkAclBypassResourceIds: Array[string]
-│       ├── PrivateEndpointConnections: 
+│       ├── NetworkAclBypassResourceIds: string[]
+│       ├── PrivateEndpointConnections: Object (1 property)
 │       │   └── Id: *string
 │       ├── ProvisioningState: *string
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── ReadLocations: 
+│       ├── ReadLocations: Object (6 properties)
 │       │   ├── DocumentEndpoint: *string
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
 │       │   ├── IsZoneRedundant: *bool
 │       │   ├── LocationName: *string
 │       │   └── ProvisioningState: *string
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── VirtualNetworkRules: 
+│       ├── VirtualNetworkRules: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── IgnoreMissingVNetServiceEndpoint: *bool
-│       └── WriteLocations: 
+│       └── WriteLocations: Object (6 properties)
 │           ├── DocumentEndpoint: *string
 │           ├── FailoverPriority: *int
 │           ├── Id: *string
 │           ├── IsZoneRedundant: *bool
 │           ├── LocationName: *string
 │           └── ProvisioningState: *string
-├── DatabaseAccountGetResults_STATUS_ARM: 
+├── DatabaseAccountGetResults_STATUS_ARM: Object (8 properties)
 │   ├── Id: *string
-│   ├── Identity: 
+│   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: enum
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: 
+│   │   └── UserAssignedIdentities: Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
-│   ├── Kind: enum
+│   ├── Kind: Enum (3 values)
 │   │   ├── "GlobalDocumentDB"
 │   │   ├── "MongoDB"
 │   │   └── "Parse"
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── AnalyticalStorageConfiguration: 
-│   │   │   └── SchemaType: enum
+│   ├── Properties: Object (29 properties)
+│   │   ├── AnalyticalStorageConfiguration: Object (1 property)
+│   │   │   └── SchemaType: Enum (2 values)
 │   │   │       ├── "FullFidelity"
 │   │   │       └── "WellDefined"
-│   │   ├── ApiProperties: 
-│   │   │   └── ServerVersion: enum
+│   │   ├── ApiProperties: Object (1 property)
+│   │   │   └── ServerVersion: Enum (3 values)
 │   │   │       ├── "3.2"
 │   │   │       ├── "3.6"
 │   │   │       └── "4.0"
-│   │   ├── BackupPolicy: 
-│   │   │   └── Type: enum
+│   │   ├── BackupPolicy: Object (1 property)
+│   │   │   └── Type: Enum (2 values)
 │   │   │       ├── "Continuous"
 │   │   │       └── "Periodic"
-│   │   ├── Capabilities: 
+│   │   ├── Capabilities: Object (1 property)
 │   │   │   └── Name: *string
-│   │   ├── ConnectorOffer: enum
+│   │   ├── ConnectorOffer: Enum (1 value)
 │   │   │   └── "Small"
-│   │   ├── ConsistencyPolicy: 
-│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   ├── ConsistencyPolicy: Object (3 properties)
+│   │   │   ├── DefaultConsistencyLevel: Enum (5 values)
 │   │   │   │   ├── "BoundedStaleness"
 │   │   │   │   ├── "ConsistentPrefix"
 │   │   │   │   ├── "Eventual"
@@ -241,13 +241,13 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   │   │   └── "Strong"
 │   │   │   ├── MaxIntervalInSeconds: *int
 │   │   │   └── MaxStalenessPrefix: *int
-│   │   ├── Cors: 
+│   │   ├── Cors: Object (5 properties)
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
 │   │   │   ├── ExposedHeaders: *string
 │   │   │   └── MaxAgeInSeconds: *int
-│   │   ├── DatabaseAccountOfferType: enum
+│   │   ├── DatabaseAccountOfferType: Enum (1 value)
 │   │   │   └── "Standard"
 │   │   ├── DefaultIdentity: *string
 │   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
@@ -257,89 +257,89 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   ├── EnableCassandraConnector: *bool
 │   │   ├── EnableFreeTier: *bool
 │   │   ├── EnableMultipleWriteLocations: *bool
-│   │   ├── FailoverPolicies: 
+│   │   ├── FailoverPolicies: Object (3 properties)
 │   │   │   ├── FailoverPriority: *int
 │   │   │   ├── Id: *string
 │   │   │   └── LocationName: *string
-│   │   ├── IpRules: 
+│   │   ├── IpRules: Object (1 property)
 │   │   │   └── IpAddressOrRange: *string
 │   │   ├── IsVirtualNetworkFilterEnabled: *bool
 │   │   ├── KeyVaultKeyUri: *string
-│   │   ├── Locations: 
+│   │   ├── Locations: Object (6 properties)
 │   │   │   ├── DocumentEndpoint: *string
 │   │   │   ├── FailoverPriority: *int
 │   │   │   ├── Id: *string
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   ├── LocationName: *string
 │   │   │   └── ProvisioningState: *string
-│   │   ├── NetworkAclBypass: enum
+│   │   ├── NetworkAclBypass: Enum (2 values)
 │   │   │   ├── "AzureServices"
 │   │   │   └── "None"
-│   │   ├── NetworkAclBypassResourceIds: Array[string]
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── NetworkAclBypassResourceIds: string[]
+│   │   ├── PrivateEndpointConnections: Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── ProvisioningState: *string
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── ReadLocations: 
+│   │   ├── ReadLocations: Object (6 properties)
 │   │   │   ├── DocumentEndpoint: *string
 │   │   │   ├── FailoverPriority: *int
 │   │   │   ├── Id: *string
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   ├── LocationName: *string
 │   │   │   └── ProvisioningState: *string
-│   │   ├── VirtualNetworkRules: 
+│   │   ├── VirtualNetworkRules: Object (2 properties)
 │   │   │   ├── Id: *string
 │   │   │   └── IgnoreMissingVNetServiceEndpoint: *bool
-│   │   └── WriteLocations: 
+│   │   └── WriteLocations: Object (6 properties)
 │   │       ├── DocumentEndpoint: *string
 │   │       ├── FailoverPriority: *int
 │   │       ├── Id: *string
 │   │       ├── IsZoneRedundant: *bool
 │   │       ├── LocationName: *string
 │   │       └── ProvisioningState: *string
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccount_Spec_ARM: 
-│   ├── Identity: 
-│   │   └── Type: enum
+├── DatabaseAccount_Spec_ARM: Object (6 properties)
+│   ├── Identity: Object (1 property)
+│   │   └── Type: Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned,UserAssigned"
 │   │       └── "UserAssigned"
-│   ├── Kind: enum
+│   ├── Kind: Enum (3 values)
 │   │   ├── "GlobalDocumentDB"
 │   │   ├── "MongoDB"
 │   │   └── "Parse"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── AnalyticalStorageConfiguration: 
-│   │   │   └── SchemaType: enum
+│   ├── Properties: Object (23 properties)
+│   │   ├── AnalyticalStorageConfiguration: Object (1 property)
+│   │   │   └── SchemaType: Enum (2 values)
 │   │   │       ├── "FullFidelity"
 │   │   │       └── "WellDefined"
-│   │   ├── ApiProperties: 
-│   │   │   └── ServerVersion: enum
+│   │   ├── ApiProperties: Object (1 property)
+│   │   │   └── ServerVersion: Enum (3 values)
 │   │   │       ├── "3.2"
 │   │   │       ├── "3.6"
 │   │   │       └── "4.0"
-│   │   ├── BackupPolicy: 
-│   │   │   ├── Continuous: 
-│   │   │   │   └── Type: enum
+│   │   ├── BackupPolicy: Object (2 properties)
+│   │   │   ├── Continuous: Object (1 property)
+│   │   │   │   └── Type: Enum (1 value)
 │   │   │   │       └── "Continuous"
-│   │   │   └── Periodic: 
-│   │   │       ├── PeriodicModeProperties: 
+│   │   │   └── Periodic: Object (2 properties)
+│   │   │       ├── PeriodicModeProperties: Object (2 properties)
 │   │   │       │   ├── BackupIntervalInMinutes: *int
 │   │   │       │   └── BackupRetentionIntervalInHours: *int
-│   │   │       └── Type: enum
+│   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Periodic"
-│   │   ├── Capabilities: 
+│   │   ├── Capabilities: Object (1 property)
 │   │   │   └── Name: *string
-│   │   ├── ConnectorOffer: enum
+│   │   ├── ConnectorOffer: Enum (1 value)
 │   │   │   └── "Small"
-│   │   ├── ConsistencyPolicy: 
-│   │   │   ├── DefaultConsistencyLevel: enum
+│   │   ├── ConsistencyPolicy: Object (3 properties)
+│   │   │   ├── DefaultConsistencyLevel: Enum (5 values)
 │   │   │   │   ├── "BoundedStaleness"
 │   │   │   │   ├── "ConsistentPrefix"
 │   │   │   │   ├── "Eventual"
@@ -347,13 +347,13 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   │   │   └── "Strong"
 │   │   │   ├── MaxIntervalInSeconds: *int
 │   │   │   └── MaxStalenessPrefix: *int
-│   │   ├── Cors: 
+│   │   ├── Cors: Object (5 properties)
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
 │   │   │   ├── ExposedHeaders: *string
 │   │   │   └── MaxAgeInSeconds: *int
-│   │   ├── DatabaseAccountOfferType: enum
+│   │   ├── DatabaseAccountOfferType: Enum (1 value)
 │   │   │   └── "Standard"
 │   │   ├── DefaultIdentity: *string
 │   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
@@ -362,361 +362,361 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   ├── EnableCassandraConnector: *bool
 │   │   ├── EnableFreeTier: *bool
 │   │   ├── EnableMultipleWriteLocations: *bool
-│   │   ├── IpRules: 
+│   │   ├── IpRules: Object (1 property)
 │   │   │   └── IpAddressOrRange: *string
 │   │   ├── IsVirtualNetworkFilterEnabled: *bool
 │   │   ├── KeyVaultKeyUri: *string
-│   │   ├── Locations: 
+│   │   ├── Locations: Object (3 properties)
 │   │   │   ├── FailoverPriority: *int
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   └── LocationName: *string
-│   │   ├── NetworkAclBypass: enum
+│   │   ├── NetworkAclBypass: Enum (2 values)
 │   │   │   ├── "AzureServices"
 │   │   │   └── "None"
-│   │   ├── NetworkAclBypassResourceIds: Array[string]
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── NetworkAclBypassResourceIds: string[]
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   └── VirtualNetworkRules: 
+│   │   └── VirtualNetworkRules: Object (2 properties)
 │   │       ├── Id: *string
 │   │       └── IgnoreMissingVNetServiceEndpoint: *bool
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_MongodbDatabase_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_MongodbDatabase_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (1 property)
 │   │       └── Id: *string
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (4 properties)
 │   │       ├── AnalyticalStorageTtl: *int
 │   │       ├── Id: *string
-│   │       ├── Indexes: 
-│   │       │   ├── Key: 
-│   │       │   │   └── Keys: Array[string]
-│   │       │   └── Options: 
+│   │       ├── Indexes: Object (2 properties)
+│   │       │   ├── Key: Object (1 property)
+│   │       │   │   └── Keys: string[]
+│   │       │   └── Options: Object (2 properties)
 │   │       │       ├── ExpireAfterSeconds: *int
 │   │       │       └── Unique: *bool
-│   │       └── ShardKey: Map[string]string
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM: 
+│   │       └── ShardKey: map[string]string
+│   └── Tags: map[string]string
+├── DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Resource: 
-│   │       ├── AutoscaleSettings: 
-│   │       │   ├── AutoUpgradePolicy: 
-│   │       │   │   └── ThroughputPolicy: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (2 properties)
+│   │       ├── AutoscaleSettings: Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: Object (1 property)
+│   │       │   │   └── ThroughputPolicy: Object (2 properties)
 │   │       │   │       ├── IncrementPercent: *int
 │   │       │   │       └── IsEnabled: *bool
 │   │       │   └── MaxThroughput: *int
 │   │       └── Throughput: *int
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Resource: 
-│   │       ├── AutoscaleSettings: 
-│   │       │   ├── AutoUpgradePolicy: 
-│   │       │   │   └── ThroughputPolicy: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (2 properties)
+│   │       ├── AutoscaleSettings: Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: Object (1 property)
+│   │       │   │   └── ThroughputPolicy: Object (2 properties)
 │   │       │   │       ├── IncrementPercent: *int
 │   │       │   │       └── IsEnabled: *bool
 │   │       │   └── MaxThroughput: *int
 │   │       └── Throughput: *int
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabase_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabase_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (1 property)
 │   │       └── Id: *string
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (7 properties)
 │   │       ├── AnalyticalStorageTtl: *int
-│   │       ├── ConflictResolutionPolicy: 
+│   │       ├── ConflictResolutionPolicy: Object (3 properties)
 │   │       │   ├── ConflictResolutionPath: *string
 │   │       │   ├── ConflictResolutionProcedure: *string
-│   │       │   └── Mode: enum
+│   │       │   └── Mode: Enum (2 values)
 │   │       │       ├── "Custom"
 │   │       │       └── "LastWriterWins"
 │   │       ├── DefaultTtl: *int
 │   │       ├── Id: *string
-│   │       ├── IndexingPolicy: 
+│   │       ├── IndexingPolicy: Object (6 properties)
 │   │       │   ├── Automatic: *bool
-│   │       │   ├── CompositeIndexes: 
-│   │       │   │   ├── Order: enum
+│   │       │   ├── CompositeIndexes: Object (2 properties)
+│   │       │   │   ├── Order: Enum (2 values)
 │   │       │   │   │   ├── "ascending"
 │   │       │   │   │   └── "descending"
 │   │       │   │   └── Path: *string
-│   │       │   ├── ExcludedPaths: 
+│   │       │   ├── ExcludedPaths: Object (1 property)
 │   │       │   │   └── Path: *string
-│   │       │   ├── IncludedPaths: 
-│   │       │   │   ├── Indexes: 
-│   │       │   │   │   ├── DataType: enum
+│   │       │   ├── IncludedPaths: Object (2 properties)
+│   │       │   │   ├── Indexes: Object (3 properties)
+│   │       │   │   │   ├── DataType: Enum (6 values)
 │   │       │   │   │   │   ├── "LineString"
 │   │       │   │   │   │   ├── "MultiPolygon"
 │   │       │   │   │   │   ├── "Number"
 │   │       │   │   │   │   ├── "Point"
 │   │       │   │   │   │   ├── "Polygon"
 │   │       │   │   │   │   └── "String"
-│   │       │   │   │   ├── Kind: enum
+│   │       │   │   │   ├── Kind: Enum (3 values)
 │   │       │   │   │   │   ├── "Hash"
 │   │       │   │   │   │   ├── "Range"
 │   │       │   │   │   │   └── "Spatial"
 │   │       │   │   │   └── Precision: *int
 │   │       │   │   └── Path: *string
-│   │       │   ├── IndexingMode: enum
+│   │       │   ├── IndexingMode: Enum (3 values)
 │   │       │   │   ├── "consistent"
 │   │       │   │   ├── "lazy"
 │   │       │   │   └── "none"
-│   │       │   └── SpatialIndexes: 
+│   │       │   └── SpatialIndexes: Object (2 properties)
 │   │       │       ├── Path: *string
-│   │       │       └── Types: enum
+│   │       │       └── Types: Enum (4 values)
 │   │       │           ├── "LineString"
 │   │       │           ├── "MultiPolygon"
 │   │       │           ├── "Point"
 │   │       │           └── "Polygon"
-│   │       ├── PartitionKey: 
-│   │       │   ├── Kind: enum
+│   │       ├── PartitionKey: Object (3 properties)
+│   │       │   ├── Kind: Enum (3 values)
 │   │       │   │   ├── "Hash"
 │   │       │   │   ├── "MultiHash"
 │   │       │   │   └── "Range"
-│   │       │   ├── Paths: Array[string]
+│   │       │   ├── Paths: string[]
 │   │       │   └── Version: *int
-│   │       └── UniqueKeyPolicy: 
-│   │           └── UniqueKeys: 
-│   │               └── Paths: Array[string]
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: 
+│   │       └── UniqueKeyPolicy: Object (1 property)
+│   │           └── UniqueKeys: Object (1 property)
+│   │               └── Paths: string[]
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (2 properties)
 │   │       ├── Body: *string
 │   │       └── Id: *string
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Resource: 
-│   │       ├── AutoscaleSettings: 
-│   │       │   ├── AutoUpgradePolicy: 
-│   │       │   │   └── ThroughputPolicy: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (2 properties)
+│   │       ├── AutoscaleSettings: Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: Object (1 property)
+│   │       │   │   └── ThroughputPolicy: Object (2 properties)
 │   │       │   │       ├── IncrementPercent: *int
 │   │       │   │       └── IsEnabled: *bool
 │   │       │   └── MaxThroughput: *int
 │   │       └── Throughput: *int
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (4 properties)
 │   │       ├── Body: *string
 │   │       ├── Id: *string
-│   │       ├── TriggerOperation: enum
+│   │       ├── TriggerOperation: Enum (5 values)
 │   │       │   ├── "All"
 │   │       │   ├── "Create"
 │   │       │   ├── "Delete"
 │   │       │   ├── "Replace"
 │   │       │   └── "Update"
-│   │       └── TriggerType: enum
+│   │       └── TriggerType: Enum (2 values)
 │   │           ├── "Post"
 │   │           └── "Pre"
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (2 properties)
 │   │       ├── Body: *string
 │   │       └── Id: *string
-│   └── Tags: Map[string]string
-├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: 
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Resource: 
-│   │       ├── AutoscaleSettings: 
-│   │       │   ├── AutoUpgradePolicy: 
-│   │       │   │   └── ThroughputPolicy: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (2 properties)
+│   │       ├── AutoscaleSettings: Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: Object (1 property)
+│   │       │   │   └── ThroughputPolicy: Object (2 properties)
 │   │       │   │       ├── IncrementPercent: *int
 │   │       │   │       └── IsEnabled: *bool
 │   │       │   └── MaxThroughput: *int
 │   │       └── Throughput: *int
-│   └── Tags: Map[string]string
-├── MongoDBCollectionGetResults_STATUS_ARM: 
+│   └── Tags: map[string]string
+├── MongoDBCollectionGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (7 properties)
 │   │       ├── AnalyticalStorageTtl: *int
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
-│   │       ├── Indexes: 
-│   │       │   ├── Key: 
-│   │       │   │   └── Keys: Array[string]
-│   │       │   └── Options: 
+│   │       ├── Indexes: Object (2 properties)
+│   │       │   ├── Key: Object (1 property)
+│   │       │   │   └── Keys: string[]
+│   │       │   └── Options: Object (2 properties)
 │   │       │       ├── ExpireAfterSeconds: *int
 │   │       │       └── Unique: *bool
 │   │       ├── Rid: *string
-│   │       ├── ShardKey: Map[string]string
+│   │       ├── ShardKey: map[string]string
 │   │       └── Ts: *float64
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── MongoDBDatabaseGetResults_STATUS_ARM: 
+├── MongoDBDatabaseGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (4 properties)
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
 │   │       ├── Rid: *string
 │   │       └── Ts: *float64
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
 ├── MongodbDatabase: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (1 property)
 │   │   │   └── Id: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: 
-│       │   ├── AutoscaleSettings: 
+│       ├── Options: Object (2 properties)
+│       │   ├── AutoscaleSettings: Object (1 property)
 │       │   │   └── MaxThroughput: *int
 │       │   └── Throughput: *int
-│       ├── Resource: 
+│       ├── Resource: Object (4 properties)
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Rid: *string
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollection: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (4 properties)
 │   │   │   ├── AnalyticalStorageTtl: *int
 │   │   │   ├── Id: *string
-│   │   │   ├── Indexes: 
-│   │   │   │   ├── Key: 
-│   │   │   │   │   └── Keys: Array[string]
-│   │   │   │   └── Options: 
+│   │   │   ├── Indexes: Object (2 properties)
+│   │   │   │   ├── Key: Object (1 property)
+│   │   │   │   │   └── Keys: string[]
+│   │   │   │   └── Options: Object (2 properties)
 │   │   │   │       ├── ExpireAfterSeconds: *int
 │   │   │   │       └── Unique: *bool
-│   │   │   └── ShardKey: Map[string]string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   │   └── ShardKey: map[string]string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: 
-│       │   ├── AutoscaleSettings: 
+│       ├── Options: Object (2 properties)
+│       │   ├── AutoscaleSettings: Object (1 property)
 │       │   │   └── MaxThroughput: *int
 │       │   └── Throughput: *int
-│       ├── Resource: 
+│       ├── Resource: Object (7 properties)
 │       │   ├── AnalyticalStorageTtl: *int
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── Indexes: 
-│       │   │   ├── Key: 
-│       │   │   │   └── Keys: Array[string]
-│       │   │   └── Options: 
+│       │   ├── Indexes: Object (2 properties)
+│       │   │   ├── Key: Object (1 property)
+│       │   │   │   └── Keys: string[]
+│       │   │   └── Options: Object (2 properties)
 │       │   │       ├── ExpireAfterSeconds: *int
 │       │   │       └── Unique: *bool
 │       │   ├── Rid: *string
-│       │   ├── ShardKey: Map[string]string
+│       │   ├── ShardKey: map[string]string
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
-│   │   │   ├── AutoscaleSettings: 
-│   │   │   │   ├── AutoUpgradePolicy: 
-│   │   │   │   │   └── ThroughputPolicy: 
+│   │   ├── Resource: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: Object (2 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       └── IsEnabled: *bool
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
-│       │   ├── AutoscaleSettings: 
-│       │   │   ├── AutoUpgradePolicy: 
-│       │   │   │   └── ThroughputPolicy: 
+│       ├── Resource: Object (7 properties)
+│       │   ├── AutoscaleSettings: Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: Object (1 property)
+│       │   │   │   └── ThroughputPolicy: Object (2 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       └── IsEnabled: *bool
 │       │   │   ├── MaxThroughput: *int
@@ -727,30 +727,30 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   ├── Rid: *string
 │       │   ├── Throughput: *int
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
-│   │   │   ├── AutoscaleSettings: 
-│   │   │   │   ├── AutoUpgradePolicy: 
-│   │   │   │   │   └── ThroughputPolicy: 
+│   │   ├── Resource: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: Object (2 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       └── IsEnabled: *bool
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
-│       │   ├── AutoscaleSettings: 
-│       │   │   ├── AutoUpgradePolicy: 
-│       │   │   │   └── ThroughputPolicy: 
+│       ├── Resource: Object (7 properties)
+│       │   ├── AutoscaleSettings: Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: Object (1 property)
+│       │   │   │   └── ThroughputPolicy: Object (2 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       └── IsEnabled: *bool
 │       │   │   ├── MaxThroughput: *int
@@ -761,291 +761,291 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   ├── Rid: *string
 │       │   ├── Throughput: *int
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── SqlContainerGetResults_STATUS_ARM: 
+├── SqlContainerGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (10 properties)
 │   │       ├── AnalyticalStorageTtl: *int
-│   │       ├── ConflictResolutionPolicy: 
+│   │       ├── ConflictResolutionPolicy: Object (3 properties)
 │   │       │   ├── ConflictResolutionPath: *string
 │   │       │   ├── ConflictResolutionProcedure: *string
-│   │       │   └── Mode: enum
+│   │       │   └── Mode: Enum (2 values)
 │   │       │       ├── "Custom"
 │   │       │       └── "LastWriterWins"
 │   │       ├── DefaultTtl: *int
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
-│   │       ├── IndexingPolicy: 
+│   │       ├── IndexingPolicy: Object (6 properties)
 │   │       │   ├── Automatic: *bool
-│   │       │   ├── CompositeIndexes: 
-│   │       │   │   ├── Order: enum
+│   │       │   ├── CompositeIndexes: Object (2 properties)
+│   │       │   │   ├── Order: Enum (2 values)
 │   │       │   │   │   ├── "ascending"
 │   │       │   │   │   └── "descending"
 │   │       │   │   └── Path: *string
-│   │       │   ├── ExcludedPaths: 
+│   │       │   ├── ExcludedPaths: Object (1 property)
 │   │       │   │   └── Path: *string
-│   │       │   ├── IncludedPaths: 
-│   │       │   │   ├── Indexes: 
-│   │       │   │   │   ├── DataType: enum
+│   │       │   ├── IncludedPaths: Object (2 properties)
+│   │       │   │   ├── Indexes: Object (3 properties)
+│   │       │   │   │   ├── DataType: Enum (6 values)
 │   │       │   │   │   │   ├── "LineString"
 │   │       │   │   │   │   ├── "MultiPolygon"
 │   │       │   │   │   │   ├── "Number"
 │   │       │   │   │   │   ├── "Point"
 │   │       │   │   │   │   ├── "Polygon"
 │   │       │   │   │   │   └── "String"
-│   │       │   │   │   ├── Kind: enum
+│   │       │   │   │   ├── Kind: Enum (3 values)
 │   │       │   │   │   │   ├── "Hash"
 │   │       │   │   │   │   ├── "Range"
 │   │       │   │   │   │   └── "Spatial"
 │   │       │   │   │   └── Precision: *int
 │   │       │   │   └── Path: *string
-│   │       │   ├── IndexingMode: enum
+│   │       │   ├── IndexingMode: Enum (3 values)
 │   │       │   │   ├── "consistent"
 │   │       │   │   ├── "lazy"
 │   │       │   │   └── "none"
-│   │       │   └── SpatialIndexes: 
+│   │       │   └── SpatialIndexes: Object (2 properties)
 │   │       │       ├── Path: *string
-│   │       │       └── Types: enum
+│   │       │       └── Types: Enum (4 values)
 │   │       │           ├── "LineString"
 │   │       │           ├── "MultiPolygon"
 │   │       │           ├── "Point"
 │   │       │           └── "Polygon"
-│   │       ├── PartitionKey: 
-│   │       │   ├── Kind: enum
+│   │       ├── PartitionKey: Object (4 properties)
+│   │       │   ├── Kind: Enum (3 values)
 │   │       │   │   ├── "Hash"
 │   │       │   │   ├── "MultiHash"
 │   │       │   │   └── "Range"
-│   │       │   ├── Paths: Array[string]
+│   │       │   ├── Paths: string[]
 │   │       │   ├── SystemKey: *bool
 │   │       │   └── Version: *int
 │   │       ├── Rid: *string
 │   │       ├── Ts: *float64
-│   │       └── UniqueKeyPolicy: 
-│   │           └── UniqueKeys: 
-│   │               └── Paths: Array[string]
-│   ├── Tags: Map[string]string
+│   │       └── UniqueKeyPolicy: Object (1 property)
+│   │           └── UniqueKeys: Object (1 property)
+│   │               └── Paths: string[]
+│   ├── Tags: map[string]string
 │   └── Type: *string
 ├── SqlDatabase: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (1 property)
 │   │   │   └── Id: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: 
-│       │   ├── AutoscaleSettings: 
+│       ├── Options: Object (2 properties)
+│       │   ├── AutoscaleSettings: Object (1 property)
 │       │   │   └── MaxThroughput: *int
 │       │   └── Throughput: *int
-│       ├── Resource: 
+│       ├── Resource: Object (6 properties)
 │       │   ├── Colls: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Rid: *string
 │       │   ├── Ts: *float64
 │       │   └── Users: *string
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainer: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (7 properties)
 │   │   │   ├── AnalyticalStorageTtl: *int
-│   │   │   ├── ConflictResolutionPolicy: 
+│   │   │   ├── ConflictResolutionPolicy: Object (3 properties)
 │   │   │   │   ├── ConflictResolutionPath: *string
 │   │   │   │   ├── ConflictResolutionProcedure: *string
-│   │   │   │   └── Mode: enum
+│   │   │   │   └── Mode: Enum (2 values)
 │   │   │   │       ├── "Custom"
 │   │   │   │       └── "LastWriterWins"
 │   │   │   ├── DefaultTtl: *int
 │   │   │   ├── Id: *string
-│   │   │   ├── IndexingPolicy: 
+│   │   │   ├── IndexingPolicy: Object (6 properties)
 │   │   │   │   ├── Automatic: *bool
-│   │   │   │   ├── CompositeIndexes: 
-│   │   │   │   │   ├── Order: enum
+│   │   │   │   ├── CompositeIndexes: Object (2 properties)
+│   │   │   │   │   ├── Order: Enum (2 values)
 │   │   │   │   │   │   ├── "ascending"
 │   │   │   │   │   │   └── "descending"
 │   │   │   │   │   └── Path: *string
-│   │   │   │   ├── ExcludedPaths: 
+│   │   │   │   ├── ExcludedPaths: Object (1 property)
 │   │   │   │   │   └── Path: *string
-│   │   │   │   ├── IncludedPaths: 
-│   │   │   │   │   ├── Indexes: 
-│   │   │   │   │   │   ├── DataType: enum
+│   │   │   │   ├── IncludedPaths: Object (2 properties)
+│   │   │   │   │   ├── Indexes: Object (3 properties)
+│   │   │   │   │   │   ├── DataType: Enum (6 values)
 │   │   │   │   │   │   │   ├── "LineString"
 │   │   │   │   │   │   │   ├── "MultiPolygon"
 │   │   │   │   │   │   │   ├── "Number"
 │   │   │   │   │   │   │   ├── "Point"
 │   │   │   │   │   │   │   ├── "Polygon"
 │   │   │   │   │   │   │   └── "String"
-│   │   │   │   │   │   ├── Kind: enum
+│   │   │   │   │   │   ├── Kind: Enum (3 values)
 │   │   │   │   │   │   │   ├── "Hash"
 │   │   │   │   │   │   │   ├── "Range"
 │   │   │   │   │   │   │   └── "Spatial"
 │   │   │   │   │   │   └── Precision: *int
 │   │   │   │   │   └── Path: *string
-│   │   │   │   ├── IndexingMode: enum
+│   │   │   │   ├── IndexingMode: Enum (3 values)
 │   │   │   │   │   ├── "consistent"
 │   │   │   │   │   ├── "lazy"
 │   │   │   │   │   └── "none"
-│   │   │   │   └── SpatialIndexes: 
+│   │   │   │   └── SpatialIndexes: Object (2 properties)
 │   │   │   │       ├── Path: *string
-│   │   │   │       └── Types: enum
+│   │   │   │       └── Types: Enum (4 values)
 │   │   │   │           ├── "LineString"
 │   │   │   │           ├── "MultiPolygon"
 │   │   │   │           ├── "Point"
 │   │   │   │           └── "Polygon"
-│   │   │   ├── PartitionKey: 
-│   │   │   │   ├── Kind: enum
+│   │   │   ├── PartitionKey: Object (3 properties)
+│   │   │   │   ├── Kind: Enum (3 values)
 │   │   │   │   │   ├── "Hash"
 │   │   │   │   │   ├── "MultiHash"
 │   │   │   │   │   └── "Range"
-│   │   │   │   ├── Paths: Array[string]
-│   │   │   │   └── Version: Validated[*int]
-│   │   │   └── UniqueKeyPolicy: 
-│   │   │       └── UniqueKeys: 
-│   │   │           └── Paths: Array[string]
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   │   │   ├── Paths: string[]
+│   │   │   │   └── Version: *int
+│   │   │   └── UniqueKeyPolicy: Object (1 property)
+│   │   │       └── UniqueKeys: Object (1 property)
+│   │   │           └── Paths: string[]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: 
-│       │   ├── AutoscaleSettings: 
+│       ├── Options: Object (2 properties)
+│       │   ├── AutoscaleSettings: Object (1 property)
 │       │   │   └── MaxThroughput: *int
 │       │   └── Throughput: *int
-│       ├── Resource: 
+│       ├── Resource: Object (10 properties)
 │       │   ├── AnalyticalStorageTtl: *int
-│       │   ├── ConflictResolutionPolicy: 
+│       │   ├── ConflictResolutionPolicy: Object (3 properties)
 │       │   │   ├── ConflictResolutionPath: *string
 │       │   │   ├── ConflictResolutionProcedure: *string
-│       │   │   └── Mode: enum
+│       │   │   └── Mode: Enum (2 values)
 │       │   │       ├── "Custom"
 │       │   │       └── "LastWriterWins"
 │       │   ├── DefaultTtl: *int
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── IndexingPolicy: 
+│       │   ├── IndexingPolicy: Object (6 properties)
 │       │   │   ├── Automatic: *bool
-│       │   │   ├── CompositeIndexes: 
-│       │   │   │   ├── Order: enum
+│       │   │   ├── CompositeIndexes: Object (2 properties)
+│       │   │   │   ├── Order: Enum (2 values)
 │       │   │   │   │   ├── "ascending"
 │       │   │   │   │   └── "descending"
 │       │   │   │   └── Path: *string
-│       │   │   ├── ExcludedPaths: 
+│       │   │   ├── ExcludedPaths: Object (1 property)
 │       │   │   │   └── Path: *string
-│       │   │   ├── IncludedPaths: 
-│       │   │   │   ├── Indexes: 
-│       │   │   │   │   ├── DataType: enum
+│       │   │   ├── IncludedPaths: Object (2 properties)
+│       │   │   │   ├── Indexes: Object (3 properties)
+│       │   │   │   │   ├── DataType: Enum (6 values)
 │       │   │   │   │   │   ├── "LineString"
 │       │   │   │   │   │   ├── "MultiPolygon"
 │       │   │   │   │   │   ├── "Number"
 │       │   │   │   │   │   ├── "Point"
 │       │   │   │   │   │   ├── "Polygon"
 │       │   │   │   │   │   └── "String"
-│       │   │   │   │   ├── Kind: enum
+│       │   │   │   │   ├── Kind: Enum (3 values)
 │       │   │   │   │   │   ├── "Hash"
 │       │   │   │   │   │   ├── "Range"
 │       │   │   │   │   │   └── "Spatial"
 │       │   │   │   │   └── Precision: *int
 │       │   │   │   └── Path: *string
-│       │   │   ├── IndexingMode: enum
+│       │   │   ├── IndexingMode: Enum (3 values)
 │       │   │   │   ├── "consistent"
 │       │   │   │   ├── "lazy"
 │       │   │   │   └── "none"
-│       │   │   └── SpatialIndexes: 
+│       │   │   └── SpatialIndexes: Object (2 properties)
 │       │   │       ├── Path: *string
-│       │   │       └── Types: enum
+│       │   │       └── Types: Enum (4 values)
 │       │   │           ├── "LineString"
 │       │   │           ├── "MultiPolygon"
 │       │   │           ├── "Point"
 │       │   │           └── "Polygon"
-│       │   ├── PartitionKey: 
-│       │   │   ├── Kind: enum
+│       │   ├── PartitionKey: Object (4 properties)
+│       │   │   ├── Kind: Enum (3 values)
 │       │   │   │   ├── "Hash"
 │       │   │   │   ├── "MultiHash"
 │       │   │   │   └── "Range"
-│       │   │   ├── Paths: Array[string]
+│       │   │   ├── Paths: string[]
 │       │   │   ├── SystemKey: *bool
 │       │   │   └── Version: *int
 │       │   ├── Rid: *string
 │       │   ├── Ts: *float64
-│       │   └── UniqueKeyPolicy: 
-│       │       └── UniqueKeys: 
-│       │           └── Paths: Array[string]
-│       ├── Tags: Map[string]string
+│       │   └── UniqueKeyPolicy: Object (1 property)
+│       │       └── UniqueKeys: Object (1 property)
+│       │           └── Paths: string[]
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerStoredProcedure: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (2 properties)
 │   │   │   ├── Body: *string
 │   │   │   └── Id: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
+│       ├── Resource: Object (5 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Rid: *string
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
-│   │   │   ├── AutoscaleSettings: 
-│   │   │   │   ├── AutoUpgradePolicy: 
-│   │   │   │   │   └── ThroughputPolicy: 
+│   │   ├── Resource: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: Object (2 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       └── IsEnabled: *bool
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
-│       │   ├── AutoscaleSettings: 
-│       │   │   ├── AutoUpgradePolicy: 
-│       │   │   │   └── ThroughputPolicy: 
+│       ├── Resource: Object (7 properties)
+│       │   ├── AutoscaleSettings: Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: Object (1 property)
+│       │   │   │   └── ThroughputPolicy: Object (2 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       └── IsEnabled: *bool
 │       │   │   ├── MaxThroughput: *int
@@ -1056,118 +1056,118 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   ├── Rid: *string
 │       │   ├── Throughput: *int
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerTrigger: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (4 properties)
 │   │   │   ├── Body: *string
 │   │   │   ├── Id: *string
-│   │   │   ├── TriggerOperation: enum
+│   │   │   ├── TriggerOperation: Enum (5 values)
 │   │   │   │   ├── "All"
 │   │   │   │   ├── "Create"
 │   │   │   │   ├── "Delete"
 │   │   │   │   ├── "Replace"
 │   │   │   │   └── "Update"
-│   │   │   └── TriggerType: enum
+│   │   │   └── TriggerType: Enum (2 values)
 │   │   │       ├── "Post"
 │   │   │       └── "Pre"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
+│       ├── Resource: Object (7 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Rid: *string
-│       │   ├── TriggerOperation: enum
+│       │   ├── TriggerOperation: Enum (5 values)
 │       │   │   ├── "All"
 │       │   │   ├── "Create"
 │       │   │   ├── "Delete"
 │       │   │   ├── "Replace"
 │       │   │   └── "Update"
-│       │   ├── TriggerType: enum
+│       │   ├── TriggerType: Enum (2 values)
 │       │   │   ├── "Post"
 │       │   │   └── "Pre"
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerUserDefinedFunction: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
+│   │   ├── Resource: Object (2 properties)
 │   │   │   ├── Body: *string
 │   │   │   └── Id: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
+│       ├── Resource: Object (5 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Rid: *string
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── SqlDatabaseGetResults_STATUS_ARM: 
+├── SqlDatabaseGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── Options: 
-│   │   │   ├── AutoscaleSettings: 
+│   ├── Properties: Object (2 properties)
+│   │   ├── Options: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (1 property)
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Resource: 
+│   │   └── Resource: Object (6 properties)
 │   │       ├── Colls: *string
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
 │   │       ├── Rid: *string
 │   │       ├── Ts: *float64
 │   │       └── Users: *string
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
 ├── SqlDatabaseThroughputSetting: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Resource: 
-│   │   │   ├── AutoscaleSettings: 
-│   │   │   │   ├── AutoUpgradePolicy: 
-│   │   │   │   │   └── ThroughputPolicy: 
+│   │   ├── Resource: Object (2 properties)
+│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: Object (2 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       └── IsEnabled: *bool
 │   │   │   │   └── MaxThroughput: *int
 │   │   │   └── Throughput: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Resource: 
-│       │   ├── AutoscaleSettings: 
-│       │   │   ├── AutoUpgradePolicy: 
-│       │   │   │   └── ThroughputPolicy: 
+│       ├── Resource: Object (7 properties)
+│       │   ├── AutoscaleSettings: Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: Object (1 property)
+│       │   │   │   └── ThroughputPolicy: Object (2 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       └── IsEnabled: *bool
 │       │   │   ├── MaxThroughput: *int
@@ -1178,65 +1178,65 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │   ├── Rid: *string
 │       │   ├── Throughput: *int
 │       │   └── Ts: *float64
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── SqlStoredProcedureGetResults_STATUS_ARM: 
+├── SqlStoredProcedureGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── Resource: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (5 properties)
 │   │       ├── Body: *string
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
 │   │       ├── Rid: *string
 │   │       └── Ts: *float64
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── SqlTriggerGetResults_STATUS_ARM: 
+├── SqlTriggerGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── Resource: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (7 properties)
 │   │       ├── Body: *string
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
 │   │       ├── Rid: *string
-│   │       ├── TriggerOperation: enum
+│   │       ├── TriggerOperation: Enum (5 values)
 │   │       │   ├── "All"
 │   │       │   ├── "Create"
 │   │       │   ├── "Delete"
 │   │       │   ├── "Replace"
 │   │       │   └── "Update"
-│   │       ├── TriggerType: enum
+│   │       ├── TriggerType: Enum (2 values)
 │   │       │   ├── "Post"
 │   │       │   └── "Pre"
 │   │       └── Ts: *float64
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── SqlUserDefinedFunctionGetResults_STATUS_ARM: 
+├── SqlUserDefinedFunctionGetResults_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── Resource: 
+│   ├── Properties: Object (1 property)
+│   │   └── Resource: Object (5 properties)
 │   │       ├── Body: *string
 │   │       ├── Etag: *string
 │   │       ├── Id: *string
 │   │       ├── Rid: *string
 │   │       └── Ts: *float64
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-└── ThroughputSettingsGetResults_STATUS_ARM: 
+└── ThroughputSettingsGetResults_STATUS_ARM: Object (6 properties)
     ├── Id: *string
     ├── Location: *string
     ├── Name: *string
-    ├── Properties: 
-    │   └── Resource: 
-    │       ├── AutoscaleSettings: 
-    │       │   ├── AutoUpgradePolicy: 
-    │       │   │   └── ThroughputPolicy: 
+    ├── Properties: Object (1 property)
+    │   └── Resource: Object (7 properties)
+    │       ├── AutoscaleSettings: Object (3 properties)
+    │       │   ├── AutoUpgradePolicy: Object (1 property)
+    │       │   │   └── ThroughputPolicy: Object (2 properties)
     │       │   │       ├── IncrementPercent: *int
     │       │   │       └── IsEnabled: *bool
     │       │   ├── MaxThroughput: *int
@@ -1247,5 +1247,5 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
     │       ├── Rid: *string
     │       ├── Throughput: *int
     │       └── Ts: *float64
-    ├── Tags: Map[string]string
+    ├── Tags: map[string]string
     └── Type: *string

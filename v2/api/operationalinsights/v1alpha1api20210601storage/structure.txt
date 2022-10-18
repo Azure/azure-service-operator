@@ -1,12 +1,12 @@
 github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 └── Workspace: Resource
-    ├── Spec: 
-    │   ├── AzureName: Validated[string]
+    ├── Spec: Object (15 properties)
+    │   ├── AzureName: string
     │   ├── Etag: *string
-    │   ├── Features: 
-    │   │   ├── AdditionalProperties: Map[string]v1.JSON
+    │   ├── Features: Object (7 properties)
+    │   │   ├── AdditionalProperties: map[string]v1.JSON
     │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── EnableDataExport: *bool
@@ -22,20 +22,20 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
     │   ├── PublicNetworkAccessForIngestion: *string
     │   ├── PublicNetworkAccessForQuery: *string
     │   ├── RetentionInDays: *int
-    │   ├── Sku: 
+    │   ├── Sku: Object (3 properties)
     │   │   ├── CapacityReservationLevel: *int
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Tags: Map[string]string
-    │   └── WorkspaceCapping: 
+    │   ├── Tags: map[string]string
+    │   └── WorkspaceCapping: Object (2 properties)
     │       ├── DailyQuotaGb: *float64
     │       └── PropertyBag: genruntime.PropertyBag
-    └── Status: 
-        ├── Conditions: Array[conditions.Condition]
+    └── Status: Object (20 properties)
+        ├── Conditions: conditions.Condition[]
         ├── CreatedDate: *string
         ├── CustomerId: *string
         ├── Etag: *string
-        ├── Features: 
+        ├── Features: Object (6 properties)
         │   ├── ClusterResourceId: *string
         │   ├── DisableLocalAuth: *bool
         │   ├── EnableDataExport: *bool
@@ -47,7 +47,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
         ├── Location: *string
         ├── ModifiedDate: *string
         ├── Name: *string
-        ├── PrivateLinkScopedResources: 
+        ├── PrivateLinkScopedResources: Object (3 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ResourceId: *string
         │   └── ScopeId: *string
@@ -56,14 +56,14 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
         ├── PublicNetworkAccessForIngestion: *string
         ├── PublicNetworkAccessForQuery: *string
         ├── RetentionInDays: *int
-        ├── Sku: 
+        ├── Sku: Object (4 properties)
         │   ├── CapacityReservationLevel: *int
         │   ├── LastSkuUpdate: *string
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         ├── Type: *string
-        └── WorkspaceCapping: 
+        └── WorkspaceCapping: Object (4 properties)
             ├── DailyQuotaGb: *float64
             ├── DataIngestionStatus: *string
             ├── PropertyBag: genruntime.PropertyBag
