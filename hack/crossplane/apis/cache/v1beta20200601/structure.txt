@@ -40,8 +40,10 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       │       ├── "Basic"
     │       │       ├── "Premium"
     │       │       └── "Standard"
-    │       ├── StaticIP: *string
-    │       ├── SubnetId: *string
+    │       ├── StaticIP: Validated<*string> (1 rule)
+    │       │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
+    │       ├── SubnetId: Validated<*string> (1 rule)
+    │       │   └── Rule 0: {Pattern "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"}
     │       ├── Tags: map[string]string
     │       ├── TenantSettings: map[string]string
     │       └── Zones: string[]

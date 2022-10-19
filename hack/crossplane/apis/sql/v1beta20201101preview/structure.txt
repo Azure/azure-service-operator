@@ -15,8 +15,10 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │   │       │   │   ├── "Application"
 │   │       │   │   ├── "Group"
 │   │       │   │   └── "User"
-│   │       │   ├── Sid: *string
-│   │       │   └── TenantId: *string
+│   │       │   ├── Sid: Validated<*string> (1 rule)
+│   │       │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │       │   └── TenantId: Validated<*string> (1 rule)
+│   │       │       └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
 │   │       ├── Identity: Object (1 property)
 │   │       │   └── Type: Enum (4 values)
 │   │       │       ├── "None"
@@ -143,7 +145,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       ├── ResourceGroupNameRef: *v1alpha1.Reference
     │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
     │       ├── RestorableDroppedDatabaseId: *string
-    │       ├── RestorePointInTime: *string
+    │       ├── RestorePointInTime: Validated<*string> (0 rules)
     │       ├── SampleName: Enum (3 values)
     │       │   ├── "AdventureWorksLT"
     │       │   ├── "WideWorldImportersFull"
@@ -160,7 +162,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       │   ├── Name: *string
     │       │   ├── Size: *string
     │       │   └── Tier: *string
-    │       ├── SourceDatabaseDeletionDate: *string
+    │       ├── SourceDatabaseDeletionDate: Validated<*string> (0 rules)
     │       ├── SourceDatabaseId: *string
     │       ├── Tags: map[string]string
     │       └── ZoneRedundant: *bool
