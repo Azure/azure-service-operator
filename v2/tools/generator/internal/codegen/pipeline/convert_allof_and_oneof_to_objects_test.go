@@ -6,6 +6,7 @@
 package pipeline
 
 import (
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -13,9 +14,14 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func makeSynth() synthesizer {
+func makeSynth(definitions ...astmodel.TypeDefinition) synthesizer {
+	defs := make(astmodel.TypeDefinitionSet)
+	for _, d := range definitions {
+		defs.Add(d)
+	}
+
 	return synthesizer{
-		defs:      make(astmodel.TypeDefinitionSet),
+		defs:      defs,
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
 }
@@ -212,7 +218,7 @@ func TestMergeOptionalOptional(t *testing.T) {
 // merging an optional with something else that it can be merged with results in that result
 // TODO: dubious?
 func TestMergeOptionalEnum(t *testing.T) {
-	// this feels a bit wrong but it seems to be expected in real life specs
+	// this feels a bit wrong, but it seems to be expected in real life specs
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -396,9 +402,9 @@ func TestOneOfResourceSpec(t *testing.T) {
 	synth.specOrStatus = chooseSpec
 
 	expected := astmodel.NewObjectType().WithProperties(
-		astmodel.NewPropertyDefinition(astmodel.PropertyName("Bool0"), "bool0", astmodel.BoolType).
+		astmodel.NewPropertyDefinition("Bool0", "bool0", astmodel.BoolType).
 			MakeTypeOptional().WithDescription("Mutually exclusive with all other properties"),
-		astmodel.NewPropertyDefinition(astmodel.PropertyName("Resource1"), "resource1", r).
+		astmodel.NewPropertyDefinition("Resource1", "resource1", r).
 			MakeTypeOptional().WithDescription("Mutually exclusive with all other properties"),
 	)
 
@@ -448,4 +454,53 @@ func TestSimplifyPropNamesDoesNotCreateEmptyNames(t *testing.T) {
 	// simplifyPropNames will do nothing,
 	// because trimming the common suffix would result in an empty name
 	g.Expect(newNames).To(Equal(names))
+}
+
+func TestSynthesizerOneOfObject_GivenOneOf_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	parent := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Parent",
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Child",
+		test.KnownAsProperty)
+
+	oneOf := astmodel.NewOneOfType(
+		"person",
+		parent.Name(),
+		child.Name(),
+		test.CreateObjectType(
+			test.FamilyNameProperty,
+			test.FullNameProperty))
+
+	synth := makeSynth(parent, child)
+
+	propNames, err := synth.getOneOfPropNames(oneOf)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actual := synth.oneOfObject(oneOf, propNames)
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	parentProperty := test.AssertPropertyExists(t, actual, "Parent")
+	childProperty := test.AssertPropertyExists(t, actual, "Child")
+
+	// Expect both Parent specific and common properties on parent
+	test.AssertPropertyCount(t, parentProperty.PropertyType(), 4)
+	test.AssertPropertyExists(t, parentProperty.PropertyType(), "PostalAddress")
+	test.AssertPropertyExists(t, parentProperty.PropertyType(), "ResidentialAddress")
+	test.AssertPropertyExists(t, parentProperty.PropertyType(), "FamilyName")
+	test.AssertPropertyExists(t, parentProperty.PropertyType(), "FullName")
+
+	// Expect both Child specific and common properties on child
+	test.AssertPropertyCount(t, childProperty.PropertyType(), 3)
+	test.AssertPropertyExists(t, childProperty.PropertyType(), "KnownAs")
+	test.AssertPropertyExists(t, childProperty.PropertyType(), "FamilyName")
+	test.AssertPropertyExists(t, childProperty.PropertyType(), "FullName")
 }

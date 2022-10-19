@@ -75,7 +75,7 @@ func CreateStatus(
 		astmodel.NewObjectType().WithProperties(StatusProperty).WithProperties(properties...))
 }
 
-// CreateObjectDefinition makes an object for testing
+// CreateObjectDefinition makes a type definition with an object for testing
 func CreateObjectDefinition(
 	pkg astmodel.PackageReference,
 	name string,
@@ -84,7 +84,7 @@ func CreateObjectDefinition(
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		astmodel.NewObjectType().WithProperties(properties...))
+		CreateObjectType(properties...))
 }
 
 // CreateObjectDefinition makes an object with function for testing
@@ -97,7 +97,11 @@ func CreateObjectDefinitionWithFunction(
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		astmodel.NewObjectType().WithProperties(properties...).WithFunction(function))
+		CreateObjectType(properties...).WithFunction(function))
+}
+
+func CreateObjectType(properties ...*astmodel.PropertyDefinition) *astmodel.ObjectType {
+	return astmodel.NewObjectType().WithProperties(properties...)
 }
 
 func CreateSimpleResource(

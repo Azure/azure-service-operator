@@ -67,3 +67,34 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter.configure(options)
 	asserter.assert(fileName, def)
 }
+
+// AssertObjectHasProperty fails the test if the given object does not have a property with the given name.
+// t is the current test.
+// atype is the type that's expected to have the property.
+// propertyName is the name of the property to be checked.
+func AssertPropertyExists(t *testing.T, atype astmodel.Type, propertyName astmodel.PropertyName) *astmodel.PropertyDefinition {
+	container, ok := astmodel.AsPropertyContainer(atype)
+	if !ok {
+		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
+	}
+
+	property, ok := container.Property(propertyName)
+	if !ok {
+		t.Fatalf("Expected object to have property %q", propertyName)
+	}
+
+	return property
+}
+
+// AssertPropertyCount fails the test if the given object does not have the expected number of properties.
+func AssertPropertyCount(t *testing.T, atype astmodel.Type, expected int) {
+	container, ok := astmodel.AsPropertyContainer(atype)
+	if !ok {
+		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
+	}
+
+	actual := container.Properties().Len()
+	if actual != expected {
+		t.Fatalf("Expected object to have %d properties, but had %d", expected, actual)
+	}
+}

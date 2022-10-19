@@ -340,10 +340,34 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	// OpenAPI does, see https://github.com/Azure/azure-service-operator/issues/1515
 	var properties []*astmodel.PropertyDefinition
 
+	commonProperties, err := s.findOneOfPropertyObject(oneOf)
+	if err != nil {
+		return astmodel.NewErroredType(oneOf, []string{err.Error()}, nil)
+	}
+
+	// propertyType is a local function to combine a oneof subtype with any common properties we've found earlier
+	propertyType := func(t astmodel.Type) astmodel.Type {
+		if commonProperties == nil {
+			return t
+		}
+
+		result, err := s.intersectTypes(t, commonProperties)
+		if err != nil {
+			return astmodel.NewErroredType(t, []string{err.Error()}, nil)
+		}
+
+		return result
+	}
+
 	propertyDescription := "Mutually exclusive with all other properties"
 	oneOf.Types().ForEach(func(t astmodel.Type, ix int) {
+		// Don't create a property for the object type containing our common properties
+		if t == commonProperties {
+			return
+		}
+
 		names := propNames[ix]
-		prop := astmodel.NewPropertyDefinition(names.golang, names.json, t)
+		prop := astmodel.NewPropertyDefinition(names.golang, names.json, propertyType(t))
 		prop = prop.MakeTypeOptional()
 		prop = prop.WithDescription(propertyDescription)
 		properties = append(properties, prop)
@@ -355,6 +379,35 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	result := astmodel.OneOfFlag.ApplyTo(objectType)
 
 	return result
+}
+
+// findOneOfPropertyObject looks for a nested ObjectType that contains properties specific to this OneOf that are in
+// common to all the subtypes. We need to push these properties down into each of the subtypes so that they can be
+// serialized correctly.
+// If we find exactly one nested ObjectType, it's returned.
+// If we find multiple, that's an error.
+// If we find none, that's ok.
+func (s synthesizer) findOneOfPropertyObject(oneOf *astmodel.OneOfType) (*astmodel.ObjectType, error) {
+	var result *astmodel.ObjectType
+	err := oneOf.Types().ForEachError(func(t astmodel.Type, ix int) error {
+		if obj, ok := astmodel.AsObjectType(t); ok {
+			if result == nil {
+				result = obj
+				return nil
+			}
+
+			return errors.Errorf("found multiple nested ObjectTypes in OneOf")
+		}
+
+		// Not an object, keep looking
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
@@ -517,28 +570,30 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 	})
 
 	rightProperties.ForEach(func(p *astmodel.PropertyDefinition) {
-		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
-			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
-			if err != nil {
-				klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
-				return // continue
-				// return nil, err
-			}
-
-			// TODO: need to handle merging requiredness and tags and...
-			newProp := existingProp.WithType(newType)
-			if len(p.Description()) > len(newProp.Description()) {
-				// When we merge properties, both of them may have comments, and we need to deterministically choose one
-				// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
-				// that's likely to be more specific.
-				// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
-				newProp = newProp.WithDescription(p.Description())
-			}
-
-			mergedProps[p.PropertyName()] = newProp
-		} else {
+		existingProp, ok := mergedProps[p.PropertyName()]
+		if !ok {
+			// Property doesn't already exist, so just add it
 			mergedProps[p.PropertyName()] = p
+			return // continue
 		}
+
+		newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
+		if err != nil {
+			klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
+			return // continue
+		}
+
+		// TODO: need to handle merging requiredness and tags and...
+		newProp := existingProp.WithType(newType)
+		if len(p.Description()) > len(newProp.Description()) {
+			// When we merge properties, both of them may have comments, and we need to deterministically choose one
+			// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
+			// that's likely to be more specific.
+			// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
+			newProp = newProp.WithDescription(p.Description())
+		}
+
+		mergedProps[p.PropertyName()] = newProp
 	})
 
 	// flatten
@@ -623,25 +678,28 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
-	if found, ok := s.defs[leftName]; !ok {
+	found, ok := s.defs[leftName]
+	if !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
-	} else {
-		result, err := s.intersectTypes(found.Type(), right)
-		if err != nil {
-			return nil, err
-		}
-
-		// TODO: can we somehow process these pointed-to types first,
-		// so that their innards are resolved already and we can retain
-		// the names?
-
-		if astmodel.TypeEquals(result, found.Type()) {
-			// if we got back the same thing we are referencing, preserve the reference
-			return leftName, nil
-		}
-
-		return result, nil
 	}
+
+	result, err := s.intersectTypes(found.Type(), right)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"couldn't intersect %s with %s", leftName, astmodel.DebugDescription(right))
+	}
+
+	// TODO: can we somehow process these pointed-to types first,
+	// so that their innards are resolved already and we can retain
+	// the names?
+
+	if astmodel.TypeEquals(result, found.Type()) {
+		// if we got back the same thing we are referencing, preserve the reference
+		return leftName, nil
+	}
+
+	return result, nil
 }
 
 // any type always disappears when intersected with another type
