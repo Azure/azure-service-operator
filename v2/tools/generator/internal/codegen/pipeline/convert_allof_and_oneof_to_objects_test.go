@@ -456,7 +456,7 @@ func TestSimplifyPropNamesDoesNotCreateEmptyNames(t *testing.T) {
 	g.Expect(newNames).To(Equal(names))
 }
 
-func TestSynthesizerOneOfObject_GivenOneOf_ReturnsExpectedObject(t *testing.T) {
+func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -503,4 +503,84 @@ func TestSynthesizerOneOfObject_GivenOneOf_ReturnsExpectedObject(t *testing.T) {
 	test.AssertPropertyExists(t, childProperty.PropertyType(), "KnownAs")
 	test.AssertPropertyExists(t, childProperty.PropertyType(), "FamilyName")
 	test.AssertPropertyExists(t, childProperty.PropertyType(), "FullName")
+}
+
+func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	parent := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Parent",
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Child",
+		test.KnownAsProperty)
+
+	// Our OneOf type contains nested OneOfs with configured names. In practice these names will sourced from the
+	// OpenAPI spec files, and we want to test that those names will be used to name the properties since there's no
+	// TypeName available
+	oneOf := astmodel.NewOneOfType(
+		"person",
+		astmodel.NewOneOfType("senior", parent.Name()),
+		astmodel.NewOneOfType("junior", child.Name()),
+		test.CreateObjectType(
+			test.FamilyNameProperty,
+			test.FullNameProperty))
+
+	synth := makeSynth(parent, child)
+
+	propNames, err := synth.getOneOfPropNames(oneOf)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actual := synth.oneOfObject(oneOf, propNames)
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyExists(t, actual, "Senior")
+	test.AssertPropertyExists(t, actual, "Junior")
+}
+
+func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminator_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	parent := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Parent",
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Child",
+		test.KnownAsProperty)
+
+	// Our OneOf type contains nested OneOfs with configured discriminators. In practice these discirminators will
+	// source from the OpenAPI spec files, and we want to test that those names will be used to name the properties
+	// since there's no TypeName and no OneOf Name available
+	oneOf := astmodel.NewOneOfType(
+		"person",
+		astmodel.OneOfFlag.ApplyTo(
+			astmodel.NewOneOfType("", parent.Name()).WithDiscriminatorValue("Maxima")),
+		astmodel.OneOfFlag.ApplyTo(
+			astmodel.NewOneOfType("", child.Name()).WithDiscriminatorValue("Minima")),
+		test.CreateObjectType(
+			test.FamilyNameProperty,
+			test.FullNameProperty))
+
+	synth := makeSynth(parent, child)
+
+	propNames, err := synth.getOneOfPropNames(oneOf)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actual := synth.oneOfObject(oneOf, propNames)
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyExists(t, actual, "Maxima")
+	test.AssertPropertyExists(t, actual, "Minima")
 }

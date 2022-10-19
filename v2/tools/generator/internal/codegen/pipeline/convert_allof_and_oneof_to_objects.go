@@ -252,8 +252,36 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
 			json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
-			isGoodName: true, // a typename name is good (everything else is not)
+			isGoodName: true, // a typename name is good (little else is)
 		}, nil
+
+	case *astmodel.OneOfType:
+		// If we have a name, use that
+		if concreteType.Name() != "" {
+			return propertyNames{
+				golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
+				json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
+				isGoodName: true, // a oneOf name is good (little else is)
+			}, nil
+		}
+
+		// If we have a discriminator value, use that as a name
+		if concreteType.DiscriminatorValue() != "" {
+			return propertyNames{
+				golang:     s.idFactory.CreatePropertyName(concreteType.DiscriminatorValue(), astmodel.Exported),
+				json:       s.idFactory.CreateIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
+				isGoodName: true, // a discriminator value is good (little else is)
+			}, nil
+		}
+
+		// Otherwise, if we only have one nested type, use that
+		if only, ok := concreteType.Types().Only(); ok {
+			return s.getOneOfName(only, propIndex)
+		}
+
+		// Otherwise return an error
+		return propertyNames{}, errors.Errorf("expected nested oneOf member to have discriminator value, type: %T", t)
+
 	case *astmodel.EnumType:
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
@@ -263,6 +291,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.ObjectType:
 		name := fmt.Sprintf("object%d", propIndex)
 		return propertyNames{
@@ -270,6 +299,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.MapType:
 		name := fmt.Sprintf("map%d", propIndex)
 		return propertyNames{
@@ -296,6 +326,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.ResourceType:
 		name := fmt.Sprintf("resource%d", propIndex)
 		return propertyNames{
@@ -329,6 +360,10 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 
 		return propertyNames{}, errors.New("unable to produce name for AllOf")
 
+	case astmodel.MetaType:
+		// Try unwrapping the meta type and basing the name on what's inside
+		return s.getOneOfName(concreteType.Unwrap(), propIndex)
+
 	default:
 		return propertyNames{}, errors.Errorf("unexpected oneOf member, type: %T", t)
 	}
@@ -345,7 +380,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 		return astmodel.NewErroredType(oneOf, []string{err.Error()}, nil)
 	}
 
-	// propertyType is a local function to combine a oneof subtype with any common properties we've found earlier
+	// propertyType is a local function to combine any oneof subtype with any common properties we've found earlier
 	propertyType := func(t astmodel.Type) astmodel.Type {
 		if commonProperties == nil {
 			return t
@@ -428,6 +463,7 @@ func init() {
 	i.AddUnordered(synthesizer.handleTypeName)
 	i.AddUnordered(synthesizer.handleOneOf)
 	i.AddUnordered(synthesizer.handleARMIDAndString)
+	i.AddUnordered(synthesizer.handleFlaggedType)
 
 	i.Add(synthesizer.handleOptionalOptional)
 	i.AddUnordered(synthesizer.handleOptional)
@@ -776,4 +812,14 @@ func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, erro
 	}
 
 	return intersection, nil
+}
+
+func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmodel.Type) (astmodel.Type, error) {
+	// Intersect the content and retain the flags
+	internal, err := s.intersectTypes(left.Element(), right)
+	if err != nil {
+		return nil, err
+	}
+
+	return left.WithElement(internal), nil
 }
