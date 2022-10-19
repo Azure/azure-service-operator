@@ -286,7 +286,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601
 │   │   │   ├── "CloudEventSchemaV1_0"
 │   │   │   ├── "CustomInputSchema"
 │   │   │   └── "EventGridSchema"
-│   │   ├── ExpirationTimeUtc: *string
+│   │   ├── ExpirationTimeUtc: Validated<*string> (0 rules)
 │   │   ├── Filter: Object (5 properties)
 │   │   │   ├── AdvancedFilters: Object (12 properties)
 │   │   │   │   ├── BoolEquals: Object (3 properties)

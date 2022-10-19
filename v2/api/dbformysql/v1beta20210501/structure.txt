@@ -95,7 +95,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501
 │   │   │   ├── "None"
 │   │   │   ├── "Replica"
 │   │   │   └── "Source"
-│   │   ├── RestorePointInTime: *string
+│   │   ├── RestorePointInTime: Validated<*string> (0 rules)
 │   │   ├── Sku: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: Enum (3 values)
@@ -314,10 +314,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501
 ├── FlexibleServersFirewallRule: Resource
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
-│   │   ├── EndIpAddress: *string
+│   │   ├── EndIpAddress: Validated<*string> (1 rule)
+│   │   │   └── Rule 0: {Pattern "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"}
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── StartIpAddress: *string
+│   │   ├── StartIpAddress: Validated<*string> (1 rule)
+│   │   │   └── Rule 0: {Pattern "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"}
 │   │   └── Tags: map[string]string
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]

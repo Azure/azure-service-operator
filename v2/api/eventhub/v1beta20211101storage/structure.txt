@@ -4,7 +4,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 ├── Namespace: Resource
 │   ├── Spec: Object (17 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: Object (4 properties)
@@ -109,7 +111,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │       └── ZoneRedundant: *bool
 ├── NamespacesAuthorizationRule: Resource
 │   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -134,7 +137,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── CaptureDescription: Object (7 properties)
 │   │   │   ├── Destination: Object (8 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -197,7 +202,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
 │   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -222,7 +228,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │       └── Type: *string
 └── NamespacesEventhubsConsumerGroup: Resource
     ├── Spec: Object (7 properties)
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (2 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+    │   │   └── Rule 1: {MinLength %!s(int64=1)}
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

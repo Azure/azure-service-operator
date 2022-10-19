@@ -148,18 +148,19 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   └── Tags: map[string]string
 ├── NamespacesQueue: Resource
 │   ├── Spec: Object (18 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
 │   │   ├── Location: *string
-│   │   ├── LockDuration: *string
+│   │   ├── LockDuration: Validated<*string> (0 rules)
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -223,10 +224,11 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
 │   ├── Spec: Object (13 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool

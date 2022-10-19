@@ -128,7 +128,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── AutoUpgradeProfile: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UpgradeChannel: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string

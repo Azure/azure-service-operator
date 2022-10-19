@@ -155,7 +155,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │       ├── PublicNetworkAccess: Enum (2 values)
 │   │   │       │   ├── "Disabled"
 │   │   │       │   └── "Enabled"
-│   │   │       ├── RestorePointInTime: *string
+│   │   │       ├── RestorePointInTime: Validated<*string> (0 rules)
 │   │   │       ├── SourceServerId: *string
 │   │   │       ├── SslEnforcement: Enum (2 values)
 │   │   │       │   ├── "Disabled"
@@ -173,7 +173,8 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │           ├── "10.2"
 │   │   │           └── "10.3"
 │   │   ├── Sku: Object (5 properties)
-│   │   │   ├── Capacity: *int
+│   │   │   ├── Capacity: Validated<*int> (1 rule)
+│   │   │   │   └── Rule 0: {Minimum 0}
 │   │   │   ├── Family: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── Size: *string

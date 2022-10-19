@@ -189,7 +189,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 ├── Namespace: Resource
 │   ├── Spec: Object (15 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: Object (3 properties)
@@ -217,7 +219,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │   │   └── PrivateEndpoint: Object (1 property)
 │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Sku: Object (3 properties)
-│   │   │   ├── Capacity: *int
+│   │   │   ├── Capacity: Validated<*int> (1 rule)
+│   │   │   │   └── Rule 0: {Minimum 0}
 │   │   │   ├── Name: Enum (3 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "Premium"
@@ -355,7 +358,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   └── Tags: map[string]string
 ├── NamespacesAuthorizationRule: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Rights: Enum (3 values)
@@ -390,14 +394,17 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
 │   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── CaptureDescription: Object (6 properties)
 │   │   │   ├── Destination: Object (7 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
 │   │   │   │   ├── BlobContainer: *string
 │   │   │   │   ├── DataLakeAccountName: *string
 │   │   │   │   ├── DataLakeFolderPath: *string
-│   │   │   │   ├── DataLakeSubscriptionId: *string
+│   │   │   │   ├── DataLakeSubscriptionId: Validated<*string> (1 rule)
+│   │   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── StorageAccountResourceReference: *genruntime.ResourceReference
 │   │   │   ├── Enabled: *bool
@@ -408,9 +415,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │   │   ├── SizeLimitInBytes: *int
 │   │   │   └── SkipEmptyArchives: *bool
 │   │   ├── Location: *string
-│   │   ├── MessageRetentionInDays: *int
+│   │   ├── MessageRetentionInDays: Validated<*int> (1 rule)
+│   │   │   └── Rule 0: {Minimum 1}
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PartitionCount: *int
+│   │   ├── PartitionCount: Validated<*int> (1 rule)
+│   │   │   └── Rule 0: {Minimum 1}
 │   │   └── Tags: map[string]string
 │   └── Status: Object (13 properties)
 │       ├── CaptureDescription: Object (6 properties)
@@ -466,7 +475,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Rights: Enum (3 values)
@@ -501,7 +511,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── Type: *string
 ├── NamespacesEventhubsConsumerGroup: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Tags: map[string]string

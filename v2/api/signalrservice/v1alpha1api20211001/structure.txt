@@ -15,7 +15,9 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api2021100
 │   │   │   │   ├── "EnableMessagingLogs"
 │   │   │   │   └── "ServiceMode"
 │   │   │   ├── Properties: map[string]string
-│   │   │   └── Value: *string
+│   │   │   └── Value: Validated<*string> (2 rules)
+│   │   │       ├── Rule 0: {MaxLength %!s(int64=128)}
+│   │   │       └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── Identity: Object (2 properties)
 │   │   │   ├── Type: Enum (3 values)
 │   │   │   │   ├── "None"

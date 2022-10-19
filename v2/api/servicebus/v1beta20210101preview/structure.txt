@@ -148,18 +148,19 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Tags: map[string]string
 ├── NamespacesQueue: Resource
 │   ├── Spec: Object (18 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
 │   │   ├── Location: *string
-│   │   ├── LockDuration: *string
+│   │   ├── LockDuration: Validated<*string> (0 rules)
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -223,10 +224,11 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
 │   ├── Spec: Object (13 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
@@ -288,17 +290,19 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscription: Resource
 │   ├── Spec: Object (15 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
+│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
 │   │   ├── Location: *string
-│   │   ├── LockDuration: *string
+│   │   ├── LockDuration: Validated<*string> (0 rules)
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── RequiresSession: *bool
@@ -360,7 +364,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── CompatibilityLevel: *int
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── CorrelationFilter: Object (10 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   ├── CorrelationId: *string
@@ -378,7 +384,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── SqlFilter: Object (3 properties)
-│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── CompatibilityLevel: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 20}
+│   │   │   │   └── Rule 1: {Minimum 20}
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
 │   │   └── Tags: map[string]string

@@ -5,7 +5,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131pre
 │   ├── Spec: Object (5 properties)
 │   │   ├── Audiences: string[]
 │   │   ├── AzureName: string
-│   │   ├── Issuer: *string
+│   │   ├── Issuer: Validated<*string> (0 rules)
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── Subject: *string
 │   └── Status: Object (7 properties)

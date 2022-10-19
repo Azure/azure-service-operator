@@ -211,7 +211,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │       ├── "AADDS"
 │   │   │       ├── "AD"
 │   │   │       └── "None"
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── CustomDomain: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── UseSubDomainName: *bool
@@ -945,9 +947,13 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   │   ├── ChangeFeed: Object (2 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   └── RetentionInDays: *int
+│   │   │   └── RetentionInDays: Validated<*int> (2 rules)
+│   │   │       ├── Rule 0: {Maximum 146000}
+│   │   │       └── Rule 1: {Minimum 1}
 │   │   ├── ContainerDeleteRetentionPolicy: Object (2 properties)
-│   │   │   ├── Days: *int
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
 │   │   ├── Cors: Object (1 property)
 │   │   │   └── CorsRules: Object (5 properties)
@@ -965,7 +971,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │       └── MaxAgeInSeconds: *int
 │   │   ├── DefaultServiceVersion: *string
 │   │   ├── DeleteRetentionPolicy: Object (2 properties)
-│   │   │   ├── Days: *int
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
 │   │   ├── IsVersioningEnabled: *bool
 │   │   ├── LastAccessTimeTrackingPolicy: Object (4 properties)
@@ -977,7 +985,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── RestorePolicy: Object (2 properties)
-│   │   │   ├── Days: *int
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
 │   │   └── Tags: map[string]string
 │   └── Status: Object (14 properties)
@@ -1037,7 +1047,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── ImmutableStorageWithVersioning: Object (1 property)
@@ -1122,34 +1134,62 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │       │   ├── Actions: Object (3 properties)
 │   │   │       │   │   ├── BaseBlob: Object (4 properties)
 │   │   │       │   │   │   ├── Delete: Object (2 properties)
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
 │   │   │       │   │   │   ├── TierToArchive: Object (2 properties)
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   │   └── TierToCool: Object (2 properties)
-│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │   │       │   │   │       └── DaysAfterModificationGreaterThan: *int
+│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │       │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │       │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   ├── Snapshot: Object (3 properties)
 │   │   │       │   │   │   ├── Delete: Object (1 property)
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   │   ├── TierToArchive: Object (1 property)
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   │   └── TierToCool: Object (1 property)
-│   │   │       │   │   │       └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │   │       └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   └── Version: Object (3 properties)
 │   │   │       │   │       ├── Delete: Object (1 property)
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │       ├── TierToArchive: Object (1 property)
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │       └── TierToCool: Object (1 property)
-│   │   │       │   │           └── DaysAfterCreationGreaterThan: *int
+│   │   │       │   │           └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │               ├── Rule 0: {Minimum 0}
+│   │   │       │   │               └── Rule 1: {MultipleOf 1}
 │   │   │       │   └── Filters: Object (3 properties)
 │   │   │       │       ├── BlobIndexMatch: Object (3 properties)
-│   │   │       │       │   ├── Name: *string
+│   │   │       │       │   ├── Name: Validated<*string> (2 rules)
+│   │   │       │       │   │   ├── Rule 0: {MaxLength %!s(int64=128)}
+│   │   │       │       │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   │       │       │   ├── Op: *string
-│   │   │       │       │   └── Value: *string
+│   │   │       │       │   └── Value: Validated<*string> (2 rules)
+│   │   │       │       │       ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │   │       │       │       └── Rule 1: {MinLength %!s(int64=0)}
 │   │   │       │       ├── BlobTypes: string[]
 │   │   │       │       └── PrefixMatch: string[]
 │   │   │       ├── Enabled: *bool
@@ -1243,7 +1283,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       └── Type: *string
 ├── StorageAccountsQueueServicesQueue: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── Location: *string
 │   │   ├── Metadata: map[string]string
 │   │   ├── Owner: *genruntime.KnownResourceReference

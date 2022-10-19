@@ -139,7 +139,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   └── "MIG7g"
 │   │   │   ├── KubeletConfig: Object (11 properties)
 │   │   │   │   ├── AllowedUnsafeSysctls: string[]
-│   │   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   │   ├── ContainerLogMaxFiles: Validated<*int> (1 rule)
+│   │   │   │   │   └── Rule 0: {Minimum 2}
 │   │   │   │   ├── ContainerLogMaxSizeMB: *int
 │   │   │   │   ├── CpuCfsQuota: *bool
 │   │   │   │   ├── CpuCfsQuotaPeriod: *string
@@ -191,12 +192,15 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── Mode: Enum (2 values)
 │   │   │   │   ├── "System"
 │   │   │   │   └── "User"
-│   │   │   ├── Name: *string
+│   │   │   ├── Name: Validated<*string> (1 rule)
+│   │   │   │   └── Rule 0: {Pattern "^[a-z][a-z0-9]{0,11}$"}
 │   │   │   ├── NodeLabels: map[string]string
 │   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
-│   │   │   ├── OsDiskSizeGB: *int
+│   │   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 2048}
+│   │   │   │   └── Rule 1: {Minimum 0}
 │   │   │   ├── OsDiskType: Enum (2 values)
 │   │   │   │   ├── "Ephemeral"
 │   │   │   │   └── "Managed"
@@ -207,7 +211,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   │   ├── ProximityPlacementGroupID: *string
+│   │   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
 │   │   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
@@ -257,7 +261,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │       ├── "patch"
 │   │   │       ├── "rapid"
 │   │   │       └── "stable"
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
@@ -285,21 +292,30 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (2 properties)
-│   │   │   ├── AdminUsername: *string
+│   │   │   ├── AdminUsername: Validated<*string> (1 rule)
+│   │   │   │   └── Rule 0: {Pattern "^[A-Za-z][-A-Za-z0-9_]*$"}
 │   │   │   └── Ssh: Object (1 property)
 │   │   │       └── PublicKeys: Object (1 property)
 │   │   │           └── KeyData: *string
 │   │   ├── Location: *string
 │   │   ├── NetworkProfile: Object (10 properties)
-│   │   │   ├── DnsServiceIP: *string
-│   │   │   ├── DockerBridgeCidr: *string
+│   │   │   ├── DnsServiceIP: Validated<*string> (1 rule)
+│   │   │   │   └── Rule 0: {Pattern "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"}
+│   │   │   ├── DockerBridgeCidr: Validated<*string> (1 rule)
+│   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
 │   │   │   ├── LoadBalancerProfile: Object (6 properties)
-│   │   │   │   ├── AllocatedOutboundPorts: *int
+│   │   │   │   ├── AllocatedOutboundPorts: Validated<*int> (2 rules)
+│   │   │   │   │   ├── Rule 0: {Maximum 64000}
+│   │   │   │   │   └── Rule 1: {Minimum 0}
 │   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   │   ├── IdleTimeoutInMinutes: Validated<*int> (2 rules)
+│   │   │   │   │   ├── Rule 0: {Maximum 120}
+│   │   │   │   │   └── Rule 1: {Minimum 4}
 │   │   │   │   ├── ManagedOutboundIPs: Object (1 property)
-│   │   │   │   │   └── Count: *int
+│   │   │   │   │   └── Count: Validated<*int> (2 rules)
+│   │   │   │   │       ├── Rule 0: {Maximum 100}
+│   │   │   │   │       └── Rule 1: {Minimum 1}
 │   │   │   │   ├── OutboundIPPrefixes: Object (1 property)
 │   │   │   │   │   └── PublicIPPrefixes: Object (1 property)
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
@@ -321,8 +337,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── OutboundType: Enum (2 values)
 │   │   │   │   ├── "loadBalancer"
 │   │   │   │   └── "userDefinedRouting"
-│   │   │   ├── PodCidr: *string
-│   │   │   └── ServiceCidr: *string
+│   │   │   ├── PodCidr: Validated<*string> (1 rule)
+│   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
+│   │   │   └── ServiceCidr: Validated<*string> (1 rule)
+│   │   │       └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
 │   │   ├── NodeResourceGroup: *string
 │   │   ├── OperatorSpec: Object (1 property)
 │   │   │   └── Secrets: Object (2 properties)
@@ -1205,7 +1223,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   └── "MIG7g"
 │   │   ├── KubeletConfig: Object (11 properties)
 │   │   │   ├── AllowedUnsafeSysctls: string[]
-│   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   ├── ContainerLogMaxFiles: Validated<*int> (1 rule)
+│   │   │   │   └── Rule 0: {Minimum 2}
 │   │   │   ├── ContainerLogMaxSizeMB: *int
 │   │   │   ├── CpuCfsQuota: *bool
 │   │   │   ├── CpuCfsQuotaPeriod: *string
@@ -1262,7 +1281,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
-│   │   ├── OsDiskSizeGB: *int
+│   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
+│   │   │   ├── Rule 0: {Maximum 2048}
+│   │   │   └── Rule 1: {Minimum 0}
 │   │   ├── OsDiskType: Enum (2 values)
 │   │   │   ├── "Ephemeral"
 │   │   │   └── "Managed"
@@ -1274,7 +1295,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   ├── ProximityPlacementGroupID: *string
+│   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
 │   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"

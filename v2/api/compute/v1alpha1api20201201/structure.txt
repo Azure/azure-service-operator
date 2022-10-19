@@ -1006,9 +1006,15 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 │   │   │   │   └── "Rolling"
 │   │   │   └── RollingUpgradePolicy: Object (6 properties)
 │   │   │       ├── EnableCrossZoneUpgrade: *bool
-│   │   │       ├── MaxBatchInstancePercent: *int
-│   │   │       ├── MaxUnhealthyInstancePercent: *int
-│   │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
+│   │   │       ├── MaxBatchInstancePercent: Validated<*int> (2 rules)
+│   │   │       │   ├── Rule 0: {Maximum 100}
+│   │   │       │   └── Rule 1: {Minimum 5}
+│   │   │       ├── MaxUnhealthyInstancePercent: Validated<*int> (2 rules)
+│   │   │       │   ├── Rule 0: {Maximum 100}
+│   │   │       │   └── Rule 1: {Minimum 5}
+│   │   │       ├── MaxUnhealthyUpgradedInstancePercent: Validated<*int> (2 rules)
+│   │   │       │   ├── Rule 0: {Maximum 100}
+│   │   │       │   └── Rule 1: {Minimum 0}
 │   │   │       ├── PauseTimeBetweenBatches: *string
 │   │   │       └── PrioritizeUnhealthyInstances: *bool
 │   │   ├── VirtualMachineProfile: Object (11 properties)
@@ -1024,10 +1030,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 │   │   │   ├── ExtensionProfile: Object (2 properties)
 │   │   │   │   ├── Extensions: Object (5 properties)
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── Publisher: *string
+│   │   │   │   │   ├── Publisher: Validated<*string> (1 rule)
+│   │   │   │   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
-│   │   │   │   │   ├── Type: *string
-│   │   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   │   │   ├── Type: Validated<*string> (1 rule)
+│   │   │   │   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   │   │   └── TypeHandlerVersion: Validated<*string> (1 rule)
+│   │   │   │   │       └── Rule 0: {MinLength %!s(int64=1)}
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
 │   │   │   ├── NetworkProfile: Object (2 properties)

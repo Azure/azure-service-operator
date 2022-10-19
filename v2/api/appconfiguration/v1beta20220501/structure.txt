@@ -3,7 +3,10 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501
 │   └── "2022-05-01"
 ├── ConfigurationStore: Resource
 │   ├── Spec: Object (14 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9_-]*$"}
 │   │   ├── CreateMode: Enum (2 values)
 │   │   │   ├── "Default"
 │   │   │   └── "Recover"
@@ -42,14 +45,14 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501
 │   │   │   └── Name: *string
 │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   ├── SystemData: Object (6 properties)
-│   │   │   ├── CreatedAt: *string
+│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: *string
+│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: Enum (4 values)
 │   │   │       ├── "Application"

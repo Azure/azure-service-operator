@@ -142,14 +142,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   └── Tier: *string
 │   │   ├── StorageAccountReference: *genruntime.ResourceReference
 │   │   ├── SystemData: Object (6 properties)
-│   │   │   ├── CreatedAt: *string
+│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: *string
+│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: Enum (4 values)
 │   │   │       ├── "Application"
@@ -512,12 +512,16 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   │   ├── Properties: Object (8 properties)
-│   │   │   │   │   ├── AgentCount: *int
+│   │   │   │   │   ├── AgentCount: Validated<*int> (1 rule)
+│   │   │   │   │   │   └── Rule 0: {Minimum 0}
 │   │   │   │   │   ├── AgentVmSize: *string
 │   │   │   │   │   ├── AksNetworkingConfiguration: Object (4 properties)
-│   │   │   │   │   │   ├── DnsServiceIP: *string
-│   │   │   │   │   │   ├── DockerBridgeCidr: *string
-│   │   │   │   │   │   ├── ServiceCidr: *string
+│   │   │   │   │   │   ├── DnsServiceIP: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"}
+│   │   │   │   │   │   ├── DockerBridgeCidr: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
+│   │   │   │   │   │   ├── ServiceCidr: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
 │   │   │   │   │   │   └── SubnetReference: *genruntime.ResourceReference
 │   │   │   │   │   ├── ClusterFqdn: *string
 │   │   │   │   │   ├── ClusterPurpose: Enum (3 values)
@@ -558,7 +562,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │   ├── ScaleSettings: Object (3 properties)
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   ├── MinNodeCount: *int
-│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: *string
+│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: Validated<*string> (0 rules)
 │   │   │   │   │   ├── Subnet: Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── UserAccountCredentials: Object (3 properties)
@@ -694,14 +698,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *string
 │   │   ├── SystemData: Object (6 properties)
-│   │   │   ├── CreatedAt: *string
+│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: *string
+│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: Enum (4 values)
 │   │   │       ├── "Application"

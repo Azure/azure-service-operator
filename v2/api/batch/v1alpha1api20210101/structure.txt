@@ -5,7 +5,10 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101
 │   ├── Spec: Object (10 properties)
 │   │   ├── AutoStorage: Object (1 property)
 │   │   │   └── StorageAccountReference: *genruntime.ResourceReference
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]+$"}
 │   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── KeySource: Enum (2 values)
 │   │   │   │   ├── "Microsoft.Batch"

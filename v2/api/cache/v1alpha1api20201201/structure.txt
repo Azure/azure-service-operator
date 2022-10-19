@@ -35,7 +35,8 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
-│   │   ├── StaticIP: *string
+│   │   ├── StaticIP: Validated<*string> (1 rule)
+│   │   │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
 │   │   ├── SubnetReference: *genruntime.ResourceReference
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
@@ -170,7 +171,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   │   │   ├── "Tuesday"
 │   │   │   │   ├── "Wednesday"
 │   │   │   │   └── "Weekend"
-│   │   │   ├── MaintenanceWindow: *string
+│   │   │   ├── MaintenanceWindow: Validated<*string> (0 rules)
 │   │   │   └── StartHourUtc: *int
 │   │   └── Tags: map[string]string
 │   └── Status: Object (6 properties)

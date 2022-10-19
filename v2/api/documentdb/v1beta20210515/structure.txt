@@ -12,15 +12,20 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │       ├── "3.2"
 │   │   │       ├── "3.6"
 │   │   │       └── "4.0"
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+│   │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
 │   │   ├── BackupPolicy: Object (2 properties)
 │   │   │   ├── Continuous: Object (1 property)
 │   │   │   │   └── Type: Enum (1 value)
 │   │   │   │       └── "Continuous"
 │   │   │   └── Periodic: Object (2 properties)
 │   │   │       ├── PeriodicModeProperties: Object (2 properties)
-│   │   │       │   ├── BackupIntervalInMinutes: *int
-│   │   │       │   └── BackupRetentionIntervalInHours: *int
+│   │   │       │   ├── BackupIntervalInMinutes: Validated<*int> (1 rule)
+│   │   │       │   │   └── Rule 0: {Minimum 0}
+│   │   │       │   └── BackupRetentionIntervalInHours: Validated<*int> (1 rule)
+│   │   │       │       └── Rule 0: {Minimum 0}
 │   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Periodic"
 │   │   ├── Capabilities: Object (1 property)
@@ -34,14 +39,20 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   │   ├── "Eventual"
 │   │   │   │   ├── "Session"
 │   │   │   │   └── "Strong"
-│   │   │   ├── MaxIntervalInSeconds: *int
-│   │   │   └── MaxStalenessPrefix: *int
+│   │   │   ├── MaxIntervalInSeconds: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 86400}
+│   │   │   │   └── Rule 1: {Minimum 5}
+│   │   │   └── MaxStalenessPrefix: Validated<*int> (2 rules)
+│   │   │       ├── Rule 0: {Maximum 2147483647}
+│   │   │       └── Rule 1: {Minimum 1}
 │   │   ├── Cors: Object (5 properties)
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
 │   │   │   ├── ExposedHeaders: *string
-│   │   │   └── MaxAgeInSeconds: *int
+│   │   │   └── MaxAgeInSeconds: Validated<*int> (2 rules)
+│   │   │       ├── Rule 0: {Maximum 2147483647}
+│   │   │       └── Rule 1: {Minimum 1}
 │   │   ├── DatabaseAccountOfferType: Enum (1 value)
 │   │   │   └── "Standard"
 │   │   ├── DefaultIdentity: *string
@@ -67,7 +78,8 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   └── "Parse"
 │   │   ├── Location: *string
 │   │   ├── Locations: Object (3 properties)
-│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── FailoverPriority: Validated<*int> (1 rule)
+│   │   │   │   └── Rule 0: {Minimum 0}
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   └── LocationName: *string
 │   │   ├── NetworkAclBypass: Enum (2 values)
@@ -929,7 +941,9 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   │   │   ├── "MultiHash"
 │   │   │   │   │   └── "Range"
 │   │   │   │   ├── Paths: string[]
-│   │   │   │   └── Version: *int
+│   │   │   │   └── Version: Validated<*int> (2 rules)
+│   │   │   │       ├── Rule 0: {Maximum 2}
+│   │   │   │       └── Rule 1: {Minimum 1}
 │   │   │   └── UniqueKeyPolicy: Object (1 property)
 │   │   │       └── UniqueKeys: Object (1 property)
 │   │   │           └── Paths: string[]
