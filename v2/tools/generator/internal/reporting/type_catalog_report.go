@@ -7,11 +7,12 @@ package reporting
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/pkg/errors"
 	"io"
 	"os"
 	"sort"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/pkg/errors"
 )
 
 type TypeCatalogReport struct {
@@ -159,8 +160,12 @@ func (tcr *TypeCatalogReport) writeType(
 		tcr.writeAllOfType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ErroredType:
 		tcr.writeErroredType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.ValidatedType:
+		tcr.writeValidatedType(rpt, t, currentPackage, parentTypes)
 	case astmodel.MetaType:
 		tcr.writeType(rpt, t.Unwrap(), currentPackage, parentTypes)
+	default:
+		// We don't need to write anything for simple types
 	}
 }
 
@@ -260,8 +265,8 @@ func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
 	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet) {
-
+	types astmodel.TypeNameSet,
+) {
 	for _, err := range et.Errors() {
 		rpt.Addf("Error: %s", err)
 	}
@@ -271,6 +276,18 @@ func (tcr *TypeCatalogReport) writeErroredType(
 	}
 
 	tcr.writeType(rpt, et.InnerType(), currentPackage, types)
+}
+
+func (tcr *TypeCatalogReport) writeValidatedType(
+	rpt *StructureReport,
+	vt *astmodel.ValidatedType,
+	currentPackage astmodel.PackageReference,
+	types astmodel.TypeNameSet,
+) {
+
+	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
+		rpt.Addf("Rule %d: %s", index, rule)
+	}
 }
 
 // asDefinitionToInline returns the definition to inline, if any.
@@ -328,24 +345,29 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 	case *astmodel.EnumType:
 		return fmt.Sprintf(
 			"Enum (%s)",
-			tcr.asCount(len(t.Options()), "value", "values"))
+			tcr.formatCount(len(t.Options()), "value", "values"))
 	case *astmodel.ObjectType:
 		return fmt.Sprintf(
 			"Object (%s)",
-			tcr.asCount(t.Properties().Len(), "property", "properties"))
+			tcr.formatCount(t.Properties().Len(), "property", "properties"))
 	case *astmodel.OneOfType:
 		return fmt.Sprintf(
 			"OneOf (%s)",
-			tcr.asCount(t.Types().Len(), "choice", "choices"))
+			tcr.formatCount(t.Types().Len(), "choice", "choices"))
 	case *astmodel.AllOfType:
 		return fmt.Sprintf(
 			"AllOf (%s)",
-			tcr.asCount(t.Types().Len(), "choice", "choices"))
+			tcr.formatCount(t.Types().Len(), "choice", "choices"))
+	case *astmodel.ValidatedType:
+		return fmt.Sprintf(
+			"Validated<%s> (%s)",
+			tcr.asShortNameForType(t.Unwrap(), currentPackage),
+			tcr.formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"))
 	case astmodel.MetaType:
 		return tcr.asShortNameForType(t.Unwrap(), currentPackage)
+	default:
+		return astmodel.DebugDescription(t, currentPackage)
 	}
-
-	return astmodel.DebugDescription(t, currentPackage)
 }
 
 func (tcr *TypeCatalogReport) writeFunction(
@@ -433,7 +455,7 @@ func (tcr *TypeCatalogReport) inPackage(
 	return result
 }
 
-func (tcr *TypeCatalogReport) asCount(value int, singular string, plural string) string {
+func (tcr *TypeCatalogReport) formatCount(value int, singular string, plural string) string {
 	if value == 1 {
 		return fmt.Sprintf("%d %s", value, singular)
 	}
