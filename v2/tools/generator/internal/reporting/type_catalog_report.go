@@ -240,27 +240,9 @@ func (tcr *TypeCatalogReport) writeProperty(
 		prop.PropertyName(),
 		tcr.asShortNameForType(prop.PropertyType(), currentPackage))
 
-	tcr.writeComplexType(sub, prop.PropertyType(), currentPackage, parentTypes)
+	tcr.writeType(sub, prop.PropertyType(), currentPackage, parentTypes)
 }
 
-func (tcr *TypeCatalogReport) writeComplexType(
-	rpt *StructureReport,
-	propertyType astmodel.Type,
-	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet) {
-
-	// If we have a complex type, we may need to write it out in detail
-	switch t := propertyType.(type) {
-	case *astmodel.ObjectType,
-		*astmodel.ResourceType,
-		*astmodel.EnumType,
-		*astmodel.OneOfType,
-		*astmodel.AllOfType:
-		tcr.writeType(rpt, t, currentPackage, parentTypes)
-	case *astmodel.OptionalType:
-		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
-	}
-}
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
@@ -407,7 +389,7 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 ) {
 	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
-		tcr.writeComplexType(sub, t, currentPackage, types)
+		tcr.writeType(sub, t, currentPackage, types)
 	})
 }
 
@@ -424,7 +406,7 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
-		tcr.writeComplexType(sub, t, currentPackage, types)
+		tcr.writeType(sub, t, currentPackage, types)
 	})
 }
 
