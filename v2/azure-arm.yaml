@@ -746,6 +746,8 @@ objectModelConfiguration:
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
+        PrincipalId:
+          $importConfigMapMode: optional
   batch:
     2021-01-01:
       BatchAccount:
@@ -1076,6 +1078,9 @@ objectModelConfiguration:
       DatabaseAccounts_SqlRoleAssignment:
         $exportAs: SqlRoleAssignment
         $supportedFrom: v2.0.0-beta.3
+      SqlRoleAssignmentResource:
+        PrincipalId:
+          $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
           $armReference: false

@@ -17,6 +17,7 @@ import (
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
@@ -351,20 +352,29 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.Kube
 }
 
 func CosmosDB_SQL_RoleAssignment_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, acct *documentdb.DatabaseAccount) {
+	configMapName := "my-configmap"
+	principalIdKey := "principalId"
+
 	// Create a managed identity
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
 		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  principalIdKey,
+					},
+				},
+			},
 		},
 	}
 
 	tc.CreateResourceAndWait(mi)
 
-	// TODO: See https://github.com/Azure/azure-service-operator/issues/2435 for making referencing this easier in the YAML
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
-	principalId := mi.Status.PrincipalId
 
 	// TODO: It's not easy to generate a GUID... we should make that easier for users
 	// Now assign that managed identity to a new role
@@ -386,8 +396,11 @@ func CosmosDB_SQL_RoleAssignment_CRUD(tc *testcommon.KubePerTestContext, rg *res
 	roleAssignment := &documentdb.SqlRoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: documentdb.DatabaseAccounts_SqlRoleAssignment_Spec{
-			Owner:            testcommon.AsOwner(acct),
-			PrincipalId:      principalId,
+			Owner: testcommon.AsOwner(acct),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  principalIdKey,
+			},
 			RoleDefinitionId: &roleDefinitionId,
 			Scope:            &scope,
 		},

@@ -221,6 +221,7 @@ func SetCondition(o Conditioner, new Condition) {
 var reasonPriority = map[string]int{
 	ReasonReferenceNotFound: -2,
 	ReasonSecretNotFound:    -2,
+	ReasonConfigMapNotFound: -2,
 	ReasonWaitingForOwner:   -2,
 	ReasonReconciling:       -1,
 }
