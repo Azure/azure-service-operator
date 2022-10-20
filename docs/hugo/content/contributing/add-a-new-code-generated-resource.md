@@ -197,7 +197,7 @@ The best way to do this is to start from an [existing test](https://github.com/A
 See [the code generator README](../#running-integration-tests) for how to run recording tests.
 
 ## Add a new sample
-The samples are located in the [samples directory](https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
+The samples are located in the [samples directory](https://github.com/Azure/azure-service-operator/blob/main/v2/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
 
 ## Run test for added sample and commit the recording
 The added new sample needs to be tested and recorded. To perform that, follow the steps below:

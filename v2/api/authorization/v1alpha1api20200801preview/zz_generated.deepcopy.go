@@ -370,6 +370,11 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrincipalIdFromConfig != nil {
+		in, out := &in.PrincipalIdFromConfig, &out.PrincipalIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(RoleAssignmentProperties_PrincipalType)

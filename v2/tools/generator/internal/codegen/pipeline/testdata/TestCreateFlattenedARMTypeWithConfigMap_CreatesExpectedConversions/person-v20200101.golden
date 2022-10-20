@@ -67,8 +67,8 @@ type Person_Spec struct {
 	// FamilyName: Shared name of the family
 	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
 
-	// FamilyNameConfigRef: Shared name of the family
-	FamilyNameConfigRef *genruntime.ConfigMapReference `json:"familyNameConfigRef,omitempty" optionalConfigMapPair:"FamilyName"`
+	// FamilyNameFromConfig: Shared name of the family
+	FamilyNameFromConfig *genruntime.ConfigMapReference `json:"familyNameFromConfig,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
 	FullName *genruntime.ConfigMapReference `json:"fullName,omitempty"`
@@ -91,7 +91,7 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Properties’:
 	if person.FamilyName != nil ||
-		person.FamilyNameConfigRef != nil ||
+		person.FamilyNameFromConfig != nil ||
 		person.FullName != nil ||
 		person.KnownAs != nil {
 		result.Properties = &PersonProperties_ARM{}
@@ -100,8 +100,8 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		familyName := *person.FamilyName
 		result.Properties.FamilyName = &familyName
 	}
-	if person.FamilyNameConfigRef != nil {
-		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FamilyNameConfigRef)
+	if person.FamilyNameFromConfig != nil {
+		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*person.FamilyNameFromConfig)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
 		}
@@ -147,7 +147,7 @@ func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// no assignment for property ‘FamilyNameConfigRef’
+	// no assignment for property ‘FamilyNameFromConfig’
 
 	// no assignment for property ‘FullName’
 

@@ -1,17 +1,17 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
 └── PrivateDnsZone: Resource
-    ├── Spec: 
+    ├── Spec: Object (7 properties)
     │   ├── AzureName: string
     │   ├── Etag: *string
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: Map[string]string
-    └── Status: 
-        ├── Conditions: Array[conditions.Condition]
+    │   └── Tags: map[string]string
+    └── Status: Object (10 properties)
+        ├── Conditions: conditions.Condition[]
         ├── Etag: *string
         ├── MaxNumberOfRecordSets: *int
         ├── MaxNumberOfVirtualNetworkLinks: *int

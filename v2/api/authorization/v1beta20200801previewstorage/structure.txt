@@ -1,8 +1,8 @@
 github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-08-01-preview"
 └── RoleAssignment: Resource
-    ├── Spec: 
+    ├── Spec: Object (14 properties)
     │   ├── AzureName: string
     │   ├── Condition: *string
     │   ├── ConditionVersion: *string
@@ -12,14 +12,15 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.ArbitraryOwnerReference
     │   ├── PrincipalId: *string
+    │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
     │   ├── PrincipalType: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── RoleDefinitionReference: *genruntime.ResourceReference
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (17 properties)
         ├── Condition: *string
         ├── ConditionVersion: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── CreatedBy: *string
         ├── CreatedOn: *string
         ├── DelegatedManagedIdentityResourceId: *string

@@ -36,7 +36,7 @@ type RoleAssignmentProperties_ARM struct {
 	ConditionVersion                   *string                                 `json:"conditionVersion,omitempty"`
 	DelegatedManagedIdentityResourceId *string                                 `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                                 `json:"description,omitempty"`
-	PrincipalId                        *string                                 `json:"principalId,omitempty"`
+	PrincipalId                        *string                                 `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 	PrincipalType                      *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 	RoleDefinitionId                   *string                                 `json:"roleDefinitionId,omitempty"`
 }

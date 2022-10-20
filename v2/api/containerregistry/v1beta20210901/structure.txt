@@ -1,390 +1,393 @@
 github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-09-01"
 ├── Registry: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (14 properties)
 │   │   ├── AdminUserEnabled: *bool
-│   │   ├── AzureName: Validated[string]
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]*$"}
 │   │   ├── DataEndpointEnabled: *bool
-│   │   ├── Encryption: 
-│   │   │   ├── KeyVaultProperties: 
+│   │   ├── Encryption: Object (2 properties)
+│   │   │   ├── KeyVaultProperties: Object (2 properties)
 │   │   │   │   ├── Identity: *string
 │   │   │   │   └── KeyIdentifier: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (2 values)
 │   │   │       ├── "disabled"
 │   │   │       └── "enabled"
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (4 properties)
 │   │   │   ├── PrincipalId: *string
 │   │   │   ├── TenantId: *string
-│   │   │   ├── Type: enum
+│   │   │   ├── Type: Enum (4 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   ├── "SystemAssigned, UserAssigned"
 │   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: 
+│   │   │   └── UserAssignedIdentities: Object (2 properties)
 │   │   │       ├── ClientId: *string
 │   │   │       └── PrincipalId: *string
 │   │   ├── Location: *string
-│   │   ├── NetworkRuleBypassOptions: enum
+│   │   ├── NetworkRuleBypassOptions: Enum (2 values)
 │   │   │   ├── "AzureServices"
 │   │   │   └── "None"
-│   │   ├── NetworkRuleSet: 
-│   │   │   ├── DefaultAction: enum
+│   │   ├── NetworkRuleSet: Object (2 properties)
+│   │   │   ├── DefaultAction: Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   └── IpRules: 
-│   │   │       ├── Action: enum
+│   │   │   └── IpRules: Object (2 properties)
+│   │   │       ├── Action: Enum (1 value)
 │   │   │       │   └── "Allow"
 │   │   │       └── Value: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Policies: 
-│   │   │   ├── ExportPolicy: 
-│   │   │   │   └── Status: enum
+│   │   ├── Policies: Object (4 properties)
+│   │   │   ├── ExportPolicy: Object (1 property)
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   ├── QuarantinePolicy: 
-│   │   │   │   └── Status: enum
+│   │   │   ├── QuarantinePolicy: Object (1 property)
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   ├── RetentionPolicy: 
+│   │   │   ├── RetentionPolicy: Object (2 properties)
 │   │   │   │   ├── Days: *int
-│   │   │   │   └── Status: enum
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   └── TrustPolicy: 
-│   │   │       ├── Status: enum
+│   │   │   └── TrustPolicy: Object (2 properties)
+│   │   │       ├── Status: Enum (2 values)
 │   │   │       │   ├── "disabled"
 │   │   │       │   └── "enabled"
-│   │   │       └── Type: enum
+│   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Notary"
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── Sku: 
-│   │   │   └── Name: enum
+│   │   ├── Sku: Object (1 property)
+│   │   │   └── Name: Enum (4 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Classic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
-│   │   ├── Tags: Map[string]string
-│   │   └── ZoneRedundancy: enum
+│   │   ├── Tags: map[string]string
+│   │   └── ZoneRedundancy: Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
-│   └── Status: 
+│   └── Status: Object (23 properties)
 │       ├── AdminUserEnabled: *bool
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreationDate: *string
 │       ├── DataEndpointEnabled: *bool
-│       ├── DataEndpointHostNames: Array[string]
-│       ├── Encryption: 
-│       │   ├── KeyVaultProperties: 
+│       ├── DataEndpointHostNames: string[]
+│       ├── Encryption: Object (2 properties)
+│       │   ├── KeyVaultProperties: Object (5 properties)
 │       │   │   ├── Identity: *string
 │       │   │   ├── KeyIdentifier: *string
 │       │   │   ├── KeyRotationEnabled: *bool
 │       │   │   ├── LastKeyRotationTimestamp: *string
 │       │   │   └── VersionedKeyIdentifier: *string
-│       │   └── Status: enum
+│       │   └── Status: Enum (2 values)
 │       │       ├── "disabled"
 │       │       └── "enabled"
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: enum
+│       │   ├── Type: Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned, UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
 │       ├── Location: *string
 │       ├── LoginServer: *string
 │       ├── Name: *string
-│       ├── NetworkRuleBypassOptions: enum
+│       ├── NetworkRuleBypassOptions: Enum (2 values)
 │       │   ├── "AzureServices"
 │       │   └── "None"
-│       ├── NetworkRuleSet: 
-│       │   ├── DefaultAction: enum
+│       ├── NetworkRuleSet: Object (2 properties)
+│       │   ├── DefaultAction: Enum (2 values)
 │       │   │   ├── "Allow"
 │       │   │   └── "Deny"
-│       │   └── IpRules: 
-│       │       ├── Action: enum
+│       │   └── IpRules: Object (2 properties)
+│       │       ├── Action: Enum (1 value)
 │       │       │   └── "Allow"
 │       │       └── Value: *string
-│       ├── Policies: 
-│       │   ├── ExportPolicy: 
-│       │   │   └── Status: enum
+│       ├── Policies: Object (4 properties)
+│       │   ├── ExportPolicy: Object (1 property)
+│       │   │   └── Status: Enum (2 values)
 │       │   │       ├── "disabled"
 │       │   │       └── "enabled"
-│       │   ├── QuarantinePolicy: 
-│       │   │   └── Status: enum
+│       │   ├── QuarantinePolicy: Object (1 property)
+│       │   │   └── Status: Enum (2 values)
 │       │   │       ├── "disabled"
 │       │   │       └── "enabled"
-│       │   ├── RetentionPolicy: 
+│       │   ├── RetentionPolicy: Object (3 properties)
 │       │   │   ├── Days: *int
 │       │   │   ├── LastUpdatedTime: *string
-│       │   │   └── Status: enum
+│       │   │   └── Status: Enum (2 values)
 │       │   │       ├── "disabled"
 │       │   │       └── "enabled"
-│       │   └── TrustPolicy: 
-│       │       ├── Status: enum
+│       │   └── TrustPolicy: Object (2 properties)
+│       │       ├── Status: Enum (2 values)
 │       │       │   ├── "disabled"
 │       │       │   └── "enabled"
-│       │       └── Type: enum
+│       │       └── Type: Enum (1 value)
 │       │           └── "Notary"
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (2 properties)
 │       │   ├── Id: *string
-│       │   └── SystemData: 
+│       │   └── SystemData: Object (6 properties)
 │       │       ├── CreatedAt: *string
 │       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: enum
+│       │       ├── CreatedByType: Enum (4 values)
 │       │       │   ├── "Application"
 │       │       │   ├── "Key"
 │       │       │   ├── "ManagedIdentity"
 │       │       │   └── "User"
 │       │       ├── LastModifiedAt: *string
 │       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: enum
+│       │       └── LastModifiedByType: Enum (4 values)
 │       │           ├── "Application"
 │       │           ├── "Key"
 │       │           ├── "ManagedIdentity"
 │       │           └── "User"
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (6 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── Sku: 
-│       │   ├── Name: enum
+│       ├── Sku: Object (2 properties)
+│       │   ├── Name: Enum (4 values)
 │       │   │   ├── "Basic"
 │       │   │   ├── "Classic"
 │       │   │   ├── "Premium"
 │       │   │   └── "Standard"
-│       │   └── Tier: enum
+│       │   └── Tier: Enum (4 values)
 │       │       ├── "Basic"
 │       │       ├── "Classic"
 │       │       ├── "Premium"
 │       │       └── "Standard"
-│       ├── Status: 
+│       ├── Status: Object (3 properties)
 │       │   ├── DisplayStatus: *string
 │       │   ├── Message: *string
 │       │   └── Timestamp: *string
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       └── ZoneRedundancy: enum
+│       └── ZoneRedundancy: Enum (2 values)
 │           ├── "Disabled"
 │           └── "Enabled"
-├── Registry_STATUS_ARM: 
+├── Registry_STATUS_ARM: Object (9 properties)
 │   ├── Id: *string
-│   ├── Identity: 
+│   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: enum
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned, UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: 
+│   │   └── UserAssignedIdentities: Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (14 properties)
 │   │   ├── AdminUserEnabled: *bool
 │   │   ├── CreationDate: *string
 │   │   ├── DataEndpointEnabled: *bool
-│   │   ├── DataEndpointHostNames: Array[string]
-│   │   ├── Encryption: 
-│   │   │   ├── KeyVaultProperties: 
+│   │   ├── DataEndpointHostNames: string[]
+│   │   ├── Encryption: Object (2 properties)
+│   │   │   ├── KeyVaultProperties: Object (5 properties)
 │   │   │   │   ├── Identity: *string
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   ├── KeyRotationEnabled: *bool
 │   │   │   │   ├── LastKeyRotationTimestamp: *string
 │   │   │   │   └── VersionedKeyIdentifier: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (2 values)
 │   │   │       ├── "disabled"
 │   │   │       └── "enabled"
 │   │   ├── LoginServer: *string
-│   │   ├── NetworkRuleBypassOptions: enum
+│   │   ├── NetworkRuleBypassOptions: Enum (2 values)
 │   │   │   ├── "AzureServices"
 │   │   │   └── "None"
-│   │   ├── NetworkRuleSet: 
-│   │   │   ├── DefaultAction: enum
+│   │   ├── NetworkRuleSet: Object (2 properties)
+│   │   │   ├── DefaultAction: Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   └── IpRules: 
-│   │   │       ├── Action: enum
+│   │   │   └── IpRules: Object (2 properties)
+│   │   │       ├── Action: Enum (1 value)
 │   │   │       │   └── "Allow"
 │   │   │       └── Value: *string
-│   │   ├── Policies: 
-│   │   │   ├── ExportPolicy: 
-│   │   │   │   └── Status: enum
+│   │   ├── Policies: Object (4 properties)
+│   │   │   ├── ExportPolicy: Object (1 property)
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   ├── QuarantinePolicy: 
-│   │   │   │   └── Status: enum
+│   │   │   ├── QuarantinePolicy: Object (1 property)
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   ├── RetentionPolicy: 
+│   │   │   ├── RetentionPolicy: Object (3 properties)
 │   │   │   │   ├── Days: *int
 │   │   │   │   ├── LastUpdatedTime: *string
-│   │   │   │   └── Status: enum
+│   │   │   │   └── Status: Enum (2 values)
 │   │   │   │       ├── "disabled"
 │   │   │   │       └── "enabled"
-│   │   │   └── TrustPolicy: 
-│   │   │       ├── Status: enum
+│   │   │   └── TrustPolicy: Object (2 properties)
+│   │   │       ├── Status: Enum (2 values)
 │   │   │       │   ├── "disabled"
 │   │   │       │   └── "enabled"
-│   │   │       └── Type: enum
+│   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Notary"
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (2 properties)
 │   │   │   ├── Id: *string
-│   │   │   └── SystemData: 
+│   │   │   └── SystemData: Object (6 properties)
 │   │   │       ├── CreatedAt: *string
 │   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: enum
+│   │   │       ├── CreatedByType: Enum (4 values)
 │   │   │       │   ├── "Application"
 │   │   │       │   ├── "Key"
 │   │   │       │   ├── "ManagedIdentity"
 │   │   │       │   └── "User"
 │   │   │       ├── LastModifiedAt: *string
 │   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: enum
+│   │   │       └── LastModifiedByType: Enum (4 values)
 │   │   │           ├── "Application"
 │   │   │           ├── "Key"
 │   │   │           ├── "ManagedIdentity"
 │   │   │           └── "User"
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (6 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── Status: 
+│   │   ├── Status: Object (3 properties)
 │   │   │   ├── DisplayStatus: *string
 │   │   │   ├── Message: *string
 │   │   │   └── Timestamp: *string
-│   │   └── ZoneRedundancy: enum
+│   │   └── ZoneRedundancy: Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (4 values)
 │   │   │   ├── "Basic"
 │   │   │   ├── "Classic"
 │   │   │   ├── "Premium"
 │   │   │   └── "Standard"
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (4 values)
 │   │       ├── "Basic"
 │   │       ├── "Classic"
 │   │       ├── "Premium"
 │   │       └── "Standard"
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-└── Registry_Spec_ARM: 
-    ├── Identity: 
+└── Registry_Spec_ARM: Object (6 properties)
+    ├── Identity: Object (4 properties)
     │   ├── PrincipalId: *string
     │   ├── TenantId: *string
-    │   ├── Type: enum
+    │   ├── Type: Enum (4 values)
     │   │   ├── "None"
     │   │   ├── "SystemAssigned"
     │   │   ├── "SystemAssigned, UserAssigned"
     │   │   └── "UserAssigned"
-    │   └── UserAssignedIdentities: 
+    │   └── UserAssignedIdentities: Object (2 properties)
     │       ├── ClientId: *string
     │       └── PrincipalId: *string
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
+    ├── Properties: Object (8 properties)
     │   ├── AdminUserEnabled: *bool
     │   ├── DataEndpointEnabled: *bool
-    │   ├── Encryption: 
-    │   │   ├── KeyVaultProperties: 
+    │   ├── Encryption: Object (2 properties)
+    │   │   ├── KeyVaultProperties: Object (2 properties)
     │   │   │   ├── Identity: *string
     │   │   │   └── KeyIdentifier: *string
-    │   │   └── Status: enum
+    │   │   └── Status: Enum (2 values)
     │   │       ├── "disabled"
     │   │       └── "enabled"
-    │   ├── NetworkRuleBypassOptions: enum
+    │   ├── NetworkRuleBypassOptions: Enum (2 values)
     │   │   ├── "AzureServices"
     │   │   └── "None"
-    │   ├── NetworkRuleSet: 
-    │   │   ├── DefaultAction: enum
+    │   ├── NetworkRuleSet: Object (2 properties)
+    │   │   ├── DefaultAction: Enum (2 values)
     │   │   │   ├── "Allow"
     │   │   │   └── "Deny"
-    │   │   └── IpRules: 
-    │   │       ├── Action: enum
+    │   │   └── IpRules: Object (2 properties)
+    │   │       ├── Action: Enum (1 value)
     │   │       │   └── "Allow"
     │   │       └── Value: *string
-    │   ├── Policies: 
-    │   │   ├── ExportPolicy: 
-    │   │   │   └── Status: enum
+    │   ├── Policies: Object (4 properties)
+    │   │   ├── ExportPolicy: Object (1 property)
+    │   │   │   └── Status: Enum (2 values)
     │   │   │       ├── "disabled"
     │   │   │       └── "enabled"
-    │   │   ├── QuarantinePolicy: 
-    │   │   │   └── Status: enum
+    │   │   ├── QuarantinePolicy: Object (1 property)
+    │   │   │   └── Status: Enum (2 values)
     │   │   │       ├── "disabled"
     │   │   │       └── "enabled"
-    │   │   ├── RetentionPolicy: 
+    │   │   ├── RetentionPolicy: Object (2 properties)
     │   │   │   ├── Days: *int
-    │   │   │   └── Status: enum
+    │   │   │   └── Status: Enum (2 values)
     │   │   │       ├── "disabled"
     │   │   │       └── "enabled"
-    │   │   └── TrustPolicy: 
-    │   │       ├── Status: enum
+    │   │   └── TrustPolicy: Object (2 properties)
+    │   │       ├── Status: Enum (2 values)
     │   │       │   ├── "disabled"
     │   │       │   └── "enabled"
-    │   │       └── Type: enum
+    │   │       └── Type: Enum (1 value)
     │   │           └── "Notary"
-    │   ├── PublicNetworkAccess: enum
+    │   ├── PublicNetworkAccess: Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   └── ZoneRedundancy: enum
+    │   └── ZoneRedundancy: Enum (2 values)
     │       ├── "Disabled"
     │       └── "Enabled"
-    ├── Sku: 
-    │   └── Name: enum
+    ├── Sku: Object (1 property)
+    │   └── Name: Enum (4 values)
     │       ├── "Basic"
     │       ├── "Classic"
     │       ├── "Premium"
     │       └── "Standard"
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

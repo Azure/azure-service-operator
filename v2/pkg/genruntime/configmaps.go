@@ -20,11 +20,11 @@ type ConfigMapReference struct {
 	// Name is the name of the Kubernetes configmap being referenced.
 	// The configmap must be in the same namespace as the resource
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// Key is the key in the Kubernetes configmap being referenced
 	// +kubebuilder:validation:Required
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 }
 
 var _ Indexer = ConfigMapReference{}
@@ -138,7 +138,7 @@ func LookupOptionalConfigMapReferenceValue(resolved Resolved[ConfigMapReference]
 // OptionalConfigMapReferencePair represents an optional configmap pair. Each pair has two optional fields, a
 // string and a ConfigMapReference.
 // This type is used purely for validation. The actual user supplied types are inline on the objects themselves as
-// two properties: Foo and FooConfigRef
+// two properties: Foo and FooFromConfig
 type OptionalConfigMapReferencePair struct {
 	Value   *string
 	Ref     *ConfigMapReference
@@ -146,7 +146,7 @@ type OptionalConfigMapReferencePair struct {
 	RefName string
 }
 
-// ValidateOptionalConfigMapReferences checks that only one of Foo and FooConfigRef are set
+// ValidateOptionalConfigMapReferences checks that only one of Foo and FooFromConfig are set
 func ValidateOptionalConfigMapReferences(pairs []*OptionalConfigMapReferencePair) error {
 	for _, pair := range pairs {
 		if pair.Value != nil && pair.Ref != nil {

@@ -1,55 +1,55 @@
 github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-03-01"
 ├── RedisEnterprise: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── MinimumTlsVersion: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Capacity: *int
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Tags: Map[string]string
-│   │   └── Zones: Array[string]
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   ├── Tags: map[string]string
+│   │   └── Zones: string[]
+│   └── Status: Object (15 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── HostName: *string
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── MinimumTlsVersion: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── RedisVersion: *string
 │       ├── ResourceState: *string
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Name: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       └── Zones: Array[string]
+│       └── Zones: string[]
 └── RedisEnterpriseDatabase: Resource
-    ├── Spec: 
+    ├── Spec: Object (12 properties)
     │   ├── AzureName: string
     │   ├── ClientProtocol: *string
     │   ├── ClusteringPolicy: *string
     │   ├── EvictionPolicy: *string
     │   ├── Location: *string
-    │   ├── Modules: 
+    │   ├── Modules: Object (3 properties)
     │   │   ├── Args: *string
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Persistence: 
+    │   ├── Persistence: Object (5 properties)
     │   │   ├── AofEnabled: *bool
     │   │   ├── AofFrequency: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -57,20 +57,20 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage
     │   │   └── RdbFrequency: *string
     │   ├── Port: *int
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (13 properties)
         ├── ClientProtocol: *string
         ├── ClusteringPolicy: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── EvictionPolicy: *string
         ├── Id: *string
-        ├── Modules: 
+        ├── Modules: Object (4 properties)
         │   ├── Args: *string
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Version: *string
         ├── Name: *string
-        ├── Persistence: 
+        ├── Persistence: Object (5 properties)
         │   ├── AofEnabled: *bool
         │   ├── AofFrequency: *string
         │   ├── PropertyBag: genruntime.PropertyBag
