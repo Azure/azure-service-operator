@@ -1,12 +1,12 @@
 github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-09-30"
 ├── Disk: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (23 properties)
 │   │   ├── AzureName: string
 │   │   ├── BurstingEnabled: *bool
-│   │   ├── CreationData: 
-│   │   │   ├── CreateOption: enum
+│   │   ├── CreationData: Object (8 properties)
+│   │   │   ├── CreateOption: Enum (7 values)
 │   │   │   │   ├── "Attach"
 │   │   │   │   ├── "Copy"
 │   │   │   │   ├── "Empty"
@@ -14,10 +14,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   │   ├── "Import"
 │   │   │   │   ├── "Restore"
 │   │   │   │   └── "Upload"
-│   │   │   ├── GalleryImageReference: 
+│   │   │   ├── GalleryImageReference: Object (2 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (2 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── LogicalSectorSize: *int
@@ -31,60 +31,60 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   ├── DiskMBpsReadOnly: *int
 │   │   ├── DiskMBpsReadWrite: *int
 │   │   ├── DiskSizeGB: *int
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (3 values)
 │   │   │       ├── "EncryptionAtRestWithCustomerKey"
 │   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │   │   │       └── "EncryptionAtRestWithPlatformKey"
-│   │   ├── EncryptionSettingsCollection: 
+│   │   ├── EncryptionSettingsCollection: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: 
-│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   ├── EncryptionSettings: Object (2 properties)
+│   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   └── SourceVault: Object (1 property)
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   └── KeyEncryptionKey: Object (2 properties)
 │   │   │   │       ├── KeyUrl: *string
-│   │   │   │       └── SourceVault: 
+│   │   │   │       └── SourceVault: Object (1 property)
 │   │   │   │           └── Reference: *genruntime.ResourceReference
 │   │   │   └── EncryptionSettingsVersion: *string
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── HyperVGeneration: enum
+│   │   ├── HyperVGeneration: Enum (2 values)
 │   │   │   ├── "V1"
 │   │   │   └── "V2"
 │   │   ├── Location: *string
 │   │   ├── MaxShares: *int
-│   │   ├── NetworkAccessPolicy: enum
+│   │   ├── NetworkAccessPolicy: Enum (3 values)
 │   │   │   ├── "AllowAll"
 │   │   │   ├── "AllowPrivate"
 │   │   │   └── "DenyAll"
-│   │   ├── OsType: enum
+│   │   ├── OsType: Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PurchasePlan: 
+│   │   ├── PurchasePlan: Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
-│   │   ├── Sku: 
-│   │   │   └── Name: enum
+│   │   ├── Sku: Object (1 property)
+│   │   │   └── Name: Enum (4 values)
 │   │   │       ├── "Premium_LRS"
 │   │   │       ├── "StandardSSD_LRS"
 │   │   │       ├── "Standard_LRS"
 │   │   │       └── "UltraSSD_LRS"
-│   │   ├── Tags: Map[string]string
+│   │   ├── Tags: map[string]string
 │   │   ├── Tier: *string
-│   │   └── Zones: Array[string]
-│   └── Status: 
+│   │   └── Zones: string[]
+│   └── Status: Object (33 properties)
 │       ├── BurstingEnabled: *bool
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── CreationData: 
-│       │   ├── CreateOption: enum
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreationData: Object (9 properties)
+│       │   ├── CreateOption: Enum (7 values)
 │       │   │   ├── "Attach"
 │       │   │   ├── "Copy"
 │       │   │   ├── "Empty"
@@ -92,10 +92,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │       │   │   ├── "Import"
 │       │   │   ├── "Restore"
 │       │   │   └── "Upload"
-│       │   ├── GalleryImageReference: 
+│       │   ├── GalleryImageReference: Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── Lun: *int
-│       │   ├── ImageReference: 
+│       │   ├── ImageReference: Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── Lun: *int
 │       │   ├── LogicalSectorSize: *int
@@ -111,86 +111,86 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │       ├── DiskMBpsReadWrite: *int
 │       ├── DiskSizeBytes: *int
 │       ├── DiskSizeGB: *int
-│       ├── DiskState: enum
+│       ├── DiskState: Enum (6 values)
 │       │   ├── "ActiveSAS"
 │       │   ├── "ActiveUpload"
 │       │   ├── "Attached"
 │       │   ├── "ReadyToUpload"
 │       │   ├── "Reserved"
 │       │   └── "Unattached"
-│       ├── Encryption: 
+│       ├── Encryption: Object (2 properties)
 │       │   ├── DiskEncryptionSetId: *string
-│       │   └── Type: enum
+│       │   └── Type: Enum (3 values)
 │       │       ├── "EncryptionAtRestWithCustomerKey"
 │       │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │       │       └── "EncryptionAtRestWithPlatformKey"
-│       ├── EncryptionSettingsCollection: 
+│       ├── EncryptionSettingsCollection: Object (3 properties)
 │       │   ├── Enabled: *bool
-│       │   ├── EncryptionSettings: 
-│       │   │   ├── DiskEncryptionKey: 
+│       │   ├── EncryptionSettings: Object (2 properties)
+│       │   │   ├── DiskEncryptionKey: Object (2 properties)
 │       │   │   │   ├── SecretUrl: *string
-│       │   │   │   └── SourceVault: 
+│       │   │   │   └── SourceVault: Object (1 property)
 │       │   │   │       └── Id: *string
-│       │   │   └── KeyEncryptionKey: 
+│       │   │   └── KeyEncryptionKey: Object (2 properties)
 │       │   │       ├── KeyUrl: *string
-│       │   │       └── SourceVault: 
+│       │   │       └── SourceVault: Object (1 property)
 │       │   │           └── Id: *string
 │       │   └── EncryptionSettingsVersion: *string
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: enum
+│       │   └── Type: Enum (1 value)
 │       │       └── "EdgeZone"
-│       ├── HyperVGeneration: enum
+│       ├── HyperVGeneration: Enum (2 values)
 │       │   ├── "V1"
 │       │   └── "V2"
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── ManagedBy: *string
-│       ├── ManagedByExtended: Array[string]
+│       ├── ManagedByExtended: string[]
 │       ├── MaxShares: *int
 │       ├── Name: *string
-│       ├── NetworkAccessPolicy: enum
+│       ├── NetworkAccessPolicy: Enum (3 values)
 │       │   ├── "AllowAll"
 │       │   ├── "AllowPrivate"
 │       │   └── "DenyAll"
-│       ├── OsType: enum
+│       ├── OsType: Enum (2 values)
 │       │   ├── "Linux"
 │       │   └── "Windows"
 │       ├── ProvisioningState: *string
-│       ├── PurchasePlan: 
+│       ├── PurchasePlan: Object (4 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
 │       │   └── Publisher: *string
-│       ├── ShareInfo: 
+│       ├── ShareInfo: Object (1 property)
 │       │   └── VmUri: *string
-│       ├── Sku: 
-│       │   ├── Name: enum
+│       ├── Sku: Object (2 properties)
+│       │   ├── Name: Enum (4 values)
 │       │   │   ├── "Premium_LRS"
 │       │   │   ├── "StandardSSD_LRS"
 │       │   │   ├── "Standard_LRS"
 │       │   │   └── "UltraSSD_LRS"
 │       │   └── Tier: *string
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Tier: *string
 │       ├── TimeCreated: *string
 │       ├── Type: *string
 │       ├── UniqueId: *string
-│       └── Zones: Array[string]
-├── Disk_STATUS_ARM: 
-│   ├── ExtendedLocation: 
+│       └── Zones: string[]
+├── Disk_STATUS_ARM: Object (11 properties)
+│   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: enum
+│   │   └── Type: Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── ManagedBy: *string
-│   ├── ManagedByExtended: Array[string]
+│   ├── ManagedByExtended: string[]
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (22 properties)
 │   │   ├── BurstingEnabled: *bool
-│   │   ├── CreationData: 
-│   │   │   ├── CreateOption: enum
+│   │   ├── CreationData: Object (9 properties)
+│   │   │   ├── CreateOption: Enum (7 values)
 │   │   │   │   ├── "Attach"
 │   │   │   │   ├── "Copy"
 │   │   │   │   ├── "Empty"
@@ -198,10 +198,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   │   ├── "Import"
 │   │   │   │   ├── "Restore"
 │   │   │   │   └── "Upload"
-│   │   │   ├── GalleryImageReference: 
+│   │   │   ├── GalleryImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
 │   │   │   ├── LogicalSectorSize: *int
@@ -217,74 +217,74 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   ├── DiskMBpsReadWrite: *int
 │   │   ├── DiskSizeBytes: *int
 │   │   ├── DiskSizeGB: *int
-│   │   ├── DiskState: enum
+│   │   ├── DiskState: Enum (6 values)
 │   │   │   ├── "ActiveSAS"
 │   │   │   ├── "ActiveUpload"
 │   │   │   ├── "Attached"
 │   │   │   ├── "ReadyToUpload"
 │   │   │   ├── "Reserved"
 │   │   │   └── "Unattached"
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── DiskEncryptionSetId: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (3 values)
 │   │   │       ├── "EncryptionAtRestWithCustomerKey"
 │   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │   │   │       └── "EncryptionAtRestWithPlatformKey"
-│   │   ├── EncryptionSettingsCollection: 
+│   │   ├── EncryptionSettingsCollection: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: 
-│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   ├── EncryptionSettings: Object (2 properties)
+│   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   └── SourceVault: Object (1 property)
 │   │   │   │   │       └── Id: *string
-│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   └── KeyEncryptionKey: Object (2 properties)
 │   │   │   │       ├── KeyUrl: *string
-│   │   │   │       └── SourceVault: 
+│   │   │   │       └── SourceVault: Object (1 property)
 │   │   │   │           └── Id: *string
 │   │   │   └── EncryptionSettingsVersion: *string
-│   │   ├── HyperVGeneration: enum
+│   │   ├── HyperVGeneration: Enum (2 values)
 │   │   │   ├── "V1"
 │   │   │   └── "V2"
 │   │   ├── MaxShares: *int
-│   │   ├── NetworkAccessPolicy: enum
+│   │   ├── NetworkAccessPolicy: Enum (3 values)
 │   │   │   ├── "AllowAll"
 │   │   │   ├── "AllowPrivate"
 │   │   │   └── "DenyAll"
-│   │   ├── OsType: enum
+│   │   ├── OsType: Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── ProvisioningState: *string
-│   │   ├── PurchasePlan: 
+│   │   ├── PurchasePlan: Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
-│   │   ├── ShareInfo: 
+│   │   ├── ShareInfo: Object (1 property)
 │   │   │   └── VmUri: *string
 │   │   ├── Tier: *string
 │   │   ├── TimeCreated: *string
 │   │   └── UniqueId: *string
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (4 values)
 │   │   │   ├── "Premium_LRS"
 │   │   │   ├── "StandardSSD_LRS"
 │   │   │   ├── "Standard_LRS"
 │   │   │   └── "UltraSSD_LRS"
 │   │   └── Tier: *string
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   ├── Type: *string
-│   └── Zones: Array[string]
-├── Disk_Spec_ARM: 
-│   ├── ExtendedLocation: 
+│   └── Zones: string[]
+├── Disk_Spec_ARM: Object (7 properties)
+│   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: enum
+│   │   └── Type: Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (16 properties)
 │   │   ├── BurstingEnabled: *bool
-│   │   ├── CreationData: 
-│   │   │   ├── CreateOption: enum
+│   │   ├── CreationData: Object (8 properties)
+│   │   │   ├── CreateOption: Enum (7 values)
 │   │   │   │   ├── "Attach"
 │   │   │   │   ├── "Copy"
 │   │   │   │   ├── "Empty"
@@ -292,10 +292,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   │   ├── "Import"
 │   │   │   │   ├── "Restore"
 │   │   │   │   └── "Upload"
-│   │   │   ├── GalleryImageReference: 
+│   │   │   ├── GalleryImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
 │   │   │   ├── LogicalSectorSize: *int
@@ -309,54 +309,54 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   ├── DiskMBpsReadOnly: *int
 │   │   ├── DiskMBpsReadWrite: *int
 │   │   ├── DiskSizeGB: *int
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── DiskEncryptionSetId: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (3 values)
 │   │   │       ├── "EncryptionAtRestWithCustomerKey"
 │   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │   │   │       └── "EncryptionAtRestWithPlatformKey"
-│   │   ├── EncryptionSettingsCollection: 
+│   │   ├── EncryptionSettingsCollection: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: 
-│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   ├── EncryptionSettings: Object (2 properties)
+│   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   └── SourceVault: Object (1 property)
 │   │   │   │   │       └── Id: *string
-│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   └── KeyEncryptionKey: Object (2 properties)
 │   │   │   │       ├── KeyUrl: *string
-│   │   │   │       └── SourceVault: 
+│   │   │   │       └── SourceVault: Object (1 property)
 │   │   │   │           └── Id: *string
 │   │   │   └── EncryptionSettingsVersion: *string
-│   │   ├── HyperVGeneration: enum
+│   │   ├── HyperVGeneration: Enum (2 values)
 │   │   │   ├── "V1"
 │   │   │   └── "V2"
 │   │   ├── MaxShares: *int
-│   │   ├── NetworkAccessPolicy: enum
+│   │   ├── NetworkAccessPolicy: Enum (3 values)
 │   │   │   ├── "AllowAll"
 │   │   │   ├── "AllowPrivate"
 │   │   │   └── "DenyAll"
-│   │   ├── OsType: enum
+│   │   ├── OsType: Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
-│   │   ├── PurchasePlan: 
+│   │   ├── PurchasePlan: Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
 │   │   └── Tier: *string
-│   ├── Sku: 
-│   │   └── Name: enum
+│   ├── Sku: Object (1 property)
+│   │   └── Name: Enum (4 values)
 │   │       ├── "Premium_LRS"
 │   │       ├── "StandardSSD_LRS"
 │   │       ├── "Standard_LRS"
 │   │       └── "UltraSSD_LRS"
-│   ├── Tags: Map[string]string
-│   └── Zones: Array[string]
+│   ├── Tags: map[string]string
+│   └── Zones: string[]
 ├── Snapshot: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (17 properties)
 │   │   ├── AzureName: string
-│   │   ├── CreationData: 
-│   │   │   ├── CreateOption: enum
+│   │   ├── CreationData: Object (8 properties)
+│   │   │   ├── CreateOption: Enum (7 values)
 │   │   │   │   ├── "Attach"
 │   │   │   │   ├── "Copy"
 │   │   │   │   ├── "Empty"
@@ -364,10 +364,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   │   ├── "Import"
 │   │   │   │   ├── "Restore"
 │   │   │   │   └── "Upload"
-│   │   │   ├── GalleryImageReference: 
+│   │   │   ├── GalleryImageReference: Object (2 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (2 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── LogicalSectorSize: *int
@@ -377,63 +377,63 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   └── UploadSizeBytes: *int
 │   │   ├── DiskAccessReference: *genruntime.ResourceReference
 │   │   ├── DiskSizeGB: *int
-│   │   ├── DiskState: enum
+│   │   ├── DiskState: Enum (6 values)
 │   │   │   ├── "ActiveSAS"
 │   │   │   ├── "ActiveUpload"
 │   │   │   ├── "Attached"
 │   │   │   ├── "ReadyToUpload"
 │   │   │   ├── "Reserved"
 │   │   │   └── "Unattached"
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (3 values)
 │   │   │       ├── "EncryptionAtRestWithCustomerKey"
 │   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │   │   │       └── "EncryptionAtRestWithPlatformKey"
-│   │   ├── EncryptionSettingsCollection: 
+│   │   ├── EncryptionSettingsCollection: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: 
-│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   ├── EncryptionSettings: Object (2 properties)
+│   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   └── SourceVault: Object (1 property)
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   └── KeyEncryptionKey: Object (2 properties)
 │   │   │   │       ├── KeyUrl: *string
-│   │   │   │       └── SourceVault: 
+│   │   │   │       └── SourceVault: Object (1 property)
 │   │   │   │           └── Reference: *genruntime.ResourceReference
 │   │   │   └── EncryptionSettingsVersion: *string
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── HyperVGeneration: enum
+│   │   ├── HyperVGeneration: Enum (2 values)
 │   │   │   ├── "V1"
 │   │   │   └── "V2"
 │   │   ├── Incremental: *bool
 │   │   ├── Location: *string
-│   │   ├── NetworkAccessPolicy: enum
+│   │   ├── NetworkAccessPolicy: Enum (3 values)
 │   │   │   ├── "AllowAll"
 │   │   │   ├── "AllowPrivate"
 │   │   │   └── "DenyAll"
-│   │   ├── OsType: enum
+│   │   ├── OsType: Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PurchasePlan: 
+│   │   ├── PurchasePlan: Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
-│   │   ├── Sku: 
-│   │   │   └── Name: enum
+│   │   ├── Sku: Object (1 property)
+│   │   │   └── Name: Enum (3 values)
 │   │   │       ├── "Premium_LRS"
 │   │   │       ├── "Standard_LRS"
 │   │   │       └── "Standard_ZRS"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── CreationData: 
-│       │   ├── CreateOption: enum
+│   │   └── Tags: map[string]string
+│   └── Status: Object (24 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreationData: Object (9 properties)
+│       │   ├── CreateOption: Enum (7 values)
 │       │   │   ├── "Attach"
 │       │   │   ├── "Copy"
 │       │   │   ├── "Empty"
@@ -441,10 +441,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │       │   │   ├── "Import"
 │       │   │   ├── "Restore"
 │       │   │   └── "Upload"
-│       │   ├── GalleryImageReference: 
+│       │   ├── GalleryImageReference: Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── Lun: *int
-│       │   ├── ImageReference: 
+│       │   ├── ImageReference: Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── Lun: *int
 │       │   ├── LogicalSectorSize: *int
@@ -456,36 +456,36 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │       ├── DiskAccessId: *string
 │       ├── DiskSizeBytes: *int
 │       ├── DiskSizeGB: *int
-│       ├── DiskState: enum
+│       ├── DiskState: Enum (6 values)
 │       │   ├── "ActiveSAS"
 │       │   ├── "ActiveUpload"
 │       │   ├── "Attached"
 │       │   ├── "ReadyToUpload"
 │       │   ├── "Reserved"
 │       │   └── "Unattached"
-│       ├── Encryption: 
+│       ├── Encryption: Object (2 properties)
 │       │   ├── DiskEncryptionSetId: *string
-│       │   └── Type: enum
+│       │   └── Type: Enum (3 values)
 │       │       ├── "EncryptionAtRestWithCustomerKey"
 │       │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │       │       └── "EncryptionAtRestWithPlatformKey"
-│       ├── EncryptionSettingsCollection: 
+│       ├── EncryptionSettingsCollection: Object (3 properties)
 │       │   ├── Enabled: *bool
-│       │   ├── EncryptionSettings: 
-│       │   │   ├── DiskEncryptionKey: 
+│       │   ├── EncryptionSettings: Object (2 properties)
+│       │   │   ├── DiskEncryptionKey: Object (2 properties)
 │       │   │   │   ├── SecretUrl: *string
-│       │   │   │   └── SourceVault: 
+│       │   │   │   └── SourceVault: Object (1 property)
 │       │   │   │       └── Id: *string
-│       │   │   └── KeyEncryptionKey: 
+│       │   │   └── KeyEncryptionKey: Object (2 properties)
 │       │   │       ├── KeyUrl: *string
-│       │   │       └── SourceVault: 
+│       │   │       └── SourceVault: Object (1 property)
 │       │   │           └── Id: *string
 │       │   └── EncryptionSettingsVersion: *string
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: enum
+│       │   └── Type: Enum (1 value)
 │       │       └── "EdgeZone"
-│       ├── HyperVGeneration: enum
+│       ├── HyperVGeneration: Enum (2 values)
 │       │   ├── "V1"
 │       │   └── "V2"
 │       ├── Id: *string
@@ -493,41 +493,41 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │       ├── Location: *string
 │       ├── ManagedBy: *string
 │       ├── Name: *string
-│       ├── NetworkAccessPolicy: enum
+│       ├── NetworkAccessPolicy: Enum (3 values)
 │       │   ├── "AllowAll"
 │       │   ├── "AllowPrivate"
 │       │   └── "DenyAll"
-│       ├── OsType: enum
+│       ├── OsType: Enum (2 values)
 │       │   ├── "Linux"
 │       │   └── "Windows"
 │       ├── ProvisioningState: *string
-│       ├── PurchasePlan: 
+│       ├── PurchasePlan: Object (4 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
 │       │   └── Publisher: *string
-│       ├── Sku: 
-│       │   ├── Name: enum
+│       ├── Sku: Object (2 properties)
+│       │   ├── Name: Enum (3 values)
 │       │   │   ├── "Premium_LRS"
 │       │   │   ├── "Standard_LRS"
 │       │   │   └── "Standard_ZRS"
 │       │   └── Tier: *string
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── TimeCreated: *string
 │       ├── Type: *string
 │       └── UniqueId: *string
-├── Snapshot_STATUS_ARM: 
-│   ├── ExtendedLocation: 
+├── Snapshot_STATUS_ARM: Object (9 properties)
+│   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: enum
+│   │   └── Type: Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── ManagedBy: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── CreationData: 
-│   │   │   ├── CreateOption: enum
+│   ├── Properties: Object (15 properties)
+│   │   ├── CreationData: Object (9 properties)
+│   │   │   ├── CreateOption: Enum (7 values)
 │   │   │   │   ├── "Attach"
 │   │   │   │   ├── "Copy"
 │   │   │   │   ├── "Empty"
@@ -535,10 +535,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   │   │   ├── "Import"
 │   │   │   │   ├── "Restore"
 │   │   │   │   └── "Upload"
-│   │   │   ├── GalleryImageReference: 
+│   │   │   ├── GalleryImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (2 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   └── Lun: *int
 │   │   │   ├── LogicalSectorSize: *int
@@ -550,68 +550,68 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
 │   │   ├── DiskAccessId: *string
 │   │   ├── DiskSizeBytes: *int
 │   │   ├── DiskSizeGB: *int
-│   │   ├── DiskState: enum
+│   │   ├── DiskState: Enum (6 values)
 │   │   │   ├── "ActiveSAS"
 │   │   │   ├── "ActiveUpload"
 │   │   │   ├── "Attached"
 │   │   │   ├── "ReadyToUpload"
 │   │   │   ├── "Reserved"
 │   │   │   └── "Unattached"
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── DiskEncryptionSetId: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (3 values)
 │   │   │       ├── "EncryptionAtRestWithCustomerKey"
 │   │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
 │   │   │       └── "EncryptionAtRestWithPlatformKey"
-│   │   ├── EncryptionSettingsCollection: 
+│   │   ├── EncryptionSettingsCollection: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: 
-│   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   ├── EncryptionSettings: Object (2 properties)
+│   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   └── SourceVault: Object (1 property)
 │   │   │   │   │       └── Id: *string
-│   │   │   │   └── KeyEncryptionKey: 
+│   │   │   │   └── KeyEncryptionKey: Object (2 properties)
 │   │   │   │       ├── KeyUrl: *string
-│   │   │   │       └── SourceVault: 
+│   │   │   │       └── SourceVault: Object (1 property)
 │   │   │   │           └── Id: *string
 │   │   │   └── EncryptionSettingsVersion: *string
-│   │   ├── HyperVGeneration: enum
+│   │   ├── HyperVGeneration: Enum (2 values)
 │   │   │   ├── "V1"
 │   │   │   └── "V2"
 │   │   ├── Incremental: *bool
-│   │   ├── NetworkAccessPolicy: enum
+│   │   ├── NetworkAccessPolicy: Enum (3 values)
 │   │   │   ├── "AllowAll"
 │   │   │   ├── "AllowPrivate"
 │   │   │   └── "DenyAll"
-│   │   ├── OsType: enum
+│   │   ├── OsType: Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── ProvisioningState: *string
-│   │   ├── PurchasePlan: 
+│   │   ├── PurchasePlan: Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
 │   │   ├── TimeCreated: *string
 │   │   └── UniqueId: *string
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (3 values)
 │   │   │   ├── "Premium_LRS"
 │   │   │   ├── "Standard_LRS"
 │   │   │   └── "Standard_ZRS"
 │   │   └── Tier: *string
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-└── Snapshot_Spec_ARM: 
-    ├── ExtendedLocation: 
+└── Snapshot_Spec_ARM: Object (6 properties)
+    ├── ExtendedLocation: Object (2 properties)
     │   ├── Name: *string
-    │   └── Type: enum
+    │   └── Type: Enum (1 value)
     │       └── "EdgeZone"
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
-    │   ├── CreationData: 
-    │   │   ├── CreateOption: enum
+    ├── Properties: Object (11 properties)
+    │   ├── CreationData: Object (8 properties)
+    │   │   ├── CreateOption: Enum (7 values)
     │   │   │   ├── "Attach"
     │   │   │   ├── "Copy"
     │   │   │   ├── "Empty"
@@ -619,10 +619,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
     │   │   │   ├── "Import"
     │   │   │   ├── "Restore"
     │   │   │   └── "Upload"
-    │   │   ├── GalleryImageReference: 
+    │   │   ├── GalleryImageReference: Object (2 properties)
     │   │   │   ├── Id: *string
     │   │   │   └── Lun: *int
-    │   │   ├── ImageReference: 
+    │   │   ├── ImageReference: Object (2 properties)
     │   │   │   ├── Id: *string
     │   │   │   └── Lun: *int
     │   │   ├── LogicalSectorSize: *int
@@ -632,50 +632,50 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930
     │   │   └── UploadSizeBytes: *int
     │   ├── DiskAccessId: *string
     │   ├── DiskSizeGB: *int
-    │   ├── DiskState: enum
+    │   ├── DiskState: Enum (6 values)
     │   │   ├── "ActiveSAS"
     │   │   ├── "ActiveUpload"
     │   │   ├── "Attached"
     │   │   ├── "ReadyToUpload"
     │   │   ├── "Reserved"
     │   │   └── "Unattached"
-    │   ├── Encryption: 
+    │   ├── Encryption: Object (2 properties)
     │   │   ├── DiskEncryptionSetId: *string
-    │   │   └── Type: enum
+    │   │   └── Type: Enum (3 values)
     │   │       ├── "EncryptionAtRestWithCustomerKey"
     │   │       ├── "EncryptionAtRestWithPlatformAndCustomerKeys"
     │   │       └── "EncryptionAtRestWithPlatformKey"
-    │   ├── EncryptionSettingsCollection: 
+    │   ├── EncryptionSettingsCollection: Object (3 properties)
     │   │   ├── Enabled: *bool
-    │   │   ├── EncryptionSettings: 
-    │   │   │   ├── DiskEncryptionKey: 
+    │   │   ├── EncryptionSettings: Object (2 properties)
+    │   │   │   ├── DiskEncryptionKey: Object (2 properties)
     │   │   │   │   ├── SecretUrl: *string
-    │   │   │   │   └── SourceVault: 
+    │   │   │   │   └── SourceVault: Object (1 property)
     │   │   │   │       └── Id: *string
-    │   │   │   └── KeyEncryptionKey: 
+    │   │   │   └── KeyEncryptionKey: Object (2 properties)
     │   │   │       ├── KeyUrl: *string
-    │   │   │       └── SourceVault: 
+    │   │   │       └── SourceVault: Object (1 property)
     │   │   │           └── Id: *string
     │   │   └── EncryptionSettingsVersion: *string
-    │   ├── HyperVGeneration: enum
+    │   ├── HyperVGeneration: Enum (2 values)
     │   │   ├── "V1"
     │   │   └── "V2"
     │   ├── Incremental: *bool
-    │   ├── NetworkAccessPolicy: enum
+    │   ├── NetworkAccessPolicy: Enum (3 values)
     │   │   ├── "AllowAll"
     │   │   ├── "AllowPrivate"
     │   │   └── "DenyAll"
-    │   ├── OsType: enum
+    │   ├── OsType: Enum (2 values)
     │   │   ├── "Linux"
     │   │   └── "Windows"
-    │   └── PurchasePlan: 
+    │   └── PurchasePlan: Object (4 properties)
     │       ├── Name: *string
     │       ├── Product: *string
     │       ├── PromotionCode: *string
     │       └── Publisher: *string
-    ├── Sku: 
-    │   └── Name: enum
+    ├── Sku: Object (1 property)
+    │   └── Name: Enum (3 values)
     │       ├── "Premium_LRS"
     │       ├── "Standard_LRS"
     │       └── "Standard_ZRS"
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

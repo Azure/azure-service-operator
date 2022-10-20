@@ -1,15 +1,15 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
 ├── PrivateDnsZone: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── Etag: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Etag: *string
 │       ├── MaxNumberOfRecordSets: *int
 │       ├── MaxNumberOfVirtualNetworkLinks: *int
@@ -17,28 +17,28 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │       ├── NumberOfRecordSets: *int
 │       ├── NumberOfVirtualNetworkLinks: *int
 │       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-│       └── ProvisioningState: enum
+│       └── ProvisioningState: Enum (6 values)
 │           ├── "Canceled"
 │           ├── "Creating"
 │           ├── "Deleting"
 │           ├── "Failed"
 │           ├── "Succeeded"
 │           └── "Updating"
-├── PrivateDnsZone_Spec_ARM: 
+├── PrivateDnsZone_Spec_ARM: Object (4 properties)
 │   ├── Etag: *string
 │   ├── Location: *string
 │   ├── Name: string
-│   └── Tags: Map[string]string
-└── PrivateZone_STATUS_ARM: 
+│   └── Tags: map[string]string
+└── PrivateZone_STATUS_ARM: Object (2 properties)
     ├── Etag: *string
-    └── Properties: 
+    └── Properties: Object (7 properties)
         ├── MaxNumberOfRecordSets: *int
         ├── MaxNumberOfVirtualNetworkLinks: *int
         ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
         ├── NumberOfRecordSets: *int
         ├── NumberOfVirtualNetworkLinks: *int
         ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-        └── ProvisioningState: enum
+        └── ProvisioningState: Enum (6 values)
             ├── "Canceled"
             ├── "Creating"
             ├── "Deleting"

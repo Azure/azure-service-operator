@@ -1,69 +1,70 @@
 github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-12-01"
 ├── Redis: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (18 properties)
 │   │   ├── AzureName: string
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── Location: *string
-│   │   ├── MinimumTlsVersion: enum
+│   │   ├── MinimumTlsVersion: Enum (3 values)
 │   │   │   ├── "1.0"
 │   │   │   ├── "1.1"
 │   │   │   └── "1.2"
-│   │   ├── OperatorSpec: 
-│   │   │   └── Secrets: 
+│   │   ├── OperatorSpec: Object (1 property)
+│   │   │   └── Secrets: Object (5 properties)
 │   │   │       ├── HostName: *genruntime.SecretDestination
 │   │   │       ├── Port: *genruntime.SecretDestination
 │   │   │       ├── PrimaryKey: *genruntime.SecretDestination
 │   │   │       ├── SSLPort: *genruntime.SecretDestination
 │   │   │       └── SecondaryKey: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── RedisConfiguration: Map[string]string
+│   │   ├── RedisConfiguration: map[string]string
 │   │   ├── RedisVersion: *string
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
 │   │   ├── ShardCount: *int
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Family: enum
+│   │   │   ├── Family: Enum (2 values)
 │   │   │   │   ├── "C"
 │   │   │   │   └── "P"
-│   │   │   └── Name: enum
+│   │   │   └── Name: Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
-│   │   ├── StaticIP: Validated[*string]
+│   │   ├── StaticIP: Validated<*string> (1 rule)
+│   │   │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
 │   │   ├── SubnetReference: *genruntime.ResourceReference
-│   │   ├── Tags: Map[string]string
-│   │   ├── TenantSettings: Map[string]string
-│   │   └── Zones: Array[string]
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   ├── Tags: map[string]string
+│   │   ├── TenantSettings: map[string]string
+│   │   └── Zones: string[]
+│   └── Status: Object (26 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
 │       ├── Id: *string
-│       ├── Instances: 
+│       ├── Instances: Object (6 properties)
 │       │   ├── IsMaster: *bool
 │       │   ├── IsPrimary: *bool
 │       │   ├── NonSslPort: *int
 │       │   ├── ShardId: *int
 │       │   ├── SslPort: *int
 │       │   └── Zone: *string
-│       ├── LinkedServers: 
+│       ├── LinkedServers: Object (1 property)
 │       │   └── Id: *string
 │       ├── Location: *string
-│       ├── MinimumTlsVersion: enum
+│       ├── MinimumTlsVersion: Enum (3 values)
 │       │   ├── "1.0"
 │       │   ├── "1.1"
 │       │   └── "1.2"
 │       ├── Name: *string
 │       ├── Port: *int
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (1 property)
 │       │   └── Id: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (12 values)
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Disabled"
@@ -76,91 +77,91 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       │   ├── "Unlinking"
 │       │   ├── "Unprovisioning"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── RedisConfiguration: Map[string]string
+│       ├── RedisConfiguration: map[string]string
 │       ├── RedisVersion: *string
 │       ├── ReplicasPerMaster: *int
 │       ├── ReplicasPerPrimary: *int
 │       ├── ShardCount: *int
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Capacity: *int
-│       │   ├── Family: enum
+│       │   ├── Family: Enum (2 values)
 │       │   │   ├── "C"
 │       │   │   └── "P"
-│       │   └── Name: enum
+│       │   └── Name: Enum (3 values)
 │       │       ├── "Basic"
 │       │       ├── "Premium"
 │       │       └── "Standard"
 │       ├── SslPort: *int
 │       ├── StaticIP: *string
 │       ├── SubnetId: *string
-│       ├── Tags: Map[string]string
-│       ├── TenantSettings: Map[string]string
+│       ├── Tags: map[string]string
+│       ├── TenantSettings: map[string]string
 │       ├── Type: *string
-│       └── Zones: Array[string]
+│       └── Zones: string[]
 ├── RedisFirewallRule: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIP: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── StartIP: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── EndIP: *string
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── StartIP: *string
 │       └── Type: *string
-├── RedisFirewallRule_STATUS_ARM: 
+├── RedisFirewallRule_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (2 properties)
 │   │   ├── EndIP: *string
 │   │   └── StartIP: *string
 │   └── Type: *string
 ├── RedisLinkedServer: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ServerRole: enum
+│   │   ├── ServerRole: Enum (2 values)
 │   │   │   ├── "Primary"
 │   │   │   └── "Secondary"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── LinkedRedisCacheId: *string
 │       ├── LinkedRedisCacheLocation: *string
 │       ├── Name: *string
 │       ├── ProvisioningState: *string
-│       ├── ServerRole: enum
+│       ├── ServerRole: Enum (2 values)
 │       │   ├── "Primary"
 │       │   └── "Secondary"
 │       └── Type: *string
-├── RedisLinkedServerWithProperties_STATUS_ARM: 
+├── RedisLinkedServerWithProperties_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (4 properties)
 │   │   ├── LinkedRedisCacheId: *string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── ProvisioningState: *string
-│   │   └── ServerRole: enum
+│   │   └── ServerRole: Enum (2 values)
 │   │       ├── "Primary"
 │   │       └── "Secondary"
 │   └── Type: *string
 ├── RedisPatchSchedule: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ScheduleEntries: 
-│   │   │   ├── DayOfWeek: enum
+│   │   ├── ScheduleEntries: Object (3 properties)
+│   │   │   ├── DayOfWeek: Enum (9 values)
 │   │   │   │   ├── "Everyday"
 │   │   │   │   ├── "Friday"
 │   │   │   │   ├── "Monday"
@@ -170,16 +171,16 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │   │   │   ├── "Tuesday"
 │   │   │   │   ├── "Wednesday"
 │   │   │   │   └── "Weekend"
-│   │   │   ├── MaintenanceWindow: Validated[*string]
+│   │   │   ├── MaintenanceWindow: Validated<*string> (0 rules)
 │   │   │   └── StartHourUtc: *int
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── ScheduleEntries: 
-│       │   ├── DayOfWeek: enum
+│       ├── ScheduleEntries: Object (3 properties)
+│       │   ├── DayOfWeek: Enum (9 values)
 │       │   │   ├── "Everyday"
 │       │   │   ├── "Friday"
 │       │   │   ├── "Monday"
@@ -192,13 +193,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       │   ├── MaintenanceWindow: *string
 │       │   └── StartHourUtc: *int
 │       └── Type: *string
-├── RedisPatchSchedule_STATUS_ARM: 
+├── RedisPatchSchedule_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── ScheduleEntries: 
-│   │       ├── DayOfWeek: enum
+│   ├── Properties: Object (1 property)
+│   │   └── ScheduleEntries: Object (3 properties)
+│   │       ├── DayOfWeek: Enum (9 values)
 │   │       │   ├── "Everyday"
 │   │       │   ├── "Friday"
 │   │       │   ├── "Monday"
@@ -211,30 +212,30 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │       ├── MaintenanceWindow: *string
 │   │       └── StartHourUtc: *int
 │   └── Type: *string
-├── RedisResource_STATUS_ARM: 
+├── RedisResource_STATUS_ARM: Object (7 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (19 properties)
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── HostName: *string
-│   │   ├── Instances: 
+│   │   ├── Instances: Object (6 properties)
 │   │   │   ├── IsMaster: *bool
 │   │   │   ├── IsPrimary: *bool
 │   │   │   ├── NonSslPort: *int
 │   │   │   ├── ShardId: *int
 │   │   │   ├── SslPort: *int
 │   │   │   └── Zone: *string
-│   │   ├── LinkedServers: 
+│   │   ├── LinkedServers: Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── MinimumTlsVersion: enum
+│   │   ├── MinimumTlsVersion: Enum (3 values)
 │   │   │   ├── "1.0"
 │   │   │   ├── "1.1"
 │   │   │   └── "1.2"
 │   │   ├── Port: *int
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (12 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Disabled"
@@ -247,53 +248,53 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │   │   ├── "Unlinking"
 │   │   │   ├── "Unprovisioning"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── RedisConfiguration: Map[string]string
+│   │   ├── RedisConfiguration: map[string]string
 │   │   ├── RedisVersion: *string
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
 │   │   ├── ShardCount: *int
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Family: enum
+│   │   │   ├── Family: Enum (2 values)
 │   │   │   │   ├── "C"
 │   │   │   │   └── "P"
-│   │   │   └── Name: enum
+│   │   │   └── Name: Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
 │   │   ├── SslPort: *int
 │   │   ├── StaticIP: *string
 │   │   ├── SubnetId: *string
-│   │   └── TenantSettings: Map[string]string
-│   ├── Tags: Map[string]string
+│   │   └── TenantSettings: map[string]string
+│   ├── Tags: map[string]string
 │   ├── Type: *string
-│   └── Zones: Array[string]
-├── Redis_FirewallRule_Spec_ARM: 
+│   └── Zones: string[]
+├── Redis_FirewallRule_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (2 properties)
 │   │   ├── EndIP: *string
 │   │   └── StartIP: *string
-│   └── Tags: Map[string]string
-├── Redis_LinkedServer_Spec_ARM: 
+│   └── Tags: map[string]string
+├── Redis_LinkedServer_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (3 properties)
 │   │   ├── LinkedRedisCacheId: *string
 │   │   ├── LinkedRedisCacheLocation: *string
-│   │   └── ServerRole: enum
+│   │   └── ServerRole: Enum (2 values)
 │   │       ├── "Primary"
 │   │       └── "Secondary"
-│   └── Tags: Map[string]string
-├── Redis_PatchSchedule_Spec_ARM: 
+│   └── Tags: map[string]string
+├── Redis_PatchSchedule_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── ScheduleEntries: 
-│   │       ├── DayOfWeek: enum
+│   ├── Properties: Object (1 property)
+│   │   └── ScheduleEntries: Object (3 properties)
+│   │       ├── DayOfWeek: Enum (9 values)
 │   │       │   ├── "Everyday"
 │   │       │   ├── "Friday"
 │   │       │   ├── "Monday"
@@ -305,35 +306,35 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │       │   └── "Weekend"
 │   │       ├── MaintenanceWindow: *string
 │   │       └── StartHourUtc: *int
-│   └── Tags: Map[string]string
-└── Redis_Spec_ARM: 
+│   └── Tags: map[string]string
+└── Redis_Spec_ARM: Object (5 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
+    ├── Properties: Object (12 properties)
     │   ├── EnableNonSslPort: *bool
-    │   ├── MinimumTlsVersion: enum
+    │   ├── MinimumTlsVersion: Enum (3 values)
     │   │   ├── "1.0"
     │   │   ├── "1.1"
     │   │   └── "1.2"
-    │   ├── PublicNetworkAccess: enum
+    │   ├── PublicNetworkAccess: Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   ├── RedisConfiguration: Map[string]string
+    │   ├── RedisConfiguration: map[string]string
     │   ├── RedisVersion: *string
     │   ├── ReplicasPerMaster: *int
     │   ├── ReplicasPerPrimary: *int
     │   ├── ShardCount: *int
-    │   ├── Sku: 
+    │   ├── Sku: Object (3 properties)
     │   │   ├── Capacity: *int
-    │   │   ├── Family: enum
+    │   │   ├── Family: Enum (2 values)
     │   │   │   ├── "C"
     │   │   │   └── "P"
-    │   │   └── Name: enum
+    │   │   └── Name: Enum (3 values)
     │   │       ├── "Basic"
     │   │       ├── "Premium"
     │   │       └── "Standard"
     │   ├── StaticIP: *string
     │   ├── SubnetId: *string
-    │   └── TenantSettings: Map[string]string
-    ├── Tags: Map[string]string
-    └── Zones: Array[string]
+    │   └── TenantSettings: map[string]string
+    ├── Tags: map[string]string
+    └── Zones: string[]

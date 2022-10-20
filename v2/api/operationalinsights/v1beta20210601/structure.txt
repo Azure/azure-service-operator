@@ -1,12 +1,15 @@
 github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── Workspace: Resource
-│   ├── Spec: 
-│   │   ├── AzureName: Validated[string]
+│   ├── Spec: Object (13 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=4)}
+│   │   │   └── Rule 2: {Pattern "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"}
 │   │   ├── Etag: *string
-│   │   ├── Features: 
-│   │   │   ├── AdditionalProperties: Map[string]v1.JSON
+│   │   ├── Features: Object (6 properties)
+│   │   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── EnableDataExport: *bool
@@ -15,7 +18,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   ├── ForceCmkForQuery: *bool
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -23,16 +26,16 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │   ├── "ProvisioningAccount"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   ├── PublicNetworkAccessForQuery: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── RetentionInDays: *int
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (2 properties)
 │   │   │   ├── CapacityReservationLevel: *int
-│   │   │   └── Name: enum
+│   │   │   └── Name: Enum (8 values)
 │   │   │       ├── "CapacityReservation"
 │   │   │       ├── "Free"
 │   │   │       ├── "LACluster"
@@ -41,15 +44,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │       ├── "Premium"
 │   │   │       ├── "Standalone"
 │   │   │       └── "Standard"
-│   │   ├── Tags: Map[string]string
-│   │   └── WorkspaceCapping: 
+│   │   ├── Tags: map[string]string
+│   │   └── WorkspaceCapping: Object (1 property)
 │   │       └── DailyQuotaGb: *float64
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   └── Status: Object (19 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreatedDate: *string
 │       ├── CustomerId: *string
 │       ├── Etag: *string
-│       ├── Features: 
+│       ├── Features: Object (5 properties)
 │       │   ├── ClusterResourceId: *string
 │       │   ├── DisableLocalAuth: *bool
 │       │   ├── EnableDataExport: *bool
@@ -60,10 +63,10 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │       ├── Location: *string
 │       ├── ModifiedDate: *string
 │       ├── Name: *string
-│       ├── PrivateLinkScopedResources: 
+│       ├── PrivateLinkScopedResources: Object (2 properties)
 │       │   ├── ResourceId: *string
 │       │   └── ScopeId: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (7 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
@@ -71,15 +74,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │       │   ├── "ProvisioningAccount"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccessForIngestion: enum
+│       ├── PublicNetworkAccessForIngestion: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── PublicNetworkAccessForQuery: enum
+│       ├── PublicNetworkAccessForQuery: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
 │       ├── RetentionInDays: *int
-│       ├── Sku: 
-│       │   ├── CapacityReservationLevel: enum
+│       ├── Sku: Object (3 properties)
+│       │   ├── CapacityReservationLevel: Enum (8 values)
 │       │   │   ├── 100
 │       │   │   ├── 1000
 │       │   │   ├── 200
@@ -89,7 +92,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │       │   │   ├── 500
 │       │   │   └── 5000
 │       │   ├── LastSkuUpdate: *string
-│       │   └── Name: enum
+│       │   └── Name: Enum (8 values)
 │       │       ├── "CapacityReservation"
 │       │       ├── "Free"
 │       │       ├── "LACluster"
@@ -98,11 +101,11 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │       │       ├── "Premium"
 │       │       ├── "Standalone"
 │       │       └── "Standard"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       └── WorkspaceCapping: 
+│       └── WorkspaceCapping: Object (3 properties)
 │           ├── DailyQuotaGb: *float64
-│           ├── DataIngestionStatus: enum
+│           ├── DataIngestionStatus: Enum (6 values)
 │           │   ├── "ApproachingQuota"
 │           │   ├── "ForceOff"
 │           │   ├── "ForceOn"
@@ -110,15 +113,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │           │   ├── "RespectQuota"
 │           │   └── "SubscriptionSuspended"
 │           └── QuotaNextResetTime: *string
-├── Workspace_STATUS_ARM: 
+├── Workspace_STATUS_ARM: Object (7 properties)
 │   ├── Etag: *string
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (12 properties)
 │   │   ├── CreatedDate: *string
 │   │   ├── CustomerId: *string
-│   │   ├── Features: 
+│   │   ├── Features: Object (5 properties)
 │   │   │   ├── ClusterResourceId: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── EnableDataExport: *bool
@@ -126,10 +129,10 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │   └── ImmediatePurgeDataOn30Days: *bool
 │   │   ├── ForceCmkForQuery: *bool
 │   │   ├── ModifiedDate: *string
-│   │   ├── PrivateLinkScopedResources: 
+│   │   ├── PrivateLinkScopedResources: Object (2 properties)
 │   │   │   ├── ResourceId: *string
 │   │   │   └── ScopeId: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -137,15 +140,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │   ├── "ProvisioningAccount"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccessForIngestion: enum
+│   │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── PublicNetworkAccessForQuery: enum
+│   │   ├── PublicNetworkAccessForQuery: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── RetentionInDays: *int
-│   │   ├── Sku: 
-│   │   │   ├── CapacityReservationLevel: enum
+│   │   ├── Sku: Object (3 properties)
+│   │   │   ├── CapacityReservationLevel: Enum (8 values)
 │   │   │   │   ├── 100
 │   │   │   │   ├── 1000
 │   │   │   │   ├── 200
@@ -155,7 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │   │   ├── 500
 │   │   │   │   └── 5000
 │   │   │   ├── LastSkuUpdate: *string
-│   │   │   └── Name: enum
+│   │   │   └── Name: Enum (8 values)
 │   │   │       ├── "CapacityReservation"
 │   │   │       ├── "Free"
 │   │   │       ├── "LACluster"
@@ -164,9 +167,9 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │       ├── "Premium"
 │   │   │       ├── "Standalone"
 │   │   │       └── "Standard"
-│   │   └── WorkspaceCapping: 
+│   │   └── WorkspaceCapping: Object (3 properties)
 │   │       ├── DailyQuotaGb: *float64
-│   │       ├── DataIngestionStatus: enum
+│   │       ├── DataIngestionStatus: Enum (6 values)
 │   │       │   ├── "ApproachingQuota"
 │   │       │   ├── "ForceOff"
 │   │       │   ├── "ForceOn"
@@ -174,22 +177,22 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │       │   ├── "RespectQuota"
 │   │       │   └── "SubscriptionSuspended"
 │   │       └── QuotaNextResetTime: *string
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-└── Workspace_Spec_ARM: 
+└── Workspace_Spec_ARM: Object (5 properties)
     ├── Etag: *string
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
-    │   ├── Features: 
-    │   │   ├── AdditionalProperties: Map[string]v1.JSON
+    ├── Properties: Object (8 properties)
+    │   ├── Features: Object (6 properties)
+    │   │   ├── AdditionalProperties: map[string]v1.JSON
     │   │   ├── ClusterResourceId: *string
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── EnableDataExport: *bool
     │   │   ├── EnableLogAccessUsingOnlyResourcePermissions: *bool
     │   │   └── ImmediatePurgeDataOn30Days: *bool
     │   ├── ForceCmkForQuery: *bool
-    │   ├── ProvisioningState: enum
+    │   ├── ProvisioningState: Enum (7 values)
     │   │   ├── "Canceled"
     │   │   ├── "Creating"
     │   │   ├── "Deleting"
@@ -197,16 +200,16 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
     │   │   ├── "ProvisioningAccount"
     │   │   ├── "Succeeded"
     │   │   └── "Updating"
-    │   ├── PublicNetworkAccessForIngestion: enum
+    │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   ├── PublicNetworkAccessForQuery: enum
+    │   ├── PublicNetworkAccessForQuery: Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
     │   ├── RetentionInDays: *int
-    │   ├── Sku: 
+    │   ├── Sku: Object (2 properties)
     │   │   ├── CapacityReservationLevel: *int
-    │   │   └── Name: enum
+    │   │   └── Name: Enum (8 values)
     │   │       ├── "CapacityReservation"
     │   │       ├── "Free"
     │   │       ├── "LACluster"
@@ -215,6 +218,6 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
     │   │       ├── "Premium"
     │   │       ├── "Standalone"
     │   │       └── "Standard"
-    │   └── WorkspaceCapping: 
+    │   └── WorkspaceCapping: Object (1 property)
     │       └── DailyQuotaGb: *float64
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

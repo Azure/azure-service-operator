@@ -1,104 +1,104 @@
 github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-12-01"
 ├── VirtualMachine: Resource
-│   ├── Spec: 
-│   │   ├── AdditionalCapabilities: 
+│   ├── Spec: Object (28 properties)
+│   │   ├── AdditionalCapabilities: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AvailabilitySet: 
+│   │   ├── AvailabilitySet: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
-│   │   ├── BillingProfile: 
+│   │   ├── BillingProfile: Object (2 properties)
 │   │   │   ├── MaxPrice: *float64
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── DiagnosticsProfile: 
-│   │   │   ├── BootDiagnostics: 
+│   │   ├── DiagnosticsProfile: Object (2 properties)
+│   │   │   ├── BootDiagnostics: Object (3 properties)
 │   │   │   │   ├── Enabled: *bool
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── StorageUri: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── EvictionPolicy: *string
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── ExtensionsTimeBudget: *string
-│   │   ├── HardwareProfile: 
+│   │   ├── HardwareProfile: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── VmSize: *string
-│   │   ├── Host: 
+│   │   ├── Host: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── HostGroup: 
+│   │   ├── HostGroup: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── LicenseType: *string
 │   │   ├── Location: *string
-│   │   ├── NetworkProfile: 
-│   │   │   ├── NetworkInterfaces: 
+│   │   ├── NetworkProfile: Object (2 properties)
+│   │   │   ├── NetworkInterfaces: Object (3 properties)
 │   │   │   │   ├── Primary: *bool
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
-│   │   ├── OsProfile: 
+│   │   ├── OsProfile: Object (10 properties)
 │   │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   │   ├── AdminUsername: *string
 │   │   │   ├── AllowExtensionOperations: *bool
 │   │   │   ├── ComputerName: *string
 │   │   │   ├── CustomData: *string
-│   │   │   ├── LinuxConfiguration: 
+│   │   │   ├── LinuxConfiguration: Object (5 properties)
 │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   ├── PatchSettings: 
+│   │   │   │   ├── PatchSettings: Object (2 properties)
 │   │   │   │   │   ├── PatchMode: *string
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   └── Ssh: 
+│   │   │   │   └── Ssh: Object (2 properties)
 │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │       └── PublicKeys: 
+│   │   │   │       └── PublicKeys: Object (3 properties)
 │   │   │   │           ├── KeyData: *string
 │   │   │   │           ├── Path: *string
 │   │   │   │           └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── RequireGuestProvisionSignal: *bool
-│   │   │   ├── Secrets: 
+│   │   │   ├── Secrets: Object (3 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── SourceVault: 
+│   │   │   │   ├── SourceVault: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── VaultCertificates: 
+│   │   │   │   └── VaultCertificates: Object (3 properties)
 │   │   │   │       ├── CertificateStore: *string
 │   │   │   │       ├── CertificateUrl: *string
 │   │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   │   └── WindowsConfiguration: 
-│   │   │       ├── AdditionalUnattendContent: 
+│   │   │   └── WindowsConfiguration: Object (7 properties)
+│   │   │       ├── AdditionalUnattendContent: Object (5 properties)
 │   │   │       │   ├── ComponentName: *string
 │   │   │       │   ├── Content: *string
 │   │   │       │   ├── PassName: *string
 │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   └── SettingName: *string
 │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │       ├── PatchSettings: 
+│   │   │       ├── PatchSettings: Object (3 properties)
 │   │   │       │   ├── EnableHotpatching: *bool
 │   │   │       │   ├── PatchMode: *string
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │       ├── TimeZone: *string
-│   │   │       └── WinRM: 
-│   │   │           ├── Listeners: 
+│   │   │       └── WinRM: Object (2 properties)
+│   │   │           ├── Listeners: Object (3 properties)
 │   │   │           │   ├── CertificateUrl: *string
 │   │   │           │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │           │   └── Protocol: *string
 │   │   │           └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Plan: 
+│   │   ├── Plan: Object (5 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
@@ -107,29 +107,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │   │   ├── PlatformFaultDomain: *int
 │   │   ├── Priority: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProximityPlacementGroup: 
+│   │   ├── ProximityPlacementGroup: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── SecurityProfile: 
+│   │   ├── SecurityProfile: Object (4 properties)
 │   │   │   ├── EncryptionAtHost: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SecurityType: *string
-│   │   │   └── UefiSettings: 
+│   │   │   └── UefiSettings: Object (3 properties)
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── SecureBootEnabled: *bool
 │   │   │       └── VTpmEnabled: *bool
-│   │   ├── StorageProfile: 
-│   │   │   ├── DataDisks: 
+│   │   ├── StorageProfile: Object (4 properties)
+│   │   │   ├── DataDisks: Object (12 properties)
 │   │   │   │   ├── Caching: *string
 │   │   │   │   ├── CreateOption: *string
 │   │   │   │   ├── DetachOption: *string
 │   │   │   │   ├── DiskSizeGB: *int
-│   │   │   │   ├── Image: 
+│   │   │   │   ├── Image: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   ├── Lun: *int
-│   │   │   │   ├── ManagedDisk: 
-│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   ├── ManagedDisk: Object (4 properties)
+│   │   │   │   │   ├── DiskEncryptionSet: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -138,45 +138,45 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── ToBeDetached: *bool
-│   │   │   │   ├── Vhd: 
+│   │   │   │   ├── Vhd: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   └── WriteAcceleratorEnabled: *bool
-│   │   │   ├── ImageReference: 
+│   │   │   ├── ImageReference: Object (6 properties)
 │   │   │   │   ├── Offer: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── Publisher: *string
 │   │   │   │   ├── Reference: *genruntime.ResourceReference
 │   │   │   │   ├── Sku: *string
 │   │   │   │   └── Version: *string
-│   │   │   ├── OsDisk: 
+│   │   │   ├── OsDisk: Object (12 properties)
 │   │   │   │   ├── Caching: *string
 │   │   │   │   ├── CreateOption: *string
-│   │   │   │   ├── DiffDiskSettings: 
+│   │   │   │   ├── DiffDiskSettings: Object (3 properties)
 │   │   │   │   │   ├── Option: *string
 │   │   │   │   │   ├── Placement: *string
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── DiskSizeGB: *int
-│   │   │   │   ├── EncryptionSettings: 
-│   │   │   │   │   ├── DiskEncryptionKey: 
+│   │   │   │   ├── EncryptionSettings: Object (4 properties)
+│   │   │   │   │   ├── DiskEncryptionKey: Object (3 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   │   └── SourceVault: Object (2 properties)
 │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── Enabled: *bool
-│   │   │   │   │   ├── KeyEncryptionKey: 
+│   │   │   │   │   ├── KeyEncryptionKey: Object (3 properties)
 │   │   │   │   │   │   ├── KeyUrl: *string
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── SourceVault: 
+│   │   │   │   │   │   └── SourceVault: Object (2 properties)
 │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── Image: 
+│   │   │   │   ├── Image: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Uri: *string
-│   │   │   │   ├── ManagedDisk: 
-│   │   │   │   │   ├── DiskEncryptionSet: 
+│   │   │   │   ├── ManagedDisk: Object (4 properties)
+│   │   │   │   │   ├── DiskEncryptionSet: Object (2 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -185,61 +185,61 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── OsType: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── Vhd: 
+│   │   │   │   ├── Vhd: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   └── WriteAcceleratorEnabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Tags: Map[string]string
-│   │   ├── VirtualMachineScaleSet: 
+│   │   ├── Tags: map[string]string
+│   │   ├── VirtualMachineScaleSet: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   └── Zones: Array[string]
-│   └── Status: 
-│       ├── AdditionalCapabilities: 
+│   │   └── Zones: string[]
+│   └── Status: Object (33 properties)
+│       ├── AdditionalCapabilities: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── UltraSSDEnabled: *bool
-│       ├── AvailabilitySet: 
+│       ├── AvailabilitySet: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── BillingProfile: 
+│       ├── BillingProfile: Object (2 properties)
 │       │   ├── MaxPrice: *float64
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── DiagnosticsProfile: 
-│       │   ├── BootDiagnostics: 
+│       ├── Conditions: conditions.Condition[]
+│       ├── DiagnosticsProfile: Object (2 properties)
+│       │   ├── BootDiagnostics: Object (3 properties)
 │       │   │   ├── Enabled: *bool
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── StorageUri: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── EvictionPolicy: *string
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
 │       ├── ExtensionsTimeBudget: *string
-│       ├── HardwareProfile: 
+│       ├── HardwareProfile: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── VmSize: *string
-│       ├── Host: 
+│       ├── Host: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── HostGroup: 
+│       ├── HostGroup: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   └── Type: *string
-│       ├── InstanceView: 
+│       ├── InstanceView: Object (17 properties)
 │       │   ├── AssignedHost: *string
-│       │   ├── BootDiagnostics: 
+│       │   ├── BootDiagnostics: Object (4 properties)
 │       │   │   ├── ConsoleScreenshotBlobUri: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── SerialConsoleLogBlobUri: *string
-│       │   │   └── Status: 
+│       │   │   └── Status: Object (6 properties)
 │       │   │       ├── Code: *string
 │       │   │       ├── DisplayStatus: *string
 │       │   │       ├── Level: *string
@@ -247,42 +247,42 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │       ├── PropertyBag: genruntime.PropertyBag
 │       │   │       └── Time: *string
 │       │   ├── ComputerName: *string
-│       │   ├── Disks: 
-│       │   │   ├── EncryptionSettings: 
-│       │   │   │   ├── DiskEncryptionKey: 
+│       │   ├── Disks: Object (4 properties)
+│       │   │   ├── EncryptionSettings: Object (4 properties)
+│       │   │   │   ├── DiskEncryptionKey: Object (3 properties)
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   ├── SecretUrl: *string
-│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │   └── SourceVault: Object (2 properties)
 │       │   │   │   │       ├── Id: *string
 │       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── Enabled: *bool
-│       │   │   │   ├── KeyEncryptionKey: 
+│       │   │   │   ├── KeyEncryptionKey: Object (3 properties)
 │       │   │   │   │   ├── KeyUrl: *string
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │   └── SourceVault: Object (2 properties)
 │       │   │   │   │       ├── Id: *string
 │       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Statuses: 
+│       │   │   └── Statuses: Object (6 properties)
 │       │   │       ├── Code: *string
 │       │   │       ├── DisplayStatus: *string
 │       │   │       ├── Level: *string
 │       │   │       ├── Message: *string
 │       │   │       ├── PropertyBag: genruntime.PropertyBag
 │       │   │       └── Time: *string
-│       │   ├── Extensions: 
+│       │   ├── Extensions: Object (6 properties)
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Statuses: 
+│       │   │   ├── Statuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
 │       │   │   │   ├── Message: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Time: *string
-│       │   │   ├── Substatuses: 
+│       │   │   ├── Substatuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
@@ -292,7 +292,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   ├── Type: *string
 │       │   │   └── TypeHandlerVersion: *string
 │       │   ├── HyperVGeneration: *string
-│       │   ├── MaintenanceRedeployStatus: 
+│       │   ├── MaintenanceRedeployStatus: Object (8 properties)
 │       │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
 │       │   │   ├── LastOperationMessage: *string
 │       │   │   ├── LastOperationResultCode: *string
@@ -303,18 +303,18 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── OsName: *string
 │       │   ├── OsVersion: *string
-│       │   ├── PatchStatus: 
-│       │   │   ├── AvailablePatchSummary: 
+│       │   ├── PatchStatus: Object (4 properties)
+│       │   │   ├── AvailablePatchSummary: Object (9 properties)
 │       │   │   │   ├── AssessmentActivityId: *string
 │       │   │   │   ├── CriticalAndSecurityPatchCount: *int
-│       │   │   │   ├── Error: 
+│       │   │   │   ├── Error: Object (6 properties)
 │       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── Details: 
+│       │   │   │   │   ├── Details: Object (4 properties)
 │       │   │   │   │   │   ├── Code: *string
 │       │   │   │   │   │   ├── Message: *string
 │       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   │   └── Target: *string
-│       │   │   │   │   ├── Innererror: 
+│       │   │   │   │   ├── Innererror: Object (3 properties)
 │       │   │   │   │   │   ├── Errordetail: *string
 │       │   │   │   │   │   ├── Exceptiontype: *string
 │       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -327,22 +327,22 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   │   ├── RebootPending: *bool
 │       │   │   │   ├── StartTime: *string
 │       │   │   │   └── Status: *string
-│       │   │   ├── ConfigurationStatuses: 
+│       │   │   ├── ConfigurationStatuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
 │       │   │   │   ├── Message: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Time: *string
-│       │   │   ├── LastPatchInstallationSummary: 
-│       │   │   │   ├── Error: 
+│       │   │   ├── LastPatchInstallationSummary: Object (12 properties)
+│       │   │   │   ├── Error: Object (6 properties)
 │       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── Details: 
+│       │   │   │   │   ├── Details: Object (4 properties)
 │       │   │   │   │   │   ├── Code: *string
 │       │   │   │   │   │   ├── Message: *string
 │       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   │   └── Target: *string
-│       │   │   │   │   ├── Innererror: 
+│       │   │   │   │   ├── Innererror: Object (3 properties)
 │       │   │   │   │   │   ├── Errordetail: *string
 │       │   │   │   │   │   ├── Exceptiontype: *string
 │       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -365,17 +365,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   ├── PlatformUpdateDomain: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── RdpThumbPrint: *string
-│       │   ├── Statuses: 
+│       │   ├── Statuses: Object (6 properties)
 │       │   │   ├── Code: *string
 │       │   │   ├── DisplayStatus: *string
 │       │   │   ├── Level: *string
 │       │   │   ├── Message: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── Time: *string
-│       │   ├── VmAgent: 
-│       │   │   ├── ExtensionHandlers: 
+│       │   ├── VmAgent: Object (4 properties)
+│       │   │   ├── ExtensionHandlers: Object (4 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── Status: 
+│       │   │   │   ├── Status: Object (6 properties)
 │       │   │   │   │   ├── Code: *string
 │       │   │   │   │   ├── DisplayStatus: *string
 │       │   │   │   │   ├── Level: *string
@@ -385,7 +385,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   │   ├── Type: *string
 │       │   │   │   └── TypeHandlerVersion: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Statuses: 
+│       │   │   ├── Statuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
@@ -393,9 +393,9 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Time: *string
 │       │   │   └── VmAgentVersion: *string
-│       │   └── VmHealth: 
+│       │   └── VmHealth: Object (2 properties)
 │       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       └── Status: 
+│       │       └── Status: Object (6 properties)
 │       │           ├── Code: *string
 │       │           ├── DisplayStatus: *string
 │       │           ├── Level: *string
@@ -405,63 +405,63 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       ├── LicenseType: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── NetworkProfile: 
-│       │   ├── NetworkInterfaces: 
+│       ├── NetworkProfile: Object (2 properties)
+│       │   ├── NetworkInterfaces: Object (3 properties)
 │       │   │   ├── Id: *string
 │       │   │   ├── Primary: *bool
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── OsProfile: 
+│       ├── OsProfile: Object (9 properties)
 │       │   ├── AdminUsername: *string
 │       │   ├── AllowExtensionOperations: *bool
 │       │   ├── ComputerName: *string
 │       │   ├── CustomData: *string
-│       │   ├── LinuxConfiguration: 
+│       │   ├── LinuxConfiguration: Object (5 properties)
 │       │   │   ├── DisablePasswordAuthentication: *bool
-│       │   │   ├── PatchSettings: 
+│       │   │   ├── PatchSettings: Object (2 properties)
 │       │   │   │   ├── PatchMode: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── ProvisionVMAgent: *bool
-│       │   │   └── Ssh: 
+│       │   │   └── Ssh: Object (2 properties)
 │       │   │       ├── PropertyBag: genruntime.PropertyBag
-│       │   │       └── PublicKeys: 
+│       │   │       └── PublicKeys: Object (3 properties)
 │       │   │           ├── KeyData: *string
 │       │   │           ├── Path: *string
 │       │   │           └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── RequireGuestProvisionSignal: *bool
-│       │   ├── Secrets: 
+│       │   ├── Secrets: Object (3 properties)
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── SourceVault: 
+│       │   │   ├── SourceVault: Object (2 properties)
 │       │   │   │   ├── Id: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   └── VaultCertificates: 
+│       │   │   └── VaultCertificates: Object (3 properties)
 │       │   │       ├── CertificateStore: *string
 │       │   │       ├── CertificateUrl: *string
 │       │   │       └── PropertyBag: genruntime.PropertyBag
-│       │   └── WindowsConfiguration: 
-│       │       ├── AdditionalUnattendContent: 
+│       │   └── WindowsConfiguration: Object (7 properties)
+│       │       ├── AdditionalUnattendContent: Object (5 properties)
 │       │       │   ├── ComponentName: *string
 │       │       │   ├── Content: *string
 │       │       │   ├── PassName: *string
 │       │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │       │   └── SettingName: *string
 │       │       ├── EnableAutomaticUpdates: *bool
-│       │       ├── PatchSettings: 
+│       │       ├── PatchSettings: Object (3 properties)
 │       │       │   ├── EnableHotpatching: *bool
 │       │       │   ├── PatchMode: *string
 │       │       │   └── PropertyBag: genruntime.PropertyBag
 │       │       ├── PropertyBag: genruntime.PropertyBag
 │       │       ├── ProvisionVMAgent: *bool
 │       │       ├── TimeZone: *string
-│       │       └── WinRM: 
-│       │           ├── Listeners: 
+│       │       └── WinRM: Object (2 properties)
+│       │           ├── Listeners: Object (3 properties)
 │       │           │   ├── CertificateUrl: *string
 │       │           │   ├── PropertyBag: genruntime.PropertyBag
 │       │           │   └── Protocol: *string
 │       │           └── PropertyBag: genruntime.PropertyBag
-│       ├── Plan: 
+│       ├── Plan: Object (5 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
@@ -471,25 +471,25 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       ├── Priority: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
-│       ├── ProximityPlacementGroup: 
+│       ├── ProximityPlacementGroup: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Resources: 
+│       ├── Resources: Object (16 properties)
 │       │   ├── AutoUpgradeMinorVersion: *bool
 │       │   ├── EnableAutomaticUpgrade: *bool
 │       │   ├── ForceUpdateTag: *string
 │       │   ├── Id: *string
-│       │   ├── InstanceView: 
+│       │   ├── InstanceView: Object (6 properties)
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Statuses: 
+│       │   │   ├── Statuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
 │       │   │   │   ├── Message: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Time: *string
-│       │   │   ├── Substatuses: 
+│       │   │   ├── Substatuses: Object (6 properties)
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
 │       │   │   │   ├── Level: *string
@@ -502,35 +502,35 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   ├── Name: *string
 │       │   ├── PropertiesType: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProtectedSettings: Map[string]v1.JSON
+│       │   ├── ProtectedSettings: map[string]v1.JSON
 │       │   ├── ProvisioningState: *string
 │       │   ├── Publisher: *string
-│       │   ├── Settings: Map[string]v1.JSON
-│       │   ├── Tags: Map[string]string
+│       │   ├── Settings: map[string]v1.JSON
+│       │   ├── Tags: map[string]string
 │       │   ├── Type: *string
 │       │   └── TypeHandlerVersion: *string
-│       ├── SecurityProfile: 
+│       ├── SecurityProfile: Object (4 properties)
 │       │   ├── EncryptionAtHost: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── SecurityType: *string
-│       │   └── UefiSettings: 
+│       │   └── UefiSettings: Object (3 properties)
 │       │       ├── PropertyBag: genruntime.PropertyBag
 │       │       ├── SecureBootEnabled: *bool
 │       │       └── VTpmEnabled: *bool
-│       ├── StorageProfile: 
-│       │   ├── DataDisks: 
+│       ├── StorageProfile: Object (4 properties)
+│       │   ├── DataDisks: Object (14 properties)
 │       │   │   ├── Caching: *string
 │       │   │   ├── CreateOption: *string
 │       │   │   ├── DetachOption: *string
 │       │   │   ├── DiskIOPSReadWrite: *int
 │       │   │   ├── DiskMBpsReadWrite: *int
 │       │   │   ├── DiskSizeGB: *int
-│       │   │   ├── Image: 
+│       │   │   ├── Image: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Uri: *string
 │       │   │   ├── Lun: *int
-│       │   │   ├── ManagedDisk: 
-│       │   │   │   ├── DiskEncryptionSet: 
+│       │   │   ├── ManagedDisk: Object (4 properties)
+│       │   │   │   ├── DiskEncryptionSet: Object (2 properties)
 │       │   │   │   │   ├── Id: *string
 │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── Id: *string
@@ -539,11 +539,11 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── ToBeDetached: *bool
-│       │   │   ├── Vhd: 
+│       │   │   ├── Vhd: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Uri: *string
 │       │   │   └── WriteAcceleratorEnabled: *bool
-│       │   ├── ImageReference: 
+│       │   ├── ImageReference: Object (7 properties)
 │       │   │   ├── ExactVersion: *string
 │       │   │   ├── Id: *string
 │       │   │   ├── Offer: *string
@@ -551,34 +551,34 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   ├── Publisher: *string
 │       │   │   ├── Sku: *string
 │       │   │   └── Version: *string
-│       │   ├── OsDisk: 
+│       │   ├── OsDisk: Object (12 properties)
 │       │   │   ├── Caching: *string
 │       │   │   ├── CreateOption: *string
-│       │   │   ├── DiffDiskSettings: 
+│       │   │   ├── DiffDiskSettings: Object (3 properties)
 │       │   │   │   ├── Option: *string
 │       │   │   │   ├── Placement: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── DiskSizeGB: *int
-│       │   │   ├── EncryptionSettings: 
-│       │   │   │   ├── DiskEncryptionKey: 
+│       │   │   ├── EncryptionSettings: Object (4 properties)
+│       │   │   │   ├── DiskEncryptionKey: Object (3 properties)
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   ├── SecretUrl: *string
-│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │   └── SourceVault: Object (2 properties)
 │       │   │   │   │       ├── Id: *string
 │       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── Enabled: *bool
-│       │   │   │   ├── KeyEncryptionKey: 
+│       │   │   │   ├── KeyEncryptionKey: Object (3 properties)
 │       │   │   │   │   ├── KeyUrl: *string
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── SourceVault: 
+│       │   │   │   │   └── SourceVault: Object (2 properties)
 │       │   │   │   │       ├── Id: *string
 │       │   │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Image: 
+│       │   │   ├── Image: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Uri: *string
-│       │   │   ├── ManagedDisk: 
-│       │   │   │   ├── DiskEncryptionSet: 
+│       │   │   ├── ManagedDisk: Object (4 properties)
+│       │   │   │   ├── DiskEncryptionSet: Object (2 properties)
 │       │   │   │   │   ├── Id: *string
 │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── Id: *string
@@ -587,37 +587,37 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       │   │   ├── Name: *string
 │       │   │   ├── OsType: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Vhd: 
+│       │   │   ├── Vhd: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Uri: *string
 │       │   │   └── WriteAcceleratorEnabled: *bool
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── VirtualMachineScaleSet: 
+│       ├── VirtualMachineScaleSet: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── VmId: *string
-│       └── Zones: Array[string]
+│       └── Zones: string[]
 └── VirtualMachineScaleSet: Resource
-    ├── Spec: 
-    │   ├── AdditionalCapabilities: 
+    ├── Spec: Object (24 properties)
+    │   ├── AdditionalCapabilities: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── UltraSSDEnabled: *bool
-    │   ├── AutomaticRepairsPolicy: 
+    │   ├── AutomaticRepairsPolicy: Object (3 properties)
     │   │   ├── Enabled: *bool
     │   │   ├── GracePeriod: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── AzureName: string
     │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-    │   ├── ExtendedLocation: 
+    │   ├── ExtendedLocation: Object (3 properties)
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── HostGroup: 
+    │   ├── HostGroup: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
-    │   ├── Identity: 
+    │   ├── Identity: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
     │   ├── Location: *string
@@ -625,7 +625,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   ├── OriginalVersion: string
     │   ├── Overprovision: *bool
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Plan: 
+    │   ├── Plan: Object (5 properties)
     │   │   ├── Name: *string
     │   │   ├── Product: *string
     │   │   ├── PromotionCode: *string
@@ -633,27 +633,27 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   └── Publisher: *string
     │   ├── PlatformFaultDomainCount: *int
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── ProximityPlacementGroup: 
+    │   ├── ProximityPlacementGroup: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
-    │   ├── ScaleInPolicy: 
+    │   ├── ScaleInPolicy: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Rules: Array[string]
+    │   │   └── Rules: string[]
     │   ├── SinglePlacementGroup: *bool
-    │   ├── Sku: 
+    │   ├── Sku: Object (4 properties)
     │   │   ├── Capacity: *int
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Tier: *string
-    │   ├── Tags: Map[string]string
-    │   ├── UpgradePolicy: 
-    │   │   ├── AutomaticOSUpgradePolicy: 
+    │   ├── Tags: map[string]string
+    │   ├── UpgradePolicy: Object (4 properties)
+    │   │   ├── AutomaticOSUpgradePolicy: Object (3 properties)
     │   │   │   ├── DisableAutomaticRollback: *bool
     │   │   │   ├── EnableAutomaticOSUpgrade: *bool
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── Mode: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── RollingUpgradePolicy: 
+    │   │   └── RollingUpgradePolicy: Object (7 properties)
     │   │       ├── EnableCrossZoneUpgrade: *bool
     │   │       ├── MaxBatchInstancePercent: *int
     │   │       ├── MaxUnhealthyInstancePercent: *int
@@ -661,158 +661,158 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │       ├── PauseTimeBetweenBatches: *string
     │   │       ├── PrioritizeUnhealthyInstances: *bool
     │   │       └── PropertyBag: genruntime.PropertyBag
-    │   ├── VirtualMachineProfile: 
-    │   │   ├── BillingProfile: 
+    │   ├── VirtualMachineProfile: Object (12 properties)
+    │   │   ├── BillingProfile: Object (2 properties)
     │   │   │   ├── MaxPrice: *float64
     │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── DiagnosticsProfile: 
-    │   │   │   ├── BootDiagnostics: 
+    │   │   ├── DiagnosticsProfile: Object (2 properties)
+    │   │   │   ├── BootDiagnostics: Object (3 properties)
     │   │   │   │   ├── Enabled: *bool
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── StorageUri: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── EvictionPolicy: *string
-    │   │   ├── ExtensionProfile: 
-    │   │   │   ├── Extensions: 
+    │   │   ├── ExtensionProfile: Object (3 properties)
+    │   │   │   ├── Extensions: Object (6 properties)
     │   │   │   │   ├── Name: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── Publisher: *string
-    │   │   │   │   ├── Settings: Map[string]v1.JSON
+    │   │   │   │   ├── Settings: map[string]v1.JSON
     │   │   │   │   ├── Type: *string
     │   │   │   │   └── TypeHandlerVersion: *string
     │   │   │   ├── ExtensionsTimeBudget: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── LicenseType: *string
-    │   │   ├── NetworkProfile: 
-    │   │   │   ├── HealthProbe: 
+    │   │   ├── NetworkProfile: Object (3 properties)
+    │   │   │   ├── HealthProbe: Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   ├── NetworkInterfaceConfigurations: 
-    │   │   │   │   ├── DnsSettings: 
-    │   │   │   │   │   ├── DnsServers: Array[string]
+    │   │   │   ├── NetworkInterfaceConfigurations: Object (10 properties)
+    │   │   │   │   ├── DnsSettings: Object (2 properties)
+    │   │   │   │   │   ├── DnsServers: string[]
     │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── EnableAcceleratedNetworking: *bool
     │   │   │   │   ├── EnableFpga: *bool
     │   │   │   │   ├── EnableIPForwarding: *bool
     │   │   │   │   ├── Id: *string
-    │   │   │   │   ├── IpConfigurations: 
-    │   │   │   │   │   ├── ApplicationGatewayBackendAddressPools: 
+    │   │   │   │   ├── IpConfigurations: Object (11 properties)
+    │   │   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   │   │   ├── ApplicationSecurityGroups: 
+    │   │   │   │   │   ├── ApplicationSecurityGroups: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   │   │   ├── Id: *string
-    │   │   │   │   │   ├── LoadBalancerBackendAddressPools: 
+    │   │   │   │   │   ├── LoadBalancerBackendAddressPools: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   │   │   ├── LoadBalancerInboundNatPools: 
+    │   │   │   │   │   ├── LoadBalancerInboundNatPools: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   │   │   ├── Name: *string
     │   │   │   │   │   ├── Primary: *bool
     │   │   │   │   │   ├── PrivateIPAddressVersion: *string
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   │   ├── PublicIPAddressConfiguration: 
-    │   │   │   │   │   │   ├── DnsSettings: 
+    │   │   │   │   │   ├── PublicIPAddressConfiguration: Object (7 properties)
+    │   │   │   │   │   │   ├── DnsSettings: Object (2 properties)
     │   │   │   │   │   │   │   ├── DomainNameLabel: *string
     │   │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   ├── IdleTimeoutInMinutes: *int
-    │   │   │   │   │   │   ├── IpTags: 
+    │   │   │   │   │   │   ├── IpTags: Object (3 properties)
     │   │   │   │   │   │   │   ├── IpTagType: *string
     │   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   │   └── Tag: *string
     │   │   │   │   │   │   ├── Name: *string
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   ├── PublicIPAddressVersion: *string
-    │   │   │   │   │   │   └── PublicIPPrefix: 
+    │   │   │   │   │   │   └── PublicIPPrefix: Object (2 properties)
     │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-    │   │   │   │   │   └── Subnet: 
+    │   │   │   │   │   └── Subnet: Object (2 properties)
     │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │       └── Reference: *genruntime.ResourceReference
     │   │   │   │   ├── Name: *string
-    │   │   │   │   ├── NetworkSecurityGroup: 
+    │   │   │   │   ├── NetworkSecurityGroup: Object (2 properties)
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   │   ├── Primary: *bool
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── OsProfile: 
+    │   │   ├── OsProfile: Object (8 properties)
     │   │   │   ├── AdminPassword: *genruntime.SecretReference
     │   │   │   ├── AdminUsername: *string
     │   │   │   ├── ComputerNamePrefix: *string
     │   │   │   ├── CustomData: *string
-    │   │   │   ├── LinuxConfiguration: 
+    │   │   │   ├── LinuxConfiguration: Object (5 properties)
     │   │   │   │   ├── DisablePasswordAuthentication: *bool
-    │   │   │   │   ├── PatchSettings: 
+    │   │   │   │   ├── PatchSettings: Object (2 properties)
     │   │   │   │   │   ├── PatchMode: *string
     │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── ProvisionVMAgent: *bool
-    │   │   │   │   └── Ssh: 
+    │   │   │   │   └── Ssh: Object (2 properties)
     │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │       └── PublicKeys: 
+    │   │   │   │       └── PublicKeys: Object (3 properties)
     │   │   │   │           ├── KeyData: *string
     │   │   │   │           ├── Path: *string
     │   │   │   │           └── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── Secrets: 
+    │   │   │   ├── Secrets: Object (3 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── SourceVault: 
+    │   │   │   │   ├── SourceVault: Object (2 properties)
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   │   └── VaultCertificates: 
+    │   │   │   │   └── VaultCertificates: Object (3 properties)
     │   │   │   │       ├── CertificateStore: *string
     │   │   │   │       ├── CertificateUrl: *string
     │   │   │   │       └── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── WindowsConfiguration: 
-    │   │   │       ├── AdditionalUnattendContent: 
+    │   │   │   └── WindowsConfiguration: Object (7 properties)
+    │   │   │       ├── AdditionalUnattendContent: Object (5 properties)
     │   │   │       │   ├── ComponentName: *string
     │   │   │       │   ├── Content: *string
     │   │   │       │   ├── PassName: *string
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │       │   └── SettingName: *string
     │   │   │       ├── EnableAutomaticUpdates: *bool
-    │   │   │       ├── PatchSettings: 
+    │   │   │       ├── PatchSettings: Object (3 properties)
     │   │   │       │   ├── EnableHotpatching: *bool
     │   │   │       │   ├── PatchMode: *string
     │   │   │       │   └── PropertyBag: genruntime.PropertyBag
     │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │       ├── ProvisionVMAgent: *bool
     │   │   │       ├── TimeZone: *string
-    │   │   │       └── WinRM: 
-    │   │   │           ├── Listeners: 
+    │   │   │       └── WinRM: Object (2 properties)
+    │   │   │           ├── Listeners: Object (3 properties)
     │   │   │           │   ├── CertificateUrl: *string
     │   │   │           │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │           │   └── Protocol: *string
     │   │   │           └── PropertyBag: genruntime.PropertyBag
     │   │   ├── Priority: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ScheduledEventsProfile: 
+    │   │   ├── ScheduledEventsProfile: Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── TerminateNotificationProfile: 
+    │   │   │   └── TerminateNotificationProfile: Object (3 properties)
     │   │   │       ├── Enable: *bool
     │   │   │       ├── NotBeforeTimeout: *string
     │   │   │       └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── SecurityProfile: 
+    │   │   ├── SecurityProfile: Object (4 properties)
     │   │   │   ├── EncryptionAtHost: *bool
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── SecurityType: *string
-    │   │   │   └── UefiSettings: 
+    │   │   │   └── UefiSettings: Object (3 properties)
     │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │       ├── SecureBootEnabled: *bool
     │   │   │       └── VTpmEnabled: *bool
-    │   │   └── StorageProfile: 
-    │   │       ├── DataDisks: 
+    │   │   └── StorageProfile: Object (4 properties)
+    │   │       ├── DataDisks: Object (10 properties)
     │   │       │   ├── Caching: *string
     │   │       │   ├── CreateOption: *string
     │   │       │   ├── DiskIOPSReadWrite: *int
     │   │       │   ├── DiskMBpsReadWrite: *int
     │   │       │   ├── DiskSizeGB: *int
     │   │       │   ├── Lun: *int
-    │   │       │   ├── ManagedDisk: 
-    │   │       │   │   ├── DiskEncryptionSet: 
+    │   │       │   ├── ManagedDisk: Object (3 properties)
+    │   │       │   │   ├── DiskEncryptionSet: Object (2 properties)
     │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   │   │   └── Reference: *genruntime.ResourceReference
     │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -820,26 +820,26 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │       │   ├── Name: *string
     │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   └── WriteAcceleratorEnabled: *bool
-    │   │       ├── ImageReference: 
+    │   │       ├── ImageReference: Object (6 properties)
     │   │       │   ├── Offer: *string
     │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   ├── Publisher: *string
     │   │       │   ├── Reference: *genruntime.ResourceReference
     │   │       │   ├── Sku: *string
     │   │       │   └── Version: *string
-    │   │       ├── OsDisk: 
+    │   │       ├── OsDisk: Object (11 properties)
     │   │       │   ├── Caching: *string
     │   │       │   ├── CreateOption: *string
-    │   │       │   ├── DiffDiskSettings: 
+    │   │       │   ├── DiffDiskSettings: Object (3 properties)
     │   │       │   │   ├── Option: *string
     │   │       │   │   ├── Placement: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
     │   │       │   ├── DiskSizeGB: *int
-    │   │       │   ├── Image: 
+    │   │       │   ├── Image: Object (2 properties)
     │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   │   └── Uri: *string
-    │   │       │   ├── ManagedDisk: 
-    │   │       │   │   ├── DiskEncryptionSet: 
+    │   │       │   ├── ManagedDisk: Object (3 properties)
+    │   │       │   │   ├── DiskEncryptionSet: Object (2 properties)
     │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   │   │   └── Reference: *genruntime.ResourceReference
     │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -847,30 +847,30 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │       │   ├── Name: *string
     │   │       │   ├── OsType: *string
     │   │       │   ├── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── VhdContainers: Array[string]
+    │   │       │   ├── VhdContainers: string[]
     │   │       │   └── WriteAcceleratorEnabled: *bool
     │   │       └── PropertyBag: genruntime.PropertyBag
     │   ├── ZoneBalance: *bool
-    │   └── Zones: Array[string]
-    └── Status: 
-        ├── AdditionalCapabilities: 
+    │   └── Zones: string[]
+    └── Status: Object (27 properties)
+        ├── AdditionalCapabilities: Object (2 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── UltraSSDEnabled: *bool
-        ├── AutomaticRepairsPolicy: 
+        ├── AutomaticRepairsPolicy: Object (3 properties)
         │   ├── Enabled: *bool
         │   ├── GracePeriod: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-        ├── ExtendedLocation: 
+        ├── ExtendedLocation: Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
-        ├── HostGroup: 
+        ├── HostGroup: Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Id: *string
-        ├── Identity: 
+        ├── Identity: Object (4 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
@@ -879,7 +879,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         ├── Name: *string
         ├── OrchestrationMode: *string
         ├── Overprovision: *bool
-        ├── Plan: 
+        ├── Plan: Object (5 properties)
         │   ├── Name: *string
         │   ├── Product: *string
         │   ├── PromotionCode: *string
@@ -888,29 +888,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         ├── PlatformFaultDomainCount: *int
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
-        ├── ProximityPlacementGroup: 
+        ├── ProximityPlacementGroup: Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── ScaleInPolicy: 
+        ├── ScaleInPolicy: Object (2 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── Rules: Array[string]
+        │   └── Rules: string[]
         ├── SinglePlacementGroup: *bool
-        ├── Sku: 
+        ├── Sku: Object (4 properties)
         │   ├── Capacity: *int
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Tier: *string
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         ├── Type: *string
         ├── UniqueId: *string
-        ├── UpgradePolicy: 
-        │   ├── AutomaticOSUpgradePolicy: 
+        ├── UpgradePolicy: Object (4 properties)
+        │   ├── AutomaticOSUpgradePolicy: Object (3 properties)
         │   │   ├── DisableAutomaticRollback: *bool
         │   │   ├── EnableAutomaticOSUpgrade: *bool
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── Mode: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── RollingUpgradePolicy: 
+        │   └── RollingUpgradePolicy: Object (7 properties)
         │       ├── EnableCrossZoneUpgrade: *bool
         │       ├── MaxBatchInstancePercent: *int
         │       ├── MaxUnhealthyInstancePercent: *int
@@ -918,19 +918,19 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │       ├── PauseTimeBetweenBatches: *string
         │       ├── PrioritizeUnhealthyInstances: *bool
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── VirtualMachineProfile: 
-        │   ├── BillingProfile: 
+        ├── VirtualMachineProfile: Object (12 properties)
+        │   ├── BillingProfile: Object (2 properties)
         │   │   ├── MaxPrice: *float64
         │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── DiagnosticsProfile: 
-        │   │   ├── BootDiagnostics: 
+        │   ├── DiagnosticsProfile: Object (2 properties)
+        │   │   ├── BootDiagnostics: Object (3 properties)
         │   │   │   ├── Enabled: *bool
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   └── StorageUri: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── EvictionPolicy: *string
-        │   ├── ExtensionProfile: 
-        │   │   ├── Extensions: 
+        │   ├── ExtensionProfile: Object (3 properties)
+        │   │   ├── Extensions: Object (14 properties)
         │   │   │   ├── AutoUpgradeMinorVersion: *bool
         │   │   │   ├── EnableAutomaticUpgrade: *bool
         │   │   │   ├── ForceUpdateTag: *string
@@ -938,145 +938,145 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │   │   │   ├── Name: *string
         │   │   │   ├── PropertiesType: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── ProtectedSettings: Map[string]v1.JSON
-        │   │   │   ├── ProvisionAfterExtensions: Array[string]
+        │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+        │   │   │   ├── ProvisionAfterExtensions: string[]
         │   │   │   ├── ProvisioningState: *string
         │   │   │   ├── Publisher: *string
-        │   │   │   ├── Settings: Map[string]v1.JSON
+        │   │   │   ├── Settings: map[string]v1.JSON
         │   │   │   ├── Type: *string
         │   │   │   └── TypeHandlerVersion: *string
         │   │   ├── ExtensionsTimeBudget: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── LicenseType: *string
-        │   ├── NetworkProfile: 
-        │   │   ├── HealthProbe: 
+        │   ├── NetworkProfile: Object (3 properties)
+        │   │   ├── HealthProbe: Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── NetworkInterfaceConfigurations: 
-        │   │   │   ├── DnsSettings: 
-        │   │   │   │   ├── DnsServers: Array[string]
+        │   │   ├── NetworkInterfaceConfigurations: Object (10 properties)
+        │   │   │   ├── DnsSettings: Object (2 properties)
+        │   │   │   │   ├── DnsServers: string[]
         │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── EnableAcceleratedNetworking: *bool
         │   │   │   ├── EnableFpga: *bool
         │   │   │   ├── EnableIPForwarding: *bool
         │   │   │   ├── Id: *string
-        │   │   │   ├── IpConfigurations: 
-        │   │   │   │   ├── ApplicationGatewayBackendAddressPools: 
+        │   │   │   ├── IpConfigurations: Object (11 properties)
+        │   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (2 properties)
         │   │   │   │   │   ├── Id: *string
         │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   │   │   ├── ApplicationSecurityGroups: 
+        │   │   │   │   ├── ApplicationSecurityGroups: Object (2 properties)
         │   │   │   │   │   ├── Id: *string
         │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   │   ├── Id: *string
-        │   │   │   │   ├── LoadBalancerBackendAddressPools: 
+        │   │   │   │   ├── LoadBalancerBackendAddressPools: Object (2 properties)
         │   │   │   │   │   ├── Id: *string
         │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   │   │   ├── LoadBalancerInboundNatPools: 
+        │   │   │   │   ├── LoadBalancerInboundNatPools: Object (2 properties)
         │   │   │   │   │   ├── Id: *string
         │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   │   ├── Name: *string
         │   │   │   │   ├── Primary: *bool
         │   │   │   │   ├── PrivateIPAddressVersion: *string
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   │   ├── PublicIPAddressConfiguration: 
-        │   │   │   │   │   ├── DnsSettings: 
+        │   │   │   │   ├── PublicIPAddressConfiguration: Object (7 properties)
+        │   │   │   │   │   ├── DnsSettings: Object (2 properties)
         │   │   │   │   │   │   ├── DomainNameLabel: *string
         │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   │   │   ├── IdleTimeoutInMinutes: *int
-        │   │   │   │   │   ├── IpTags: 
+        │   │   │   │   │   ├── IpTags: Object (3 properties)
         │   │   │   │   │   │   ├── IpTagType: *string
         │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   │   │   └── Tag: *string
         │   │   │   │   │   ├── Name: *string
         │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   │   ├── PublicIPAddressVersion: *string
-        │   │   │   │   │   └── PublicIPPrefix: 
+        │   │   │   │   │   └── PublicIPPrefix: Object (2 properties)
         │   │   │   │   │       ├── Id: *string
         │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
-        │   │   │   │   └── Subnet: 
+        │   │   │   │   └── Subnet: Object (2 properties)
         │   │   │   │       ├── Id: *string
         │   │   │   │       └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── Name: *string
-        │   │   │   ├── NetworkSecurityGroup: 
+        │   │   │   ├── NetworkSecurityGroup: Object (2 properties)
         │   │   │   │   ├── Id: *string
         │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── Primary: *bool
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── OsProfile: 
+        │   ├── OsProfile: Object (7 properties)
         │   │   ├── AdminUsername: *string
         │   │   ├── ComputerNamePrefix: *string
         │   │   ├── CustomData: *string
-        │   │   ├── LinuxConfiguration: 
+        │   │   ├── LinuxConfiguration: Object (5 properties)
         │   │   │   ├── DisablePasswordAuthentication: *bool
-        │   │   │   ├── PatchSettings: 
+        │   │   │   ├── PatchSettings: Object (2 properties)
         │   │   │   │   ├── PatchMode: *string
         │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── ProvisionVMAgent: *bool
-        │   │   │   └── Ssh: 
+        │   │   │   └── Ssh: Object (2 properties)
         │   │   │       ├── PropertyBag: genruntime.PropertyBag
-        │   │   │       └── PublicKeys: 
+        │   │   │       └── PublicKeys: Object (3 properties)
         │   │   │           ├── KeyData: *string
         │   │   │           ├── Path: *string
         │   │   │           └── PropertyBag: genruntime.PropertyBag
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── Secrets: 
+        │   │   ├── Secrets: Object (3 properties)
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── SourceVault: 
+        │   │   │   ├── SourceVault: Object (2 properties)
         │   │   │   │   ├── Id: *string
         │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   │   └── VaultCertificates: 
+        │   │   │   └── VaultCertificates: Object (3 properties)
         │   │   │       ├── CertificateStore: *string
         │   │   │       ├── CertificateUrl: *string
         │   │   │       └── PropertyBag: genruntime.PropertyBag
-        │   │   └── WindowsConfiguration: 
-        │   │       ├── AdditionalUnattendContent: 
+        │   │   └── WindowsConfiguration: Object (7 properties)
+        │   │       ├── AdditionalUnattendContent: Object (5 properties)
         │   │       │   ├── ComponentName: *string
         │   │       │   ├── Content: *string
         │   │       │   ├── PassName: *string
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
         │   │       │   └── SettingName: *string
         │   │       ├── EnableAutomaticUpdates: *bool
-        │   │       ├── PatchSettings: 
+        │   │       ├── PatchSettings: Object (3 properties)
         │   │       │   ├── EnableHotpatching: *bool
         │   │       │   ├── PatchMode: *string
         │   │       │   └── PropertyBag: genruntime.PropertyBag
         │   │       ├── PropertyBag: genruntime.PropertyBag
         │   │       ├── ProvisionVMAgent: *bool
         │   │       ├── TimeZone: *string
-        │   │       └── WinRM: 
-        │   │           ├── Listeners: 
+        │   │       └── WinRM: Object (2 properties)
+        │   │           ├── Listeners: Object (3 properties)
         │   │           │   ├── CertificateUrl: *string
         │   │           │   ├── PropertyBag: genruntime.PropertyBag
         │   │           │   └── Protocol: *string
         │   │           └── PropertyBag: genruntime.PropertyBag
         │   ├── Priority: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ScheduledEventsProfile: 
+        │   ├── ScheduledEventsProfile: Object (2 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── TerminateNotificationProfile: 
+        │   │   └── TerminateNotificationProfile: Object (3 properties)
         │   │       ├── Enable: *bool
         │   │       ├── NotBeforeTimeout: *string
         │   │       └── PropertyBag: genruntime.PropertyBag
-        │   ├── SecurityProfile: 
+        │   ├── SecurityProfile: Object (4 properties)
         │   │   ├── EncryptionAtHost: *bool
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── SecurityType: *string
-        │   │   └── UefiSettings: 
+        │   │   └── UefiSettings: Object (3 properties)
         │   │       ├── PropertyBag: genruntime.PropertyBag
         │   │       ├── SecureBootEnabled: *bool
         │   │       └── VTpmEnabled: *bool
-        │   └── StorageProfile: 
-        │       ├── DataDisks: 
+        │   └── StorageProfile: Object (4 properties)
+        │       ├── DataDisks: Object (10 properties)
         │       │   ├── Caching: *string
         │       │   ├── CreateOption: *string
         │       │   ├── DiskIOPSReadWrite: *int
         │       │   ├── DiskMBpsReadWrite: *int
         │       │   ├── DiskSizeGB: *int
         │       │   ├── Lun: *int
-        │       │   ├── ManagedDisk: 
-        │       │   │   ├── DiskEncryptionSet: 
+        │       │   ├── ManagedDisk: Object (3 properties)
+        │       │   │   ├── DiskEncryptionSet: Object (2 properties)
         │       │   │   │   ├── Id: *string
         │       │   │   │   └── PropertyBag: genruntime.PropertyBag
         │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -1084,7 +1084,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │       │   ├── Name: *string
         │       │   ├── PropertyBag: genruntime.PropertyBag
         │       │   └── WriteAcceleratorEnabled: *bool
-        │       ├── ImageReference: 
+        │       ├── ImageReference: Object (7 properties)
         │       │   ├── ExactVersion: *string
         │       │   ├── Id: *string
         │       │   ├── Offer: *string
@@ -1092,19 +1092,19 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │       │   ├── Publisher: *string
         │       │   ├── Sku: *string
         │       │   └── Version: *string
-        │       ├── OsDisk: 
+        │       ├── OsDisk: Object (11 properties)
         │       │   ├── Caching: *string
         │       │   ├── CreateOption: *string
-        │       │   ├── DiffDiskSettings: 
+        │       │   ├── DiffDiskSettings: Object (3 properties)
         │       │   │   ├── Option: *string
         │       │   │   ├── Placement: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
         │       │   ├── DiskSizeGB: *int
-        │       │   ├── Image: 
+        │       │   ├── Image: Object (2 properties)
         │       │   │   ├── PropertyBag: genruntime.PropertyBag
         │       │   │   └── Uri: *string
-        │       │   ├── ManagedDisk: 
-        │       │   │   ├── DiskEncryptionSet: 
+        │       │   ├── ManagedDisk: Object (3 properties)
+        │       │   │   ├── DiskEncryptionSet: Object (2 properties)
         │       │   │   │   ├── Id: *string
         │       │   │   │   └── PropertyBag: genruntime.PropertyBag
         │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -1112,8 +1112,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │       │   ├── Name: *string
         │       │   ├── OsType: *string
         │       │   ├── PropertyBag: genruntime.PropertyBag
-        │       │   ├── VhdContainers: Array[string]
+        │       │   ├── VhdContainers: string[]
         │       │   └── WriteAcceleratorEnabled: *bool
         │       └── PropertyBag: genruntime.PropertyBag
         ├── ZoneBalance: *bool
-        └── Zones: Array[string]
+        └── Zones: string[]

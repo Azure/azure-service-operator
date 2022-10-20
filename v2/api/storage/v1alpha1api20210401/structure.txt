@@ -1,85 +1,85 @@
 github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-04-01"
-├── BlobContainer_STATUS_ARM: 
+├── BlobContainer_STATUS_ARM: Object (5 properties)
 │   ├── Etag: *string
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (17 properties)
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── Deleted: *bool
 │   │   ├── DeletedTime: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── HasImmutabilityPolicy: *bool
 │   │   ├── HasLegalHold: *bool
-│   │   ├── ImmutabilityPolicy: 
+│   │   ├── ImmutabilityPolicy: Object (3 properties)
 │   │   │   ├── Etag: *string
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (3 properties)
 │   │   │   │   ├── AllowProtectedAppendWrites: *bool
 │   │   │   │   ├── ImmutabilityPeriodSinceCreationInDays: *int
-│   │   │   │   └── State: enum
+│   │   │   │   └── State: Enum (2 values)
 │   │   │   │       ├── "Locked"
 │   │   │   │       └── "Unlocked"
-│   │   │   └── UpdateHistory: 
+│   │   │   └── UpdateHistory: Object (6 properties)
 │   │   │       ├── ImmutabilityPeriodSinceCreationInDays: *int
 │   │   │       ├── ObjectIdentifier: *string
 │   │   │       ├── TenantId: *string
 │   │   │       ├── Timestamp: *string
-│   │   │       ├── Update: enum
+│   │   │       ├── Update: Enum (3 values)
 │   │   │       │   ├── "extend"
 │   │   │       │   ├── "lock"
 │   │   │       │   └── "put"
 │   │   │       └── Upn: *string
-│   │   ├── ImmutableStorageWithVersioning: 
+│   │   ├── ImmutableStorageWithVersioning: Object (3 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── MigrationState: enum
+│   │   │   ├── MigrationState: Enum (2 values)
 │   │   │   │   ├── "Completed"
 │   │   │   │   └── "InProgress"
 │   │   │   └── TimeStamp: *string
 │   │   ├── LastModifiedTime: *string
-│   │   ├── LeaseDuration: enum
+│   │   ├── LeaseDuration: Enum (2 values)
 │   │   │   ├── "Fixed"
 │   │   │   └── "Infinite"
-│   │   ├── LeaseState: enum
+│   │   ├── LeaseState: Enum (5 values)
 │   │   │   ├── "Available"
 │   │   │   ├── "Breaking"
 │   │   │   ├── "Broken"
 │   │   │   ├── "Expired"
 │   │   │   └── "Leased"
-│   │   ├── LeaseStatus: enum
+│   │   ├── LeaseStatus: Enum (2 values)
 │   │   │   ├── "Locked"
 │   │   │   └── "Unlocked"
-│   │   ├── LegalHold: 
+│   │   ├── LegalHold: Object (2 properties)
 │   │   │   ├── HasLegalHold: *bool
-│   │   │   └── Tags: 
+│   │   │   └── Tags: Object (5 properties)
 │   │   │       ├── ObjectIdentifier: *string
 │   │   │       ├── Tag: *string
 │   │   │       ├── TenantId: *string
 │   │   │       ├── Timestamp: *string
 │   │   │       └── Upn: *string
-│   │   ├── Metadata: Map[string]string
-│   │   ├── PublicAccess: enum
+│   │   ├── Metadata: map[string]string
+│   │   ├── PublicAccess: Enum (3 values)
 │   │   │   ├── "Blob"
 │   │   │   ├── "Container"
 │   │   │   └── "None"
 │   │   ├── RemainingRetentionDays: *int
 │   │   └── Version: *string
 │   └── Type: *string
-├── BlobServiceProperties_STATUS_ARM: 
+├── BlobServiceProperties_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (9 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── ChangeFeed: 
+│   │   ├── ChangeFeed: Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── RetentionInDays: *int
-│   │   ├── ContainerDeleteRetentionPolicy: 
+│   │   ├── ContainerDeleteRetentionPolicy: Object (2 properties)
 │   │   │   ├── Days: *int
 │   │   │   └── Enabled: *bool
-│   │   ├── Cors: 
-│   │   │   └── CorsRules: 
-│   │   │       ├── AllowedHeaders: Array[string]
-│   │   │       ├── AllowedMethods: enum
+│   │   ├── Cors: Object (1 property)
+│   │   │   └── CorsRules: Object (5 properties)
+│   │   │       ├── AllowedHeaders: string[]
+│   │   │       ├── AllowedMethods: Enum (7 values)
 │   │   │       │   ├── "DELETE"
 │   │   │       │   ├── "GET"
 │   │   │       │   ├── "HEAD"
@@ -87,27 +87,27 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │       │   ├── "OPTIONS"
 │   │   │       │   ├── "POST"
 │   │   │       │   └── "PUT"
-│   │   │       ├── AllowedOrigins: Array[string]
-│   │   │       ├── ExposedHeaders: Array[string]
+│   │   │       ├── AllowedOrigins: string[]
+│   │   │       ├── ExposedHeaders: string[]
 │   │   │       └── MaxAgeInSeconds: *int
 │   │   ├── DefaultServiceVersion: *string
-│   │   ├── DeleteRetentionPolicy: 
+│   │   ├── DeleteRetentionPolicy: Object (2 properties)
 │   │   │   ├── Days: *int
 │   │   │   └── Enabled: *bool
 │   │   ├── IsVersioningEnabled: *bool
-│   │   ├── LastAccessTimeTrackingPolicy: 
-│   │   │   ├── BlobType: Array[string]
+│   │   ├── LastAccessTimeTrackingPolicy: Object (4 properties)
+│   │   │   ├── BlobType: string[]
 │   │   │   ├── Enable: *bool
-│   │   │   ├── Name: enum
+│   │   │   ├── Name: Enum (1 value)
 │   │   │   │   └── "AccessTimeTracking"
 │   │   │   └── TrackingGranularityInDays: *int
-│   │   └── RestorePolicy: 
+│   │   └── RestorePolicy: Object (4 properties)
 │   │       ├── Days: *int
 │   │       ├── Enabled: *bool
 │   │       ├── LastEnabledTime: *string
 │   │       └── MinRestoreTime: *string
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (8 values)
 │   │   │   ├── "Premium_LRS"
 │   │   │   ├── "Premium_ZRS"
 │   │   │   ├── "Standard_GRS"
@@ -116,64 +116,64 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   ├── "Standard_RAGRS"
 │   │   │   ├── "Standard_RAGZRS"
 │   │   │   └── "Standard_ZRS"
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (2 values)
 │   │       ├── "Premium"
 │   │       └── "Standard"
 │   └── Type: *string
-├── ManagementPolicy_STATUS_ARM: 
+├── ManagementPolicy_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (2 properties)
 │   │   ├── LastModifiedTime: *string
-│   │   └── Policy: 
-│   │       └── Rules: 
-│   │           ├── Definition: 
-│   │           │   ├── Actions: 
-│   │           │   │   ├── BaseBlob: 
-│   │           │   │   │   ├── Delete: 
+│   │   └── Policy: Object (1 property)
+│   │       └── Rules: Object (4 properties)
+│   │           ├── Definition: Object (2 properties)
+│   │           │   ├── Actions: Object (3 properties)
+│   │           │   │   ├── BaseBlob: Object (4 properties)
+│   │           │   │   │   ├── Delete: Object (2 properties)
 │   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
 │   │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│   │           │   │   │   ├── TierToArchive: 
+│   │           │   │   │   ├── TierToArchive: Object (2 properties)
 │   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
-│   │           │   │   │   └── TierToCool: 
+│   │           │   │   │   └── TierToCool: Object (2 properties)
 │   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │   │           │   │   │       └── DaysAfterModificationGreaterThan: *float64
-│   │           │   │   ├── Snapshot: 
-│   │           │   │   │   ├── Delete: 
+│   │           │   │   ├── Snapshot: Object (3 properties)
+│   │           │   │   │   ├── Delete: Object (1 property)
 │   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   │   ├── TierToArchive: 
+│   │           │   │   │   ├── TierToArchive: Object (1 property)
 │   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   │   └── TierToCool: 
+│   │           │   │   │   └── TierToCool: Object (1 property)
 │   │           │   │   │       └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   └── Version: 
-│   │           │   │       ├── Delete: 
+│   │           │   │   └── Version: Object (3 properties)
+│   │           │   │       ├── Delete: Object (1 property)
 │   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │       ├── TierToArchive: 
+│   │           │   │       ├── TierToArchive: Object (1 property)
 │   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │       └── TierToCool: 
+│   │           │   │       └── TierToCool: Object (1 property)
 │   │           │   │           └── DaysAfterCreationGreaterThan: *float64
-│   │           │   └── Filters: 
-│   │           │       ├── BlobIndexMatch: 
+│   │           │   └── Filters: Object (3 properties)
+│   │           │       ├── BlobIndexMatch: Object (3 properties)
 │   │           │       │   ├── Name: *string
 │   │           │       │   ├── Op: *string
 │   │           │       │   └── Value: *string
-│   │           │       ├── BlobTypes: Array[string]
-│   │           │       └── PrefixMatch: Array[string]
+│   │           │       ├── BlobTypes: string[]
+│   │           │       └── PrefixMatch: string[]
 │   │           ├── Enabled: *bool
 │   │           ├── Name: *string
-│   │           └── Type: enum
+│   │           └── Type: Enum (1 value)
 │   │               └── "Lifecycle"
 │   └── Type: *string
-├── QueueServiceProperties_STATUS_ARM: 
+├── QueueServiceProperties_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   └── Cors: 
-│   │       └── CorsRules: 
-│   │           ├── AllowedHeaders: Array[string]
-│   │           ├── AllowedMethods: enum
+│   ├── Properties: Object (1 property)
+│   │   └── Cors: Object (1 property)
+│   │       └── CorsRules: Object (5 properties)
+│   │           ├── AllowedHeaders: string[]
+│   │           ├── AllowedMethods: Enum (7 values)
 │   │           │   ├── "DELETE"
 │   │           │   ├── "GET"
 │   │           │   ├── "HEAD"
@@ -181,128 +181,130 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │           │   ├── "OPTIONS"
 │   │           │   ├── "POST"
 │   │           │   └── "PUT"
-│   │           ├── AllowedOrigins: Array[string]
-│   │           ├── ExposedHeaders: Array[string]
+│   │           ├── AllowedOrigins: string[]
+│   │           ├── ExposedHeaders: string[]
 │   │           └── MaxAgeInSeconds: *int
 │   └── Type: *string
 ├── StorageAccount: Resource
-│   ├── Spec: 
-│   │   ├── AccessTier: enum
+│   ├── Spec: Object (25 properties)
+│   │   ├── AccessTier: Enum (2 values)
 │   │   │   ├── "Cool"
 │   │   │   └── "Hot"
 │   │   ├── AllowBlobPublicAccess: *bool
 │   │   ├── AllowCrossTenantReplication: *bool
 │   │   ├── AllowSharedKeyAccess: *bool
-│   │   ├── AzureFilesIdentityBasedAuthentication: 
-│   │   │   ├── ActiveDirectoryProperties: 
+│   │   ├── AzureFilesIdentityBasedAuthentication: Object (3 properties)
+│   │   │   ├── ActiveDirectoryProperties: Object (6 properties)
 │   │   │   │   ├── AzureStorageSid: *string
 │   │   │   │   ├── DomainGuid: *string
 │   │   │   │   ├── DomainName: *string
 │   │   │   │   ├── DomainSid: *string
 │   │   │   │   ├── ForestName: *string
 │   │   │   │   └── NetBiosDomainName: *string
-│   │   │   ├── DefaultSharePermission: enum
+│   │   │   ├── DefaultSharePermission: Enum (5 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "StorageFileDataSmbShareContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareElevatedContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareOwner"
 │   │   │   │   └── "StorageFileDataSmbShareReader"
-│   │   │   └── DirectoryServiceOptions: enum
+│   │   │   └── DirectoryServiceOptions: Enum (3 values)
 │   │   │       ├── "AADDS"
 │   │   │       ├── "AD"
 │   │   │       └── "None"
-│   │   ├── AzureName: Validated[string]
-│   │   ├── CustomDomain: 
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   │   ├── CustomDomain: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── UseSubDomainName: *bool
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (5 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
-│   │   │   ├── KeySource: enum
+│   │   │   ├── KeySource: Enum (2 values)
 │   │   │   │   ├── "Microsoft.Keyvault"
 │   │   │   │   └── "Microsoft.Storage"
-│   │   │   ├── Keyvaultproperties: 
+│   │   │   ├── Keyvaultproperties: Object (3 properties)
 │   │   │   │   ├── Keyname: *string
 │   │   │   │   ├── Keyvaulturi: *string
 │   │   │   │   └── Keyversion: *string
 │   │   │   ├── RequireInfrastructureEncryption: *bool
-│   │   │   └── Services: 
-│   │   │       ├── Blob: 
+│   │   │   └── Services: Object (4 properties)
+│   │   │       ├── Blob: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       ├── File: 
+│   │   │       ├── File: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       ├── Queue: 
+│   │   │       ├── Queue: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       └── Table: 
+│   │   │       └── Table: Object (2 properties)
 │   │   │           ├── Enabled: *bool
-│   │   │           └── KeyType: enum
+│   │   │           └── KeyType: Enum (2 values)
 │   │   │               ├── "Account"
 │   │   │               └── "Service"
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: enum
+│   │   │   └── Type: Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── Identity: 
-│   │   │   └── Type: enum
+│   │   ├── Identity: Object (1 property)
+│   │   │   └── Type: Enum (4 values)
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       ├── "SystemAssigned,UserAssigned"
 │   │   │       └── "UserAssigned"
 │   │   ├── IsHnsEnabled: *bool
 │   │   ├── IsNfsV3Enabled: *bool
-│   │   ├── KeyPolicy: 
+│   │   ├── KeyPolicy: Object (1 property)
 │   │   │   └── KeyExpirationPeriodInDays: *int
-│   │   ├── Kind: enum
+│   │   ├── Kind: Enum (5 values)
 │   │   │   ├── "BlobStorage"
 │   │   │   ├── "BlockBlobStorage"
 │   │   │   ├── "FileStorage"
 │   │   │   ├── "Storage"
 │   │   │   └── "StorageV2"
-│   │   ├── LargeFileSharesState: enum
+│   │   ├── LargeFileSharesState: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── Location: *string
-│   │   ├── MinimumTlsVersion: enum
+│   │   ├── MinimumTlsVersion: Enum (3 values)
 │   │   │   ├── "TLS1_0"
 │   │   │   ├── "TLS1_1"
 │   │   │   └── "TLS1_2"
-│   │   ├── NetworkAcls: 
-│   │   │   ├── Bypass: enum
+│   │   ├── NetworkAcls: Object (5 properties)
+│   │   │   ├── Bypass: Enum (4 values)
 │   │   │   │   ├── "AzureServices"
 │   │   │   │   ├── "Logging"
 │   │   │   │   ├── "Metrics"
 │   │   │   │   └── "None"
-│   │   │   ├── DefaultAction: enum
+│   │   │   ├── DefaultAction: Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   ├── IpRules: 
-│   │   │   │   ├── Action: enum
+│   │   │   ├── IpRules: Object (2 properties)
+│   │   │   │   ├── Action: Enum (1 value)
 │   │   │   │   │   └── "Allow"
 │   │   │   │   └── Value: *string
-│   │   │   ├── ResourceAccessRules: 
+│   │   │   ├── ResourceAccessRules: Object (2 properties)
 │   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   └── TenantId: *string
-│   │   │   └── VirtualNetworkRules: 
-│   │   │       ├── Action: enum
+│   │   │   └── VirtualNetworkRules: Object (3 properties)
+│   │   │       ├── Action: Enum (1 value)
 │   │   │       │   └── "Allow"
 │   │   │       ├── Reference: *genruntime.ResourceReference
-│   │   │       └── State: enum
+│   │   │       └── State: Enum (5 values)
 │   │   │           ├── "Deprovisioning"
 │   │   │           ├── "Failed"
 │   │   │           ├── "NetworkSourceDeleted"
 │   │   │           ├── "Provisioning"
 │   │   │           └── "Succeeded"
-│   │   ├── OperatorSpec: 
-│   │   │   └── Secrets: 
+│   │   ├── OperatorSpec: Object (1 property)
+│   │   │   └── Secrets: Object (8 properties)
 │   │   │       ├── BlobEndpoint: *genruntime.SecretDestination
 │   │   │       ├── DfsEndpoint: *genruntime.SecretDestination
 │   │   │       ├── FileEndpoint: *genruntime.SecretDestination
@@ -312,18 +314,18 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │       ├── TableEndpoint: *genruntime.SecretDestination
 │   │   │       └── WebEndpoint: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── RoutingPreference: 
+│   │   ├── RoutingPreference: Object (3 properties)
 │   │   │   ├── PublishInternetEndpoints: *bool
 │   │   │   ├── PublishMicrosoftEndpoints: *bool
-│   │   │   └── RoutingChoice: enum
+│   │   │   └── RoutingChoice: Enum (2 values)
 │   │   │       ├── "InternetRouting"
 │   │   │       └── "MicrosoftRouting"
-│   │   ├── SasPolicy: 
-│   │   │   ├── ExpirationAction: enum
+│   │   ├── SasPolicy: Object (2 properties)
+│   │   │   ├── ExpirationAction: Enum (1 value)
 │   │   │   │   └── "Log"
 │   │   │   └── SasExpirationPeriod: *string
-│   │   ├── Sku: 
-│   │   │   ├── Name: enum
+│   │   ├── Sku: Object (2 properties)
+│   │   │   ├── Name: Enum (8 values)
 │   │   │   │   ├── "Premium_LRS"
 │   │   │   │   ├── "Premium_ZRS"
 │   │   │   │   ├── "Standard_GRS"
@@ -332,174 +334,174 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   │   ├── "Standard_RAGRS"
 │   │   │   │   ├── "Standard_RAGZRS"
 │   │   │   │   └── "Standard_ZRS"
-│   │   │   └── Tier: enum
+│   │   │   └── Tier: Enum (2 values)
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
 │   │   ├── SupportsHttpsTrafficOnly: *bool
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── AccessTier: enum
+│   │   └── Tags: map[string]string
+│   └── Status: Object (40 properties)
+│       ├── AccessTier: Enum (2 values)
 │       │   ├── "Cool"
 │       │   └── "Hot"
 │       ├── AllowBlobPublicAccess: *bool
 │       ├── AllowCrossTenantReplication: *bool
 │       ├── AllowSharedKeyAccess: *bool
-│       ├── AzureFilesIdentityBasedAuthentication: 
-│       │   ├── ActiveDirectoryProperties: 
+│       ├── AzureFilesIdentityBasedAuthentication: Object (3 properties)
+│       │   ├── ActiveDirectoryProperties: Object (6 properties)
 │       │   │   ├── AzureStorageSid: *string
 │       │   │   ├── DomainGuid: *string
 │       │   │   ├── DomainName: *string
 │       │   │   ├── DomainSid: *string
 │       │   │   ├── ForestName: *string
 │       │   │   └── NetBiosDomainName: *string
-│       │   ├── DefaultSharePermission: enum
+│       │   ├── DefaultSharePermission: Enum (5 values)
 │       │   │   ├── "None"
 │       │   │   ├── "StorageFileDataSmbShareContributor"
 │       │   │   ├── "StorageFileDataSmbShareElevatedContributor"
 │       │   │   ├── "StorageFileDataSmbShareOwner"
 │       │   │   └── "StorageFileDataSmbShareReader"
-│       │   └── DirectoryServiceOptions: enum
+│       │   └── DirectoryServiceOptions: Enum (3 values)
 │       │       ├── "AADDS"
 │       │       ├── "AD"
 │       │       └── "None"
-│       ├── BlobRestoreStatus: 
+│       ├── BlobRestoreStatus: Object (4 properties)
 │       │   ├── FailureReason: *string
-│       │   ├── Parameters: 
-│       │   │   ├── BlobRanges: 
+│       │   ├── Parameters: Object (2 properties)
+│       │   │   ├── BlobRanges: Object (2 properties)
 │       │   │   │   ├── EndRange: *string
 │       │   │   │   └── StartRange: *string
 │       │   │   └── TimeToRestore: *string
 │       │   ├── RestoreId: *string
-│       │   └── Status: enum
+│       │   └── Status: Enum (3 values)
 │       │       ├── "Complete"
 │       │       ├── "Failed"
 │       │       └── "InProgress"
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreationTime: *string
-│       ├── CustomDomain: 
+│       ├── CustomDomain: Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── UseSubDomainName: *bool
-│       ├── Encryption: 
-│       │   ├── Identity: 
+│       ├── Encryption: Object (5 properties)
+│       │   ├── Identity: Object (1 property)
 │       │   │   └── UserAssignedIdentity: *string
-│       │   ├── KeySource: enum
+│       │   ├── KeySource: Enum (2 values)
 │       │   │   ├── "Microsoft.Keyvault"
 │       │   │   └── "Microsoft.Storage"
-│       │   ├── Keyvaultproperties: 
+│       │   ├── Keyvaultproperties: Object (5 properties)
 │       │   │   ├── CurrentVersionedKeyIdentifier: *string
 │       │   │   ├── Keyname: *string
 │       │   │   ├── Keyvaulturi: *string
 │       │   │   ├── Keyversion: *string
 │       │   │   └── LastKeyRotationTimestamp: *string
 │       │   ├── RequireInfrastructureEncryption: *bool
-│       │   └── Services: 
-│       │       ├── Blob: 
+│       │   └── Services: Object (4 properties)
+│       │       ├── Blob: Object (3 properties)
 │       │       │   ├── Enabled: *bool
-│       │       │   ├── KeyType: enum
+│       │       │   ├── KeyType: Enum (2 values)
 │       │       │   │   ├── "Account"
 │       │       │   │   └── "Service"
 │       │       │   └── LastEnabledTime: *string
-│       │       ├── File: 
+│       │       ├── File: Object (3 properties)
 │       │       │   ├── Enabled: *bool
-│       │       │   ├── KeyType: enum
+│       │       │   ├── KeyType: Enum (2 values)
 │       │       │   │   ├── "Account"
 │       │       │   │   └── "Service"
 │       │       │   └── LastEnabledTime: *string
-│       │       ├── Queue: 
+│       │       ├── Queue: Object (3 properties)
 │       │       │   ├── Enabled: *bool
-│       │       │   ├── KeyType: enum
+│       │       │   ├── KeyType: Enum (2 values)
 │       │       │   │   ├── "Account"
 │       │       │   │   └── "Service"
 │       │       │   └── LastEnabledTime: *string
-│       │       └── Table: 
+│       │       └── Table: Object (3 properties)
 │       │           ├── Enabled: *bool
-│       │           ├── KeyType: enum
+│       │           ├── KeyType: Enum (2 values)
 │       │           │   ├── "Account"
 │       │           │   └── "Service"
 │       │           └── LastEnabledTime: *string
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: enum
+│       │   └── Type: Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── FailoverInProgress: *bool
-│       ├── GeoReplicationStats: 
+│       ├── GeoReplicationStats: Object (3 properties)
 │       │   ├── CanFailover: *bool
 │       │   ├── LastSyncTime: *string
-│       │   └── Status: enum
+│       │   └── Status: Enum (3 values)
 │       │       ├── "Bootstrap"
 │       │       ├── "Live"
 │       │       └── "Unavailable"
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: enum
+│       │   ├── Type: Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned,UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
 │       ├── IsHnsEnabled: *bool
 │       ├── IsNfsV3Enabled: *bool
-│       ├── KeyCreationTime: 
+│       ├── KeyCreationTime: Object (2 properties)
 │       │   ├── Key1: *string
 │       │   └── Key2: *string
-│       ├── KeyPolicy: 
+│       ├── KeyPolicy: Object (1 property)
 │       │   └── KeyExpirationPeriodInDays: *int
-│       ├── Kind: enum
+│       ├── Kind: Enum (5 values)
 │       │   ├── "BlobStorage"
 │       │   ├── "BlockBlobStorage"
 │       │   ├── "FileStorage"
 │       │   ├── "Storage"
 │       │   └── "StorageV2"
-│       ├── LargeFileSharesState: enum
+│       ├── LargeFileSharesState: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
 │       ├── LastGeoFailoverTime: *string
 │       ├── Location: *string
-│       ├── MinimumTlsVersion: enum
+│       ├── MinimumTlsVersion: Enum (3 values)
 │       │   ├── "TLS1_0"
 │       │   ├── "TLS1_1"
 │       │   └── "TLS1_2"
 │       ├── Name: *string
-│       ├── NetworkAcls: 
-│       │   ├── Bypass: enum
+│       ├── NetworkAcls: Object (5 properties)
+│       │   ├── Bypass: Enum (4 values)
 │       │   │   ├── "AzureServices"
 │       │   │   ├── "Logging"
 │       │   │   ├── "Metrics"
 │       │   │   └── "None"
-│       │   ├── DefaultAction: enum
+│       │   ├── DefaultAction: Enum (2 values)
 │       │   │   ├── "Allow"
 │       │   │   └── "Deny"
-│       │   ├── IpRules: 
-│       │   │   ├── Action: enum
+│       │   ├── IpRules: Object (2 properties)
+│       │   │   ├── Action: Enum (1 value)
 │       │   │   │   └── "Allow"
 │       │   │   └── Value: *string
-│       │   ├── ResourceAccessRules: 
+│       │   ├── ResourceAccessRules: Object (2 properties)
 │       │   │   ├── ResourceId: *string
 │       │   │   └── TenantId: *string
-│       │   └── VirtualNetworkRules: 
-│       │       ├── Action: enum
+│       │   └── VirtualNetworkRules: Object (3 properties)
+│       │       ├── Action: Enum (1 value)
 │       │       │   └── "Allow"
 │       │       ├── Id: *string
-│       │       └── State: enum
+│       │       └── State: Enum (5 values)
 │       │           ├── "Deprovisioning"
 │       │           ├── "Failed"
 │       │           ├── "NetworkSourceDeleted"
 │       │           ├── "Provisioning"
 │       │           └── "Succeeded"
-│       ├── PrimaryEndpoints: 
+│       ├── PrimaryEndpoints: Object (8 properties)
 │       │   ├── Blob: *string
 │       │   ├── Dfs: *string
 │       │   ├── File: *string
-│       │   ├── InternetEndpoints: 
+│       │   ├── InternetEndpoints: Object (4 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
 │       │   │   └── Web: *string
-│       │   ├── MicrosoftEndpoints: 
+│       │   ├── MicrosoftEndpoints: Object (6 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
@@ -510,32 +512,32 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │   ├── Table: *string
 │       │   └── Web: *string
 │       ├── PrimaryLocation: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (1 property)
 │       │   └── Id: *string
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (3 values)
 │       │   ├── "Creating"
 │       │   ├── "ResolvingDNS"
 │       │   └── "Succeeded"
-│       ├── RoutingPreference: 
+│       ├── RoutingPreference: Object (3 properties)
 │       │   ├── PublishInternetEndpoints: *bool
 │       │   ├── PublishMicrosoftEndpoints: *bool
-│       │   └── RoutingChoice: enum
+│       │   └── RoutingChoice: Enum (2 values)
 │       │       ├── "InternetRouting"
 │       │       └── "MicrosoftRouting"
-│       ├── SasPolicy: 
-│       │   ├── ExpirationAction: enum
+│       ├── SasPolicy: Object (2 properties)
+│       │   ├── ExpirationAction: Enum (1 value)
 │       │   │   └── "Log"
 │       │   └── SasExpirationPeriod: *string
-│       ├── SecondaryEndpoints: 
+│       ├── SecondaryEndpoints: Object (8 properties)
 │       │   ├── Blob: *string
 │       │   ├── Dfs: *string
 │       │   ├── File: *string
-│       │   ├── InternetEndpoints: 
+│       │   ├── InternetEndpoints: Object (4 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
 │       │   │   └── Web: *string
-│       │   ├── MicrosoftEndpoints: 
+│       │   ├── MicrosoftEndpoints: Object (6 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
@@ -546,8 +548,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │   ├── Table: *string
 │       │   └── Web: *string
 │       ├── SecondaryLocation: *string
-│       ├── Sku: 
-│       │   ├── Name: enum
+│       ├── Sku: Object (2 properties)
+│       │   ├── Name: Enum (8 values)
 │       │   │   ├── "Premium_LRS"
 │       │   │   ├── "Premium_ZRS"
 │       │   │   ├── "Standard_GRS"
@@ -556,36 +558,36 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │   │   ├── "Standard_RAGRS"
 │       │   │   ├── "Standard_RAGZRS"
 │       │   │   └── "Standard_ZRS"
-│       │   └── Tier: enum
+│       │   └── Tier: Enum (2 values)
 │       │       ├── "Premium"
 │       │       └── "Standard"
-│       ├── StatusOfPrimary: enum
+│       ├── StatusOfPrimary: Enum (2 values)
 │       │   ├── "available"
 │       │   └── "unavailable"
-│       ├── StatusOfSecondary: enum
+│       ├── StatusOfSecondary: Enum (2 values)
 │       │   ├── "available"
 │       │   └── "unavailable"
 │       ├── SupportsHttpsTrafficOnly: *bool
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
-├── StorageAccount_STATUS_ARM: 
-│   ├── ExtendedLocation: 
+├── StorageAccount_STATUS_ARM: Object (10 properties)
+│   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: enum
+│   │   └── Type: Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: 
+│   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: enum
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: 
+│   │   └── UserAssignedIdentities: Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
-│   ├── Kind: enum
+│   ├── Kind: Enum (5 values)
 │   │   ├── "BlobStorage"
 │   │   ├── "BlockBlobStorage"
 │   │   ├── "FileStorage"
@@ -593,144 +595,144 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   └── "StorageV2"
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── AccessTier: enum
+│   ├── Properties: Object (30 properties)
+│   │   ├── AccessTier: Enum (2 values)
 │   │   │   ├── "Cool"
 │   │   │   └── "Hot"
 │   │   ├── AllowBlobPublicAccess: *bool
 │   │   ├── AllowCrossTenantReplication: *bool
 │   │   ├── AllowSharedKeyAccess: *bool
-│   │   ├── AzureFilesIdentityBasedAuthentication: 
-│   │   │   ├── ActiveDirectoryProperties: 
+│   │   ├── AzureFilesIdentityBasedAuthentication: Object (3 properties)
+│   │   │   ├── ActiveDirectoryProperties: Object (6 properties)
 │   │   │   │   ├── AzureStorageSid: *string
 │   │   │   │   ├── DomainGuid: *string
 │   │   │   │   ├── DomainName: *string
 │   │   │   │   ├── DomainSid: *string
 │   │   │   │   ├── ForestName: *string
 │   │   │   │   └── NetBiosDomainName: *string
-│   │   │   ├── DefaultSharePermission: enum
+│   │   │   ├── DefaultSharePermission: Enum (5 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "StorageFileDataSmbShareContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareElevatedContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareOwner"
 │   │   │   │   └── "StorageFileDataSmbShareReader"
-│   │   │   └── DirectoryServiceOptions: enum
+│   │   │   └── DirectoryServiceOptions: Enum (3 values)
 │   │   │       ├── "AADDS"
 │   │   │       ├── "AD"
 │   │   │       └── "None"
-│   │   ├── BlobRestoreStatus: 
+│   │   ├── BlobRestoreStatus: Object (4 properties)
 │   │   │   ├── FailureReason: *string
-│   │   │   ├── Parameters: 
-│   │   │   │   ├── BlobRanges: 
+│   │   │   ├── Parameters: Object (2 properties)
+│   │   │   │   ├── BlobRanges: Object (2 properties)
 │   │   │   │   │   ├── EndRange: *string
 │   │   │   │   │   └── StartRange: *string
 │   │   │   │   └── TimeToRestore: *string
 │   │   │   ├── RestoreId: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (3 values)
 │   │   │       ├── "Complete"
 │   │   │       ├── "Failed"
 │   │   │       └── "InProgress"
 │   │   ├── CreationTime: *string
-│   │   ├── CustomDomain: 
+│   │   ├── CustomDomain: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── UseSubDomainName: *bool
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (5 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeySource: enum
+│   │   │   ├── KeySource: Enum (2 values)
 │   │   │   │   ├── "Microsoft.Keyvault"
 │   │   │   │   └── "Microsoft.Storage"
-│   │   │   ├── Keyvaultproperties: 
+│   │   │   ├── Keyvaultproperties: Object (5 properties)
 │   │   │   │   ├── CurrentVersionedKeyIdentifier: *string
 │   │   │   │   ├── Keyname: *string
 │   │   │   │   ├── Keyvaulturi: *string
 │   │   │   │   ├── Keyversion: *string
 │   │   │   │   └── LastKeyRotationTimestamp: *string
 │   │   │   ├── RequireInfrastructureEncryption: *bool
-│   │   │   └── Services: 
-│   │   │       ├── Blob: 
+│   │   │   └── Services: Object (4 properties)
+│   │   │       ├── Blob: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   ├── KeyType: enum
+│   │   │       │   ├── KeyType: Enum (2 values)
 │   │   │       │   │   ├── "Account"
 │   │   │       │   │   └── "Service"
 │   │   │       │   └── LastEnabledTime: *string
-│   │   │       ├── File: 
+│   │   │       ├── File: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   ├── KeyType: enum
+│   │   │       │   ├── KeyType: Enum (2 values)
 │   │   │       │   │   ├── "Account"
 │   │   │       │   │   └── "Service"
 │   │   │       │   └── LastEnabledTime: *string
-│   │   │       ├── Queue: 
+│   │   │       ├── Queue: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   ├── KeyType: enum
+│   │   │       │   ├── KeyType: Enum (2 values)
 │   │   │       │   │   ├── "Account"
 │   │   │       │   │   └── "Service"
 │   │   │       │   └── LastEnabledTime: *string
-│   │   │       └── Table: 
+│   │   │       └── Table: Object (3 properties)
 │   │   │           ├── Enabled: *bool
-│   │   │           ├── KeyType: enum
+│   │   │           ├── KeyType: Enum (2 values)
 │   │   │           │   ├── "Account"
 │   │   │           │   └── "Service"
 │   │   │           └── LastEnabledTime: *string
 │   │   ├── FailoverInProgress: *bool
-│   │   ├── GeoReplicationStats: 
+│   │   ├── GeoReplicationStats: Object (3 properties)
 │   │   │   ├── CanFailover: *bool
 │   │   │   ├── LastSyncTime: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (3 values)
 │   │   │       ├── "Bootstrap"
 │   │   │       ├── "Live"
 │   │   │       └── "Unavailable"
 │   │   ├── IsHnsEnabled: *bool
 │   │   ├── IsNfsV3Enabled: *bool
-│   │   ├── KeyCreationTime: 
+│   │   ├── KeyCreationTime: Object (2 properties)
 │   │   │   ├── Key1: *string
 │   │   │   └── Key2: *string
-│   │   ├── KeyPolicy: 
+│   │   ├── KeyPolicy: Object (1 property)
 │   │   │   └── KeyExpirationPeriodInDays: *int
-│   │   ├── LargeFileSharesState: enum
+│   │   ├── LargeFileSharesState: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── LastGeoFailoverTime: *string
-│   │   ├── MinimumTlsVersion: enum
+│   │   ├── MinimumTlsVersion: Enum (3 values)
 │   │   │   ├── "TLS1_0"
 │   │   │   ├── "TLS1_1"
 │   │   │   └── "TLS1_2"
-│   │   ├── NetworkAcls: 
-│   │   │   ├── Bypass: enum
+│   │   ├── NetworkAcls: Object (5 properties)
+│   │   │   ├── Bypass: Enum (4 values)
 │   │   │   │   ├── "AzureServices"
 │   │   │   │   ├── "Logging"
 │   │   │   │   ├── "Metrics"
 │   │   │   │   └── "None"
-│   │   │   ├── DefaultAction: enum
+│   │   │   ├── DefaultAction: Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   ├── IpRules: 
-│   │   │   │   ├── Action: enum
+│   │   │   ├── IpRules: Object (2 properties)
+│   │   │   │   ├── Action: Enum (1 value)
 │   │   │   │   │   └── "Allow"
 │   │   │   │   └── Value: *string
-│   │   │   ├── ResourceAccessRules: 
+│   │   │   ├── ResourceAccessRules: Object (2 properties)
 │   │   │   │   ├── ResourceId: *string
 │   │   │   │   └── TenantId: *string
-│   │   │   └── VirtualNetworkRules: 
-│   │   │       ├── Action: enum
+│   │   │   └── VirtualNetworkRules: Object (3 properties)
+│   │   │       ├── Action: Enum (1 value)
 │   │   │       │   └── "Allow"
 │   │   │       ├── Id: *string
-│   │   │       └── State: enum
+│   │   │       └── State: Enum (5 values)
 │   │   │           ├── "Deprovisioning"
 │   │   │           ├── "Failed"
 │   │   │           ├── "NetworkSourceDeleted"
 │   │   │           ├── "Provisioning"
 │   │   │           └── "Succeeded"
-│   │   ├── PrimaryEndpoints: 
+│   │   ├── PrimaryEndpoints: Object (8 properties)
 │   │   │   ├── Blob: *string
 │   │   │   ├── Dfs: *string
 │   │   │   ├── File: *string
-│   │   │   ├── InternetEndpoints: 
+│   │   │   ├── InternetEndpoints: Object (4 properties)
 │   │   │   │   ├── Blob: *string
 │   │   │   │   ├── Dfs: *string
 │   │   │   │   ├── File: *string
 │   │   │   │   └── Web: *string
-│   │   │   ├── MicrosoftEndpoints: 
+│   │   │   ├── MicrosoftEndpoints: Object (6 properties)
 │   │   │   │   ├── Blob: *string
 │   │   │   │   ├── Dfs: *string
 │   │   │   │   ├── File: *string
@@ -741,32 +743,32 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   ├── Table: *string
 │   │   │   └── Web: *string
 │   │   ├── PrimaryLocation: *string
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (3 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "ResolvingDNS"
 │   │   │   └── "Succeeded"
-│   │   ├── RoutingPreference: 
+│   │   ├── RoutingPreference: Object (3 properties)
 │   │   │   ├── PublishInternetEndpoints: *bool
 │   │   │   ├── PublishMicrosoftEndpoints: *bool
-│   │   │   └── RoutingChoice: enum
+│   │   │   └── RoutingChoice: Enum (2 values)
 │   │   │       ├── "InternetRouting"
 │   │   │       └── "MicrosoftRouting"
-│   │   ├── SasPolicy: 
-│   │   │   ├── ExpirationAction: enum
+│   │   ├── SasPolicy: Object (2 properties)
+│   │   │   ├── ExpirationAction: Enum (1 value)
 │   │   │   │   └── "Log"
 │   │   │   └── SasExpirationPeriod: *string
-│   │   ├── SecondaryEndpoints: 
+│   │   ├── SecondaryEndpoints: Object (8 properties)
 │   │   │   ├── Blob: *string
 │   │   │   ├── Dfs: *string
 │   │   │   ├── File: *string
-│   │   │   ├── InternetEndpoints: 
+│   │   │   ├── InternetEndpoints: Object (4 properties)
 │   │   │   │   ├── Blob: *string
 │   │   │   │   ├── Dfs: *string
 │   │   │   │   ├── File: *string
 │   │   │   │   └── Web: *string
-│   │   │   ├── MicrosoftEndpoints: 
+│   │   │   ├── MicrosoftEndpoints: Object (6 properties)
 │   │   │   │   ├── Blob: *string
 │   │   │   │   ├── Dfs: *string
 │   │   │   │   ├── File: *string
@@ -777,15 +779,15 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   ├── Table: *string
 │   │   │   └── Web: *string
 │   │   ├── SecondaryLocation: *string
-│   │   ├── StatusOfPrimary: enum
+│   │   ├── StatusOfPrimary: Enum (2 values)
 │   │   │   ├── "available"
 │   │   │   └── "unavailable"
-│   │   ├── StatusOfSecondary: enum
+│   │   ├── StatusOfSecondary: Enum (2 values)
 │   │   │   ├── "available"
 │   │   │   └── "unavailable"
 │   │   └── SupportsHttpsTrafficOnly: *bool
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (8 values)
 │   │   │   ├── "Premium_LRS"
 │   │   │   ├── "Premium_ZRS"
 │   │   │   ├── "Standard_GRS"
@@ -794,23 +796,23 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   ├── "Standard_RAGRS"
 │   │   │   ├── "Standard_RAGZRS"
 │   │   │   └── "Standard_ZRS"
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (2 values)
 │   │       ├── "Premium"
 │   │       └── "Standard"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── StorageAccount_Spec_ARM: 
-│   ├── ExtendedLocation: 
+├── StorageAccount_Spec_ARM: Object (8 properties)
+│   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: enum
+│   │   └── Type: Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: 
-│   │   └── Type: enum
+│   ├── Identity: Object (1 property)
+│   │   └── Type: Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned,UserAssigned"
 │   │       └── "UserAssigned"
-│   ├── Kind: enum
+│   ├── Kind: Enum (5 values)
 │   │   ├── "BlobStorage"
 │   │   ├── "BlockBlobStorage"
 │   │   ├── "FileStorage"
@@ -818,116 +820,116 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   └── "StorageV2"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── AccessTier: enum
+│   ├── Properties: Object (16 properties)
+│   │   ├── AccessTier: Enum (2 values)
 │   │   │   ├── "Cool"
 │   │   │   └── "Hot"
 │   │   ├── AllowBlobPublicAccess: *bool
 │   │   ├── AllowCrossTenantReplication: *bool
 │   │   ├── AllowSharedKeyAccess: *bool
-│   │   ├── AzureFilesIdentityBasedAuthentication: 
-│   │   │   ├── ActiveDirectoryProperties: 
+│   │   ├── AzureFilesIdentityBasedAuthentication: Object (3 properties)
+│   │   │   ├── ActiveDirectoryProperties: Object (6 properties)
 │   │   │   │   ├── AzureStorageSid: *string
 │   │   │   │   ├── DomainGuid: *string
 │   │   │   │   ├── DomainName: *string
 │   │   │   │   ├── DomainSid: *string
 │   │   │   │   ├── ForestName: *string
 │   │   │   │   └── NetBiosDomainName: *string
-│   │   │   ├── DefaultSharePermission: enum
+│   │   │   ├── DefaultSharePermission: Enum (5 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "StorageFileDataSmbShareContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareElevatedContributor"
 │   │   │   │   ├── "StorageFileDataSmbShareOwner"
 │   │   │   │   └── "StorageFileDataSmbShareReader"
-│   │   │   └── DirectoryServiceOptions: enum
+│   │   │   └── DirectoryServiceOptions: Enum (3 values)
 │   │   │       ├── "AADDS"
 │   │   │       ├── "AD"
 │   │   │       └── "None"
-│   │   ├── CustomDomain: 
+│   │   ├── CustomDomain: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── UseSubDomainName: *bool
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (5 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeySource: enum
+│   │   │   ├── KeySource: Enum (2 values)
 │   │   │   │   ├── "Microsoft.Keyvault"
 │   │   │   │   └── "Microsoft.Storage"
-│   │   │   ├── Keyvaultproperties: 
+│   │   │   ├── Keyvaultproperties: Object (3 properties)
 │   │   │   │   ├── Keyname: *string
 │   │   │   │   ├── Keyvaulturi: *string
 │   │   │   │   └── Keyversion: *string
 │   │   │   ├── RequireInfrastructureEncryption: *bool
-│   │   │   └── Services: 
-│   │   │       ├── Blob: 
+│   │   │   └── Services: Object (4 properties)
+│   │   │       ├── Blob: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       ├── File: 
+│   │   │       ├── File: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       ├── Queue: 
+│   │   │       ├── Queue: Object (2 properties)
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyType: enum
+│   │   │       │   └── KeyType: Enum (2 values)
 │   │   │       │       ├── "Account"
 │   │   │       │       └── "Service"
-│   │   │       └── Table: 
+│   │   │       └── Table: Object (2 properties)
 │   │   │           ├── Enabled: *bool
-│   │   │           └── KeyType: enum
+│   │   │           └── KeyType: Enum (2 values)
 │   │   │               ├── "Account"
 │   │   │               └── "Service"
 │   │   ├── IsHnsEnabled: *bool
 │   │   ├── IsNfsV3Enabled: *bool
-│   │   ├── KeyPolicy: 
+│   │   ├── KeyPolicy: Object (1 property)
 │   │   │   └── KeyExpirationPeriodInDays: *int
-│   │   ├── LargeFileSharesState: enum
+│   │   ├── LargeFileSharesState: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── MinimumTlsVersion: enum
+│   │   ├── MinimumTlsVersion: Enum (3 values)
 │   │   │   ├── "TLS1_0"
 │   │   │   ├── "TLS1_1"
 │   │   │   └── "TLS1_2"
-│   │   ├── NetworkAcls: 
-│   │   │   ├── Bypass: enum
+│   │   ├── NetworkAcls: Object (5 properties)
+│   │   │   ├── Bypass: Enum (4 values)
 │   │   │   │   ├── "AzureServices"
 │   │   │   │   ├── "Logging"
 │   │   │   │   ├── "Metrics"
 │   │   │   │   └── "None"
-│   │   │   ├── DefaultAction: enum
+│   │   │   ├── DefaultAction: Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   ├── IpRules: 
-│   │   │   │   ├── Action: enum
+│   │   │   ├── IpRules: Object (2 properties)
+│   │   │   │   ├── Action: Enum (1 value)
 │   │   │   │   │   └── "Allow"
 │   │   │   │   └── Value: *string
-│   │   │   ├── ResourceAccessRules: 
+│   │   │   ├── ResourceAccessRules: Object (2 properties)
 │   │   │   │   ├── ResourceId: *string
 │   │   │   │   └── TenantId: *string
-│   │   │   └── VirtualNetworkRules: 
-│   │   │       ├── Action: enum
+│   │   │   └── VirtualNetworkRules: Object (3 properties)
+│   │   │       ├── Action: Enum (1 value)
 │   │   │       │   └── "Allow"
 │   │   │       ├── Id: *string
-│   │   │       └── State: enum
+│   │   │       └── State: Enum (5 values)
 │   │   │           ├── "Deprovisioning"
 │   │   │           ├── "Failed"
 │   │   │           ├── "NetworkSourceDeleted"
 │   │   │           ├── "Provisioning"
 │   │   │           └── "Succeeded"
-│   │   ├── RoutingPreference: 
+│   │   ├── RoutingPreference: Object (3 properties)
 │   │   │   ├── PublishInternetEndpoints: *bool
 │   │   │   ├── PublishMicrosoftEndpoints: *bool
-│   │   │   └── RoutingChoice: enum
+│   │   │   └── RoutingChoice: Enum (2 values)
 │   │   │       ├── "InternetRouting"
 │   │   │       └── "MicrosoftRouting"
-│   │   ├── SasPolicy: 
-│   │   │   ├── ExpirationAction: enum
+│   │   ├── SasPolicy: Object (2 properties)
+│   │   │   ├── ExpirationAction: Enum (1 value)
 │   │   │   │   └── "Log"
 │   │   │   └── SasExpirationPeriod: *string
 │   │   └── SupportsHttpsTrafficOnly: *bool
-│   ├── Sku: 
-│   │   ├── Name: enum
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (8 values)
 │   │   │   ├── "Premium_LRS"
 │   │   │   ├── "Premium_ZRS"
 │   │   │   ├── "Standard_GRS"
@@ -936,23 +938,27 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │   ├── "Standard_RAGRS"
 │   │   │   ├── "Standard_RAGZRS"
 │   │   │   └── "Standard_ZRS"
-│   │   └── Tier: enum
+│   │   └── Tier: Enum (2 values)
 │   │       ├── "Premium"
 │   │       └── "Standard"
-│   └── Tags: Map[string]string
+│   └── Tags: map[string]string
 ├── StorageAccountsBlobService: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (12 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── ChangeFeed: 
+│   │   ├── ChangeFeed: Object (2 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   └── RetentionInDays: Validated[*int]
-│   │   ├── ContainerDeleteRetentionPolicy: 
-│   │   │   ├── Days: Validated[*int]
+│   │   │   └── RetentionInDays: Validated<*int> (2 rules)
+│   │   │       ├── Rule 0: {Maximum 146000}
+│   │   │       └── Rule 1: {Minimum 1}
+│   │   ├── ContainerDeleteRetentionPolicy: Object (2 properties)
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
-│   │   ├── Cors: 
-│   │   │   └── CorsRules: 
-│   │   │       ├── AllowedHeaders: Array[string]
-│   │   │       ├── AllowedMethods: enum
+│   │   ├── Cors: Object (1 property)
+│   │   │   └── CorsRules: Object (5 properties)
+│   │   │       ├── AllowedHeaders: string[]
+│   │   │       ├── AllowedMethods: Enum (7 values)
 │   │   │       │   ├── "DELETE"
 │   │   │       │   ├── "GET"
 │   │   │       │   ├── "HEAD"
@@ -960,39 +966,43 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │       │   ├── "OPTIONS"
 │   │   │       │   ├── "POST"
 │   │   │       │   └── "PUT"
-│   │   │       ├── AllowedOrigins: Array[string]
-│   │   │       ├── ExposedHeaders: Array[string]
+│   │   │       ├── AllowedOrigins: string[]
+│   │   │       ├── ExposedHeaders: string[]
 │   │   │       └── MaxAgeInSeconds: *int
 │   │   ├── DefaultServiceVersion: *string
-│   │   ├── DeleteRetentionPolicy: 
-│   │   │   ├── Days: Validated[*int]
+│   │   ├── DeleteRetentionPolicy: Object (2 properties)
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
 │   │   ├── IsVersioningEnabled: *bool
-│   │   ├── LastAccessTimeTrackingPolicy: 
-│   │   │   ├── BlobType: Array[string]
+│   │   ├── LastAccessTimeTrackingPolicy: Object (4 properties)
+│   │   │   ├── BlobType: string[]
 │   │   │   ├── Enable: *bool
-│   │   │   ├── Name: enum
+│   │   │   ├── Name: Enum (1 value)
 │   │   │   │   └── "AccessTimeTracking"
 │   │   │   └── TrackingGranularityInDays: *int
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── RestorePolicy: 
-│   │   │   ├── Days: Validated[*int]
+│   │   ├── RestorePolicy: Object (2 properties)
+│   │   │   ├── Days: Validated<*int> (2 rules)
+│   │   │   │   ├── Rule 0: {Maximum 365}
+│   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   └── Enabled: *bool
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (14 properties)
 │       ├── AutomaticSnapshotPolicyEnabled: *bool
-│       ├── ChangeFeed: 
+│       ├── ChangeFeed: Object (2 properties)
 │       │   ├── Enabled: *bool
 │       │   └── RetentionInDays: *int
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── ContainerDeleteRetentionPolicy: 
+│       ├── Conditions: conditions.Condition[]
+│       ├── ContainerDeleteRetentionPolicy: Object (2 properties)
 │       │   ├── Days: *int
 │       │   └── Enabled: *bool
-│       ├── Cors: 
-│       │   └── CorsRules: 
-│       │       ├── AllowedHeaders: Array[string]
-│       │       ├── AllowedMethods: enum
+│       ├── Cors: Object (1 property)
+│       │   └── CorsRules: Object (5 properties)
+│       │       ├── AllowedHeaders: string[]
+│       │       ├── AllowedMethods: Enum (7 values)
 │       │       │   ├── "DELETE"
 │       │       │   ├── "GET"
 │       │       │   ├── "HEAD"
@@ -1000,29 +1010,29 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │       │   ├── "OPTIONS"
 │       │       │   ├── "POST"
 │       │       │   └── "PUT"
-│       │       ├── AllowedOrigins: Array[string]
-│       │       ├── ExposedHeaders: Array[string]
+│       │       ├── AllowedOrigins: string[]
+│       │       ├── ExposedHeaders: string[]
 │       │       └── MaxAgeInSeconds: *int
 │       ├── DefaultServiceVersion: *string
-│       ├── DeleteRetentionPolicy: 
+│       ├── DeleteRetentionPolicy: Object (2 properties)
 │       │   ├── Days: *int
 │       │   └── Enabled: *bool
 │       ├── Id: *string
 │       ├── IsVersioningEnabled: *bool
-│       ├── LastAccessTimeTrackingPolicy: 
-│       │   ├── BlobType: Array[string]
+│       ├── LastAccessTimeTrackingPolicy: Object (4 properties)
+│       │   ├── BlobType: string[]
 │       │   ├── Enable: *bool
-│       │   ├── Name: enum
+│       │   ├── Name: Enum (1 value)
 │       │   │   └── "AccessTimeTracking"
 │       │   └── TrackingGranularityInDays: *int
 │       ├── Name: *string
-│       ├── RestorePolicy: 
+│       ├── RestorePolicy: Object (4 properties)
 │       │   ├── Days: *int
 │       │   ├── Enabled: *bool
 │       │   ├── LastEnabledTime: *string
 │       │   └── MinRestoreTime: *string
-│       ├── Sku: 
-│       │   ├── Name: enum
+│       ├── Sku: Object (2 properties)
+│       │   ├── Name: Enum (8 values)
 │       │   │   ├── "Premium_LRS"
 │       │   │   ├── "Premium_ZRS"
 │       │   │   ├── "Standard_GRS"
@@ -1031,27 +1041,29 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │   │   ├── "Standard_RAGRS"
 │       │   │   ├── "Standard_RAGZRS"
 │       │   │   └── "Standard_ZRS"
-│       │   └── Tier: enum
+│       │   └── Tier: Enum (2 values)
 │       │       ├── "Premium"
 │       │       └── "Standard"
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
-│   ├── Spec: 
-│   │   ├── AzureName: Validated[string]
+│   ├── Spec: Object (9 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
-│   │   ├── ImmutableStorageWithVersioning: 
+│   │   ├── ImmutableStorageWithVersioning: Object (1 property)
 │   │   │   └── Enabled: *bool
 │   │   ├── Location: *string
-│   │   ├── Metadata: Map[string]string
+│   │   ├── Metadata: map[string]string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicAccess: enum
+│   │   ├── PublicAccess: Enum (3 values)
 │   │   │   ├── "Blob"
 │   │   │   ├── "Container"
 │   │   │   └── "None"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (22 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── DefaultEncryptionScope: *string
 │       ├── Deleted: *bool
 │       ├── DeletedTime: *string
@@ -1060,53 +1072,53 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       ├── HasImmutabilityPolicy: *bool
 │       ├── HasLegalHold: *bool
 │       ├── Id: *string
-│       ├── ImmutabilityPolicy: 
+│       ├── ImmutabilityPolicy: Object (5 properties)
 │       │   ├── AllowProtectedAppendWrites: *bool
 │       │   ├── Etag: *string
 │       │   ├── ImmutabilityPeriodSinceCreationInDays: *int
-│       │   ├── State: enum
+│       │   ├── State: Enum (2 values)
 │       │   │   ├── "Locked"
 │       │   │   └── "Unlocked"
-│       │   └── UpdateHistory: 
+│       │   └── UpdateHistory: Object (6 properties)
 │       │       ├── ImmutabilityPeriodSinceCreationInDays: *int
 │       │       ├── ObjectIdentifier: *string
 │       │       ├── TenantId: *string
 │       │       ├── Timestamp: *string
-│       │       ├── Update: enum
+│       │       ├── Update: Enum (3 values)
 │       │       │   ├── "extend"
 │       │       │   ├── "lock"
 │       │       │   └── "put"
 │       │       └── Upn: *string
-│       ├── ImmutableStorageWithVersioning: 
+│       ├── ImmutableStorageWithVersioning: Object (3 properties)
 │       │   ├── Enabled: *bool
-│       │   ├── MigrationState: enum
+│       │   ├── MigrationState: Enum (2 values)
 │       │   │   ├── "Completed"
 │       │   │   └── "InProgress"
 │       │   └── TimeStamp: *string
 │       ├── LastModifiedTime: *string
-│       ├── LeaseDuration: enum
+│       ├── LeaseDuration: Enum (2 values)
 │       │   ├── "Fixed"
 │       │   └── "Infinite"
-│       ├── LeaseState: enum
+│       ├── LeaseState: Enum (5 values)
 │       │   ├── "Available"
 │       │   ├── "Breaking"
 │       │   ├── "Broken"
 │       │   ├── "Expired"
 │       │   └── "Leased"
-│       ├── LeaseStatus: enum
+│       ├── LeaseStatus: Enum (2 values)
 │       │   ├── "Locked"
 │       │   └── "Unlocked"
-│       ├── LegalHold: 
+│       ├── LegalHold: Object (2 properties)
 │       │   ├── HasLegalHold: *bool
-│       │   └── Tags: 
+│       │   └── Tags: Object (5 properties)
 │       │       ├── ObjectIdentifier: *string
 │       │       ├── Tag: *string
 │       │       ├── TenantId: *string
 │       │       ├── Timestamp: *string
 │       │       └── Upn: *string
-│       ├── Metadata: Map[string]string
+│       ├── Metadata: map[string]string
 │       ├── Name: *string
-│       ├── PublicAccess: enum
+│       ├── PublicAccess: Enum (3 values)
 │       │   ├── "Blob"
 │       │   ├── "Container"
 │       │   └── "None"
@@ -1114,101 +1126,129 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (3 properties)
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Policy: 
-│   │   │   └── Rules: 
-│   │   │       ├── Definition: 
-│   │   │       │   ├── Actions: 
-│   │   │       │   │   ├── BaseBlob: 
-│   │   │       │   │   │   ├── Delete: 
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated[*int]
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated[*int]
+│   │   ├── Policy: Object (1 property)
+│   │   │   └── Rules: Object (4 properties)
+│   │   │       ├── Definition: Object (2 properties)
+│   │   │       │   ├── Actions: Object (3 properties)
+│   │   │       │   │   ├── BaseBlob: Object (4 properties)
+│   │   │       │   │   │   ├── Delete: Object (2 properties)
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
 │   │   │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│   │   │       │   │   │   ├── TierToArchive: 
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated[*int]
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated[*int]
-│   │   │       │   │   │   └── TierToCool: 
-│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated[*int]
-│   │   │       │   │   │       └── DaysAfterModificationGreaterThan: Validated[*int]
-│   │   │       │   │   ├── Snapshot: 
-│   │   │       │   │   │   ├── Delete: 
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   │   │   ├── TierToArchive: 
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   │   │   └── TierToCool: 
-│   │   │       │   │   │       └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   │   └── Version: 
-│   │   │       │   │       ├── Delete: 
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   │       ├── TierToArchive: 
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   │       └── TierToCool: 
-│   │   │       │   │           └── DaysAfterCreationGreaterThan: Validated[*int]
-│   │   │       │   └── Filters: 
-│   │   │       │       ├── BlobIndexMatch: 
-│   │   │       │       │   ├── Name: Validated[*string]
+│   │   │       │   │   │   ├── TierToArchive: Object (2 properties)
+│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   └── TierToCool: Object (2 properties)
+│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │       │   ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │       │   └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   ├── Snapshot: Object (3 properties)
+│   │   │       │   │   │   ├── Delete: Object (1 property)
+│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   ├── TierToArchive: Object (1 property)
+│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   │   └── TierToCool: Object (1 property)
+│   │   │       │   │   │       └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
+│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
+│   │   │       │   │   └── Version: Object (3 properties)
+│   │   │       │   │       ├── Delete: Object (1 property)
+│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
+│   │   │       │   │       ├── TierToArchive: Object (1 property)
+│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
+│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
+│   │   │       │   │       └── TierToCool: Object (1 property)
+│   │   │       │   │           └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │   │       │   │               ├── Rule 0: {Minimum 0}
+│   │   │       │   │               └── Rule 1: {MultipleOf 1}
+│   │   │       │   └── Filters: Object (3 properties)
+│   │   │       │       ├── BlobIndexMatch: Object (3 properties)
+│   │   │       │       │   ├── Name: Validated<*string> (2 rules)
+│   │   │       │       │   │   ├── Rule 0: {MaxLength %!s(int64=128)}
+│   │   │       │       │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   │       │       │   ├── Op: *string
-│   │   │       │       │   └── Value: Validated[*string]
-│   │   │       │       ├── BlobTypes: Array[string]
-│   │   │       │       └── PrefixMatch: Array[string]
+│   │   │       │       │   └── Value: Validated<*string> (2 rules)
+│   │   │       │       │       ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │   │       │       │       └── Rule 1: {MinLength %!s(int64=0)}
+│   │   │       │       ├── BlobTypes: string[]
+│   │   │       │       └── PrefixMatch: string[]
 │   │   │       ├── Enabled: *bool
 │   │   │       ├── Name: *string
-│   │   │       └── Type: enum
+│   │   │       └── Type: Enum (1 value)
 │   │   │           └── "Lifecycle"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── LastModifiedTime: *string
 │       ├── Name: *string
-│       ├── Policy: 
-│       │   └── Rules: 
-│       │       ├── Definition: 
-│       │       │   ├── Actions: 
-│       │       │   │   ├── BaseBlob: 
-│       │       │   │   │   ├── Delete: 
+│       ├── Policy: Object (1 property)
+│       │   └── Rules: Object (4 properties)
+│       │       ├── Definition: Object (2 properties)
+│       │       │   ├── Actions: Object (3 properties)
+│       │       │   │   ├── BaseBlob: Object (4 properties)
+│       │       │   │   │   ├── Delete: Object (2 properties)
 │       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
 │       │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   ├── TierToArchive: Object (2 properties)
 │       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
-│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │   └── TierToCool: Object (2 properties)
 │       │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │       └── DaysAfterModificationGreaterThan: *float64
-│       │       │   │   ├── Snapshot: 
-│       │       │   │   │   ├── Delete: 
+│       │       │   │   ├── Snapshot: Object (3 properties)
+│       │       │   │   │   ├── Delete: Object (1 property)
 │       │       │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   ├── TierToArchive: Object (1 property)
 │       │       │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │   └── TierToCool: Object (1 property)
 │       │       │   │   │       └── DaysAfterCreationGreaterThan: *float64
-│       │       │   │   └── Version: 
-│       │       │   │       ├── Delete: 
+│       │       │   │   └── Version: Object (3 properties)
+│       │       │   │       ├── Delete: Object (1 property)
 │       │       │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│       │       │   │       ├── TierToArchive: 
+│       │       │   │       ├── TierToArchive: Object (1 property)
 │       │       │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│       │       │   │       └── TierToCool: 
+│       │       │   │       └── TierToCool: Object (1 property)
 │       │       │   │           └── DaysAfterCreationGreaterThan: *float64
-│       │       │   └── Filters: 
-│       │       │       ├── BlobIndexMatch: 
+│       │       │   └── Filters: Object (3 properties)
+│       │       │       ├── BlobIndexMatch: Object (3 properties)
 │       │       │       │   ├── Name: *string
 │       │       │       │   ├── Op: *string
 │       │       │       │   └── Value: *string
-│       │       │       ├── BlobTypes: Array[string]
-│       │       │       └── PrefixMatch: Array[string]
+│       │       │       ├── BlobTypes: string[]
+│       │       │       └── PrefixMatch: string[]
 │       │       ├── Enabled: *bool
 │       │       ├── Name: *string
-│       │       └── Type: enum
+│       │       └── Type: Enum (1 value)
 │       │           └── "Lifecycle"
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
-│   ├── Spec: 
-│   │   ├── Cors: 
-│   │   │   └── CorsRules: 
-│   │   │       ├── AllowedHeaders: Array[string]
-│   │   │       ├── AllowedMethods: enum
+│   ├── Spec: Object (4 properties)
+│   │   ├── Cors: Object (1 property)
+│   │   │   └── CorsRules: Object (5 properties)
+│   │   │       ├── AllowedHeaders: string[]
+│   │   │       ├── AllowedMethods: Enum (7 values)
 │   │   │       │   ├── "DELETE"
 │   │   │       │   ├── "GET"
 │   │   │       │   ├── "HEAD"
@@ -1216,18 +1256,18 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │       │   ├── "OPTIONS"
 │   │   │       │   ├── "POST"
 │   │   │       │   └── "PUT"
-│   │   │       ├── AllowedOrigins: Array[string]
-│   │   │       ├── ExposedHeaders: Array[string]
+│   │   │       ├── AllowedOrigins: string[]
+│   │   │       ├── ExposedHeaders: string[]
 │   │   │       └── MaxAgeInSeconds: *int
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── Cors: 
-│       │   └── CorsRules: 
-│       │       ├── AllowedHeaders: Array[string]
-│       │       ├── AllowedMethods: enum
+│   │   └── Tags: map[string]string
+│   └── Status: Object (5 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Cors: Object (1 property)
+│       │   └── CorsRules: Object (5 properties)
+│       │       ├── AllowedHeaders: string[]
+│       │       ├── AllowedMethods: Enum (7 values)
 │       │       │   ├── "DELETE"
 │       │       │   ├── "GET"
 │       │       │   ├── "HEAD"
@@ -1235,41 +1275,43 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │       │       │   ├── "OPTIONS"
 │       │       │   ├── "POST"
 │       │       │   └── "PUT"
-│       │       ├── AllowedOrigins: Array[string]
-│       │       ├── ExposedHeaders: Array[string]
+│       │       ├── AllowedOrigins: string[]
+│       │       ├── ExposedHeaders: string[]
 │       │       └── MaxAgeInSeconds: *int
 │       ├── Id: *string
 │       ├── Name: *string
 │       └── Type: *string
 ├── StorageAccountsQueueServicesQueue: Resource
-│   ├── Spec: 
-│   │   ├── AzureName: Validated[string]
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── Location: *string
-│   │   ├── Metadata: Map[string]string
+│   │   ├── Metadata: map[string]string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
 │       ├── ApproximateMessageCount: *int
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
-│       ├── Metadata: Map[string]string
+│       ├── Metadata: map[string]string
 │       ├── Name: *string
 │       └── Type: *string
-├── StorageAccounts_BlobService_Spec_ARM: 
+├── StorageAccounts_BlobService_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (9 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── ChangeFeed: 
+│   │   ├── ChangeFeed: Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── RetentionInDays: *int
-│   │   ├── ContainerDeleteRetentionPolicy: 
+│   │   ├── ContainerDeleteRetentionPolicy: Object (2 properties)
 │   │   │   ├── Days: *int
 │   │   │   └── Enabled: *bool
-│   │   ├── Cors: 
-│   │   │   └── CorsRules: 
-│   │   │       ├── AllowedHeaders: Array[string]
-│   │   │       ├── AllowedMethods: enum
+│   │   ├── Cors: Object (1 property)
+│   │   │   └── CorsRules: Object (5 properties)
+│   │   │       ├── AllowedHeaders: string[]
+│   │   │       ├── AllowedMethods: Enum (7 values)
 │   │   │       │   ├── "DELETE"
 │   │   │       │   ├── "GET"
 │   │   │       │   ├── "HEAD"
@@ -1277,90 +1319,90 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   │       │   ├── "OPTIONS"
 │   │   │       │   ├── "POST"
 │   │   │       │   └── "PUT"
-│   │   │       ├── AllowedOrigins: Array[string]
-│   │   │       ├── ExposedHeaders: Array[string]
+│   │   │       ├── AllowedOrigins: string[]
+│   │   │       ├── ExposedHeaders: string[]
 │   │   │       └── MaxAgeInSeconds: *int
 │   │   ├── DefaultServiceVersion: *string
-│   │   ├── DeleteRetentionPolicy: 
+│   │   ├── DeleteRetentionPolicy: Object (2 properties)
 │   │   │   ├── Days: *int
 │   │   │   └── Enabled: *bool
 │   │   ├── IsVersioningEnabled: *bool
-│   │   ├── LastAccessTimeTrackingPolicy: 
-│   │   │   ├── BlobType: Array[string]
+│   │   ├── LastAccessTimeTrackingPolicy: Object (4 properties)
+│   │   │   ├── BlobType: string[]
 │   │   │   ├── Enable: *bool
-│   │   │   ├── Name: enum
+│   │   │   ├── Name: Enum (1 value)
 │   │   │   │   └── "AccessTimeTracking"
 │   │   │   └── TrackingGranularityInDays: *int
-│   │   └── RestorePolicy: 
+│   │   └── RestorePolicy: Object (2 properties)
 │   │       ├── Days: *int
 │   │       └── Enabled: *bool
-│   └── Tags: Map[string]string
-├── StorageAccounts_BlobServices_Container_Spec_ARM: 
+│   └── Tags: map[string]string
+├── StorageAccounts_BlobServices_Container_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (5 properties)
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
-│   │   ├── ImmutableStorageWithVersioning: 
+│   │   ├── ImmutableStorageWithVersioning: Object (1 property)
 │   │   │   └── Enabled: *bool
-│   │   ├── Metadata: Map[string]string
-│   │   └── PublicAccess: enum
+│   │   ├── Metadata: map[string]string
+│   │   └── PublicAccess: Enum (3 values)
 │   │       ├── "Blob"
 │   │       ├── "Container"
 │   │       └── "None"
-│   └── Tags: Map[string]string
-├── StorageAccounts_ManagementPolicy_Spec_ARM: 
+│   └── Tags: map[string]string
+├── StorageAccounts_ManagementPolicy_Spec_ARM: Object (3 properties)
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Policy: 
-│   │       └── Rules: 
-│   │           ├── Definition: 
-│   │           │   ├── Actions: 
-│   │           │   │   ├── BaseBlob: 
-│   │           │   │   │   ├── Delete: 
+│   ├── Properties: Object (1 property)
+│   │   └── Policy: Object (1 property)
+│   │       └── Rules: Object (4 properties)
+│   │           ├── Definition: Object (2 properties)
+│   │           │   ├── Actions: Object (3 properties)
+│   │           │   │   ├── BaseBlob: Object (4 properties)
+│   │           │   │   │   ├── Delete: Object (2 properties)
 │   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *int
 │   │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│   │           │   │   │   ├── TierToArchive: 
+│   │           │   │   │   ├── TierToArchive: Object (2 properties)
 │   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *int
-│   │           │   │   │   └── TierToCool: 
+│   │           │   │   │   └── TierToCool: Object (2 properties)
 │   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │           │   │   │       └── DaysAfterModificationGreaterThan: *int
-│   │           │   │   ├── Snapshot: 
-│   │           │   │   │   ├── Delete: 
+│   │           │   │   ├── Snapshot: Object (3 properties)
+│   │           │   │   │   ├── Delete: Object (1 property)
 │   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *int
-│   │           │   │   │   ├── TierToArchive: 
+│   │           │   │   │   ├── TierToArchive: Object (1 property)
 │   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *int
-│   │           │   │   │   └── TierToCool: 
+│   │           │   │   │   └── TierToCool: Object (1 property)
 │   │           │   │   │       └── DaysAfterCreationGreaterThan: *int
-│   │           │   │   └── Version: 
-│   │           │   │       ├── Delete: 
+│   │           │   │   └── Version: Object (3 properties)
+│   │           │   │       ├── Delete: Object (1 property)
 │   │           │   │       │   └── DaysAfterCreationGreaterThan: *int
-│   │           │   │       ├── TierToArchive: 
+│   │           │   │       ├── TierToArchive: Object (1 property)
 │   │           │   │       │   └── DaysAfterCreationGreaterThan: *int
-│   │           │   │       └── TierToCool: 
+│   │           │   │       └── TierToCool: Object (1 property)
 │   │           │   │           └── DaysAfterCreationGreaterThan: *int
-│   │           │   └── Filters: 
-│   │           │       ├── BlobIndexMatch: 
+│   │           │   └── Filters: Object (3 properties)
+│   │           │       ├── BlobIndexMatch: Object (3 properties)
 │   │           │       │   ├── Name: *string
 │   │           │       │   ├── Op: *string
 │   │           │       │   └── Value: *string
-│   │           │       ├── BlobTypes: Array[string]
-│   │           │       └── PrefixMatch: Array[string]
+│   │           │       ├── BlobTypes: string[]
+│   │           │       └── PrefixMatch: string[]
 │   │           ├── Enabled: *bool
 │   │           ├── Name: *string
-│   │           └── Type: enum
+│   │           └── Type: Enum (1 value)
 │   │               └── "Lifecycle"
-│   └── Tags: Map[string]string
-├── StorageAccounts_QueueService_Spec_ARM: 
+│   └── Tags: map[string]string
+├── StorageAccounts_QueueService_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Cors: 
-│   │       └── CorsRules: 
-│   │           ├── AllowedHeaders: Array[string]
-│   │           ├── AllowedMethods: enum
+│   ├── Properties: Object (1 property)
+│   │   └── Cors: Object (1 property)
+│   │       └── CorsRules: Object (5 properties)
+│   │           ├── AllowedHeaders: string[]
+│   │           ├── AllowedMethods: Enum (7 values)
 │   │           │   ├── "DELETE"
 │   │           │   ├── "GET"
 │   │           │   ├── "HEAD"
@@ -1368,20 +1410,20 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │           │   ├── "OPTIONS"
 │   │           │   ├── "POST"
 │   │           │   └── "PUT"
-│   │           ├── AllowedOrigins: Array[string]
-│   │           ├── ExposedHeaders: Array[string]
+│   │           ├── AllowedOrigins: string[]
+│   │           ├── ExposedHeaders: string[]
 │   │           └── MaxAgeInSeconds: *int
-│   └── Tags: Map[string]string
-├── StorageAccounts_QueueServices_Queue_Spec_ARM: 
+│   └── Tags: map[string]string
+├── StorageAccounts_QueueServices_Queue_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   └── Metadata: Map[string]string
-│   └── Tags: Map[string]string
-└── StorageQueue_STATUS_ARM: 
+│   ├── Properties: Object (1 property)
+│   │   └── Metadata: map[string]string
+│   └── Tags: map[string]string
+└── StorageQueue_STATUS_ARM: Object (4 properties)
     ├── Id: *string
     ├── Name: *string
-    ├── Properties: 
+    ├── Properties: Object (2 properties)
     │   ├── ApproximateMessageCount: *int
-    │   └── Metadata: Map[string]string
+    │   └── Metadata: map[string]string
     └── Type: *string

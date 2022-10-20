@@ -1,28 +1,28 @@
 github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-05-01-preview"
-├── WebTest_STATUS_ARM: 
+├── WebTest_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
-│   │   ├── Configuration: 
+│   ├── Properties: Object (13 properties)
+│   │   ├── Configuration: Object (1 property)
 │   │   │   └── WebTest: *string
 │   │   ├── Description: *string
 │   │   ├── Enabled: *bool
 │   │   ├── Frequency: *int
-│   │   ├── Kind: enum
+│   │   ├── Kind: Enum (4 values)
 │   │   │   ├── "basic"
 │   │   │   ├── "multistep"
 │   │   │   ├── "ping"
 │   │   │   └── "standard"
-│   │   ├── Locations: 
+│   │   ├── Locations: Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── Name: *string
 │   │   ├── ProvisioningState: *string
-│   │   ├── Request: 
+│   │   ├── Request: Object (6 properties)
 │   │   │   ├── FollowRedirects: *bool
-│   │   │   ├── Headers: 
+│   │   │   ├── Headers: Object (2 properties)
 │   │   │   │   ├── Key: *string
 │   │   │   │   └── Value: *string
 │   │   │   ├── HttpVerb: *string
@@ -32,8 +32,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │   │   ├── RetryEnabled: *bool
 │   │   ├── SyntheticMonitorId: *string
 │   │   ├── Timeout: *int
-│   │   └── ValidationRules: 
-│   │       ├── ContentValidation: 
+│   │   └── ValidationRules: Object (5 properties)
+│   │       ├── ContentValidation: Object (3 properties)
 │   │       │   ├── ContentMatch: *string
 │   │       │   ├── IgnoreCase: *bool
 │   │       │   └── PassIfTextFound: *bool
@@ -44,26 +44,26 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
 ├── Webtest: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (16 properties)
 │   │   ├── AzureName: string
-│   │   ├── Configuration: 
+│   │   ├── Configuration: Object (1 property)
 │   │   │   └── WebTest: *string
 │   │   ├── Description: *string
 │   │   ├── Enabled: *bool
 │   │   ├── Frequency: *int
-│   │   ├── Kind: enum
+│   │   ├── Kind: Enum (4 values)
 │   │   │   ├── "basic"
 │   │   │   ├── "multistep"
 │   │   │   ├── "ping"
 │   │   │   └── "standard"
 │   │   ├── Location: *string
-│   │   ├── Locations: 
+│   │   ├── Locations: Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── Name: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Request: 
+│   │   ├── Request: Object (6 properties)
 │   │   │   ├── FollowRedirects: *bool
-│   │   │   ├── Headers: 
+│   │   │   ├── Headers: Object (2 properties)
 │   │   │   │   ├── Key: *string
 │   │   │   │   └── Value: *string
 │   │   │   ├── HttpVerb: *string
@@ -72,10 +72,10 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │   │   │   └── RequestUrl: *string
 │   │   ├── RetryEnabled: *bool
 │   │   ├── SyntheticMonitorId: *string
-│   │   ├── Tags: Map[string]string
+│   │   ├── Tags: map[string]string
 │   │   ├── Timeout: *int
-│   │   └── ValidationRules: 
-│   │       ├── ContentValidation: 
+│   │   └── ValidationRules: Object (5 properties)
+│   │       ├── ContentValidation: Object (3 properties)
 │   │       │   ├── ContentMatch: *string
 │   │       │   ├── IgnoreCase: *bool
 │   │       │   └── PassIfTextFound: *bool
@@ -83,28 +83,28 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │   │       ├── IgnoreHttpsStatusCode: *bool
 │   │       ├── SSLCertRemainingLifetimeCheck: *int
 │   │       └── SSLCheck: *bool
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── Configuration: 
+│   └── Status: Object (19 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Configuration: Object (1 property)
 │       │   └── WebTest: *string
 │       ├── Description: *string
 │       ├── Enabled: *bool
 │       ├── Frequency: *int
 │       ├── Id: *string
-│       ├── Kind: enum
+│       ├── Kind: Enum (4 values)
 │       │   ├── "basic"
 │       │   ├── "multistep"
 │       │   ├── "ping"
 │       │   └── "standard"
 │       ├── Location: *string
-│       ├── Locations: 
+│       ├── Locations: Object (1 property)
 │       │   └── Id: *string
 │       ├── Name: *string
 │       ├── PropertiesName: *string
 │       ├── ProvisioningState: *string
-│       ├── Request: 
+│       ├── Request: Object (6 properties)
 │       │   ├── FollowRedirects: *bool
-│       │   ├── Headers: 
+│       │   ├── Headers: Object (2 properties)
 │       │   │   ├── Key: *string
 │       │   │   └── Value: *string
 │       │   ├── HttpVerb: *string
@@ -116,8 +116,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │       ├── Tags: *v1.JSON
 │       ├── Timeout: *int
 │       ├── Type: *string
-│       └── ValidationRules: 
-│           ├── ContentValidation: 
+│       └── ValidationRules: Object (5 properties)
+│           ├── ContentValidation: Object (3 properties)
 │           │   ├── ContentMatch: *string
 │           │   ├── IgnoreCase: *bool
 │           │   └── PassIfTextFound: *bool
@@ -125,26 +125,26 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 │           ├── IgnoreHttpsStatusCode: *bool
 │           ├── SSLCertRemainingLifetimeCheck: *int
 │           └── SSLCheck: *bool
-└── Webtest_Spec_ARM: 
+└── Webtest_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
-    │   ├── Configuration: 
+    ├── Properties: Object (12 properties)
+    │   ├── Configuration: Object (1 property)
     │   │   └── WebTest: *string
     │   ├── Description: *string
     │   ├── Enabled: *bool
     │   ├── Frequency: *int
-    │   ├── Kind: enum
+    │   ├── Kind: Enum (4 values)
     │   │   ├── "basic"
     │   │   ├── "multistep"
     │   │   ├── "ping"
     │   │   └── "standard"
-    │   ├── Locations: 
+    │   ├── Locations: Object (1 property)
     │   │   └── Id: *string
     │   ├── Name: *string
-    │   ├── Request: 
+    │   ├── Request: Object (6 properties)
     │   │   ├── FollowRedirects: *bool
-    │   │   ├── Headers: 
+    │   │   ├── Headers: Object (2 properties)
     │   │   │   ├── Key: *string
     │   │   │   └── Value: *string
     │   │   ├── HttpVerb: *string
@@ -154,8 +154,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
     │   ├── RetryEnabled: *bool
     │   ├── SyntheticMonitorId: *string
     │   ├── Timeout: *int
-    │   └── ValidationRules: 
-    │       ├── ContentValidation: 
+    │   └── ValidationRules: Object (5 properties)
+    │       ├── ContentValidation: Object (3 properties)
     │       │   ├── ContentMatch: *string
     │       │   ├── IgnoreCase: *bool
     │       │   └── PassIfTextFound: *bool
@@ -163,4 +163,4 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
     │       ├── IgnoreHttpsStatusCode: *bool
     │       ├── SSLCertRemainingLifetimeCheck: *int
     │       └── SSLCheck: *bool
-    └── Tags: Map[string]string
+    └── Tags: map[string]string
