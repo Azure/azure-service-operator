@@ -1,11 +1,11 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── Relationship: 
-    ├── FirstParty: 
+└── Relationship: Object (2 properties)
+    ├── FirstParty: Object (4 properties)
     │   ├── FamilyName: string
     │   ├── FullName: string
     │   ├── KnownAs: string
     │   └── Parent: *Person
-    └── SecondParty: 
+    └── SecondParty: Object (4 properties)
         ├── FamilyName: string
         ├── FullName: string
         ├── KnownAs: string

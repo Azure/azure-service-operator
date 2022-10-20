@@ -1,69 +1,72 @@
 github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-09-01"
 └── Registry: Resource
-    ├── Spec: 
+    ├── Spec: Object (16 properties)
     │   ├── AdminUserEnabled: *bool
-    │   ├── AzureName: Validated[string]
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+    │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+    │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]*$"}
     │   ├── DataEndpointEnabled: *bool
-    │   ├── Encryption: 
-    │   │   ├── KeyVaultProperties: 
+    │   ├── Encryption: Object (3 properties)
+    │   │   ├── KeyVaultProperties: Object (3 properties)
     │   │   │   ├── Identity: *string
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Status: *string
-    │   ├── Identity: 
+    │   ├── Identity: Object (5 properties)
     │   │   ├── PrincipalId: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── TenantId: *string
     │   │   ├── Type: *string
-    │   │   └── UserAssignedIdentities: 
+    │   │   └── UserAssignedIdentities: Object (3 properties)
     │   │       ├── ClientId: *string
     │   │       ├── PrincipalId: *string
     │   │       └── PropertyBag: genruntime.PropertyBag
     │   ├── Location: *string
     │   ├── NetworkRuleBypassOptions: *string
-    │   ├── NetworkRuleSet: 
+    │   ├── NetworkRuleSet: Object (3 properties)
     │   │   ├── DefaultAction: *string
-    │   │   ├── IpRules: 
+    │   │   ├── IpRules: Object (3 properties)
     │   │   │   ├── Action: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Value: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Policies: 
-    │   │   ├── ExportPolicy: 
+    │   ├── Policies: Object (5 properties)
+    │   │   ├── ExportPolicy: Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Status: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── QuarantinePolicy: 
+    │   │   ├── QuarantinePolicy: Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Status: *string
-    │   │   ├── RetentionPolicy: 
+    │   │   ├── RetentionPolicy: Object (3 properties)
     │   │   │   ├── Days: *int
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Status: *string
-    │   │   └── TrustPolicy: 
+    │   │   └── TrustPolicy: Object (3 properties)
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       ├── Status: *string
     │   │       └── Type: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicNetworkAccess: *string
-    │   ├── Sku: 
+    │   ├── Sku: Object (2 properties)
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Tags: Map[string]string
+    │   ├── Tags: map[string]string
     │   └── ZoneRedundancy: *string
-    └── Status: 
+    └── Status: Object (24 properties)
         ├── AdminUserEnabled: *bool
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── CreationDate: *string
         ├── DataEndpointEnabled: *bool
-        ├── DataEndpointHostNames: Array[string]
-        ├── Encryption: 
-        │   ├── KeyVaultProperties: 
+        ├── DataEndpointHostNames: string[]
+        ├── Encryption: Object (3 properties)
+        │   ├── KeyVaultProperties: Object (6 properties)
         │   │   ├── Identity: *string
         │   │   ├── KeyIdentifier: *string
         │   │   ├── KeyRotationEnabled: *bool
@@ -73,12 +76,12 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Status: *string
         ├── Id: *string
-        ├── Identity: 
+        ├── Identity: Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: 
+        │   └── UserAssignedIdentities: Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
@@ -86,34 +89,34 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
         ├── LoginServer: *string
         ├── Name: *string
         ├── NetworkRuleBypassOptions: *string
-        ├── NetworkRuleSet: 
+        ├── NetworkRuleSet: Object (3 properties)
         │   ├── DefaultAction: *string
-        │   ├── IpRules: 
+        │   ├── IpRules: Object (3 properties)
         │   │   ├── Action: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Policies: 
-        │   ├── ExportPolicy: 
+        ├── Policies: Object (5 properties)
+        │   ├── ExportPolicy: Object (2 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Status: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── QuarantinePolicy: 
+        │   ├── QuarantinePolicy: Object (2 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Status: *string
-        │   ├── RetentionPolicy: 
+        │   ├── RetentionPolicy: Object (4 properties)
         │   │   ├── Days: *int
         │   │   ├── LastUpdatedTime: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Status: *string
-        │   └── TrustPolicy: 
+        │   └── TrustPolicy: Object (3 properties)
         │       ├── PropertyBag: genruntime.PropertyBag
         │       ├── Status: *string
         │       └── Type: *string
-        ├── PrivateEndpointConnections: 
+        ├── PrivateEndpointConnections: Object (3 properties)
         │   ├── Id: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SystemData: 
+        │   └── SystemData: Object (7 properties)
         │       ├── CreatedAt: *string
         │       ├── CreatedBy: *string
         │       ├── CreatedByType: *string
@@ -124,16 +127,16 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
-        ├── Sku: 
+        ├── Sku: Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Tier: *string
-        ├── Status: 
+        ├── Status: Object (4 properties)
         │   ├── DisplayStatus: *string
         │   ├── Message: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Timestamp: *string
-        ├── SystemData: 
+        ├── SystemData: Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string
@@ -141,6 +144,6 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
         │   ├── LastModifiedBy: *string
         │   ├── LastModifiedByType: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         ├── Type: *string
         └── ZoneRedundancy: *string

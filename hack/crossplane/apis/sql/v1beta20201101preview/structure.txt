@@ -1,24 +1,26 @@
 github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101preview
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-11-01-preview"
 ├── Server: Resource
-│   ├── Spec: 
-│   │   └── ForProvider: 
+│   ├── Spec: Object (1 property)
+│   │   └── ForProvider: Object (15 properties)
 │   │       ├── AdministratorLogin: *string
 │   │       ├── AdministratorLoginPassword: *string
-│   │       ├── Administrators: 
-│   │       │   ├── AdministratorType: enum
+│   │       ├── Administrators: Object (6 properties)
+│   │       │   ├── AdministratorType: Enum (1 value)
 │   │       │   │   └── "ActiveDirectory"
 │   │       │   ├── AzureADOnlyAuthentication: *bool
 │   │       │   ├── Login: *string
-│   │       │   ├── PrincipalType: enum
+│   │       │   ├── PrincipalType: Enum (3 values)
 │   │       │   │   ├── "Application"
 │   │       │   │   ├── "Group"
 │   │       │   │   └── "User"
-│   │       │   ├── Sid: Validated[*string]
-│   │       │   └── TenantId: Validated[*string]
-│   │       ├── Identity: 
-│   │       │   └── Type: enum
+│   │       │   ├── Sid: Validated<*string> (1 rule)
+│   │       │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │       │   └── TenantId: Validated<*string> (1 rule)
+│   │       │       └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │       ├── Identity: Object (1 property)
+│   │       │   └── Type: Enum (4 values)
 │   │       │       ├── "None"
 │   │       │       ├── "SystemAssigned"
 │   │       │       ├── "SystemAssigned,UserAssigned"
@@ -28,24 +30,24 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │   │       ├── MinimalTlsVersion: *string
 │   │       ├── Name: string
 │   │       ├── PrimaryUserAssignedIdentityId: *string
-│   │       ├── PublicNetworkAccess: enum
+│   │       ├── PublicNetworkAccess: Enum (2 values)
 │   │       │   ├── "Disabled"
 │   │       │   └── "Enabled"
 │   │       ├── ResourceGroupName: string
 │   │       ├── ResourceGroupNameRef: *v1alpha1.Reference
 │   │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
-│   │       ├── Tags: Map[string]string
+│   │       ├── Tags: map[string]string
 │   │       └── Version: *string
-│   └── Status: 
-│       └── AtProvider: 
+│   └── Status: Object (1 property)
+│       └── AtProvider: Object (19 properties)
 │           ├── AdministratorLogin: *string
 │           ├── AdministratorLoginPassword: *string
-│           ├── Administrators: 
-│           │   ├── AdministratorType: enum
+│           ├── Administrators: Object (6 properties)
+│           │   ├── AdministratorType: Enum (1 value)
 │           │   │   └── "ActiveDirectory"
 │           │   ├── AzureADOnlyAuthentication: *bool
 │           │   ├── Login: *string
-│           │   ├── PrincipalType: enum
+│           │   ├── PrincipalType: Enum (3 values)
 │           │   │   ├── "Application"
 │           │   │   ├── "Group"
 │           │   │   └── "User"
@@ -53,15 +55,15 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │           │   └── TenantId: *string
 │           ├── FullyQualifiedDomainName: *string
 │           ├── Id: *string
-│           ├── Identity: 
+│           ├── Identity: Object (4 properties)
 │           │   ├── PrincipalId: *string
 │           │   ├── TenantId: *string
-│           │   ├── Type: enum
+│           │   ├── Type: Enum (4 values)
 │           │   │   ├── "None"
 │           │   │   ├── "SystemAssigned"
 │           │   │   ├── "SystemAssigned,UserAssigned"
 │           │   │   └── "UserAssigned"
-│           │   └── UserAssignedIdentities: 
+│           │   └── UserAssignedIdentities: Object (2 properties)
 │           │       ├── ClientId: *string
 │           │       └── PrincipalId: *string
 │           ├── KeyId: *string
@@ -70,45 +72,45 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │           ├── MinimalTlsVersion: *string
 │           ├── Name: *string
 │           ├── PrimaryUserAssignedIdentityId: *string
-│           ├── PrivateEndpointConnections: 
+│           ├── PrivateEndpointConnections: Object (2 properties)
 │           │   ├── Id: *string
-│           │   └── Properties: 
-│           │       ├── PrivateEndpoint: 
+│           │   └── Properties: Object (3 properties)
+│           │       ├── PrivateEndpoint: Object (1 property)
 │           │       │   └── Id: *string
-│           │       ├── PrivateLinkServiceConnectionState: 
-│           │       │   ├── ActionsRequired: enum
+│           │       ├── PrivateLinkServiceConnectionState: Object (3 properties)
+│           │       │   ├── ActionsRequired: Enum (1 value)
 │           │       │   │   └── "None"
 │           │       │   ├── Description: *string
-│           │       │   └── Status: enum
+│           │       │   └── Status: Enum (4 values)
 │           │       │       ├── "Approved"
 │           │       │       ├── "Disconnected"
 │           │       │       ├── "Pending"
 │           │       │       └── "Rejected"
-│           │       └── ProvisioningState: enum
+│           │       └── ProvisioningState: Enum (5 values)
 │           │           ├── "Approving"
 │           │           ├── "Dropping"
 │           │           ├── "Failed"
 │           │           ├── "Ready"
 │           │           └── "Rejecting"
-│           ├── PublicNetworkAccess: enum
+│           ├── PublicNetworkAccess: Enum (2 values)
 │           │   ├── "Disabled"
 │           │   └── "Enabled"
 │           ├── State: *string
-│           ├── Tags: Map[string]string
+│           ├── Tags: map[string]string
 │           ├── Type: *string
 │           ├── Version: *string
-│           └── WorkspaceFeature: enum
+│           └── WorkspaceFeature: Enum (2 values)
 │               ├── "Connected"
 │               └── "Disconnected"
 └── Servers_Database: Resource
-    ├── Spec: 
-    │   └── ForProvider: 
+    ├── Spec: Object (1 property)
+    │   └── ForProvider: Object (32 properties)
     │       ├── AutoPauseDelay: *int
-    │       ├── CatalogCollation: enum
+    │       ├── CatalogCollation: Enum (2 values)
     │       │   ├── "DATABASE_DEFAULT"
     │       │   └── "SQL_Latin1_General_CP1_CI_AS"
     │       ├── Collation: *string
-    │       ├── CreateMode: enum
+    │       ├── CreateMode: Enum (10 values)
     │       │   ├── "Copy"
     │       │   ├── "Default"
     │       │   ├── "OnlineSecondary"
@@ -121,7 +123,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       │   └── "Secondary"
     │       ├── ElasticPoolId: *string
     │       ├── HighAvailabilityReplicaCount: *int
-    │       ├── LicenseType: enum
+    │       ├── LicenseType: Enum (2 values)
     │       │   ├── "BasePrice"
     │       │   └── "LicenseIncluded"
     │       ├── Location: *string
@@ -130,12 +132,12 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       ├── MaxSizeBytes: *int
     │       ├── MinCapacity: *float64
     │       ├── Name: string
-    │       ├── ReadScale: enum
+    │       ├── ReadScale: Enum (2 values)
     │       │   ├── "Disabled"
     │       │   └── "Enabled"
     │       ├── RecoverableDatabaseId: *string
     │       ├── RecoveryServicesRecoveryPointId: *string
-    │       ├── RequestedBackupStorageRedundancy: enum
+    │       ├── RequestedBackupStorageRedundancy: Enum (3 values)
     │       │   ├── "Geo"
     │       │   ├── "Local"
     │       │   └── "Zone"
@@ -143,35 +145,35 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       ├── ResourceGroupNameRef: *v1alpha1.Reference
     │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
     │       ├── RestorableDroppedDatabaseId: *string
-    │       ├── RestorePointInTime: Validated[*string]
-    │       ├── SampleName: enum
+    │       ├── RestorePointInTime: Validated<*string> (0 rules)
+    │       ├── SampleName: Enum (3 values)
     │       │   ├── "AdventureWorksLT"
     │       │   ├── "WideWorldImportersFull"
     │       │   └── "WideWorldImportersStd"
-    │       ├── SecondaryType: enum
+    │       ├── SecondaryType: Enum (2 values)
     │       │   ├── "Geo"
     │       │   └── "Named"
     │       ├── ServerName: string
     │       ├── ServerNameRef: *v1alpha1.Reference
     │       ├── ServerNameSelector: *v1alpha1.Selector
-    │       ├── Sku: 
+    │       ├── Sku: Object (5 properties)
     │       │   ├── Capacity: *int
     │       │   ├── Family: *string
     │       │   ├── Name: *string
     │       │   ├── Size: *string
     │       │   └── Tier: *string
-    │       ├── SourceDatabaseDeletionDate: Validated[*string]
+    │       ├── SourceDatabaseDeletionDate: Validated<*string> (0 rules)
     │       ├── SourceDatabaseId: *string
-    │       ├── Tags: Map[string]string
+    │       ├── Tags: map[string]string
     │       └── ZoneRedundant: *bool
-    └── Status: 
-        └── AtProvider: 
+    └── Status: Object (1 property)
+        └── AtProvider: Object (43 properties)
             ├── AutoPauseDelay: *int
-            ├── CatalogCollation: enum
+            ├── CatalogCollation: Enum (2 values)
             │   ├── "DATABASE_DEFAULT"
             │   └── "SQL_Latin1_General_CP1_CI_AS"
             ├── Collation: *string
-            ├── CreateMode: enum
+            ├── CreateMode: Enum (10 values)
             │   ├── "Copy"
             │   ├── "Default"
             │   ├── "OnlineSecondary"
@@ -183,12 +185,12 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             │   ├── "RestoreLongTermRetentionBackup"
             │   └── "Secondary"
             ├── CreationDate: *string
-            ├── CurrentBackupStorageRedundancy: enum
+            ├── CurrentBackupStorageRedundancy: Enum (3 values)
             │   ├── "Geo"
             │   ├── "Local"
             │   └── "Zone"
             ├── CurrentServiceObjectiveName: *string
-            ├── CurrentSku: 
+            ├── CurrentSku: Object (5 properties)
             │   ├── Capacity: *int
             │   ├── Family: *string
             │   ├── Name: *string
@@ -202,7 +204,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             ├── HighAvailabilityReplicaCount: *int
             ├── Id: *string
             ├── Kind: *string
-            ├── LicenseType: enum
+            ├── LicenseType: Enum (2 values)
             │   ├── "BasePrice"
             │   └── "LicenseIncluded"
             ├── Location: *string
@@ -214,12 +216,12 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             ├── MinCapacity: *float64
             ├── Name: *string
             ├── PausedDate: *string
-            ├── ReadScale: enum
+            ├── ReadScale: Enum (2 values)
             │   ├── "Disabled"
             │   └── "Enabled"
             ├── RecoverableDatabaseId: *string
             ├── RecoveryServicesRecoveryPointId: *string
-            ├── RequestedBackupStorageRedundancy: enum
+            ├── RequestedBackupStorageRedundancy: Enum (3 values)
             │   ├── "Geo"
             │   ├── "Local"
             │   └── "Zone"
@@ -227,14 +229,14 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             ├── RestorableDroppedDatabaseId: *string
             ├── RestorePointInTime: *string
             ├── ResumedDate: *string
-            ├── SampleName: enum
+            ├── SampleName: Enum (3 values)
             │   ├── "AdventureWorksLT"
             │   ├── "WideWorldImportersFull"
             │   └── "WideWorldImportersStd"
-            ├── SecondaryType: enum
+            ├── SecondaryType: Enum (2 values)
             │   ├── "Geo"
             │   └── "Named"
-            ├── Sku: 
+            ├── Sku: Object (5 properties)
             │   ├── Capacity: *int
             │   ├── Family: *string
             │   ├── Name: *string
@@ -242,7 +244,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             │   └── Tier: *string
             ├── SourceDatabaseDeletionDate: *string
             ├── SourceDatabaseId: *string
-            ├── Status: enum
+            ├── Status: Enum (21 values)
             │   ├── "AutoClosed"
             │   ├── "Copying"
             │   ├── "Creating"
@@ -264,6 +266,6 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             │   ├── "Shutdown"
             │   ├── "Standby"
             │   └── "Suspect"
-            ├── Tags: Map[string]string
+            ├── Tags: map[string]string
             ├── Type: *string
             └── ZoneRedundant: *bool

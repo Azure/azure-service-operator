@@ -1,21 +1,21 @@
 github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta20200601
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-06-01"
 └── Redis: Resource
-    ├── Spec: 
-    │   └── ForProvider: 
+    ├── Spec: Object (1 property)
+    │   └── ForProvider: Object (17 properties)
     │       ├── EnableNonSslPort: *bool
     │       ├── Location: *string
-    │       ├── MinimumTlsVersion: enum
+    │       ├── MinimumTlsVersion: Enum (3 values)
     │       │   ├── "1.0"
     │       │   ├── "1.1"
     │       │   └── "1.2"
     │       ├── Name: string
-    │       ├── PublicNetworkAccess: enum
+    │       ├── PublicNetworkAccess: Enum (2 values)
     │       │   ├── "Disabled"
     │       │   └── "Enabled"
-    │       ├── RedisConfiguration: 
-    │       │   ├── AdditionalProperties: Map[string]string
+    │       ├── RedisConfiguration: Object (11 properties)
+    │       │   ├── AdditionalProperties: map[string]string
     │       │   ├── AofStorageConnectionString0: *string
     │       │   ├── AofStorageConnectionString1: *string
     │       │   ├── MaxfragmentationmemoryReserved: *string
@@ -31,62 +31,64 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       ├── ResourceGroupNameRef: *v1alpha1.Reference
     │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
     │       ├── ShardCount: *int
-    │       ├── Sku: 
+    │       ├── Sku: Object (3 properties)
     │       │   ├── Capacity: *int
-    │       │   ├── Family: enum
+    │       │   ├── Family: Enum (2 values)
     │       │   │   ├── "C"
     │       │   │   └── "P"
-    │       │   └── Name: enum
+    │       │   └── Name: Enum (3 values)
     │       │       ├── "Basic"
     │       │       ├── "Premium"
     │       │       └── "Standard"
-    │       ├── StaticIP: Validated[*string]
-    │       ├── SubnetId: Validated[*string]
-    │       ├── Tags: Map[string]string
-    │       ├── TenantSettings: Map[string]string
-    │       └── Zones: Array[string]
-    └── Status: 
-        └── AtProvider: 
-            ├── AccessKeys: 
+    │       ├── StaticIP: Validated<*string> (1 rule)
+    │       │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
+    │       ├── SubnetId: Validated<*string> (1 rule)
+    │       │   └── Rule 0: {Pattern "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"}
+    │       ├── Tags: map[string]string
+    │       ├── TenantSettings: map[string]string
+    │       └── Zones: string[]
+    └── Status: Object (1 property)
+        └── AtProvider: Object (25 properties)
+            ├── AccessKeys: Object (2 properties)
             │   ├── PrimaryKey: *string
             │   └── SecondaryKey: *string
             ├── EnableNonSslPort: *bool
             ├── HostName: *string
             ├── Id: *string
-            ├── Instances: 
+            ├── Instances: Object (5 properties)
             │   ├── IsMaster: *bool
             │   ├── NonSslPort: *int
             │   ├── ShardId: *int
             │   ├── SslPort: *int
             │   └── Zone: *string
-            ├── LinkedServers: 
+            ├── LinkedServers: Object (1 property)
             │   └── Id: *string
             ├── Location: *string
-            ├── MinimumTlsVersion: enum
+            ├── MinimumTlsVersion: Enum (3 values)
             │   ├── "1.0"
             │   ├── "1.1"
             │   └── "1.2"
             ├── Name: *string
             ├── Port: *int
-            ├── PrivateEndpointConnections: 
+            ├── PrivateEndpointConnections: Object (6 properties)
             │   ├── Id: *string
             │   ├── Name: *string
-            │   ├── PrivateEndpoint: 
+            │   ├── PrivateEndpoint: Object (1 property)
             │   │   └── Id: *string
-            │   ├── PrivateLinkServiceConnectionState: 
+            │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
             │   │   ├── ActionsRequired: *string
             │   │   ├── Description: *string
-            │   │   └── Status: enum
+            │   │   └── Status: Enum (3 values)
             │   │       ├── "Approved"
             │   │       ├── "Pending"
             │   │       └── "Rejected"
-            │   ├── ProvisioningState: enum
+            │   ├── ProvisioningState: Enum (4 values)
             │   │   ├── "Creating"
             │   │   ├── "Deleting"
             │   │   ├── "Failed"
             │   │   └── "Succeeded"
             │   └── Type: *string
-            ├── ProvisioningState: enum
+            ├── ProvisioningState: Enum (12 values)
             │   ├── "Creating"
             │   ├── "Deleting"
             │   ├── "Disabled"
@@ -99,11 +101,11 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             │   ├── "Unlinking"
             │   ├── "Unprovisioning"
             │   └── "Updating"
-            ├── PublicNetworkAccess: enum
+            ├── PublicNetworkAccess: Enum (2 values)
             │   ├── "Disabled"
             │   └── "Enabled"
-            ├── RedisConfiguration: 
-            │   ├── AdditionalProperties: Map[string]string
+            ├── RedisConfiguration: Object (12 properties)
+            │   ├── AdditionalProperties: map[string]string
             │   ├── AofStorageConnectionString0: *string
             │   ├── AofStorageConnectionString1: *string
             │   ├── Maxclients: *string
@@ -118,19 +120,19 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             ├── RedisVersion: *string
             ├── ReplicasPerMaster: *int
             ├── ShardCount: *int
-            ├── Sku: 
+            ├── Sku: Object (3 properties)
             │   ├── Capacity: *int
-            │   ├── Family: enum
+            │   ├── Family: Enum (2 values)
             │   │   ├── "C"
             │   │   └── "P"
-            │   └── Name: enum
+            │   └── Name: Enum (3 values)
             │       ├── "Basic"
             │       ├── "Premium"
             │       └── "Standard"
             ├── SslPort: *int
             ├── StaticIP: *string
             ├── SubnetId: *string
-            ├── Tags: Map[string]string
-            ├── TenantSettings: Map[string]string
+            ├── Tags: map[string]string
+            ├── TenantSettings: map[string]string
             ├── Type: *string
-            └── Zones: Array[string]
+            └── Zones: string[]

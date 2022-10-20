@@ -1,25 +1,25 @@
 github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-07-01"
-├── ComputeResource_STATUS_ARM: 
+├── ComputeResource_STATUS_ARM: Object (9 properties)
 │   ├── Id: *string
-│   ├── Identity: 
+│   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: enum
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: 
+│   │   └── UserAssignedIdentities: Object (3 properties)
 │   │       ├── ClientId: *string
 │   │       ├── PrincipalId: *string
 │   │       └── TenantId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (10 properties)
 │   │   ├── ComputeLocation: *string
-│   │   ├── ComputeType: enum
+│   │   ├── ComputeType: Enum (10 values)
 │   │   │   ├── "AKS"
 │   │   │   ├── "AmlCompute"
 │   │   │   ├── "ComputeInstance"
@@ -35,22 +35,22 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── IsAttachedCompute: *bool
 │   │   ├── ModifiedOn: *string
-│   │   ├── ProvisioningErrors: 
-│   │   │   └── Error: 
-│   │   │       ├── AdditionalInfo: 
-│   │   │       │   ├── Info: Map[string]v1.JSON
+│   │   ├── ProvisioningErrors: Object (1 property)
+│   │   │   └── Error: Object (5 properties)
+│   │   │       ├── AdditionalInfo: Object (2 properties)
+│   │   │       │   ├── Info: map[string]v1.JSON
 │   │   │       │   └── Type: *string
 │   │   │       ├── Code: *string
-│   │   │       ├── Details: 
-│   │   │       │   ├── AdditionalInfo: 
-│   │   │       │   │   ├── Info: Map[string]v1.JSON
+│   │   │       ├── Details: Object (4 properties)
+│   │   │       │   ├── AdditionalInfo: Object (2 properties)
+│   │   │       │   │   ├── Info: map[string]v1.JSON
 │   │   │       │   │   └── Type: *string
 │   │   │       │   ├── Code: *string
 │   │   │       │   ├── Message: *string
 │   │   │       │   └── Target: *string
 │   │   │       ├── Message: *string
 │   │   │       └── Target: *string
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -59,58 +59,58 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── "Unknown"
 │   │   │   └── "Updating"
 │   │   └── ResourceId: *string
-│   ├── Sku: 
+│   ├── Sku: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Tier: *string
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Workspace: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (23 properties)
 │   │   ├── AllowPublicAccessWhenBehindVnet: *bool
 │   │   ├── ApplicationInsightsReference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
 │   │   ├── ContainerRegistryReference: *genruntime.ResourceReference
 │   │   ├── Description: *string
 │   │   ├── DiscoveryUrl: *string
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (3 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeyVaultProperties: 
+│   │   │   ├── KeyVaultProperties: Object (3 properties)
 │   │   │   │   ├── IdentityClientId: *string
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   └── KeyVaultArmId: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Enabled"
 │   │   ├── FriendlyName: *string
 │   │   ├── HbiWorkspace: *bool
-│   │   ├── Identity: 
-│   │   │   ├── Type: enum
+│   │   ├── Identity: Object (2 properties)
+│   │   │   ├── Type: Enum (4 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: 
-│   │   │   └── Secrets: 
+│   │   ├── OperatorSpec: Object (1 property)
+│   │   │   └── Secrets: Object (7 properties)
 │   │   │       ├── AppInsightsInstrumentationKey: *genruntime.SecretDestination
 │   │   │       ├── ContainerRegistryPassword: *genruntime.SecretDestination
 │   │   │       ├── ContainerRegistryPassword2: *genruntime.SecretDestination
@@ -120,72 +120,72 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │       └── UserStorageKey: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── ServiceManagedResourcesSettings: 
-│   │   │   └── CosmosDb: 
+│   │   ├── ServiceManagedResourcesSettings: Object (1 property)
+│   │   │   └── CosmosDb: Object (1 property)
 │   │   │       └── CollectionsThroughput: *int
-│   │   ├── SharedPrivateLinkResources: 
+│   │   ├── SharedPrivateLinkResources: Object (5 properties)
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
 │   │   │   ├── RequestMessage: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (5 values)
 │   │   │       ├── "Approved"
 │   │   │       ├── "Disconnected"
 │   │   │       ├── "Pending"
 │   │   │       ├── "Rejected"
 │   │   │       └── "Timeout"
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *string
 │   │   ├── StorageAccountReference: *genruntime.ResourceReference
-│   │   ├── SystemData: 
-│   │   │   ├── CreatedAt: Validated[*string]
+│   │   ├── SystemData: Object (6 properties)
+│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
 │   │   │   ├── CreatedBy: *string
-│   │   │   ├── CreatedByType: enum
+│   │   │   ├── CreatedByType: Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: Validated[*string]
+│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
 │   │   │   ├── LastModifiedBy: *string
-│   │   │   └── LastModifiedByType: enum
+│   │   │   └── LastModifiedByType: Enum (4 values)
 │   │   │       ├── "Application"
 │   │   │       ├── "Key"
 │   │   │       ├── "ManagedIdentity"
 │   │   │       └── "User"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (33 properties)
 │       ├── AllowPublicAccessWhenBehindVnet: *bool
 │       ├── ApplicationInsights: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── ContainerRegistry: *string
 │       ├── Description: *string
 │       ├── DiscoveryUrl: *string
-│       ├── Encryption: 
-│       │   ├── Identity: 
+│       ├── Encryption: Object (3 properties)
+│       │   ├── Identity: Object (1 property)
 │       │   │   └── UserAssignedIdentity: *string
-│       │   ├── KeyVaultProperties: 
+│       │   ├── KeyVaultProperties: Object (3 properties)
 │       │   │   ├── IdentityClientId: *string
 │       │   │   ├── KeyIdentifier: *string
 │       │   │   └── KeyVaultArmId: *string
-│       │   └── Status: enum
+│       │   └── Status: Enum (2 values)
 │       │       ├── "Disabled"
 │       │       └── "Enabled"
 │       ├── FriendlyName: *string
 │       ├── HbiWorkspace: *bool
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: enum
+│       │   ├── Type: Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned,UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── TenantId: *string
@@ -194,47 +194,47 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── Location: *string
 │       ├── MlFlowTrackingUri: *string
 │       ├── Name: *string
-│       ├── NotebookInfo: 
+│       ├── NotebookInfo: Object (3 properties)
 │       │   ├── Fqdn: *string
-│       │   ├── NotebookPreparationError: 
+│       │   ├── NotebookPreparationError: Object (2 properties)
 │       │   │   ├── ErrorMessage: *string
 │       │   │   └── StatusCode: *int
 │       │   └── ResourceId: *string
 │       ├── PrimaryUserAssignedIdentity: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (4 properties)
 │       │   ├── Id: *string
-│       │   ├── Identity: 
+│       │   ├── Identity: Object (4 properties)
 │       │   │   ├── PrincipalId: *string
 │       │   │   ├── TenantId: *string
-│       │   │   ├── Type: enum
+│       │   │   ├── Type: Enum (4 values)
 │       │   │   │   ├── "None"
 │       │   │   │   ├── "SystemAssigned"
 │       │   │   │   ├── "SystemAssigned,UserAssigned"
 │       │   │   │   └── "UserAssigned"
-│       │   │   └── UserAssignedIdentities: 
+│       │   │   └── UserAssignedIdentities: Object (3 properties)
 │       │   │       ├── ClientId: *string
 │       │   │       ├── PrincipalId: *string
 │       │   │       └── TenantId: *string
-│       │   ├── Sku: 
+│       │   ├── Sku: Object (2 properties)
 │       │   │   ├── Name: *string
 │       │   │   └── Tier: *string
-│       │   └── SystemData: 
+│       │   └── SystemData: Object (6 properties)
 │       │       ├── CreatedAt: *string
 │       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: enum
+│       │       ├── CreatedByType: Enum (4 values)
 │       │       │   ├── "Application"
 │       │       │   ├── "Key"
 │       │       │   ├── "ManagedIdentity"
 │       │       │   └── "User"
 │       │       ├── LastModifiedAt: *string
 │       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: enum
+│       │       └── LastModifiedByType: Enum (4 values)
 │       │           ├── "Application"
 │       │           ├── "Key"
 │       │           ├── "ManagedIdentity"
 │       │           └── "User"
 │       ├── PrivateLinkCount: *int
-│       ├── ProvisioningState: enum
+│       ├── ProvisioningState: Enum (7 values)
 │       │   ├── "Canceled"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
@@ -242,89 +242,89 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── "Succeeded"
 │       │   ├── "Unknown"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: enum
+│       ├── PublicNetworkAccess: Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── ServiceManagedResourcesSettings: 
-│       │   └── CosmosDb: 
+│       ├── ServiceManagedResourcesSettings: Object (1 property)
+│       │   └── CosmosDb: Object (1 property)
 │       │       └── CollectionsThroughput: *int
 │       ├── ServiceProvisionedResourceGroup: *string
-│       ├── SharedPrivateLinkResources: 
+│       ├── SharedPrivateLinkResources: Object (5 properties)
 │       │   ├── GroupId: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateLinkResourceId: *string
 │       │   ├── RequestMessage: *string
-│       │   └── Status: enum
+│       │   └── Status: Enum (5 values)
 │       │       ├── "Approved"
 │       │       ├── "Disconnected"
 │       │       ├── "Pending"
 │       │       ├── "Rejected"
 │       │       └── "Timeout"
-│       ├── Sku: 
+│       ├── Sku: Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── Tier: *string
 │       ├── StorageAccount: *string
 │       ├── StorageHnsEnabled: *bool
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── TenantId: *string
 │       ├── Type: *string
 │       └── WorkspaceId: *string
-├── WorkspaceConnection_STATUS_ARM: 
+├── WorkspaceConnection_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (5 properties)
 │   │   ├── AuthType: *string
 │   │   ├── Category: *string
 │   │   ├── Target: *string
 │   │   ├── Value: *string
-│   │   └── ValueFormat: enum
+│   │   └── ValueFormat: Enum (1 value)
 │   │       └── "JSON"
 │   └── Type: *string
-├── Workspace_STATUS_ARM: 
+├── Workspace_STATUS_ARM: Object (9 properties)
 │   ├── Id: *string
-│   ├── Identity: 
+│   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: enum
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: 
+│   │   └── UserAssignedIdentities: Object (3 properties)
 │   │       ├── ClientId: *string
 │   │       ├── PrincipalId: *string
 │   │       └── TenantId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (24 properties)
 │   │   ├── AllowPublicAccessWhenBehindVnet: *bool
 │   │   ├── ApplicationInsights: *string
 │   │   ├── ContainerRegistry: *string
 │   │   ├── Description: *string
 │   │   ├── DiscoveryUrl: *string
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (3 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeyVaultProperties: 
+│   │   │   ├── KeyVaultProperties: Object (3 properties)
 │   │   │   │   ├── IdentityClientId: *string
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   └── KeyVaultArmId: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Enabled"
 │   │   ├── FriendlyName: *string
@@ -332,47 +332,47 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVault: *string
 │   │   ├── MlFlowTrackingUri: *string
-│   │   ├── NotebookInfo: 
+│   │   ├── NotebookInfo: Object (3 properties)
 │   │   │   ├── Fqdn: *string
-│   │   │   ├── NotebookPreparationError: 
+│   │   │   ├── NotebookPreparationError: Object (2 properties)
 │   │   │   │   ├── ErrorMessage: *string
 │   │   │   │   └── StatusCode: *int
 │   │   │   └── ResourceId: *string
 │   │   ├── PrimaryUserAssignedIdentity: *string
-│   │   ├── PrivateEndpointConnections: 
+│   │   ├── PrivateEndpointConnections: Object (4 properties)
 │   │   │   ├── Id: *string
-│   │   │   ├── Identity: 
+│   │   │   ├── Identity: Object (4 properties)
 │   │   │   │   ├── PrincipalId: *string
 │   │   │   │   ├── TenantId: *string
-│   │   │   │   ├── Type: enum
+│   │   │   │   ├── Type: Enum (4 values)
 │   │   │   │   │   ├── "None"
 │   │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   │   │   └── "UserAssigned"
-│   │   │   │   └── UserAssignedIdentities: 
+│   │   │   │   └── UserAssignedIdentities: Object (3 properties)
 │   │   │   │       ├── ClientId: *string
 │   │   │   │       ├── PrincipalId: *string
 │   │   │   │       └── TenantId: *string
-│   │   │   ├── Sku: 
+│   │   │   ├── Sku: Object (2 properties)
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Tier: *string
-│   │   │   └── SystemData: 
+│   │   │   └── SystemData: Object (6 properties)
 │   │   │       ├── CreatedAt: *string
 │   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: enum
+│   │   │       ├── CreatedByType: Enum (4 values)
 │   │   │       │   ├── "Application"
 │   │   │       │   ├── "Key"
 │   │   │       │   ├── "ManagedIdentity"
 │   │   │       │   └── "User"
 │   │   │       ├── LastModifiedAt: *string
 │   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: enum
+│   │   │       └── LastModifiedByType: Enum (4 values)
 │   │   │           ├── "Application"
 │   │   │           ├── "Key"
 │   │   │           ├── "ManagedIdentity"
 │   │   │           └── "User"
 │   │   ├── PrivateLinkCount: *int
-│   │   ├── ProvisioningState: enum
+│   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -380,20 +380,20 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── "Succeeded"
 │   │   │   ├── "Unknown"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── ServiceManagedResourcesSettings: 
-│   │   │   └── CosmosDb: 
+│   │   ├── ServiceManagedResourcesSettings: Object (1 property)
+│   │   │   └── CosmosDb: Object (1 property)
 │   │   │       └── CollectionsThroughput: *int
 │   │   ├── ServiceProvisionedResourceGroup: *string
-│   │   ├── SharedPrivateLinkResources: 
+│   │   ├── SharedPrivateLinkResources: Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: 
+│   │   │   └── Properties: Object (4 properties)
 │   │   │       ├── GroupId: *string
 │   │   │       ├── PrivateLinkResourceId: *string
 │   │   │       ├── RequestMessage: *string
-│   │   │       └── Status: enum
+│   │   │       └── Status: Enum (5 values)
 │   │   │           ├── "Approved"
 │   │   │           ├── "Disconnected"
 │   │   │           ├── "Pending"
@@ -403,50 +403,50 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── StorageHnsEnabled: *bool
 │   │   ├── TenantId: *string
 │   │   └── WorkspaceId: *string
-│   ├── Sku: 
+│   ├── Sku: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Tier: *string
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   ├── Tags: Map[string]string
+│   ├── Tags: map[string]string
 │   └── Type: *string
-├── Workspace_Spec_ARM: 
-│   ├── Identity: 
-│   │   ├── Type: enum
+├── Workspace_Spec_ARM: Object (7 properties)
+│   ├── Identity: Object (2 properties)
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
+│   ├── Properties: Object (15 properties)
 │   │   ├── AllowPublicAccessWhenBehindVnet: *bool
 │   │   ├── ApplicationInsights: *string
 │   │   ├── ContainerRegistry: *string
 │   │   ├── Description: *string
 │   │   ├── DiscoveryUrl: *string
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (3 properties)
+│   │   │   ├── Identity: Object (1 property)
 │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   ├── KeyVaultProperties: 
+│   │   │   ├── KeyVaultProperties: Object (3 properties)
 │   │   │   │   ├── IdentityClientId: *string
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   └── KeyVaultArmId: *string
-│   │   │   └── Status: enum
+│   │   │   └── Status: Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Enabled"
 │   │   ├── FriendlyName: *string
@@ -454,213 +454,217 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVault: *string
 │   │   ├── PrimaryUserAssignedIdentity: *string
-│   │   ├── PublicNetworkAccess: enum
+│   │   ├── PublicNetworkAccess: Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── ServiceManagedResourcesSettings: 
-│   │   │   └── CosmosDb: 
+│   │   ├── ServiceManagedResourcesSettings: Object (1 property)
+│   │   │   └── CosmosDb: Object (1 property)
 │   │   │       └── CollectionsThroughput: *int
-│   │   ├── SharedPrivateLinkResources: 
+│   │   ├── SharedPrivateLinkResources: Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: 
+│   │   │   └── Properties: Object (4 properties)
 │   │   │       ├── GroupId: *string
 │   │   │       ├── PrivateLinkResourceId: *string
 │   │   │       ├── RequestMessage: *string
-│   │   │       └── Status: enum
+│   │   │       └── Status: Enum (5 values)
 │   │   │           ├── "Approved"
 │   │   │           ├── "Disconnected"
 │   │   │           ├── "Pending"
 │   │   │           ├── "Rejected"
 │   │   │           └── "Timeout"
 │   │   └── StorageAccount: *string
-│   ├── Sku: 
+│   ├── Sku: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Tier: *string
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   └── Tags: Map[string]string
+│   └── Tags: map[string]string
 ├── WorkspacesCompute: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
-│   │   ├── Identity: 
-│   │   │   ├── Type: enum
+│   │   ├── Identity: Object (2 properties)
+│   │   │   ├── Type: Enum (4 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: 
-│   │   │   ├── AKS: 
+│   │   ├── Properties: Object (9 properties)
+│   │   │   ├── AKS: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "AKS"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
-│   │   │   │   │   ├── AgentCount: Validated[*int]
+│   │   │   │   ├── Properties: Object (8 properties)
+│   │   │   │   │   ├── AgentCount: Validated<*int> (1 rule)
+│   │   │   │   │   │   └── Rule 0: {Minimum 0}
 │   │   │   │   │   ├── AgentVmSize: *string
-│   │   │   │   │   ├── AksNetworkingConfiguration: 
-│   │   │   │   │   │   ├── DnsServiceIP: Validated[*string]
-│   │   │   │   │   │   ├── DockerBridgeCidr: Validated[*string]
-│   │   │   │   │   │   ├── ServiceCidr: Validated[*string]
+│   │   │   │   │   ├── AksNetworkingConfiguration: Object (4 properties)
+│   │   │   │   │   │   ├── DnsServiceIP: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"}
+│   │   │   │   │   │   ├── DockerBridgeCidr: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
+│   │   │   │   │   │   ├── ServiceCidr: Validated<*string> (1 rule)
+│   │   │   │   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
 │   │   │   │   │   │   └── SubnetReference: *genruntime.ResourceReference
 │   │   │   │   │   ├── ClusterFqdn: *string
-│   │   │   │   │   ├── ClusterPurpose: enum
+│   │   │   │   │   ├── ClusterPurpose: Enum (3 values)
 │   │   │   │   │   │   ├── "DenseProd"
 │   │   │   │   │   │   ├── "DevTest"
 │   │   │   │   │   │   └── "FastProd"
 │   │   │   │   │   ├── LoadBalancerSubnet: *string
-│   │   │   │   │   ├── LoadBalancerType: enum
+│   │   │   │   │   ├── LoadBalancerType: Enum (2 values)
 │   │   │   │   │   │   ├── "InternalLoadBalancer"
 │   │   │   │   │   │   └── "PublicIp"
-│   │   │   │   │   └── SslConfiguration: 
+│   │   │   │   │   └── SslConfiguration: Object (6 properties)
 │   │   │   │   │       ├── Cert: *string
 │   │   │   │   │       ├── Cname: *string
 │   │   │   │   │       ├── Key: *string
 │   │   │   │   │       ├── LeafDomainLabel: *string
 │   │   │   │   │       ├── OverwriteExistingDomain: *bool
-│   │   │   │   │       └── Status: enum
+│   │   │   │   │       └── Status: Enum (3 values)
 │   │   │   │   │           ├── "Auto"
 │   │   │   │   │           ├── "Disabled"
 │   │   │   │   │           └── "Enabled"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── AmlCompute: 
+│   │   │   ├── AmlCompute: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "AmlCompute"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (10 properties)
 │   │   │   │   │   ├── EnableNodePublicIp: *bool
 │   │   │   │   │   ├── IsolatedNetwork: *bool
-│   │   │   │   │   ├── OsType: enum
+│   │   │   │   │   ├── OsType: Enum (2 values)
 │   │   │   │   │   │   ├── "Linux"
 │   │   │   │   │   │   └── "Windows"
-│   │   │   │   │   ├── RemoteLoginPortPublicAccess: enum
+│   │   │   │   │   ├── RemoteLoginPortPublicAccess: Enum (3 values)
 │   │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   │   ├── "Enabled"
 │   │   │   │   │   │   └── "NotSpecified"
-│   │   │   │   │   ├── ScaleSettings: 
+│   │   │   │   │   ├── ScaleSettings: Object (3 properties)
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   ├── MinNodeCount: *int
-│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: Validated[*string]
-│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: Validated<*string> (0 rules)
+│   │   │   │   │   ├── Subnet: Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   ├── UserAccountCredentials: 
+│   │   │   │   │   ├── UserAccountCredentials: Object (3 properties)
 │   │   │   │   │   │   ├── AdminUserName: *string
 │   │   │   │   │   │   ├── AdminUserPassword: *genruntime.SecretReference
 │   │   │   │   │   │   └── AdminUserSshPublicKey: *genruntime.SecretReference
-│   │   │   │   │   ├── VirtualMachineImage: 
+│   │   │   │   │   ├── VirtualMachineImage: Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   ├── VmPriority: enum
+│   │   │   │   │   ├── VmPriority: Enum (2 values)
 │   │   │   │   │   │   ├── "Dedicated"
 │   │   │   │   │   │   └── "LowPriority"
 │   │   │   │   │   └── VmSize: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── ComputeInstance: 
+│   │   │   ├── ComputeInstance: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "ComputeInstance"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
-│   │   │   │   │   ├── ApplicationSharingPolicy: enum
+│   │   │   │   ├── Properties: Object (7 properties)
+│   │   │   │   │   ├── ApplicationSharingPolicy: Enum (2 values)
 │   │   │   │   │   │   ├── "Personal"
 │   │   │   │   │   │   └── "Shared"
-│   │   │   │   │   ├── ComputeInstanceAuthorizationType: enum
+│   │   │   │   │   ├── ComputeInstanceAuthorizationType: Enum (1 value)
 │   │   │   │   │   │   └── "personal"
-│   │   │   │   │   ├── PersonalComputeInstanceSettings: 
-│   │   │   │   │   │   └── AssignedUser: 
+│   │   │   │   │   ├── PersonalComputeInstanceSettings: Object (1 property)
+│   │   │   │   │   │   └── AssignedUser: Object (2 properties)
 │   │   │   │   │   │       ├── ObjectId: *string
 │   │   │   │   │   │       └── TenantId: *string
-│   │   │   │   │   ├── SetupScripts: 
-│   │   │   │   │   │   └── Scripts: 
-│   │   │   │   │   │       ├── CreationScript: 
+│   │   │   │   │   ├── SetupScripts: Object (1 property)
+│   │   │   │   │   │   └── Scripts: Object (2 properties)
+│   │   │   │   │   │       ├── CreationScript: Object (4 properties)
 │   │   │   │   │   │       │   ├── ScriptArguments: *string
 │   │   │   │   │   │       │   ├── ScriptData: *string
 │   │   │   │   │   │       │   ├── ScriptSource: *string
 │   │   │   │   │   │       │   └── Timeout: *string
-│   │   │   │   │   │       └── StartupScript: 
+│   │   │   │   │   │       └── StartupScript: Object (4 properties)
 │   │   │   │   │   │           ├── ScriptArguments: *string
 │   │   │   │   │   │           ├── ScriptData: *string
 │   │   │   │   │   │           ├── ScriptSource: *string
 │   │   │   │   │   │           └── Timeout: *string
-│   │   │   │   │   ├── SshSettings: 
+│   │   │   │   │   ├── SshSettings: Object (2 properties)
 │   │   │   │   │   │   ├── AdminPublicKey: *string
-│   │   │   │   │   │   └── SshPublicAccess: enum
+│   │   │   │   │   │   └── SshPublicAccess: Enum (2 values)
 │   │   │   │   │   │       ├── "Disabled"
 │   │   │   │   │   │       └── "Enabled"
-│   │   │   │   │   ├── Subnet: 
+│   │   │   │   │   ├── Subnet: Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   └── VmSize: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataFactory: 
+│   │   │   ├── DataFactory: Object (5 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "DataFactory"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataLakeAnalytics: 
+│   │   │   ├── DataLakeAnalytics: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "DataLakeAnalytics"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (1 property)
 │   │   │   │   │   └── DataLakeStoreAccountName: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── Databricks: 
+│   │   │   ├── Databricks: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "Databricks"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (2 properties)
 │   │   │   │   │   ├── DatabricksAccessToken: *string
 │   │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── HDInsight: 
+│   │   │   ├── HDInsight: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "HDInsight"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
+│   │   │   │   ├── Properties: Object (3 properties)
 │   │   │   │   │   ├── Address: *string
-│   │   │   │   │   ├── AdministratorAccount: 
+│   │   │   │   │   ├── AdministratorAccount: Object (4 properties)
 │   │   │   │   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   │   │   │   ├── PrivateKeyData: *string
 │   │   │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   │   │   └── Username: *string
 │   │   │   │   │   └── SshPort: *int
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── SynapseSpark: 
+│   │   │   ├── SynapseSpark: Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: enum
+│   │   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   │   └── "SynapseSpark"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: 
-│   │   │   │   │   ├── AutoPauseProperties: 
+│   │   │   │   ├── Properties: Object (10 properties)
+│   │   │   │   │   ├── AutoPauseProperties: Object (2 properties)
 │   │   │   │   │   │   ├── DelayInMinutes: *int
 │   │   │   │   │   │   └── Enabled: *bool
-│   │   │   │   │   ├── AutoScaleProperties: 
+│   │   │   │   │   ├── AutoScaleProperties: Object (3 properties)
 │   │   │   │   │   │   ├── Enabled: *bool
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   └── MinNodeCount: *int
@@ -673,15 +677,15 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │   ├── SubscriptionId: *string
 │   │   │   │   │   └── WorkspaceName: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── VirtualMachine: 
+│   │   │   └── VirtualMachine: Object (6 properties)
 │   │   │       ├── ComputeLocation: *string
-│   │   │       ├── ComputeType: enum
+│   │   │       ├── ComputeType: Enum (1 value)
 │   │   │       │   └── "VirtualMachine"
 │   │   │       ├── Description: *string
 │   │   │       ├── DisableLocalAuth: *bool
-│   │   │       ├── Properties: 
+│   │   │       ├── Properties: Object (5 properties)
 │   │   │       │   ├── Address: *string
-│   │   │       │   ├── AdministratorAccount: 
+│   │   │       │   ├── AdministratorAccount: Object (4 properties)
 │   │   │       │   │   ├── Password: *genruntime.SecretReference
 │   │   │       │   │   ├── PrivateKeyData: *string
 │   │   │       │   │   ├── PublicKeyData: *string
@@ -690,45 +694,45 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │       │   ├── SshPort: *int
 │   │   │       │   └── VirtualMachineSize: *string
 │   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *string
-│   │   ├── SystemData: 
-│   │   │   ├── CreatedAt: Validated[*string]
+│   │   ├── SystemData: Object (6 properties)
+│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
 │   │   │   ├── CreatedBy: *string
-│   │   │   ├── CreatedByType: enum
+│   │   │   ├── CreatedByType: Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: Validated[*string]
+│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
 │   │   │   ├── LastModifiedBy: *string
-│   │   │   └── LastModifiedByType: enum
+│   │   │   └── LastModifiedByType: Enum (4 values)
 │   │   │       ├── "Application"
 │   │   │       ├── "Key"
 │   │   │       ├── "ManagedIdentity"
 │   │   │       └── "User"
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (10 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: enum
+│       │   ├── Type: Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned,UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── TenantId: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Properties: 
+│       ├── Properties: Object (10 properties)
 │       │   ├── ComputeLocation: *string
-│       │   ├── ComputeType: enum
+│       │   ├── ComputeType: Enum (10 values)
 │       │   │   ├── "AKS"
 │       │   │   ├── "AmlCompute"
 │       │   │   ├── "ComputeInstance"
@@ -744,22 +748,22 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   ├── DisableLocalAuth: *bool
 │       │   ├── IsAttachedCompute: *bool
 │       │   ├── ModifiedOn: *string
-│       │   ├── ProvisioningErrors: 
-│       │   │   └── Error: 
-│       │   │       ├── AdditionalInfo: 
-│       │   │       │   ├── Info: Map[string]v1.JSON
+│       │   ├── ProvisioningErrors: Object (1 property)
+│       │   │   └── Error: Object (5 properties)
+│       │   │       ├── AdditionalInfo: Object (2 properties)
+│       │   │       │   ├── Info: map[string]v1.JSON
 │       │   │       │   └── Type: *string
 │       │   │       ├── Code: *string
-│       │   │       ├── Details: 
-│       │   │       │   ├── AdditionalInfo: 
-│       │   │       │   │   ├── Info: Map[string]v1.JSON
+│       │   │       ├── Details: Object (4 properties)
+│       │   │       │   ├── AdditionalInfo: Object (2 properties)
+│       │   │       │   │   ├── Info: map[string]v1.JSON
 │       │   │       │   │   └── Type: *string
 │       │   │       │   ├── Code: *string
 │       │   │       │   ├── Message: *string
 │       │   │       │   └── Target: *string
 │       │   │       ├── Message: *string
 │       │   │       └── Target: *string
-│       │   ├── ProvisioningState: enum
+│       │   ├── ProvisioningState: Enum (7 values)
 │       │   │   ├── "Canceled"
 │       │   │   ├── "Creating"
 │       │   │   ├── "Deleting"
@@ -768,216 +772,216 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   ├── "Unknown"
 │       │   │   └── "Updating"
 │       │   └── ResourceId: *string
-│       ├── Sku: 
+│       ├── Sku: Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── Tier: *string
-│       ├── SystemData: 
+│       ├── SystemData: Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: enum
+│       │   ├── CreatedByType: Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: enum
+│       │   └── LastModifiedByType: Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── WorkspacesConnection: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (9 properties)
 │   │   ├── AuthType: *string
 │   │   ├── AzureName: string
 │   │   ├── Category: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Tags: Map[string]string
+│   │   ├── Tags: map[string]string
 │   │   ├── Target: *string
 │   │   ├── Value: *string
-│   │   └── ValueFormat: enum
+│   │   └── ValueFormat: Enum (1 value)
 │   │       └── "JSON"
-│   └── Status: 
+│   └── Status: Object (9 properties)
 │       ├── AuthType: *string
 │       ├── Category: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── Target: *string
 │       ├── Type: *string
 │       ├── Value: *string
-│       └── ValueFormat: enum
+│       └── ValueFormat: Enum (1 value)
 │           └── "JSON"
-├── Workspaces_Compute_Spec_ARM: 
-│   ├── Identity: 
-│   │   ├── Type: enum
+├── Workspaces_Compute_Spec_ARM: Object (7 properties)
+│   ├── Identity: Object (2 properties)
+│   │   ├── Type: Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Map[string]v1.JSON
+│   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: 
-│   │   ├── AKS: 
+│   ├── Properties: Object (9 properties)
+│   │   ├── AKS: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "AKS"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (8 properties)
 │   │   │   │   ├── AgentCount: *int
 │   │   │   │   ├── AgentVmSize: *string
-│   │   │   │   ├── AksNetworkingConfiguration: 
+│   │   │   │   ├── AksNetworkingConfiguration: Object (4 properties)
 │   │   │   │   │   ├── DnsServiceIP: *string
 │   │   │   │   │   ├── DockerBridgeCidr: *string
 │   │   │   │   │   ├── ServiceCidr: *string
 │   │   │   │   │   └── SubnetId: *string
 │   │   │   │   ├── ClusterFqdn: *string
-│   │   │   │   ├── ClusterPurpose: enum
+│   │   │   │   ├── ClusterPurpose: Enum (3 values)
 │   │   │   │   │   ├── "DenseProd"
 │   │   │   │   │   ├── "DevTest"
 │   │   │   │   │   └── "FastProd"
 │   │   │   │   ├── LoadBalancerSubnet: *string
-│   │   │   │   ├── LoadBalancerType: enum
+│   │   │   │   ├── LoadBalancerType: Enum (2 values)
 │   │   │   │   │   ├── "InternalLoadBalancer"
 │   │   │   │   │   └── "PublicIp"
-│   │   │   │   └── SslConfiguration: 
+│   │   │   │   └── SslConfiguration: Object (6 properties)
 │   │   │   │       ├── Cert: *string
 │   │   │   │       ├── Cname: *string
 │   │   │   │       ├── Key: *string
 │   │   │   │       ├── LeafDomainLabel: *string
 │   │   │   │       ├── OverwriteExistingDomain: *bool
-│   │   │   │       └── Status: enum
+│   │   │   │       └── Status: Enum (3 values)
 │   │   │   │           ├── "Auto"
 │   │   │   │           ├── "Disabled"
 │   │   │   │           └── "Enabled"
 │   │   │   └── ResourceId: *string
-│   │   ├── AmlCompute: 
+│   │   ├── AmlCompute: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "AmlCompute"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (10 properties)
 │   │   │   │   ├── EnableNodePublicIp: *bool
 │   │   │   │   ├── IsolatedNetwork: *bool
-│   │   │   │   ├── OsType: enum
+│   │   │   │   ├── OsType: Enum (2 values)
 │   │   │   │   │   ├── "Linux"
 │   │   │   │   │   └── "Windows"
-│   │   │   │   ├── RemoteLoginPortPublicAccess: enum
+│   │   │   │   ├── RemoteLoginPortPublicAccess: Enum (3 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   ├── "Enabled"
 │   │   │   │   │   └── "NotSpecified"
-│   │   │   │   ├── ScaleSettings: 
+│   │   │   │   ├── ScaleSettings: Object (3 properties)
 │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   ├── MinNodeCount: *int
 │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: *string
-│   │   │   │   ├── Subnet: 
+│   │   │   │   ├── Subnet: Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── UserAccountCredentials: 
+│   │   │   │   ├── UserAccountCredentials: Object (3 properties)
 │   │   │   │   │   ├── AdminUserName: *string
 │   │   │   │   │   ├── AdminUserPassword: *string
 │   │   │   │   │   └── AdminUserSshPublicKey: *string
-│   │   │   │   ├── VirtualMachineImage: 
+│   │   │   │   ├── VirtualMachineImage: Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── VmPriority: enum
+│   │   │   │   ├── VmPriority: Enum (2 values)
 │   │   │   │   │   ├── "Dedicated"
 │   │   │   │   │   └── "LowPriority"
 │   │   │   │   └── VmSize: *string
 │   │   │   └── ResourceId: *string
-│   │   ├── ComputeInstance: 
+│   │   ├── ComputeInstance: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "ComputeInstance"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
-│   │   │   │   ├── ApplicationSharingPolicy: enum
+│   │   │   ├── Properties: Object (7 properties)
+│   │   │   │   ├── ApplicationSharingPolicy: Enum (2 values)
 │   │   │   │   │   ├── "Personal"
 │   │   │   │   │   └── "Shared"
-│   │   │   │   ├── ComputeInstanceAuthorizationType: enum
+│   │   │   │   ├── ComputeInstanceAuthorizationType: Enum (1 value)
 │   │   │   │   │   └── "personal"
-│   │   │   │   ├── PersonalComputeInstanceSettings: 
-│   │   │   │   │   └── AssignedUser: 
+│   │   │   │   ├── PersonalComputeInstanceSettings: Object (1 property)
+│   │   │   │   │   └── AssignedUser: Object (2 properties)
 │   │   │   │   │       ├── ObjectId: *string
 │   │   │   │   │       └── TenantId: *string
-│   │   │   │   ├── SetupScripts: 
-│   │   │   │   │   └── Scripts: 
-│   │   │   │   │       ├── CreationScript: 
+│   │   │   │   ├── SetupScripts: Object (1 property)
+│   │   │   │   │   └── Scripts: Object (2 properties)
+│   │   │   │   │       ├── CreationScript: Object (4 properties)
 │   │   │   │   │       │   ├── ScriptArguments: *string
 │   │   │   │   │       │   ├── ScriptData: *string
 │   │   │   │   │       │   ├── ScriptSource: *string
 │   │   │   │   │       │   └── Timeout: *string
-│   │   │   │   │       └── StartupScript: 
+│   │   │   │   │       └── StartupScript: Object (4 properties)
 │   │   │   │   │           ├── ScriptArguments: *string
 │   │   │   │   │           ├── ScriptData: *string
 │   │   │   │   │           ├── ScriptSource: *string
 │   │   │   │   │           └── Timeout: *string
-│   │   │   │   ├── SshSettings: 
+│   │   │   │   ├── SshSettings: Object (2 properties)
 │   │   │   │   │   ├── AdminPublicKey: *string
-│   │   │   │   │   └── SshPublicAccess: enum
+│   │   │   │   │   └── SshPublicAccess: Enum (2 values)
 │   │   │   │   │       ├── "Disabled"
 │   │   │   │   │       └── "Enabled"
-│   │   │   │   ├── Subnet: 
+│   │   │   │   ├── Subnet: Object (1 property)
 │   │   │   │   │   └── Id: *string
 │   │   │   │   └── VmSize: *string
 │   │   │   └── ResourceId: *string
-│   │   ├── DataFactory: 
+│   │   ├── DataFactory: Object (5 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "DataFactory"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   └── ResourceId: *string
-│   │   ├── DataLakeAnalytics: 
+│   │   ├── DataLakeAnalytics: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "DataLakeAnalytics"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (1 property)
 │   │   │   │   └── DataLakeStoreAccountName: *string
 │   │   │   └── ResourceId: *string
-│   │   ├── Databricks: 
+│   │   ├── Databricks: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "Databricks"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (2 properties)
 │   │   │   │   ├── DatabricksAccessToken: *string
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   └── ResourceId: *string
-│   │   ├── HDInsight: 
+│   │   ├── HDInsight: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "HDInsight"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
+│   │   │   ├── Properties: Object (3 properties)
 │   │   │   │   ├── Address: *string
-│   │   │   │   ├── AdministratorAccount: 
+│   │   │   │   ├── AdministratorAccount: Object (4 properties)
 │   │   │   │   │   ├── Password: *string
 │   │   │   │   │   ├── PrivateKeyData: *string
 │   │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   │   └── Username: *string
 │   │   │   │   └── SshPort: *int
 │   │   │   └── ResourceId: *string
-│   │   ├── SynapseSpark: 
+│   │   ├── SynapseSpark: Object (6 properties)
 │   │   │   ├── ComputeLocation: *string
-│   │   │   ├── ComputeType: enum
+│   │   │   ├── ComputeType: Enum (1 value)
 │   │   │   │   └── "SynapseSpark"
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   ├── Properties: 
-│   │   │   │   ├── AutoPauseProperties: 
+│   │   │   ├── Properties: Object (10 properties)
+│   │   │   │   ├── AutoPauseProperties: Object (2 properties)
 │   │   │   │   │   ├── DelayInMinutes: *int
 │   │   │   │   │   └── Enabled: *bool
-│   │   │   │   ├── AutoScaleProperties: 
+│   │   │   │   ├── AutoScaleProperties: Object (3 properties)
 │   │   │   │   │   ├── Enabled: *bool
 │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   └── MinNodeCount: *int
@@ -990,15 +994,15 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   ├── SubscriptionId: *string
 │   │   │   │   └── WorkspaceName: *string
 │   │   │   └── ResourceId: *string
-│   │   └── VirtualMachine: 
+│   │   └── VirtualMachine: Object (6 properties)
 │   │       ├── ComputeLocation: *string
-│   │       ├── ComputeType: enum
+│   │       ├── ComputeType: Enum (1 value)
 │   │       │   └── "VirtualMachine"
 │   │       ├── Description: *string
 │   │       ├── DisableLocalAuth: *bool
-│   │       ├── Properties: 
+│   │       ├── Properties: Object (5 properties)
 │   │       │   ├── Address: *string
-│   │       │   ├── AdministratorAccount: 
+│   │       │   ├── AdministratorAccount: Object (4 properties)
 │   │       │   │   ├── Password: *string
 │   │       │   │   ├── PrivateKeyData: *string
 │   │       │   │   ├── PublicKeyData: *string
@@ -1007,33 +1011,33 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │       │   ├── SshPort: *int
 │   │       │   └── VirtualMachineSize: *string
 │   │       └── ResourceId: *string
-│   ├── Sku: 
+│   ├── Sku: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Tier: *string
-│   ├── SystemData: 
+│   ├── SystemData: Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: enum
+│   │   ├── CreatedByType: Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: enum
+│   │   └── LastModifiedByType: Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
-│   └── Tags: Map[string]string
-└── Workspaces_Connection_Spec_ARM: 
+│   └── Tags: map[string]string
+└── Workspaces_Connection_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
+    ├── Properties: Object (5 properties)
     │   ├── AuthType: *string
     │   ├── Category: *string
     │   ├── Target: *string
     │   ├── Value: *string
-    │   └── ValueFormat: enum
+    │   └── ValueFormat: Enum (1 value)
     │       └── "JSON"
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

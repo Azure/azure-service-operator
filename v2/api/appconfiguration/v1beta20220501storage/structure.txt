@@ -1,25 +1,28 @@
 github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2022-05-01"
 └── ConfigurationStore: Resource
-    ├── Spec: 
-    │   ├── AzureName: Validated[string]
+    ├── Spec: Object (16 properties)
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+    │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+    │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9_-]*$"}
     │   ├── CreateMode: *string
     │   ├── DisableLocalAuth: *bool
     │   ├── EnablePurgeProtection: *bool
-    │   ├── Encryption: 
-    │   │   ├── KeyVaultProperties: 
+    │   ├── Encryption: Object (2 properties)
+    │   │   ├── KeyVaultProperties: Object (3 properties)
     │   │   │   ├── IdentityClientId: *string
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Identity: 
+    │   ├── Identity: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
     │   ├── Location: *string
-    │   ├── OperatorSpec: 
+    │   ├── OperatorSpec: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: 
+    │   │   └── Secrets: Object (13 properties)
     │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
     │   │       ├── PrimaryKey: *genruntime.SecretDestination
     │   │       ├── PrimaryKeyID: *genruntime.SecretDestination
@@ -37,11 +40,11 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicNetworkAccess: *string
-    │   ├── Sku: 
+    │   ├── Sku: Object (2 properties)
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── SoftDeleteRetentionInDays: *int
-    │   ├── SystemData: 
+    │   ├── SystemData: Object (7 properties)
     │   │   ├── CreatedAt: *string
     │   │   ├── CreatedBy: *string
     │   │   ├── CreatedByType: *string
@@ -49,43 +52,43 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
     │   │   ├── LastModifiedBy: *string
     │   │   ├── LastModifiedByType: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: Map[string]string
-    └── Status: 
-        ├── Conditions: Array[conditions.Condition]
+    │   └── Tags: map[string]string
+    └── Status: Object (20 properties)
+        ├── Conditions: conditions.Condition[]
         ├── CreateMode: *string
         ├── CreationDate: *string
         ├── DisableLocalAuth: *bool
         ├── EnablePurgeProtection: *bool
-        ├── Encryption: 
-        │   ├── KeyVaultProperties: 
+        ├── Encryption: Object (2 properties)
+        │   ├── KeyVaultProperties: Object (3 properties)
         │   │   ├── IdentityClientId: *string
         │   │   ├── KeyIdentifier: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Endpoint: *string
         ├── Id: *string
-        ├── Identity: 
+        ├── Identity: Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: 
+        │   └── UserAssignedIdentities: Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
         ├── Location: *string
         ├── Name: *string
-        ├── PrivateEndpointConnections: 
+        ├── PrivateEndpointConnections: Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
-        ├── Sku: 
+        ├── Sku: Object (2 properties)
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── SoftDeleteRetentionInDays: *int
-        ├── SystemData: 
+        ├── SystemData: Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string
@@ -93,5 +96,5 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
         │   ├── LastModifiedBy: *string
         │   ├── LastModifiedByType: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         └── Type: *string
