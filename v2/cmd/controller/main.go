@@ -22,6 +22,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -162,8 +163,15 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Optio
 		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
-			Log:                     log,
-			RateLimiter:             controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
+			LogConstructor: func(req *reconcile.Request) logr.Logger {
+				// refer to https://github.com/kubernetes-sigs/controller-runtime/pull/1827/files
+				if req == nil {
+					return log
+				}
+				// TODO: do we need GVK here too?
+				return log.WithValues("namespace", req.Namespace, "name", req.Name)
+			},
+			RateLimiter: controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 	}
 }

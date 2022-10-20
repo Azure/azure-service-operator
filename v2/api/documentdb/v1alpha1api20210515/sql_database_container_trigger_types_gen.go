@@ -434,9 +434,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFr
 	}
 
 	// Set property ‘Owner’:
-	trigger.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	trigger.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

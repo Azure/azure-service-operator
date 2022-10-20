@@ -538,3 +538,11 @@ func (objectType *ObjectType) FindPropertyWithTagValue(tag string, value string)
 		return ok && slices.Contains(values, value)
 	})
 }
+
+// FindAllPropertiesWithTagValue finds all the properties with the given tag and value if they exist.
+func (objectType *ObjectType) FindAllPropertiesWithTagValue(tag string, value string) []*PropertyDefinition {
+	return objectType.properties.FindAll(func(prop *PropertyDefinition) bool {
+		values, ok := prop.Tag(tag)
+		return ok && slices.Contains(values, value)
+	})
+}

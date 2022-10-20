@@ -583,9 +583,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘Owner’:
-	webtest.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	webtest.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Request’:
 	// copying flattened property:

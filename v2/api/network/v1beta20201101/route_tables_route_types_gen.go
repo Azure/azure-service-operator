@@ -719,9 +719,7 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property ‘Owner’:
-	route.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	route.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil

@@ -649,8 +649,8 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 	// Set property ‘Tags’:
 	if connection.Tags != nil {
 		result.Tags = make(map[string]string, len(connection.Tags))
-		for key, tagsValue := range connection.Tags {
-			result.Tags[key] = tagsValue
+		for key, value := range connection.Tags {
+			result.Tags[key] = value
 		}
 	}
 	return result, nil
@@ -696,9 +696,7 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘Owner’:
-	connection.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	connection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {

@@ -805,9 +805,7 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘Owner’:
-	eventhub.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	eventhub.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PartitionCount’:
 	// copying flattened property:

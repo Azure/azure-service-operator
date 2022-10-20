@@ -144,10 +144,22 @@ func (tcr *TypeCatalogReport) writeType(
 ) {
 	if rsrc, ok := astmodel.AsResourceType(t); ok {
 		tcr.writeResource(rpt, rsrc, currentPackage, parentTypes)
-	} else if obj, ok := astmodel.AsObjectType(t); ok {
+	}
+
+	if obj, ok := astmodel.AsObjectType(t); ok {
 		tcr.writeObject(rpt, obj, currentPackage, parentTypes)
-	} else if obj, ok := astmodel.AsEnumType(t); ok {
+	}
+
+	if obj, ok := astmodel.AsEnumType(t); ok {
 		tcr.writeEnum(rpt, obj, currentPackage, parentTypes)
+	}
+
+	if one, ok := astmodel.AsOneOfType(t); ok {
+		tcr.writeOneOf(rpt, one, currentPackage, parentTypes)
+	}
+
+	if all, ok := astmodel.AsAllOfType(t); ok {
+		tcr.writeAllOf(rpt, all, currentPackage, parentTypes)
 	}
 }
 
@@ -279,6 +291,18 @@ func (tcr *TypeCatalogReport) asShortName(def astmodel.TypeDefinition) string {
 			astmodel.DebugDescription(a.Element(), def.Name().PackageReference))
 	}
 
+	if one, ok := astmodel.AsOneOfType(def.Type()); ok {
+		return fmt.Sprintf(
+			"oneOf[%d]",
+			one.Types().Len())
+	}
+
+	if all, ok := astmodel.AsAllOfType(def.Type()); ok {
+		return fmt.Sprintf(
+			"allOf[%d]",
+			all.Types().Len())
+	}
+
 	return ""
 }
 
@@ -304,6 +328,40 @@ func (tcr *TypeCatalogReport) writeEnum(
 	for _, v := range enum.Options() {
 		rpt.Addf("%s", v.Value)
 	}
+}
+
+// writeOneOf writes a oneof to the report.
+// rpt is the report to write to.
+// oneOf is the oneof to write.
+// currentPackage is the package that the oneof is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
+func (tcr *TypeCatalogReport) writeOneOf(
+	rpt *StructureReport,
+	oneOfType *astmodel.OneOfType,
+	currentPackage astmodel.PackageReference,
+	types astmodel.TypeNameSet,
+) {
+	oneOfType.Types().ForEach(func(t astmodel.Type, _ int) {
+		sub := rpt.Addf("%s", astmodel.DebugDescription(t, currentPackage))
+		tcr.writeType(sub, t, currentPackage, types)
+	})
+}
+
+// writeAllOf writes an allof to the report.
+// rpt is the report to write to.
+// allOfType is the allof to write.
+// currentPackage is the package that the allof is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
+func (tcr *TypeCatalogReport) writeAllOf(
+	rpt *StructureReport,
+	allOfType *astmodel.AllOfType,
+	currentPackage astmodel.PackageReference,
+	types astmodel.TypeNameSet,
+) {
+	allOfType.Types().ForEach(func(t astmodel.Type, _ int) {
+		sub := rpt.Addf("%s", astmodel.DebugDescription(t, currentPackage))
+		tcr.writeType(sub, t, currentPackage, types)
+	})
 }
 
 func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {

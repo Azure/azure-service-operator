@@ -407,9 +407,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Rights’:
 	// copying flattened property:

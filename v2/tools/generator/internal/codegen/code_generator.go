@@ -152,6 +152,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-alpha", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
 
@@ -175,6 +176,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// To be added when needed
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),

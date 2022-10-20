@@ -1944,9 +1944,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘Owner’:
-	pool.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// no assignment for property ‘PodSubnetIDReference’
 

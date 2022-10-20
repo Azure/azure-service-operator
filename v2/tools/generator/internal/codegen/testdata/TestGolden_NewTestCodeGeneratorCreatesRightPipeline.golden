@@ -26,12 +26,14 @@ verifyNoErroredTypes                                 Verify there are no Errored
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
+addConfigMaps                             azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>ConfigRef property.
 makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
+addKubernetesExporter                     azure      Adds the KubernetesExporter interface to resources that need it
 applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types

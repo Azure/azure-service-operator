@@ -582,6 +582,51 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	}
 }
 
+// ExpectConfigMapHasKeys checks if the config map with the given name has the expected keys.
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeys(name string, expectedKeys ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	// We could make the below a gomega matcher, but it doesn't seem that worth it because
+	// a lot of the boilerplate code is actually getting the configMap
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for _, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+	}
+}
+
+// ExpectConfigMapHasKeysAndValues checks if the config map with the given name has the expected keys with the expected
+// values. The keys and values should be alternating
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeysAndValues(name string, expectedKeysAndValues ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	tc.Expect(len(expectedKeysAndValues)%2).To(gomega.Equal(0), "keys and values collection must have an even number of elements")
+
+	expectedKeys := make([]string, 0, len(expectedKeysAndValues)/2)
+	expectedValues := make([]string, 0, len(expectedKeysAndValues)/2)
+
+	for i, val := range expectedKeysAndValues {
+		if i%2 == 0 {
+			expectedKeys = append(expectedKeys, val)
+		} else {
+			expectedValues = append(expectedValues, val)
+		}
+	}
+
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for i, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+		tc.Expect(configMap.Data[k]).To(gomega.Equal(expectedValues[i]))
+	}
+}
+
 func (tc *KubePerTestContext) CreateTestNamespaces(names ...string) error {
 	var errs []error
 	for _, name := range names {

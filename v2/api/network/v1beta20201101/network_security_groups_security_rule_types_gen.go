@@ -595,9 +595,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Priority’:
 	// copying flattened property:

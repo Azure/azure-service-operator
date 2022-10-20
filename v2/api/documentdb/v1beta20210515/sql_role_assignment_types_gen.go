@@ -388,9 +388,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	assignment.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	assignment.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PrincipalId’:
 	// copying flattened property:

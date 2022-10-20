@@ -434,9 +434,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFro
 	}
 
 	// Set property ‘Owner’:
-	collection.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	collection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

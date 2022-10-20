@@ -664,9 +664,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Owner’:
-	group.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RestartPolicy’:
 	// copying flattened property:

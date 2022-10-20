@@ -1444,9 +1444,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Owner’:
-	component.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	component.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccessForIngestion’:
 	// copying flattened property:

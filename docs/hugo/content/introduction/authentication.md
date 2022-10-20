@@ -187,6 +187,8 @@ export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n $
 export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
 ```
 
+#### Manual Deploy
+
 Deploy an `AzureIdentity`:
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -229,4 +231,19 @@ stringData:
  AZURE_TENANT_ID: "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID: "$IDENTITY_CLIENT_ID"
 EOF
+```
+
+#### Helm Chart Deploy
+
+```bash
+helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+helm repo update
+
+helm upgrade --install --devel aso2 aso2/azure-service-operator \
+     --create-namespace \
+     --namespace=azureserviceoperator-system \
+     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+     --set aadPodIdentity.enable=true \
+     --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
+     --set azureClientID=${IDENTITY_CLIENT_ID}
 ```

@@ -1905,9 +1905,7 @@ func DeliveryRuleAction1Generator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction1{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction1{}), map[string]gopter.Gen{propName: propGen}))
 	}
 	deliveryRuleAction1Generator = gen.OneGenOf(gens...)
 
@@ -2061,9 +2059,7 @@ func DeliveryRuleConditionGenerator() gopter.Gen {
 	// handle OneOf by choosing only one field to instantiate
 	var gens []gopter.Gen
 	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition{}), map[string]gopter.Gen{propName: propGen}))
 	}
 	deliveryRuleConditionGenerator = gen.OneGenOf(gens...)
 

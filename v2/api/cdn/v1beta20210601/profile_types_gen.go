@@ -444,9 +444,7 @@ func (profile *Profile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property ‘Owner’:
-	profile.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	profile.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {

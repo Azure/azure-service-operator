@@ -387,7 +387,7 @@ tasks:
       # to keep CI fast
       # TODO: Below pattern was taken from https://github.com/go-task/task/pull/474 to ensure cleanup runs after the test.
       - |
-        (go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
+        (go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
         TEST_EXIT=$?;
         kind delete cluster --name=asov2
         exit $TEST_EXIT
@@ -402,7 +402,7 @@ tasks:
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
-      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.

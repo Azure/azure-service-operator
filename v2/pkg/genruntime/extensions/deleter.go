@@ -22,6 +22,7 @@ type Deleter interface {
 	// Delete deletes the resource
 	Delete(
 		ctx context.Context,
+		log logr.Logger,
 		resolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		obj genruntime.ARMMetaObject,
@@ -29,22 +30,26 @@ type Deleter interface {
 }
 
 // DeleteFunc is the signature of a function that can be used to create a default Deleter
-type DeleteFunc = func(ctx context.Context, resolver *resolver.Resolver, armClient *genericarmclient.GenericClient, obj genruntime.ARMMetaObject) (ctrl.Result, error)
+type DeleteFunc = func(
+	ctx context.Context,
+	log logr.Logger,
+	resolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	obj genruntime.ARMMetaObject) (ctrl.Result, error)
 
 // CreateDeleter creates a DeleteFunc. If the resource in question has not implemented the Deleter interface
 // the provided default DeleteFunc is run by default.
 func CreateDeleter(
 	host genruntime.ResourceExtension,
-	next DeleteFunc,
-	log logr.Logger) DeleteFunc {
+	next DeleteFunc) DeleteFunc {
 
 	impl, ok := host.(Deleter)
 	if !ok {
 		return next
 	}
 
-	return func(ctx context.Context, resolver *resolver.Resolver, armClient *genericarmclient.GenericClient, obj genruntime.ARMMetaObject) (ctrl.Result, error) {
+	return func(ctx context.Context, log logr.Logger, resolver *resolver.Resolver, armClient *genericarmclient.GenericClient, obj genruntime.ARMMetaObject) (ctrl.Result, error) {
 		log.V(Status).Info("Running customized deletion")
-		return impl.Delete(ctx, resolver, armClient, obj, next)
+		return impl.Delete(ctx, log, resolver, armClient, obj, next)
 	}
 }

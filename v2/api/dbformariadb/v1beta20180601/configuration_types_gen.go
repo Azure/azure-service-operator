@@ -638,8 +638,8 @@ func (configuration *Servers_Configuration_Spec) ConvertToARM(resolved genruntim
 	// Set property ‘Tags’:
 	if configuration.Tags != nil {
 		result.Tags = make(map[string]string, len(configuration.Tags))
-		for key, tagsValue := range configuration.Tags {
-			result.Tags[key] = tagsValue
+		for key, value := range configuration.Tags {
+			result.Tags[key] = value
 		}
 	}
 	return result, nil
@@ -667,9 +667,7 @@ func (configuration *Servers_Configuration_Spec) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Owner’:
-	configuration.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	configuration.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Source’:
 	// copying flattened property:
