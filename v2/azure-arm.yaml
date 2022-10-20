@@ -17,7 +17,7 @@ typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 rootUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/
 
 # samplesPath is the relative path to 'v2/azure-arm.yaml' file, used for walking through to samples when we generate a list of supported resources
-samplesPath: config/samples
+samplesPath: samples
 
 # emitDocFiles bool is used as a signal to create doc.go files for packages
 emitDocFiles: true
