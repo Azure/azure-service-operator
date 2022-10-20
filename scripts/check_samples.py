@@ -55,9 +55,10 @@ if __name__ == "__main__":
         sys.stderr.write(f"example: {me} ./v2/config\n")
         sys.exit(1)
 
-    config_dir = pathlib.Path(sys.argv[1])
+    root_dir = pathlib.Path(sys.argv[1])
+    config_dir = root_dir / 'config'
     crd_bases_dir = config_dir / 'crd' / 'bases'
-    samples_dir = config_dir / 'samples'
+    samples_dir = root_dir / 'samples'
 
     crd_bases = [entry for entry in crd_bases_dir.iterdir() if entry.is_file()]
 

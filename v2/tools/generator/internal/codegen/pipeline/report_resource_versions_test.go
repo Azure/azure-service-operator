@@ -75,7 +75,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 
 	cfg := config.NewConfiguration()
 	cfg.RootURL = "https://github.com/Azure/azure-service-operator/tree/main/v2"
-	cfg.SamplesPath = "../../../../../config/samples"
+	cfg.SamplesPath = "../../../../../samples"
 
 	omc := cfg.ObjectModelConfiguration
 	g.Expect(omc.ModifyType(person2020.Name(), supportedFrom("beta.0"))).To(Succeed())
