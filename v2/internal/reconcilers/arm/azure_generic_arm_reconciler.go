@@ -8,6 +8,7 @@ package arm
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
@@ -91,7 +92,7 @@ func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genrunt
 	return typedObj, nil
 }
 
-func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (*azureDeploymentReconcilerInstance, error) {
+func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, ctx context.Context) (*azureDeploymentReconcilerInstance, error) {
 	typedObj, err := r.asARMObj(obj)
 	if err != nil {
 		return nil, err
@@ -99,12 +100,29 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
+	armClient, err := r.ARMClientFactory(typedObj, ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	resourceID, ok := genruntime.GetResourceID(typedObj)
+	// TODO: do we need to check for !ok here? As resource will be always claimed and annotation would be added when we reach here.
+	if ok {
+		subscription, err := genericarmclient.GetSubscription(resourceID)
+		if err != nil {
+			return nil, err
+		}
+		if subscription != armClient.SubscriptionID() {
+			return nil, errors.Errorf("SubscriptionID %q for %q/%q resource does not match with Client Credential: %q", subscription, typedObj.GetNamespace(), typedObj.GetName(), armClient.SubscriptionID())
+		}
+	}
+
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
-	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, r.ARMClientFactory(typedObj), *r), nil
+	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -112,7 +130,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -131,7 +149,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 		return err
 	}
 
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
 	if err != nil {
 		return err
 	}
@@ -145,7 +163,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 }
 
 func (r *AzureDeploymentReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
 	if err != nil {
 		return err
 	}

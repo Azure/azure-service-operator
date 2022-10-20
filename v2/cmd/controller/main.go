@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"time"
@@ -13,6 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/types"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -89,22 +91,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics, types.NamespacedName{Name: "aso-controller-settings", Namespace: cfg.PodNamespace})
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)
 	}
 
-	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.ARMMetaObject) *genericarmclient.GenericClient {
-		// always use the configured ARM client
-		return armClient
+	kubeClient := kubeclient.NewClient(mgr.GetClient())
+	armClients := armreconciler.NewARMClients(globalARMClient)
+
+	var clientFactory armreconciler.ARMClientFactory = func(obj genruntime.ARMMetaObject, ctx context.Context) (*genericarmclient.GenericClient, error) {
+		return armClients.GetClient(obj, kubeClient, ctx, cfg.Cloud())
 	}
 
 	log := ctrl.Log.WithName("controllers")
 	log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		kubeClient := kubeclient.NewClient(mgr.GetClient())
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
 		options := makeControllerOptions(log, cfg)

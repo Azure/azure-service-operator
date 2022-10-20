@@ -73,3 +73,13 @@ func MakeResourceGroupID(subscription string, resourceGroup string) string {
 func MakeSubscriptionID(subscription string) string {
 	return fmt.Sprintf("/subscriptions/%s", subscription)
 }
+
+func GetSubscription(path string) (string, error) {
+	parts := strings.Split(path, "/")
+	for i, v := range parts {
+		if v == "subscriptions" && (i+1) < len(parts) {
+			return parts[i+1], nil
+		}
+	}
+	return "", fmt.Errorf("failed to obtain subscription ID from %s", path)
+}
