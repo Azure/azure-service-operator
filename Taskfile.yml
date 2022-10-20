@@ -216,7 +216,7 @@ tasks:
     desc: Verify that a sample exists for each supported resource
     deps: [ controller:generate-crds ]
     cmds:
-      - "{{.SCRIPTS_ROOT}}/check_samples.py v2/config/"
+      - "{{.SCRIPTS_ROOT}}/check_samples.py v2/"
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.

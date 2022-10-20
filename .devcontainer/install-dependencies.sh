@@ -220,9 +220,15 @@ if [ "$VERBOSE" == true ]; then
 fi
 
 if [ "$DEVCONTAINER" == true ]; then 
+
+    # Webhook Certs
     write-info "Setting up k8s webhook certificates"
     mkdir -p /tmp/k8s-webhook-server/serving-certs
     openssl genrsa 2048 > tls.key
     openssl req -new -x509 -nodes -sha256 -days 3650 -key tls.key -subj '/' -out tls.crt
     mv tls.key tls.crt /tmp/k8s-webhook-server/serving-certs
+
+    # Git Permissions
+    # Workaround for issue where /workspace has different owner because checkout happens outside the container
+    git config --global --add safe.directory /workspace
 fi
