@@ -718,11 +718,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── SqlRoleAssignment: Resource
-    ├── Spec: Object (7 properties)
+    ├── Spec: Object (8 properties)
     │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PrincipalId: *string
+    │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── RoleDefinitionId: *string
     │   └── Scope: *string

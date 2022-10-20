@@ -8,6 +8,7 @@ package conditions
 const (
 	// Precondition reasons
 	ReasonSecretNotFound    = "SecretNotFound"
+	ReasonConfigMapNotFound = "ConfigMapNotFound"
 	ReasonReferenceNotFound = "ReferenceNotFound"
 	ReasonWaitingForOwner   = "WaitingForOwner"
 

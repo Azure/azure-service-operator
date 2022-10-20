@@ -22,7 +22,7 @@ func AddConfigMaps(config *config.Configuration) *Stage {
 	stage := NewStage(
 		AddConfigMapsStageID,
 		"Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties "+
-			"flagged as an optional configMap, add a new <property>ConfigRef property.",
+			"flagged as an optional configMap, add a new <property>FromConfig property.",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 
@@ -135,7 +135,7 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 		result.Add(updatedDef)
 	}
 
-	// Verify that all 'inputConfigMapMode' modifiers are consumed before returning the result
+	// Verify that all 'importConfigMapMode' modifiers are consumed before returning the result
 	err := cfg.VerifyImportConfigMapModeConsumed()
 	if err != nil {
 		return nil, err

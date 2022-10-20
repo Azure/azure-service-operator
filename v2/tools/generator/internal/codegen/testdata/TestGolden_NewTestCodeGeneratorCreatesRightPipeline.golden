@@ -26,7 +26,7 @@ verifyNoErroredTypes                                 Verify there are no Errored
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
-addConfigMaps                             azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>ConfigRef property.
+addConfigMaps                             azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
