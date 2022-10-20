@@ -263,8 +263,8 @@ func (tcr *TypeCatalogReport) writeErroredType(
 func (tcr *TypeCatalogReport) writeValidatedType(
 	rpt *StructureReport,
 	vt *astmodel.ValidatedType,
-	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet,
+	_ astmodel.PackageReference,
+	_ astmodel.TypeNameSet,
 ) {
 
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
