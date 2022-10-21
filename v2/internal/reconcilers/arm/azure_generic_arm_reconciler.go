@@ -106,7 +106,7 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 		return nil, err
 	}
 
-	eventRecorder.Eventf(typedObj, v1.EventTypeNormal, "credentialFrom", "Using credential from '%q'", armClient.CredentialFrom().String())
+	eventRecorder.Eventf(typedObj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", armClient.CredentialFrom().String())
 
 	resourceID, ok := genruntime.GetResourceID(typedObj)
 	// TODO: do we need to check for !ok here? As resource will be always claimed and annotation would be added when we reach here.
