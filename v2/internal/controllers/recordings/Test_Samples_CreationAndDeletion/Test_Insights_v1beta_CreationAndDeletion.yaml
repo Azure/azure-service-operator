@@ -83,12 +83,12 @@ interactions:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
       \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
       \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"e102ef32-0000-0200-0000-630025f00000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"7c74a9f1-5cde-4922-8a10-d90cf1f128cf\",\r\n
+      \"\\\"98019e11-0000-0200-0000-635047a70000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"9c99faf5-3a98-4779-8a1e-2edd3c558de2\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"455ef303-8d9d-4218-b623-43f76aa2f49c\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=455ef303-8d9d-4218-b623-43f76aa2f49c;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-08-20T00:08:16.4708584+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"cc53f11d-9fd7-4c0e-add6-433350a64aa2\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=cc53f11d-9fd7-4c0e-add6-433350a64aa2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-10-19T18:53:27.3982089+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
@@ -134,12 +134,12 @@ interactions:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
       \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
       \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"e102ef32-0000-0200-0000-630025f00000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"7c74a9f1-5cde-4922-8a10-d90cf1f128cf\",\r\n
+      \"\\\"98019e11-0000-0200-0000-635047a70000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"9c99faf5-3a98-4779-8a1e-2edd3c558de2\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"455ef303-8d9d-4218-b623-43f76aa2f49c\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=455ef303-8d9d-4218-b623-43f76aa2f49c;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-08-20T00:08:16.4708584+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"cc53f11d-9fd7-4c0e-add6-433350a64aa2\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=cc53f11d-9fd7-4c0e-add6-433350a64aa2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-10-19T18:53:27.3982089+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
@@ -348,4 +348,37 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.Insights/components/asotestppsmov?api-version=2020-02-02
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqkoyz''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

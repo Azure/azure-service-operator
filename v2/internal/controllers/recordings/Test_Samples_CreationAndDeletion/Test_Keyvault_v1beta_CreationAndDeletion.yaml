@@ -101,7 +101,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Keyvault-Service-Version:
-      - 1.5.468.0
+      - 1.5.534.0
     status: 200 OK
     code: 200
     duration: ""
@@ -137,7 +137,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Keyvault-Service-Version:
-      - 1.5.468.0
+      - 1.5.534.0
     status: 200 OK
     code: 200
     duration: ""
@@ -318,4 +318,37 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ddhnin''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

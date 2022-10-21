@@ -3,7 +3,7 @@
 apiVersion: documentdb.azure.com/v1beta20210515
 kind: DatabaseAccount
 metadata:
-  name: sample-sqldb-account
+  name: sample-sqldb-account-beta
   namespace: default
 spec:
   location: eastus

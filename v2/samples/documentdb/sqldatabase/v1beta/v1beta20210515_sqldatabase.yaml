@@ -3,14 +3,14 @@
 apiVersion: documentdb.azure.com/v1beta20210515
 kind: SqlDatabase
 metadata:
-  name: sample-sql-db
+  name: sample-sql-db-beta
   namespace: default
 spec:
   location: eastus
   owner:
-    name: sample-sqldb-account
+    name: sample-sqldb-account-beta
   resource:
-    id: sample-sql-db
+    id: sample-sql-db-beta
   options:
     autoscaleSettings:
       maxThroughput: 4000
