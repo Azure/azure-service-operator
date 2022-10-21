@@ -18,6 +18,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -184,7 +185,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	subscriptionId := "12345"
 
 	metrics := asometrics.NewARMClientMetrics()
-	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, subscriptionId, metrics)
+	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, subscriptionId, metrics, types.NamespacedName{})
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")
