@@ -15,7 +15,7 @@ For example, in order to create a VM, you may want to specify an SSH password to
 The field in the `spec` will be a [SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference),
 which refers to a particular Kubernetes `Secret` key.
 
-**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserver.yaml)):**
+**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserver.yaml)):**
 ```yaml
 apiVersion: dbformysql.azure.com/v1alpha1api20210501
 kind: FlexibleServer
