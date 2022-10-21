@@ -158,7 +158,7 @@ $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.resources.azure.com "aso-sample-rg" deleted
 ```
 
-For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
+For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/samples).
 
 ### Tearing it down
 **Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can

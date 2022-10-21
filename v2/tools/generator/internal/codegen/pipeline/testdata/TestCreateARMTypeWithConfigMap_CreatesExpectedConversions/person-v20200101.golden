@@ -161,8 +161,8 @@ type PersonProperties struct {
 	// FamilyName: Shared name of the family
 	FamilyName *string `json:"familyName,omitempty" optionalConfigMapPair:"FamilyName"`
 
-	// FamilyNameConfigRef: Shared name of the family
-	FamilyNameConfigRef *genruntime.ConfigMapReference `json:"familyNameConfigRef,omitempty" optionalConfigMapPair:"FamilyName"`
+	// FamilyNameFromConfig: Shared name of the family
+	FamilyNameFromConfig *genruntime.ConfigMapReference `json:"familyNameFromConfig,omitempty" optionalConfigMapPair:"FamilyName"`
 
 	// FullName: As would be used to address mail
 	FullName genruntime.ConfigMapReference `json:"fullName,omitempty"`
@@ -185,8 +185,8 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		familyName := *properties.FamilyName
 		result.FamilyName = &familyName
 	}
-	if properties.FamilyNameConfigRef != nil {
-		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.FamilyNameConfigRef)
+	if properties.FamilyNameFromConfig != nil {
+		familyNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.FamilyNameFromConfig)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up configmap for property FamilyName")
 		}
@@ -224,7 +224,7 @@ func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.FamilyName = &familyName
 	}
 
-	// no assignment for property ‘FamilyNameConfigRef’
+	// no assignment for property ‘FamilyNameFromConfig’
 
 	// no assignment for property ‘FullName’
 

@@ -18,7 +18,7 @@ const (
 	OperatorSpecSecretsProperty      = "Secrets"
 	OperatorSpecConfigMapsProperty   = "ConfigMaps"
 	ConditionsProperty               = "Conditions"
-	OptionalConfigMapReferenceSuffix = "ConfigRef"
+	OptionalConfigMapReferenceSuffix = "FromConfig"
 )
 
 // IsKubernetesResourceProperty returns true if the supplied property name is one of the properties required by the

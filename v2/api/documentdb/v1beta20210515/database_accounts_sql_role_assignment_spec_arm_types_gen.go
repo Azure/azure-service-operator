@@ -34,7 +34,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetType() string 
 type SqlRoleAssignmentResource_ARM struct {
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// RoleDefinitionId: The unique identifier for the associated Role Definition.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`

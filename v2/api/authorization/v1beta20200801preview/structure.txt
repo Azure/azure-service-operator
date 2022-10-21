@@ -1,8 +1,8 @@
 github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-08-01-preview"
 ├── RoleAssignment: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
 │   │   ├── Condition: *string
 │   │   ├── ConditionVersion: *string
@@ -11,17 +11,18 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── PrincipalId: *string
-│   │   ├── PrincipalType: enum
+│   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── PrincipalType: Enum (4 values)
 │   │   │   ├── "ForeignGroup"
 │   │   │   ├── "Group"
 │   │   │   ├── "ServicePrincipal"
 │   │   │   └── "User"
 │   │   ├── RoleDefinitionReference: *genruntime.ResourceReference
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (16 properties)
 │       ├── Condition: *string
 │       ├── ConditionVersion: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreatedBy: *string
 │       ├── CreatedOn: *string
 │       ├── DelegatedManagedIdentityResourceId: *string
@@ -29,7 +30,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── PrincipalId: *string
-│       ├── PrincipalType: enum
+│       ├── PrincipalType: Enum (4 values)
 │       │   ├── "ForeignGroup"
 │       │   ├── "Group"
 │       │   ├── "ServicePrincipal"
@@ -39,10 +40,10 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │       ├── Type: *string
 │       ├── UpdatedBy: *string
 │       └── UpdatedOn: *string
-├── RoleAssignment_STATUS_ARM: 
+├── RoleAssignment_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: 
+│   ├── Properties: Object (12 properties)
 │   │   ├── Condition: *string
 │   │   ├── ConditionVersion: *string
 │   │   ├── CreatedBy: *string
@@ -50,7 +51,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │   │   ├── DelegatedManagedIdentityResourceId: *string
 │   │   ├── Description: *string
 │   │   ├── PrincipalId: *string
-│   │   ├── PrincipalType: enum
+│   │   ├── PrincipalType: Enum (4 values)
 │   │   │   ├── "ForeignGroup"
 │   │   │   ├── "Group"
 │   │   │   ├── "ServicePrincipal"
@@ -60,19 +61,19 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │   │   ├── UpdatedBy: *string
 │   │   └── UpdatedOn: *string
 │   └── Type: *string
-└── RoleAssignment_Spec_ARM: 
+└── RoleAssignment_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: 
+    ├── Properties: Object (7 properties)
     │   ├── Condition: *string
     │   ├── ConditionVersion: *string
     │   ├── DelegatedManagedIdentityResourceId: *string
     │   ├── Description: *string
     │   ├── PrincipalId: *string
-    │   ├── PrincipalType: enum
+    │   ├── PrincipalType: Enum (4 values)
     │   │   ├── "ForeignGroup"
     │   │   ├── "Group"
     │   │   ├── "ServicePrincipal"
     │   │   └── "User"
     │   └── RoleDefinitionId: *string
-    └── Tags: Map[string]string
+    └── Tags: map[string]string

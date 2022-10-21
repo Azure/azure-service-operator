@@ -1,3 +1,3 @@
 github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations
-├── FederatedIdentityCredentialExtension: 
-└── UserAssignedIdentityExtension: 
+├── FederatedIdentityCredentialExtension: Object (0 properties)
+└── UserAssignedIdentityExtension: Object (0 properties)

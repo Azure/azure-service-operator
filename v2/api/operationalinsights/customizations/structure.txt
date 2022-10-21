@@ -1,2 +1,2 @@
 github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations
-└── WorkspaceExtension: 
+└── WorkspaceExtension: Object (0 properties)

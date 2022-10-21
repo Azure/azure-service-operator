@@ -1,5 +1,5 @@
 github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations
-├── DomainExtension: 
-├── DomainsTopicExtension: 
-├── EventSubscriptionExtension: 
-└── TopicExtension: 
+├── DomainExtension: Object (0 properties)
+├── DomainsTopicExtension: Object (0 properties)
+├── EventSubscriptionExtension: Object (0 properties)
+└── TopicExtension: Object (0 properties)

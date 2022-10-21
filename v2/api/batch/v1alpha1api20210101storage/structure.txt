@@ -1,22 +1,25 @@
 github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-01-01"
 └── BatchAccount: Resource
-    ├── Spec: 
-    │   ├── AutoStorage: 
+    ├── Spec: Object (12 properties)
+    │   ├── AutoStorage: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── StorageAccountReference: *genruntime.ResourceReference
-    │   ├── AzureName: Validated[string]
-    │   ├── Encryption: 
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+    │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+    │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]+$"}
+    │   ├── Encryption: Object (3 properties)
     │   │   ├── KeySource: *string
-    │   │   ├── KeyVaultProperties: 
+    │   │   ├── KeyVaultProperties: Object (2 properties)
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Identity: 
+    │   ├── Identity: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── KeyVaultReference: 
+    │   ├── KeyVaultReference: Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Reference: *genruntime.ResourceReference
     │   │   └── Url: *string
@@ -26,38 +29,38 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
     │   ├── PoolAllocationMode: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicNetworkAccess: *string
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (22 properties)
         ├── AccountEndpoint: *string
         ├── ActiveJobAndJobScheduleQuota: *int
-        ├── AutoStorage: 
+        ├── AutoStorage: Object (3 properties)
         │   ├── LastKeySync: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── StorageAccountId: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── DedicatedCoreQuota: *int
-        ├── DedicatedCoreQuotaPerVMFamily: 
+        ├── DedicatedCoreQuotaPerVMFamily: Object (3 properties)
         │   ├── CoreQuota: *int
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── DedicatedCoreQuotaPerVMFamilyEnforced: *bool
-        ├── Encryption: 
+        ├── Encryption: Object (3 properties)
         │   ├── KeySource: *string
-        │   ├── KeyVaultProperties: 
+        │   ├── KeyVaultProperties: Object (2 properties)
         │   │   ├── KeyIdentifier: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Id: *string
-        ├── Identity: 
+        ├── Identity: Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: 
+        │   └── UserAssignedIdentities: Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── KeyVaultReference: 
+        ├── KeyVaultReference: Object (3 properties)
         │   ├── Id: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Url: *string
@@ -66,14 +69,14 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
         ├── Name: *string
         ├── PoolAllocationMode: *string
         ├── PoolQuota: *int
-        ├── PrivateEndpointConnections: 
+        ├── PrivateEndpointConnections: Object (8 properties)
         │   ├── Etag: *string
         │   ├── Id: *string
         │   ├── Name: *string
-        │   ├── PrivateEndpoint: 
+        │   ├── PrivateEndpoint: Object (2 properties)
         │   │   ├── Id: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── PrivateLinkServiceConnectionState: 
+        │   ├── PrivateLinkServiceConnectionState: Object (4 properties)
         │   │   ├── ActionRequired: *string
         │   │   ├── Description: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -84,5 +87,5 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         └── Type: *string

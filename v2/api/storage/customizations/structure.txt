@@ -1,7 +1,7 @@
 github.com/Azure/azure-service-operator/v2/api/storage/customizations
-├── StorageAccountExtension: 
-├── StorageAccountsBlobServiceExtension: 
-├── StorageAccountsBlobServicesContainerExtension: 
-├── StorageAccountsManagementPolicyExtension: 
-├── StorageAccountsQueueServiceExtension: 
-└── StorageAccountsQueueServicesQueueExtension: 
+├── StorageAccountExtension: Object (0 properties)
+├── StorageAccountsBlobServiceExtension: Object (0 properties)
+├── StorageAccountsBlobServicesContainerExtension: Object (0 properties)
+├── StorageAccountsManagementPolicyExtension: Object (0 properties)
+├── StorageAccountsQueueServiceExtension: Object (0 properties)
+└── StorageAccountsQueueServicesQueueExtension: Object (0 properties)

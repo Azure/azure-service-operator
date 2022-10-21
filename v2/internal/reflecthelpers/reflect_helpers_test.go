@@ -98,8 +98,8 @@ type ResourceWithReferencesSpec struct {
 
 	Secret *genruntime.SecretReference `json:"secret,omitempty"`
 
-	PropertyWithTag          *string                        `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTag"`
-	PropertyWithTagConfigRef *genruntime.ConfigMapReference `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTagConfigRef"`
+	PropertyWithTag           *string                        `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTag"`
+	PropertyWithTagFromConfig *genruntime.ConfigMapReference `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTagFromConfig"`
 
 	Location string `json:"location,omitempty"`
 }
@@ -235,8 +235,8 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 	g.Expect(results).To(HaveLen(2))
 	g.Expect(results).To(HaveKey("Spec.PropertyWithTag"))
 	g.Expect(results["Spec.PropertyWithTag"]).To(Equal([]any{to.StringPtr("hello")}))
-	g.Expect(results).To(HaveKey("Spec.PropertyWithTagConfigRef"))
-	g.Expect(results["Spec.PropertyWithTagConfigRef"]).To(Equal([]any{(*genruntime.ConfigMapReference)(nil)}))
+	g.Expect(results).To(HaveKey("Spec.PropertyWithTagFromConfig"))
+	g.Expect(results["Spec.PropertyWithTagFromConfig"]).To(Equal([]any{(*genruntime.ConfigMapReference)(nil)}))
 
 	// Now try finding all the JSON tags
 	results, err = reflecthelpers.FindPropertiesWithTag(res.Spec, "json")
@@ -287,7 +287,7 @@ func Test_FindOptionalConfigMapReferences(t *testing.T) {
 	g.Expect(results).To(HaveLen(1))
 	g.Expect(results[0].Name).To(Equal("Spec.PropertyWithTag"))
 	g.Expect(results[0].Value).To(Equal(to.StringPtr("hello")))
-	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagConfigRef"))
+	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
 	g.Expect(results[0].Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
 }
 

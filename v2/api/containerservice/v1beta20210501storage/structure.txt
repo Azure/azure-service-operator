@@ -1,10 +1,10 @@
 github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── ManagedCluster: Resource
-│   ├── Spec: 
-│   │   ├── AadProfile: 
-│   │   │   ├── AdminGroupObjectIDs: Array[string]
+│   ├── Spec: Object (32 properties)
+│   │   ├── AadProfile: Object (8 properties)
+│   │   │   ├── AdminGroupObjectIDs: string[]
 │   │   │   ├── ClientAppID: *string
 │   │   │   ├── EnableAzureRBAC: *bool
 │   │   │   ├── Managed: *bool
@@ -12,12 +12,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: 
-│   │   │   ├── Config: Map[string]string
+│   │   ├── AddonProfiles: Object (3 properties)
+│   │   │   ├── Config: map[string]string
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AgentPoolProfiles: 
-│   │   │   ├── AvailabilityZones: Array[string]
+│   │   ├── AgentPoolProfiles: Object (35 properties)
+│   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
 │   │   │   ├── EnableAutoScaling: *bool
 │   │   │   ├── EnableEncryptionAtHost: *bool
@@ -25,8 +25,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── EnableNodePublicIP: *bool
 │   │   │   ├── EnableUltraSSD: *bool
 │   │   │   ├── GpuInstanceProfile: *string
-│   │   │   ├── KubeletConfig: 
-│   │   │   │   ├── AllowedUnsafeSysctls: Array[string]
+│   │   │   ├── KubeletConfig: Object (12 properties)
+│   │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   │   ├── ContainerLogMaxFiles: *int
 │   │   │   │   ├── ContainerLogMaxSizeMB: *int
 │   │   │   │   ├── CpuCfsQuota: *bool
@@ -39,10 +39,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── TopologyManagerPolicy: *string
 │   │   │   ├── KubeletDiskType: *string
-│   │   │   ├── LinuxOSConfig: 
+│   │   │   ├── LinuxOSConfig: Object (5 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   │   ├── Sysctls: 
+│   │   │   │   ├── Sysctls: Object (29 properties)
 │   │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -79,9 +79,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── MinCount: *int
 │   │   │   ├── Mode: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── NodeLabels: Map[string]string
+│   │   │   ├── NodeLabels: map[string]string
 │   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
-│   │   │   ├── NodeTaints: Array[string]
+│   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
 │   │   │   ├── OsDiskSizeGB: *int
 │   │   │   ├── OsDiskType: *string
@@ -93,20 +93,20 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── ScaleSetEvictionPolicy: *string
 │   │   │   ├── ScaleSetPriority: *string
 │   │   │   ├── SpotMaxPrice: *float64
-│   │   │   ├── Tags: Map[string]string
+│   │   │   ├── Tags: map[string]string
 │   │   │   ├── Type: *string
-│   │   │   ├── UpgradeSettings: 
+│   │   │   ├── UpgradeSettings: Object (2 properties)
 │   │   │   │   ├── MaxSurge: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── VmSize: *string
 │   │   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
-│   │   ├── ApiServerAccessProfile: 
-│   │   │   ├── AuthorizedIPRanges: Array[string]
+│   │   ├── ApiServerAccessProfile: Object (5 properties)
+│   │   │   ├── AuthorizedIPRanges: string[]
 │   │   │   ├── EnablePrivateCluster: *bool
 │   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
 │   │   │   ├── PrivateDNSZone: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AutoScalerProfile: 
+│   │   ├── AutoScalerProfile: Object (18 properties)
 │   │   │   ├── BalanceSimilarNodeGroups: *string
 │   │   │   ├── Expander: *string
 │   │   │   ├── MaxEmptyBulkDelete: *string
@@ -125,65 +125,68 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── ScanInterval: *string
 │   │   │   ├── SkipNodesWithLocalStorage: *string
 │   │   │   └── SkipNodesWithSystemPods: *string
-│   │   ├── AutoUpgradeProfile: 
+│   │   ├── AutoUpgradeProfile: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UpgradeChannel: *string
-│   │   ├── AzureName: Validated[string]
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
 │   │   ├── EnablePodSecurityPolicy: *bool
 │   │   ├── EnableRBAC: *bool
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── FqdnSubdomain: *string
-│   │   ├── HttpProxyConfig: 
+│   │   ├── HttpProxyConfig: Object (5 properties)
 │   │   │   ├── HttpProxy: *string
 │   │   │   ├── HttpsProxy: *string
-│   │   │   ├── NoProxy: Array[string]
+│   │   │   ├── NoProxy: string[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: Map[string]v1.JSON
-│   │   ├── IdentityProfile: 
+│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   │   ├── IdentityProfile: Object (4 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── KubernetesVersion: *string
-│   │   ├── LinuxProfile: 
+│   │   ├── LinuxProfile: Object (3 properties)
 │   │   │   ├── AdminUsername: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Ssh: 
+│   │   │   └── Ssh: Object (2 properties)
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │       └── PublicKeys: 
+│   │   │       └── PublicKeys: Object (2 properties)
 │   │   │           ├── KeyData: *string
 │   │   │           └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Location: *string
-│   │   ├── NetworkProfile: 
+│   │   ├── NetworkProfile: Object (11 properties)
 │   │   │   ├── DnsServiceIP: *string
 │   │   │   ├── DockerBridgeCidr: *string
-│   │   │   ├── LoadBalancerProfile: 
+│   │   │   ├── LoadBalancerProfile: Object (7 properties)
 │   │   │   │   ├── AllocatedOutboundPorts: *int
-│   │   │   │   ├── EffectiveOutboundIPs: 
+│   │   │   │   ├── EffectiveOutboundIPs: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── ManagedOutboundIPs: 
+│   │   │   │   ├── ManagedOutboundIPs: Object (2 properties)
 │   │   │   │   │   ├── Count: *int
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── OutboundIPPrefixes: 
+│   │   │   │   ├── OutboundIPPrefixes: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── PublicIPPrefixes: 
+│   │   │   │   │   └── PublicIPPrefixes: Object (2 properties)
 │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │   ├── OutboundIPs: 
+│   │   │   │   ├── OutboundIPs: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── PublicIPs: 
+│   │   │   │   │   └── PublicIPs: Object (2 properties)
 │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -196,21 +199,21 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServiceCidr: *string
 │   │   ├── NodeResourceGroup: *string
-│   │   ├── OperatorSpec: 
+│   │   ├── OperatorSpec: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: 
+│   │   │   └── Secrets: Object (3 properties)
 │   │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       └── UserCredentials: *genruntime.SecretDestination
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PodIdentityProfile: 
+│   │   ├── PodIdentityProfile: Object (5 properties)
 │   │   │   ├── AllowNetworkPluginKubenet: *bool
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── UserAssignedIdentities: 
+│   │   │   ├── UserAssignedIdentities: Object (5 properties)
 │   │   │   │   ├── BindingSelector: *string
-│   │   │   │   ├── Identity: 
+│   │   │   │   ├── Identity: Object (4 properties)
 │   │   │   │   │   ├── ClientId: *string
 │   │   │   │   │   ├── ObjectId: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -218,37 +221,37 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── Namespace: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   └── UserAssignedIdentityExceptions: 
+│   │   │   └── UserAssignedIdentityExceptions: Object (4 properties)
 │   │   │       ├── Name: *string
 │   │   │       ├── Namespace: *string
-│   │   │       ├── PodLabels: Map[string]string
+│   │   │       ├── PodLabels: map[string]string
 │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   ├── PrivateLinkResources: 
+│   │   ├── PrivateLinkResources: Object (6 properties)
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Reference: *genruntime.ResourceReference
-│   │   │   ├── RequiredMembers: Array[string]
+│   │   │   ├── RequiredMembers: string[]
 │   │   │   └── Type: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ServicePrincipalProfile: 
+│   │   ├── ServicePrincipalProfile: Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Secret: *string
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
-│   │   ├── Tags: Map[string]string
-│   │   └── WindowsProfile: 
+│   │   ├── Tags: map[string]string
+│   │   └── WindowsProfile: Object (5 properties)
 │   │       ├── AdminPassword: *string
 │   │       ├── AdminUsername: *string
 │   │       ├── EnableCSIProxy: *bool
 │   │       ├── LicenseType: *string
 │   │       └── PropertyBag: genruntime.PropertyBag
-│   └── Status: 
-│       ├── AadProfile: 
-│       │   ├── AdminGroupObjectIDs: Array[string]
+│   └── Status: Object (38 properties)
+│       ├── AadProfile: Object (8 properties)
+│       │   ├── AdminGroupObjectIDs: string[]
 │       │   ├── ClientAppID: *string
 │       │   ├── EnableAzureRBAC: *bool
 │       │   ├── Managed: *bool
@@ -257,8 +260,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── ServerAppSecret: *string
 │       │   └── TenantID: *string
 │       ├── AddonProfiles: *v1.JSON
-│       ├── AgentPoolProfiles: 
-│       │   ├── AvailabilityZones: Array[string]
+│       ├── AgentPoolProfiles: Object (38 properties)
+│       │   ├── AvailabilityZones: string[]
 │       │   ├── Count: *int
 │       │   ├── EnableAutoScaling: *bool
 │       │   ├── EnableEncryptionAtHost: *bool
@@ -266,8 +269,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── EnableNodePublicIP: *bool
 │       │   ├── EnableUltraSSD: *bool
 │       │   ├── GpuInstanceProfile: *string
-│       │   ├── KubeletConfig: 
-│       │   │   ├── AllowedUnsafeSysctls: Array[string]
+│       │   ├── KubeletConfig: Object (12 properties)
+│       │   │   ├── AllowedUnsafeSysctls: string[]
 │       │   │   ├── ContainerLogMaxFiles: *int
 │       │   │   ├── ContainerLogMaxSizeMB: *int
 │       │   │   ├── CpuCfsQuota: *bool
@@ -280,10 +283,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── TopologyManagerPolicy: *string
 │       │   ├── KubeletDiskType: *string
-│       │   ├── LinuxOSConfig: 
+│       │   ├── LinuxOSConfig: Object (5 properties)
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── SwapFileSizeMB: *int
-│       │   │   ├── Sysctls: 
+│       │   │   ├── Sysctls: Object (29 properties)
 │       │   │   │   ├── FsAioMaxNr: *int
 │       │   │   │   ├── FsFileMax: *int
 │       │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -321,16 +324,16 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── Mode: *string
 │       │   ├── Name: *string
 │       │   ├── NodeImageVersion: *string
-│       │   ├── NodeLabels: Map[string]string
+│       │   ├── NodeLabels: map[string]string
 │       │   ├── NodePublicIPPrefixID: *string
-│       │   ├── NodeTaints: Array[string]
+│       │   ├── NodeTaints: string[]
 │       │   ├── OrchestratorVersion: *string
 │       │   ├── OsDiskSizeGB: *int
 │       │   ├── OsDiskType: *string
 │       │   ├── OsSKU: *string
 │       │   ├── OsType: *string
 │       │   ├── PodSubnetID: *string
-│       │   ├── PowerState: 
+│       │   ├── PowerState: Object (2 properties)
 │       │   │   ├── Code: *string
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -339,20 +342,20 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── ScaleSetEvictionPolicy: *string
 │       │   ├── ScaleSetPriority: *string
 │       │   ├── SpotMaxPrice: *float64
-│       │   ├── Tags: Map[string]string
+│       │   ├── Tags: map[string]string
 │       │   ├── Type: *string
-│       │   ├── UpgradeSettings: 
+│       │   ├── UpgradeSettings: Object (2 properties)
 │       │   │   ├── MaxSurge: *string
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── VmSize: *string
 │       │   └── VnetSubnetID: *string
-│       ├── ApiServerAccessProfile: 
-│       │   ├── AuthorizedIPRanges: Array[string]
+│       ├── ApiServerAccessProfile: Object (5 properties)
+│       │   ├── AuthorizedIPRanges: string[]
 │       │   ├── EnablePrivateCluster: *bool
 │       │   ├── EnablePrivateClusterPublicFQDN: *bool
 │       │   ├── PrivateDNSZone: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── AutoScalerProfile: 
+│       ├── AutoScalerProfile: Object (18 properties)
 │       │   ├── BalanceSimilarNodeGroups: *string
 │       │   ├── Expander: *string
 │       │   ├── MaxEmptyBulkDelete: *string
@@ -371,71 +374,71 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── ScanInterval: *string
 │       │   ├── SkipNodesWithLocalStorage: *string
 │       │   └── SkipNodesWithSystemPods: *string
-│       ├── AutoUpgradeProfile: 
+│       ├── AutoUpgradeProfile: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── UpgradeChannel: *string
 │       ├── AzurePortalFQDN: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── DisableLocalAccounts: *bool
 │       ├── DiskEncryptionSetID: *string
 │       ├── DnsPrefix: *string
 │       ├── EnablePodSecurityPolicy: *bool
 │       ├── EnableRBAC: *bool
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
 │       ├── Fqdn: *string
 │       ├── FqdnSubdomain: *string
-│       ├── HttpProxyConfig: 
+│       ├── HttpProxyConfig: Object (5 properties)
 │       │   ├── HttpProxy: *string
 │       │   ├── HttpsProxy: *string
-│       │   ├── NoProxy: Array[string]
+│       │   ├── NoProxy: string[]
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── TrustedCa: *string
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── IdentityProfile: *v1.JSON
 │       ├── KubernetesVersion: *string
-│       ├── LinuxProfile: 
+│       ├── LinuxProfile: Object (3 properties)
 │       │   ├── AdminUsername: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Ssh: 
+│       │   └── Ssh: Object (2 properties)
 │       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       └── PublicKeys: 
+│       │       └── PublicKeys: Object (2 properties)
 │       │           ├── KeyData: *string
 │       │           └── PropertyBag: genruntime.PropertyBag
 │       ├── Location: *string
 │       ├── MaxAgentPools: *int
 │       ├── Name: *string
-│       ├── NetworkProfile: 
+│       ├── NetworkProfile: Object (11 properties)
 │       │   ├── DnsServiceIP: *string
 │       │   ├── DockerBridgeCidr: *string
-│       │   ├── LoadBalancerProfile: 
+│       │   ├── LoadBalancerProfile: Object (7 properties)
 │       │   │   ├── AllocatedOutboundPorts: *int
-│       │   │   ├── EffectiveOutboundIPs: 
+│       │   │   ├── EffectiveOutboundIPs: Object (2 properties)
 │       │   │   │   ├── Id: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── IdleTimeoutInMinutes: *int
-│       │   │   ├── ManagedOutboundIPs: 
+│       │   │   ├── ManagedOutboundIPs: Object (2 properties)
 │       │   │   │   ├── Count: *int
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── OutboundIPPrefixes: 
+│       │   │   ├── OutboundIPPrefixes: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── PublicIPPrefixes: 
+│       │   │   │   └── PublicIPPrefixes: Object (2 properties)
 │       │   │   │       ├── Id: *string
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── OutboundIPs: 
+│       │   │   ├── OutboundIPs: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── PublicIPs: 
+│       │   │   │   └── PublicIPs: Object (2 properties)
 │       │   │   │       ├── Id: *string
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   └── PropertyBag: genruntime.PropertyBag
@@ -448,13 +451,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── ServiceCidr: *string
 │       ├── NodeResourceGroup: *string
-│       ├── PodIdentityProfile: 
+│       ├── PodIdentityProfile: Object (5 properties)
 │       │   ├── AllowNetworkPluginKubenet: *bool
 │       │   ├── Enabled: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── UserAssignedIdentities: 
+│       │   ├── UserAssignedIdentities: Object (7 properties)
 │       │   │   ├── BindingSelector: *string
-│       │   │   ├── Identity: 
+│       │   │   ├── Identity: Object (4 properties)
 │       │   │   │   ├── ClientId: *string
 │       │   │   │   ├── ObjectId: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -462,11 +465,11 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   │   ├── Name: *string
 │       │   │   ├── Namespace: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── ProvisioningInfo: 
-│       │   │   │   ├── Error: 
-│       │   │   │   │   ├── Error: 
+│       │   │   ├── ProvisioningInfo: Object (2 properties)
+│       │   │   │   ├── Error: Object (2 properties)
+│       │   │   │   │   ├── Error: Object (5 properties)
 │       │   │   │   │   │   ├── Code: *string
-│       │   │   │   │   │   ├── Details: 
+│       │   │   │   │   │   ├── Details: Object (4 properties)
 │       │   │   │   │   │   │   ├── Code: *string
 │       │   │   │   │   │   │   ├── Message: *string
 │       │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -477,44 +480,44 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   └── ProvisioningState: *string
-│       │   └── UserAssignedIdentityExceptions: 
+│       │   └── UserAssignedIdentityExceptions: Object (4 properties)
 │       │       ├── Name: *string
 │       │       ├── Namespace: *string
-│       │       ├── PodLabels: Map[string]string
+│       │       ├── PodLabels: map[string]string
 │       │       └── PropertyBag: genruntime.PropertyBag
-│       ├── PowerState: 
+│       ├── PowerState: Object (2 properties)
 │       │   ├── Code: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PrivateFQDN: *string
-│       ├── PrivateLinkResources: 
+│       ├── PrivateLinkResources: Object (7 properties)
 │       │   ├── GroupId: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateLinkServiceID: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── RequiredMembers: Array[string]
+│       │   ├── RequiredMembers: string[]
 │       │   └── Type: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
-│       ├── ServicePrincipalProfile: 
+│       ├── ServicePrincipalProfile: Object (3 properties)
 │       │   ├── ClientId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Secret: *string
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
-│       └── WindowsProfile: 
+│       └── WindowsProfile: Object (5 properties)
 │           ├── AdminPassword: *string
 │           ├── AdminUsername: *string
 │           ├── EnableCSIProxy: *bool
 │           ├── LicenseType: *string
 │           └── PropertyBag: genruntime.PropertyBag
 └── ManagedClustersAgentPool: Resource
-    ├── Spec: 
-    │   ├── AvailabilityZones: Array[string]
+    ├── Spec: Object (38 properties)
+    │   ├── AvailabilityZones: string[]
     │   ├── AzureName: string
     │   ├── Count: *int
     │   ├── EnableAutoScaling: *bool
@@ -523,8 +526,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
     │   ├── EnableNodePublicIP: *bool
     │   ├── EnableUltraSSD: *bool
     │   ├── GpuInstanceProfile: *string
-    │   ├── KubeletConfig: 
-    │   │   ├── AllowedUnsafeSysctls: Array[string]
+    │   ├── KubeletConfig: Object (12 properties)
+    │   │   ├── AllowedUnsafeSysctls: string[]
     │   │   ├── ContainerLogMaxFiles: *int
     │   │   ├── ContainerLogMaxSizeMB: *int
     │   │   ├── CpuCfsQuota: *bool
@@ -537,10 +540,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── TopologyManagerPolicy: *string
     │   ├── KubeletDiskType: *string
-    │   ├── LinuxOSConfig: 
+    │   ├── LinuxOSConfig: Object (5 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── SwapFileSizeMB: *int
-    │   │   ├── Sysctls: 
+    │   │   ├── Sysctls: Object (29 properties)
     │   │   │   ├── FsAioMaxNr: *int
     │   │   │   ├── FsFileMax: *int
     │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -577,9 +580,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
     │   ├── MaxPods: *int
     │   ├── MinCount: *int
     │   ├── Mode: *string
-    │   ├── NodeLabels: Map[string]string
+    │   ├── NodeLabels: map[string]string
     │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
-    │   ├── NodeTaints: Array[string]
+    │   ├── NodeTaints: string[]
     │   ├── OrchestratorVersion: *string
     │   ├── OriginalVersion: string
     │   ├── OsDiskSizeGB: *int
@@ -593,16 +596,16 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
     │   ├── ScaleSetEvictionPolicy: *string
     │   ├── ScaleSetPriority: *string
     │   ├── SpotMaxPrice: *float64
-    │   ├── Tags: Map[string]string
+    │   ├── Tags: map[string]string
     │   ├── Type: *string
-    │   ├── UpgradeSettings: 
+    │   ├── UpgradeSettings: Object (2 properties)
     │   │   ├── MaxSurge: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── VmSize: *string
     │   └── VnetSubnetIDReference: *genruntime.ResourceReference
-    └── Status: 
-        ├── AvailabilityZones: Array[string]
-        ├── Conditions: Array[conditions.Condition]
+    └── Status: Object (41 properties)
+        ├── AvailabilityZones: string[]
+        ├── Conditions: conditions.Condition[]
         ├── Count: *int
         ├── EnableAutoScaling: *bool
         ├── EnableEncryptionAtHost: *bool
@@ -611,8 +614,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
         ├── EnableUltraSSD: *bool
         ├── GpuInstanceProfile: *string
         ├── Id: *string
-        ├── KubeletConfig: 
-        │   ├── AllowedUnsafeSysctls: Array[string]
+        ├── KubeletConfig: Object (12 properties)
+        │   ├── AllowedUnsafeSysctls: string[]
         │   ├── ContainerLogMaxFiles: *int
         │   ├── ContainerLogMaxSizeMB: *int
         │   ├── CpuCfsQuota: *bool
@@ -625,10 +628,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── TopologyManagerPolicy: *string
         ├── KubeletDiskType: *string
-        ├── LinuxOSConfig: 
+        ├── LinuxOSConfig: Object (5 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── SwapFileSizeMB: *int
-        │   ├── Sysctls: 
+        │   ├── Sysctls: Object (29 properties)
         │   │   ├── FsAioMaxNr: *int
         │   │   ├── FsFileMax: *int
         │   │   ├── FsInotifyMaxUserWatches: *int
@@ -666,16 +669,16 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
         ├── Mode: *string
         ├── Name: *string
         ├── NodeImageVersion: *string
-        ├── NodeLabels: Map[string]string
+        ├── NodeLabels: map[string]string
         ├── NodePublicIPPrefixID: *string
-        ├── NodeTaints: Array[string]
+        ├── NodeTaints: string[]
         ├── OrchestratorVersion: *string
         ├── OsDiskSizeGB: *int
         ├── OsDiskType: *string
         ├── OsSKU: *string
         ├── OsType: *string
         ├── PodSubnetID: *string
-        ├── PowerState: 
+        ├── PowerState: Object (2 properties)
         │   ├── Code: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertiesType: *string
@@ -685,9 +688,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
         ├── ScaleSetEvictionPolicy: *string
         ├── ScaleSetPriority: *string
         ├── SpotMaxPrice: *float64
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         ├── Type: *string
-        ├── UpgradeSettings: 
+        ├── UpgradeSettings: Object (2 properties)
         │   ├── MaxSurge: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── VmSize: *string
