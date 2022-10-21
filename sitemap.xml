@@ -30,6 +30,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>

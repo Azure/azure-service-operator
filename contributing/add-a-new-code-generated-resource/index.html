@@ -440,6 +440,8 @@ What resources can be code generated? Any ARM resource can be generated. There a
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
@@ -613,7 +615,7 @@ What resources can be code generated? Any ARM resource can be generated. There a
       <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
 </code></pre></div><p>If ASO was already configured to generate resources from this group (or version), you will need to add your new configuration around the existing values.</p>
 <h2 id="run-the-code-generator">Run the code generator</h2>
-<p>Follow the steps in the <a href="../_index.md">contributing guide</a> to set up your development environment.
+<p>Follow the steps in the <a href="_index.md">contributing guide</a> to set up your development environment.
 Once you have a working development environment, run the <code>task</code> command to run the code generator.</p>
 <h2 id="fix-any-errors-raised-by-the-code-generator">Fix any errors raised by the code generator</h2>
 <h3 id="resource-looks-like-a-resource-reference-but-was-not-labelled-as-one">&lt;Resource&gt; looks like a resource reference but was not labelled as one</h3>
@@ -709,7 +711,7 @@ as a template for authoring an extension for your resource.</p>
 <h2 id="run-the-crud-test-for-the-resource-and-commit-the-recording">Run the CRUD test for the resource and commit the recording</h2>
 <p>See <a href="../#running-integration-tests">the code generator README</a> for how to run recording tests.</p>
 <h2 id="add-a-new-sample">Add a new sample</h2>
-<p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
+<p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
 <h2 id="run-test-for-added-sample-and-commit-the-recording">Run test for added sample and commit the recording</h2>
 <p>The added new sample needs to be tested and recorded. To perform that, follow the steps below:</p>
 <ol>

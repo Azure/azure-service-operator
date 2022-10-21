@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.88.1" />
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/versioning/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,18 +18,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Resource versioning | Azure Service Operator</title>
-<meta name="description" content="Specification for how storage versioning will operate for code generated CRD definitions.
-We&rsquo;re generating a large number of CRD definitions …">
-<meta property="og:title" content="Resource versioning" />
-<meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/" />
+<title>2022-09: Support For Multiple Credentials Under Global Operator | Azure Service Operator</title>
+<meta name="description" content="Context
+Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is …">
+<meta property="og:title" content="2022-09: Support For Multiple Credentials Under Global Operator" />
+<meta property="og:description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
+Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" /><meta property="article:section" content="design" />
 
-<meta itemprop="name" content="Resource versioning">
-<meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Resource versioning"/>
-<meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
+
+
+<meta itemprop="name" content="2022-09: Support For Multiple Credentials Under Global Operator">
+<meta itemprop="description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
+Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources">
+
+<meta itemprop="wordCount" content="1291">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2022-09: Support For Multiple Credentials Under Global Operator"/>
+<meta name="twitter:description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
+Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources"/>
 
 
 
@@ -44,7 +51,7 @@ We&rsquo;re generating a large number of CRD definitions …">
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -431,8 +438,8 @@ We&rsquo;re generating a large number of CRD definitions …">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
-  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="td-sidebar-nav-active-item">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
@@ -445,10 +452,10 @@ We&rsquo;re generating a large number of CRD definitions …">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesignversioning-li">
-  <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="td-sidebar-nav-active-item">Resource versioning</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
+  <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioningcase-studies-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
   <a href="/azure-service-operator/design/versioning/case-studies/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioningcase-studies"><span class="">Case Studies</span></a>
   <ul class="ul-4 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions-li">
@@ -484,46 +491,24 @@ We&rsquo;re generating a large number of CRD definitions …">
 
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#goals">Goals</a></li>
-    <li><a href="#non-goals">Non-Goals</a></li>
-    <li><a href="#other-constraints">Other Constraints</a></li>
-    <li><a href="#case-studies">Case Studies</a></li>
-    <li><a href="#proposed-solution">Proposed Solution</a>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#credential-selection-hierarchy">Credential selection hierarchy</a></li>
+    <li><a href="#options">Options</a>
       <ul>
-        <li><a href="#defining-storage-versions">Defining Storage Versions</a></li>
-        <li><a href="#generated-conversion-methods">Generated conversion methods</a></li>
-        <li><a href="#external-metadata-for-common-changes">External Metadata for common changes</a></li>
-        <li><a href="#standard-extension-points">Standard extension points</a></li>
+        <li><a href="#option-1-fixed-secret-names">Option 1: Fixed secret names</a></li>
+        <li><a href="#option-2-configuration-using-annotations">Option 2: Configuration using annotations</a></li>
+        <li><a href="#option-3-fixed-secret-name-for-namespace--configuration-using-annotations">Option 3: Fixed secret name for namespace + configuration using annotations</a></li>
+        <li><a href="#option-4-fixed-secret-name-for-namespace--configuration-using-global-secret">Option 4: Fixed secret name for namespace + configuration using global secret</a></li>
       </ul>
     </li>
-    <li><a href="#testing">Testing</a>
-      <ul>
-        <li><a href="#round-trip-testing">Round Trip Testing</a></li>
-        <li><a href="#relibility-testing">Relibility Testing</a></li>
-        <li><a href="#golden-tests">Golden Tests</a></li>
-      </ul>
-    </li>
-    <li><a href="#conversion-flow">Conversion Flow</a>
-      <ul>
-        <li><a href="#direct-conversion-to-storage-type">Direct conversion to storage type</a></li>
-        <li><a href="#two-step-conversion-to-storage-type">Two step conversion to storage type</a></li>
-        <li><a href="#multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</a></li>
-        <li><a href="#two-step-conversion-from-storage-type">Two step conversion from storage type</a></li>
-      </ul>
-    </li>
-    <li><a href="#alternative-solutions">Alternative Solutions</a>
-      <ul>
-        <li><a href="#alternative-fixed-storage-version">Alternative: Fixed storage version</a></li>
-        <li><a href="#alternative-use-the-latest-api-version">Alternative: Use the latest API version</a></li>
-      </ul>
-    </li>
-    <li><a href="#metadata-design">Metadata Design</a></li>
-    <li><a href="#outstanding-issues">Outstanding Issues</a>
-      <ul>
-        <li><a href="#service-operator-upgrades">Service Operator Upgrades</a></li>
-      </ul>
-    </li>
-    <li><a href="#see-also">See Also</a></li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#example-secret">Example Secret</a></li>
+    <li><a href="#steps-to-support-workload-identity">Steps to support workload identity</a></li>
+    <li><a href="#handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</a></li>
+    <li><a href="#milestones">Milestones</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav></div>
 
@@ -560,14 +545,14 @@ We&rsquo;re generating a large number of CRD definitions …">
     <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/">Resource versioning</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/">2022-09: Support For Multiple Credentials Under Global Operator</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Resource versioning</h1>
-  
+	<h1>2022-09: Support For Multiple Credentials Under Global Operator</h1>
+	
 	<header class="article-meta">
 		
 
@@ -582,285 +567,172 @@ We&rsquo;re generating a large number of CRD definitions …">
   
 
 		
-	</header>
-	<p>Specification for how storage versioning will operate for code generated CRD definitions.</p>
-<p>We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.</p>
-<h2 id="goals">Goals</h2>
-<p><strong>Principle of Least Surprise:</strong> The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises.</p>
-<p><strong>Auto-generated conversions:</strong> As far as practical, we want to autogenerate the schema for storage use along with the conversions to and from the actual ARM API versions. Hand coding all the required conversions doesn&rsquo;t scale across all the different Azure sevices, especially with the ongoing rate of change.</p>
-<p><strong>Allow for hand coded conversions:</strong> While we expect to use code generation to handle the vast majority of needed conversions, we anticipate that some breaking API changes will require <em>part</em> of the conversion to be hand coded. We need to make it simple for these conversions to be introduced while still autogenerating the majority of the conversion. We also want to minimize the need for these conversions to be revisited and maintained over time.</p>
-<p><strong>No modification of generated files.</strong> Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.</p>
-<p><strong>Compliance with Kubernetes versioning.</strong> To quote <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">Kubebuilder&rsquo;s documentation</a>:</p>
-<blockquote>
-<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
-</blockquote>
-<p><strong>Consistency of experience:</strong> Early adopters should have a similar experience with the latest release of the service operator as new users who are adopting it for the first time. We don&rsquo;t want early adopters to be penalized for their enthusiasm.</p>
-<h2 id="non-goals">Non-Goals</h2>
-<p><strong>Coverage of every case by code generation:</strong> While it&rsquo;s likely that very high coverage will be achievable with code generation, we don&rsquo;t believe that it will be practical to handle every possible situation automatically. It&rsquo;s therefore necessary for the solution to have some form of extensibility allowing for the injection of hand written code.</p>
-<h2 id="other-constraints">Other Constraints</h2>
-<p>Unlike the typical situation with a hand written service operator, we don&rsquo;t have complete control over the schema we are publishing for custom resources - we&rsquo;re deriving the CRD schema from the ARM JSON schema published online. This somewhat paints us into a corner where some issues that would be easily avoided with a hand-coded schema have to be faced head on.</p>
-<h2 id="case-studies">Case Studies</h2>
-<p>There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.</p>
-<p>The <a href="case-studies/chained-storage-versions/"><strong>Chained Versions</strong></a> case study shows how the preferred solution adapts to changes as the API is modified.</p>
-<p>The <a href="case-studies/rolling-storage-versions/"><strong>Rolling Versions</strong></a> case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.</p>
-<p>The <a href="case-studies/fixed-storage-version/"><strong>Fixed Version</strong></a> case study shows how a popular alternative would fare, calling out some specific problems that will occur.</p>
-<p><strong>TL;DR:</strong> Using a <em>fixed storage version</em> appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with <em>chained storage versions</em>, the approach doesn&rsquo;t break down over time and we can generate useful automated tests for verification. The <em>rolling storage version</em> approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.</p>
-<p>Examples shown in this document are drawn from the case studies.</p>
-<h2 id="proposed-solution">Proposed Solution</h2>
-<p>In summary:</p>
+	</header>    
+	<h2 id="context">Context</h2>
+<p>Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription.
+To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:</p>
+<p><strong>Global Secret(aso-controller-settings)</strong> is a currently existing one and is used as default for all Azure Resources</p>
+<p><strong>Namespaced Secrets</strong> will be used for all Azure Resources within a specific cluster namespace</p>
+<p><strong>Per-resource-group Secrets</strong> will be used for all Azure Resources within a specific Resource Group</p>
+<p><strong>Per-resource Secrets</strong> will be used for specific resources</p>
+<h2 id="credential-selection-hierarchy">Credential selection hierarchy</h2>
+<p>We&rsquo;ll be using a pattern to determine which of the above secrets we use for operation on a resource. As in the below flow chart, if a resource is applied to the operator and the resource exists, operator would fetch and apply credentials in a following manner. If it&rsquo;s a new resource, operator would have to go through the secret selection hierarchy. Where, operator would first check if Per-resource or per-resource-group secret exists, if not, then will check for the namespaced secret. If any of the above is provided, operator would perform actions according to the <strong>options</strong> below. If none is provided, we&rsquo;ll fallback to use the global credential for that resource, which is the default cluster scoped secret(aso-controller-settings) in ASO namespace used today.</p>
+<p><img src="images/adr-2022-09-multiple-credential-operator.png" alt="hierarchy"></p>
+<h2 id="options">Options</h2>
+<p>In all the proposed solutions:</p>
+<ol>
+<li>Operator would cache (in-memory) the credentials to be used for resources when we reconcile and a mechanism to identify the credentials used for a resource.</li>
+<li>Operator would add <code>serviceoperator.azure.com/subscription: &lt;SUBSCRIPTION_ID&gt;</code> annotation on each resource, which would be checked with the current credentials on each reconcile. This would prevent users from updating a credential and causing their resource to be created in another subscription without deleting it from the first subscription.</li>
+</ol>
+<h3 id="option-1-fixed-secret-names">Option 1: Fixed secret names</h3>
+<p>In secrets lookup option, fixed naming patterns would be used to look up a secret each time a new resource is created. Operator would first use the naming pattern for the resource group, then for the cluster namespace. If a secret is found with the expected name, the credentials for the resource would be cached for use the next time. If no secret was found matching any patter, the default global secret would be used.</p>
+<p>NOTE: Annotation/condition will be added on the resource while creation which will have information about the secret name used for creation/reconcile.</p>
+<p><strong>Fixed secret name pattern:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Secret Type</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Namespaced</td>
+<td>aso-credential</td>
+</tr>
+<tr>
+<td>Per-resource-group</td>
+<td>aso-credential-{rg-name}</td>
+</tr>
+<tr>
+<td>Per-resource</td>
+<td>aso-credential-{resource-name}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong></p>
+<ol>
+<li>Users don&rsquo;t have to specify the configuration for each resource explicitly</li>
+</ol>
+<p><strong>Cons:</strong></p>
+<ol>
+<li>Not very flexible, as users don&rsquo;t have much control for which resource they want to use which credential</li>
+<li>Can not re-use a secret across Resource Groups. Will have to specify secrets individually for each Resource Group, even if they are same</li>
+<li>Not friendly to apply-at-once code, as there could be a race while applying secret and resource at the same time</li>
+</ol>
+<h3 id="option-2-configuration-using-annotations">Option 2: Configuration using annotations</h3>
+<p>In Configuration using annotations option, we&rsquo;ll use annotations like below on the resource to fetch credentials from a secret and cache it. If secret is not found, operator would block the creation and set the condition to be <code>Ready condition == false</code> with <code>severity == Warning</code>, so that operator would keepo retrying to fetch the credentials until created.</p>
+<pre tabindex="0"><code>annotations: 
+  serviceoperator.azure.com/credential-from: any-secret
+</code></pre><p><strong>Pros:</strong></p>
+<ol>
+<li>Flexible, as users have the control for which resource they want to use which credential</li>
+</ol>
+<p><strong>Cons:</strong></p>
+<ol>
+<li>Will have to specify annotation on every resource explicitly, involving lots of repetition</li>
+</ol>
+<h3 id="option-3-fixed-secret-name-for-namespace--configuration-using-annotations">Option 3: Fixed secret name for namespace + configuration using annotations</h3>
+<p>Here, we would use a fixed pattern for namespaces secrets + annotations for per-resource-group and per-resource secrets. Operator would look up for the annotation(<code>serviceoperator.azure.com/credential-from</code>) on resource created, if annotation found, then use credentials from secret in annotation. If not, then look for the namespaced secret and use the namespaced credential.If none provided, operator shall continue with the global credential.</p>
+<p><strong>NOTE:</strong> Annotations should be watched for changes by the operator and trigger reconcile.</p>
+<p><strong>Fixed namespaced secret name pattern:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Secret Type</th>
+<th>Pattern</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Namespaced</td>
+<td>aso-credential</td>
+<td>Created in the Cluster namespace</td>
+</tr>
+<tr>
+<td>Per-resource-group</td>
+<td>serviceoperator.azure.com/credential-from: <code>SECRET_NAME</code></td>
+<td>Annotation on resource mentioning the secret to use for the resource</td>
+</tr>
+<tr>
+<td>Per-resource</td>
+<td>serviceoperator.azure.com/credential-from: <code>SECRET_NAME</code></td>
+<td>Annotation on resource mentioning the secret to use for the resource</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pros:</strong></p>
+<ol>
+<li>Users don&rsquo;t have to specify the configuration for each resource explicitly if using a namespaced secret</li>
+<li>Users get the flexibility of overriding the credential they want to use as per resource and as per resource group</li>
+</ol>
+<p><strong>Cons:</strong></p>
+<ol>
+<li>Could be complicated/confusing for users to understand the usage and credentials being used. This can be mitigated to an extent by having <code>serviceoperator.azure.com/credential-from</code> annotation on each resource using credential other than global.</li>
+</ol>
+<h3 id="option-4-fixed-secret-name-for-namespace--configuration-using-global-secret">Option 4: Fixed secret name for namespace + configuration using global secret</h3>
+<p>We&rsquo;d use Fixed secret name for namespace + configuration using global secret for per-resource-group and per-resource secret. We can add another list(CREDENTIAL_FROM) in the global secret where admin users can specify the secrets they want to load on the startup.
+Then only these loaded secrets would be used further for per-resource and per-resource-group. This option would restrict the other non-admin users(who don&rsquo;t have access to the global secret) to add their credential.</p>
+<p><strong>Pros:</strong></p>
+<ol>
+<li>Users don&rsquo;t have to specify the configuration for each resource explicitly if using a namespaced secret</li>
+<li>Security conscious, not anyone in the cluster can add to use their credentials.</li>
+</ol>
+<p><strong>Cons:</strong></p>
+<ol>
+<li>Could be complicated/confusing for users to understand the usage and credentials being used</li>
+<li>Not very flexible, as pod will have to startup again if a new secret needs to be loaded and only administrators can add secrets</li>
+</ol>
+<h2 id="decision">Decision</h2>
+<p>After the analysis of the above options, we&rsquo;ve decided to go forward with Option 3(Fixed secret name for namespace + configuration using annotations). Which would be a flexible option for the users to add and move existing resources to use different credentials.</p>
+<p>As part of this, we decided to publish <code>Last Credential Used</code> events for each resource on reconcile. Which would be helpful for the users to know which credential was last used to reconcile a resource.</p>
+<h2 id="example-secret">Example Secret</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+   <span style="color:#f92672">metadata</span>:
+     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
+     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
+   <span style="color:#f92672">stringData</span>:
+     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>
+     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>
+     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>
+     <span style="color:#f92672">AZURE_CLIENT_SECRET</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_SECRET&#34;</span>
+</code></pre></div><h2 id="steps-to-support-workload-identity">Steps to support workload identity</h2>
+<ol>
+<li>ASO must be installed with workload identity. This is because we need access to the Service Account Token, which will only be injected and used if they configure that for the global credential.</li>
+<li>Users create a UserManagedIdentity which they want to use as the identity in a particular namespace. They assign permissions to this identity. This can be done either using ASO itself, or</li>
+<li>Users register a FederatedIdentityCredential for that ManagedIdentity. The FederatedIdentityCredential must be registered for the ASO system service account <code>(&quot;subject&quot;: &quot;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&quot;)</code>. Note that the users don&rsquo;t need access to our namespace to do this, that subject is basically just a magic string they need to use.</li>
+<li>User would then create the namespace-scoped aso-credential Secret, containing the clientId of the User Managed Identity. ASO will read and use that clientId when authenticating with Azure.</li>
+</ol>
+<h2 id="handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</h2>
 <ul>
-<li>
-<p>For each supported version of an Azure Resource Type, we will define a synthetic storage type type that will be used for serialization of that versions of the API. The latest non-preview version will be tagged as the canonical storage type for Kubernetes.</p>
-</li>
-<li>
-<p>Automatically generated conversions will allow for lossless conversions between the externally exposed API versions of resources and the related storage versions. Additional conversions will be generated to allow upgrade or downgrade between adjacent storage versions.</p>
-</li>
-<li>
-<p>External metadata that we bundle with the code generator will document common changes that occur over time (including property and type name changes), extending the coverage of our automatically generated conversions.</p>
-</li>
-<li>
-<p>For cases where automatically generated conversion is not sufficient, standard extension points for each resource type will allow hand-coded conversion steps to be injected into the process at key points.</p>
-</li>
+<li>Failure on loading a secret would result in failure on resource creation</li>
+<li>Failure on authenticating the credentials would result in failure on resource creation</li>
+<li>Logging should be clear about which credential is being used for a resource</li>
+<li>Logging should be clear about the credential load/authentication failure</li>
+<li>Errors can be reported through the standard <code>Condition</code> mechanism</li>
 </ul>
-<p>Each of these four points is expanded upon in detail below.</p>
-<h3 id="defining-storage-versions">Defining Storage Versions</h3>
-<p>We&rsquo;ll base the schema of the storage versions on the corresponding API version, with the following modifications:</p>
-<p><strong>All properties will be defined as optional</strong> allowing for back compatibility with prior versions of the API that might not have included specific properties.</p>
-<p><strong>Inclusion of a property bag</strong> to provide for storage for properties present in other versions of the API that are not present in this version.</p>
-<p>If a resource type is dropped from later releases of the ARM API, we will still generate a storage type based on the latest available release of that type. We need to do this in order to maintain backward compatibility with existing installations of the service operator.</p>
-<p>Using a purpose designed types for storage avoids a number of version-to-version compatibility issues that can arise if the API version itself is used directly for storage.</p>
-<p>To illustrate, if the API version defined the following <code>Person</code> type:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-    <span style="color:#a6e22e">Id</span>        <span style="color:#a6e22e">Guid</span>
-    <span style="color:#a6e22e">FirstName</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">LastName</span>  <span style="color:#66d9ef">string</span>
-}
-</code></pre></div><p>Then the generated storage (hub) version will be:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101storage</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
-    <span style="color:#a6e22e">PropertyBag</span>
-    <span style="color:#a6e22e">Id</span>          <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
-    <span style="color:#a6e22e">FirstName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">LastName</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-}
-</code></pre></div><p>Using the latest version of the API as the basis for our storage version gives us maximum compatibility for the usual case, where a user defines their custom resource using the latest available version.</p>
-<p>If a type has been dropped from the ARM API, we will still generate a storage schema for it based on the last ARM API version where it existed; this helps to ensure backward compatibility with existing service operator deployments. For example, if <code>Person</code> was dropped in favour of <code>Party</code> type (that can capture companies and organizations as well), we will still continue to generate a storage version of <code>Person</code> to allow deserialization by existing service operator installations as a part of their upgrade process.</p>
-<p>Sequestering additional properties away within a property bag in the storage schema is more robust than using separate annotations as they are less subject to arbitrary modification by users. This allows us to largely avoid situations where well meaning (but uninformed) consumers of the service operator innocently make changes that result in the operator becoming failing. We particularly want to avoid this failure mode because recovery will be difficult - restoration of the modified/deleted information may be impractical or impossible.</p>
-<p>The latest non-preview storage version will be selected as the definitive storage version (or <em>hub</em> version) for use by the controller.</p>
-<h3 id="generated-conversion-methods">Generated conversion methods</h3>
-<p>Each of the structs generated for ARM API will have the normal <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods generated automatically, implementing the required <a href="https://book.kubebuilder.io/multiversion-tutorial/conversion.html">Convertible</a> interface:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// ConvertTo converts this Person to the matching storage version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">p</span>)
-}
-
-<span style="color:#75715e">// ConvertFrom converts from the matching storage version
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">p</span>)
-}
-</code></pre></div><p>As shown, these methods will delegate to two strongly typed helper methods (<code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code>) that are generated to handle the process of copying information across between instances.</p>
-<p>The <code>ConvertToStorage()</code> method is responsible for copying all of the properties from the API type onto the storage type. The <code>ConvertFromStorage()</code> method is its mirror, responsible for populating all of the properties on the API type from the storage type.</p>
-<p>Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:</p>
-<p><img src="property-mapping-flowchart.png" alt=""></p>
-<p><strong>For properties with a primitive type</strong> a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.</p>
-<ul>
-<li>Primitive types are <strong>string</strong>, <strong>int</strong>, <strong>float64</strong>, and <strong>bool</strong></li>
-<li>Name comparisons are case-insensitive</li>
-</ul>
-<p><strong>For properties with an enumeration type</strong> a matching property must have the same property name and a type matching the underlying type of the enumeration. If found, a simple assignment will copy the value over with a suitable type cast. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type using the underlying type of the enumeration.</p>
-<ul>
-<li>Name comparisons are case-insensitive for both property names and enumeration type names</li>
-<li>Enumeration types are generated independently for each version, so they will never be identical types</li>
-</ul>
-<p><strong>For properties with a custom type</strong> a matching property must have the same name and a custom type with same type name. If found, a new instance will be created and the appropriate <code>ConvertToStorage()</code> or <code>ConvertFromStorage()</code> method for the custom type will be used. If not found, JSON serialization will be used with the property bag for storage.</p>
-<ul>
-<li>Name comparisons are case-insensitive for both property names and custom type names</li>
-<li>Custom types are generated independently for each version, so they will never be identical types</li>
-</ul>
-<blockquote>
-<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p>
-</blockquote>
-<h3 id="external-metadata-for-common-changes">External Metadata for common changes</h3>
-<p>We&rsquo;ll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.</p>
-<p><strong>If a property is renamed</strong> in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type.</p>
-<p>There are more than 40 cases of properties being renamed across versions of the ARM API.</p>
-<blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
-<p><strong>If a type has been renamed</strong> in a particular API version, conversion from the API version <em>prior</em> to that point of change will instead match based on the new type of the property on the storage type.</p>
-<p>There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.</p>
-<blockquote>
-<p><em><strong>TODO: Show an example</strong></em></p>
-</blockquote>
-<blockquote>
-<p><em><strong>Outstanding Issue:</strong></em> Are there other kinds of common change we want to support?<br>
-Are there other cases of changes between versions that we may be able to handle automatically.
-Can we find examples? Do we want to support these cases?</p>
-</blockquote>
-<h3 id="standard-extension-points">Standard extension points</h3>
-<p>Code generation will include interfaces to allow easy injection of manual conversion steps.</p>
-<p>For each storage type, two interfaces will be generated, one for each direction of conversion.</p>
-<p>An <code>AssignableTo*</code> interface for conversion <em>to</em> the storage type will be available for conversions that write to an instance of the storage type.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
-    <span style="color:#a6e22e">AssignToPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
-}
-</code></pre></div><p>Similarly, an <code>AssignableFrom*</code> interface for conversion <em>from</em> the storage type will be available for conversions that read from an instance of the storage type:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
-    <span style="color:#a6e22e">AssignFromPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
-}
-</code></pre></div><p>If a type (whether API or storage) implements one (or both) of these interfaces, they will be automatically invoked <em>after</em> the standard conversion code has completed, creating an opportunity to augment the standard conversion process.</p>
-<h2 id="testing">Testing</h2>
-<p>It&rsquo;s vital that we are able to correctly convert between versions. We will therefore generate a set of unit tests to help ensure that the conversions work correctly. Coverage won&rsquo;t be perfect (as there are conversion steps we can&rsquo;t automatically verify) but these tests will help ensure correctness.</p>
-<h3 id="round-trip-testing">Round Trip Testing</h3>
-<p>We will generate a unit test to ensure that every spoke version can round trip to the hub version and back again to the same version with no loss of information. This will help to ensure a base level of compliance, that information is not lost through serialization.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Edge cases not correctly handled by the generated conversion code.</li>
-<li>Manually implemented conversions that don&rsquo;t handle some cases correctly.</li>
-</ul>
-<p>Each test will work as follows:</p>
-<ul>
-<li>Create an instance of the required type and API version
-<ul>
-<li>This will likely be done by using one of the available fuzzing libraries for Go testing</li>
-</ul>
-</li>
-<li>Convert this to the current storage version</li>
-<li>Convert back from the storage version to a new instance of the original type and API version</li>
-<li>Verify that all properties are equal
-<ul>
-<li><strong>string</strong>, <strong>int</strong>, <strong>bool</strong> much match exactly</li>
-<li><strong>Float64</strong> match within tolerance</li>
-<li>Complex types are recursively matched using the same rules</li>
-</ul>
-</li>
-</ul>
-<h3 id="relibility-testing">Relibility Testing</h3>
-<p>We will generate unit tests to ensure that every spoke version can be converted to every other spoke version via the hub version without crashing. We lack the semantic context to verify that the conversion is correct, but we can at least verify that it doesn&rsquo;t crash.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Conversions that fail when information is missing (as may happen when converting from earlier versions)</li>
-</ul>
-<h3 id="golden-tests">Golden Tests</h3>
-<p>For API (spoke) types where the optional interfaces <code>AssignableTo...()</code> and <code>AssignableFrom...()</code> have been implemented, we&rsquo;ll generate golden tests to verify that they are generating the expected results.</p>
-<p>This test targets the following failure modes:</p>
-<ul>
-<li>Manually implemented conversions that don&rsquo;t handle all the expected edge cases.</li>
-<li>Manually implemented conversions that fail when given newer (or older) starting versions than expected.</li>
-</ul>
-<p>These tests will be particularly useful when a new version of the ARM API is released for a given service as they will help to catch any new changes that now require support.</p>
-<p>We&rsquo;ll generate two golden tests for each type in each API type, one to test verify conversion <em><strong>to</strong></em> the latest version, and one to test conversion <em><strong>from</strong></em> the latest version.</p>
-<p><strong>Testing conversion to the latest version</strong> will check that an instance of a older version of the API can be up-converted to the latest version:</p>
-<p><img src="golden-tests-to-latest.png" alt=""></p>
-<p>The test will involve these steps:</p>
-<ul>
-<li>Create an exemplar instance of the older API type</li>
-<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
-<li>Convert it to the latest API type using <code>ConvertFromStorage()</code></li>
-<li>Check that it matches the golden file from a previous run</li>
-</ul>
-<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
-<ul>
-<li>The older API type implements <code>AssignableTo...()</code></li>
-<li>The latest API type implements <code>AssignableFrom...()</code></li>
-</ul>
-<p>If neither rule is satisfied, the test will silently null out.</p>
-<p><strong>Testing conversion from the latest version</strong> will check that an instance of the latest version of the API can be down-converted to an older version.</p>
-<p><img src="golden-tests-from-latest.png" alt=""></p>
-<ul>
-<li>Create an exemplar instance of the latest API type</li>
-<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
-<li>Convert it to the older API type using <code>ConvertFromStorage()</code></li>
-<li>Check that it matches the golden file from a previous run</li>
-</ul>
-<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
-<ul>
-<li>The older API type implements <code>AssignableFrom...()</code></li>
-<li>The latest API type implements <code>AssignableTo...()</code></li>
-</ul>
-<p>If neither rule is satisfied, the test will silently null out.</p>
-<h2 id="conversion-flow">Conversion Flow</h2>
-<p>To illustrate the operation of conversions, consider the following graph of related versions of <code>Person</code>:</p>
-<p><img src="conversions.png" alt=""></p>
-<p>API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package <code>v3</code> imports <code>v3storage</code> and can access the types within.</p>
-<p>The highlighted storage version <strong>v4storage</strong> is the currently nominated hub version - all conversions are to or from this type.</p>
-<h3 id="direct-conversion-to-storage-type">Direct conversion to storage type</h3>
-<p>The simplest case is a conversion directly between <strong>v4</strong> and <strong>v4storage</strong>, which simply involves copying properties across:</p>
-<p><img src="direct-conversion.png" alt=""></p>
-<h3 id="two-step-conversion-to-storage-type">Two step conversion to storage type</h3>
-<p>There&rsquo;s no direct conversion between a <strong>v3.Person</strong> and a <strong>v4storage.Person</strong>, so an intermediate step is required: we convert first to a <strong>v3storage.Person</strong>, and then to the final type:</p>
-<p><img src="two-step-conversion.png" alt=""></p>
-<h3 id="multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</h3>
-<p>The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:</p>
-<p><img src="multiple-step-conversion.png" alt=""></p>
-<h3 id="two-step-conversion-from-storage-type">Two step conversion from storage type</h3>
-<p>When converting in the other direction, the process is similar - we show here just the two step case to illustrate.</p>
-<p><img src="two-step-reverse-conversion.png" alt=""></p>
-<h2 id="alternative-solutions">Alternative Solutions</h2>
-<p>AKA the road not travelled</p>
-<h3 id="alternative-fixed-storage-version">Alternative: Fixed storage version</h3>
-<p>The &ldquo;v1&rdquo; storage version of each supported resource type will be created by merging all of the fields of all the distinct versions of the resource type, creating a <em>superset</em> type that includes every property declared across every version of the API.</p>
-<p>To maintain backward compatibility as Azure APIs evolve over time, we will include properties across all versions of the API, even for versions we are not currently generating as output. This ensures that properties in use by older APIs are still present and available for forward conversion to newer APIs, even as those older APIs age out of use.</p>
-<p>This approach has a number of issues that are called out in detail in the <a href="/design/case-studies/case-study-fixed-storage-version/">fixed storage version case study</a>.</p>
-<p><strong>Property Bloat</strong>: As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used. Even properties that only ever existed on a single preview release of an ARM API need to be correctly managed for the lifetime of the service operator.</p>
-<p><strong>Property Amnesia</strong>: Our code generator only knows about properties defined in current versions of the API. Once an API version has been excluded (or if the JSON schema definition is no longer available), the generator completely forgets about older properties. This would cause compatibility issues for established users who would find upgrading the service operator breaks their cluster.</p>
-<p><strong>Type Collision</strong>: Identically named properties with different types can&rsquo;t be stored in the same property; mitigation is possible for a limited time, though eventually <em>property amnesia</em> will cause a breaking change.</p>
-<h3 id="alternative-use-the-latest-api-version">Alternative: Use the latest API version</h3>
-<p>The supported storage version of each resource type will simply be the latest version of the API supported by ARM. Any additional information not supported on that version will be persisted via annotations on the resource.</p>
-<p><strong>This is a known antipattern that we should avoid.</strong></p>
-<p>Annotations are publicly visible on the cluster and can easily modified. This makes it spectacularly easy for a user to make an innocent change that would break the functionality of the operator.</p>
-<h2 id="metadata-design">Metadata Design</h2>
-<p>To support property and type renaming, we will include metadata describing the known changes. This will be added to the existing configuration file we already have that includes filtering information on the types we exclude/include in the output.</p>
-<p>As identification of renames requires manual inspection, any case of a property not appearing in a later version of the API needs to be checked. We&rsquo;ll therefore also capture metadata for property removal so that we know which properties have been assessed and which have not.</p>
-<h2 id="outstanding-issues">Outstanding Issues</h2>
-<h3 id="service-operator-upgrades">Service Operator Upgrades</h3>
-<p>There are a number of issues outstanding around upgrades of the service operator.</p>
-<p><strong>Timing</strong> - when are upgrades triggered? Does this happen immediately after installation of a new version of the service operator, or does it happen at a later point? If so, what&rsquo;s the trigger?</p>
-<p><strong>Atomicity</strong> - are all the CRDs upgraded in one atomic operation that either succeeds or fails, or are they upgraded one at a time? Are CRDs upgraded serially, or in parallel?</p>
-<p><strong>Performance</strong> - for users who have a large number of CRDs (hundreds to thousands), what sort of upgrade performance will they see?</p>
-<p><strong>Recovery</strong> - if an upgrade aborts part way through, or if a new version of the service operator proves to be unreliable, is it possible for users to roll back to a previous version, or must they roll forward to a fixed version?</p>
-<h2 id="see-also">See Also</h2>
-<ul>
-<li>
-<p><a href="https://book.kubebuilder.io/multiversion-tutorial/conversion-concepts.html">Hubs, spokes, and other wheel metaphors</a></p>
-</li>
-<li>
-<p><a href="https://www.mjt.me.uk/posts/falsehoods-programmers-believe-about-addresses/">Falsehoods programmers believe about addresses</a></p>
-</li>
-</ul>
-<p><a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/">https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/</a></p>
-
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/versioning/case-studies/">Case Studies</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
-</div>
+<h2 id="milestones">Milestones</h2>
+<ol>
+<li>Namespaced secrets: TBD</li>
+<li>Per-ResourceGroup secrets: TBD</li>
+<li>Support for workload identity: TBD</li>
+<li>Caching secrets: TBD</li>
+<li>Per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.</li>
+</ol>
+<h2 id="consequences">Consequences</h2>
+<p>TBC</p>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<p>TBC</p>
 
 	
 	
 	
 </div>
+
 
           </main>
         </div>

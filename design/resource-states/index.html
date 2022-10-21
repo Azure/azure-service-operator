@@ -438,6 +438,8 @@ There are two types of Status that we&rsquo;re interested in understanding and r
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
@@ -612,7 +614,7 @@ as annotations (<code>deploymentId</code> possibly), while others are obviously 
 <h2 id="examining-other-projects-like-aso">Examining other projects like ASO</h2>
 <p>A quick look across the field of projects similar to ASO suggests that there is a relatively standard approach to solving this problem:</p>
 <ul>
-<li>Crossplane reports status through a <a href="https://crossplane.io/docs/v1.9/reference/troubleshoot.html#resource-status-and-conditions">Ready condition</a></li>
+<li>Crossplane reports status through a <a href="https://crossplane.io/docs/master/reference/troubleshoot.html#resource-status-and-conditions">Ready condition</a></li>
 <li>ACK reports status through a <a href="https://github.com/aws-controllers-k8s/runtime/blob/8191f606c5975d5ba0a1433fab695533980733ba/apis/core/v1alpha1/conditions.go">variety of conditions</a>, including <code>ACK.Adopted</code>, <code>ACK.resourceSynced</code>, <code>ACK.Terminal</code>, etc.</li>
 <li>Cluster API originally used a <code>phase</code> and <code>failureReason</code>/<code>failureMessage</code> pattern, but has since <a href="https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/proposals/20200506-conditions.md">moved to use conditions</a> and is deprecating the old pattern.</li>
 <li>Pod uses a combination of <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase">phase</a> and <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-conditions">conditions</a>, including <code>PodScheduled</code>, <code>ContainersReady</code>, <code>Initialized</code>, and <code>Ready</code>.</li>

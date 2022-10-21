@@ -434,6 +434,8 @@ K8s Native: we provide CRDs …">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
@@ -679,7 +681,7 @@ Events:
 <span style="color:#75715e"># delete the ResourceGroup</span>
 $ kubectl delete resourcegroups/aso-sample-rg
 <span style="color:#75715e"># resourcegroup.resources.azure.com &#34;aso-sample-rg&#34; deleted</span>
-</code></pre></div><p>For samples of additional resources, see the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples">resource samples directory</a>.</p>
+</code></pre></div><p>For samples of additional resources, see the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples">resource samples directory</a>.</p>
 <h3 id="tearing-it-down">Tearing it down</h3>
 <p><strong>Warning: if you <code>kubectl delete</code> an Azure resource, it will delete the Azure resource. This can
 be dangerous if you were to do this with an existing resource group which contains resources you do
